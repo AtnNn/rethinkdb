@@ -19,6 +19,71 @@ itask="$1"
 rtdbbin=/usr/bin/rethinkdb ;
 rtdbconfigdir=/etc/rethinkdb ;
 
+ini_section () {
+    local _t1="${1#\[}"
+    local _t2="${_t1%]}"
+    if [ "$_t1" = "$1" -o "$_t2" = "$_t1" ]; then
+        false
+    else
+        read -r $2 <<EOF
+`echo $_t2`
+EOF
+    fi
+}
+
+ini_setting () {
+    local _val="${1#*:}"
+    local _key="${1%%:*}"
+    if [ "$_key" = "" ]; then
+        false
+    else
+        read -r $2 <<EOF
+`echo $_key`
+EOF
+        read -r $3 <<EOF
+${_val# }
+EOF
+    fi
+}
+
+ini_read () {
+    local section=""
+    local dict="#"
+    local n=1
+    local line sect key val
+    while read -r line; do
+        line=${line%%#*}
+        if ini_section "$line" sect; then
+            section=$sect
+        elif ini_setting "$line" key val; then
+            if [ "$section" = "" ]; then
+                dict="$dict$key=$val#"
+            else
+                dict="$dict$section.$key=$val#"
+            fi
+        elif [ "`echo -n $line`" != "" ]; then
+            echo ini_read: $1: parse error on line $n >&2
+            return 1
+        fi
+        n=$((n + 1))
+    done < $1 && read -r $2 <<EOF
+$dict
+EOF
+}
+
+ini_data_get () {
+    local valp="${1#*#$2=}"
+    local val="${valp%%#*}"
+    if [ "$valp" = "$1" ]; then
+        return 1
+    else
+        read -r $3 <<EOF
+$val
+EOF
+    fi
+}
+
+
 if [ "$itask" = "" ] ;
 then
 	echo "Usage: /etc/init.d/rethinkdb COMMAND" ;
