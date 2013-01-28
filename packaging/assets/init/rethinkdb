@@ -27,6 +27,8 @@ conf_read_line () {
     local _val="${1#*=}"
     local _key="${1%%=*}"
     if [ "$_val" = "$1" ]; then
+        unset -v $2
+        unset -v $3
         false
     else
         read -r $2 <<EOF
@@ -50,6 +52,7 @@ conf_read () {
             _dict="$_dict$key=$val#"
         elif [ "`echo -n $line`" != "" ]; then
             echo "$0: $1: parse error on line $n" >&2
+            unset -v "$2"
             return 1
         fi
         n=$((n + 1))
@@ -65,6 +68,7 @@ get () {
     local _valp="${1#*#$2=}"
     local _val="${_valp%%#*}"
     if [ "$_valp" = "$1" ]; then
+        unset -v ${3:-$2}
         return 1
     else
         read -r ${3:-$2} <<EOF
@@ -118,9 +122,11 @@ do
 
     set -- # empty $@
 
-    get "$conf" runuser  && set -- "$@" --chuid "$runuser"
+    get "$conf" runuser
+    set -- "$@" --chuid "${runuser:-rethinkdb}"
     
-    get "$conf" rungroup && set -- "$@" --group "$rungroup"
+    get "$conf" rungroup
+    set -- "$@" --group "${rungroup:-rethinkdb}"
 
     set -- "$@" -- --config-file="$rtdbconffile"
 
@@ -132,8 +138,9 @@ do
                 ( test -n "${runuser:-}"  && chown -- "$runuser"  "$parent_directory" ) && \
                 ( test -n "${rungroup:-}" && chgrp -- "$rungroup" "$parent_directory" )
         fi
+        
+        set -- "$@" --pid-file "$rtdbpidfile"
     fi
-    set -- "$@" --pid-file "$rtdbpidfile"
 
     if ! get "$conf" rtdb_directory; then
         rtdb_directory="/var/lib/rethinkdb/$instance_name/data"
