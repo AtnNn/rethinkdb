@@ -134,7 +134,7 @@ do
         rtdbpidfile="/var/run/rethinkdb/$instance_name/pid_file"
         parent_directory="`dirname "$rtdbpidfile"`"
         if [ ! -e "$parent_directory" ]; then
-            mkdir "$parent_directory" && \
+            mkdir -p "$parent_directory" && \
                 ( test -n "${runuser:-}"  && chown -- "$runuser"  "$parent_directory" ) && \
                 ( test -n "${rungroup:-}" && chgrp -- "$rungroup" "$parent_directory" )
         fi
