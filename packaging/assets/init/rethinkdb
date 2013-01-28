@@ -122,11 +122,11 @@ do
 
     set -- # empty $@
 
-    get "$conf" runuser
-    set -- "$@" --chuid "${runuser:-rethinkdb}"
+    get "$conf" runuser || runuser=rethinkdb
+    set -- "$@" --chuid "runuser"
     
-    get "$conf" rungroup
-    set -- "$@" --group "${rungroup:-rethinkdb}"
+    get "$conf" rungroup || rungroup=rethinkdb
+    set -- "$@" --group "rungroup"
 
     set -- "$@" -- --config-file="$rtdbconffile"
 
