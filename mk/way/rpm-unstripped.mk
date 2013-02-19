@@ -3,5 +3,5 @@
 STRIP_ON_INSTALL ?= 0
 PVERSION=$(RETHINKDB_VERSION)-unstripped
 
-ALL += $/
-all-$/: build-rpm
+.PHONY: $(TOP)/all
+$(TOP)/all: build-rpm

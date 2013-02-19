@@ -1,9 +1,9 @@
 #### Web UI sources
 
-WEB_SOURCE_DIR := $/admin
+WEB_SOURCE_DIR := $(TOP)/admin
 WEB_ASSETS_OBJ_DIR := $(BUILD_DIR)/webobj
 WEB_ASSETS_RELATIVE := cluster-min.js cluster.css index.html js fonts images favicon.ico js/rethinkdb.js js/template.js
-WEB_ASSETS := $(foreach a,$(WEB_ASSETS_RELATIVE),$(WEB_ASSETS_BUILD_DIR)/$(a))
+BUILD_WEB_ASSETS := $(foreach a,$(WEB_ASSETS_RELATIVE),$(WEB_ASSETS_BUILD_DIR)/$(a))
 
 # coffee script can't handle dependencies.
 COFFEE_SOURCES := $(patsubst %, $(WEB_SOURCE_DIR)/static/coffee/%,\
@@ -32,33 +32,40 @@ FONTS_EXTERNAL_DIR := $(WEB_SOURCE_DIR)/static/fonts
 IMAGES_EXTERNAL_DIR := $(WEB_SOURCE_DIR)/static/images
 FAVICON := $(WEB_SOURCE_DIR)/favicon.ico
 
-$(WEB_ASSETS_BUILD_DIR)/js/rethinkdb.js: $(JS_BUILD_DIR)/rethinkdb.js | $(WEB_ASSETS_BUILD_DIR)/js/.
-	$P CP
-	cp -pRP $< $@
+.PHONY: $(TOP)/admin/all
+$(TOP)/admin/all: web-assets
 
-rpc/semilattice/joins/macros.hpp: $/scripts/generate_join_macros.py
-rpc/serialize_macros.hpp: $/scripts/generate_serialize_macros.py
-rpc/mailbox/typed.hpp: $/scripts/generate_rpc_templates.py
-rpc/semilattice/joins/macros.hpp rpc/serialize_macros.hpp rpc/mailbox/typed.hpp:
-	$P GEN $@
-	$< > $@
-
-ALL += $/admin
-all-$/admin: web-assets
-
-CLEAN += $/admin
-clean-$/admin:
+.PHONY: $(TOP)/admin/clean
+$(TOP)/admin/clean:
 	$P RM $(WEB_ASSETS_BUILD_DIR)
 	rm -rf $(WEB_ASSETS_BUILD_DIR)
 	$P RM $(WEB_ASSETS_OBJ_DIR)
 	rm -rf $(WEB_ASSETS_OBJ_DIR)
 
 .PHONY: web-assets
-web-assets: $(WEB_ASSETS)
+web-assets: $(BUILD_WEB_ASSETS) | $(BUILD_DIR)/.
 
-$(WEB_ASSETS_BUILD_DIR)/js/template.js: $(WEB_SOURCE_DIR)/static/handlebars $(HANDLEBARS) $/scripts/build_handlebars_templates.py | $(WEB_ASSETS_BUILD_DIR)/js/.
+ifeq (1,$(USE_PRECOMPILED_WEB_ASSETS))
+  $(WEB_ASSETS_BUILD_DIR):
+	$P MKDIR
+	mkdir -p $@
+
+  $(WEB_ASSETS_BUILD_DIR)/%: $(PRECOMPILED_DIR)/web/% | $(WEB_ASSETS_BUILD_DIR)
+	$P CP
+	mkdir -p $(dir $@)
+	cp -pRP $< $@
+
+  $(PRECOMPILED_DIR)/web/%:
+	$(error Missing file $@. Run ./configure with --disable-precompiled-web to build normally.)
+else
+
+$(WEB_ASSETS_BUILD_DIR)/js/rethinkdb.js: $(JS_BUILD_DIR)/rethinkdb.js | $(WEB_ASSETS_BUILD_DIR)/js/.
+	$P CP
+	cp -pRP $< $@
+
+$(WEB_ASSETS_BUILD_DIR)/js/template.js: $(WEB_SOURCE_DIR)/static/handlebars $(HANDLEBARS) $(TOP)/scripts/build_handlebars_templates.py | $(WEB_ASSETS_BUILD_DIR)/js/.
 	$P HANDLEBARS $@
-	env TC_HANDLEBARS_EXE=$(HANDLEBARS) $/scripts/build_handlebars_templates.py $(WEB_SOURCE_DIR)/static/handlebars $(BUILD_DIR) $(WEB_ASSETS_BUILD_DIR)/js
+	env TC_HANDLEBARS_EXE=$(HANDLEBARS) $(TOP)/scripts/build_handlebars_templates.py $(WEB_SOURCE_DIR)/static/handlebars $(BUILD_DIR) $(WEB_ASSETS_BUILD_DIR)/js
 
 $(WEB_ASSETS_OBJ_DIR)/cluster-min.concat.coffee: $(COFFEE_SOURCES) | $(WEB_ASSETS_OBJ_DIR)/.
 	$P CONCAT $@
@@ -92,3 +99,5 @@ $(WEB_ASSETS_BUILD_DIR)/images: | $(WEB_ASSETS_BUILD_DIR)/.
 $(WEB_ASSETS_BUILD_DIR)/favicon.ico: $(FAVICON) | $(WEB_ASSETS_BUILD_DIR)/.
 	$P CP $(FAVICON) $(WEB_ASSETS_BUILD_DIR)
 	cp -P $(FAVICON) $(WEB_ASSETS_BUILD_DIR)
+
+endif

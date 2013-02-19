@@ -2,5 +2,5 @@
 
 STRIP_ON_INSTALL ?= 1
 
-ALL += $/
-all-$/: build-rpm
+.PHONY: $(TOP)/all
+$(TOP)/all: build-rpm

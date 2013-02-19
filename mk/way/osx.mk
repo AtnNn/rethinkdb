@@ -3,5 +3,5 @@
 BUILD_PORTABLE ?= 1
 STATIC ?= 1
 
-ALL += $/
-all-$/: build-osx
+.PHONY: $(TOP)/all
+$(TOP)/all: build-osx

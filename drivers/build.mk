@@ -1,6 +1,6 @@
 # Copyright 2010-2013 RethinkDB, all rights reserved.
 
-. := $/drivers
+DRIVERS_DIR := $(TOP)/drivers
 
 PROTOC_BASE := $(dir $(patsubst %/,%,$(dir $(PROTOC))))
 
@@ -10,10 +10,10 @@ RUBY_PBDIR := $(BUILD_DIR)/ruby
 RUBY_PBFILE := query_language.pb.rb
 PROTOCFLAGS := --proto_path=$(SOURCE_DIR)
 
-include $./javascript/build.mk
+include $(DRIVERS_DIR)/javascript/build.mk
 # TODO
-# include $./python/build.mk
-# include $./ruby/build.mk
+# include $(DRIVERS_DIR)/python/build.mk
+# include $(DRIVERS_DIR)/ruby/build.mk
 
 .PHONY: drivers
 ifeq ($(BUILD_DRIVERS), 1)
@@ -22,5 +22,5 @@ else
   drivers: js-driver
 endif
 
-ALL += $.
-all-$.: drivers
+.PHONY: $(DRIVERS_DIR)/all
+$(DRIVERS_DIR)/all: drivers

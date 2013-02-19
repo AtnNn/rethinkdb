@@ -20,8 +20,10 @@ else
 endif
 
 ifeq ($(COMPILER),CLANG)
+
   ifeq ($(OS),Darwin)
-    RT_LDFLAGS += -Wl,--no-as-needed
+    # TODO: ld: unknown option: --no-as-needed
+    # RT_LDFLAGS += -Wl,--no-as-needed
   endif
 
   ifeq ($(STATICFORCE),1)
@@ -67,12 +69,6 @@ ifeq ($(OS),Linux)
   RT_LDFLAGS+=-lrt
 endif
 
-ifeq ($(BUILD_PORTABLE),1)
-  ifeq ($(OS),Linux)
-    RT_LDFLAGS+=-lgcc
-  endif
-endif
-
 ifeq ($(STATICFORCE),1)
   # TODO(OSX)
   ifeq ($(OS),Linux)
@@ -83,6 +79,7 @@ endif
 ifeq ($(BUILD_PORTABLE),1)
   ifeq ($(OS),Linux)
     RT_LDFLAGS += -lgcc_s
+    RT_LDFLAGS += -lgcc
   endif
 endif
 
@@ -94,38 +91,6 @@ else
   LEGACY_PACKAGE := 0
 endif
 
-# TODO: V8
-ifeq ($(BUILD_PORTABLE),1)
-  V8_CHAIN := 1
-  STATIC_V8 := 2
-else
-  V8_CHAIN := 0
-  PROTOC_CHAIN := 1
-  STATIC_V8 := $(STATICFORCE)
-endif
-
-OBJ_SUPPS:=
-
-ifneq ($(V8_CHAIN),0)
-  ifeq ($(V8_CHAIN),2)
-    RT_LDFLAGS += -L $(V8_DIR)
-  endif
-  CXXPATHDS += -isystem $(V8_DIR)/include
-  ifeq ($(STATIC_V8),2)
-    OBJ_SUPPS += $(V8_LIB)
-  endif
-endif
-
-ifeq ($(STATIC_V8),0)
-  RT_LDFLAGS+=-lv8
-else ifeq ($(STATIC_V8),1)
-  ifeq ($(OS),Darwin)
-    RT_LDFLAGS += -lv8
-  else
-    RT_LDFLAGS+=-static -lv8 -dynamic
-  endif
-endif
-
 RT_LDFLAGS += $(foreach TLIB, $(LIB_SEARCH_PATHS), -L $(TLIB))
 
 RT_CXXFLAGS?=
@@ -134,13 +99,19 @@ RT_CXXFLAGS += -pthread
 RT_CXXFLAGS += "-DPRODUCT_NAME=\"$(PRODUCT_NAME)\""
 RT_CXXFLAGS += -DWEB_ASSETS_DIR_NAME='"$(WEB_ASSETS_DIR_NAME)"'
 RT_CXXFLAGS += $(CXXPATHDS)
-RT_CXXFLAGS += -Wall -Wextra -Werror -Wnon-virtual-dtor -std=gnu++0x
+RT_CXXFLAGS += -Wall -Wextra
+
+ifneq (1,$(ALLOW_WARNINGS))
+  RT_CXXFLAGS += -Werror
+endif
+
+RT_CXXFLAGS += -Wnon-virtual-dtor -std=gnu++0x
 
 ifeq ($(COMPILER), INTEL)
   RT_CXXFLAGS += -w1 -ftls-model=local-dynamic
 
 else ifeq ($(COMPILER), CLANG)
-  RT_CXXFLAGS += -Wformat=2 -Wswitch-enum -Wswitch-default -Wno-unneeded-internal-declaration
+  RT_CXXFLAGS += -Wformat=2 -Wswitch-enum -Wswitch-default # -Wno-unneeded-internal-declaration
   RT_CXXFLAGS += -Wused-but-marked-unused -Wunused-macros -Wundef -Wvla -Wshadow
   RT_CXXFLAGS += -Wconditional-uninitialized -Wmissing-noreturn
 
@@ -153,12 +124,12 @@ else ifeq ($(COMPILER), GCC)
 endif
 
 ifeq ($(COVERAGE), 1)
-  ifeq ($(COMPILER), GCC)
+#  ifeq ($(COMPILER), GCC)
     RT_CXXFLAGS+=--coverage
     RT_LDFLAGS+=--coverage
-  else
-    $(error COVERAGE=1 not yet supported for $(COMPILER))
-  endif
+#  else
+#    $(error COVERAGE=1 not yet supported for $(COMPILER))
+#  endif
 endif
 
 ifeq ($(AGRESSIVE_BUF_UNLOADING),1)
@@ -167,6 +138,7 @@ endif
 
 RT_CXXFLAGS += -DWEBRESDIR='"$(web_res_dir)"'
 
+# TODO: >() only works on bash >= 4
 LD_OUTPUT_FILTER ?=
 ifeq ($(COMPILER),INTEL)
   # TODO: get rid of the cause of this warning, not just the warning itself
@@ -299,21 +271,16 @@ endif
 
 RT_CXXFLAGS += -I$(PROTO_DIR)
 
-UNIT_STATIC_LIBRARY_PATH ?=
-ifeq ($(UNIT_TESTS),1)
-  UNIT_STATIC_LIBRARY_PATH += $(EXTERNAL_DIR)/gtest-1.6.0/make/gtest.a
-  RT_CXXFLAGS += -I$(EXTERNAL_DIR)/gtest-1.6.0/include
-endif
+UNIT_STATIC_LIBRARY_PATH := $(EXTERNAL_DIR)/gtest-1.6.0/make/gtest.a
+UNIT_TEST_INCLUDE_FLAG := -I$(EXTERNAL_DIR)/gtest-1.6.0/include
 
 RT_CXXFLAGS += -DMIGRATION_SCRIPT_LOCATION=\"$(scripts_dir)/rdb_migrate\"
 
 #### Finding what to build
 
-# All *.cc files
 SOURCES := $(shell find $(SOURCE_DIR) -name '*.cc')
-ifneq ($(UNIT_TESTS),1)
-  SOURCES := $(filter-out $(SOURCE_DIR)/unittest/%,$(SOURCES))
-endif
+
+SERVER_EXEC_SOURCES := $(filter-out $(SOURCE_DIR)/unittest/%,$(SOURCES))
 
 PROTO_SOURCES := $(shell find $(SOURCE_DIR) -name '*.proto')
 PROTO_HEADERS := $(patsubst $(SOURCE_DIR)/%.proto,$(PROTO_DIR)/%.pb.h,$(PROTO_SOURCES))
@@ -326,9 +293,9 @@ NAMES := $(patsubst $(SOURCE_DIR)/%.cc,%,$(SOURCES))
 DEPS := $(patsubst %,$(DEP_DIR)/%.d,$(NAMES))
 OBJS := $(PROTO_OBJS) $(patsubst %,$(OBJ_DIR)/%.o,$(NAMES))
 
-SERVER_EXEC_OBJS := $(PROTO_OBJS) $(patsubst $(SOURCE_DIR)/%.cc,$(OBJ_DIR)/%.o,$(filter-out $(SOURCE_DIR)/unittest/%,$(SOURCES)))
+SERVER_EXEC_OBJS := $(PROTO_OBJS) $(patsubst $(SOURCE_DIR)/%.cc,$(OBJ_DIR)/%.o,$(SERVER_EXEC_SOURCES))
 
-SERVER_NOMAIN_OBJS := $(PROTO_OBJS) $(patsubst $(SOURCES)/%.cc,$(OBJ_DIR)/%.o,$(filter-out %/main.cc,$(SOURCES)))
+SERVER_NOMAIN_OBJS := $(PROTO_OBJS) $(patsubst $(SOURCE_DIR)/%.cc,$(OBJ_DIR)/%.o,$(filter-out %/main.cc,$(SOURCES)))
 
 SERVER_UNIT_TEST_OBJS := $(SERVER_NOMAIN_OBJS) $(OBJ_DIR)/unittest/main.o
 
@@ -340,12 +307,16 @@ RT_CXXFLAGS += -DRETHINKDB_CODE_VERSION=\"$(RETHINKDB_CODE_VERSION)\"
 ##### Build targets
 
 ALL += $(SOURCE_DIR)
-.PHONY: all-$(SOURCE_DIR)
-all-$(SOURCE_DIR): $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(BUILD_DIR)/$(GDB_FUNCTIONS_NAME)
+.PHONY: $(SOURCE_DIR)/all
+$(SOURCE_DIR)/all: $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(BUILD_DIR)/$(GDB_FUNCTIONS_NAME) | $(BUILD_DIR)/.
 
 ifeq ($(UNIT_TESTS),1)
-  all-$(SOURCE_DIR): $(BUILD_DIR)/$(SERVER_UNIT_TEST_NAME)
+  $(SOURCE_DIR)/all: $(BUILD_DIR)/$(SERVER_UNIT_TEST_NAME)
 endif
+
+$(UNIT_STATIC_LIBRARY_PATH):
+	$P MAKE $@
+	$(MAKE) -C $(EXTERNAL_DIR)/gtest-1.6.0/make gtest.a
 
 .PHONY: unit
 unit: $(BUILD_DIR)/$(SERVER_UNIT_TEST_NAME)
@@ -357,12 +328,20 @@ $(PROTO_HEADERS) $(PROTO_CODE): $(PROTO_DIR)/.protocppgen
 $(PROTO_DIR)/.protocppgen: $(PROTO_SOURCES) | $(PROTOC_DEP) $(PROTO_DIR)/.
 	$P PROTOC[CPP] $^
 	$(PROTOC) $(PROTOCFLAGS_CXX) --cpp_out $(PROTO_DIR) $^
-	touch $@	
+	touch $@
 
-$(BUILD_DIR)/$(SERVER_EXEC_NAME): $(OBJS) $(TCMALLOC_DEP) | $(BUILD_DIR)/.
+rpc/semilattice/joins/macros.hpp: $(TOP)/scripts/generate_join_macros.py
+rpc/serialize_macros.hpp: $(TOP)/scripts/generate_serialize_macros.py
+rpc/mailbox/typed.hpp: $(TOP)/scripts/generate_rpc_templates.py
+rpc/semilattice/joins/macros.hpp rpc/serialize_macros.hpp rpc/mailbox/typed.hpp:
+	$P GEN $@
+	$< > $@
+
+$(BUILD_DIR)/$(SERVER_EXEC_NAME): $(SERVER_EXEC_OBJS) | $(BUILD_DIR)/. $(TCMALLOC_DEP)
 	$P LD $@
 	$(RT_CXX) $(RT_LDFLAGS) $(SERVER_EXEC_OBJS) $(LIBRARY_PATHS) -o $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(LD_OUTPUT_FILTER)
 ifeq ($(NO_TCMALLOC),0)
+# TODO: c++filt is not available everywhere
 	@objdump -T $(BUILD_DIR)/$(SERVER_EXEC_NAME) | c++filt | grep -q 'tcmalloc::\|google_malloc' || \
 		(echo "    Failed to link in TCMalloc. You may have to run ./configure with the --without-tcmalloc flag." && \
 		false)
@@ -370,7 +349,7 @@ endif
 
 # The unittests use gtest, which uses macros that expand into switch statements which don't contain
 # default cases. So we have to remove the -Wswitch-default argument for them.
-$(OBJ_DIR)/unittest/%.o: RT_CXXFLAGS:=$(filter-out -Wswitch-default,$(RT_CXXFLAGS))
+$(OBJ_DIR)/unittest/%.o: RT_CXXFLAGS := $(filter-out -Wswitch-default,$(RT_CXXFLAGS)) $(UNIT_TEST_INCLUDE_FLAG)
 
 $(BUILD_DIR)/$(SERVER_UNIT_TEST_NAME): $(SERVER_UNIT_TEST_OBJS) $(UNIT_STATIC_LIBRARY_PATH) | $(BUILD_DIR)/. $(TCMALLOC_DEP)
 	$P LD $@
@@ -385,8 +364,8 @@ depclean:
 	$P RM "$(BUILD_ROOT_DIR)/*.d"
 	if test -d $(BUILD_ROOT_DIR); then find $(BUILD_ROOT_DIR) -name '*.d' -exec rm {} \; ; fi
 
-CLEAN += $/src
-clean-$/src:
+.PHONY: $(TOP)/src/clean
+$(TOP)/src/clean:
 	$P RM $(BUILD_DIR)
 	rm -rf $(BUILD_DIR)
 
@@ -397,7 +376,7 @@ $(OBJ_DIR)/%.pb.o: $(PROTO_DIR)/%.pb.cc $(MAKEFILE_DEPENDENCY) $(PROTO_HEADERS)
 
 $(OBJ_DIR)/%.o: $(SOURCE_DIR)/%.cc $(MAKEFILE_DEPENDENCY) $(V8_DEP) | $(PROTO_OBJS)
 	mkdir -p $(dir $(DEP_DIR)/$*)
-	$(RT_CXX) $(RT_CXXFLAGS) -MM -MP -MQ $@ -MQ $(DEP_DIR)/$*.d $< > $(DEP_DIR)/$*.d
+	$(RT_CXX) $(RT_CXXFLAGS) -MM -MP -MQ $@ -MQ $(DEP_DIR)/$*.d $< > $(DEP_DIR)/$*.d 2>/dev/null
 	mkdir -p $(dir $@)
 	$P CC $< -o $@
 	$(RT_CXX) $(RT_CXXFLAGS) -c -o $@ $<

@@ -6,15 +6,15 @@ PRODUCT_NAME := RethinkDB
 
 ifneq ($(PVERSION),)
   RETHINKDB_VERSION := $(PVERSION)
-  RETHINKDB_CODE_VERSION ?= $(shell $/scripts/gen-version.sh)
-  RETHINKDB_SHORT_VERSION := $(shell echo $(RETHINKDB_VERSION) | sed 's/\([^.]\+\.[^.]\+\).*$$/\1/')
+  RETHINKDB_CODE_VERSION ?= $(shell $(TOP)/scripts/gen-version.sh)
+  RETHINKDB_SHORT_VERSION := $(shell echo $(RETHINKDB_VERSION) | sed 's/\([^.]\+\.[^.]\+\).*$$//\1/')
   PACKAGING_ALTERNATIVES_PRIORITY := 0
 else
-  RETHINKDB_FALLBACK_VERSION := $(shell if [ -e $/NOTES ] ; then cat $/NOTES | grep '^. Release' | head -n 1 | awk '{ printf "%s" , $$3 ; }' ; fi ; )
-  RETHINKDB_VERSION := $(shell env FALLBACK_VERSION=$(RETHINKDB_FALLBACK_VERSION) $/scripts/gen-version.sh)
-  RETHINKDB_CODE_VERSION ?= $(shell $/scripts/gen-version.sh)
+  RETHINKDB_FALLBACK_VERSION := $(shell if [ -e $(TOP)/NOTES ] ; then cat $(TOP)/NOTES | grep '^. Release' | head -n 1 | awk '{ printf "%s" , $$3 ; }' ; fi ; )
+  RETHINKDB_VERSION := $(shell env FALLBACK_VERSION=$(RETHINKDB_FALLBACK_VERSION) $(TOP)/scripts/gen-version.sh)
+  RETHINKDB_CODE_VERSION ?= $(shell $(TOP)/scripts/gen-version.sh)
   RETHINKDB_SHORT_VERSION := $(shell echo $(RETHINKDB_VERSION) | sed 's/\([^.]\+\.[^.]\+\).*$$/\1/')
-  PACKAGING_ALTERNATIVES_PRIORITY := $(shell expr $$($/scripts/gen-version.sh -r) / 100)
+  PACKAGING_ALTERNATIVES_PRIORITY = $(shell expr $$($(TOP)/scripts/gen-version.sh -r) / 100)
 endif
 
 ifeq ($(NAMEVERSIONED),1)
@@ -25,10 +25,11 @@ endif
 
 RETHINKDB_PACKAGING_VERSION := $(RETHINKDB_VERSION)
 
-PACKAGE_NAME_QUALIFIER :=
 ifeq ($(BUILD_PORTABLE),1)
   # TODO: why name the package differently?
-  PACKAGE_NAME_QUALIFIER += -portable
+  PACKAGE_NAME_QUALIFIER := -portable
+else
+  PACKAGE_NAME_QUALIFIER :=
 endif
 
 ifeq ($(NAMEVERSIONED),1)
@@ -134,4 +135,5 @@ install-docs:
 	install -m755 -d $(DESTDIR)$(doc_dir)
 	install -m644 -T $(ASSETS_DIR)/docs/LICENSE $(DESTDIR)$(doc_dir)/copyright
 
+.PHONY: install
 install: install-binaries install-manpages install-docs install-tools install-web install-data install-config

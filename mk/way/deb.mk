@@ -3,5 +3,4 @@
 STRIP_ON_INSTALL ?= 1
 CONFIGURE_FLAGS ?= --disable-drivers
 
-ALL += $/
-all-$/: build-deb
+DEFAULT_GOAL := build-deb

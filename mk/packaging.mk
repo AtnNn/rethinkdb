@@ -1,7 +1,9 @@
 ##### Packaging
 
-# TODO: make dist
+DIST_DIR := $(PACKAGES_DIR)/$(PACKAGE_NAME)-$(RETHINKDB_VERSION)
+DIST_PACKAGE_TGZ := $(PACKAGES_DIR)/$(PACKAGE_NAME)-$(RETHINKDB_VERSION).tgz
 
+DSC_PACKAGE_DIR := $(PACKAGES_DIR)/dsc
 RPM_PACKAGE_DIR := $(PACKAGES_DIR)/rpm
 DEB_PACKAGE_DIR := $(PACKAGES_DIR)/deb
 
@@ -13,6 +15,11 @@ DEB_CONTROL_ROOT := $(DEB_PACKAGE_DIR)/DEBIAN
 RPM_SPEC_FILE := $(RPM_PACKAGE_DIR)/SPECS/rethinkdb.spec
 
 RETHINKDB_VERSION_RPM := $(subst -,_,$(RETHINKDB_PACKAGING_VERSION))
+
+DIST_FILE_LIST_REL := admin assets bench demos docs docs_internal drivers external lib mk packaging scripts src test
+DIST_FILE_LIST_REL += configure COPYRIGHT DEPENDENCIES Makefile NOTES README README.md
+
+DIST_FILE_LIST := $(foreach x,$(DIST_FILE_LIST_REL),$/$x)
 
 # Ubuntu quantal and later require nodejs-legacy.
 ifeq ($(shell echo $(UBUNTU_RELEASE) | grep '^[q-zQ-Z]'),)
@@ -44,7 +51,7 @@ ifneq ($(DEB_RELEASE_NUM),)
   endif
 endif
 
-DEB_PACKAGE_REVISION := $(shell env UBUNTU_RELEASE="$(UBUNTU_RELEASE)" DEB_RELEASE="$(DEB_RELEASE)" DEB_RELEASE_NUM="$(DEB_RELEASE_NUM)" PACKAGE_VERSION="" $/scripts/gen-trailer.sh)
+DEB_PACKAGE_REVISION := $(shell env UBUNTU_RELEASE="$(UBUNTU_RELEASE)" DEB_RELEASE="$(DEB_RELEASE)" DEB_RELEASE_NUM="$(DEB_RELEASE_NUM)" PACKAGE_VERSION="" $(TOP)/scripts/gen-trailer.sh)
 RETHINKDB_VERSION_DEB := $(RETHINKDB_PACKAGING_VERSION)$(DEB_PACKAGE_REVISION)
 
 .PHONY: prepare_deb_package_dirs
@@ -70,26 +77,53 @@ install-deb: install
 	  gzip -c9 | \
 	  install -m644 -T /dev/stdin $(DESTDIR)$(doc_dir)/changelog.Debian.gz
 
-.PHONY: build-deb-support
 ifeq ($(BUILD_PORTABLE),1)
-  build-deb-support: $(LESSC) $(COFFEE) $(HANDLEBARS) $(V8_SRC_DIR) $(NODE_SRC_DIR) $(PROTOC_SRC_DIR) $(GPERFTOOLS_SRC_DIR) $(LIBUNWIND_SRC_DIR)
+  DSC_SUPPORT := $(V8_SRC_DIR) $(PROTOC_SRC_DIR) $(GPERFTOOLS_SRC_DIR) $(LIBUNWIND_SRC_DIR)
+
+  DSC_CUSTOM_MK_LINES := 'BUILD_PORTABLE := 1'
+  DSC_CUSTOM_MK_LINES := 'CONFIGURE_FLAGS += --disable-drivers'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += V8=$(CWD)/$(V8_INT_LIB)'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += PROTOC=$(CWD)/$(TC_PROTOC_INT_EXE)'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += TCMALLOC_MINIMAL=$(CWD)/$(TCMALLOC_MINIMAL_INT_LIB)'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += UNWIND=$(CWD)/$(UNWIND_INT_LIB)'
 else
-  build-deb-support: $(LESSC) $(COFFEE) $(HANDLEBARS)
+  DSC_SUPPORT :=
+  DSC_CUSTOM_MK_LINES :=
 endif
 
-# TODO: the resulting package will not use the internal tools
 .PHONY: build-deb-src
-build-deb-src: build-deb-src-control build-deb-support
-	rm -rf build support/build support/usr
-	yes | debuild -S -sa
+build-deb-src: deb-src-dir build-deb-src-control
+	$P ECHO ">> $(DSC_PACKAGE_DIR)/custom.mk"
+	for line in $(DSC_CUSTOM_MK_LINES); do \
+	  echo "$$line" >> $(DSC_PACKAGE_DIR)/custom.mk ; \
+	done
+	$P DEBUILD ""
+	cd $(DSC_PACKAGE_DIR) && yes | debuild -S -sa
+
+.PHONY: deb-src-dir
+deb-src-dir: dist-dir $(DSC_SUPPORT)
+	$P MV $(DIST_DIR) $(DSC_PACKAGE_DIR)
+	rm -rf $(DSC_PACKAGE_DIR)
+	mv $(DIST_DIR) $(DSC_PACKAGE_DIR)
+	$P CP $(DSC_SUPPORT) $(DSC_PACKAGE_DIR)
+	$(foreach path,$(DSC_SUPPORT), \
+	  $(foreach dir,$(DSC_PACKAGE_DIR)/support/$(patsubst $(SUPPORT_DIR)/%,%,$(dir $(path))), \
+	    $P CP $(path) $(dir) $(newline) \
+	    mkdir -p $(dir) $(newline) \
+	    cp -pPR $(path) $(dir) $(newline) ))
 
 .PHONY: build-deb-src-control
-build-deb-src-control:
-	$P CP $(PACKAGING_DIR)/debian.template $/debian
-	if [ -e $/debian ] ; then rm -rf $/debian ; fi
-	cp -pRP $(PACKAGING_DIR)/debian.template $/debian
-	env UBUNTU_RELEASE=$(UBUNTU_RELEASE) DEB_RELEASE=$(DEB_RELEASE) DEB_RELEASE_NUM=$(DEB_RELEASE_NUM) PACKAGE_NAME=$(PACKAGE_NAME) VERSIONED_PACKAGE_NAME=$(VERSIONED_PACKAGE_NAME) VERSIONED_QUALIFIED_PACKAGE_NAME=$(VERSIONED_QUALIFIED_PACKAGE_NAME) VANILLA_PACKAGE_NAME=$(VANILLA_PACKAGE_NAME) PACKAGE_VERSION_EXTENDED=$(RETHINKDB_VERSION_DEB) PACKAGE_VERSION=$(RETHINKDB_PACKAGING_VERSION) $/scripts/gen-changelog.sh ;
-	$P M4 $(DEBIAN_PKG_DIR)/control $/debian/control
+build-deb-src-control: | deb-src-dir
+	$P CP $(PACKAGING_DIR)/debian.template $(DSC_PACKAGE_DIR)/debian
+	cp -pRP $(PACKAGING_DIR)/debian.template $(DSC_PACKAGE_DIR)/debian
+	env UBUNTU_RELEASE=$(UBUNTU_RELEASE) \
+	    DEB_RELEASE=$(DEB_RELEASE) \
+	    DEB_RELEASE_NUM=$(DEB_RELEASE_NUM) \
+	    VERSIONED_QUALIFIED_PACKAGE_NAME=$(VERSIONED_QUALIFIED_PACKAGE_NAME) \
+	    PACKAGE_VERSION=$(RETHINKDB_PACKAGING_VERSION) \
+	  $(TOP)/scripts/gen-changelog.sh \
+	  > $(DSC_PACKAGE_DIR)/debian/changelog
+	$P M4 $(DEBIAN_PKG_DIR)/control $(DSC_PACKAGE_DIR)/debian/control
 	env disk_size=0 \
 	  m4 -D "PACKAGE_NAME=$(PACKAGE_NAME)" \
 	     -D "VERSIONED_PACKAGE_NAME=$(VERSIONED_PACKAGE_NAME)" \
@@ -104,8 +138,8 @@ build-deb-src-control:
 	     -D "SOURCEBUILD=1" \
 	     -D "NODEJS_NEW=$(NODEJS_NEW)" \
 	     -D "CURRENT_ARCH=$(DEB_ARCH)" \
-	     $(DEBIAN_PKG_DIR)/control > $/debian/control
-	$P M4 preinst postinst prerm postrm $/debian
+	     $(DEBIAN_PKG_DIR)/control > $(DSC_PACKAGE_DIR)/debian/control
+	$P M4 preinst postinst prerm postrm "->" $(DSC_PACKAGE_DIR)/debian
 	for script in preinst postinst prerm postrm; do \
 	  m4 -D "BIN_DIR=$(bin_dir)" \
 	     -D "MAN1_DIR=$(man1_dir)" \
@@ -115,11 +149,11 @@ build-deb-src-control:
 	     -D "SERVER_EXEC_NAME_VERSIONED=$(SERVER_EXEC_NAME_VERSIONED)" \
 	     -D "UPDATE_ALTERNATIVES=$(NAMEVERSIONED)" \
 	     -D "PRIORITY=$(PACKAGING_ALTERNATIVES_PRIORITY)" \
-	     $(DEBIAN_PKG_DIR)/$${script} > $/debian/$${script}; \
-	  chmod 0755 $/debian/$${script}; \
+	     $(DEBIAN_PKG_DIR)/$${script} > $(DSC_PACKAGE_DIR)/debian/$${script}; \
+	  chmod 0755 $(DSC_PACKAGE_DIR)/debian/$${script}; \
 	done
-	$P CP $(DEBIAN_PKG_DIR)/copyright > $/debian/copyright
-	cat $(DEBIAN_PKG_DIR)/copyright > $/debian/copyright
+	$P CAT $(DEBIAN_PKG_DIR)/copyright ">" $(DSC_PACKAGE_DIR)/debian/copyright
+	cat $(DEBIAN_PKG_DIR)/copyright > $(DSC_PACKAGE_DIR)/debian/copyright
 
 .PHONY: build-deb
 build-deb: all prepare_deb_package_dirs install-deb
@@ -167,7 +201,7 @@ deb: prepare_deb_package_dirs
 	$P MAKE WAY=deb
 	$(MAKE) WAY=deb
 	for deb_name in $(PACKAGES_DIR)/*.deb; do \
-	  if [ $(LINT) = 1]; then \
+	  if [ $(LINTIAN) = 1]; then \
 	    $P LINTIAN $$deb_name ; \
 	    lintian --color auto --suppress-tags "no-copyright-file,$(subst $(space),$(comma),$(SUPPRESSED_LINTIAN_TAGS))" $${deb_name} || true ; \
 	  fi \
@@ -226,14 +260,47 @@ install-osx: install-binaries install-web
 
 .PHONY: build-osx
 build-osx: install-osx
-	mkdir -p $/build/packaging/osx/install
-	pkgbuild --root $/build/packaging/osx/pkg --identifier rethinkdb $/build/packaging/osx/install/rethinkdb.pkg
-	productbuild --distribution $/packaging/osx/Distribution.xml --package-path $/build/packaging/osx/install/ $/build/packaging/osx/dmg/rethinkdb.pkg
+	mkdir -p $(TOP)/build/packaging/osx/install
+	pkgbuild --root $(TOP)/build/packaging/osx/pkg --identifier rethinkdb $(TOP)/build/packaging/osx/install/rethinkdb.pkg
+	productbuild --distribution $(TOP)/packaging/osx/Distribution.xml --package-path $(TOP)/build/packaging/osx/install/ $(TOP)/build/packaging/osx/dmg/rethinkdb.pkg
 # TODO: the PREFIX should not be hardcoded in the uninstall script
-	cp $/packaging/osx/uninstall-rethinkdb.sh $/build/packaging/osx/dmg/uninstall-rethinkdb.sh
+	cp $(TOP)/packaging/osx/uninstall-rethinkdb.sh $(TOP)/build/packaging/osx/dmg/uninstall-rethinkdb.sh
 	chmod +x $build/packaging/osx/dmg/uninstall-rethinkdb.sh
-	hdiutil create -volname RethinkDB -srcfolder $/build/packaging/osx/dmg -ov $/build/packaging/osx/rethinkdb.dmg
+	hdiutil create -volname RethinkDB -srcfolder $(TOP)/build/packaging/osx/dmg -ov $(TOP)/build/packaging/osx/rethinkdb.dmg
 
 .PHONY: osx
 osx:
 	$(MAKE) WAY=osx
+
+##### Source distribution
+
+.PHONY: reset-dist-dir
+reset-dist-dir: FORCE
+	$P CP $(DIST_FILE_LIST) $(DIST_DIR)
+	rm -rf $(DIST_DIR)
+	mkdir -p $(DIST_DIR)
+	cp -pRP $(DIST_FILE_LIST) $(DIST_DIR)
+
+$(DIST_DIR)/custom.mk: FORCE | reset-dist-dir
+	$P ECHO "> $@"
+	echo 'CONFIGURE_FLAGS += --enable-precompiled-web' > $@
+
+$(DIST_DIR)/precompiled/web: web-assets | reset-dist-dir
+	$P CP $(WEB_ASSETS_BUILD_DIR) $@
+	mkdir -p $(DIST_DIR)/precompiled
+	rm -rf $@
+	cp -pRP $(WEB_ASSETS_BUILD_DIR) $@
+
+$(DIST_DIR)/VERSION.OVERRIDE: FORCE | reset-dist-dir
+	$P ECHO "> $@"
+	echo -n $(RETHINKDB_CODE_VERSION) > $@
+
+.PHONY: dist-dir
+dist-dir: reset-dist-dir $(DIST_DIR)/custom.mk $(DIST_DIR)/precompiled/web $(DIST_DIR)/VERSION.OVERRIDE
+
+$(DIST_PACKAGE_TGZ): dist-dir
+	$P TAR $@ $(DIST_DIR)
+	cd $(dir $(DIST_DIR)) && tar zfc $(notdir $@) $(notdir $(DIST_DIR))
+
+.PHONY: dist
+dist: $(DIST_PACKAGE_TGZ)

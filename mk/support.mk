@@ -1,16 +1,27 @@
 # Copyright 2010-2013 RethinkDB, all rights reserved.
 
+# The rules in this file can download, build and setup some of the rethinkdb dependencies.
+# It is used for portable builds on platforms where these dependencies are not available or are too old.
+
 V8_DEP :=
 NPM_DEP :=
 TCMALLOC_DEP :=
 PROTOC_DEP :=
 
-ifeq (1,$(ALLOW_INTERNAL_TOOLS))
-
-# TODO: wget or curl
+# TODO: use curl if wget not available
 GETURL := wget --quiet --output-document=-
 
-SUPPORT_DIR := $/support
+ifeq (1,$(JUST_SCAN_MAKEFILES))
+  EXTERN_MAKE := \#
+else
+  EXTERN_MAKE := MAKEFLAGS= make
+endif
+
+ifneq (1,$(FETCH_INTERNAL_TOOLS))
+  GETURL = bash -c 'echo "Error: Refusing to download $$0 (needed to build $@)" >&2; echo Run ./configure with --allow-fetch to enable downloads. >&2; false'
+endif
+
+SUPPORT_DIR := $(TOP)/support
 SUPPORT_DIR_ABS := $(abspath $(SUPPORT_DIR))
 SUPPORT_INST_DIR := $(SUPPORT_DIR)/usr
 SUPPORT_LOG_DIR := $(SUPPORT_DIR_ABS)/log
@@ -39,8 +50,8 @@ TC_LESSC_INT_EXE := $(SUPPORT_DIR)/usr/bin/lessc
 TC_COFFEE_INT_EXE := $(SUPPORT_DIR)/usr/bin/coffee
 TC_HANDLEBARS_INT_EXE := $(SUPPORT_DIR)/usr/bin/handlebars
 V8_SRC_DIR := $(TC_SRC_DIR)/v8
-V8_DIR := $(TC_BUILD_DIR)/v8
-V8_INT_LIB := $(V8_DIR)/libv8.a
+V8_INT_DIR := $(TC_BUILD_DIR)/v8
+V8_INT_LIB := $(V8_INT_DIR)/libv8.a
 
 .PHONY: support
 support: $(foreach v,$(shell echo $(FETCH_LIST) | tr a-z A-Z), \
@@ -72,7 +83,7 @@ ifneq (,$(filter protoc,$(FETCH_LIST)))
 endif
 
 ifneq (,$(filter v8,$(FETCH_LIST)))
-  V8_DEP := $(V8_DIR)
+  V8_DEP := $(V8_INT_LIB)
 endif
 
 ifneq (,$(filter npm,$(FETCH_LIST)))
@@ -88,7 +99,7 @@ $(TC_BUILD_DIR)/%: $(TC_SRC_DIR)/%
 	rm -rf $@
 	cp -pRP $< $@
 
-$(TC_LESSC_INT_EXE): $(NODE_MODULES_DIR)/less
+$(TC_LESSC_INT_EXE): $(NODE_MODULES_DIR)/less | $(dir $(TC_LESSC_INT_EXE)).
 	$P LN
 	rm -f $@
 	ln -s $(abspath $</bin/lessc) $@
@@ -98,7 +109,7 @@ $(NODE_MODULES_DIR)/less: $(NPM_DEP)
 	$P NPM-I less
 	cd $(TOOLCHAIN_DIR) && $(abspath $(NPM)) install less $(SUPPORT_LOG_REDIRECT)
 
-$(TC_COFFEE_INT_EXE): $(NODE_MODULES_DIR)/coffee-script
+$(TC_COFFEE_INT_EXE): $(NODE_MODULES_DIR)/coffee-script | $(dir $(TC_COFFEE_INT_EXE)).
 	$P LN
 	rm -f $@
 	ln -s $(abspath $</bin/coffee) $@
@@ -109,7 +120,7 @@ $(NODE_MODULES_DIR)/coffee-script: $(NPM_DEP)
 	cd $(TOOLCHAIN_DIR) && \
 	  $(abspath $(NPM)) install coffee-script $(SUPPORT_LOG_REDIRECT)
 
-$(TC_HANDLEBARS_INT_EXE): $(NODE_MODULES_DIR)/handlebars
+$(TC_HANDLEBARS_INT_EXE): $(NODE_MODULES_DIR)/handlebars | $(dir $(TC_HANDLEBARS_INT_EXE)).
 	$P LN
 	rm -f $@
 	ln -s $(abspath $</bin/handlebars) $@
@@ -123,15 +134,15 @@ $(NODE_MODULES_DIR)/handlebars: $(NPM_DEP)
 $(V8_SRC_DIR):
 	$P SVN-CO v8
 	( cd $(TC_SRC_DIR) && \
-	  svn checkout http://v8.googlecode.com/svn/trunk/ v8 ) $(SUPPORT_LOG_REDIRECT)
+	  svn checkout http://v8.googlecode.com/svn/tags/3.17.4.1 v8 ) $(SUPPORT_LOG_REDIRECT)
 	$P MAKE v8 dependencies
-	$(MAKE) -C $(V8_SRC_DIR) dependencies $(SUPPORT_LOG_REDIRECT)
+	$(EXTERN_MAKE) -C $(V8_SRC_DIR) dependencies $(SUPPORT_LOG_REDIRECT)
 
-$(V8_INT_LIB): $(V8_DIR)
+$(V8_INT_LIB): $(V8_INT_DIR)
 	$P MAKE v8
-	$(MAKE) -C $(V8_DIR) prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ native $(SUPPORT_LOG_REDIRECT)
+	$(EXTERN_MAKE) -C $(V8_INT_DIR) native $(SUPPORT_LOG_REDIRECT)
 	$P AR $@
-	find $(V8_DIR) -iname "*.o" | grep -v '\/preparser_lib\/' | xargs ar cqs $(V8_INT_LIB);
+	find $(V8_INT_DIR) -iname "*.o" | grep -v '\/preparser_lib\/' | xargs ar cqs $(V8_INT_LIB);
 
 $(NODE_SRC_DIR):
 	$P DOWNLOAD node
@@ -145,8 +156,8 @@ $(TC_NODE_INT_EXE): $(NODE_DIR)
 	( unset prefix PREFIX DESTDIR MAKEFLAGS MFLAGS && \
 	  cd $(NODE_DIR) && \
 	  ./configure --prefix=$(SUPPORT_DIR_ABS)/usr && \
-	  $(MAKE) prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ && \
-	  $(MAKE) install prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ ) $(SUPPORT_LOG_REDIRECT)
+	  $(EXTERN_MAKE) prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ && \
+	  $(EXTERN_MAKE) install prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ ) $(SUPPORT_LOG_REDIRECT)
 	touch $@
 
 $(PROTOC_SRC_DIR):
@@ -162,8 +173,8 @@ $(TC_PROTOC_INT_EXE): $(PROTOC_DIR)
 	$P MAKE protoc
 	( cd $(PROTOC_DIR) && \
 	  ./configure --prefix=$(SUPPORT_DIR_ABS)/usr && \
-	  $(MAKE) PREFIX=$(SUPPORT_DIR_ABS)/usr prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ && \
-	  $(MAKE) install PREFIX=$(SUPPORT_DIR_ABS)/usr prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ ) \
+	  $(EXTERN_MAKE) PREFIX=$(SUPPORT_DIR_ABS)/usr prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ && \
+	  $(EXTERN_MAKE) install PREFIX=$(SUPPORT_DIR_ABS)/usr prefix=$(SUPPORT_DIR_ABS)/usr DESTDIR=/ ) \
 	    $(SUPPORT_LOG_REDIRECT)
 
 $(GPERFTOOLS_SRC_DIR):
@@ -177,6 +188,7 @@ $(GPERFTOOLS_SRC_DIR):
 $(LIBUNWIND_SRC_DIR):
 	$P DOWNLOAD libunwind
 	$(GETURL) http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz | ( \
+	  cd $(TC_SRC_DIR) && \
 	  tar -xzf - && \
 	  rm -rf libunwind && \
 	  mv libunwind-1.1 libunwind )
@@ -187,6 +199,4 @@ $(LIBUNWIND_DIR): $(LIBUNWIND_SRC_DIR)
 # TODO: seperate step and variable for building $(UNWIND_INT_LIB)
 $(TCMALLOC_MINIMAL_INT_LIB): $(LIBUNWIND_DIR) $(GPERFTOOLS_DIR)
 	$P MAKE libunwind gperftools
-	$(QUIET) cd ../support/build && rm -f native_list.txt semistaged_list.txt staged_list.txt boost_list.txt post_boost_list.txt && touch native_list.txt semistaged_list.txt staged_list.txt boost_list.txt post_boost_list.txt && echo libunwind >> semistaged_list.txt && echo gperftools >> semistaged_list.txt && cp -pRP $(COLONIZE_SCRIPT_ABS) ./ && ( unset PREFIX && unset prefix && unset MAKEFLAGS && unset MFLAGS && unset DESTDIR && bash ./colonize.sh ; )
-
-endif # ALLOW_INTERNAL_TOOLS
+	cd $(TOP)/support/build && rm -f native_list.txt semistaged_list.txt staged_list.txt boost_list.txt post_boost_list.txt && touch native_list.txt semistaged_list.txt staged_list.txt boost_list.txt post_boost_list.txt && echo libunwind >> semistaged_list.txt && echo gperftools >> semistaged_list.txt && cp -pRP $(COLONIZE_SCRIPT_ABS) ./ && ( unset PREFIX && unset prefix && unset MAKEFLAGS && unset MFLAGS && unset DESTDIR && bash ./colonize.sh ; )

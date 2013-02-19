@@ -2,7 +2,10 @@
 #ifndef RDB_PROTOCOL_JSIMPL_HPP_
 #define RDB_PROTOCOL_JSIMPL_HPP_
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <v8.h>
+#pragma GCC diagnostic pop
 
 #include <map>
 #include <string>

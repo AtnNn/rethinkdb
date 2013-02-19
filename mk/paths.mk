@@ -1,11 +1,14 @@
 # Copyright 2010-2013 RethinkDB, all rights reserved.
 
-SCRIPTS_DIR := $/scripts
-SOURCE_DIR := $/src
-BUILD_ROOT_DIR := $/build
-PACKAGING_DIR := $/packaging
+# This makefile defines paths that are needed by the other Makefiles
+
+SCRIPTS_DIR := $(TOP)/scripts
+SOURCE_DIR := $(TOP)/src
+BUILD_ROOT_DIR := $(TOP)/build
+PACKAGING_DIR := $(TOP)/packaging
 PACKAGES_DIR := $(BUILD_ROOT_DIR)/packages
 
+# If the BUILD_DIR is not set, generate a name that depends on the different settings
 ifeq ($(BUILD_DIR),)
   ifeq ($(DEBUG),1)
     BUILD_DIR := $(BUILD_ROOT_DIR)/debug
@@ -54,16 +57,12 @@ ifeq ($(BUILD_DIR),)
   BUILD_DIR := $(subst $(space),_,$(BUILD_DIR))
 endif
 
-$(shell mkdir -p $(BUILD_DIR))
-$(shell rm -f $(BUILD_ROOT_DIR)/last 2>/dev/null || : )
-$(shell ln -s $(abspath $(BUILD_DIR)) $(BUILD_ROOT_DIR)/last)
-
 GDB_FUNCTIONS_NAME := rethinkdb-gdb.py
 
 PACKAGE_NAME := $(VANILLA_PACKAGE_NAME)
 SERVER_UNIT_TEST_NAME := $(SERVER_EXEC_NAME)-unittest
 
-EXTERNAL_DIR := $/external
+EXTERNAL_DIR := $(TOP)/external
 EXTERNAL_DIR_ABS := $(abspath $(EXTERNAL_DIR))
 COLONIZE_SCRIPT := $(EXTERNAL_DIR)/colonist/colonize.sh
 COLONIZE_SCRIPT_ABS := $(EXTERNAL_DIR_ABS)/colonist/colonize.sh
@@ -74,7 +73,9 @@ DEP_DIR := $(BUILD_DIR)/dep
 OBJ_DIR := $(BUILD_DIR)/obj
 
 WEB_ASSETS_DIR_NAME := rethinkdb_web_assets
-WEB_ASSETS_BUILD_DIR := $(BUILD_DIR)/rethinkdb_web_assets
+WEB_ASSETS_BUILD_DIR := $(BUILD_DIR)/$(WEB_ASSETS_DIR_NAME)
+
+PRECOMPILED_DIR := $(TOP)/precompiled
 
 ##### To rebuild when Makefiles change
 

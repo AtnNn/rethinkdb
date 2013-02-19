@@ -1,67 +1,104 @@
-# Copyright 2010-2013 RethinkDB, all rights reserved.
+# This Makefile sets up the environment before delegating to mk/main.mk
 
-# TODO:
-# if build_portable, then static v8
-# libunwind
-# tcmalloc doesn't link
-# remove colonizer
-# uninstall
-# build-deb-src doesn't build a portable package
-# is BUILD_PORTABLE needed?
-# test osx and other packages (including rpm)
-# warn if configure options are missing the CONFIGURE_FLAGS
-# make brew
-# precompile web assets and protoc
-# python on arch: /usr/bin/python is v3
+# To be able to make from a subdirectory, a Makefile with
+# two lines is required:
+#   TOP := <relative path to the top of the rethinkdb source tree>
+#   include $(TOP)/Makefile
+# local.mk includes a rule to build such a Makefile
 
-# Test make features
 ifeq (,$(filter else-if,$(.FEATURES)))
 	$(error GNU Make >= 3.8.1 is required)
 endif
 
-MAKEFLAGS += --no-print-directory
-MAKEFLAGS += --warn-undefined-variables 
+# $(TOP) is the root of the rethinkdb source tree
+TOP ?= .
 
-# Root of the rethinkdb source tree
-/ ?=
+ifeq (/,$(firstword $(subst /,/ ,$(TOP))))
+  # if $(TOP) is absolute, make $(CWD) absolute
+  CWD := $(shell pwd)
+else
+  # if $(TOP) is relative, $(CWD) is $(TOP) followed by the relative path from $(TOP) to the working directory
+  CWD_ABSPATH := $(shell pwd)
+  ROOT_ABSPATH := $(abspath $(CWD_ABSPATH)/$(TOP))
+  CWD := $(patsubst $(ROOT_ABSPATH)%,$(patsubst %/,%,$(TOP))%,$(CWD_ABSPATH))
+endif
 
-# The default target
-.PHONY: all
-all:
+# Prefix $(CWD) to $1 and collapse unecessary ../'s
+fixpath = $(patsubst ./%,%,$(shell echo $(CWD)/$1 | sed 's|[^/]\+/\.\./||'))
 
-# all, clean and distclean targets are defined in mk/local.mk
-ALL :=
-CLEAN :=
-DISTCLEAN :=
+MAKECMDGOALS ?=
 
-# Two ways to Override the default settings:
-CUSTOM ?= $/custom.mk
-include $/mk/check-env.mk
-  # Settings local to this repository
-  -include $(CUSTOM)
-  # Pre-configured ways to build
-  WAY ?= default
-  include $/mk/way/$(WAY).mk
-include $/mk/check-env.mk
+# Build the make command line
+MAKE_CMD_LINE = $(MAKE) -f $(TOP)/mk/main.mk
+MAKE_CMD_LINE += --no-print-directory
+MAKE_CMD_LINE += --warn-undefined-variables 
+MAKE_CMD_LINE += --no-builtin-rules
+MAKE_CMD_LINE += --no-builtin-variables
+MAKE_CMD_LINE += TOP=$(TOP) CWD=$(CWD) NO_CONFIGURE=1
 
-# Generate and include the config file
-include $/mk/configure.mk
+# Call fixpath on all goals that aren't phony
+MAKE_GOALS = $(foreach goal,$(filter-out $(PHONY_LIST),$(MAKECMDGOALS)),$(call fixpath,$(goal))) $(filter $(PHONY_LIST),$(MAKECMDGOALS))
 
-# Default values for target-independant settings
-include $/mk/way/default.mk
+default: make
 
-# Makefile related definitions
-include $/mk/lib.mk
+# Delegate the build to mk/main.mk
+.PHONY: make
+make:
+	@$(CHECK_ARG_VARIABLES)
+	+@ $(call pipe-stderr, \
+	      $(MAKE_CMD_LINE) COUNTDOWN_TOTAL=$(COUNTDOWN_TOTAL) $(MAKE_GOALS), \
+	      grep -v 'warning: -jN forced in submake: disabling jobserver mode') \
+	  || true
 
-# Paths, build rules and other tools
-include $/mk/paths.mk
-include $/mk/support.mk
-include $/mk/install.mk
-include $/drivers/build.mk
-include $/mk/webui.mk
-include $/mk/build.mk
-include $/mk/packaging.mk
-include $/mk/tools.mk
+%: make
+	@true
 
-# Targets that behave differently based on the current directory (must be included last)
-include $/mk/local.mk
+# List all rules
+.PHONY: dump-db
+dump-db:
+	+@$(CHECK_ARG_VARIABLES)
+	+@$(MAKE_CMD_LINE) --print-data-base --question JUST_SCAN_MAKEFILES=1 || true
+
+# Require CHECK_ARG_VARIABLES
+include $(TOP)/mk/check-env.mk
+
+# Load the configuration
+include $(TOP)/mk/configure.mk
+
+# Require pipe-stderr
+include $(TOP)/mk/pipe-stderr.mk
+
+# The cached list of phony targets
+-include $(TOP)/mk/gen/phony-list.mk
+
+ifeq (1,$(SHOW_COUNTDOWN))
+  # See mk/lib.mk for JUST_SCAN_MAKEFILES
+  COUNTDOWN_TOTAL = $(shell MAKEFLAGS= $(MAKE_CMD_LINE) $(MAKE_GOALS) --dry-run JUST_SCAN_MAKEFILES=1 -j1 | grep "[!!!]" | wc -l 2>/dev/null)
+else
+  COUNTDOWN_TOTAL :=
+endif
+
+# Build the cache
+# TODO: depend on inner $(MAKEFILES) instead of *.mk
+$(TOP)/mk/gen/phony-list.mk: $(wildcard $(TOP)/mk/*.mk)
+	+@MAKEFLAGS= $(MAKE_CMD_LINE) --print-data-base --question JUST_SCAN_MAKEFILES=1 \
+	  | grep '^.PHONY: ' \
+	  | sed 's/^.PHONY:/PHONY_LIST :=/' \
+	    2>/dev/null > $@
+
+# Don't try to rebuild any of the Makefiles
+$(TOP)/%.mk:
+	@true
+
+$(TOP)/Makefile:
+	@true
+
+##### Cancel builtin rules
+
+.SUFFIXES:
+
+%: %,v
+%: RCS/%,v
+%: RCS/%
+%: s.%
+%: SCCS/s.%

@@ -1,20 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Copyright 2010-2013 RethinkDB, all rights reserved.
 
-set -e
 set -u
 
-if [ "0${BASH_VERSION%%.*}" -lt 4 ]; then
-    echo "* Error: Bash version 4 or greater is required" >&2
-    exit 1
-fi
+command_line_args="$*"
 
 init () {
     min_gcc_version=$(read_version 4.5.0)
     min_clang_version=0
     min_icc_version=0
 
-    required_libs="boost_serialization boost_program_options protobuf v8"
+    required_libs="boost_program_options protobuf v8"
     other_libs="unwind tcmalloc_minimal"
     all_libs="$required_libs $other_libs"
     support_libs="unwind tcmalloc_minimal v8"
@@ -22,9 +18,10 @@ init () {
     recommended_static="tcmalloc_minimal"
     default_static="$mostly_recommended_static $recommended_static"
 
-    npm_deps="lessc coffee handlebars"
-    required_bin_deps="protoc node $npm_deps"
-    support_bin_deps="$required_bin_deps npm"
+    web_assets_deps="lessc coffee handlebars"
+    npm_deps="$web_assets_deps"
+    required_bin_deps="protoc"
+    support_bin_deps="$required_bin_deps $web_assets_deps npm"
     support_deps="$support_bin_deps $support_libs"
     bin_deps="cxx $support_bin_deps"
     all_deps="$bin_deps $all_libs"
@@ -33,6 +30,7 @@ init () {
 }
 
 configure () {
+    var CONFIGURE_COMMAND_LINE "$command_line_args"
     for var in $allowed_arg_vars; do
         local val
         if lookup "$arg_vars" $var val; then
@@ -51,38 +49,40 @@ configure () {
         Linux) true ;;
         *) error "unsupported operating system: $OS" ;;
     esac
-    require "Use tcmalloc"
-    boolvar NO_TCMALLOC $with_tcmalloc
+    require "Without tcmalloc"
+    boolvar NO_TCMALLOC not $with_tcmalloc
     require "Build client drivers"
     boolvar BUILD_DRIVERS $enable_drivers
     require "Architecture"
     var GCC_ARCH $(uname -m | grep '^[A-Za-z0-9_]*$' | head -n 1)
     var GCC_ARCH_REDUCED $(echo "$GCC_ARCH" | sed -e 's/^i[56]86$$/i486/g')
     var DEB_ARCH $(echo "${GCC_ARCH_REDUCED:-}" | sed -e 's/^x86_64$$/amd64/g')
-    require "C++ Compiler"
     check_cxx
+    require "Precompiled web assets"
+    boolvar USE_PRECOMPILED_WEB_ASSETS $enable_precompiled_web
+    if ! $enable_precompiled_web; then
+        for bin in $web_assets_deps; do
+            check_bin $bin
+        done
+    fi
     for bin in $required_bin_deps; do
-        require_dep $bin
         check_bin $bin
     done
     if any "$fetch_list" contains "$npm_deps"; then
-        require_dep npm
         check_bin npm
     fi
     for lib in $required_libs; do
-        require_dep $lib
         check_lib $lib
     done
     if [[ $NO_TCMALLOC = 0 ]] ; then
-        require_dep tcmalloc_minimal
         check_lib tcmalloc_minimal
         if contains "$fetch_list" tcmalloc_minimal; then
-            require_dep unwind
             check_lib unwind
         fi
     fi
+    boolvar STATIC_V8 contains "$static_libs" v8
     var FETCH_LIST "$fetch_list"
-    var ALLOW_INTERNAL_TOOLS $($allow_fetch && echo 1 || echo 0)
+    boolvar FETCH_INTERNAL_TOOLS $allow_fetch
     require Installation prefix
     var PREFIX ${arg_prefix:-/usr/local}
     require Configuration prefix
@@ -110,7 +110,7 @@ main () {
     trap - EXIT
     
     if ! $failed; then
-        write "CONFIGURE_STATUS := done" 3>> "$config"
+        write "CONFIGURE_STATUS := success" 3>> "$config"
         echo "* Wrote configuration to $config"
     else
         write "CONFIGURE_STATUS := failed" 3>> "$config"
@@ -144,6 +144,7 @@ read_args () {
     arg_localstatedir=
     with_tcmalloc=true
     enable_drivers=true
+    enable_precompiled_web=false
 
     while [[ $# -ne 0 ]]; do
         arg=${1#*=}
@@ -193,14 +194,16 @@ read_args () {
             --without-tcmalloc) $no_arg; with_tcmalloc=false ;;
             --enable-drivers) $no_arg; enable_drivers=true ;;
             --disable-drivers) $no_arg; enable_drivers=false ;;
+            --enable-precompiled-web) $no_arg; enable_precompiled_web=true ;;
+            --disable-precompiled-web) $no_arg; enable_precompiled_web=false ;;
             --prefix) $has_arg; arg_prefix=$arg ;;
             --sysconfdir) $has_arg; arg_sysconfdir=$arg ;;
             --localstatedir) $has_arg; arg_localstatedir=$arg ;;
             --help) show_help; exit ;;
             -*) die "Unknown option '$option'" ;;
-            *) if contains "$bin_deps" "${option,,}"; then
+            *) if contains "$all_deps" "$(lc $option)"; then
                  $has_arg
-                 force_paths="$force_paths ${option,,}=$arg "
+                 force_paths="$force_paths $(lc $option)=$arg "
                elif contains "$allowed_arg_vars" "$option"; then
                  $has_arg
                  arg_vars="$arg_vars"$'\2'"$option"$'\1'"$arg"
@@ -214,7 +217,6 @@ read_args () {
 dep_descrs=':
 cxx:C++ Compiler
 protoc:Protobuf compiler
-node:Node.js
 npm:Node.js package manager
 lessc:LESS css
 coffee:CoffeScript
@@ -256,8 +258,12 @@ EOF
   --sysconfdir <dir>      Configuration prefix. Defaults to /usr/local/etc
   --localstatedir <dir>   Runtime data prefix. Defaults to /usr/local/var
   --with-<module>
-  --without-<module>      enable or disable <module>. <module> can be one of
+  --without-<module>      Enable or disable <module>. <module> can be one of
                             tcmalloc     Build with tcmalloc. (Default: enabled)
+  --enable-<option>
+  --disable-<option>      Enable or disable a build option
+                            drivers      Build the client drivers (default: true)
+                            precompiled  Use precompiled web assets located in precompiled/web (default: false)
 EOF
 }
 
@@ -275,7 +281,11 @@ error_missing_arg () {
 
 error () {
     local req=$required
-    show error
+    if ${delay_errors:-false}; then
+	delayed_error="$*"
+	return
+    fi
+    show "error"
     local type=Error
     $req || type=Warning
     echo "* $type: $*" >&2
@@ -294,11 +304,14 @@ die () {
 }
 
 not_found () {
-    show "no"
-    if contains "$support_list" "$1"; then
-        error "missing $1. Install it, specify the full path with ${1^^}= or run ./configure with --allow-fetch"
+    if $required; then
+	if contains "$support_deps" "$1"; then
+            error "missing $1. Install it, specify the full path with $(uc $1)= or run ./configure with --allow-fetch"
+	else
+            error "missing $1. Install it or specify the full path with $(uc $1)="
+	fi
     else
-        error "missing $1. Install it or specify the full path with ${1^^}="
+	show no
     fi
 }
 
@@ -307,16 +320,24 @@ write () {
 }
 
 show_descr () {
-    local ret=0
     if ${can_show:-false}; then
-        error "Could not detect value" 
-        ret=1
+	show_no
     fi
     local padded="$*:                        "
     echo -n "${padded:0:25}"
     write "# $*"
     can_show=true
-    return $ret
+}
+
+show_no () {
+    local req=$required
+    local err=$delayed_error
+    show no
+    if $req; then
+	error "${err:-Could not detect value}"
+    elif [[ -n "$delayed_error" ]]; then
+	error "$err"
+    fi
 }
 
 show () {
@@ -325,6 +346,8 @@ show () {
         can_show=false
         required=true
     fi
+    delayed_error=
+    delay_errors=false
 }
 
 require () {
@@ -342,8 +365,16 @@ var () {
     shift
     local val=$*
     show "$val"
-    write "$name ?= $val"
+    write "$name := $val"
     eval "$name=$(quote "$val")"
+}
+
+macro () {
+    local name=$1
+    shift
+    local val=$*
+    show "$val"
+    write "$name = $val"
 }
 
 var_append () {
@@ -352,6 +383,7 @@ var_append () {
     local val=$*
     show "$val"
     write "$name += $val"
+    eval "$name=$name\ $(quote "$val")"
 }
 
 boolvar () {
@@ -367,6 +399,7 @@ boolvar () {
 }
 
 check_cxx () {
+    require "C++ Compiler"
     lookup "$force_paths" cxx force_CXX || :
     CXX=${force_CXX:-${CXX:-c++}}
     CXX=$(which "$CXX")
@@ -384,7 +417,7 @@ check_cxx () {
     local description=$($CXX --version 2>/dev/null)$($CXX --help 2>/dev/null)
     local version_string=$(echo "$description" | egrep -o '[0-9]+\.[0-9]+(\.[0-9]+)?'| head -n 1)
     local type=$(echo "$description" | egrep -io 'gcc|g\+\+|clang|icc' | head -n 1)
-    case "${type^^}" in
+    case "$(uc $type)" in
         GCC|G++) min_version=$min_gcc_version
                  type=GCC ;;
         CLANG) min_version=$min_clang_version ;;
@@ -395,15 +428,15 @@ check_cxx () {
            return
     esac
     if [[ -z "$version_string" ]]; then
-        show "${type^^} (unknown version)"
+        show "$(uc $type) (unknown version)"
         error "Could not determine C++ compiler version (>= $(write_version $min_version) required)"
         return
     else
-        test_version_gt ${type^^} $min_version $(read_version "$version_string") || return
+        test_version_gt $(uc $type) $min_version $(read_version "$version_string") || return
     fi
     
-    show "${type^^} $version_string ($CXX)"
-    var COMPILER "" "${type^^}"
+    show "$(uc $type) $version_string ($CXX)"
+    var COMPILER "" "$(uc $type)"
     var CXX "" "$CXX"
 }
 
@@ -459,6 +492,7 @@ lookup () {
 }
 
 check_bin () {
+    require_dep $bin
     if contains "$fetch_list" $1; then
         fetch_bin $1
         return
@@ -477,23 +511,23 @@ check_bin () {
             fetch_bin $1
             return
         else
-            not_found ${1^^}
+            not_found $(uc $1)
             return
         fi
     fi
-    var "${1^^}" "$bin"
+    var "$(uc $1)" "$bin"
 }
 
 fetch_bin () {
     show fetch
-    var ${1^^} "\$(TC_${1^^}_INT_EXE)"
+    macro $(uc $1) "\$(TC_$(uc $1)_INT_EXE)"
     fetch_list="$fetch_list $1"
 }
 
 fetch_lib () {
     show fetch
-    var_append LIBRARY_PATHS "\$(${1^^}_INT_LIB)"
-    var ${1^^} "\$(${1^^}_INT_LIB)"
+    var_append LIBRARY_PATHS "\$($(uc $1)_INT_LIB)"
+    macro $(uc $1) "\$($(uc $1)_INT_LIB)"
     fetch_list="$fetch_list $1"
 }
 
@@ -509,15 +543,41 @@ optional_dep () {
     optional $descr
 }
 
+lib_test_code=':~
+  ~boost_serialization:
+    #include <fstream>
+    #include <boost/archive/text_oarchive.hpp>
+    #include <boost/archive/text_iarchive.hpp>
+    int main () {
+      std::ofstream ofs("filename");
+      boost::archive::text_oarchive oa(ofs);
+      return 0;
+    }'
+
+lib_alias=':~
+  ~boost_serialization:boost_serialization-mt~'
+
 check_lib () {
-    # TODO: pkg_config, osx
+    require $1
+    delay_errors=true
+    local aliases
+    lookup "$lib_alias" $1 aliases || aliases=
+    for lib in $1 $aliases; do
+	check_single_lib $lib
+	$can_show || return
+    done
+    show_no
+}
+
+check_single_lib () {
+    # TODO: pkg_config
     local path
     if ! lookup "$force_paths" $1 path; then
         if contains "$fetch_list" $1; then
             fetch_lib $1
             return 0
         fi
-        path=$(ldconfig_lookup $1)
+        path=$(dynlib_lookup $1)
         if contains "$static_libs" $1; then
             local static_path="${path/.so/.a}"
             if [[ -e "$static_path" ]]; then
@@ -530,21 +590,69 @@ check_lib () {
                 fi
             fi
         elif [ -n "$path" ]; then
-            var_append RT_LDFLAGS "-l$1"
-        else
-            if contains "$support_deps" $1 && $allow_fetch; then
-                fetch_lib $1
-            else
-                error "library $1 not found"
-            fi
+            var_append LDFLAGS "-l$1"
+	else
+	    check_lib_compile $1
         fi
     else
         var_append LIBRARY_PATHS "$path"
     fi
 }
 
-ldconfig_lookup () {
-    which ldconfig >/dev/null && ldconfig -p | awk "/lib$1.so / { print \$NF }" | head -n 1
+check_lib_compile () {
+    local file=`dirname $0`/mk/gen/check_$1.cc
+    local code
+    lookup "$lib_test_code" $1 code
+    echo "$code" > "$file"
+    echo YAY
+    if $CXX ${CXXFLAGS:-} ${LDFLAGS:-} -l$1 "$file" -o "${file/.cc/.out}" 1>/dev/null 2>&1; then
+	var_append LDFLAGS -l$1
+    elif contains "$support_deps" $1 && $allow_fetch; then
+        fetch_lib $1
+    else
+        error "library $1 not found"
+    fi
+}
+
+dynlib_lookup () {
+    which ldconfig >/dev/null && ldconfig -p | awk "/lib$1.so / { print \$NF }" | head -n 1 && return
+    case $OS in
+	Darwin) lib_lookup $1 dylib ;;
+	*) lib_lookup $1 so ;;
+    esac
+}
+
+staticlib_lookup () {
+    lib_lookup $1 a && return 0
+    local f=$(dynlib_lookup)
+    test -f ${f%.*}.a && echo ${f%.*}.a && return 0
+    return 1
+}
+
+lib_lookup () {
+    for path in /lib /usr/lib /usr/local/lib; do
+	local l=$path/lib$1.$2
+	test -f $l && echo $l && return 0
+    done
+    return 1
+}
+
+if [ "0${BASH_VERSION%%.*}" -lt 4 ]; then
+    bash4=false
+else
+    bash4=true
+fi
+
+if $bash4; then
+    uc () { echo "${*^^}"; }
+    lc () { echo "${*,,}"; }
+else
+    uc () { echo "$*" | tr '[:lower:]' '[:upper:]'; }
+    lc () { echo "$*" | tr '[:upper:]' '[:lower:]'; }
+fi
+
+not () {
+    ! "$@"
 }
 
 main "$@" 3>/dev/null

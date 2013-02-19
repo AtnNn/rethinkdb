@@ -3,29 +3,31 @@
 ##### Generate ctags or etags file
 
 CTAGSPROG ?= ctags
-ETAGSPROG ?= $(CTAGSPROG) -e
+ETAGSPROG ?= etags
 
-TAGSFILE  ?= $/src/.tags
-ETAGSFILE ?= $/src/TAGS
+TAGSFILE  ?= $(TOP)/src/.tags
+ETAGSFILE ?= $(TOP)/src/TAGS
 
-TAGFLAGS ?= -R --c++-kinds=+p --fields=+iaS --extra=+q --langmap="c++:.cc.tcc.hpp"
+CTAGFLAGS ?= -R --c++-kinds=+p --fields=+iaS --extra=+q --langmap="c++:.cc.tcc.hpp"
 
 .PHONY: tags etags
 tags: $(TAGSFILE)
 etags: $(ETAGSFILE)
 
-$(TAGSFILE):
-	$P TAGS
-	$(CTAGSPROG) $(TAGFLAGS) -f $@ $/src
+$(TAGSFILE): FORCE
+	$P TAGS $@
+	$(CTAGSPROG) $(CTAGFLAGS) -f $@ $(TOP)/src
 
-$(ETAGSFILE):	
-	$P ETAGS
-	rm -f $(ETAGSFILE)
-	$(ETAGSPROG) $(TAGFLAGS) -f $(ETAGSFILE) $/src
+$(ETAGSFILE): FORCE
+	$P ETAGS $@
+	rm -rf $@
+	touch $@
+	find $(TOP)/src \( -name \*.hpp -or -name \*.cc -or -name \*.tcc \) -print0 \
+	  | xargs -0 $(ETAGSPROG) -l c++ -a -o $@
 
 ##### cscope
 
-CSCOPE_XREF ?= $/src/.cscope
+CSCOPE_XREF ?= $(TOP)/src/.cscope
 
 .PHONY: cscope
 cscope:
@@ -62,11 +64,11 @@ analyze: $(SOURCES)
 
 coffeelint:
 	$P COFFEELINT ""
-	-coffeelint -f $/scripts/coffeelint.json -r $/admin/
+	-coffeelint -f $(TOP)/scripts/coffeelint.json -r $(TOP)/admin/
 
 style: coffeelint
 	$P CHECK-STYLE ""
-	$/scripts/check_style.sh
+	$(TOP)/scripts/check_style.sh
 
 showdefines:
 	$P SHOW-DEFINES ""

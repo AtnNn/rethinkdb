@@ -1,7 +1,7 @@
 # Copyright 2010-2012 RethinkDB, all rights reserved.
 # Makefile for various bits of the javascript driver
 
-JS_DIR := $/drivers/javascript
+JS_DIR := $(TOP)/drivers/javascript
 
 CLOSURE_LIB := $(EXTERNAL_DIR)/google-closure-library/
 CLOSURE_BUILDER := $(CLOSURE_LIB)closure/bin/build/closurebuilder.py

@@ -2,8 +2,7 @@
 
 ##### Use bash
 
-ORIG_SHELL := $(SHELL)
-SHELL := /bin/bash
+SHELL := $(shell which bash)
 
 ##### Cancel builtin rules
 
@@ -15,15 +14,25 @@ SHELL := /bin/bash
 %: s.%
 %: SCCS/s.%
 
-##### useful variables
+##### Useful variables
 
-empty:=
-space=$(empty) $(empty)
-comma=,
+empty :=
+space := $(empty) $(empty)
+comma := ,
+hash  := \#
+dollar := \$
 define newline
 
 
 endef
+
+##### Special targets
+
+.PHONY: FORCE
+FORCE:
+
+var-%:
+	echo '$* = $($*)'
 
 ##### Pretty-printing
 
@@ -38,31 +47,49 @@ ANSI_UL_OFF:=[0m
 
 ##### Verbose or quiet?
 
-COUNTDOWN_JUST_COUNT ?= 0
-ifeq (1,$(COUNTDOWN_JUST_COUNT))
-  COUNTDOWN_TAG := !!!
-else ifeq (1,$(SHOW_COUNTDOWN))
-  COUNTDOWN_TOTAL := $(shell bash -c '$(MAKE) --dry-run COUNTDOWN_JUST_COUNT=1 $(MAKECMDGOALS) | grep "^   !!!" | wc -l' 2>/dev/null)
-  COUNTDOWN_I := 1
-  COUNTDOWN_TAG = [$(COUNTDOWN_I)/$(COUNTDOWN_TOTAL)]$(eval COUNTDOWN_I := $(shell expr $(COUNTDOWN_I) + 1))
-else
-  COUNTDOWN_TAG :=
-endif
+# Every recipe list should include at least one $P, for example:
+# 
+# foo: bar
+# 	$P ZAP
+# 	zap $< > $@
+#
+# When JUST_SCAN_MAKEFILES=1, the number of $P that need to be executed can be counted.
+# When VERBOSE=0, $P behaves similarly to @echo, it prints it's arguments.
+# When SHOW_COUNTDOWN=1, $P also prints the fraction of rules that have been built.
 
-ifneq ($(VERBOSE),1)
-  # Silence every rule
+JUST_SCAN_MAKEFILES ?= 0
+ifeq (1,$(JUST_SCAN_MAKEFILES))
+  # To calculate the number of $P, do make --dry-run JUST_SCAN_MAKEFILES=1 | grep '[!!!]' | wc -l
   .SILENT:
-  # $P traces the compilation when VERBOSE=0
-  # '$P CP' becomes 'echo "   CP $^ -> $@"'
-  # '$P foo bar' becomes 'echo "   FOO bar"'
-  P = +@bash -c 'prereq="$^"; echo "   $(COUNTDOWN_TAG) $${0^^} $${*:-$$prereq$${prereq:+ -> }$@}"'
+  P = [!!!]
 else
-  # Let every rule be verbose and make $P quiet
-  P := @\#
+  COUNTDOWN_TOTAL ?=
+  ifneq (,$(filter-out ? 0,$(COUNTDOWN_TOTAL)))
+    # $(COUNTDOWN_TOTAL) is calculated by $(TOP)/Makefile by running make with JUST_SCAN_MAKEFILES=1
+    COUNTDOWN_TOTAL ?= ?
+    COUNTDOWN_I := 1
+    COUNTDOWN_TAG = [$(COUNTDOWN_I)/$(COUNTDOWN_TOTAL)] $(eval COUNTDOWN_I := $(shell expr $(COUNTDOWN_I) + 1))
+  else
+    COUNTDOWN_TAG :=
+  endif
+
+  ifneq ($(VERBOSE),1)
+    # Silence every rule
+    .SILENT:
+    # $P traces the compilation when VERBOSE=0
+    # '$P CP' becomes 'echo "   CP $^ -> $@"'
+    # '$P foo bar' becomes 'echo "   FOO bar"'
+    # CHECK_ARG_VARIABLES comes from check-env.mk
+    P = +@bash -c 'prereq="$^"; echo "    $(COUNTDOWN_TAG)$$0 $${*:-$$prereq$${prereq:+ -> }$@}"'
+  else
+    # Let every rule be verbose and make $P quiet
+    P = @\#
+  endif
 endif
 
 ##### Timings
 
+# This is a small hack to support timings like the old Makefile did
 ifeq ($(TIMINGS),1)
   # Replace the default shell with one that times every command
   # This only useful with VERBOSE=1 and when the target is explicit:
@@ -72,9 +99,10 @@ endif
 
 ##### Directories
 
-# to make directories needed for a rule, use order-only dependencies
+# To make directories needed for a rule, use order-only dependencies
 # and append /. to the directory name. For example:
 # foo/bar: baz | foo/.
+# 	zap $< > $@
 %/.:
 	$P MKDIR
 	mkdir -p $@
@@ -83,11 +111,11 @@ endif
 
 .PHONY: sense
 sense:
-	@p=`cat $/mk/gen/.sense 2>/dev/null`;if test -n "$$p";then kill $$p;rm $/mk/gen/.sense;printf '\x1b[0m';\
+	@p=`cat $(TOP)/mk/gen/.sense 2>/dev/null`;if test -n "$$p";then kill $$p;rm $(TOP)/mk/gen/.sense;printf '\x1b[0m';\
 	echo "make: *** No sense make to Stop \`target'. rule.";\
 	else echo "make: *** No rule to make target \`sense'.";\
 	(while sleep 0.1;do a=$$[$$RANDOM%2];a=$${a/0/};printf "\x1b[$${a/1/1;}3$$[$$RANDOM%7]m";done)&\
-	echo $$! > $/mk/gen/.sense;fi
+	echo $$! > $(TOP)/mk/gen/.sense;fi
 
 .PHONY: love
 love:

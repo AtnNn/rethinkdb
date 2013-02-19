@@ -1,3 +1,2 @@
-/ ?=
-/ := $/../
-include $/Makefile
+TOP := ..
+include $(TOP)/Makefile
