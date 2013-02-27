@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 # Copyright 2010-2013 RethinkDB, all rights reserved.
 
+# TODO: comments
+
 set -u
 
 command_line_args="$*"
 
+# Lsits of dependencies and versions
 init () {
-    min_gcc_version=$(read_version 4.5.0)
+    min_gcc_version=$(read_version 4.4.3)
     min_clang_version=0
     min_icc_version=0
 
@@ -29,6 +32,7 @@ init () {
     allowed_arg_vars="CXXFLAGS LDFLAGS"
 }
 
+# The main configuration steps
 configure () {
     var CONFIGURE_COMMAND_LINE "$command_line_args"
     for var in $allowed_arg_vars; do
@@ -91,6 +95,7 @@ configure () {
     var LOCALSTATEDIR ${arg_localstatedir:-$PREFIX/var}
 }
 
+# Entry point
 main () {
     init
 
@@ -120,6 +125,7 @@ main () {
     
 }
 
+# Parse the command line arguments
 read_args () {
     local no_arg
     local has_arg
@@ -214,6 +220,7 @@ read_args () {
     done
 }
 
+# Description of some of the dependencies
 dep_descrs=':
 cxx:C++ Compiler
 protoc:Protobuf compiler
@@ -224,6 +231,7 @@ handlebars:Handlebars
 unwind:libunwind
 tcmalloc_mininaml:Google Perf Tools library'
 
+# Output of --help
 show_help () {
     cat <<EOF
 Configure a RethinkDB build from source
@@ -267,6 +275,7 @@ EOF
 EOF
 }
 
+# Quote for re-use in the shell
 quote () {
     printf %q "$1"
 }

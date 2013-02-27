@@ -108,7 +108,6 @@ deb-src-dir: dist-dir $(DSC_SUPPORT)
 	$P CP $(DSC_SUPPORT) $(DSC_PACKAGE_DIR)
 	$(foreach path,$(DSC_SUPPORT), \
 	  $(foreach dir,$(DSC_PACKAGE_DIR)/support/$(patsubst $(SUPPORT_DIR)/%,%,$(dir $(path))), \
-	    $P CP $(path) $(dir) $(newline) \
 	    mkdir -p $(dir) $(newline) \
 	    cp -pPR $(path) $(dir) $(newline) ))
 
@@ -277,6 +276,9 @@ osx:
 .PHONY: reset-dist-dir
 reset-dist-dir: FORCE
 	$P CP $(DIST_FILE_LIST) $(DIST_DIR)
+# TODO: use make clean instead of rm -rf and make -C ... clean
+	rm -rf $(PROTOC_JS_PLUGIN)
+	make -C $(TOP)/external/gtest-1.6.0/make clean
 	rm -rf $(DIST_DIR)
 	mkdir -p $(DIST_DIR)
 	cp -pRP $(DIST_FILE_LIST) $(DIST_DIR)
