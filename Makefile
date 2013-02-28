@@ -56,11 +56,11 @@ dump-db:
 	+@$(CHECK_ARG_VARIABLES)
 	+@$(MAKE_CMD_LINE) --print-data-base --question JUST_SCAN_MAKEFILES=1 || true
 
-# Require CHECK_ARG_VARIABLES
-include $(TOP)/mk/check-env.mk
-
 # Load the configuration
 include $(TOP)/mk/configure.mk
+
+# Require CHECK_ARG_VARIABLES
+include $(TOP)/mk/check-env.mk
 
 # Require pipe-stderr
 include $(TOP)/mk/pipe-stderr.mk
@@ -70,7 +70,7 @@ include $(TOP)/mk/pipe-stderr.mk
 
 ifeq (1,$(SHOW_COUNTDOWN))
   # See mk/lib.mk for JUST_SCAN_MAKEFILES
-  COUNTDOWN_TOTAL = $(shell $(MAKE_CMD_LINE) $(MAKE_GOALS) --dry-run JUST_SCAN_MAKEFILES=1 -j1 2>&1 | tee delme.log | grep "[!!!]" | wc -l 2>/dev/null)
+  COUNTDOWN_TOTAL = $(firstword $(shell MAKEFLAGS='$(MAKEFLAGS)' $(MAKE_CMD_LINE) $(MAKE_GOALS) --dry-run JUST_SCAN_MAKEFILES=1 -j1 2>&1 | grep "[!!!]" | wc -l 2>/dev/null))
 else
   COUNTDOWN_TOTAL :=
 endif

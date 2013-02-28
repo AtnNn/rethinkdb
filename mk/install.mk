@@ -75,7 +75,7 @@ INIT_SCRIPTS:=$(ASSETS_DIR)/init/rethinkdb
 install-binaries: $(BUILD_DIR)/$(SERVER_EXEC_NAME)
 	$P INSTALL $^ $(DESTDIR)$(bin_dir)
 	install -m755 -d $(DESTDIR)$(bin_dir)
-	install -m755 -T $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
+	install -m755 $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
 ifeq ($(STRIP_ON_INSTALL),1)
 	$P STRIP $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
 	strip --strip-unneeded $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
@@ -88,7 +88,7 @@ install-manpages: $(ASSETS_DIR)/man/rethinkdb.1
 	m4 -D "SHORT_VERSION=$(RETHINKDB_SHORT_VERSION)" \
 	   -D "CURRENT_DATE=$(shell date +%F)" \
 	   < $(ASSETS_DIR)/man/rethinkdb.1 | gzip -9 | \
-	   install -m644 -T /dev/stdin $(DESTDIR)$(man1_dir)/$(VERSIONED_PACKAGE_NAME).1.gz;
+	   install -m644 /dev/stdin $(DESTDIR)$(man1_dir)/$(VERSIONED_PACKAGE_NAME).1.gz
 
 .PHONY: install-tools
 install-tools: $(ASSETS_DIR)/scripts/rethinkdb.bash $(ASSET_SCRIPTS)
@@ -107,14 +107,14 @@ install-tools: $(ASSETS_DIR)/scripts/rethinkdb.bash $(ASSET_SCRIPTS)
 	for s in $(ASSET_SCRIPTS); do install -m755 "$$s" $(DESTDIR)$(scripts_dir)/$$(basename $$s); done
 	$P INSTALL $(INIT_SCRIPTS) $(DESTDIR)$(init_dir)
 	install -m755 -d $(DESTDIR)$(init_dir)
-	for s in $(INIT_SCRIPTS); do install -m755 "$$s" $(DESTDIR)$(init_dir)/$$(basename $$s); done ;
+	for s in $(INIT_SCRIPTS); do install -m755 "$$s" $(DESTDIR)$(init_dir)/$$(basename $$s); done
 
 .PHONY: install-config
 install-config:
 	$P INSTALL $(DESTDIR)$(conf_dir)/default.conf.sample
-	install -m755 -d $(DESTDIR)$(conf_dir) ;
-	install -m755 -d $(DESTDIR)$(conf_instance_dir) ;
-	install -m644 $(ASSETS_DIR)/config/default.conf.sample $(DESTDIR)$(conf_dir)/default.conf.sample ;
+	install -m755 -d $(DESTDIR)$(conf_dir)
+	install -m755 -d $(DESTDIR)$(conf_instance_dir)
+	install -m644 $(ASSETS_DIR)/config/default.conf.sample $(DESTDIR)$(conf_dir)/default.conf.sample
 
 .PHONY: install-data
 install-data:
@@ -133,7 +133,7 @@ install-web: web-assets
 install-docs:
 	$P INSTALL $(ASSETS_DIR)/docs/LICENSE $(DESTDIR)$(doc_dir)/copyright
 	install -m755 -d $(DESTDIR)$(doc_dir)
-	install -m644 -T $(ASSETS_DIR)/docs/LICENSE $(DESTDIR)$(doc_dir)/copyright
+	install -m644 $(ASSETS_DIR)/docs/LICENSE $(DESTDIR)$(doc_dir)/copyright
 
 .PHONY: install
 install: install-binaries install-manpages install-docs install-tools install-web install-data install-config

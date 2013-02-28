@@ -14,6 +14,8 @@ allowed-variables :=
 -include $(TOP)/mk/gen/allowed-variables.mk
 allowed-variables += WAY TOP CWD NO_CONFIGURE JUST_SCAN_MAKEFILES
 
+STRICT_MAKE_VARIABLE_CHECK ?= 0
+
 # CHECK_ARG_VARIABLES checks the variables set on the command line for unknown variables
 # These variables are retrieved from MAKEFLAGS within a recipe
 # CHECK_ARG_VARIABLES is used by $(TOP)/Makefile
