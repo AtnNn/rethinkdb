@@ -30,20 +30,18 @@ endif
 
 # We have facilities for converting between toy names and Debian release numbers.
 
-DEB_NUM_TO_TOY := sed -e 's/^1$$/buzz/g' -e 's/^2$$/rex/g' -e 's/^3$$/bo/g' -e 's/^4$$/hamm/g' -e 's/^5$$/slink/g' -e 's/^6$$/potato/g' -e 's/^7$$/woody/g' -e 's/^8$$/sarge/g' -e 's/^9$$/etch/g' -e 's/^10$$/lenny/g' -e 's/^11$$/squeeze/g' -e 's/^12$$/wheezy/g' -e 's/^13$$/jessie/g'
-DEB_TOY_TO_NUM := sed -e 's/^buzz$$/1/g' -e 's/^rex$$/2/g' -e 's/^bo$$/3/g' -e 's/^hamm$$/4/g' -e 's/^slink$$/5/g' -e 's/^potato$$/6/g' -e 's/^woody$$/7/g' -e 's/^sarge$$/8/g' -e 's/^etch$$/9/g' -e 's/^lenny$$/10/g' -e 's/^squeeze$$/11/g' -e 's/^wheezy$$/12/g' -e 's/^jessie$$/13/g'
-DEB_NUM_MAX := 13
+deb-release-numbers := 1:buzz 2:rex 3:bo 4:hamm 5:slink 6:potato 7:woody 8:sarge 9:etch 10:lenny 11:squeeze 12:wheezy 13:jessie
+deb-num-to-toy = $(patsubst $1:%,%,$(filter $1:%,$(deb-release-numbers)))
+deb-toy-to-num = $(patsubst %:$1,%,$(filter %:$1,$(deb-release-numbers)))
 
 # We can accept a toy name via DEB_RELEASE or a number via DEB_NUM_RELEASE.
 # Note that the numeric release does not correspond to the Debian version but to the sequence of major releases. Version 1.3 is number 3, and version 2 is number 4.
 # DEB_REAL_NUM_RELEASE is a scrubbed version of DEB_NUM_RELEASE.
-# In order to provide bijective mappings, we must reject numbers that are out of bounds. So we accept 1 (buzz) to 13 (jessie) at this time.
 
-DEB_RELEASE_NUM := $(shell echo "$(DEB_RELEASE)" | $(DEB_TOY_TO_NUM) | grep '^[0-9]*$$')
-DEB_REAL_NUM_RELEASE := $(shell echo "$(DEB_RELEASE_NUM)" | grep '^[0-9]*$$' | awk '{ if ( ( NF >= 1 ) && ( $$1 >=1 ) && ( $$1 <= 13 ) ) { printf "%d" , $$1 ; } }' )
+DEB_RELEASE_NUM := $(call deb-toy-to-num,$(DEB_RELEASE))
 
-ifneq ($(DEB_RELEASE_NUM),)
-  ifeq ($(DEB_REAL_NUM_RELEASE),)
+ifneq ($(DEB_RELEASE),)
+  ifeq ($(DEB_RELEASE_NUM),)
     $(warning The Debian version specification is invalid. We will ignore it.)
   endif
   ifneq ($(UBUNTU_RELEASE),)
@@ -82,6 +80,9 @@ ifeq ($(BUILD_PORTABLE),1)
 
   DSC_CUSTOM_MK_LINES := 'BUILD_PORTABLE := 1'
   DSC_CUSTOM_MK_LINES := 'CONFIGURE_FLAGS += --disable-drivers'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += --prefix=/usr'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += --sysconfdir=/etc'
+  DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += --localstatedir=/var'
   DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += V8=$(CWD)/$(V8_INT_LIB)'
   DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += PROTOC=$(CWD)/$(TC_PROTOC_INT_EXE)'
   DSC_CUSTOM_MK_LINES += 'CONFIGURE_FLAGS += TCMALLOC_MINIMAL=$(CWD)/$(TCMALLOC_MINIMAL_INT_LIB)'
@@ -201,14 +202,12 @@ deb: prepare_deb_package_dirs
 	$(MAKE) WAY=deb
 	for deb_name in $(PACKAGES_DIR)/*.deb; do \
 	  if [ $(LINTIAN) = 1]; then \
-	    $P LINTIAN $$deb_name ; \
 	    lintian --color auto --suppress-tags "no-copyright-file,$(subst $(space),$(comma),$(SUPPRESSED_LINTIAN_TAGS))" $${deb_name} || true ; \
 	  fi \
-	  $P DEB $$deb_name
 	done
 
 .PHONY: build-rpm
-build-rpm: all prepare_rpm_package_dirs install-rpm
+build-rpm: prepare_rpm_package_dirs install-rpm
 	$P M4 $(RPM_SPEC_INPUT) $(RPM_SPEC_FILE)
 	m4 -D "RPM_PACKAGE_DIR=`readlink -f $(RPM_PACKAGE_DIR)`" \
 	   -D "SERVER_EXEC_NAME=$(SERVER_EXEC_NAME)" \
@@ -245,7 +244,6 @@ rpm:
 	for f in $(RPM_PACKAGE_DIR)/RPMS/$(GCC_ARCH_REDUCED)/*.rpm; do \
 			rpm_name=$(PACKAGES_DIR)/$$(basename $$f) ; \
 			mv $$f $$rpm_name ; \
-			$P RPM $$rpm_name ; \
 		done
 
 .PHONY: rpm-suse10

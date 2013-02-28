@@ -12,13 +12,14 @@ $(TOP)/mk/gen/allowed-variables.mk: $(TOP)/mk/way/default.mk
 
 allowed-variables :=
 -include $(TOP)/mk/gen/allowed-variables.mk
+allowed-variables += WAY TOP CWD NO_CONFIGURE JUST_SCAN_MAKEFILES
 
 # CHECK_ARG_VARIABLES checks the variables set on the command line for unknown variables
 # These variables are retrieved from MAKEFLAGS within a recipe
 # CHECK_ARG_VARIABLES is used by $(TOP)/Makefile
 CHECK_ARG_VARIABLES = $(eval $(value CHECK_ARG_VARIABLES_RUN))
 define CHECK_ARG_VARIABLES_RUN
-  arg-variables := $(filter-out =%,$(subst =, =,$(filter-out -%,$(MAKEFLAGS))))
+  arg-variables := $(patsubst %=,%,$(filter %=,$(subst =,= ,$(filter-out -%,$(MAKEFLAGS)))))
   ifneq (,$(allowed-variables))
     remaining-variables := $(filter-out $(allowed-variables),$(arg-variables))
     ifneq (,$(remaining-variables))

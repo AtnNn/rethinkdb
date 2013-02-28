@@ -45,10 +45,7 @@ default: make
 .PHONY: make
 make:
 	@$(CHECK_ARG_VARIABLES)
-	+@ $(call pipe-stderr, \
-	      $(MAKE_CMD_LINE) COUNTDOWN_TOTAL=$(COUNTDOWN_TOTAL) $(MAKE_GOALS), \
-	      grep -v 'warning: -jN forced in submake: disabling jobserver mode') \
-	  || true
+	+@$(MAKE_CMD_LINE) COUNTDOWN_TOTAL=$(COUNTDOWN_TOTAL) $(MAKE_GOALS)
 
 %: make
 	@true
@@ -73,7 +70,7 @@ include $(TOP)/mk/pipe-stderr.mk
 
 ifeq (1,$(SHOW_COUNTDOWN))
   # See mk/lib.mk for JUST_SCAN_MAKEFILES
-  COUNTDOWN_TOTAL = $(shell MAKEFLAGS= $(MAKE_CMD_LINE) $(MAKE_GOALS) --dry-run JUST_SCAN_MAKEFILES=1 -j1 | grep "[!!!]" | wc -l 2>/dev/null)
+  COUNTDOWN_TOTAL = $(shell $(MAKE_CMD_LINE) $(MAKE_GOALS) --dry-run JUST_SCAN_MAKEFILES=1 -j1 2>&1 | tee delme.log | grep "[!!!]" | wc -l 2>/dev/null)
 else
   COUNTDOWN_TOTAL :=
 endif

@@ -124,12 +124,12 @@ else ifeq ($(COMPILER), GCC)
 endif
 
 ifeq ($(COVERAGE), 1)
-#  ifeq ($(COMPILER), GCC)
-    RT_CXXFLAGS+=--coverage
-    RT_LDFLAGS+=--coverage
-#  else
-#    $(error COVERAGE=1 not yet supported for $(COMPILER))
-#  endif
+  ifeq ($(COMPILER), GCC)
+    RT_CXXFLAGS += --coverage
+    RT_LDFLAGS += --coverage
+  else
+    $(error COVERAGE=1 not yet supported for $(COMPILER))
+  endif
 endif
 
 ifeq ($(AGRESSIVE_BUF_UNLOADING),1)
@@ -167,21 +167,21 @@ ifeq ($(DEBUG),1)
 else # ifeq ($(DEBUG),1)
   # use -fno-strict-aliasing to not break things
   # march=native used to break the serializer
-  RT_CXXFLAGS+=-O3 -DNDEBUG -fno-strict-aliasing # -march=native
+  RT_CXXFLAGS += -O3 -DNDEBUG -fno-strict-aliasing # -march=native
   # TODO: remove this once memcached is added back in the release
   # (disables memcached from showing up in the admin CLI help or tab-completion)
-  RT_CXXFLAGS+=-DNO_MEMCACHE
+  RT_CXXFLAGS += -DNO_MEMCACHE
   ifeq ($(NO_OMIT_FRAME_POINTER),1)
-    RT_CXXFLAGS+=-fno-omit-frame-pointer
+    RT_CXXFLAGS += -fno-omit-frame-pointer
   endif
 endif # ifeq ($(DEBUG),1)
 
 ifeq ($(DISABLE_BREAKPOINTS),1)
-  RT_CXXFLAGS+=-DDISABLE_BREAKPOINTS
+  RT_CXXFLAGS += -DDISABLE_BREAKPOINTS
 endif
 
 ifeq (${STATIC_LIBGCC},1)
-  RT_LDFLAGS+=-static-libgcc -static-libstdc++
+  RT_LDFLAGS += -static-libgcc -static-libstdc++
 endif
 
 ifeq ($(OPROFILE),1)
