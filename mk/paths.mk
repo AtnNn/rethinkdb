@@ -57,8 +57,6 @@ ifeq ($(BUILD_DIR),)
   BUILD_DIR := $(subst $(space),_,$(BUILD_DIR))
 endif
 
-$(info BUILD_DIR: $(BUILD_DIR))
-
 GDB_FUNCTIONS_NAME := rethinkdb-gdb.py
 
 PACKAGE_NAME := $(VANILLA_PACKAGE_NAME)

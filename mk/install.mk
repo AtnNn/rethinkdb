@@ -71,6 +71,12 @@ INIT_SCRIPTS:=$(ASSETS_DIR)/init/rethinkdb
 
 ##### Install
 
+ifeq ($(OS),Darwin)
+  STRIP_UNNEEDED := strip -u -r
+else
+  STRIP_UNNEEDED := strip --strip-unneeded
+endif
+
 .PHONY: install-binaries
 install-binaries: $(BUILD_DIR)/$(SERVER_EXEC_NAME)
 	$P INSTALL $^ $(DESTDIR)$(bin_dir)
@@ -78,7 +84,7 @@ install-binaries: $(BUILD_DIR)/$(SERVER_EXEC_NAME)
 	install -m755 $(BUILD_DIR)/$(SERVER_EXEC_NAME) $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
 ifeq ($(STRIP_ON_INSTALL),1)
 	$P STRIP $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
-	strip --strip-unneeded $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
+	$(STRIP_UNNEEDED) $(DESTDIR)$(FULL_SERVER_EXEC_NAME_VERSIONED)
 endif
 
 .PHONY: install-manpages
