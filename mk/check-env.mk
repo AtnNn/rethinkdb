@@ -12,7 +12,7 @@ $(TOP)/mk/gen/allowed-variables.mk: $(TOP)/mk/way/default.mk
 
 allowed-variables :=
 -include $(TOP)/mk/gen/allowed-variables.mk
-allowed-variables += WAY TOP CWD NO_CONFIGURE JUST_SCAN_MAKEFILES
+allowed-variables += WAY TOP CWD NO_CONFIGURE JUST_SCAN_MAKEFILES COUNTDOWN_TOTAL
 
 STRICT_MAKE_VARIABLE_CHECK ?= 0
 
@@ -28,7 +28,7 @@ define CHECK_ARG_VARIABLES_RUN
       ifeq (1,$(STRICT_MAKE_VARIABLE_CHECK))
         $(error Possibly unknown variables: $(remaining-variables))
       else
-        $(warning Possibly unknown variables: $(remaining-variables))
+        $(info make: Possibly unknown variables: $(remaining-variables))
       endif
     endif
   endif
@@ -63,7 +63,7 @@ define check-env-check
         ifeq (1,$(STRICT_MAKE_VARIABLE_CHECK))
           $(error Possibly unknown variables defined in $(checked-makefiles): $(remaining-variables))
         else
-          $(warning Possibly unknown variables defined in $(checked-makefiles): $(remaining-variables))
+          $(info make: Possibly unknown variables defined in $(checked-makefiles): $(remaining-variables))
         endif
       endif
     endif

@@ -6,6 +6,9 @@ DIST_PACKAGE_TGZ := $(PACKAGES_DIR)/$(PACKAGE_NAME)-$(RETHINKDB_VERSION).tgz
 DSC_PACKAGE_DIR := $(PACKAGES_DIR)/dsc
 RPM_PACKAGE_DIR := $(PACKAGES_DIR)/rpm
 DEB_PACKAGE_DIR := $(PACKAGES_DIR)/deb
+OSX_PACKAGE_DIR := $(PACKAGES_DIR)/osx
+OSX_PACKAGING_DIR := $(PACKAGING_DIR)/osx
+
 
 RPM_SPEC_INPUT := $(PACKAGING_DIR)/rpm.spec
 DEBIAN_PKG_DIR := $(PACKAGING_DIR)/debian
@@ -252,18 +255,19 @@ rpm-suse10:
 	$(MAKE) WAY=rpm-suse10
 
 .PHONY: install-osx
-install-osx: DESTDIR = $(PACKAGING_DIR)/osx/pkg
 install-osx: install-binaries install-web
 
 .PHONY: build-osx
+build-osx: DESTDIR = $(OSX_PACKAGE_DIR)/pkg
 build-osx: install-osx
-	mkdir -p $(TOP)/build/packaging/osx/install
-	pkgbuild --root $(TOP)/build/packaging/osx/pkg --identifier rethinkdb $(TOP)/build/packaging/osx/install/rethinkdb.pkg
-	productbuild --distribution $(TOP)/packaging/osx/Distribution.xml --package-path $(TOP)/build/packaging/osx/install/ $(TOP)/build/packaging/osx/dmg/rethinkdb.pkg
+	mkdir -p $(OSX_PACKAGE_DIR)/install
+	pkgbuild --root $(OSX_PACKAGE_DIR)/pkg --identifier rethinkdb $(OSX_PACKAGE_DIR)/install/rethinkdb.pkg
+	mkdir $(OSX_PACKAGE_DIR)/dmg
+	productbuild --distribution $(OSX_PACKAGING_DIR)/Distribution.xml --package-path $(OSX_PACKAGE_DIR)/install/ $(OSX_PACKAGE_DIR)/dmg/rethinkdb.pkg
 # TODO: the PREFIX should not be hardcoded in the uninstall script
-	cp $(TOP)/packaging/osx/uninstall-rethinkdb.sh $(TOP)/build/packaging/osx/dmg/uninstall-rethinkdb.sh
-	chmod +x $build/packaging/osx/dmg/uninstall-rethinkdb.sh
-	hdiutil create -volname RethinkDB -srcfolder $(TOP)/build/packaging/osx/dmg -ov $(TOP)/build/packaging/osx/rethinkdb.dmg
+	cp $(OSX_PACKAGING_DIR)/uninstall-rethinkdb.sh $(OSX_PACKAGE_DIR)/dmg/uninstall-rethinkdb.sh
+	chmod +x $(OSX_PACKAGE_DIR)/dmg/uninstall-rethinkdb.sh
+	hdiutil create -volname RethinkDB -srcfolder $(OSX_PACKAGE_DIR)/dmg -ov $(OSX_PACKAGE_DIR)/rethinkdb.dmg
 
 .PHONY: osx
 osx:
