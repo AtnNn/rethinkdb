@@ -1,11 +1,7 @@
-machine:
-  timezone:
-    America/Los_Angeles
-
 dependencies:
-  cache_directories:
-    - "build"
-    - "external"
+  override:
+    - sudo apt-get update
+    - sudo apt-get install -y build-essential libboost-all-dev libjemalloc-dev m4
 
 general:
   branches:
@@ -15,9 +11,9 @@ general:
 test:
   pre:
     - nproc
-    - ./configure
+    - ./configure --fetch browserify --fetch coffee --continue
     - make -j 3
   override:
-    - test/run -j 4 unit
+    - test/run -j 6 unit
   post:
     - cp test/results/*/test_results.html "$CIRCLE_ARTIFACTS"
