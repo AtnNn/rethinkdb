@@ -1,7 +1,7 @@
 dependencies:
   override:
     - sudo apt-get update
-    - sudo apt-get install -y build-essential libboost-all-dev libjemalloc-dev m4
+    - sudo apt-get install -q -y build-essential m4
 
 general:
   branches:
@@ -11,8 +11,8 @@ general:
 test:
   pre:
     - nproc
-    - ./configure --fetch browserify --fetch coffee --continue
-    - make -j 3
+    - ./configure --fetch browserify --fetch coffee --fetch jemalloc --continue
+    - make -j 3 -k ALLOW_WARNINGS=1
   override:
     - test/run -j 6 unit
   post:
