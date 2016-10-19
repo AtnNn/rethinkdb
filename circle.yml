@@ -1,7 +1,12 @@
 dependencies:
+  cache_directories:
+    - external
+    - build
   override:
     - sudo apt-get update -qq
     - sudo apt-get install -q -y build-essential m4 libboost-dev
+    - ./configure --fetch browserify --fetch coffee --fetch jemalloc --continue
+    - make -j 3 -k ALLOW_WARNINGS=1
 
 general:
   branches:
@@ -9,11 +14,13 @@ general:
       - test-circleci
 
 test:
-  pre:
-    - nproc
-    - ./configure --fetch browserify --fetch coffee --fetch jemalloc --continue
-    - make -j 3 -k ALLOW_WARNINGS=1
   override:
-    - test/run -j 6 unit
-  post:
+    - nproc
+    - "test(){ $@ }; test":
+      parallel: true
+      files:
+        - test/run -j 4 unit
+        - test/rql_test/test-runner -j 4 -i py
+        - test/rql_test/test-runner -j 4 -i rb
+        - test/rql_test/test-runner -j 4 -i js
     - cp test/results/*/test_results.html "$CIRCLE_ARTIFACTS"
