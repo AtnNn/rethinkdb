@@ -6,7 +6,10 @@ from __future__ import print_function
 
 from argparse import ArgumentParser
 from os.path import abspath, join, dirname, pardir, getmtime, relpath
-import curses
+try:
+    import curses
+except ImportError:
+    pass
 import fcntl
 import fnmatch
 import math
