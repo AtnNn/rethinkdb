@@ -16,11 +16,8 @@ general:
 test:
   override:
     - nproc
-    - "test(){ $@ }; test" :
-        parallel: true
-        files:
-          - test/run -j 4 unit
-          - test/rql_test/test-runner -j 4 -i py
-          - test/rql_test/test-runner -j 4 -i rb
-          - test/rql_test/test-runner -j 4 -i js
+    - test/run -j 4 unit
+    - test/rql_test/test-runner -j 4 -i py
+    - test/rql_test/test-runner -j 4 -i rb
+    - test/rql_test/test-runner -j 4 -i js
     - cp test/results/*/test_results.html "$CIRCLE_ARTIFACTS"
