@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-02) 19 : 05 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161399999"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5039#issuecomment-161399999"
+  , issueCommentCreatedAt = 2015 (-12) (-02) 19 : 05 : 10 UTC
+  , issueCommentBody =
+      "@mshi you mentioned that you rewrote the query containing:\r\n\r\n> `doc('userid').match(\"(?i)\"+req.params.user_name)`\r\n\r\nBut I'd like to mention for anyone reading that this is not a good security practice. It allows a user to inject their own regex into the search to modify which results come back. For example, `req.params.user_name` was `.*`.\r\n\r\nA more secure (and faster) way to do this would be to create an index like:\r\n\r\n```js\r\nr.table('users').indexCreate('lowercaseUserid', function(doc){\r\n    return doc('userid').downcase().or(doc('name').downcase())\r\n})\r\n```\r\nthen you can query it with:\r\n```js\r\nvar userid = r.expr(req.params.user_name).downcase()\r\nr.table('users').getAll(userid, {index: 'lowercaseUserid'})\r\n```\r\n"
+  , issueCommentId = 161399999
+  }

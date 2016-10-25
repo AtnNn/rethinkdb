@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-10) 19 : 30 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 856748
+        , simpleUserLogin = N "Cherry"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/856748?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Cherry"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139338527"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4823#issuecomment-139338527"
+  , issueCommentCreatedAt = 2015 (-09) (-10) 18 : 38 : 36 UTC
+  , issueCommentBody =
+      "Thanks for follow-up @danielmewes!\r\n\r\nWe're not doing any meta operations in real-time, no. We do have a handful of secondary indexes (5) but these aren't ever created/destroyed in our code-base automatically, and the same for table creates/destroys.\r\n\r\nIn regards to queries, we do a very large number of reads almost constantly, and only ever single document writes. RethinkDB powers our core internal API, which can push about 5000rpm, the majority of which would interface with RethinkDB in some mechanism.\r\nWe do a lot of reads on large data sets (one 3M+) using secondary indexes, and then a lot of joins, etc between various tables using filters and such where necessary. Changefeeds aren't used yet. Here's a quick example of what our WebUI generally looks like: http://jross.me/l/maux5\r\n\r\nThe machine running our DB sports 16GB of ECC RAM, and an E5-1650 v3 (6 physical cores, 12 threads). All RethinkDB data sits on a 240GB SSD. Swap is currently configured at 8GB and completely empty. The OS is on a 1TB HDD.\r\n\r\nI'll watch for the next time this happens and try to get some more statistics on RAM usage, CPU, swap, etc. Thanks for your help!"
+  , issueCommentId = 139338527
+  }

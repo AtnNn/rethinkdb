@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-25) 05 : 35 : 51 UTC
+  , issueUpdatedAt = 2015 (-06) (-25) 07 : 38 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4446/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4446"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4446
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3020137
+        , simpleUserLogin = N "Gesias"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3020137?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Gesias"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Server result json returning hexvalues"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4446"
+  , issueCreatedAt = 2015 (-06) (-24) 10 : 01 : 35 UTC
+  , issueBody =
+      Just
+        "Hello!\r\n\r\nJust wondering if someone else has come across this issue. I am running rethinkdb 2.0.2 with pythonclient and using Celery to handle some parsing of documents. Everything is running on OSX yosemite. \r\n\r\nI am also investigating Celery for this, since it works if I have only one worker thread per process. I can have multiple processes running in parallell as long as each process only has one worker. If I have two workers attached to the same process, this behavior appears. So, this most likely is not rethinkdb:s fault, rather a behavior maybe someone with more core rethinkdb knowledge may be able to help me solving or give me some ideas.\r\n\r\nWhen I get the Response from the rethinkdb server it sometimes adds hexcodes in front of or after the string which ruins the decoding.  \r\n\r\nHeres an example of the response, I\180ve digested the last document to make it less verbose.\r\n```\r\n{\"deleted\":0,\"errors\":0,\"inserted\":0,\"replaced\":1,\"skipped\":0,\"unchanged\":0}],\"n\":[]}\\t\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x81\\t\\x00\\x00\r\n\r\n\\x03\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\t\\x00\\x00{\"t\":2,\"r\":[{\"brand_id\":\"5dffbcfe-9cf7-444b-8f00-daf42d502335\",\"category_id\":\"5986cb82-b9c4-4afe-aab8-fcf300bda7e5\"}]\r\n````\r\nThis obviously gives me issues like this\r\n```\r\nFile \"/Users/someuser/PycharmProjects/gambit/lib/python2.7/site-packages/rethinkdb/net.py\", \r\nline 84, in __init__ \r\njson_str = json_str.decode('utf-8')\r\nFile \"/Users/someuser/PycharmProjects/gambit/lib/python2.7/encodings/utf_8.py\", \r\nline 16, in decode return codecs.utf_8_decode(input, errors, True)\r\nUnicodeDecodeError: 'utf8' codec can't decode byte 0xf0 in position 8: \r\ninvalid continuation byte\r\n```\r\nor this\r\n````\r\n  File \"/Users/someuser/PycharmProjects/gambit/lib/python2.7/site-packages/rethinkdb/net.py\", line 88, in __init__\r\n    full_response = json.loads(json_str)\r\n  File \"/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/json/__init__.py\", line 338, in loads\r\n    return _default_decoder.decode(s)\r\n  File \"/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/json/decoder.py\", line 368, in decode\r\n    raise ValueError(errmsg(\"Extra data\", s, end, len(s)))\r\nValueError: Extra data: line 1 column 2513 - line 1 column 2534 (char 2512 - 2533)\r\n````\r\n\r\nVery grateful for any theories or ideas about this! "
+  , issueState = "closed"
+  , issueId = Id 90630164
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

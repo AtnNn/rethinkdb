@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-09) (-11) 01 : 43 : 21 UTC
+  , issueUpdatedAt = 2013 (-10) (-05) 02 : 01 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1403/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1403"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1403
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Server unusually slow when processing large expressions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1403"
+  , issueCreatedAt = 2013 (-09) (-05) 03 : 21 : 07 UTC
+  , issueBody =
+      Just
+        "I ran the following tests using the Python driver:\r\n\r\n```python\r\ndef timeit(l):\r\n    a = time.time()\r\n    l()\r\n    print(\"{}\".format(time.time() - a))\r\n\r\ndocs = [ { 'val': i, 'count': 8, 'data': [ 1, 2, 3, 4, 5 ] * 20 } for i in range(10000) ]\r\n\r\ntimeit(lambda: json.loads(json.dumps(docs)))\r\n=> 0.415936946869\r\n\r\ntimeit(lambda: r.json(json.dumps(docs)).do(lambda x: 1).run())\r\n=> 101.72\r\n```\r\n\r\nWhen I look at `top` output during this process, the client is done almost instantaneously, but the server is stuck with 100% CPU utilization for over a hundred seconds. My suspicion is that the problem is in json parsing, or datum construction, or some such.\r\n\r\nThis was encountered by a user (https://gist.github.com/coffeemug/6444786#comment-900775) so it's something we should fix."
+  , issueState = "closed"
+  , issueId = Id 19021185
+  , issueComments = 37
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 50
+          , milestoneClosedIssues = 52
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.10.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/50"
+          , milestoneCreatedAt = 2013 (-09) (-26) 04 : 11 : 33 UTC
+          , milestoneState = "closed"
+          }
+  }

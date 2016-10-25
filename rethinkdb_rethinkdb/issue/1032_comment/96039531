@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 19 : 14 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/96039531"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-96039531"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 19 : 14 : 03 UTC
+  , issueCommentBody =
+      "@stuartpb The idea behind allowing `null` in secondary indexes is that we want an indexed `orderBy({index: ...})` or a `getAll` to behave the same way as its un-indexed equivalents `orderBy` and `filter({a: x})`. That will allow us to automatically use indexes if they are available in the future.\r\n\r\nWe could allow such a special value `r.dontIndex` as a return value of an index function, as long as we don't allow it to appear in any other result or document.\r\n\r\nAt the moment this isn't necessary, because we currently swallow errors that happen in secondary index functions anyway, so the effect of using `r.error` is the same as what that special value would do.\r\n\r\nUs not passing up errors in secondary index functions has two reasons at least:\r\n* If you create an index over a field that only exists in some documents, you usually don't want the index creation to fail if there's some document in the table that doesn't have that field.\r\n* If you update or insert an document such that its new value causes an error in the secondary index function, we currently don't have a great way for reporting that error in the query result. We cannot make the full query fail because a) this would probably be undesired and b) the way secondary index updates are implemented at the time they are evaluated the update might already have been applied to other indexes (including the main tree). We could probably change the latter part by evaluating sindex functions *before* writing anything, but I'm not sure if we want to.\r\n\r\nWe could add a new `sindex_errors` field to the result of write operations where we aggregate all errors that occurred while evaluating the secondary index functions on the changed object. This might be useful for debugging. I'll open a new issue to discuss that."
+  , issueCommentId = 96039531
+  }

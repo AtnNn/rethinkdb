@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-27) 03 : 57 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115953500"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4450#issuecomment-115953500"
+  , issueCommentCreatedAt = 2015 (-06) (-27) 03 : 57 : 24 UTC
+  , issueCommentBody =
+      "@cyounkins -- I'm having some trouble reproducing this.\r\n\r\nI'm setting up the table like so:\r\n```rb\r\nr.table_create('test').run\r\nr.table('test').index_create('time').run\r\narr = []\r\n(0...25000000).each {|i|\r\n  arr << {id: i, time: r.epoch_time(i)}\r\n  if arr.size >= 1000\r\n    r.table('test').insert(arr).run(durability: 'soft')\r\n    PP.pp i\r\n    arr = []\r\n  end\r\n}\r\n```\r\n\r\nThen I'm inserting documents like so in a loop:\r\n```rb\r\nwhile true\r\n  (0...25).each {|x|\r\n    r.table('test').insert({time: r.now}).run(noreply: true)\r\n  }\r\n  sleep 1\r\nend\r\n```\r\n\r\nAnd running the following query:\r\n```js\r\nr.table('test')\r\n    .between(r.minval, r.now(), { index: 'time' })\r\n    .orderBy({ index: r.asc('time') })\r\n    .limit(100)\r\n    .delete()\r\n```\r\n\r\nAnd I'm always seeing the following return value:\r\n```\r\n{\r\n\"deleted\": 100 ,\r\n\"errors\": 0 ,\r\n\"inserted\": 0 ,\r\n\"replaced\": 0 ,\r\n\"skipped\": 0 ,\r\n\"unchanged\": 0\r\n}\r\n```\r\n\r\nI have one node with one shard and only the primary replica.\r\n\r\nIs that the behavior you see as well with the same setup?\r\n\r\n(I *can* reproduce the behavior you see if I run two concurrent delete queries.  Is there any chance there's a second copy of your script running somewhere by accident?)"
+  , issueCommentId = 115953500
+  }

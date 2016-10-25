@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-16) 00 : 33 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 265071
+        , simpleUserLogin = N "kofalt"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/265071?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kofalt"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67093375"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3438#issuecomment-67093375"
+  , issueCommentCreatedAt = 2014 (-12) (-16) 00 : 33 : 10 UTC
+  , issueCommentBody =
+      "@grandquista\r\n> As long as JSON cannot contain function representations it would be impossible for it to describe a class in Ruby, JavaScript, and Lua... To correctly change the shape of a query in ReQL the attacker would need control of both the JSON input and the JSON parser.\r\n\r\nThat's a great narrowing of the attack surface (for those drivers), thank you.\r\n\r\nIf what you're saying is accurate, I believe that exonerates the [gorethink](https://github.com/dancannon/gorethink) driver as well, as the general case of [JSON unmarshaling](http://golang.org/pkg/encoding/json/#Unmarshal) only supports bool, float, string, array, map, and nil types. I'll have to look more into the particulars to confirm, for example when target structs get involved.\r\n\r\n> Adding a modified timestamp should be possible with server side commands.\r\n\r\nCorrect. I was trying to demonstrate a scenario where an RDB client would want to manipulate untrusted data in some way before sending it off to RDB. Mentally substitute a better scenario :)\r\n\r\n\r\n@danielmewes\r\n> If the user is able to pass in an object where the developer expected them to pass in for example a string, the RethinkDB driver might interpret the argument as a set of opt args rather than an argument to the query, which can potentially make the query behave in a pretty different way than what the developer had in mind.\r\n\r\nThis confirms what I was thinking in the general case, which seems to indicate a clear need for something that can indicate to the query tree not to (further) interpret an input. The alternative being developer-written type-checking of various inputs, which is forgetfulness-prone & feels awkward to me.\r\n\r\n> I actually think something like a r.const(...) term would make a lot of sense. Basically it would make sure that everything inside that term must be a constant datum, and cannot contain any other (dynamic) ReQL terms.... I opened #3439 specifically for the r.const() proposal.\r\n\r\nThat would be excellent, even if it turns out to not be necessary in some cases.\r\nIt could either throw an `r.Error()` or just return a copy of the object with terms removed.\r\nI think this is a better representation of the `untrusted` idea, and would fit what I'm looking for.\r\n\r\nI'll throw some similar comments on that ticket; I think this can be closed in favor of #3439 :)\r\n"
+  , issueCommentId = 67093375
+  }

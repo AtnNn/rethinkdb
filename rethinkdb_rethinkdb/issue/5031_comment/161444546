@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-02) 23 : 19 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5964
+        , simpleUserLogin = N "cultofmetatron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5964?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cultofmetatron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161444546"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5031#issuecomment-161444546"
+  , issueCommentCreatedAt = 2015 (-12) (-02) 21 : 49 : 50 UTC
+  , issueCommentBody =
+      "also, with observable interface, you could dispense with the callback entirely\r\n\r\n```javascript\r\n\r\nr.table('marvel').run(conn)\r\n  .subscribe(\r\n    (row) => doSomething(row),\r\n    (error) => handleError(error)\r\n );\r\n\r\n```\r\n\r\nas opposed to\r\n\r\n```javascript\r\nr.table('marvel').run(conn, (err, cursor) {\r\n  if (err) {\r\n    handleError(err)\r\n  } else {\r\n    cursor.each(doSomething);\r\n  }\r\n})\r\n\r\n```\r\n\r\nthe difference in the two lines is only going to be compounded if the observable is used to create new dependant observables later on. in the cursor based code, the programmer is forced to manually handle errors right there. The observable interface throws exception objects down the observable pipeline. You have much more control over where you want that exception to be handled.\r\n\r\n\r\ncoercing to an array is even easier\r\n\r\n```javascript\r\nr.table('marvel').run(conn)\r\n  .reduce((arr, row) => {\r\n    arr.push(row);\r\n    return arr;\r\n  }, [])\r\n  .subscribe(\r\n    (arr) => doSomething(arr),\r\n    (error) => handleError(error)\r\n );\r\n```\r\n\r\nor more succinctly\r\n\r\n```javascript\r\nr.table('marvel').run(conn)\r\n  .toArray()\r\n  .subscribe(\r\n    (arr) => doSomething(arr),\r\n    (error) => handleError(error)\r\n );\r\n```\r\n\r\nfinally\r\n```javascript\r\nr.db('rethinkdb_tutorial').table('messages')\r\n  .changes()\r\n  .run()\r\n  .then(function(cursor) {\r\n    cursor.each(function(err, result) {\r\n      console.log(result);\r\n      io.emit('new_message', result);\r\n    });\r\n  });\r\n```\r\n\r\ncould instead be written as \r\n```javascript\r\nr.db('rethinkdb_tutorial').table('messages')\r\n  .changes()\r\n  .run()\r\n  .subscribe((row) => io.emit('new_message', result));\r\n```\r\n\r\nand what if we only want some subset of those changes and transform them?\r\n```javascript\r\nr.db('rethinkdb_tutorial').table('messages')\r\n  .changes()\r\n  .run()\r\n  .filter(filterFunc)\r\n  .map(tranform)\r\n  .subscribe((row) => io.emit('new_message', result));\r\n```\r\n\r\nomg, what if the transform is asychronous? well ifthat async function returns  a new observable, Its pretty god damn trivial.\r\n\r\n```javascript\r\nr.db('rethinkdb_tutorial').table('messages')\r\n  .changes()\r\n  .run()\r\n  .filter(filterFunc)\r\n  .flatMap(tranform)\r\n  .subscribe((row) => io.emit('new_message', row), handleError);\r\n```\r\n\r\nAnd just to Beat that dead horse one more time.\r\nThis version uses cursors and doesn't even include any exception handling.\r\n\r\n```javascript\r\nr.db('rethinkdb_tutorial').table('messages')\r\n  .changes()\r\n  .run((err, cursor) => {\r\n    cursor.each((row) => {\r\n      if (filterFunc(row)) {\r\n         transform(row).then((row) => io.emit('new_message', row));\r\n      }\r\n    })\r\n  });\r\n\r\n```\r\n"
+  , issueCommentId = 161444546
+  }

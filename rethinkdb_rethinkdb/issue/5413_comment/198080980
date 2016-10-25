@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-17) 21 : 01 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/198080980"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5413#issuecomment-198080980"
+  , issueCommentCreatedAt = 2016 (-03) (-17) 21 : 01 : 24 UTC
+  , issueCommentBody =
+      "@larkost you do not necessarily have to catch the outer promise, it can resolve without error. If we were to have implemented `eachAsync` without callback support, the only supported syntax would be:\r\n\r\n```js\r\ncursor.eachAsync(function (row) {\r\n  return Promise.reject('error');\r\n})\r\n.then(function () {\r\n  // ...\r\n})\r\n.catch(function (err) {\r\n  // err == 'error'\r\n})\r\n```\r\n\r\nSince we also want to support the traditional node callback style, we are essentially \"nodeifying\" this API. So each part of the promise-based API has an equivalent in the callback-style, but the functionality does not interact.\r\n\r\n```js\r\ncursor.eachAsync(function (row, cb) {\r\n  cb('error')      // return Promise.reject('error'); \r\n}, function (err) {\r\n  if (err == null) // .then(function () { })\r\n  else             // .catch(function (err) { })\r\n})\r\n```\r\n\r\nNotice how returning a promise from `final` here wouldn't make sense. It would be like expecting something like this to work:\r\n\r\n```js\r\nr.table('foo').run(conn, (err, data) {\r\n  return Promise.delay(10);\r\n})\r\n.then(function () {\r\n  // delay will not have been resolved, which\r\n  // is correct behavior since we used callbacks\r\n})\r\n```\r\n"
+  , issueCommentId = 198080980
+  }

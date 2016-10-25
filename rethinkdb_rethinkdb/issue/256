@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2013 (-03) (-12) 12 : 41 : 47 UTC
+  , issueUpdatedAt = 2013 (-03) (-15) 00 : 04 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/256/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/256"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 256
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Change run API in client drivers"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/256"
+  , issueCreatedAt = 2013 (-01) (-24) 04 : 12 : 51 UTC
+  , issueBody =
+      Just
+        "I propose making the following changes on all clients:\r\n\r\n1. drop `last_connection`\r\n2. forbid the `q.run(conn)` form and settle on the `conn.run(q)` form\r\n3. only enable `q.run()` form if the user calls something special on the repl, such as `set_global_connection(conn)`.\r\n\r\nThe reason are as follows:\r\n\r\n1. Having `conn.run(q)` and `q.run(conn)` seems helpful, but I've gotten many questions about the proper form. This seems to confuse people, so we should just pick one (and I think it should be the former because eventually we'll probably support packing queries (e.g. `conn.run([q1, q2, q3])`))\r\n2. Having `last_connection` and `q.run()` working together implicitly confuses users. They end up writing applications this way, which of course aren't thread/request safe. They're then confused about why things don't work, and don't understand exactly how to fix it\r\n3. Having the `q.run()` form in the REPL is still extremely nice. We should make setting the \"global\" connection explicit in order to support this form in the REPLs (of course, I'd make the sugar be nice, i.e. pick a nice name, etc.)"
+  , issueState = "closed"
+  , issueId = Id 10261180
+  , issueComments = 24
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

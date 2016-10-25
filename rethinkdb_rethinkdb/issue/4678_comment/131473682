@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-16) 01 : 39 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1276278
+        , simpleUserLogin = N "williamstein"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1276278?v=3"
+        , simpleUserUrl = "https://api.github.com/users/williamstein"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131473682"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4678#issuecomment-131473682"
+  , issueCommentCreatedAt = 2015 (-08) (-16) 01 : 39 : 27 UTC
+  , issueCommentBody =
+      "Problem solved.\r\n\r\nTL;DR;   The load problem wasn't the fault of RethinkDB at all and there's no performance regression.  (So @v3ss0n don't let my experience dissuade you...)  However, there is a recent change in semantics (probably a bug fix) that leads to a major problem in my application (which I've fixed). \r\n\r\nThe number of connections mentioned above was another problem, but not the core issue.    The root cause of my problem seems to be a recent change to the semantics of getAll and change feeds in RethinkDB 2.1, which must not have been in 2.1.beta.  For example, I was doing this sort of query:\r\n\r\n db.table('accounts').getAll('0c5fc6d4-5d36-422e-8799-513c5b19d2b3', '25e2cae4-05c7-4c28-ae22-1e6d3d2e8bb5', 'a76956a7-e59a-47e4-9a1c-d2cf896fd7cc').changes()...\r\n\r\n- In 2.0.x (and the beta) this would *only* produce output when there were new changes.\r\n\r\n- In 2.1 it acts more like a \"point changefeed\", and produces an output for each of the inputs.\r\n\r\nMy application uses changefeeds as \"kill feeds\" in some cases; when a change is seen it then kills and resets other changefeeds. (For example, your collaborators change when you get added to a new project, so another changefeed for the names of all your friends is cancelled and re-created.   With the above change in semantics, my application would constantly cancel and recreate changefeeds, thus leading to infinite loops, which overloaded/crashed everything.)\r\n\r\nOf course, you guys have already nicely implemented what I need to make things work with *either* semantics in a consistent way.  With {includeStates: true}, I can just read from the iterator until state is 'ready', which works in both 2.0.x and 2.1.   I implemented this small change and everything works fine with 2.1 now, as far as I can tell.    In fact, I've been stress testing 2.1 very hard (e.g., making thousands of somewhat complicated changefeeds at once, making changes, etc.), and it's impressively efficient!\r\n\r\nMany, many thanks again for all the help and fixing the edge case crashes that I reported (which may have been unrelated to the issue above).   In my opinion, you may close this ticket. \r\n"
+  , issueCommentId = 131473682
+  }

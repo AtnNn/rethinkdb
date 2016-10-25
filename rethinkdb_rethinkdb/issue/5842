@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-10) 20 : 10 : 10 UTC
+  , issueUpdatedAt = 2016 (-07) (-28) 21 : 38 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5842/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5842"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5842
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 952451
+          , simpleUserLogin = N "nighelles"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/952451?v=3"
+          , simpleUserUrl = "https://api.github.com/users/nighelles"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 428642
+        , simpleUserLogin = N "vsivsi"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/428642?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vsivsi"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Server crashes with r.js() value provided to r.insert() conflict option"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5842"
+  , issueCreatedAt = 2016 (-06) (-09) 01 : 15 : 28 UTC
+  , issueBody =
+      Just
+        "**Edit: See next comment for an even simpler repro using the data explorer**\r\n\r\nThe following node.js insert code (using rethinkdb npm package version 2.3.2) triggers this:\r\n\r\n```js\r\n// hash is a string, data is a node.js Buffer (<= 32KB)\r\nr.table('woot')\r\n   .insert({ id: hash, type: 'chunk', data: data, length: data.length, count: 1 },\r\n       {\r\n         // Crashes server...\r\n         conflict: r.js(\"(function (id, o, n) { return n; })\") \r\n       }\r\n   )\r\n   .run(connection, function (err, res) { if (err) throw err; });\r\n```\r\nReplacing the `r.js()` call above with just the bare js function definition resolves the server crash.\r\n\r\nHere is the resulting server crash console dump:\r\n```\r\nRunning rethinkdb 2.3.3 (CLANG 7.3.0 (clang-703.0.29))...\r\nRunning on Darwin 15.5.0 x86_64\r\nLoading data from directory /Users/vsivsi/rethinkdb_data\r\nListening for intracluster connections on port 29015\r\nListening for client driver connections on port 28015\r\nListening for administrative HTTP connections on port 8080\r\nListening on cluster addresses: 127.0.0.1, ::1\r\nListening on driver addresses: 127.0.0.1, ::1\r\nListening on http addresses: 127.0.0.1, ::1\r\nTo fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.\r\nServer ready, \"servername\" server-id\r\nVersion: rethinkdb 2.3.3 (CLANG 7.3.0 (clang-703.0.29))\r\nerror: Error in ./build/external/boost_1.56.0/include/boost/optional/optional.hpp at line 992:\r\nerror: BOOST_ASSERT failure in 'reference_type boost::optional<unsigned long>::get()': this->is_initialized()\r\nerror: Backtrace:\r\nerror: Wed Jun  8 17:54:40 2016\r\n       \r\n       1 [0x106c01be4]: 0   rethinkdb                           0x0000000106c01be4 _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP17repli_timestamp_t + 548 at 0x106c01be4 ()\r\n       2 [0x10668548c]: 0   rethinkdb                           0x000000010668548c _ZN9starter_t11run_wrapperERKNSt3__18functionIFvvEEE + 18892 at 0x10668548c ()\r\n       3 [0x1066867a7]: 0   rethinkdb                           0x00000001066867a7 _ZN9starter_t11run_wrapperERKNSt3__18functionIFvvEEE + 23783 at 0x1066867a7 ()\r\n       4 [0x106684fd0]: 0   rethinkdb                           0x0000000106684fd0 _ZN9starter_t11run_wrapperERKNSt3__18functionIFvvEEE + 17680 at 0x106684fd0 ()\r\n       5 [0x10697fc96]: 0   rethinkdb                           0x000000010697fc96 _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP13name_string_t + 13750 at 0x10697fc96 ()\r\n       6 [0x1069801e6]: 0   rethinkdb                           0x00000001069801e6 _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP13name_string_t + 15110 at 0x1069801e6 ()\r\n       7 [0x106be3cd0]: 0   rethinkdb                           0x0000000106be3cd0 _ZN2ql18with_fields_term_t7rewriteERKNS_10raw_term_tE + 163008 at 0x106be3cd0 ()\r\n       8 [0x106ad9ce1]: 0   rethinkdb                           0x0000000106ad9ce1 _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP16ellipsoid_spec_t + 340129 at 0x106ad9ce1 ()\r\n       9 [0x106b80e3b]: 0   rethinkdb                           0x0000000106b80e3b _ZN2ql11deserializeIL17cluster_version_t8EEE16archive_result_tP13read_stream_tPNS_5sym_tE + 15547 at 0x106b80e3b ()\r\n       10 [0x106b80fea]: 0   rethinkdb                           0x0000000106b80fea _ZN2ql11deserializeIL17cluster_version_t8EEE16archive_result_tP13read_stream_tPNS_5sym_tE + 15978 at 0x106b80fea ()\r\n       11 [0x106b44046]: 0   rethinkdb                           0x0000000106b44046 _ZN5boost9date_time6c_time6gmtimeEPKlP2tm + 15206 at 0x106b44046 ()\r\n       12 [0x106b43636]: 0   rethinkdb                           0x0000000106b43636 _ZN5boost9date_time6c_time6gmtimeEPKlP2tm + 12630 at 0x106b43636 ()\r\n       13 [0x106b45e49]: 0   rethinkdb                           0x0000000106b45e49 _ZN5boost9date_time6c_time6gmtimeEPKlP2tm + 22889 at 0x106b45e49 ()\r\n       14 [0x1066e5bcf]: 0   rethinkdb                           0x00000001066e5bcf _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP13sindex_name_t + 210687 at 0x1066e5bcf ()\r\n       15 [0x1066e58bb]: 0   rethinkdb                           0x00000001066e58bb _Z11deserializeIL17cluster_version_t8EE16archive_result_tP13read_stream_tP13sindex_name_t + 209899 at 0x1066e58bb ()\r\n       16 [0x10667bb95]: 0   rethinkdb                           0x000000010667bb95 _ZN8signal_t5pulseEv + 7973 at 0x10667bb95 ()\r\nerror: Exiting.\r\nVersion: rethinkdb 2.3.3 (CLANG 7.3.0 (clang-703.0.29))\r\nCrashing while already crashed. Printing error message to stderr.\r\nBOOST_ASSERT failure in 'reference_type boost::optional<unsigned long>::get()': this->is_initialized()Trace/BPT trap: 5\r\n```"
+  , issueState = "closed"
+  , issueId = Id 159310356
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

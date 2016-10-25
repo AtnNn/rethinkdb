@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-14) 00 : 14 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 292681
+        , simpleUserLogin = N "nergdron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/292681?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nergdron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30554177"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1750#issuecomment-30554177"
+  , issueCommentCreatedAt = 2013 (-12) (-14) 00 : 14 : 38 UTC
+  , issueCommentBody =
+      "My $.02, from IRC convo with @mlucy:\r\n\r\nA common use case of multi-DC is to have non-local read replicas of data being processed elsewhere. Currently if I do that (by creating an instance in a new DC, and setting replicas = 1 and acks = 0 for that DC on a table), there's still a lot of cross talk back to the main cluster when doing bulk reads (~3-5 MB/sec over a 100Mbps WAN link). My expectation would be that, if \"UseOutdated: true\", all reads go to DC local replicas first before querying anything over the WAN link.\r\n\r\nI would also expect reads in the same DC as the master to go to a system local replica first if UseOutdated: true is set, to allow the replicas to shoulder more workload. I don't believe we're seeing this behaviour at the moment either.\r\n\r\nIt should be possible to solve both of these with one bit of logic change which says \"use closest replica for reads if UseOutdated: true\", and scale up read performance in all situations pretty significantly, with more replicas adding more read capacity. This, in turn, allows people to choose the number of replicas on their cluster as a direct tradeoff between read and write performance.\r\n"
+  , issueCommentId = 30554177
+  }

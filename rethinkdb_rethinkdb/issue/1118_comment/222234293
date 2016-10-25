@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-27) 22 : 02 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/222234293"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-222234293"
+  , issueCommentCreatedAt = 2016 (-05) (-27) 19 : 30 : 47 UTC
+  , issueCommentBody =
+      "This has actually become really easy, due to the addition of the `fold` term. We can now formulate this entirely as a set of rewrites.\r\n\r\nGiven a changefeed of the form:\r\n```js\r\nstream.reduce(f).changes({includeInitial: <II>, includeStates: <IS>})\r\n```\r\n\r\nAssume that for the given `f`, we know the following properties:\r\n\r\n* `<f_BASE>` the initial accumulator for `f`\r\n* `<f_APPLY>` a function from the accumulator and an element in the input table to a new accumulator\r\n* `<f_UNAPPLY>` the inverse of `<f_APPLY>` in the accumulator\r\n* `<f_EMIT>` generates a result value of the reduction from the current accumulator\r\n\r\nNow the query can be rewritten into:\r\n```js\r\nstream.changes({includeInitial: true, includeStates: true}).fold(\r\n  {f_acc: <f_BASE>, is_initialized: false},\r\n  function(acc, el) {\r\n    var f_acc = acc('f_acc');\r\n    var new_f_acc = r.branch(el.hasFields(\"old_val\"), <f_UNAPPLY>(f_acc, el('old_val')), f_acc).do(function(un_f_acc) {\r\n        return r.branch(el.hasFields(\"new_val\"), <f_APPLY>(un_f_acc, el('new_val')), un_f_acc);\r\n      });\r\n    var new_is_initialized = acc('is_initialized').or(el.hasFields('state').and(el('state').eq('ready')));\r\n    return {f_acc: new_f_acc, is_initialized: new_is_initialized};\r\n  },\r\n  {emit: function(old_acc, el, new_acc) {\r\n    var old_f_acc = old_acc('f_acc');\r\n    var new_f_acc = new_acc('f_acc');\r\n    var old_val = f_EMIT(old_f_acc);\r\n    var new_val = f_EMIT(new_f_acc);\r\n    // We handle the 'ready' state separately below\r\n    var emit_state = r.expr(IS).and(el.hasFields('state')).and(r.expr(II).not().or(el('state').ne('ready')));\r\n    var emit_update = old_acc('is_initialized').and(old_val.ne(new_val));\r\n    var emit_initial = r.expr(<II>).and(old_acc('is_initialized').not().and(new_acc('is_initialized')));\r\n    return r.branch(\r\n      emit_state, [el],\r\n      emit_update, [{'old_val': old_val, 'new_val': new_val}],\r\n      emit_initial, r.branch(<IS>, [{'new_val': new_val}, {state: \"ready\"}], [{'new_val': new_val}]),\r\n      []\r\n    );\r\n  }})\r\n```\r\n\r\nFor example for `count()`:\r\n\r\n* `<f_BASE> = 0`\r\n* `<f_APPLY> = function(acc, el) { return acc.add(1); }`\r\n* `<f_UNAPPLY> = function(acc, el) { return acc.sub(1); }`\r\n* `<f_EMIT> = function(acc) { return acc; }`\r\n\r\nOr for `avg()`:\r\n\r\n* `<f_BASE> = {c: 0, sum: 0}`\r\n* `<f_APPLY> = function(acc, el) { return {c: acc('c').add(1), sum: acc('sum').add(el) }; }`\r\n* `<f_UNAPPLY> = function(acc, el) { return {c: acc('c').sub(1), sum: acc('sum').sub(el) }; }`\r\n* `<f_EMIT> = function(acc) { return acc('sum').div(acc('c')); }` (plus some sort of handling for empty input sets that we need to come up with)\r\n\r\nThe main disadvantage of this implementation is that it doesn't distribute the reduction anymore and causes additional network traffic between the shards and the parsing node. This can be improved through a bit of special code.\r\n\r\nIt would be amazing I think if we could get the slow version into 2.4, at least for the built-in terms (such as `count`, `sum` and `avg`). We can mark it as a \"preview\" feature, since it doesn't have the full scalability yet that you'd expect from RethinkDB, and then ship the optimized version with 2.5."
+  , issueCommentId = 222234293
+  }

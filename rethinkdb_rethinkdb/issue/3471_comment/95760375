@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 00 : 17 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95760375"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95760375"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 00 : 17 : 50 UTC
+  , issueCommentBody =
+      "Well, it wouldn't solve the \"double intracluster traffic\" problem, or the \"decide where the queue lives\" problem.  It would change the shape of the \"significantly harder\" problem, although I'm not sure whether it would make it net harder or net easier.  It would also introduce some new problems:\r\n* We currently deduplicate intracluster changefeed messages to make the \"10000 changefeeds\" case somewhat plausible, so we'd presumably have to do something clever to deduplicate the messages on disk, too, rather than just having one table per open feed.\r\n* We'd need to worry about the performance implications of writing all these changes to disk on every machine in the cluster hosting one of these tables.\r\n* We'd need to worry about what happens when the machine hosting the table needs to leave the cluster.\r\n\r\n(Of course, we'd get some advantages to go along with those problems, which is why I originally said I was torn on the idea.)\r\n\r\nActually, another point in favor of the \"require people to reconnect to the original server\" approach: your changefeed is only interrupted if the table you're reading from or the server you're connected to goes down.  With the other approach, you'll be disconnected if whatever random machine in the cluster is hosting the feed goes down.  But maybe that's fine, actually."
+  , issueCommentId = 95760375
+  }

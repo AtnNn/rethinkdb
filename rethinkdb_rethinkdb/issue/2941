@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 38 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2941/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2941"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 2941
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider adding a formal process for retiring a server"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2941"
+  , issueCreatedAt = 2014 (-08) (-21) 00 : 10 : 57 UTC
+  , issueBody =
+      Just
+        "This issue grew out of a discussion between me and @Tryneus in #2856. If a user wants to remove a server from the cluster without losing data, they can use the following procedure under the current `reql_admin` proposal:\r\n1. Remove the server from each table's config. If they're in the habit of generating configs manually, they'll have to write a new config for each table. If they use `table.reconfigure()`, they can remove all tags from the server and then call `table.reconfigure()` for every table.\r\n2. Wait for the changes to `table_config` to take effect, so the server is no longer hosting any data.\r\n3. Send `SIGINT` to the server process\r\n4. Delete the server's `rethinkdb_data` directory and send `r.server_permanently_remove()` to the cluster.\r\n@Tryneus comments that this sort of checklist is \"is very user unfriendly, mostly because if you screw it up you could be looking at loss of availability in the best case or loss of data in the worst.\" Instead, he suggests adding \"an operation to remove a server that does all that under the hood (possibly synchronously, so admins can know when it's safe to shut down the server).\"\r\n"
+  , issueState = "open"
+  , issueId = Id 40759362
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

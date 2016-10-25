@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-10) 23 : 09 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/163781268"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4210#issuecomment-163781268"
+  , issueCommentCreatedAt = 2015 (-12) (-10) 23 : 05 : 05 UTC
+  , issueCommentBody =
+      "Oh I see. That case should be technically easy.\r\n\r\nWe basically need to add a place to specify a function on a table, not unlike a secondary index. Then we evaluate that function atomically before writing a given document, and let the write fail otherwise.\r\n\r\nEssentially we would translate a write\r\n```js\r\ntable.get(...).update(changes)\r\n```\r\ninto\r\n```js\r\ntable.get(...).replace(function (oldVal) {\r\n  var newVal = oldVal.merge(changes);\r\n  return r.branch(validate(newVal), newVal, r.error(\"Validation failed\"));\r\n})\r\n```\r\n\r\nI can try to write up a complete proposal for this some time in the next days.\r\n\r\n*Edit:* I just tried and returning `r.error` from an update function indeed seems to work as expected. So the above can be used as an application-level work-around for the time being (you might want to use `r.do` for `newVal` to avoid the repeated evaluation of `merge(changes)`)."
+  , issueCommentId = 163781268
+  }

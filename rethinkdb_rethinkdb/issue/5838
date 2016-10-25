@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-08) 21 : 05 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5838/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5838"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5838
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3145668
+        , simpleUserLogin = N "danieldunderfelt"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3145668?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danieldunderfelt"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal: method to include predefined query function in query chain"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5838"
+  , issueCreatedAt = 2016 (-06) (-08) 17 : 57 : 46 UTC
+  , issueBody =
+      Just
+        "Reusing queries is a good pattern to keep things DRY, but ReQL doesn't have a smooth way of doing so. Take this query fragment for example:\r\n\r\n```javascript\r\nfunction mergeCommentCount(query) {\r\n  return query.merge(row => ({\r\n    commentsCount: r.table('Comment').count(comment => {\r\n      return comment('postId').eq(row('id'))\r\n    })\r\n  }))\r\n}\r\n```\r\nWe'd like to reuse it in every query that needs to have a `commentsCount` field, so we do this:\r\n\r\n```javascript\r\nreturn mergeCommentCount(r.table('Post')).run()\r\n```\r\nA one-liner isn't so bad, but what if you want to chain more queries onto it? If you have more than one query fragment function, you'd need to create a temporary variable to hold the query for each reusable query function.\r\n\r\n**My proposal:**\r\n\r\n`.include(queryFunction)`\r\n\r\nHaving a ReQL method that takes a callback that you can chain into the rest of the queries would be ideal. For example:\r\n\r\n```javascript\r\n// Random ReQL\r\nr.table('Post')\r\n  .filter(...)\r\n  .include(queryFunc1)\r\n  .orderBy(...)\r\n  .include(queryFunc2)\r\n  .include(queryFunc3)\r\n  .slice(...)\r\n  .run()\r\n```\r\n\r\nMuch cleaner, yes? `include` would simply call the callback with the current query so far and include the resulting query returned by the queryFunc into the query chain. It would be up to the user to call the predefined queries in a supported order.\r\n\r\nThoughts?"
+  , issueState = "open"
+  , issueId = Id 159232265
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

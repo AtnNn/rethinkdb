@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-05) 05 : 49 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54587575"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3009#issuecomment-54587575"
+  , issueCommentCreatedAt = 2014 (-09) (-05) 05 : 49 : 46 UTC
+  , issueCommentBody =
+      "So I thought about this on the way home, and I think this is what's going on.\r\n\r\n- we are using two different compilers, clang and gcc.\r\n- both these compilers order instructions differently, and floating point computation is not commutative.\r\n- as a result our implementation of Karney's algorithm is not totally numerically stable and varies in the least significant digit (which is not really a surprised).\r\n- our implementation of Karney's algorithm is so impenetrable that I can't really figure out what's going on in the C code; digging through the assembler would be almost impossible.\r\n- I am not a numerical expert no matter what pretenses I may be suffering under, and would need to spend an inordinate amount of time to figure out what the algorithm does and then figure out why it's varying.\r\n- we probably never experienced this before because we probably never had enough numeric code in one place to matter.  This implies other ReQL code is unlikely to suffer from this problem unless some clever git decides to make a cluster out of his z90, an IBM POWER machine, his daughter's laptop, a Raspberry PI and his phone.  And I'm inclined to let that man hang for the moment.\r\n- the Earth's circumference is 4e4 km.  Our error shows in the last bit of the mantissa, which is 16 or 17 decimal places out.  That implies error at the sub-nanometer level.  I think we can probably stand to round the output of Karney's algorithm to 15 decimal places, in which case this whole problem goes away."
+  , issueCommentId = 54587575
+  }

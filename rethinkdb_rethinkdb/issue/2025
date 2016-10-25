@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-03) (-05) 04 : 29 : 54 UTC
+  , issueUpdatedAt = 2014 (-03) (-05) 04 : 29 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2025/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2025"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      ]
+  , issueNumber = 2025
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "GMR: cannot return grouped stream without a reduction"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2025"
+  , issueCreatedAt = 2014 (-02) (-26) 04 : 38 : 53 UTC
+  , issueBody =
+      Just
+        "```\r\nr.table('wiki_articles')('text').group(r.row.split())\r\n```\r\n\r\nOutput:\r\n\r\n```\r\nRqlRuntimeError: Cannot return grouped stream without a reduction (`reduce`, `sum`, etc.) on the end.\r\n```\r\n\r\nI discovered this to be spectacularly annoying in practice for all of the following reasons:\r\n\r\n* During development it's really nice to see intermediary results, so I basically always tack on `coerceTo('array')` at the end\r\n* I can't even tack on `toArray()` since we don't have that! It's `coerceTo('array')`!! (err!)\r\n* The error message doesn't mention that we can run `coerceTo('array')`, so users won't be able to discover it. Also `groupsToArray` doesn't work on grouped streams.\r\n\r\nTL;DR: I think we should bite the bullet and call `coerceTo('array')` when returning grouped streams implicitly. (There is, admittedly potential for blowing RAM because our array size limit doesn't deal too well with this case, but I feel like that's ok -- we should just handle it via #1375)."
+  , issueState = "closed"
+  , issueId = Id 28308258
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

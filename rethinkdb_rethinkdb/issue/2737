@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 17 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2737/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2737"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 2737
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Figure out details of array size limit behavior"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2737"
+  , issueCreatedAt = 2014 (-07) (-23) 01 : 07 : 33 UTC
+  , issueBody =
+      Just
+        "#2059 introduces a configurable array size limit. However, there's a subtle detail that hasn't been properly worked out: does the array size limit prevent arrays from *being* larger than the limit, or from *growing* larger than the limit? This comes up in three situations in particular:\r\n\r\n1. Reading arrays from disk. Suppose I do the following:\r\n    ```python\r\n    r.table(\"foo\").insert({\"value\": [1,2,...,999,1000]}).run()\r\n    r.table(\"foo\").run(array_limit=100)\r\n    ```\r\n    Should the second query raise an exception when it reads the 1000-element array from disk? Or should it pass the array through unless someone tries to append to it?\r\n\r\n2. Reading arrays from the changefeed. Suppose I do the following:\r\n    ```python\r\n    r.table(\"foo\").changes().run(array_limit=100)\r\n    # Let changes() run in the background, and\r\n    # meanwhile run another query:\r\n    r.table(\"foo\").insert({\"value\": [1,2,...,999,1000]}).run()\r\n    ```\r\nWhat should `changes()` do when it sees an array on the changefeed that is larger than the specified limit? Should it pass the array along unless someone tries to append to it? Or should it throw an error somehow?\r\n\r\n3. Literal large arrays specified in the query itself. Suppose I do the following:\r\n    ```python\r\n    r.expr([1,2,...,999,1000]).run(array_limit=100)\r\n    ```\r\n    Should this query work, or not? What if the array was a million elements long, and the user-specified array limit was also a million? Do we allow arbitrarily large user queries as long as the user specifies a large enough array limit?"
+  , issueState = "open"
+  , issueId = Id 38474882
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

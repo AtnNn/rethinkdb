@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 05 : 22 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140972504"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4598#issuecomment-140972504"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 05 : 22 : 34 UTC
+  , issueCommentBody =
+      "While writing my previous comment, I realized that we already have all the semantics to deal with the documents, as long as we don't make state changes until the end. If we added `r.replace` to conduct the actual document manipulation, we could provide a collection (array or possibly object) of documents, and expect their final states as the output of the predicate:\r\n\r\nAs an array:\r\n\r\n```js\r\nr.replace([\r\n    r.table('accounts').get(sender_id),\r\n    r.table('accounts').get(receiver_id)\r\n], function(documents) {\r\n    var sender = documents.nth(0);\r\n    var receiver = documents.nth(1);\r\n    return r.branch(\r\n        sender('balance').lt(amount),\r\n        r.error('You have an insufficient balance.'),\r\n        [\r\n            sender.merge({ balance: sender('balance').sub(amount) }),\r\n            receiver.merge({ balance: receiver('balance').add(amount) })\r\n        ]\r\n    );\r\n});\r\n```\r\n\r\n\r\nAs an object:\r\n\r\n```js\r\nr.replace({\r\n    sender: r.table('accounts').get(sender_id),\r\n    receiver: r.table('accounts').get(receiver_id)\r\n}, function(documents) {\r\n    return r.branch(\r\n        sender('balance').lt(amount),\r\n        r.error('You have an insufficient balance.'),\r\n        {\r\n            sender: documents('sender').merge({ balance: documents('sender')('balance').sub(amount) }),\r\n            receiver: documents('receiver').merge({ balance: documents('receiver')('balance').add(amount) })\r\n        }\r\n    );\r\n});\r\n```\r\n\r\nThis would:\r\n\r\n1. be very clear about state at each place in the query\r\n2. allow for great flexibility in the internal query\r\n3. allow for CRUD of multiple documents within an atomic context"
+  , issueCommentId = 140972504
+  }

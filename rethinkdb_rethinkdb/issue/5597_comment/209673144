@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-13) 22 : 23 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/209673144"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5597#issuecomment-209673144"
+  , issueCommentCreatedAt = 2016 (-04) (-13) 22 : 23 : 52 UTC
+  , issueCommentBody =
+      "I worked on this a bit today and have come up with two solutions:\r\n1. We remove the `*  text=auto` line that is telling `git` to guess which files we want to have it mange. We already have rules to auto-convert `.cc`, `.hpp`, `.h`, and `.tcc` files (we might want to add `.c`, but have nothing at the moment), and rules to prevent conversion of `.sh`, `./configure`, and everything in `./mk/support/pkg/`. This could have side-effects that I have not thought of, but would mostly just go back to the behavior we had before (blindly not caring), except controlling for issues that would get in the way of a Windows compile.\r\n2. Commit the few changes that it is coming up with on a clean `clone`. These are all files that were brought in form other projects, and have CLRF line endings (in one case it has mixed line endings). For the issues that @Tryneus listed we would probably have to add those extensions to the `eol=lf` list. This solution would be more aggressive in managing the line endings, even when they don't have an effect on building Windows. Once we make it though some growing pains we should never have any more of these problems since `git` will be magically altering things for us (in theory).\r\n\r\nA side note: I don't know whether our current process of bundling the `.js` files up for the WebUI normalizes line endings. But if we go with option 1 we might get subtle differences in the WebUI line endings depending on where you compile from. I don't think that this should matter, but if anyone ever checksums things they might see a difference."
+  , issueCommentId = 209673144
+  }

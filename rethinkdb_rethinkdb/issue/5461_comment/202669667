@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-29) 02 : 19 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/202669667"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5461#issuecomment-202669667"
+  , issueCommentCreatedAt = 2016 (-03) (-29) 02 : 19 : 43 UTC
+  , issueCommentBody =
+      "@deontologician can you work on this please?\r\n\r\nThe server-side implementation is currently available in branch vexocide/5406.\r\n\r\nThere is a reference implementation for the Python driver in this file: https://github.com/rethinkdb/rethinkdb/blob/vexocide/5406/drivers/python/rethinkdb/handshake.py\r\n\r\nThe handshake protocol is formally described here https://github.com/rethinkdb/rethinkdb/issues/5406#issuecomment-185980303 , with the authentication mechanism being described here http://tools.ietf.org/html/rfc5802 . It's probably going to be easiest to just follow the Python implementation.\r\n\r\nFor testing, you'll need to create a user account. This can be done by inserting into the `r.db('rethinkdb').table('users')` table. The document should look like this:\r\n```js\r\n{\r\n  id: \"username\",\r\n  password: \"secret\"\r\n}\r\n```\r\n\r\nThe `connect` method will need to accept two new options \"user\" and \"password\", which need to be provided together (maybe for the Java driver, we could have a single `.user(String user, String password)` method ?). If these options are not specified, the driver should try to connect with the username \"admin\" and an empty password. If the authentication fails, a `ReqlAuthError` should be thrown.\r\nI think we should still support the `authKey` option for backwards compatibility with existing application code. If an `authKey` is specified, we assume a username of \"admin\" and use the `authKey` as the password for the \"admin\" user."
+  , issueCommentId = 202669667
+  }

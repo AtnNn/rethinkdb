@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-24) 21 : 44 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/221410992"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5790#issuecomment-221410992"
+  , issueCommentCreatedAt = 2016 (-05) (-24) 21 : 44 : 38 UTC
+  , issueCommentBody =
+      "I think the entries in the profiler output probably all refer to the traversal on the 'posts' table, not to the subquery on 'users'. The profiler is somewhat incomplete unfortunately.\r\n\r\nIf it was using the wrong index (primary `id` instead of the `key` index), the query would return no results (or wrong results), but shouldn't become slower. I'm pretty sure that it's using the right index.\r\n\r\nBy the way a minor optimization is using just `.nth(0)` instead of `.coerceTo('array').nth(0)`, so it doesn't load all results of the `getAll` into an array first (if there usually is only a single match anyway, it doesn't matter though).\r\n\r\nHow big is the `users` table? I still suspect that the constant overhead for the secondary-index based `getAll` is dominating here. `eqJoin` is much better in this respect because it batches multiple lookups together into a single request."
+  , issueCommentId = 221410992
+  }

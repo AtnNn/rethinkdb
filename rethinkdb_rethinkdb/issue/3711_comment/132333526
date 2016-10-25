@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-18) 20 : 01 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 379606
+        , simpleUserLogin = N "ide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/379606?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/132333526"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3711#issuecomment-132333526"
+  , issueCommentCreatedAt = 2015 (-08) (-18) 20 : 01 : 46 UTC
+  , issueCommentBody =
+      "@coffeemug I'm not aware of an example project that demonstrates security and privacy but hopefully I can shed some more light on how it's done with GraphQL.\r\n\r\nThe authorization is implicit and not part of GraphQL. When a client (e.g. browser, mobile device) sends a GraphQL query to the server, it also sends its auth cookie so that the server knows who's making the request. Nothing new here. It's your job when constructing the GraphQL response to make sure the server doesn't send back information that the client isn't allowed to see.\r\n\r\nOne way to do this is to have a DAO library that is aware of the notion of a \"viewer\". Whenever you implement a new DAO data type (e.g. User, Photo, Comment, Place) it's your job to write logic that determines whether the viewer is allowed to access an object of that data type. This also applies to the connections between objects; a viewer may be allowed to see a User and a Place but might not be allowed to see that the User has a check-in at that place. This logic differs from app to app and it's quite hard for a framework or service to anticipate all the use cases.\r\n\r\nWith these DAO data types correctly implemented, you can safely write code like `User.get(viewer, userId).getFriends().map(friend => friend.getHometown())` and know the result honors the privacy of the specified user and their friends with respect to the viewer.\r\n\r\nFinally, a server-side GraphQL implementation fulfills the query mostly by calling into the DAO library. I say \"mostly\" because some parts of the query get their data elsewhere (e.g. localized strings).\r\n\r\nWhere I think a RethinkDB+GraphQL library helps out is: good support for converting RethinkDB results to GraphQL data types, support for the reverse for handling GraphQL mutations (aside: similar to how the DAO layer had privacy logic for reads, it needs permissions logic for writes), and a story around how to use RethinkDB's changefeeds to build GraphQL subscriptions."
+  , issueCommentId = 132333526
+  }

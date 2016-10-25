@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 00 : 53 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19654601"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-19654601"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 00 : 53 : 34 UTC
+  , issueCommentBody =
+      "If people are creating a secondary index on a function like `match` that can return `null`, they almost certainly aren't getting the behavior that they want even with this change, because they'll be able to find all things that didn't match but not all things that did match.  I don't think we need to worry about supporting that use case because people almost always want to tack a `.ne(null)` on the end so that both halves are in the index.\r\n\r\nI think the number of people using `null` and non-existence side-by-side in their datasets to mean different things is pretty small.  In general I don't think we should try very hard to support that usage (although we should always provide *some* way to do it), because by doing so we end up making interfaces that treat those two things differently, when most people seem to be using them to indicate the same thing in different datasets rather than different things in the same dataset.  We've decided in several other places -- `has_fields`, for example -- to try to treat these more similarly, and I think all of those arguments still stand.\r\n\r\n(As an aside, we don't currently throw or anything when people compare `null` to a number.  This is arguably another place where we're treating it too much like a user value.)"
+  , issueCommentId = 19654601
+  }

@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2015 (-05) (-14) 22 : 21 : 42 UTC
+  , issueUpdatedAt = 2015 (-05) (-14) 22 : 21 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4220/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4220"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4220
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "server crashes on most ReQL tests in raft branch"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4220"
+  , issueCreatedAt = 2015 (-05) (-12) 23 : 35 : 12 UTC
+  , issueBody =
+      Just
+        "An initial run of the tests in the `raft` branch (0c09affe) showed a lot of server failures. I looked at a few, and my sample all looked the same, similar to:\r\n```\r\n2015-05-12T16:22:40.648587000 0.683790s debug: Added replica for table efa1f042-f6d7-4ee1-827a-9513c7dddc4c\r\n2015-05-12T16:22:42.483205000 2.518423s debug: Added replica for table 7ad78a74-a0e0-4bfb-92a2-da15d3293f99\r\n2015-05-12T16:22:44.309925000 4.345177s debug: Added replica for table b5784bcf-0d31-45e9-9d18-5926ce17f95c\r\n2015-05-12T16:22:46.146749000 6.182033s debug: Added replica for table de434b22-4999-4e23-823f-ae234f811610\r\n2015-05-12T16:22:53.804145000 13.839543s error: Error in src/concurrency/cross_thread_signal.cc at line 17:\r\n2015-05-12T16:22:53.807229000 13.842629s error: Assertion failed: [source->home_thread() == source_thread] \r\n2015-05-12T16:22:53.807501000 13.842901s error: Backtrace:\r\n2015-05-12T16:22:53.833165000 13.868565s error: Tue May 12 16:22:53 2015\r\n\r\n1: 0   rethinkdb                           0x000000010ae87c90 _Z19rethinkdb_backtracePPvi + 272 at 0x10ae87c90 ()\r\n2: 0   rethinkdb                           0x0000000109f47880 _ZN11backtrace_tC2Ev + 304 at 0x109f47880 ()\r\n3: 0   rethinkdb                           0x0000000109f497bb _ZN26lazy_backtrace_formatter_tC2Ev + 43 at 0x109f497bb ()\r\n4: 0   rethinkdb                           0x0000000109f466e5 _ZN26lazy_backtrace_formatter_tC1Ev + 21 at 0x109f466e5 ()\r\n5: 0   rethinkdb                           0x0000000109f46650 _Z16format_backtraceb + 48 at 0x109f46650 ()\r\n6: 0   rethinkdb                           0x000000010a7c567d _Z18report_fatal_errorPKciS0_z + 733 at 0x10a7c567d ()\r\n7: 0   rethinkdb                           0x000000010a7984b9 _ZN21cross_thread_signal_tC2EP8signal_t11threadnum_t + 313 at 0x10a7984b9 ()\r\n8: 0   rethinkdb                           0x000000010a7985b3 _ZN21cross_thread_signal_tC1EP8signal_t11threadnum_t + 35 at 0x10a7985b3 ()\r\n9: 0   rethinkdb                           0x000000010a73e9b3 _ZN19table_meta_client_t10get_configERK6uuid_uP8signal_tP25table_config_and_shards_t + 115 at 0x10a73e9b3 ()\r\n10: 0   rethinkdb                           0x000000010a296fdd _ZN29real_reql_cluster_interface_t22sindex_change_internalERK9counted_tIKN2ql4db_tEERK13name_string_tRKNSt3__18functionIFvPNSA_3mapINSA_12basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEE15sindex_config_tNSA_4lessISI_EENSG_INSA_4pairIKSI_SJ_EEEEEEEEEP8signal_t + 653 at 0x10a296fdd ()\r\n11: 0   rethinkdb                           0x000000010a2971f8 _ZN29real_reql_cluster_interface_t13sindex_createE9counted_tIKN2ql4db_tEERK13name_string_tRKNSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERK15sindex_config_tP8signal_tPSE_ + 264 at 0x10a2971f8 ()\r\n12: 0   rethinkdb                           0x000000010a02712d _ZN35artificial_reql_cluster_interface_t13sindex_createE9counted_tIKN2ql4db_tEERK13name_string_tRKNSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERK15sindex_config_tP8signal_tPSE_ + 1213 at 0x10a02712d ()\r\n13: 0   rethinkdb                           0x000000010ae01bd8 _ZNK2ql20sindex_create_term_t9eval_implEPNS_11scope_env_tEPNS_6args_tENS_12eval_flags_tE + 5944 at 0x10ae01bd8 ()\r\n14: 0   rethinkdb                           0x000000010aba9d61 _ZNK2ql9op_term_t9term_evalEPNS_11scope_env_tENS_12eval_flags_tE + 1953 at 0x10aba9d61 ()\r\n15: 0   rethinkdb                           0x000000010ad7a1fd _ZNK2ql14runtime_term_t4evalEPNS_11scope_env_tENS_12eval_flags_tE + 381 at 0x10ad7a1fd ()\r\n16: 0   rethinkdb                           0x000000010acd86ae _ZN2ql13query_cache_t5ref_t3runEPNS_5env_tEP8Response + 174 at 0x10acd86ae ()\r\n17: 0   rethinkdb                           0x000000010acd7da2 _ZN2ql13query_cache_t5ref_t13fill_responseEP8Response + 2066 at 0x10acd7da2 ()\r\n18: 0   rethinkdb                           0x000000010ad79b52 _ZN2ql3runEONS_10query_id_tENS_8protob_tI5QueryEEP8ResponsePNS_13query_cache_tEP8signal_t + 1330 at 0x10ad79b52 ()\r\n19: 0   rethinkdb                           0x000000010acdf905 _ZN18rdb_query_server_t9run_queryEON2ql10query_id_tERKNS0_8protob_tI5QueryEEP8ResponsePNS0_13query_cache_tEP8signal_t + 421 at 0x10acdf905 ()\r\n20: 0   rethinkdb                           0x000000010a8a7fe4 _ZZZN14query_server_t15connection_loopI15json_protocol_tEEvP16linux_tcp_conn_tmPN2ql13query_cache_tEP8signal_tENKUlNSt3__115__list_iteratorINS9_4pairINS4_10query_id_tENS4_8protob_tI5QueryEEEEPvEES8_E_clESI_S8_ENKUlvE_clEv + 116 at 0x10a8a7fe4 ()\r\n21: 0   rethinkdb                           0x000000010a8a7c33 _Z14save_exceptionIZZN14query_server_t15connection_loopI15json_protocol_tEEvP16linux_tcp_conn_tmPN2ql13query_cache_tEP8signal_tENKUlNSt3__115__list_iteratorINSA_4pairINS5_10query_id_tENS5_8protob_tI5QueryEEEEPvEES9_E_clESJ_S9_EUlvE_EvPSt13exception_ptrPNSA_12basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEEP6cond_tOT_ + 35 at 0x10a8a7c33 ()\r\n22: 0   rethinkdb                           0x000000010a8a79f2 _ZZN14query_server_t15connection_loopI15json_protocol_tEEvP16linux_tcp_conn_tmPN2ql13query_cache_tEP8signal_tENKUlNSt3__115__list_iteratorINS9_4pairINS4_10query_id_tENS4_8protob_tI5QueryEEEEPvEES8_E_clESI_S8_ + 482 at 0x10a8a79f2 ()\r\n23: 0   rethinkdb                           0x000000010a8a777a _ZNSt3__110__function6__funcIZN14query_server_t15connection_loopI15json_protocol_tEEvP16linux_tcp_conn_tmPN2ql13query_cache_tEP8signal_tEUlNS_15__list_iteratorINS_4pairINS7_10query_id_tENS7_8protob_tI5QueryEEEEPvEESB_E_NS_9allocatorISL_EEFvSK_SB_EEclEOSK_OSB_ + 138 at 0x10a8a777a ()\r\n24: 0   rethinkdb                           0x000000010a89f69f _ZNKSt3__18functionIFvNS_15__list_iteratorINS_4pairIN2ql10query_id_tENS3_8protob_tI5QueryEEEEPvEEP8signal_tEEclESA_SC_ + 175 at 0x10a89f69f ()\r\n25: 0   rethinkdb                           0x000000010a89f5ea _ZN23std_function_callback_tINSt3__115__list_iteratorINS0_4pairIN2ql10query_id_tENS3_8protob_tI5QueryEEEEPvEEE18coro_pool_callbackESA_P8signal_t + 74 at 0x10a89f5ea ()\r\n26: 0   rethinkdb                           0x000000010a8a05c9 _ZN11coro_pool_tINSt3__115__list_iteratorINS0_4pairIN2ql10query_id_tENS3_8protob_tI5QueryEEEEPvEEE10worker_runESA_N14auto_drainer_t6lock_tE + 169 at 0x10a8a05c9 ()\r\n27: 0   rethinkdb                           0x000000010a8a0d24 _ZN26callable_action_instance_tINSt3__16__bindIM11coro_pool_tINS0_15__list_iteratorINS0_4pairIN2ql10query_id_tENS5_8protob_tI5QueryEEEEPvEEEFvSC_N14auto_drainer_t6lock_tEEJPSD_SC_SF_EEEE10run_actionEv + 436 at 0x10a8a0d24 ()\r\n28: 0   rethinkdb                           0x0000000109f357fc _ZN25callable_action_wrapper_t3runEv + 108 at 0x109f357fc ()\r\n29: 0   rethinkdb                           0x0000000109f15a95 _ZN6coro_t3runEv + 917 at 0x109f15a95 ()\r\n2015-05-12T16:22:53.834109000 13.869509s error: Exiting.\r\n```"
+  , issueState = "closed"
+  , issueId = Id 75779054
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

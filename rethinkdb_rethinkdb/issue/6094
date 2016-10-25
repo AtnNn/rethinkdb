@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2016 (-09) (-08) 22 : 43 : 26 UTC
+  , issueUpdatedAt = 2016 (-09) (-08) 22 : 43 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6094/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6094"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 6094
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Consider making non-indexed `.orderBy(...)` stable"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6094"
+  , issueCreatedAt = 2016 (-09) (-07) 23 : 18 : 24 UTC
+  , issueBody =
+      Just
+        "Prior to some discussion with @danielmewes on Slack today, I had assumed all sorting operations in RethinkDB were stable. In particular, when comparing the field value of two documents, I assumed if the values were equal, we would fall back to comparing the documents in some deterministic fashion. Instead, it appears that document order is simply preserved from the input stream in this case.\r\n\r\nIt's worth noting that indexed `orderBy` is in fact stable since, internally, the secondary index is suffixed with the document's primary key. The discrepancy between an indexed and non-indexed sort is what caused confusion for me and it seems kinda bad as default behavior.\r\n\r\nI think we should consider making `orderBy` stable by default. In other words I think the following should produce the same (stable) result when multiple documents contain the same value for `foo`:\r\n\r\n- `.orderBy(index: 'foo')`\r\n- `.orderBy('foo')`\r\n- `.orderBy('foo', r.row)`\r\n\r\nDoesn't seem like there would be huge perf costs associated with this change, but even if there were I think I'd prefer a stable sort by default with an optarg to disable over the existing behavior."
+  , issueState = "closed"
+  , issueId = Id 175629216
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

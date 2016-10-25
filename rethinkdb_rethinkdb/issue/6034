@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-05) 17 : 35 : 30 UTC
+  , issueUpdatedAt = 2016 (-08) (-05) 18 : 14 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6034/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6034"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6034
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6288907
+        , simpleUserLogin = N "ramanala"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6288907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ramanala"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Silent data loss on metablock corruptions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6034"
+  , issueCreatedAt = 2016 (-08) (-05) 16 : 14 : 45 UTC
+  , issueBody =
+      Just
+        "Looking at the code in metablock_manager.hpp and metablock_manager.cc, I believe that rethinkdb does have checksums for metablocks. If a metablock is corrupted due to problems in lower layers such as bugs in FS, disk errors etc, there is a **silent user data loss**. I added some logs around check_crc and compute_own_crc functions in metablock_manager.hpp and noticed that even if the checksums do not match, there is no error given to the user (or in the logs), and I believe there is no recovery for such checksum mismatches. \r\n\r\nI do not have much knowledge about the on disk format of RethinkDB. But, my (wrong?) guess is that the metablocks hold pointers to the actual data blocks.  When a metablock is read, a CRC check is performed. If the checksums do not match, the data pointed by that corrupted metablock becomes **silently inaccessible**. My understanding is that, in its current state, RethinkDB can reliably **detect** corruption in metablocks but **cannot recover** from them. Is that right? Given that metablocks do have checksums and so corruptions can be detected, and that the user data is still intact, can RethinkDB do something to recover the metablock (especially in a replicated setting?). The same problem occurs even in a replicated setting when the leader's metablock is corrupted. \r\n\r\n \r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 169642808
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,86 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-10) 18 : 40 : 19 UTC
+  , issueUpdatedAt = 2013 (-06) (-10) 18 : 40 : 19 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/867/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/867"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 867
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal: r.match, r.search (regular expression matching)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/867"
+  , issueCreatedAt = 2013 (-05) (-22) 01 : 42 : 07 UTC
+  , issueBody =
+      Just
+        "I propose that we add (ERE) regular expression matching for strings that works as follows:\r\n\r\n* You can call `str.match(/.../)` and it will return either true or false.\r\n* You can call `str.match(/.../) {|groups| ...}` and the block will be called with either an array of the capture groups (with the first group being the entire matched string) or `nil` if the match failed.\r\n\r\nSo for example:\r\n```ruby\r\n> r(\"abcd\").match(/b/).run\r\ntrue\r\n> r(\"abcd\").match(/e/).run\r\nfalse\r\n> r(\"abcd\").match(/([ab])([cd])/) {|groups| groups}\r\n[\"bc\", \"b\", \"c\"]\r\n> r(\"abcd\").match(/([ab])d/) {|groups| groups}\r\nnil\r\n```\r\n\r\n* You can call `str.search(/.../)` and get the offset of the match, or `nil` if there is no match.\r\n* You can call `str.search(/.../) {|offsets| ...}` and the block will be called with either an array of offsets for the capture groups (with the first offset being the offset for the entire match) or with `nil` if the match failed.\r\n\r\nSo for example:\r\n```ruby\r\n> r(\"abcd\").search(/b/).run\r\n1\r\n> r(\"abcd\").search(/e/).run\r\nnil\r\n> r(\"abcd\").search(/([ab])([cd])/) {|offsets| offsets}\r\n[1, 1, 2]\r\n> r(\"abcd\").search(/([ab])d/) {|offsets| offsets}\r\nnil\r\n```"
+  , issueState = "closed"
+  , issueId = Id 14600510
+  , issueComments = 40
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-06) (-06) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 31
+          , milestoneClosedIssues = 67
+          , milestoneDescription =
+              Just
+                "The primary purpose of this release is to make ReQL improvements we've been waiting to make for so long.\r\n\r\n"
+          , milestoneTitle = "1.6"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/31"
+          , milestoneCreatedAt = 2013 (-04) (-27) 01 : 30 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

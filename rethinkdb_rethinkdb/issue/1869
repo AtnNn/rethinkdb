@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-16) 20 : 05 : 02 UTC
+  , issueUpdatedAt = 2014 (-03) (-24) 11 : 22 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1869/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1869"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1869
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error in src/extproc/extproc_worker.cc at line 128: Guarantee failed: [res == 0]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1869"
+  , issueCreatedAt = 2014 (-01) (-16) 07 : 27 : 03 UTC
+  , issueBody =
+      Just
+        "This happened on OSX while running the javascript polyglot tests on lex-luthor with v1.11.x (53f3faeb0a5319f).\r\n\r\n```\r\n       1: 0   rethinkdb                           0x00000001010d8beb _Z19rethinkdb_backtracePPvi + 139 at 0x1010d8beb ()\r\n       2: 0   rethinkdb                           0x0000000100bf7b0c _ZN11backtrace_tC2Ev + 76 at 0x100bf7b0c ()\r\n       3: 0   rethinkdb                           0x0000000100bf8357 _ZN26lazy_backtrace_formatter_tC2Ev + 39 at 0x100bf8357 ()\r\n       4: 0   rethinkdb                           0x0000000100bf772a _Z16format_backtraceb + 26 at 0x100bf772a ()\r\n       5: 0   rethinkdb                           0x0000000100f8849c _Z18report_fatal_errorPKciS0_z + 412 at 0x100f8849c ()\r\n       6: 0   rethinkdb                           0x0000000100f8b0cb _ZN16extproc_worker_tD2Ev + 219 at 0x100f8b0cb ()\r\n       7: 0   rethinkdb                           0x0000000100f89b7a _ZN24cross_thread_semaphore_tI16extproc_worker_tED2Ev + 90 at 0x100f89b7a ()\r\n       8: 0   rethinkdb                           0x0000000100f8963c _ZN14extproc_pool_tD2Ev + 28 at 0x100f8963c ()\r\n       9: 0   rethinkdb                           0x0000000100d638d3 _Z8do_serveP14io_backender_tbRK11base_path_tPN20metadata_persistence25cluster_persistent_file_tEPNS4_22auth_persistent_file_tERK18peer_address_set_t23service_address_ports_tNSt3__112basic_stringIcNSD_11char_traitsIcEENSD_9allocatorIcEEEEP16os_signal_cond_tRKN5boost8optionalISJ_EE + 14595 at 0x100d638d3 ()\r\n       10: 0   rethinkdb                           0x0000000100d658cc _Z5serveP14io_backender_tRK11base_path_tPN20metadata_persistence25cluster_persistent_file_tEPNS4_22auth_persistent_file_tERK18peer_address_set_t23service_address_ports_tNSt3__112basic_stringIcNSD_11char_traitsIcEENSD_9allocatorIcEEEEP16os_signal_cond_tRKN5boost8optionalISJ_EE + 140 at 0x100d658cc ()\r\n       11: 0   rethinkdb                           0x0000000100d39c3b _Z19run_rethinkdb_serveRK11base_path_tRK12serve_info_t21file_direct_io_mode_tiPK6uuid_uPK30cluster_semilattice_metadata_tP16directory_lock_tPb + 1067 at 0x100d39c3b ()\r\n       12: 0   rethinkdb                           0x0000000100d4c0d6 _ZN5boost6detail8function26void_function_obj_invoker0INSt3__16__bindIPFvRK11base_path_tRK12serve_info_t21file_direct_io_mode_tiPK6uuid_uPK30cluster_semilattice_metadata_tP16directory_lock_tPbEJRS5_RS8_RKSB_RiPSC_PSF_SJ_SK_EEEvE6invokeERNS1_15function_bufferE + 70 at 0x100d4c0d6 ()\r\n       13: 0   rethinkdb                           0x0000000100bf28c2 _ZN9starter_t11run_wrapperERKN5boost8functionIFvvEEE + 34 at 0x100bf28c2 ()\r\n       14: 0   rethinkdb                           0x0000000100bf23fd _ZN26callable_action_instance_tIN5boost8functionIFvvEEEE10run_actionEv + 29 at 0x100bf23fd ()\r\n       15: 0   rethinkdb                           0x0000000100beff18 _ZN6coro_t3runEv + 88 at 0x100beff18 ()\r\n```\r\n\r\nHere is the offending code:\r\n\r\n```\r\n    int res = send_write_message(get_write_stream(), &msg);\r\n    guarantee(res == 0);\r\n```\r\n\r\n@Tryneus can you take a look? I have not been able to reproduce it."
+  , issueState = "closed"
+  , issueId = Id 25707416
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

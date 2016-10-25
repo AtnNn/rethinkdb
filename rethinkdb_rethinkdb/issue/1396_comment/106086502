@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 21 : 37 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 12630927
+        , simpleUserLogin = N "tkodw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/12630927?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tkodw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/106086502"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1396#issuecomment-106086502"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 21 : 37 : 07 UTC
+  , issueCommentBody =
+      "Disclamer: I don't have detailed knowledge of the inner workings of RethinkDB, so my questions and suggestions might bit a off the mark. \r\n\r\nThree reasons to switch to LZ4 over snappy (disregarding the possibility that it may be faster)\r\n1. Provides settings to control the balance of performance to compression ratio \r\n2. Supports the usage of a Static Dictionary\r\n3. More active development\r\n\r\nHave you considered limiting compression to the compacting/garbage collection step? Compression is fairly expensive compared to decompression, so it might be beneficial to to keep it out of operations that might block write confirmations, etc.\r\n\r\nI see there is discussion of throughput and cpu usage, but no mention of latency?\r\n\r\nHave you looked into the use of static dictionaries? There are opportunities for easy benefit from a static dictionary, since you can fill them with the default primary key, common protocol buffer sequences, and common numeric values to improve compression efficiency even without needing to do any runtime analysis on the data to be compressed. Note that the additional cost of using a static dictionary during decompression is at worst a memcopy the size of the dictionary and at best a pointer assignment. You could also try having a static dictionary per storage block that contains keys and values common to several documents in the block including protocol buffer overhead, then compress each document individually. It would then be possible to read or write individual documents without having to fully process the entire block.\r\n\r\nI'd like to emphasize the simplicity of LZO, LZ4, Snappy, and other speed focused sliding LZ77 algorithms during decompression. All of those algorithms do is simply create a series of tokens that either memcopy a literal contained in the token or memcopy from some offset back from the current output position. There are no memory allocations and no significant memory usage other than the buffer that contains the compressed data and the output buffer. The only significant computations are interpreting the tokens to determine when to copy a literal vs copy within output and bit-shuffling lengths and offsets out of the tokens. I would not be surprised if you found that in many cases the cost of decompressing data using one of these algorithms is lower than protocol buffer deserialization."
+  , issueCommentId = 106086502
+  }

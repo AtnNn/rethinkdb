@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-09) 19 : 43 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66344459"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-66344459"
+  , issueCommentCreatedAt = 2014 (-12) (-09) 19 : 43 : 12 UTC
+  , issueCommentBody =
+      "One thing we haven't really talked about much here is what the benefit of a connection pool is in the first place.\r\n\r\nThe way RethinkDB currently handles connections, the server will only execute a single query on a given connection at a time. This makes using multiple connections necessary if you want to increase throughput and reduce latency.\r\nHowever we are (very likely) going to change that with https://github.com/rethinkdb/rethinkdb/issues/3296 , since that property of our query handling has also proven to be an issue in conjunction with changefeeds.\r\n\r\nSo assume we have implemented https://github.com/rethinkdb/rethinkdb/issues/3296 and you can have multiple active queries running on a single connection. In that case - as far as I can see - you would be able to get the same throughput and mostly the same latency out of a single connection, without any need for a connection pool or for using multiple connections in the first place.\r\n\r\nThere are still two advantages for a connection pool:\r\n- This one is probably minor in practice, but it might matter in a few applications. While #3296 would allow multiple queries to run in parallel on a single connection, the queries and their results would still be transferred between the server and the client one at a time. If you have a query that retrieves a large result set and which doesn't use a cursor to split it up, other queries will not receive their (possibly smaller) results while the big result is transferred back. Note that the overall throughput remains the same compared to a connection pool. However if you have a mixture of queries with small results and queries with large results, the latencies of the queries with small results would increase by using only a single connection.\r\n- If you have a cluster of RethinkDB servers, a connection pool allows you to connect to multiple servers and to perform load balancing (and to some degree failover) between them. One alternative for this is a RethinkDB proxy node running on the application server. A proxy node is much smarter than a connection pool would be in routing queries to the right server (since it understands the state of the cluster). It's a little bit of extra work to set up though.\r\n\r\n@mike-marcacci @mkleehammer @nviennot @derkan @jockee @nickpoorman @dminkovsky Which aspect of a connection pool is most important for you? Maybe I forgot a good reason for why they are useful?"
+  , issueCommentId = 66344459
+  }

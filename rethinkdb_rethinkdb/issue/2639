@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-05) 03 : 32 : 40 UTC
+  , issueUpdatedAt = 2015 (-06) (-05) 03 : 34 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2639/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2639"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 2639
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "When coroutine stacks overflow kill the query, not the server"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2639"
+  , issueCreatedAt = 2014 (-07) (-02) 18 : 10 : 00 UTC
+  , issueBody =
+      Just
+        "Take a query like this:\r\n\r\n```\r\nr.expr({id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:{id:1}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}})\r\n```\r\n\r\nThis one works now, but increase the depth arbitrarily (to 180 as of this writing). The server crashes:\r\n\r\n```\r\nerror: Error in ../src/arch/runtime/thread_pool.cc at line 341:\r\nerror: Callstack overflow in a coroutine\r\nerror: Backtrace:\r\nerror: Wed Jun 25 14:48:28 2014\r\n\r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:101\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:202\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:282\r\n       4: format_backtrace(bool) at backtrace.cc:197\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       6: linux_thread_pool_t::sigsegv_handler(int, siginfo*, void*) at thread_pool.cc:341\r\n       7: /lib/x86_64-linux-gnu/libpthread.so.0(+0xfcb0) [0x7f5536b57cb0] at 0x7f5536b57cb0 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       8: google::protobuf::internal::MessageTypeTraits<Backtrace>::Get(int, google::protobuf::internal::ExtensionSet const&, Backtrace const&) at extension_set.h:713\r\n       9: google::protobuf::internal::MessageTypeTraits<Backtrace>::ConstType Term::GetExtension<google::protobuf::internal::MessageTypeTraits<Backtrace>, (unsigned char)11, false>(google::protobuf::internal::ExtensionIdentifier<Term, google::protobuf::internal::MessageTypeTraits<Backtrace>, (unsigned char)11, false> const&) const at ql2.pb.h:1722\r\n       10: ql::get_backtrace(ql::protob_t<Term const> const&) at error.cc:127\r\n       11: ql::term_t::term_t(ql::protob_t<Term const>) at term.cc:328\r\n       12: ql::op_term_t::op_term_t(ql::compile_env_t*, ql::protob_t<Term const>, ql::argspec_t, ql::optargspec_t) at op.cc:184\r\n       13: ql::make_obj_term_t::make_obj_term_t(ql::compile_env_t*, ql::protob_t<Term const> const&) at datum_terms.cc:60\r\n       14: counted_t<ql::make_obj_term_t> make_counted<ql::make_obj_term_t, ql::compile_env_t*&, ql::protob_t<Term const> const&>(ql::compile_env_t*&&&, ql::protob_t<Term const> const&&&) at counted.hpp:141\r\n       15: ql::make_make_obj_term(ql::compile_env_t*, ql::protob_t<Term const> const&) at datum_terms.cc:91\r\n       16: ql::compile_term(ql::compile_env_t*, ql::protob_t<Term const>) at term.cc:23\r\n       17: ql::op_term_t::op_term_t(ql::compile_env_t*, ql::protob_t<Term const>, ql::argspec_t, ql::optargspec_t) at op.cc:207\r\n       18: ql::make_obj_term_t::make_obj_term_t(ql::compile_env_t*, ql::protob_t<Term const> const&) at datum_terms.cc:60\r\n       19: counted_t<ql::make_obj_term_t> make_counted<ql::make_obj_term_t, ql::compile_env_t*&, ql::protob_t<Term const> const&>(ql::compile_env_t*&&&, ql::protob_t<Term const> const&&&) at counted.hpp:141\r\n       20: ql::make_make_obj_term(ql::compile_env_t*, ql::protob_t<Term const> const&) at datum_terms.cc:91\r\n       21: ql::compile_term(ql::compile_env_t*, ql::protob_t<Term const>) at term.cc:23\r\n       22: ql::op_term_t::op_term_t(ql::compile_env_t*, ql::protob_t<Term const>, ql::argspec_t, ql::optargspec_t) at op.cc:207\r\n...\r\n```\r\n\r\nSince it's really hard in general to look at user input and figure out whether it will cause a stack overflow, we should detect stack overflows and recover cleanly with an error for the user.\r\n\r\nThis was originally discussed in #173."
+  , issueState = "closed"
+  , issueId = Id 37008557
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 101
+          , milestoneClosedIssues = 9
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/101"
+          , milestoneCreatedAt = 2015 (-06) (-03) 19 : 26 : 22 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-08) (-05) 02 : 13 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6031/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6031"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "009800"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/good_for_contributors"
+          , labelName = "good_for_contributors"
+          }
+      , IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 6031
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "babel plugin for ReQL"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6031"
+  , issueCreatedAt = 2016 (-08) (-04) 21 : 36 : 13 UTC
+  , issueBody =
+      Just
+        "JavaScript reql is one of the ugliest versions of reql, but luckily there's a [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) for making this kind of thing look nicer: Babel. It's modular so you can implement small functionality like this and have it integrate with other transforms. There's a nice [guide](https://github.com/thejameskyle/babel-handbook/blob/master/translations/en/plugin-handbook.md) as well\r\n\r\nHere are some transformations it could do:\r\n\r\nfield access:\r\n```js\r\nx.foo.bar // -> x('foo')('bar')\r\nx['foo'] // -> x('foo')\r\n```\r\n(this has been argued possible with getters, but has complications)\r\n\r\narithmetic operators:\r\n```js\r\nx + 4 // -> x.add(4)\r\nm === 3 // -> m.eq(3)\r\n!x // -> x.not()\r\n```\r\nexpression ifs:\r\n```js\r\nif (x === 3) {\r\n  'is3'\r\n} else if (x === 4) {\r\n  'is4'\r\n} else {\r\n  'foo'\r\n}\r\n// ->\r\nr.branch(x.eq(3), 'is3', x.eq(4), 'is4', 'foo')\r\n```\r\n(the branch looks better here, but if the expressions got complicated it would be nice)\r\n\r\nlet binding:\r\n```js\r\nlet y = r.table('33').filter({x: 3}).coerceTo('array')\r\nlet z = 24\r\nr.map(y, y, y, (x1, x2, x3) => [x2, x3, x1, z+z])\r\n// ->\r\nr.do(r.table('33').filter({ x: 3}).coerceTo('array'), 24, (y, z) =>\r\n   r.map(y, y, y, (x1, x2, x3) => [x2, x3, x1, z.add(z)]))\r\n```\r\n\r\nDestructuring:\r\n```js\r\nlet { x, y } = r.someExpensiveCalculation()\r\nr.db(x).table(y)\r\n// =>\r\nr.do(r.someExpensiveCalculation(), (sec) =>\r\n  r.do(sec('x'), sec('y'), (x, y) => r.db(x).table(y))\r\n```\r\n\r\nWith this kind of plugin, you could write some very unwieldy reql using javascript-like syntax"
+  , issueState = "open"
+  , issueId = Id 169479315
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

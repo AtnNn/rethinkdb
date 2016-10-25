@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-02) 21 : 01 : 20 UTC
+  , issueUpdatedAt = 2016 (-08) (-30) 01 : 50 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5977/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5977"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5977
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Update using r.literal() in nested structure fails (?)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5977"
+  , issueCreatedAt = 2016 (-07) (-20) 14 : 37 : 04 UTC
+  , issueBody =
+      Just
+        "I have a database migration script that (amongst other things) converts a \"flat\" value into structured value. In my case I'm changing an id referencing a document in another table to storing the other document \"inline\".\r\n\r\nAnyway, to specifics.\r\n\r\nGiven the following document:\r\n```\r\n{\r\n   'id': 'test', \r\n   'data': 'flat_value' \r\n}\r\n```\r\nAnd then doing an update, replacing `data` with a structured value that contains `r.literal()` (and in my case a lot of other things).\r\nPerforming the write works fine. Or at least appears to:\r\n```\r\n>> table.get('test').update({\r\n   'data': {\r\n       'nested': r.literal()\r\n    }\r\n}).run()\r\n{\r\n   'replaced': 1,\r\n   'skipped': 0,\r\n   'unchanged': 0,\r\n   'inserted': 0,\r\n   'deleted': 0,\r\n   'errors': 0\r\n}\r\n```\r\n\r\nNo error. However, attempting to retrieve the document fails:\r\n\r\n```\r\n>> table.get('test').run()\r\nReqlDriverError: Unknown pseudo-type LITERAL\r\n```\r\n\r\nThis happens only when _replacing_ an existing value with an object that contains r.literal().\r\nGiven the original document and adding a new field works fine:\r\n```\r\n>> table.get('test').update({\r\n   'new_data': {\r\n      'nested': r.literal()\r\n   }\r\n}).run()\r\n>> table.get('test').run()\r\n{\r\n   'id': 'test',\r\n   'data': 'flat_value',\r\n   'new_data': { }\r\n}\r\n```\r\n\r\nedit: shortened queries\r\nedit2: fixed output of last query"
+  , issueState = "closed"
+  , issueId = Id 166597328
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

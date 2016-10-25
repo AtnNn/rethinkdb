@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-09) 05 : 15 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/163110597"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5090#issuecomment-163110597"
+  , issueCommentCreatedAt = 2015 (-12) (-09) 05 : 15 : 12 UTC
+  , issueCommentBody =
+      "That's a good point.  I think you're right that we should probably make the interface the same as the interface for `order_by`, but that adds the complication that we can't name the different ways of combining streams with strings because there might be fields with those names.\r\n\r\nHow about this: we have an optarg called `interleave`.  It defaults to `true`, but can be set to `false` if you want to do left-to-right unioning.  It can also be set to a string, an array of strings, or a function, which will perform a mergesort with the same semantics as `order_by`.  (So the function is a selector, not a comparator -- you'd write `.union(..., interleaved: function(row) { return row('field'); })` as a synonym for `.union(..., interleaved: 'field')`.)\r\n\r\nAlso, if you set `interleaved` in a way that causes a mergesort, we should assert that the input streams are in fact ordered by whatever you specify and throw if they aren't."
+  , issueCommentId = 163110597
+  }

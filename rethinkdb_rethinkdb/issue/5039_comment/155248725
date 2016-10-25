@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-10) 00 : 55 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1325507
+        , simpleUserLogin = N "mshi"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1325507?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mshi"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/155248725"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5039#issuecomment-155248725"
+  , issueCommentCreatedAt = 2015 (-11) (-10) 00 : 55 : 35 UTC
+  , issueCommentBody =
+      "@danielmewes I'm going to assume you mean `ulimit -a`, but yes we have that set to be 100000. I have also verified the open file limit for rethinkdb process is that value as well.\r\n\r\nBy checking the number of open connections, I see there are only 5481, which is well below that limit. I have seen the stats table before, but it does not show how many clients are writing to which table. I guess I have to somehow filter through the jobs table to find that.\r\n\r\nIn our application logs, there are no entries to indicate that there are no connections available.\r\n\r\nI only mentioned the connection limit because it was only a gut feeling because it was in spikes and it felt like there was a database lock because the reads were being blocked, however IO and CPU usage were all low. \r\n\r\nWe noticed a big difference when we removed the oversea servers that were accessing the database so that confirmed my original guess.\r\n\r\nIf there are statistics on which tables are locked for reading, or which tables are being written to or anything of the sort; that would probably be helpful."
+  , issueCommentId = 155248725
+  }

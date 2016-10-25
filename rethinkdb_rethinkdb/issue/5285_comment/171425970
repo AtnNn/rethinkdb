@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-13) 20 : 40 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1561091
+        , simpleUserLogin = N "ChrisCates"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1561091?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ChrisCates"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/171425970"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5285#issuecomment-171425970"
+  , issueCommentCreatedAt = 2016 (-01) (-13) 20 : 40 : 32 UTC
+  , issueCommentBody =
+      "The offending script:\r\n\r\n```\r\nvar mysql      = require('mysql');\r\nvar r = require(\"rethinkdbdash\")();\r\nvar async = require(\"async\");\r\n\r\nrequire(\"rethink-config\")({\r\n  \"r\": r,\r\n  \"database\": \"ilac\",\r\n  \"tables\": [\r\n    \"legacy\"\r\n   ],\r\n});\r\n\r\nvar connection = mysql.createConnection({\r\n  host     : 'localhost',\r\n  user     : 'root',\r\n  password : 'root',\r\n  database : 'ilac_legacy',\r\n  port: 8889\r\n});\r\n\r\nconnection.connect();\r\n\r\nvar count = 20447;\r\nvar page = 0;\r\nvar maxPages = 3500;\r\n\r\nasync.whilst(function() {\r\n  return page < maxPages\r\n}, function(whilst) {\r\n  connection.query(\"SELECT * FROM `student_info` LIMIT 500 OFFSET \" + (count + (page * 500)), function(err,rows,fields) {\r\n    if (err) throw err;\r\n\r\n    async.mapLimit(rows, 25, function(row, callback) {\r\n      r.db(\"ilac\").table(\"legacy\").filter(row).then(function(result) {\r\n        if (result.length == 0) {\r\n          r.db(\"ilac\").table(\"legacy\").insert(row).then(function() {\r\n            console.log(\"Row inserted #\" + count);\r\n            count++;\r\n            callback(null);\r\n          });\r\n        } else {\r\n          console.log(\"Row already exists #\" + count);\r\n          count++;\r\n          callback(null);\r\n        }\r\n      })\r\n    }, function(err) {\r\n      page++;\r\n      whilst(null);\r\n    });\r\n  })\r\n\r\n})\r\n```"
+  , issueCommentId = 171425970
+  }

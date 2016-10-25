@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-25) 21 : 23 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/214527621"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5718#issuecomment-214527621"
+  , issueCommentCreatedAt = 2016 (-04) (-25) 21 : 23 : 33 UTC
+  , issueCommentBody =
+      "@jrote1 There can be different reasons for this query being slow.\r\nIn general the query will have to read all documents in the table, which can take a long time if the data is not in cache already. Especially if the table is stored on a rotational disk (rather than SSD) or a slow cloud-storage volume, just loading every document can take a very long time.\r\n\r\nWhat is the hardware you're running this on?\r\n\r\nSecondly, this type of query requires the result for all groups to fit into RAM. If there are a lot of different \"Hash\" values, this might use a lot of memory. Though I believe the query would actually abort after 100,000 results in that case. I recently posted a query using `fold` that accomplishes the same task as the .group.count query, but doesn't require the full result to fit into memory. You might want to give it a shot as well: https://github.com/rethinkdb/rethinkdb/issues/5695#issuecomment-213551014"
+  , issueCommentId = 214527621
+  }

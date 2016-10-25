@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-12) 23 : 32 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/156270411"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5043#issuecomment-156270411"
+  , issueCommentCreatedAt = 2015 (-11) (-12) 23 : 31 : 15 UTC
+  , issueCommentBody =
+      "I'm also seeing this with my test of using asyncio:\r\n\r\n```python\r\n@asyncio.coroutine\r\ndef asyncio_query(future, survey_id):\r\n    data = []\r\n    tconn = yield from r.connect(\"mt1-rethinkd1c1\")\r\n    tconn._get_json_decoder = create_decoder\r\n    print(\"survey\", survey_id)\r\n    q = r.table(TABLE).filter({'survey_id': survey_id})\r\n    cursor = yield from q.pluck(\r\n        \"survey_id\", \"respondent_id\", \"row_id\", \"column_id\", \"value_id\"\r\n    ).map(r.row.values()).run(tconn)\r\n\r\n    while(yield from cursor.fetch_next()):\r\n        row = yield from cursor.next()\r\n        data.append(row)\r\n\r\n    cursor.close()\r\n    tconn.close()\r\n    print(\"survey: %s, data: %s\" % (survey_id, len(data)))\r\n    future.set_result(data)\r\n\r\ndef get_async_io():\r\n    r.set_loop_type(\"asyncio\")\r\n    loop = asyncio.get_event_loop()\r\n\r\n    futures = []\r\n    for i in range(1, 16):\r\n        future = asyncio.Future()\r\n        asyncio.async(asyncio_query(future, i))\r\n        futures.append(future)\r\n\r\n    loop.run_until_complete(asyncio.gather(*futures))\r\n    data = []\r\n\r\n    for future in futures:\r\n        data += future.result()\r\n    print('got all data')\r\n    loop.close()\r\n    return data\r\n\r\n```"
+  , issueCommentId = 156270411
+  }

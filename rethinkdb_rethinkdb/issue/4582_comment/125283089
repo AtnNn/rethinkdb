@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-27) 17 : 41 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/125283089"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4582#issuecomment-125283089"
+  , issueCommentCreatedAt = 2015 (-07) (-27) 17 : 39 : 04 UTC
+  , issueCommentBody =
+      "The implicit `merge` being atomic gives guarantees like this one:\r\nAssume a document with two fields `a` and `b`. If I run a non-atomic `update` on field `a`, then concurrent updates to field `b` can still be atomic and form a linearizable history (the update on `a` never \"undoes\" a change on `b`).\r\nI think this is very useful.\r\n\r\nGiven this behavior for the `merge`, I believe\r\n`update(some_object)` with `some_object` not being a function is equivalent to `update(some_object, non_atomic=true)`, right?\r\n\r\nSo adding this check shouldn't have any disadvantages as far as I can tell, except that a few people will have to add a `non_atomic=true` to their `update`s / `replace`s.\r\nAt the same time we have evidence that the current behavior can lead to confusion about the atomicity of operations, because (mostly due to `r.row`) we don't make it obvious when something is a function and when it is not.\r\n\r\nI really think we should just do this. Unless you have concerns that this could have other side effects that I didn't consider, I don't think this needs a ReQL discussion. It would bring our implementation in line with what the documentation already says, and it would make it much easier to explain when an update is atomic (\"everything inside the `update` command is executed atomically, unless `non_atomic=true` is given\")."
+  , issueCommentId = 125283089
+  }

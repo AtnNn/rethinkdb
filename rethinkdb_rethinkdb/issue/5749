@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-02) 20 : 07 : 55 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5749/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5749"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5749
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Make `distinct` without an index maintain order"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5749"
+  , issueCreatedAt = 2016 (-05) (-06) 23 : 59 : 41 UTC
+  , issueBody =
+      Just
+        "Currently `distinct` without an index ignores the order of its input.\r\nThis is because it stores all inputs into an `std::set<datum_t>`.\r\n\r\n@rocketraman ran into this when trying to use distinct on the result of a `getNearest` query using a multi-index. The only work-around I could come up with has O(n^2) complexity [1].\r\n\r\nGiven that `datum_t`s are reference counted, there is no good reason as far as I can tell for using the `std::set` order rather than the input's ordering. We can use the set purely for testing whether an element is a duplicate, but otherwise add elements to the result `vector` as we iterate over them.\r\n\r\nSome people could be relying on the fact that `distinct` currently implicitly performs an `orderBy` as well, though I think we don't document that behavior anywhere.\r\nMarking this a ReQL_proposal for 2.4 (polish).\r\n\r\n\r\n[1]: Work-around for an order-preserving `distinct`, assuming the documents have a primary key `id` field containing string values:\r\n```js\r\n.fold(\r\n  {},\r\n  function(seen_old, e) { return seen_old.merge(r.object(e('id'), true)); },\r\n  {\r\n    emit: function(seen_old, e, seen_new) { r.branch(seen_old.hasFields(e('id')), [], [e] ); }\r\n  }\r\n)\r\n```"
+  , issueState = "open"
+  , issueId = Id 153560091
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-20) 15 : 47 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212387011"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5690#issuecomment-212387011"
+  , issueCommentCreatedAt = 2016 (-04) (-20) 11 : 25 : 37 UTC
+  , issueCommentBody =
+      "I don't know what the best practice is in Java. Using `Exception` could certainly be bad practice.\r\n\r\nHowever, I mostly see this from a conceptual point of view though. At least, my thinking is when the driver created a dedicated thread for processing responses, the driver should maintain control over the thread and not let it get out of bounds exceptionally and silently fail/stop.\r\n\r\nAlso, handling `Exception e` isolates the response thread from the underlying implementation details in `SocketWrapper.java` whereas now the response thread is dependent on the underlying implementation (to catch and only catch `IOException`). Swapping out the underlying `SocketWrapper` with a different implementation (or making a change) that could potentially throw a new kind of exception (maybe an `IndexOutOfBoundsException`?) would alter the correctness of the response loop when the thread is catching and only catching `IOException`. And then we would run into the same issue again with the thread silently failing/stopping without clean up or fanfare on `IndexOutOfBoundsException`.\r\n\r\nFor what it's worth, the .NET driver also catches `Exception e` in its response loop."
+  , issueCommentId = 212387011
+  }

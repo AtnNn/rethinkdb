@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-15) 23 : 39 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32427724"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1866#issuecomment-32427724"
+  , issueCommentCreatedAt = 2014 (-01) (-15) 23 : 36 : 39 UTC
+  , issueCommentBody =
+      "I've seen people use Date to represent times that are used to manage subscriptions, recurring stuff and things that are run on a low frequency. Having said that, it is expected that Date do not loose precision:\r\n\r\n```ruby\r\n> Date.today + (2**100).years\r\n=> Fri, 15 Jan 1267650600228229401496703207390\r\n```\r\n\r\n`DateTime` was implemented when `Time` wasn't precise enough to represent times that would be very far away 1970. Now, this is no longer an issue (1.9.3+ or something).\r\n\r\n```ruby\r\n> t = Time.now\r\n=> 2014-01-15 18:37:47 -0500\r\n> t + (2**100).years\r\n=> 1267650600228229401496703207390-01-15 18:37:47 -0500\r\n```\r\n\r\n Also, I'm not sure if `DateTime` handles leap seconds the same as `Time`.\r\n\r\nI think some developers would use `DateTime` if they expect this value to never lose precision, or because they think it's safer to use than Time.\r\n\r\nFor now, I think that it's dangerous to provide support for Date or DateTime if we lose precision on these values."
+  , issueCommentId = 32427724
+  }

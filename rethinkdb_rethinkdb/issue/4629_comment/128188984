@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-06) 00 : 03 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128188984"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128188984"
+  , issueCommentCreatedAt = 2015 (-08) (-06) 00 : 03 : 24 UTC
+  , issueCommentBody =
+      "Here's an alternate proposal:\r\n\r\n* Timestamps are a set of `<machine ID, wall time>` pairs.\r\n* When a batch write is first issued, we shard it and send it to multiple machines.\r\n  - On each primary, for each write in the batch write we assigned the write a stamp of `{primary: current_time}`.  This is the stamp that is sent with that write to the changefeed.  We return the stamp `{primary: max(current_time)}` (so the latest stamp from all the writes in the batch).\r\n  - During the unsharding phase, we simply union all these sets together (so if we have `{m1: t1}`, `{m1: t2}`, and `{m2: t3}` unsharding produces `{m1: max(t1, t2), m2: t3}`).\r\n* Changefeeds maintain a set of `<machine ID, latest wall time>` pairs and send a stamp at the end of every batch as a `state` message.\r\n* Clients just need to watch for these state messages, and if they see a state message with a stamp that strictly dominates the stamp they received for a write (the stamp is >= the stamp they received for every machine) they know that write is reflected in the changefeed.  (In the case where they have an unsharded table, they just need to compare two numbers during this step.)\r\n  - Optionally we provide a way to automate this in the clients so that people don't have to write the comparison function themselves.\r\n\r\nI think that solves all the major problems, and has the advantage that it also works for coordinating writes with changefeeds opened by other clients (I think it's good to be general here if we can).\r\n\r\nOne long-term complication is failover.  Long-term we'd like changefeeds to survive failover, and I'm not 100% sure how this can be adapted to support that.  (Although it would probably be fine to have an additional sync message or something in that case that the clients have to handle.)"
+  , issueCommentId = 128188984
+  }

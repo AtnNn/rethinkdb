@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-18) 23 : 17 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21221953"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1188#issuecomment-21221953"
+  , issueCommentCreatedAt = 2013 (-07) (-18) 23 : 17 : 42 UTC
+  , issueCommentBody =
+      "Re-opening.  Either the error message or the backtrace is wrong here -- the query as it is now doesn't tell users which argument it expected to be what.  In fact, it looks like the *result* of the add was expected to be something else.\r\n\r\nIf we have a type error, we need to underline the part of the query that was the wrong type.\r\n\r\nLet's say I'm a user and I get back this error:\r\n\r\n```\r\nRqlRuntimeError: Expected type ARRAY but found NUMBER.\r\nr.add(x, r.add(y, z))\r\n         ^^^^^^^^^^^\r\n```\r\n\r\nThis error message looks like it means \"`r.add(y, z)` returned a number when I was expecting an array\".  What it actually means is \"one of `y` or `z` returned a number when I was expecting an array, but I'm not gonna tell you which, although it's totally unambiguous if you've memorized my polymorphism resolution algorithm\".\r\n\r\nWe need to either provide an error message appropriate to the `add` term we're underlining (perhaps the one I suggested), or we need to underline the sub-term that had the type error we're reporting."
+  , issueCommentId = 21221953
+  }

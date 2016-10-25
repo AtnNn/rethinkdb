@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-09) 19 : 45 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73576131"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3719#issuecomment-73576131"
+  , issueCommentCreatedAt = 2015 (-02) (-09) 19 : 45 : 42 UTC
+  , issueCommentBody =
+      "Ok there seem to be three possible variants here:\r\n\r\n1. return `[{old_val: ..., new_val: ...}, {old_val: ..., new_val: ...}, ...]`. Unchanged values will have both old_val and new_val set to the same value.\r\n  \r\n  Pro:\r\n  - you still get a diff\r\n  \r\n  Con:\r\n  - we get lots of pairs where `old_val` is the same as `new_val`. We don't generate such pairs anywhere else, so this would be a bit of an inconsistency.\r\n  - to overwrite the result set in your application completely, you need to append a `.filter(r.row.ne(null))` after `changes`\r\n2. return `{old_val: [v1, v2, v3, ...], new_val: [v1', v2', v3', ...]}`. If a value gets removed it will not appear in `new_val`. If it gets added it will not appear in `old_val` (i.e. there won't be any `null`s in the arrays)\r\n  \r\n  Pro:\r\n  - trivial to use if you just want to update the full result\r\n  \r\n  Con:\r\n  - no easy way to still get a diff (e.g. if you want to highlight changes in your UI)\r\n3. return `{old_val: [v1, v2, v3, ...], new_val: [v1', v2', v3', ...]}`. If a value gets removed put a `null` in its place in `new_val`, if it gets added put one in `old_val`.\r\n  \r\n  Pro:\r\n  - you still get a diff\r\n  \r\n  Con:\r\n  - the diff comes in a different format than usual\r\n  - to overwrite the result set in your application completely, you need to append a `.filter(r.row.ne(null))` after `changes`\r\n\r\n\r\nI really like option 2 the most, since it's very simple. I feel like 1 is less intuitive and in some cases more difficult to use. Though being able to get the diff is certainly an advantage.\r\n"
+  , issueCommentId = 73576131
+  }

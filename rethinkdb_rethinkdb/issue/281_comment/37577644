@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-13) 19 : 45 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37577644"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-37577644"
+  , issueCommentCreatedAt = 2014 (-03) (-13) 19 : 41 : 36 UTC
+  , issueCommentBody =
+      "So all the node.js packages were using the gen-pool package where you have to manually acquire and release a connection. I think it's not really good for two reasons\r\n- obviously, it's not super friendly\r\n- it doesn't prevent users from doing errors (releasing a connection that could be re-used by another query)\r\n\r\nAnd I think I came up with something better for `rethinkdbdash`. When you call `run` on a query, it's going to:\r\n- acquire a connection available\r\n- run a query\r\n- then if the result is\r\n     - a datum, error, or complete sequence, the connection is released\r\n     - an incomplete sequence, the connection is NOT released and will be released only when the user close the cursor or retrieve all the data from the cursor\r\n\r\nIf no connection is available, create one or wait for one to be released.\r\n\r\nThe only drawback from this implementation is that if users don't fetch all the data from a cursor and don't close it, the connection will never be released.\r\n\r\n"
+  , issueCommentId = 37577644
+  }

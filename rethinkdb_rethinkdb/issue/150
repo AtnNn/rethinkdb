@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2012 (-12) (-14) 18 : 33 : 08 UTC
+  , issueUpdatedAt = 2012 (-12) (-20) 03 : 59 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/150/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/150"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 150
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 646357
+          , simpleUserLogin = N "wmrowan"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/646357?v=3"
+          , simpleUserUrl = "https://api.github.com/users/wmrowan"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Change implicit row access in Python/JS"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/150"
+  , issueCreatedAt = 2012 (-12) (-09) 03 : 50 : 21 UTC
+  , issueBody =
+      Just
+        "We should escalate this issue for the same reason as #140. To summarize what we discussed:\r\n\r\n* ruby driver will remain as is\r\n* python driver will use `r.row` to access the implicit row variable. We'll drop `r['foo']` and `r['@']`. To access `foo` the user would have to type `r.row['foo']`.\r\n* js driver will use `r.row` to access the implicit row variable. We'll drop `r('foo')` and `r('@')`. To access `foo` the user would have to type `r.row('foo')`.\r\n* We'll also drop `r.row('foo.bar')` syntax (instead the user will have to type `r.row('foo')('bar')`). Similarly in python there shouldn't be `r.row['foo.bar']` syntax.\r\n\r\nAdditionally, we should do the following:\r\n\r\n* In js `r(x)` will be equivalent to `r.expr(x)`\r\n* In python  `r(x)` will be equivalent to `r.expr(x)` if the user imports as `from rethinkdb import r`. They should also be able to say `import rethinkdb as r`, in which case they'd have to say `r.expr`.\r\n\r\nThere is still a somewhat controversial question of how to recommend people to import the python library. I'm leaning towards `from rethinkdb import r`, but we can ask some folks and see how they react and whether the `r.expr` shortcut is important to them.\r\n"
+  , issueState = "closed"
+  , issueId = Id 9117422
+  , issueComments = 36
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 43867
+                , simpleUserLogin = N "jdoliner"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/43867?v=3"
+                , simpleUserUrl = "https://api.github.com/users/jdoliner"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2012 (-12) (-17) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 4
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/4"
+          , milestoneCreatedAt = 2012 (-12) (-06) 19 : 46 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

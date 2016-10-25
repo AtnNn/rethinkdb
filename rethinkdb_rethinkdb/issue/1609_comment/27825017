@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 23 : 43 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27825017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1609#issuecomment-27825017"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 23 : 39 : 41 UTC
+  , issueCommentBody =
+      "Regarding the `priority` flag: I'm not certain if it would work as expected. First of all there are two ways in which we can influence the priority of a given query: 1. By changing the scheduler priority of the involved coroutines. 2. By changing the i/o priority of the transaction.\r\nBoth of these options have the desired effect for some kinds of queries (e.g. backfilling). They have basically no effect for other queries (especially short running ones). In yet other cases reducing the priority of a given query can have negative effects on the overall cluster performance because it might end up holding locks for longer than necessary or interacting badly with the i/o requirements of other queries [1].\r\n\r\nWe should keep the idea in mind, but it requires a lot of testing and probably a number of careful changes to actually become a useful and reliable feature.\r\n\r\nEdit:\r\nSorry, forgot the [1]: What I mean is that if two queries request the same block from disk, one of them with a high i/o priority and the other one with a low one, and the one with the low priority requests the block slightly earlier than the high-priority one, the block is actually going to be loaded at the lower priority. The high-priority query will be slowed down by the low-priority one. This seems like it would be rare, but that's just one of the things that we have to keep in mind and that require testing."
+  , issueCommentId = 27825017
+  }

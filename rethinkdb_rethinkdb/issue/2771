@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2014 (-11) (-07) 11 : 02 : 18 UTC
+  , issueUpdatedAt = 2014 (-11) (-07) 18 : 43 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2771/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2771"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2771
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 525534
+        , simpleUserLogin = N "timjrobinson"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/525534?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timjrobinson"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Frequent handshake timedout errors running on localhost"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2771"
+  , issueCreatedAt = 2014 (-07) (-28) 05 : 09 : 20 UTC
+  , issueBody =
+      Just
+        "Every few minutes I'm running into a \"Handshake timedout\" error when running my app and rethinkdb on my local dev pc. I originally thought it was due to leaving connections open on accident but I've added some logging to track down open connections and ensured every one is closed properly and I'm still getting this error every now and again even with 0 open connections. \r\n\r\nI thought it could be because of high load on my machine but the handshake timeout is 20 seconds which is an incredibly long time and my PC is perfectly useable while the app is running with CPU not going above 90% and load average never above 2. So I didn't think it would take 20+ seconds to connect to rethinkdb without the rest of the machine grinding to a halt. \r\n\r\nHere's my connection code:\r\n\r\n```\r\ndb = r\r\nconnection = null\r\ntotalOpenConnections = 0\r\ncheckRate = 100\r\ndb.onConnect = (callback) ->\r\n  if env == 'development'\r\n    stack = new Error().stack\r\n  r.connect {host: netconfig.db.host, port: netconfig.db.port, db: 'towerstorm', authKey: netconfig.db.authKey, timeout: 20}, (err, conn) ->\r\n    if err\r\n      console.log(\"Received error opening connection: \", err.message, \" stack: \", err.stack, \" calling stack: \", stack, \" totalOpenConnections: \" + totalOpenConnections)\r\n      throw new Error(\"Handshake timedout\")\r\n      return callback(err)\r\n    if !conn\r\n      console.log(\"RethinkDB didn't return connection\")\r\n      return callback(new Error(\"RethinkDB didn't return connection\"))\r\n    if env == 'development'\r\n      checkConnectionOpen = (totalChecks) ->\r\n        if !conn || !conn.open\r\n          totalOpenConnections--\r\n        else\r\n          if totalChecks > 0 && totalChecks % 10 == 0\r\n            console.log(\"Connection has not closed in \" + (totalChecks * checkRate) + \"ms. Conn open is: \" + conn.open)\r\n            if totalChecks == 50\r\n              throw new Error(\"Connection did not close in 5s, stack is: \", stack)\r\n          setTimeout((-> checkConnectionOpen(++totalChecks)), checkRate)\r\n      checkConnectionOpen(0)\r\n      totalOpenConnections++\r\n    callback(err, conn)\r\nmodule.exports = db\r\n```\r\n\r\nAs you can see I'm checking all connections every 100ms and if they don't close within 5 seconds the app errors out. All connections are closing properly and the handshake timeouts are happening with 0 open connections. \r\n\r\nAnyone have any idea what could be going on? Let me know if you want any other logs or profiles. \r\n\r\nI'm using rethinkdb library version 1.13.0-2 with\r\n```\r\ntim@tower ~ \187 rethinkdb -v\r\nrethinkdb 1.13.1 (GCC 4.9.0)\r\ntim@tower ~ \187 uname -a\r\nLinux tower.storm 3.15.5-2-ARCH #1 SMP PREEMPT Fri Jul 11 07:56:02 CEST 2014 x86_64 GNU/Linux\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 38861907
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

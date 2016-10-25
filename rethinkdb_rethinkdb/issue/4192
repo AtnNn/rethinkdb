@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-05) (-06) 22 : 37 : 49 UTC
+  , issueUpdatedAt = 2015 (-05) (-19) 00 : 17 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4192/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4192"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4192
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JavaScript EventEmitter interface not working completely"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4192"
+  , issueCreatedAt = 2015 (-05) (-06) 16 : 21 : 35 UTC
+  , issueBody =
+      Just
+        "It looks like only a few of the JavaScript driver's EventEmitter interface have ever been tested, specifically `on` and `addListener`. The rest look to be missing the `args` argument in the function signature, but then attempt to use that same variable in emitting the event. For clarity, here is a marked up version of the the `on` and `once` functions from [drivers/javascript/cursor.coffee](https://github.com/rethinkdb/rethinkdb/blob/80cbb95aa268fbc707cb4ae04209f875c92ea707/drivers/javascript/cursor.coffee) starting on line 268:\r\n\r\n```coffeescript\r\n    on: (args...) ->\r\n        if not @emitter?\r\n            @_makeEmitter()\r\n            setImmediate => @_each @_eachCb\r\n        @emitter.on(args...)\r\n\r\n    once: -> # missing the args here\r\n        if not @emitter?\r\n            @_makeEmitter()\r\n            setImmediate => @_each @_eachCb\r\n        @emitter.once(args...)\r\n```\r\n\r\nAdding the `(args...)` to the method signatures fixes the problem, but we should do better and be passing the exact arguments that each function accepts."
+  , issueState = "closed"
+  , issueId = Id 73669132
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 100
+          , milestoneClosedIssues = 11
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/100"
+          , milestoneCreatedAt = 2015 (-05) (-19) 00 : 17 : 04 UTC
+          , milestoneState = "closed"
+          }
+  }

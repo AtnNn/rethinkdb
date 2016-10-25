@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-29) 19 : 03 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/203053187"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4147#issuecomment-203053187"
+  , issueCommentCreatedAt = 2016 (-03) (-29) 19 : 03 : 41 UTC
+  , issueCommentBody =
+      "@jazoom Thanks for the feedback. Good idea documenting the fact that duplicates in the key list result in duplicate results better. I've opened https://github.com/rethinkdb/docs/issues/1067 for this.\r\n\r\nIf you haven't figured this out already, you might want to look into `distinct` to remove duplicates in your key list: `tbl.getAll(r.args(r.expr(keyList).distinct()), {index: ...})`.\r\n\r\nAbout your second observation regarding getting two copies of the first and no copy of the second document: That definitely sounds wrong. I can't reproduce this unfortunately.\r\nHere's what I'm seeing:\r\n```js\r\nr.tableCreate('t1');\r\nr.table('t1').indexCreate(\"a\");\r\nr.table('t1').insert({a: \"a\", o: 1});\r\nr.table('t1').insert({a: \"a\", o: 2});\r\n\r\nr.table('t1').getAll(\"a\", \"a\", {index: \"a\"});\r\n// Returns:\r\n{\r\n    \"a\": \"a\" ,\r\n    \"id\": \"02e9d4f7-41fc-4501-80af-e10b3eb44760\" ,\r\n    \"o\": 1\r\n}\r\n{\r\n    \"a\": \"a\" ,\r\n    \"id\": \"717ed689-c07a-4796-bcc0-8711804bfc7a\" ,\r\n    \"o\": 2\r\n}\r\n{\r\n    \"a\": \"a\" ,\r\n    \"id\": \"02e9d4f7-41fc-4501-80af-e10b3eb44760\" ,\r\n    \"o\": 1\r\n}\r\n{\r\n    \"a\": \"a\" ,\r\n    \"id\": \"717ed689-c07a-4796-bcc0-8711804bfc7a\" ,\r\n    \"o\": 2\r\n} \r\n```\r\n\r\nDoes anything stand out to you that's different in your case?"
+  , issueCommentId = 203053187
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-15) 17 : 53 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/112152572"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4397#issuecomment-112152572"
+  , issueCommentCreatedAt = 2015 (-06) (-15) 17 : 53 : 37 UTC
+  , issueCommentBody =
+      "@indiedotkim Thank you for the writeup!\r\n\r\nI think uncompressing keys locally before sending them over the network would be absolutely fine. That solution would still improve disk and cache space consumption which I think is most important, even though it wouldn't reduce network traffic.\r\n\r\nIn practice I'm not sure if we should make the number of keys limited. We can instead use variably sized indexes (which should be pretty easy). This depends a bit on which implementation we will pick.\r\n\r\nImplementation-wise the keys could be a second btree (and maybe a third one, depending on whether we want the reverse index to be in memory or also on disk). We need a structure which we can efficiently update on disk. A simple array wouldn't work for example, since if you perform a write that adds a new key, we would have to rewrite the whole array.\r\n\r\nThere's also the question of how we would remove old keys that are no longer used. Obviously we could reference-count the keys, but that might make writes significantly slower since we would have to update the reference counts on each write.\r\n\r\nIn general there will be a hit on write performance with this kind of compression whenever new keys need to be added to the index. There's also going to be a bit of overhead for the key lookups.\r\nI suspect that it will still be worth it in many cases, especially when cache size is a concern."
+  , issueCommentId = 112152572
+  }

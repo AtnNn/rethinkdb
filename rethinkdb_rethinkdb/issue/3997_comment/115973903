@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-27) 06 : 18 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2072672
+        , simpleUserLogin = N "chrisfosterelli"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2072672?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisfosterelli"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115973903"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3997#issuecomment-115973903"
+  , issueCommentCreatedAt = 2015 (-06) (-27) 06 : 17 : 31 UTC
+  , issueCommentBody =
+      "+1 I have the same use case as @nharraud, I'd like to be able to provide a denormalization query, call `changes()` on it and pump that right into elasticsearch. The query itself touches a lot of different tables, but if it helps here it is:\r\n\r\n```\r\nr.table(\"Student\").merge(function(var_2) {\r\n    return {\r\n        enrolments: r.table(\"Enrolment\").filter({\r\n            student: var_2(\"id\")\r\n        }).merge(function(var_3) {\r\n            return {\r\n                course: r.table(\"Course\").get(var_3(\"course\"))\r\n            }\r\n        }).coerceTo(\"array\"),\r\n        record: r.branch(var_2.hasFields(\"recordId\"), r.table(\"Record\").get(var_2(\"recordId\")), null)\r\n    }\r\n}).changes()\r\n```\r\n\r\nThe first approach we took was to just look for changes on the main table, then rebuild the object and push it into elasticsearch. Unfortunately, that means that elasticsearch is only updated when the main table changes. So to be practical, the only way to achieve this currently is by having numerous simple separate changefeeds (one for each table) that all run the denormalization query when triggered, then push it into elasticsearch."
+  , issueCommentId = 115973903
+  }

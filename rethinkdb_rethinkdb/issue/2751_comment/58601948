@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-10) 06 : 15 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58601948"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2751#issuecomment-58601948"
+  , issueCommentCreatedAt = 2014 (-10) (-10) 01 : 29 : 15 UTC
+  , issueCommentBody =
+      "If we implemented a recursion term (aka fixed-point combinator), the original example could be written:\r\n\r\n```javascript\r\nr.table('node').get(1).merge(r.recurse(function(getChildren, node){\r\n      return {children: r.table('node').getAll(node('id'), index='parent_id').map(getChildren)};\r\n});\r\n```\r\n\r\nAnother example for recursing through a tree of threaded comments and joining in user data:\r\n\r\n```javascript\r\nr.table('comments').get(parentId).update(r.recurse(function(mergeUser, comment){\r\n  return {\r\n      user: r.table('users').get(post('user_id')),\r\n      comments: comment('comments').do(mergeUser)\r\n  };\r\n}));\r\n```\r\n\r\nThis would still have issues with termination in  graph queries, for example, but it's a pretty versatile mechanism. Note that this wouldn't require first class functions, or closures, or lets, or user-defined variable names.\r\n"
+  , issueCommentId = 58601948
+  }

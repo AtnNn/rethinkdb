@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2012 (-11) (-20) 23 : 11 : 39 UTC
+  , issueUpdatedAt = 2012 (-12) (-20) 03 : 59 : 16 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/71/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/71"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 71
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 646357
+          , simpleUserLogin = N "wmrowan"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/646357?v=3"
+          , simpleUserUrl = "https://api.github.com/users/wmrowan"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 23648
+        , simpleUserLogin = N "skorokithakis"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/23648?v=3"
+        , simpleUserUrl = "https://api.github.com/users/skorokithakis"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Inserting Unicode strings with the Python driver fails."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/71"
+  , issueCreatedAt = 2012 (-11) (-17) 13 : 23 : 10 UTC
+  , issueBody =
+      Just
+        "Inserting JSON objects with Unicode keys fails:\n\n\tIn [20]: table.insert({u\"foo\": \"bar\"})\n\t---------------------------------------------------------------------------\n\tAssertionError                            Traceback (most recent call last)\n\t<ipython-input-20-5dfd56fa67df> in <module>()\n\t----> 1 table.insert({u\"foo\": \"bar\"})\n\n\t/home/stavros/Desktop/env/local/lib/python2.7/site-packages/rethinkdb/query.pyc in insert(self, docs, upsert)\n\t   1638         \"\"\"\n\t   1639         if isinstance(docs, dict):\n\t-> 1640             return WriteQuery(internal.Insert(self, [docs], upsert))\n\t   1641         else:\n\t   1642             return WriteQuery(internal.Insert(self, docs, upsert))\n\n\t/home/stavros/Desktop/env/local/lib/python2.7/site-packages/rethinkdb/internal.pyc in __init__(self, table, entries, upsert)\n\t    171             self.entries = [entries]\n\t    172         else:\n\t--> 173             self.entries = [query.expr(e) for e in entries]\n\t    174 \n\t    175     def _write_write_query(self, parent, opts):\n\n\t/home/stavros/Desktop/env/local/lib/python2.7/site-packages/rethinkdb/query.pyc in expr(val)\n\t   1184         return JSONExpression(internal.LiteralArray(val))\n\t   1185     elif isinstance(val, object):\n\t-> 1186         return JSONExpression(internal.LiteralObject(val))\n\t   1187     else:\n\t   1188         raise TypeError(\"%r is not a valid JSONExpression\" % val)\n\n\t/home/stavros/Desktop/env/local/lib/python2.7/site-packages/rethinkdb/internal.pyc in __init__(self, value)\n\t    344     def __init__(self, value):\n\t    345         for k, v in value.iteritems():\n\t--> 346             assert isinstance(k, str)\n\t    347         self.value = dict((k, query.expr(v)) for k, v in value.iteritems())\n\t    348     def _write_ast(self, parent, opts):\n\n\tAssertionError: \n\nChanging that line to `assert isinstance(k, basestring)` fixes the problem, and doesn't appear to break anything else, but you guys better test it."
+  , issueState = "closed"
+  , issueId = Id 8440930
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 43867
+                , simpleUserLogin = N "jdoliner"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/43867?v=3"
+                , simpleUserUrl = "https://api.github.com/users/jdoliner"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2012 (-12) (-17) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 4
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/4"
+          , milestoneCreatedAt = 2012 (-12) (-06) 19 : 46 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

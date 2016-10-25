@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-08) 20 : 07 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138685092"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4806#issuecomment-138685092"
+  , issueCommentCreatedAt = 2015 (-09) (-08) 20 : 07 : 29 UTC
+  , issueCommentBody =
+      "Thank you for the issue report @kulbirsaini .\r\nI've opened https://github.com/rethinkdb/rethinkdb/issues/4811 for the problem that the web UI doesn't show a proper error when it can't apply the configuration change.\r\n\r\nThe behavior of a RethinkDB cluster has changed considerably with RethinkDB 2.1.0. There is no real concept of a server being dead or even of a server being a member of a cluster anymore. Instead a server can merely be responsible for some replicas of a table. This is why there is no global \"declare server dead\" option anymore.\r\nUnfortunately the user experience when using the web UI has degraded a bit when trying to remove a server. We're planning to expose the `emergency_repair` option through the web UI in one of the upcoming releases again (see https://github.com/rethinkdb/rethinkdb/issues/4392 ).\r\n\r\nFor now, you might be happy to hear that `emergency_repair` is actually less dangerous than it sounds. It is *at least* as safe as the old \"declare server dead\" function. Additionally, trying to apply `emergency_repair` to a table that doesn't need to be repaired will fail, so there's little risk of applying it accidentally.\r\nIf your tables only have two replicas, `{emergency_repair: 'unsafe_rollback'}` cannot lose any acknowledged writes. So your data should be in a good state. This is because with two replicas, both replicas have to acknowledge any write before it gets acknowledged back to the user anyway, since that's the only way to reach a majority."
+  , issueCommentId = 138685092
+  }

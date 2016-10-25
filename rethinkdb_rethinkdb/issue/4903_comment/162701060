@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-07) 23 : 11 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/162701060"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4903#issuecomment-162701060"
+  , issueCommentCreatedAt = 2015 (-12) (-07) 23 : 11 : 23 UTC
+  , issueCommentBody =
+      "> So when the dedicated intracluster thread does not perform intracluster communication it executes another task until a message is received? Or is it idle?\r\n\r\nThere isn't really a dedicated intracluster thread at the moment. However we assign a given intracluster connection to a particular thread. That thread will handle other operations too.\r\n\r\nWith the proposal I mentioned in the original post, there would be dedicated intracluster threads. Those would become idle when there is no work to do on \"their\" set of intracluster connections. However other threads (e.g. the \"btree\" or \"general purpose\" threads) could be scheduled by the OS to run on the same core in the meantime.\r\n\r\n> Can we make the number of shards more flexible? A hashing algorithm like Murmur should allow us to add and remove shards.\r\n\r\nWe should eventually, but it will be a major change.\r\nIt would be reasonably to use the same machinery that we use for range shards in order to balance hash shards both across different servers, as well as within a single server. We would probably combine this with a general move towards hash sharding as our only or at least primary sharding method.\r\nAt the moment we rely on the constant number of hash shards for multiplexing multiple caches / btrees into the same file, without any interference (specifically we map per-shard block IDs to per-file block IDs by using something like `file_block_id = NUM_SHARDS * shard_block_id + shard_offset`). This would have to work differently if we want to support an arbitrary number of such shards.\r\n\r\n\r\nRegarding allocations:\r\nWe currently use jemalloc. I haven't looked at it too closely yet, but `memkind` might allow us to get some extra performance. In any case I think we should first profile RethinkDB again to find out what the actual bottlenecks now are. It has been a while since I've last done it, and some things have changed quite a bit since then."
+  , issueCommentId = 162701060
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-19) 21 : 18 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22905047"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1312#issuecomment-22905047"
+  , issueCommentCreatedAt = 2013 (-08) (-19) 21 : 18 : 37 UTC
+  , issueCommentBody =
+      "Since there is confusion on this, I'm going to clarify what this issue is about and the potential conflict in driver vs. server behavior here.\r\n\r\nCurrently the JS driver enforces a 2 argument minimum on each of our binary functions, i.e. `r.add(1)`, `r.eq(1)`, etc. produce an argument error (\"expected 2 or more arguments, got 1\") in the driver. The Python driver currently accepts any number of arguments (including 0 and 1). I don't know what the ruby driver does.\r\n\r\nThe server enforces a 2 argument limit for some of our binary functions (I tested `r.eq`) but accepts 1 argument for others (I tested `r.add`). The argument checking behavior of the drivers and the server should all be consistent in these cases. At the very least, the python driver needs to change to enforce a minimum argument limit of either 1 or 2 in each of these cases (we should also check the ruby driver for this problem as well).\r\n\r\nThe only open question in my mind is whether the drivers/server should enforce a 2 argument minimum for all these normally binary functions. Single argument add, mul, etc. are currently no-ops. These cases seem much more likely to be errors than intentionally useless behavior so I'd prefer to enforce 2 arguments. I believe we've argued this point before (I seem to recall #1184 being particularly nasty) so this might be old ground that I missed somehow. If we have already definitively settled on some binary functions accepting 1 argument (though a lack of polyglot tests for this seem to suggest an accidental provenance for this \"feature\") could I at least get a list so I can check that we are indeed consistent with whatever we decided before?"
+  , issueCommentId = 22905047
+  }

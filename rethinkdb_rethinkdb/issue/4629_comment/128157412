@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 21 : 39 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128157412"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128157412"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 21 : 39 : 02 UTC
+  , issueCommentBody =
+      "Yeah I'm not sure, but I think it's pretty hard to implement globally monotonically increasing IDs, even if we can do so on a per-client basis.\r\n\r\nSomething like this could be an option:\r\n(details for the implementation follow, you can skip this part if you're not interested in those)\r\n\r\n- On the parsing node (the server the client is connected to), assign a client ID to each connected client and generate IDs `[client_id, table, counter]` locally.\r\n- Send the `[client_id, table, counter]` pair with each write, and make it be distributed from the changefeed server to the changefeed clients as well (the changefeed client in this case is a component inside the RethinkDB server, which lives on the server that a (ReQL) client with an open changefeed is connected to)\r\n- For a given squashed result on its queue, the changefeed client keeps track of the highest counter value it has seen, but only for writes whose `client_id` matches the client that's running the changefeed.\r\n- The changefeed client also uses a `fifo_enforcer_sink_t` (or something similar) to re-establish the ordering of write notifications according to their counter values. This is important because notifications from different shards can arrive in different orders that do not necessarily correspond to their counter values.\r\n- When a squashed result is sent to the ReQL client, the highest counter value is sent with the result. If no counter has been seen from the `client_id` associated with the changefeed (i.e. all writes were done by other clients), the changefeed sends a `null` write ID or something like that.\r\n\r\nThis would establish monotonically increasing IDs *per table* and per client.\r\nThat is: if you get a change notification with a given ID, you know that all changes with smaller IDs submitted by the current client will have been reflected on the changefeed (even if they were for different documents)."
+  , issueCommentId = 128157412
+  }

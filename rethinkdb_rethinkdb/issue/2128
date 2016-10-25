@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-03) (-22) 00 : 50 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2128/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2128"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2128
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Avoid excessive copy-on-write copying of memory buffers in the cache when flushing."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2128"
+  , issueCreatedAt = 2014 (-03) (-21) 00 : 55 : 54 UTC
+  , issueBody =
+      Just
+        "Right now, when we release a block that we've written, a snapshot of the block is stored in the page_txn_t.  If another operation goes to modify the block, it'll have to copy the memory.  We could instead _not_ snapshot the block, and make the next transaction that modifies the page a \"preceder\" (in the page_txn_t lingo) of the previous transaction that modified the page.  Or, maybe we should only do this when the next transaction estimates it will only write a small number of pages, or when the previous transaction is in soft durability mode (lest the previous transaction have its to-disk latency slowed by a very large transaction that follows it).\r\n\r\nWe should not do this change without profiling reporting high CPU usage in the copy-on-write page copying that currently is believed to happen."
+  , issueState = "open"
+  , issueId = Id 29871781
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-25) 18 : 39 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143317794"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4885#issuecomment-143317794"
+  , issueCommentCreatedAt = 2015 (-09) (-25) 18 : 39 : 38 UTC
+  , issueCommentBody =
+      "Hi @vskr, the subquery will indeed run for every row, and it might become pretty slow once the `'finished_tasks'` table becomes bigger.\r\n\r\nTo optimize it, I recommend creating an index on the `'finished_tasks'` table to allow for efficient lookups by `task_id`:\r\n```py\r\nr.table('finished_tasks').index_create('task_id'),run()\r\n```\r\n\r\nThen you can change your filter query as follows (indentation for readability):\r\n```py\r\n r.table('tasks')\r\n  .filter(lambda task:\r\n    r.table('finished_tasks').get_all(task['id'], index='task_id').is_empty()\r\n   ).run()\r\n```"
+  , issueCommentId = 143317794
+  }

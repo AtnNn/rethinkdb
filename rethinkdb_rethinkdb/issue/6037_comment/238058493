@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-07) 01 : 52 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/238058493"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6037#issuecomment-238058493"
+  , issueCommentCreatedAt = 2016 (-08) (-07) 01 : 52 : 18 UTC
+  , issueCommentBody =
+      "Hi @Scorpiion,\r\n\r\nFirst of all this is definitely a useful feature, and one that's been discussed a bit in the original issue at #4519. Adding security features to an existing product is always a rather intrusive process thus we're taking this one step at a time, with permissions on system tables coming in 2.4, see #5692.\r\n\r\nThe web UI uses a protocol that's completely separate from the normal JSON protocol, it flows over HTTP like the UI itself. That unfortunately means there's a bit more to implementing this than changing the connection at the location you've mentioned. Currently the \"admin\" user is hardcoded here, https://github.com/rethinkdb/rethinkdb/blob/next/src/client_protocol/server.cc#L57.\r\n\r\nThere are essentially two ways of implementing this, the first of which is using HTTP basic access authentication. This should be pretty straightforward but is insecure as the password will be passed in plaintext. Note that we can't use the marginally better digest access authentication as it's not compatible with the salted SHA-256 hash that we're using to store the password, which is required by the SCRAM-SHA-256 protocol we're using. Since we now support serving the web UI over TLS requiring that might be one way of solving this problem.\r\n\r\nThe second is a full-fledged login form which is nicer for the user, but it just occurred to me that it would still pass the password in plaintext if we're not on a TLS connection. It's also significantly more work thus I don't see this happening in the short term.\r\n\r\nI hope that we'll get to the basic access authentication over TLS soon, but I can't make any promises. In the meantime I'll leave this issue open as I can't find a duplicate that isn't overly generic.\r\n\r\nHope this helps.\r\n\r\nJeroen"
+  , issueCommentId = 238058493
+  }

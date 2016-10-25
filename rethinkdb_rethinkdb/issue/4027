@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-09) 20 : 52 : 18 UTC
+  , issueUpdatedAt = 2015 (-06) (-09) 20 : 52 : 19 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4027/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4027"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 4027
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JavaScript connection tests not handling promise errors correctly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4027"
+  , issueCreatedAt = 2015 (-04) (-08) 02 : 11 : 07 UTC
+  , issueBody =
+      Just
+        "Both @Tryneus and I separately noticed that there are some cases where failures in the JavaScript connection tests are not reported correctly. In his case he noticed that running `./test/rql_test/test-runner connections/feeds.js -v` was passing, but if you look that output you will see `Possibly unhandled Error` showing where the test is actually failing. I am seeing a similar case in `connections/connection.js`.\r\n\r\nA little investigation shows that this is actually the BlueBird module's way of reporting promise errors. Since we are not chaining `.catch` after them we are losing these errors. And unfortunately since we switched to promises anything that does not explicitly have a callback is returning a promise.\r\n\r\nI am going to have investigate every line of our JavaScript tests to make sure we are always catching things."
+  , issueState = "closed"
+  , issueId = Id 67031079
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

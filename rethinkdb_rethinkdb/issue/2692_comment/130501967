@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-13) 04 : 55 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 8921895
+        , simpleUserLogin = N "ha1331"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8921895?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ha1331"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/130501967"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2692#issuecomment-130501967"
+  , issueCommentCreatedAt = 2015 (-08) (-13) 01 : 43 : 20 UTC
+  , issueCommentBody =
+      "My idea would be:\r\n\r\nfunctionThatDoesStuffIfConditionIsMetAndReturnsEveryDocumentExceptIfModeIsDelete(condition, action[,{mode: 'update'|'replace'|'delete'}), or: fTDSICIMAREDEIMID() .If this has some actual merit, you might want to figure out better name for this. \r\n\r\nHow would fTDSICIMAREDEIMID() work? Lets say you have a document that looks something like this: \r\n\r\n```\r\n{id: 1,\r\n    topic: \"sample document\",\r\n    comments: [{id: 'a', topic: \"fabulous comment\", text: \"I like this.\", likes: 0},\r\n        {id: 'b', topic: \"not so fabulous comment\", text: \"I don't like this.\", likes: 10}\r\n        {id: 'c', topic: \"all your bases are belong to us\", text: \"Lizard people are a thing you know.\", likes: 0}\r\n        {id: 'd', topic: \"where are all the cat pictures\", text: \"i don't even like cats, I'm addicted to them.\", likes: 0}]\r\n}\r\n```\r\nNow you wanted to add a \"like\" to one of the comments, what you would do is:\r\n```javascript\r\nr.db('cats_and_lizards').table('posts').get(1).update(function(post){\r\n    return post.merge({\r\n        comments: post('comments').fTDSICIMAREDEIMID(\r\n            function(item){\r\n                return item('id').eq('d')\r\n            }, \r\n            function(itemToModify){\r\n                return itemToModify.merge( { likes: itemToModify('likes').add(1) } )\r\n            }, \r\n            {mode: 'update'}\r\n        )    \r\n    })\r\n})\r\n```\r\nin this example fTDSICIMAREDEIMID() would return:\r\n```\r\n[{id: 'a', topic: \"fabulous comment\", text: \"I like this.\", likes: 0},\r\n        {id: 'b', topic: \"not so fabulous comment\", text: \"I don't like this.\", likes: 10}\r\n        {id: 'c', topic: \"all your bases are belong to us\", text: \"Lizard people are a thing you know.\", likes: 0}\r\n        {id: 'd', topic: \"where are all the cat pictures\", text: \"i don't even like cats, I'm addicted to them.\", likes: 1}]\r\n```\r\nIf {mode: 'delete'} it would have returned the array without the one object that had id: \"d\" this delete mode is here mainly to enable well... deleting nested items.\r\n\r\n\"update\" & \"replace\" modes work like update() and replace(),  \"delete\" mode is for convenience. I think this proposition enables new ways to do things without going too far from how people have used ReQL before. I'm not an expert, but this seems to allow multiple updates to different fields inside a single update().  \r\nedit:\r\n\r\nmode: \"drop\" I think is better than \"delete\", because it describes the action better. After all nothing gets deleted."
+  , issueCommentId = 130501967
+  }

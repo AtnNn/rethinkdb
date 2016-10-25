@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-10) 05 : 06 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139118643"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4821#issuecomment-139118643"
+  , issueCommentCreatedAt = 2015 (-09) (-10) 05 : 06 : 22 UTC
+  , issueCommentBody =
+      "I think this should already work, with one small modification:\r\n```js\r\nr.table('users').filter(user => user('age').gt(30)).run(conn, callback)\r\n```\r\n\r\nWe cannot overload the `>` operator in JavaScript, because it doesn't support operator overloading (we use operator overloading in the Python and Ruby drivers to enable this syntax). As far as I know that's still true in ES6.\r\n\r\nThere seems to be a way to turn `user.age` into `user('age')` in ES6 using proxy objects (I found this SO thread on the topic http://stackoverflow.com/questions/20147081/javascript-catch-access-to-property-of-object ). I'm not sure how well it would work in practice, because we would have to make sure that all ReQL commands can still be called on a query object without being turned into a `getField` call. But it sounds worth considering."
+  , issueCommentId = 139118643
+  }

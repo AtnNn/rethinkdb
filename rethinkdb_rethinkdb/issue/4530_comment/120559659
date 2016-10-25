@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-11) 01 : 26 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/120559659"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4530#issuecomment-120559659"
+  , issueCommentCreatedAt = 2015 (-07) (-11) 01 : 26 : 36 UTC
+  , issueCommentBody =
+      "This is the expected behavior.  If you `orderBy` a field we load the whole table into memory at once to sort it.  The `stream` type is only for data we can generate lazily (usually by reading off disk).\r\n\r\nThis is good for three reasons:\r\n* We want to enforce the array size limit on the result of unindexed `orderBy`s, and the most straightforward way to do that is to return an array.\r\n* We want users to be able to figure out the performance characteristics of their queries by looking at the result type (arrays are eager, streams are lazy).\r\n* If we returned a stream here we'd have to keep the extra data around in memory while sending batches, which means a user who opened a cursor on `table.orderBy('field')` and then didn't consume the whole thing would be taking up a huge amount of memory on the server indefinitely."
+  , issueCommentId = 120559659
+  }

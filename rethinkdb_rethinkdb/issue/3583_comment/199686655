@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-22) 08 : 11 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/199686655"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3583#issuecomment-199686655"
+  , issueCommentCreatedAt = 2016 (-03) (-22) 07 : 59 : 46 UTC
+  , issueCommentBody =
+      "Yes, filtering using the current time would be very useful in some situations I have!\r\n\r\nBut I guess there would need to be two `r.now()`; one `r.query_start_now()` (i.e. the current one), and a new one `r.current_now()`, if you know what I mean?   :)\r\n\r\nOne simple case I have, or want to have, because doing it without this feature is complicated :), is this:\r\n```\r\nfor change in table.filter(lambda doc: r.current_now() - doc['modtime'] > 600).changes().run():\r\n    stuff...\r\n```\r\nThat is, get the document once it has been \"stable\" (unmodified) for 10 minutes (to avoid needless, potentially incorrect, processing).\r\nCompletely awesome!  Would this be possible?    Pleeeeease? :D\r\n\r\nedit: As @mlucy said, changing the behavior of the current `r.now()` is of course a very bad idea as it would break... like everything. An opt arg would probably express it nicely; `r.now(dynamic=True)`, or something."
+  , issueCommentId = 199686655
+  }

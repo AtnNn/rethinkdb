@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-01) 17 : 20 : 37 UTC
+  , issueUpdatedAt = 2016 (-08) (-01) 17 : 46 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6009/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6009"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 6009
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "hidden memory leak when close Changefeeds cursor"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6009"
+  , issueCreatedAt = 2016 (-07) (-29) 08 : 14 : 43 UTC
+  , issueBody =
+      Just
+        "hi, our team encountered a memory leak problem seems concerned with Cursor.close or connection.stop method, for Changefeeds cursor.\r\n\r\nI am making a test case to prove it later. \r\n\r\nBut now from static source analyze, i think there does have a problem. \r\n[drivers/java/src/main/java/com/rethinkdb/net/Cursor.java#L55](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Cursor.java#L55)\r\n```\r\n    public void close() {\r\n        connection.removeFromCache(this.token);\r\n        if (!error.isPresent()) {  /////here is the problem entry\r\n            error = Optional.of(new NoSuchElementException());\r\n            if (connection.isOpen()) {\r\n                outstandingRequests += 1;\r\n                connection.stop(this);     ////here is the problem \r\n            }\r\n        }\r\n    }\r\n```\r\n\r\nFor a ChangeFeeds cursor, its error will not be set so can be called on next() method again.\r\nOther type of cursor will be set error after got data to indicate it can not be used further more.\r\n\r\nSo, ChangeFeeds cursor will enter `!error.isPresent()` branch, finally call connection.stop(this) which in turn make a new cursor to send a close statement.\r\n[drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L346](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L346)\r\n```\r\n    void stop(Cursor cursor) {\r\n        // The server does reply to a stop request, though the response doesn't have a value.\r\n        runQuery(Query.stop(cursor.token));\r\n    }\r\n ```\r\nThe above code is strange. Previously it use `runQueryNoreply` which does not cause new cursor creation.\r\n\r\n\r\nBut the runQuery of course create new cursor.\r\n[drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L283](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L283)\r\n```\r\nCursor cursor = Cursor.create(this, query, res, pojoClass);\r\n```\r\n\r\n\r\nSo what is the problem? Calling close cause new cursor be added into cursorCache.\r\nRepeatedly calling ChangeFeeds cursor query + close will cause memory leak.\r\n\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 168273289
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

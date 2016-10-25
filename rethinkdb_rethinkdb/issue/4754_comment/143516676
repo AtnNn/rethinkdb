@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-27) 04 : 18 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1276278
+        , simpleUserLogin = N "williamstein"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1276278?v=3"
+        , simpleUserUrl = "https://api.github.com/users/williamstein"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143516676"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143516676"
+  , issueCommentCreatedAt = 2015 (-09) (-27) 04 : 18 : 23 UTC
+  , issueCommentBody =
+      "I implemented your wait suggestion right now, and hit what might be a mistake in the documentation (I'm using the Javascript driver from node.js).  The documentation says `waitFor: a string indicating a table status to wait on before returning, one of ready_for_outdated_reads, ready_for_reads, ready_for_writes, or all_replicas_ready. The default is ready_for_writes.`    However, when I call wait without specifying a `waitFor` parameter, it seems to me like it waits for `all_replicas_ready`, i.e., it seems like the documentation is wrong (or there is a bug).      Aside: it's awesome how ridiculously easy it is to make a \"cluster\" of 3 rethinkdb nodes on the same computer just by editing some files in /etc/rethinkdb/ !]  \r\n\r\nIt seems logical to me to just use 'ready_for_reads' since I only need to read from the tables involved in the changefeeds.  (Even 'ready_for_outdated_reads' would be fine for my needs.)  However, when I tried 'ready_for_reads'  with my single-machine 3-node test \"cluster\", killing/starting individual rethinkdb servers, I did suddenly get a lot of `Unable to retrieve the start stamps.  Did you just reshard?` messages, despite the admin interface saying everything was fine.  \r\n\r\nI then switched to using 'ready_for_writes' explicitly (with `waitFor`), and tried killing/starting/stopping in many different orders and ways, with around 100 changefeeds.  With my testing cluster everything then WORKED PERFECTLY."
+  , issueCommentId = 143516676
+  }

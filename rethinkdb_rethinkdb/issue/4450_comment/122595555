@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-18) 20 : 33 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 346185
+        , simpleUserLogin = N "cyounkins"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/346185?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cyounkins"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/122595555"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4450#issuecomment-122595555"
+  , issueCommentCreatedAt = 2015 (-07) (-18) 20 : 33 : 02 UTC
+  , issueCommentBody =
+      "I tried to create a new table, had a node process inserting documents, and another node process delete them, but was *not* able to reproduce the issue.\r\n\r\nI went back to the table I was originally seeing this on and *was* able to reproduce it just as I did last time.\r\nI stopped the 2 services that were writing to the table, and was *not* able to reproduce the issue. I let the script run for ~5 mins and it had no skips.\r\nI started one service which does very few writes (<5/sec) and *was* able to reproduce the issue. It had been running for maybe 30 seconds. But then I tried it again and it took 4 mins to happen again. So this one is a bit elusive.\r\n\r\nI tried editing one of the services to duplicate its inserts to a second test table, but I was not able to reproduce the issue on that table.\r\n\r\nSo, a few thoughts on what this could be:\r\n1. Something else is deleting from the table, as you suggested. While this seems most likely, I have reviewed the services and found nothing but inserts, and the query above to find any other deletes did not see any either.\r\n2. An issue affecting this particular table and it's internal structure. I think this table has been around through rethinkdb version upgrades. Maybe some sort of fragmentation issue?\r\n\r\nWhen I can, I'm going to transition writes to a new table and select and re-insert all the data from the first table. I'll see then if I can reproduce the issue. Then I'll rename it to the original name, revert changes to the services, and see again if I can reproduce the issue."
+  , issueCommentId = 122595555
+  }

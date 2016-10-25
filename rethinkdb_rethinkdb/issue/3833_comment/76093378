@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-26) 00 : 17 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/76093378"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3833#issuecomment-76093378"
+  , issueCommentCreatedAt = 2015 (-02) (-26) 00 : 17 : 06 UTC
+  , issueCommentBody =
+      "We know from the `count` that there are at least 100,000 groups, but if the total number of groups isn't that much more than 100,000, most of the documents might have ended up in memory before hitting the array limit.\r\n\r\nAssuming that each document is ~250 bytes large, we would get ~500 MB in-memory size. There might be some processes going on that keep two copies of this at a time in memory, depending on whether the intermediate results are batched or not etc. (I don't know the details out of my head).\r\n\r\nSo running out of memory is definitely plausible.\r\n\r\n@elifarley As a work-around, you can try splitting the result into smaller parts, e.g.\r\n```js\r\nr.table('t').between(null, [\"some value in the middle of 'a''s keyspace\"], {index:'a-and-b'}).group({index:'a-and-b'})\r\nr.table('t').between([\"some value in the middle of 'a''s keyspace\"], null, {index:'a-and-b'}).group({index:'a-and-b'})\r\n```"
+  , issueCommentId = 76093378
+  }

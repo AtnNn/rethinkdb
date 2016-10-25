@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-19) 19 : 10 : 36 UTC
+  , issueUpdatedAt = 2014 (-05) (-20) 21 : 24 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2227/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2227"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2227
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Rip out and repair horrendous aspects of the blob_t code."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2227"
+  , issueCreatedAt = 2014 (-04) (-08) 02 : 52 : 24 UTC
+  , issueBody =
+      Just
+        "The blob code has a few problems.\r\n\r\n1. Deleting a blob doesn't load the requisite blocks in parallel (the way reading a blob does).  It loads them in order.\r\n\r\n~~2. Lots of very fragile append/prepend logic, which could be a lot simpler considering that we no longer append, unappend, prepend, or unprepend  from blobs.  (Edit: In sam_2130, prepend/unprepend and its shifting logic is removed.)  (Edit: Fixed -- we just have append/unappend logic, which is much simpler.)~~\r\n\r\n~~3. Some gratuitously large memcpy's that are fragile with respect to #2130, smaller in-memory block sizes.  (Edit: Fixed in sam_2130 as of 2caa20599763befb21bffc587c4d74e3b345b38d.)~~\r\n\r\n(Edit: I don't want to remove the append/unappend logic from blobs, and I won't, because I think it potentially has value.)"
+  , issueState = "closed"
+  , issueId = Id 31039444
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

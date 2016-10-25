@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-04) (-21) 20 : 21 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3293/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3293"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3293
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "reql_admin: tables take a long time to become available"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3293"
+  , issueCreatedAt = 2014 (-11) (-06) 03 : 17 : 42 UTC
+  , issueBody =
+      Just
+        "Reproduced in the `interface/table_wait.py` test, a cluster with two servers is created along with 4 tables.  The tables are then populated with 200 rows each, then reconfigured with 2 shards and 2 replicas.  Subsequently waiting for the tables to come back up takes a shockingly long time.\r\n\r\n```py\r\ndb = \"test\"\r\ntables = [\"table1\", \"table2\", \"table3\", \"table4\"]\r\n\r\nstart = time.time()\r\nr.db_create(db).run(conn)\r\nprint(\"Created db: %f s\" % (time.time() - now))\r\n\r\nstart = time.time()\r\nr.expr(tables).for_each(r.db(db).table_create(r.row)).run(conn)\r\nprint(\"Created tables: %f s\" % (time.time() - now))\r\n\r\nstart = time.time()\r\nr.db(db).table_list().for_each(r.db(db).table(r.row).insert(r.range(200).map(lambda i: {}))).run(conn)\r\nprint(\"Inserted rows: %f s\" % (time.time() - now))\r\n\r\nstart = time.time()\r\nr.db(db).table_list().for_each(r.db(db).table(r.row).reconfigure(2, 2)).run(conn)\r\nprint(\"Reconfigured: %f s\" % (time.time() - now))\r\n\r\nstart = time.time()\r\nstatuses = r.db(db).table_wait().run(conn)\r\nprint(\"Tables ready: %f s\" % (time.time() - now))\r\n```\r\n\r\nOutput:\r\n```\r\nCreated db: 0.004943 s\r\nCreated tables: 7.181538 s\r\nInserted rows: 0.596486 s\r\nReconfigured: 0.028182 s\r\nTables ready: 27.203742 s\r\n```\r\n\r\nThe time taken seems to increase linearly with the number of tables involved, and only improves slightly if the inserts are not performed.  This does not appear to be CPU or disk-bound."
+  , issueState = "open"
+  , issueId = Id 47918827
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

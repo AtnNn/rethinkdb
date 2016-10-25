@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-06) 23 : 32 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/217587275"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-217587275"
+  , issueCommentCreatedAt = 2016 (-05) (-06) 23 : 32 : 28 UTC
+  , issueCommentBody =
+      "@gbloisi Yes definitely. Though I don't think it will be useable for historical queries.\r\n\r\nThere are basically two planned degrees of reliable changefeeds:\r\n\r\n1. Surviving short disconnects, as long as the client and servers remain up. This is the part for which we have settled an API so far. In this mode, either no change will get lost and the changefeed can just be resumed, or all changes will get lost and the changefeed will need to be restarted.\r\n\r\n2. Surviving restarts and disconnects of both the client or server. Even permanent server failures can be sustained, as long as enough replicas are left. Picking up at a given point will be based on some sort of b-tree timestamp token that the client needs to persist (if client restarts should be survived without starting over from scratch). With this approach, a changefeed can always be resumed. However it will have \"squash\"-like semantics, i.e. it will omit intermediate values of any documents. It will also require an additional \"delete range\" notification and will sometimes emit changes for documents that weren't actually changed. There will be further restrictions, e.g. on the types of queries on which such a changefeed can be used. The goal of this mode is to keep a copy of the data synced with the current table state. A primary use case is for replicating RethinkDB data into a different secondary data store, such as ElasticSearch. For this mode, the API and exact behavior are not settled yet."
+  , issueCommentId = 217587275
+  }

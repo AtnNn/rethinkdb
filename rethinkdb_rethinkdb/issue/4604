@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-31) 16 : 37 : 14 UTC
+  , issueUpdatedAt = 2015 (-08) (-03) 18 : 48 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4604/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4604"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4604
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 678848
+        , simpleUserLogin = N "gjuchault"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/678848?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gjuchault"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "r.branch/hasFields has a strange behaviour"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4604"
+  , issueCreatedAt = 2015 (-07) (-31) 15 : 40 : 17 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nMy database \171 test \187\160contains only one table \171\160Session \187.\r\nHere is how I would like to use Session : one primary key \171\160_sessionId\160\187\160which is working of cource.\r\nSome various data next.\r\nA special object \171\160flash \187\160that contains one-time data, and that is cleared after every http server request.\r\nSo this is what I managed to do :\r\n```js\r\nr.db('test').table('Session').get('c5ce22e2-3587-4841-b9a5-bd4520de8deb').do(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      source.merge({\160flash: {} }),\r\n      source.merge({\160flash: source('flash').merge({\160emptyFlash: true }) })\r\n    ),\r\n    source.merge({\160flash: {} })\r\n  );\r\n})\r\n```\r\n\r\nWhat should happen :\r\n1. If no flash object, create it\r\n2. If flash object and no emptyFlash property, set emptyFlash to true\r\n3. If emptyFlash to true, set flash object to `{}`\r\n\r\nIf the object is :\r\n```js\r\n{\r\n    \"_sessionId\":  \"c5ce22e2-3587-4841-b9a5-bd4520de8deb\" ,\r\n    \"flash\": { }\r\n}\r\n```\r\n\r\nThe result is the addition of emptyFlash (ok). If you relaunch the command, there is stillEmpty flash.\r\n\r\nI then used this script just to see what was happening :\r\n```js\r\nr.db('test').table('Session').get('c5ce22e2-3587-4841-b9a5-bd4520de8deb').do(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      'Reset', //source.merge({\160flash: {} }),\r\n      source.merge({\160flash: source('flash').merge({\160emptyFlash: true }) })\r\n    ),\r\n    'Reset' //source.merge({\160flash: {} })\r\n  );\r\n})\r\n```\r\n\r\nWhich creates the emptyFlash variable in the flash object.\r\nThen I called this script :\r\n```js\r\nr.db('test').table('Session').get('c5ce22e2-3587-4841-b9a5-bd4520de8deb').do(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      'Reset', //source.merge({\160flash: {} }),\r\n      source //source.merge({\160flash: source('flash').merge({\160emptyFlash: true }) })\r\n    ),\r\n    'Reset' //source.merge({\160flash: {} })\r\n  );\r\n})\r\n```\r\n\r\nAnd the emptyFlash was gone."
+  , issueState = "closed"
+  , issueId = Id 98415368
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-13) 23 : 43 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/156591763"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5078#issuecomment-156591763"
+  , issueCommentCreatedAt = 2015 (-11) (-13) 23 : 43 : 57 UTC
+  , issueCommentBody =
+      "Reproduced this locally (and in fact, froze my machine doing so; through a vm, no less.)\r\n\r\nI think the culprit is that we're calling `table().count()` in unlimited concurrency just before doing the dump of the data itself in limited concurrency. Since our implementation of `.count()` reads the data, effectively this reads all tables simultaneously, causing a massive spike in load.\r\n\r\nI think we can skip that and use the table's approximate counts (which are already being retrieved and stored in the `.info` files) to avoid doing any heavy queries outside the concurrency limiting semaphore."
+  , issueCommentId = 156591763
+  }

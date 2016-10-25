@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-18) 01 : 54 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30809827"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1766#issuecomment-30809827"
+  , issueCommentCreatedAt = 2013 (-12) (-18) 01 : 54 : 04 UTC
+  , issueCommentBody =
+      "Alright, here's a rough breakdown of where our time goes on the query Slava mentioned (on Newton, with a count thrown in to make sure the stream is consumed):\r\n\r\nTotal time: **40ms**\r\n* **5ms** of ReQL overhead (everything here happens in the `ql` namespace).\r\n* **35ms** spent getting data from the shards\r\n  - **15ms** of clustering overhead (everything that happens between `master_access_t<protocol_t>::read` and `listener_t<protocol_t>::perform_read`).\r\n  - **20ms** of actual work on the shards.\r\n    * **12ms** spent getting permission to read (everything between `listener_t<protocol_t>::perform_read` and `store_t::protocol_read`).\r\n    * **8ms** Actually reading the data in `rdb_rget_slice`.\r\n\r\nUnfortunately, almost 3/4 of the work is being done in parts of the code that I don't understand very well.  I could plausibly reduce the ReQL overhead or the time spent in `rdb_rget_slice`, but that wouldn't significantly affect the query.\r\n\r\nThere is one easy win in the specific case of `limit`, though.  We previously weren't scaling the batch size based on the number of CPU shards.  This meant that a `limit` query looking for 100 elements would ask for 100 elements from every CPU shard.  I'm going to change it so that it will instead ask for a little more than 25 elements from every CPU shard.  This will be faster in almost all cases, the exception being when you have a very small number of elements which are very unevenly distributed (but even in this case it won't be much slower; you'll have a maximum of 3 shard round-trips (the way I'm writing it) even in a truly pathological scenario (e.g. an attacker choosing data so that it all ends up on the same CPU shard)).\r\n"
+  , issueCommentId = 30809827
+  }

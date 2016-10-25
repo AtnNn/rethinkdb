@@ -1,0 +1,33 @@
+Issue
+  { issueClosedAt = Just 2016 (-01) (-29) 21 : 23 : 01 UTC
+  , issueUpdatedAt = 2016 (-01) (-30) 00 : 07 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5336/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5336"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5336
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: array-to-string (opposite of split)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5336"
+  , issueCreatedAt = 2016 (-01) (-29) 03 : 39 : 01 UTC
+  , issueBody =
+      Just
+        "Hi there! I'm looking to join an array of strings into one string using a delimiter (the exact inverse of `split`) to this effect:\r\n```js\r\nr.expr('foo:bar:baz').split(':').join('.');\r\n// => \"foo.bar.baz\"\r\n```\r\n\r\nI feel like I must be missing something, but the best solution I've come up with breaks if `reduce` is parallelized.\r\n\r\n\r\nThis works, and probably always will:\r\n```js\r\nr.expr('foo:bar:baz').split(':').reduce((l,r) => l.add('.').add(r));\r\n// => \"foo.bar.baz\"\r\n```\r\n\r\nBut this might not:\r\n```js\r\nr.table('sequence').orderBy({index: 'weight'})('value').reduce((l,r) => l.add(':').add(r));\r\n```\r\n\r\nWhile I don't really have a use case for the latter, it makes me uncomfortable to use a RQL reduce function that makes an assumption of order. Another option might be to add an option argument to `reduce` that could accept `{parallel: false}`, although I imagine that would be a bit more work to write, and a `join` or `concat` string method would be nice for symmetry."
+  , issueState = "closed"
+  , issueId = Id 129656943
+  , issueComments = 2
+  , issueMilestone = Nothing
+  }

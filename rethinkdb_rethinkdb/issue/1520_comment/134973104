@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-26) 14 : 11 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 53767
+        , simpleUserLogin = N "IanCal"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/53767?v=3"
+        , simpleUserUrl = "https://api.github.com/users/IanCal"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134973104"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1520#issuecomment-134973104"
+  , issueCommentCreatedAt = 2015 (-08) (-26) 12 : 10 : 32 UTC
+  , issueCommentBody =
+      "@danielmewes Thanks, that would appear to be it, `r.table('example').map(r.row).count().run(conn)` was similarly slow.\r\n\r\nSetting the cache size to > the disk storage (so the interface now shows a cache usage of ~60%) brings the timings to:\r\n\r\n0.6s for `r.table('example').map(r.row).count().run(conn)`\r\n\r\n1.8s for `r.table('example').sample(1).run(conn)`\r\n \r\nThe query profiler only has extremely small timings for any sub-task, apart from \"Sampling elements.\" which has a mean time of 0.008ms and so accounts for the majority of the time. If I get a chance I might see if I can compile rethinkdb myself as the time is all being spent in a very small section of code that's pretty clear.\r\n\r\nEdit - \r\n\r\nSo on another machine (ubuntu) I've built and run 2.1.1 with a few changes. Sampling a single item takes ~1.3s which comes down to ~1.1s if I remove the profiling. Removing the core logic of swapping elements around only brings down the time by another 0.05s or so, which means the vast majority of the time is spent iterating over all the elements, and quite a substantial amount of time profiling each element."
+  , issueCommentId = 134973104
+  }

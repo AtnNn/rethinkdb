@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-05) (-25) 20 : 41 : 42 UTC
+  , issueUpdatedAt = 2016 (-05) (-25) 21 : 22 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5796/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5796"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5796
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 555399
+        , simpleUserLogin = N "carlskii"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/555399?v=3"
+        , simpleUserUrl = "https://api.github.com/users/carlskii"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Grappling with advanced nested queriew"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5796"
+  , issueCreatedAt = 2016 (-05) (-25) 10 : 15 : 22 UTC
+  , issueBody =
+      Just
+        "In my quest to get to grips with REQL I'm trying to create my own more advanced version of this https://www.rethinkdb.com/docs/reql-data-exploration/ - This is was great start but the data set is just too simple to learn anything really useful from. Can I suggest creating something that resembles a more real world data-structure. \r\n\r\nRethinkDB is an amazing tool with huge potential, I have many ideas for things I would like to achieve using it. However, once you get past really basic use cases the lack of advanced query examples is a real stumbling block (at least for me) when comparing to the likes of CouchDB etc. I'm not a hardcore developer but can see some huge benefits for using RethinkDB for some of my data analysis and visualisation projects. \r\n\r\nI've read the docs here: https://rethinkdb.com/docs/nested-fields/javascript/\r\n\r\nIs this really all there is on this subject ? \r\n\r\nAnd can't find anything on the `pathspec` syntax other than some references in GitHub issues.\r\n\r\nBased on the following document structure and with the help of a previously #5793 logged question I can now perform a nested query using `pathspec` syntax. e.g.\r\n\r\n```javascript\r\nr.db('scanafi').table(\"test2\").concatMap(function(doc) {\r\n  return doc(\"blobs\")\r\n}).filter({ \"fingerprint\": \"101112\", \"data\": { \"meta2\": { \"c\" : \"carlskii\" }}})\r\n```\r\n\r\nHowever I now have two questions: \r\n\r\n1. Does the `pathspec` syntax enable wildcard or partial searching. e.g. `{ \"fingerprint\": \"101112\", \"data\": { \"meta2\": { \"c\" : \"carl*\" }}} or `{ \"fingerprint\": \"10*\", \"data\": { \"meta2\": { \"c\" : \"carlskii\" }}}` or should I be using the traditional syntax for this type of thing ? \r\n\r\n2. Based on my document structure I need to return both the `blobs` and the `items` into my results. How can I achieve that.\r\n\r\nAgain, I would like to re-iterate - An advanced query tutorial/cookbook containing nothing but query examples would be hugely beneficial to new users such as myself. \r\n\r\nBest Regards.\r\n\r\n```json\r\n{\r\n\t\"blobs\": [{\r\n\t\t\"base64\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\"data\": {\r\n\t\t\t\"Info:\": {\r\n\t\t\t\t\"length\": 1024\r\n\t\t\t},\r\n\t\t\t\"Serial Number\": 123456,\r\n\t\t\t\"Validity\": {\r\n\t\t\t\t\"begin\": \"20280801235959Z\",\r\n\t\t\t\t\"end\": \"19960129000000Z\"\r\n\t\t\t},\r\n\t\t\t\"Version\": 0,\r\n\t\t\t\"hash\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\t\"item count:\": 0,\r\n\t\t\t\"meta1\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t},\r\n\t\t\t\"meta2\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"fingerprint\": \"123\"\r\n\t}, {\r\n\t\t\"base64\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\"data\": {\r\n\t\t\t\"Info:\": {\r\n\t\t\t\t\"length\": 1024\r\n\t\t\t},\r\n\t\t\t\"Serial Number\": 123456,\r\n\t\t\t\"Validity\": {\r\n\t\t\t\t\"begin\": \"20280801235959Z\",\r\n\t\t\t\t\"end\": \"19960129000000Z\"\r\n\t\t\t},\r\n\t\t\t\"Version\": 0,\r\n\t\t\t\"hash\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\t\"item count:\": 0,\r\n\t\t\t\"meta1\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t},\r\n\t\t\t\"meta2\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"fingerprint\": \"456\"\r\n\t}, {\r\n\t\t\"base64\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\"data\": {\r\n\t\t\t\"Info:\": {\r\n\t\t\t\t\"length\": 1024\r\n\t\t\t},\r\n\t\t\t\"Serial Number\": 123456,\r\n\t\t\t\"Validity\": {\r\n\t\t\t\t\"begin\": \"20280801235959Z\",\r\n\t\t\t\t\"end\": \"19960129000000Z\"\r\n\t\t\t},\r\n\t\t\t\"Version\": 0,\r\n\t\t\t\"hash\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\t\"item count:\": 0,\r\n\t\t\t\"meta1\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t},\r\n\t\t\t\"meta2\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"fingerprint\": \"789\"\r\n\t}, {\r\n\t\t\"base64\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\"data\": {\r\n\t\t\t\"Info:\": {\r\n\t\t\t\t\"length\": 1024\r\n\t\t\t},\r\n\t\t\t\"Serial Number\": 123456,\r\n\t\t\t\"Validity\": {\r\n\t\t\t\t\"begin\": \"20280801235959Z\",\r\n\t\t\t\t\"end\": \"19960129000000Z\"\r\n\t\t\t},\r\n\t\t\t\"Version\": 0,\r\n\t\t\t\"hash\": \"MIICPDCCAaUCEHC65B0Q2Sk0tjjKe\",\r\n\t\t\t\"item count:\": 0,\r\n\t\t\t\"meta1\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t},\r\n\t\t\t\"meta2\": {\r\n\t\t\t\t\"a\": \"abc\",\r\n\t\t\t\t\"b\": \"bcd\",\r\n\t\t\t\t\"c\": \"cdf\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"fingerprint\": \"101112\"\r\n\t}],\r\n\t\"complete\": false,\r\n\t\"fast\": true,\r\n\t\"id\": \"33beabc8-9d5b-44f8-bc3b-d346387b1bc9\",\r\n\t\"items\": [{\r\n\t\t\"blobs\": [\r\n\t\t\t\"123\",\r\n\t\t\t\"457\",\r\n\t\t\t\"789\",\r\n\t\t\t\"10112\"\r\n\t\t]\r\n\t}],\r\n\t\"port\": 443,\r\n\t\"secure\": true\r\n}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 156713344
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 52
+          , milestoneClosedIssues = 66
+          , milestoneDescription =
+              Just
+                "These issues have been moved to another repository. Usually `docs` or one of the private repos."
+          , milestoneTitle = "moved"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/52"
+          , milestoneCreatedAt = 2013 (-11) (-06) 22 : 17 : 28 UTC
+          , milestoneState = "closed"
+          }
+  }

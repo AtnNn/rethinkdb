@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-30) 03 : 26 : 57 UTC
+  , issueUpdatedAt = 2015 (-07) (-30) 03 : 27 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4592/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4592"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4592
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1836180
+        , simpleUserLogin = N "nkreipke"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1836180?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nkreipke"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "IsEmpty slow, even slower than Count"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4592"
+  , issueCreatedAt = 2015 (-07) (-28) 16 : 41 : 50 UTC
+  , issueBody =
+      Just
+        "The IsEmpty query is very slow, so that checking if the table is empty using Count and comparing that to 0 is actually more than 3 times faster for large tables.\r\n\r\nI confirmed this in Ruby, running each query a hundred times and printing the total time taken:\r\n\r\n     def time(count)\r\n        t1 = Time.now\r\n        count.times { yield }\r\n        (Time.now - t1) * 1000 # milliseconds\r\n    end\r\n    \r\n    # Table with 40000 documents\r\n    time(100) { r.db('db').table('table').is_empty.run }\r\n    => 5687.1179999999995\r\n    time(100) { r.db('db').table('table').count.run }\r\n    => 1569.827\r\n    \r\n    # Empty table\r\n    time(100) { r.db('db').table('table').is_empty.run }\r\n    => 226.207\r\n    time(100) { r.db('db').table('table').count.run }\r\n    => 204.003\r\n\r\nShouldn't the time needed to run an IsEmpty query be \"fairly\" constant, or is there an implementation detail I don't know?"
+  , issueState = "closed"
+  , issueId = Id 97750382
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

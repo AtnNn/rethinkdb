@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-29) 16 : 22 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 322521
+        , simpleUserLogin = N "brettgriffin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/322521?v=3"
+        , simpleUserUrl = "https://api.github.com/users/brettgriffin"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47459320"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2355#issuecomment-47459320"
+  , issueCommentCreatedAt = 2014 (-06) (-29) 16 : 22 : 26 UTC
+  , issueCommentBody =
+      "Hi, \r\n\r\nI'd like to propose revisiting this and even prioritizing it. In just this discussion, the two opposition points to this feature are:\r\n\r\n1. Users can mistakingly insert into a table they do not intend to.\r\n2. It masks the fact that creating a table is an expensive operation and possibly implores someone to create a table count beyond what RethinkDB is reliably handle.\r\n\r\nI think @neumino addressed the first issue very well: the beauty of a document based database is the flexibility of its schema. A user mistyping a property key on an object is just as (perhaps more) likely to happen as a user mistyping a table name. But empirically developers seem comfortable trading off protection from errors for ease of use or performance. If we didn't, we'd avoid dynamic languages and JSON document stores. The last bit about this is that whatever value a user is using to identify the table to insert to is hopefully the same value they're using into the insert table. Meaning that a typo to that value would still allow for documents to get in the table - but it would just have the wrong name. A simple update to the value and renaming the table would fix that.\r\n\r\nThe second point is really just a matter of RethinkDB's infancy. There are a lot of things you shouldn't or can't do because RethinkDB doesn't support them well right now (e.g. calling distinct on a property with more than 100k distinct values). \r\n\r\nWhat occurs more often: developers using RethinkDB and creating hundreds of tables, or developers testing out/showing off ReQL and hitting an exception when just trying to insert a document like they'd expect to be able to do MongoDB? My bet is on the latter. The few that belong to the former will get their errors, come post a question on the user group, and be told that they need to just ratchet back their table count for a while.\r\n\r\nTo keep the essence of #1000 (Database tools should be indistinguishable from magic) it seems that RethinkDB should just create a table when inserting into one that doesn't exist. I trust that whatever magic needs to happen to make that work will just happen. Right now I have a wrapper around Insert that catches an exception, checks if it is because the table doesn't exist, creates the table, and then inserts the document. Quite distinguishable from magic."
+  , issueCommentId = 47459320
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-11) (-03) 18 : 21 : 36 UTC
+  , issueUpdatedAt = 2014 (-11) (-03) 18 : 21 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3279/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3279"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3279
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 543981
+        , simpleUserLogin = N "paramaggarwal"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/543981?v=3"
+        , simpleUserUrl = "https://api.github.com/users/paramaggarwal"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Write failure on updating sharding"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3279"
+  , issueCreatedAt = 2014 (-11) (-03) 10 : 32 : 38 UTC
+  , issueBody =
+      Just
+        "I was fiddling around with a cluster of 3 RethinkDB instances running locally. Populating data into this cluster from the Twitter Streaming API. I see a write rate of around 80 writes/sec. Now when fiddling in the Rethink Admin Console, and changing the 'Sharding Settings', I immediately see a write failure on my streaming app.\r\n\r\n```\r\nRqlRuntimeError: Cannot perform write: lost contact with master in:\r\nr.db(\"twitter\").table(\"samples\").insert({delete: {status: {id: 154386386936537100, id_str: \"154386386936537088\", user_id: 382981485, user_id_str: \"382981485\"}, timestamp_ms: \"1415010297245\"}})\r\n```\r\n\r\nThe little app I'm using looks like this:\r\n\r\n```js\r\nvar util = require('util'),\r\n    twitter = require('twitter'),\r\n    r = require('rethinkdb');\r\nvar twit = new twitter({\r\n    consumer_key: '123',\r\n    consumer_secret: '123',\r\n    access_token_key: '123',\r\n    access_token_secret: '123'\r\n});\r\n\r\nvar connection = null;\r\nr.connect( {host: \"localhost\", port: 28015}, function(err, conn) {\r\n    if (err) throw err;\r\n    connection = conn;\r\n\r\n    // r.db('twitter').tableCreate('samples').run(connection, function(err, result) {\r\n    //     if (err) throw err;\r\n    //     console.log(JSON.stringify(result, null, 2));\r\n\r\n        twit.stream('statuses/sample', function(stream) {\r\n            stream.on('data', function(data) {\r\n                // console.log(util.inspect(data));\r\n\r\n                r.db('twitter').table('samples').insert(data).run(connection, function(err, result) {\r\n                    if (err) throw err;\r\n                    console.log(JSON.stringify(result, null, 2));\r\n                });\r\n\r\n            });\r\n\r\n            stream.on('error', function(error) {\r\n                throw error;\r\n            });\r\n        });\r\n\r\n    // });\r\n});\r\n\r\n```\r\n\r\n\r\nI tried both increasing sharding value from say 1 to 3, or back to 1 from 3. And in both cases I noticed this write failure. Not aware of the internals, but thought it would be good to share this with the team."
+  , issueState = "closed"
+  , issueId = Id 47580290
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

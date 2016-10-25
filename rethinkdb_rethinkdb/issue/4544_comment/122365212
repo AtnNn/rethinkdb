@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-17) 18 : 24 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/122365212"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4544#issuecomment-122365212"
+  , issueCommentCreatedAt = 2015 (-07) (-17) 18 : 24 : 01 UTC
+  , issueCommentBody =
+      "@VeXocide and I just went over this, and this is what we came up with:\r\n\r\n`INTERNAL` and `USER` look good. And we would rather `RESOURCE` be something like \"LIMIT\" since that is less ambiguous.\r\n\r\nThere is not much point in separating `LOGIC`, `NON_EXISTENCE`, and the \"presence or absence of tables\" portion of `OP_FAILED`. It is very unlikely that those can be handled programmatically, so there is little point in separating them. Of course they should still have separate error texts so developers can figure them out.\r\n\r\nIn our envisioning `RqlQueryError` would include things like nonexistent tables and databases (not to be confused with ones currently unavailable due to clustering issues), but not include errors for keys missing at runtime.\r\n\r\nConversely we felt it was valuable to separate and group things that are the result of (hopefully) transient cluster issues, and so put those as `RqlAvailabilityError` under `RqlRuntimeError`. There was an unresolved discussion about whether there should be both a `RqlDeterminateError` and a `RqlIndeterminateError`, just the latter, or that should just be a marker field on the error type.\r\n\r\nAdditionally we moved the existing `RqlCursorEmpty` outside the hierarchy, since this is not really an error and should generally not be caught by the same handlers.\r\n\r\nAnd we added `RqlAuthError` as that did not feel like a driver error, but rather something a user/administrator should address.\r\n\r\nSo here is the hierarchy as we see it (python class names):\r\n- RqlCursorEmpty (client side)\r\n- RqlError\r\n  - RqlQueryError\r\n  - RqlRuntimeError\r\n    - RqlLimitError\r\n    - RqlUserError\r\n    - RqlInternalError\r\n    - RqlTimeoutError (client side)\r\n    - RqlAvailabilityError\r\n      - RqlIndeterminateError\r\n  - RqlDriverError\r\n  - RqlAuthError"
+  , issueCommentId = 122365212
+  }

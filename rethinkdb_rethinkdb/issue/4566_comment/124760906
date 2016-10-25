@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 23 : 10 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124760906"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4566#issuecomment-124760906"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 23 : 10 : 01 UTC
+  , issueCommentBody =
+      "@danielmewes I was mistaken yesterday, loading the keys upfront is actually ~4-5x faster!\r\n\r\nYou're right, good catch. I always forget about #3408. The time it took to build up the object was pretty negligible compared to the total query duration, though.\r\n\r\nYour suggestion can be further simplified which also makes it a bit faster:\r\n\r\n```js\r\nr.table('right')('id').map([ r.row, true ]).coerceTo('array').coerceTo('object')\r\n\r\n// original:             500ms\r\n// coerceTo:             55ms\r\n// coerceTo simplified:  38ms\r\n```\r\n\r\nI found it slightly odd that `sequence.coerceTo('object')` fails. It seems like that should implicitly coerce to array first."
+  , issueCommentId = 124760906
+  }

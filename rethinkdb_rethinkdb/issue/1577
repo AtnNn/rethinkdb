@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-31) 01 : 14 : 18 UTC
+  , issueUpdatedAt = 2013 (-10) (-31) 01 : 17 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1577/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1577"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1577
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1461947
+          , simpleUserLogin = N "neumino"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1461947?v=3"
+          , simpleUserUrl = "https://api.github.com/users/neumino"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "JavaScript driver - Clean r.connect"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1577"
+  , issueCreatedAt = 2013 (-10) (-27) 00 : 09 : 49 UTC
+  , issueBody =
+      Just
+        "`r.connect` in the JavaScript currently has two syntaxes:\r\n\r\n```js\r\nr.connect( \"localhost\", function(error, connection) { ... } )\r\nr.connect( { host: \"localhost\", authKey: \"...\", .. }, function(error, connection) { ... } )\r\n```\r\n\r\nIf no one has strong objection, I would like to remove the first one. That way we would have the same syntax across the three drivers and that would make the driver a little less complex.\r\nNote that you cannot pass a string like `\"localhost:28015\"` or anything else. Nothing is parsed.\r\n\r\n\r\nThe check on line 403 is not safe too (for the type of `host`)\r\n\r\nIf `host` is `null`, no error is thrown there, but one is thrown because we try to read the property `host` of `null` (line 72)\r\n```\r\n> r.connect(null, function(e, c) { } )\r\nTypeError: Cannot read property 'host' of null\r\n    at TcpConnection.Connection (/usr/lib/node_modules/rethinkdb/net.js:107:21)\r\n    at new TcpConnection (/usr/lib/node_modules/rethinkdb/net.js:379:41)\r\n```\r\n\r\nIf `host` is an `array`, no error are thrown, and the result is like passing an empty object.\r\n\r\nIf `host` is `undefined`, an error will be thrown on line 403, which make the test on line 67 useless."
+  , issueState = "closed"
+  , issueId = Id 21643822
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-03) 06 : 19 : 21 UTC
+  , issueUpdatedAt = 2013 (-04) (-25) 00 : 31 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/367/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/367"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 367
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add `default` command"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/367"
+  , issueCreatedAt = 2013 (-02) (-20) 19 : 15 : 21 UTC
+  , issueBody =
+      Just
+        "We've talked about this feature across multiple issues (namely #27 and #362) and in meat-space so I thought it was time that it should have it's own thread.\r\n\r\nThe idea is to add an API function called `default` that evaluates it's first argument first, checks if this results in an error and then evaluates and returns it's second argument if this is the case.\r\n\r\nThere has been a similar proposal to add optional default arguments to other API functions that may fail. I like the idea of a separate `default` command better because it is more general and simpler to implement and use.\r\n\r\nWhile the consensus seems to have coalesced around `default` the alternate name of `catch` has also been proposed. This name nicely ties the function to the idea of error handling but may imply exception like behavior (which is subtly distinct from what we do). I'm happy with either name.\r\n\r\nThe main point of contention now is whether `default` should be a top level API function or a method on RQL values. The general question of prefix vs. infix notation has been discussed at length in #294. I've generally preferred the infix style so it should not be a surprise that I support infix style here. Of course, we can always support both notations as the Ruby client already does. It helps that as a method it's functionality is dead simple to explain and implement. `default` on a regular value is the identity function. `default` on an error value simply returns it's second argument.\r\n\r\nI like the idea of `default` serving a similar role to the `||` or `or` operator in many dynamic languages where a `null` or `undefined` value is used to indicate failure and a short circuiting `or` can be used to supply a default value in this case. We already have infix, short circuiting `or` in RQL for boolean values and `default` can be thought of as a special case for error values.\r\n\r\nLastly I'd like to say that `default` seems particularly useful for deeply nested operations. Because you can put a `default` wrapper at any level (rather than being forced to put it at the point of a possible access failure) it makes dealing with deeply nested schema issues trivial.\r\n\r\n```javascript\r\ntable.map(function(row) {\r\n   // Rather than place a `hasAttr` or `count` check and branch at each level\r\n   // a single `default` call can be used to catch any holes in the schema\r\n   return row('field)('sub-field').nth(12)('sub-sub-field').default(null);\r\n});\r\n```"
+  , issueState = "closed"
+  , issueId = Id 11210974
+  , issueComments = 28
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

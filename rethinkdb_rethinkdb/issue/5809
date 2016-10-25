@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-05) (-31) 18 : 55 : 17 UTC
+  , issueUpdatedAt = 2016 (-06) (-01) 08 : 16 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5809/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5809"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5809
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 14157728
+        , simpleUserLogin = N "ghatwala"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/14157728?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ghatwala"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "#error \"Could not determine architecture\" during \" make \""
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5809"
+  , issueCreatedAt = 2016 (-05) (-31) 07 : 48 : 38 UTC
+  , issueBody =
+      Just
+        "Hi All,\r\n\r\nI am trying to officially port \"rethinkDB\" on power arch ( ppc64le ) . I followed the steps mentioned in \"https://www.rethinkdb.com/docs/build/\" . i have installed all the dependencies mentioned and also \"npm\".\r\n\r\nBelow is my set up details:\r\n\r\n```\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# lscpu\r\nArchitecture:          ppc64le\r\nByte Order:            Little Endian\r\nCPU(s):                4\r\nOn-line CPU(s) list:   0-3\r\nThread(s) per core:    1\r\nCore(s) per socket:    4\r\nSocket(s):             1\r\nNUMA node(s):          1\r\nModel:                 2.1 (pvr 004b 0201)\r\nModel name:            POWER8E (raw), altivec supported\r\nHypervisor vendor:     KVM\r\nVirtualization type:   para\r\nL1d cache:             64K\r\nL1i cache:             32K\r\nNUMA node0 CPU(s):     0-3\r\n\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# cat /etc/os-release\r\nNAME=\"Ubuntu\"\r\nVERSION=\"16.04 LTS (Xenial Xerus)\"\r\nID=ubuntu\r\nID_LIKE=debian\r\nPRETTY_NAME=\"Ubuntu 16.04 LTS\"\r\nVERSION_ID=\"16.04\"\r\nHOME_URL=\"http://www.ubuntu.com/\"\r\nSUPPORT_URL=\"http://help.ubuntu.com/\"\r\nBUG_REPORT_URL=\"http://bugs.launchpad.net/ubuntu/\"\r\nUBUNTU_CODENAME=xenial\r\n\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# node --version\r\nv4.4.5\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# npm --version\r\n2.15.5\r\n```\r\nTo make this source build on \"ppc64le\" , had to perform changes in \"configure\" file . Added \"powerpc64le\" to line no . 84  in \"configure\"\r\n```\r\ncase \"${MACHINE%%-*}\" in\r\n        x86_64|i?86|**powerpc64le**)\r\n\r\n```\r\n\r\nMy build steps\r\n```\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# ./configure --allow-fetch\r\n* Detecting system configuration\r\nBash:                           4.3.42(1)-release\r\nUse ccache:                     no\r\nC++ Compiler:                   GCC 5.3.1 (/usr/bin/c++)\r\nHost System:                    powerpc64le-linux-gnu\r\n Machine arch is powerpc64le-linux-gnu\r\nBuild System:                   Linux 4.4.0-22-generic ppc64le\r\nCross-compiling:                no\r\nHost Operating System:          Linux\r\nBuild Architecture:             ppc64le\r\nC++11:                          ok\r\nPrecompiled web assets:         no\r\nProtobuf compiler:              /usr/bin/protoc\r\npython:                         python 2.7.11\r\nNode.js package manager:        /usr/local/bin/npm\r\ncoffee:                         external/coffee-script_1.10.0\r\nBrowserify:                     external/browserify_12.0.1\r\nbluebird:                       external/bluebird_2.9.32\r\nweb UI dependencies:            external/admin-deps_2.0.3\r\nwget:                           /usr/bin/wget\r\ncurl:                           /usr/bin/curl\r\nGoogle Test:                    external/gtest_1.7.0\r\ntermcap:                        -ltermcap\r\nboost_system:                   -lboost_system\r\nprotobuf:                       -lprotobuf\r\nv8 javascript engine:           external/v8_3.30.33.16\r\nRE2:                            external/re2_20140111\r\nz:                              -lz\r\ncrypto:                         -lcrypto\r\nssl:                            -lssl\r\ncurl:                           -lcurl\r\nmalloc:                         jemalloc\r\njemalloc (static):              external/jemalloc_4.1.0\r\nTest protobuf:                  ok\r\nTest boost:                     ok\r\nTest OpenSSL:                   ok\r\nInstallation prefix:            /usr/local\r\nConfiguration prefix:           /usr/local/etc\r\nRuntime data prefix:            /usr/local/var\r\n* Wrote configuration to config.mk\r\n```\r\n\r\nThe error encounterd while running \"make\" is as below\r\n```\r\nroot@pts00449-vm1:~/amit/rethinkDB/rethinkdb# make\r\n    [1/274] CC build/release/obj/rpc/connectivity/cluster.o\r\nsrc/rpc/connectivity/cluster.cc:111:2: error: #error \"Could not determine architecture\"\r\n #error \"Could not determine architecture\"\r\n  ^\r\nsrc/build.mk:390: recipe for target 'build/release/obj/rpc/connectivity/cluster.o' failed\r\nmake[1]: *** [build/release/obj/rpc/connectivity/cluster.o] Error 1\r\nMakefile:52: recipe for target 'make' failed\r\nmake: *** [make] Error 2\r\n\r\n```\r\nAny pointers to resolve the above error will be helpful.?"
+  , issueState = "closed"
+  , issueId = Id 157609635
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-24) 00 : 26 : 26 UTC
+  , issueUpdatedAt = 2015 (-03) (-24) 00 : 26 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2933/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2933"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2933
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Unlikely clustering race condition"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2933"
+  , issueCreatedAt = 2014 (-08) (-19) 00 : 57 : 24 UTC
+  , issueBody =
+      Just
+        "Consider the following scenario:\r\n\r\nThe user has a server `a` with some data on it. Two servers `x` and `y` connect to `a` simultaneously, so they exchange semilattice metadata with `a`; but the exchange between the two is delayed. So `a` sees all three servers in the semilattices, but `x` and `y` each only see themself and `a`. A user issues a configuration change on each one that causes a new blueprint to be issued with `x` or `y` as the sole data host. Because `x` and `y` don't see each others' entries in the semilattices, `x`'s blueprint contains only `x` and `a`, and `y`'s blueprint contains only `y` and `a`. `x`'s blueprints propagates to `a`, so `a` goes into `nothing_when_safe` state; and `x` and `y` backfill from it. But `x`'s blueprint doesn't propagate to `y` and `y`'s blueprint doesn't propagate to either of the other machines. When the backfills finish, `x` and `y` still ignore each other because neither's blueprint mentions the other, so they both think it's safe to become primary. Now we have two primaries. Both of them will accept writes, so data can diverge.\r\n\r\nThis sequence of events is technically possible because the RPC layer provides no guarantees about how fast the semilattices will propagate between machines. However, I don't think we should fix this bug. It's incredibly unlikely in practice--I would guess that we couldn't reproduce it if we tried--and nobody seems to have run into it so far. It seems like a lot of work to fix. And the code that contains this bug is likely to be rewritten within the coming year when we modify the clustering layer to work even when some machines are missing, so the bug will be fixed then."
+  , issueState = "closed"
+  , issueId = Id 40548331
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

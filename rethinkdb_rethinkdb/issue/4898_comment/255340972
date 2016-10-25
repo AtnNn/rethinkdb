@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-21) 09 : 52 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1147703
+        , simpleUserLogin = N "DenisBY"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1147703?v=3"
+        , simpleUserUrl = "https://api.github.com/users/DenisBY"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/255340972"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4898#issuecomment-255340972"
+  , issueCommentCreatedAt = 2016 (-10) (-21) 09 : 52 : 07 UTC
+  , issueCommentBody =
+      "Is there any workaround for this? I've tried:\r\n```python\r\n    def _init_db(self, client):\r\n        # Create DB\r\n        try:\r\n            r.db_create('cache').run(client);\r\n        except ReqlRuntimeError:\r\n            log.info(\"DB already exists\")\r\n            pass\r\n        # Create table\r\n        try:\r\n           r.db('cache').table_create('tasks', replicas=3).run(client)\r\n        except ReqlRuntimeError:\r\n            log.info(\"Table already exists\")\r\n            pass\r\n        # Check for bug https://github.com/rethinkdb/rethinkdb/issues/4898\r\n        try:\r\n            r.db('cache').table('tasks').status().run(client)\r\n        except ReqlRuntimeError as e:\r\n            if \"multiple tables with that name\" in e.message:\r\n                log.warning(\"Error: %s\", e)\r\n                r.db('cache').table_drop('tasks').run(client)\r\n                _init_db(client)\r\n            pass\r\n```\r\nBut it doesn't work:\r\n```\r\nrethinkdb.errors.ReqlOpFailedError: Table `cache.tasks` is ambiguous; there are multiple tables with that name in:\r\nr.db('cache').table_drop('tasks')\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```\r\n\r\nIs there something like 'force' or 'ignore error' for `table_drop`?"
+  , issueCommentId = 255340972
+  }

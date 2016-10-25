@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-25) 17 : 52 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134684607"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4764#issuecomment-134684607"
+  , issueCommentCreatedAt = 2015 (-08) (-25) 17 : 52 : 15 UTC
+  , issueCommentBody =
+      "From the look of this it is because you are trying to use [`nose`](https://nose.readthedocs.org/en/latest/) as a replacement to the built-in `unittest` and that is trying to be clever at one point and use a StringIO object where we don't support that.\r\n\r\nProbably the fundamental problem here is that we don't use `unitest` as our basic testing harness. It is used in some Python tests, but that is more for my convenience than anything else (remember, we have a number of languages to test). Rather you should be using our two testing harnesses to run our tests:\r\n- `./test/run` this currently runs our server unitests, and a number of \"scenario\" tests that do different things with the server\r\n- `./test/rql_test/test-runner` runs our client driver tests (we call them \"polyglot\" and \"connection\" tests)\r\n\r\nIt is worth noting that I have mid-term plans to merge these two systems in #3442, at which time there will only be one test harness.\r\n\r\nOn the assumption that this is the actual problem, I am going to close this. Please comment if this is a bad assumption."
+  , issueCommentId = 134684607
+  }

@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-13) 19 : 03 : 12 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2663/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2663"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 2663
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Clustering primitives"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2663"
+  , issueCreatedAt = 2014 (-07) (-07) 08 : 35 : 55 UTC
+  , issueBody =
+      Just
+        "We had a discussion on Thursday about adjusting clustering primitives to account for everything we've learned. Here is a concrete proposal based on that discussion. My goal is to pick the simplest, most flexible API that's easy to use and that would allow our users to accomplish most of their goals.\r\n\r\n__Connectivity layer__\r\n\r\nMachines can enter the cluster by starting the rethinkdb server with the `--join` argument on the command line (like they do now). Machines can leave at any time with no consequences (i.e. no issue), either due to a netsplit, or due to a crash, or due to the user killing the process. Users can list machines in the cluster as follows:\r\n\r\n```py\r\n> r.machine_list()\r\n['m1', 'm2', 'm3']\r\n```\r\n\r\n__Low level clustering API__\r\n\r\nThis is a low level API to control the cluster. Most of it effectively corresponds to our blueprints. Users may or may not want to use this API directly, but it allows for full control of the cluster, and the higher level API (below) could be rewritten to run commands from the low level API.\r\n\r\nUsers can __shard__ by explicitly specifying machines:\r\n\r\n```py\r\n# Get the current shards on a table\r\n> r.table('foo').get_shards(zone=zone_name)\r\n['m1', 'm2']\r\n\r\n# Set shards on a table. Issuing this command starts the resharding process\r\n> r.table('foo').set_shards(['m1', 'm2', 'm3'], zone=zone_name)\r\n[status_object_1, status_object_2, status_object_3]\r\n\r\n# Get the status of what's happening to our shards\r\n> r.table('foo').shard_status(zone=zone_name)\r\n[status_object_1, status_object_2, status_object_3]\r\n```\r\n\r\nI'll describe the meaning of zones below. Users can __replicate__ as follows:\r\n\r\n```py\r\n# Get the list of replicas for each shard\r\n> r.table('foo').get_replicas(zone=zone_name)\r\n[['m4', 'm5'], ['m6', 'm7'], ['m8', 'm9']]\r\n\r\n# Set the list of replicas for each shard\r\n> r.table('foo').set_replicas([['m4', 'm5'], ['m6', 'm7'], ['m8', 'm9']],\r\n                              zone=zone_name)\r\n[[status_object_1, status_object_2],\r\n [status_object_3, status_object_4],\r\n [status_object_5, status_object_6]]\r\n\r\n# Get the status of our replicas\r\n> r.table('foo').replica_status(zone=zone_name)\r\n[[status_object_1, status_object_2],\r\n [status_object_3, status_object_4],\r\n [status_object_5, status_object_6]]\r\n```\r\n\r\nA few caveats:\r\n\r\n- For the first implementation, we might want to enforce the number of replicas in each sublist to be the same.\r\n- The array specification is compact, but might not be very accessible. We might want to make it more user-friendly, but I'm ignoring that for now (until we agree on the basic primitives).\r\n\r\nUsers can set __ack requirements__ by specifying lists of machines and the number of acks expected from those machines before the system acks the write to the client:\r\n\r\n```py\r\n> r.table('foo').set_acks([[['m4', 'm6', 'm8'], 0], [['m5', 'm7', 'm9'], 1]]])\r\n> r.table('foo').get_acks()\r\n[[['m4', 'm6', 'm8'], 0], [['m5', 'm7', 'm9'], 1]]]\r\n```\r\n\r\n__Zones__\r\n\r\nUsers might want to set up zones to tell the system that some subset of the data in a table should be treated differently from other subsets of the data. For example, the user might want data for european customers to reside in a european datacenter.\r\n\r\n```py\r\nr.table('foo').get_zones(...)\r\nr.table('foo').set_zones(...)\r\n```\r\n\r\nI'm omitting the zone spec for now, until we get to this feature. Once zones are implemented, if a zone is set up and the user doesn't pass it above, the commands throw an error. Similarly, if a zone isn't set up and the user specifies one, the commands throw an error.\r\n\r\n__Higher level API__\r\n\r\nUsers might not want to set machines explicitly (and non-expert users would almost certainly prefer not to). The higher level API offers a convenient way to shard and replicate for users who don't need the power to set everything up explicitly. This API is mostly equivalent to our currents goals API. When the user mixes the high level and low level commands, the system is under no obligation to respect any of the previous commands issued before (but it should try not to needlessly move data around). The higher level API is just a porcelain API over low-level commands.\r\n\r\nUsers can __tag__ machines with string identifiers to simplify specification of requirements:\r\n\r\n```py\r\n> r.set_tags('m1', ['tag1', 'tag2', 'tag3'])\r\n> r.get_tags('m1')\r\n['tag1', 'tag2', 'tag3']\r\n```\r\n\r\nThen (I'm ignoring zones here, but we'd add those as necessary):\r\n\r\n```py\r\n# Shard into X shards, picking masters from the tag\r\nr.table('foo').shard(3, placement=tag)\r\n\r\n# Set `replica_count` machines from the tag as replicas\r\nr.table('foo').replicate(replica_count, placement=tag)\r\n\r\n# Set `act_count` ack requirement from the tag\r\nr.table('foo').ack(act_count, placement=tag)\r\n```\r\n\r\nNote, there is no way for the user to get this data back, other than by calling the low-level API to see where things were placed.\r\n\r\nAlso note, there are some holes in the higher level API (do they specify *all* things, or incremental changes?) but it's late and I'm running out of steam. We can plug these holes, but I hope you see the spirit of the proposal.\r\n\r\n__Issues__\r\n\r\nUsers can get any issues as follows:\r\n\r\n```py\r\n> r.table('foo').issues()\r\n[...]\r\n```\r\n\r\nAlso:\r\n\r\n```py\r\n> r.table('foo').issues().changes()\r\nfeed\r\n```\r\n\r\n__Monitoring__\r\n\r\nWe can expose the information above via a restful API to make it easier for monitoring tools to grab the data:\r\n\r\n```\r\n/cluster/machines\r\n/cluster/db_names\r\n/cluster/db_name/table_names\r\n/cluster/db_name/table_name/shards?zone=zone_name\r\n/cluster/db_name/table_name/replicas?zone=zone_name\r\n/cluster/db_name/table_name/acks?zone=zone_name\r\n/cluster/db_name/table_name/zones\r\n/cluster/db_name/table_name/issues\r\n```\r\n\r\nIt could be read-only, or writeable (I'm not sure what's better -- but we can probably make it read-only for the first implementation). If we end up exposing everything via system tables, we could add a unified restful API to tables in general, but I think we should avoid this discussion until we settle on basic primitives.\r\n\r\n__Automatic failover__\r\n\r\nThere is a question of which replica the system should pick during automatic failover to be the next master. I think that we should add a hint system (by giving an ordered priority list) once we implement this feature. I don't think the APIs above should account for this, otherwise things get far too complicated.\r\n\r\n__Web UI__\r\n\r\nI don't know if we can easily expose the lower-level API via the Web UI, but I think that's ok. We'll do best effort, and try to do something delightful for users. I suspect we'll only expose the higher level API there \r\n\r\n__rethinkdb admin__\r\n\r\nWe'll drop `rethinkdb admin` completely, and instead add `rethinkdb shell` that will allow conveniently executing ReQL queries.\r\n\r\n/cc @timmaxw "
+  , issueState = "closed"
+  , issueId = Id 37248722
+  , issueComments = 24
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

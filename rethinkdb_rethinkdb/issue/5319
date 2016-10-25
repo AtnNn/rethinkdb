@@ -1,0 +1,75 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-01) 20 : 36 : 57 UTC
+  , issueUpdatedAt = 2016 (-04) (-01) 20 : 36 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5319/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5319"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      ]
+  , issueNumber = 5319
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Implement back-off logic for nodes reconnecting too quickly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5319"
+  , issueCreatedAt = 2016 (-01) (-25) 20 : 11 : 34 UTC
+  , issueBody =
+      Just
+        "In some scenarios, networking issues can make nodes reconnect and disconnect in quick succession. This can cause tables to become and remain unavailable, if the node connecting triggers a Raft election and/or a primary handover.\r\n\r\nThe idea for the back-off is as follows:\r\nOn each node, we maintain two maps:\r\n```C++\r\nstd::map<server_id_t, ticks_t> reconnect_delay;\r\nstd::map<server_id_t, ticks_t> last_connect;\r\n```\r\n\r\nWhen a node connects, we follow the following logic:\r\n```\r\nif (last_connect[server] + reconnect_delay[server] < current_ticks) {\r\n    reject_connection();\r\n}\r\nlast_connect[server] = current_ticks;\r\nreconnect_delay[server] = default_delay; // default_delay will be a small number, maybe 100ms or something\r\n```\r\n\r\nWhen a node disconnects, we follow this logic:\r\n```\r\nif (last_connect[server] + reconnect_delay[server] < current_ticks) {\r\n    // If the server keeps dropping off too quickly, increase the delay.\r\n    // The factor of 2 is arbitrary.\r\n    reconnect_delay[server] = std::min(max_delay, reconnect_delay[server] * 2);\r\n}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 128626667
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

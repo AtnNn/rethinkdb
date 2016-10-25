@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-02) 19 : 45 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161410714"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5039#issuecomment-161410714"
+  , issueCommentCreatedAt = 2015 (-12) (-02) 19 : 41 : 43 UTC
+  , issueCommentBody =
+      "@mshi Ah ok. This would be much easier if #4226 existed, but unfortunately the workaround for now is kinda ugly. You basically want to dump all prefixes into a multi-index. In your case, that would include prefixes for both `userid` and `name` fields. For just one field it would look like:\r\n\r\n```\r\nindexCreate('namePrefix', function(doc){\r\n   return r.range(0, doc('userid').split('').count())\r\n       .map(i => doc('userid').downcase().split('').limit(i.add(1)))\r\n       .reduce((x, y) => x.add(y))}, {multi: true})\r\n```\r\n(This is a bit more roundabout since you can't `.count()` a string, `.slice` a string, or `.join` a string back together from an array)\r\n\r\nQuerying is the same as above, you have to `.downcase()` the input\r\n\r\nDepending on how long your strings are this may create a huge index, so I wouldn't use this strategy on any field much longer than a username"
+  , issueCommentId = 161410714
+  }

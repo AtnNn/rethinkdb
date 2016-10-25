@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-21) 20 : 35 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5984/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5984"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5984
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "r.merge() should exist as a top-level term"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5984"
+  , issueCreatedAt = 2016 (-07) (-21) 20 : 30 : 44 UTC
+  , issueBody =
+      Just
+        "A user wanted to add a field with a certain value if the field did not exist already in the document for every document in a table.\r\n\r\nThe way I'd naturally write this (and what I recommended) was:\r\n\r\n```\r\nr.table(\"users\").update(function (user) {\r\n    return r.merge({\"avatar\": \"\"}, user);\r\n})\r\n```\r\n\r\nBut this fails because `r.merge` does not exist (it is only defined as a method on terms, not top-level.)\r\n\r\nThe workaround in this particular query is to use `expr`, a la `{ return r.expr({\"avatar\": \"\"}).merge(user) }`, but I feel like requiring that does not help with clarity, usability, nor does allowing it as a top-level term cause misunderstandings.\r\n\r\n*I propose that `r.merge(a, b)` be added as an equivalent to `a.merge(b)` (with appropriate automatic value wrapping) for all `a` and `b`, and handling larger numbers of arguments similarly.*\r\n\r\nThis does look like it adds an inconsistency with the argument handling iff the first argument is not an object, but is instead a sequence (it maps over the sequence) but I don't think this is surprising behavior given its preexisting multiple-dispatch semantics. I also don't think only allowing objects in the first argument is helpful either, so I propose the generic remapping."
+  , issueState = "open"
+  , issueId = Id 166910677
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-29) 19 : 26 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144163710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4896#issuecomment-144163710"
+  , issueCommentCreatedAt = 2015 (-09) (-29) 19 : 26 : 38 UTC
+  , issueCommentBody =
+      "> The testing goals really are simple: to test the server and to test the clients.\r\n\r\nIt's true that those are goals, but it's not true that our tests fall cleanly along that line.  It's not like we have mostly chocolate and peanut butter with a little mixing, probably more than half the tests we write now test both the clients and the server.  People will end up having rules in their head like \"If I write a test that works in all 3 languages put it in `client`, if I write the same test but only for one language put it in `server`...\".  And then when they run up against a novel case, like a test that uses the EventMachine integration to read from lots of feeds, they won't know where to put it.  Is it testing that the EventMachine integration is correct?  Is it testing that having lots of concurrent changefeeds on the server works?  Is it testing that having lots of concurrent changefeeds with the EventMachine integration works?  It's testing all of those!\r\n\r\nThe choice of which section to put it in is esentially random, and every time you want to find a test you'll have to go look in both.  It doesn't even help reduce the number of tests you have to run, because whenever I make a change to the query language I run all the ReQL tests, so after this divison I'll have to go run both the server tests and the client tests since the current ReQL tests will be split across both.\r\n\r\nWhat I really want from the testing system as a user of it is a way to say something like \"I just made a change to the query language, run all the ReQL tests.\" or \"I just made a change to how changefeeds work that shouldn't affect anything else, run just the changefeed section of the ReQL tests\" or \"I just made a change to how clustering works that doesn't effect query evaluation at all, run all our clustering tests\".\r\n\r\nBasically, it would be much more useful for me to have tests grouped by what part of the server code they hit.  As a writer of tests, I'll basically be flipping a coin to decide whether a new changefeed test goes in `server/changefeeds` or `client/changefeeds`, and as a user of tests I'm infinitely more likely to want to run `server/changefeeds` and `client/changefeeds` at the same time than to run say `server/changefeeds` and `server/admin` at the same time."
+  , issueCommentId = 144163710
+  }

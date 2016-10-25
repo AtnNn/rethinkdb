@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-24) 01 : 02 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69402487"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2768#issuecomment-69402487"
+  , issueCommentCreatedAt = 2015 (-01) (-09) 21 : 32 : 17 UTC
+  , issueCommentBody =
+      "Thanks for the feedback @mkleehammer .\r\nI personally remember not quite understanding the uses cases of `r.do` for a while either.\r\n\r\nUnfortunately making `map` work on single items is not a good option for the reasons @AtnNn and @mlucy have already said above, namely\r\n* If `arr=[a1, a2, ..., an]` is an array, it becomes ambiguous whether `foo.map(fun)` should apply `fun` on the whole array `arr` as a single item, or whether it should iterate over the array applying `fun` to each element of `a1` to `an` individually.\r\n* In some languages you can apply `map` to an object `obj={field1: val1, field2: val2, ...}`, and what `obj.map(fun)` does is that it calls `fun` for each pair of `field, val` (for example http://underscorejs.org/#map does this). We are not currently supporting this in ReQL, but having ReQL `map` work differently on an object might confuse people who expect this behavior as well.\r\n\r\nInstead we might want to consider renaming (or aliasing) `r.do`. I've opened https://github.com/rethinkdb/rethinkdb/issues/3542 to discuss different options.\r\n\r\nI would like to close this issue if everyone is fine with it, since it seems that extending `map` in the proposed way would raise more problems than it solves."
+  , issueCommentId = 69402487
+  }

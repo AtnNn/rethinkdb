@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-15) 21 : 11 : 04 UTC
+  , issueUpdatedAt = 2016 (-09) (-01) 18 : 13 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5399/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5399"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "bfe5bf"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/windows"
+          , labelName = "windows"
+          }
+      ]
+  , issueNumber = 5399
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1456118
+        , simpleUserLogin = N "jamescostian"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1456118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jamescostian"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Restoring on Windows isn't very fun"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5399"
+  , issueCreatedAt = 2016 (-02) (-14) 18 : 07 : 48 UTC
+  , issueBody =
+      Just
+        "I downloaded the [preview](https://download.rethinkdb.com/windows/rethinkdb-dev-preview-0.zip), started up a server (`.\\rethinkdb`) and in a separate CMD, ran `pip install rethinkdb` followed by `.\\rethinkdb restore file.tar.gz` and this is what I got:\r\n```\r\nC:\\Users\\James\\Desktop>Unzipping archive file...\r\nTraceback (most recent call last):\r\n  File \"C:\\Python27\\Scripts\\rethinkdb-restore-script.py\", line 9, in <module>\r\n    load_entry_point('rethinkdb==2.2.0.post3', 'console_scripts', 'rethinkdb-restore')()\r\n  File \"C:\\Python27\\lib\\site-packages\\rethinkdb\\_restore.py\", line 191, in main\r\n    run_rethinkdb_import(options)\r\n  File \"C:\\Python27\\lib\\site-packages\\rethinkdb\\_restore.py\", line 173, in run_rethinkdb_import\r\n    do_unzip(temp_dir, options)\r\n  File \"C:\\Python27\\lib\\site-packages\\rethinkdb\\_restore.py\", line 129, in do_unzip\r\n    res = subprocess.call(tar_args)\r\n  File \"C:\\Python27\\lib\\subprocess.py\", line 522, in call\r\n    return Popen(*popenargs, **kwargs).wait()\r\n  File \"C:\\Python27\\lib\\subprocess.py\", line 710, in __init__\r\n    errread, errwrite)\r\n  File \"C:\\Python27\\lib\\subprocess.py\", line 958, in _execute_child\r\n    startupinfo)\r\nWindowsError: [Error 2] The system cannot find the file specified\r\n```\r\n\r\nI also tried using the relative path instead of just the filename (i.e. `.\\file.tar.gz` instead of `file.tar.gz`) and even the full path, but none of those attempts worked. I always get the same error. So I read through the code, and realized when the error said \"cannot find the file specified\", it wasn't talking about my RethinkDB dump, it was talking about *tar*, which Windows does not come with :frowning:\r\n\r\nSo I downloaded and installed [this](http://gnuwin32.sourceforge.net/downlinks/tar-bin.php) from [Tar for Windows](http://gnuwin32.sourceforge.net/packages/gtar.htm) to... uh... \"polyfill\" tar. And then I added the path of tar.exe to my system's PATH variable.\r\n\r\nI got another error, which started out with:\r\n\r\n > tar: unrecognized option `--strip-components=1'\r\n\r\nso I manually did the extraction, stripping out the top dir. Then I went into `_restore.py` (one of the files from the stack trace above) and replaced the unzip command on line 173 (`do_unzip(temp_dir, options)`) with a command to tell me where to put the extracted files (`raw_input(\"Extract files to: \" + temp_dir)`).\r\n\r\nI thought that all I had to do was circumvent the tar usage, and then everything would work. Unfortunately, it didn't:\r\n\r\n```\r\nImporting from directory...\r\n[                                        ]   0%\r\n0 rows imported in 38 tables\r\nReQL error during 'import': Cannot perform write: primary replica for shard [\"\", +inf) not available\r\nReQL error during 'import': Cannot perform write: primary replica for shard [\"\", +inf) not available\r\nErrors occurred during import\r\nError: rethinkdb-import failed\r\n```\r\n\r\nThe databases and tables were successfully created, but they were all empty :sob:\r\n\r\nAlso, I don't think this is an edge-case due to a huge export or anything. `file.tar.gz` is only 928KB, and although one of the tables has ~9000 documents, most have between 0 and 100"
+  , issueState = "closed"
+  , issueId = Id 133562925
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

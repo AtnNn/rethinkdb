@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-06) 00 : 01 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/169173558"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2670#issuecomment-169173558"
+  , issueCommentCreatedAt = 2016 (-01) (-06) 00 : 01 : 33 UTC
+  , issueCommentBody =
+      "I've been following this feature for quite some time, and it's got to be on the very top of my wish-list (along with multi-document atomic updates). While the real solution is to make intersections efficient, this *might* be able to be faked in the meantime (with permanently useful semantics):\r\n\r\nRethinkDB already checks for situations where multiple indices are used (and throws an error). It also is already aware of how each query is built \8211 the simple field, the computed function, etc. It seems to me that it would be reasonably easy to use the first index, then apply the other indices' *rules* to the result set.\r\n\r\nOf course, this has \"correctness\" implications (you're telling it to use an index and it isn't) but until intersections are possible, we already have to pick **one** index, then filter/sort the result set. To fix this (and provide a really cool third option to the whole auto-optimization debate) we could add an option to the tables and the `run` function that enables index downgrading behavior. Because there are times when you wouldn't want to use a secondary/tertiary index even if you had one capable of intersections (ie. the result set is very small) index downgrading is a form of query optimization that is very predictable and doesn't require the database to pick between simple and computed indices because they are user-supplied. This also solves many of the use cases that are listed in #2356 and #4150: the user can *always* specify which query to use, and not worry about how the intersection works internally.\r\n\r\nAnyhow, just wanted to throw this out there because building an auto-optimizer that has to pick between several computed indices sounds like quite a chore, and this might be an acceptable solution to a number of issues here!"
+  , issueCommentId = 169173558
+  }

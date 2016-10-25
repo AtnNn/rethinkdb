@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-08) 22 : 13 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 863286
+        , simpleUserLogin = N "dalanmiller"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/863286?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dalanmiller"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/231485351"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5354#issuecomment-231485351"
+  , issueCommentCreatedAt = 2016 (-07) (-08) 22 : 13 : 11 UTC
+  , issueCommentBody =
+      "@danielmewes This is ready for review. \r\n\r\nIt would be nice to have `async with r.connect() as conn:` but it would involve modifications to `net_asyncio.Connection.reconnect` to not be a coroutine. So in order for it to work at the moment, it needs to be:\r\n\r\n```py\r\nasync with await r.connect() as conn:\r\n    pass\r\n```\r\n\r\nThe problem being that we want to manage the context of the connection itself not the connection function. So `__aexit__` and `__aenter__` [are defined there](https://github.com/rethinkdb/rethinkdb/pull/5354/files#diff-5609ca78d50319b2e4e1263ade679e99R304). \r\n\r\nA good example of this properly done is [aiohttp](http://aiohttp.readthedocs.io/en/stable/):\r\n\r\n```py\r\nwith aiohttp.ClientSession() as session:\r\n    async with session.get('https://api.github.com/events') as resp:\r\n        print(resp.status)\r\n        print(await resp.text())\r\n``` \r\n\r\nWhere [here it's defined](https://github.com/KeepSafe/aiohttp/blob/master/aiohttp/client.py#L94-L129) that there's a standard non-coroutine `def request` which synchronously returns a class implementing `__aexit__` and `__aenter__` which wraps the coroutine request (and sends . \r\n\r\nI say for the moment we ship this and put fixing the context manager properly at a later time and also spend some time to write some more comments.\r\n\r\nAlternatively, we can also ship everything except the `async with` functionality in a half-baked state.\r\n\r\nThanks to @sseg for some pointers on this."
+  , issueCommentId = 231485351
+  }

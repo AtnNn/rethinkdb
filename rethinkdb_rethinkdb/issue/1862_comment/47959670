@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 17 : 28 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47959670"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1862#issuecomment-47959670"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 17 : 28 : 15 UTC
+  , issueCommentBody =
+      "I agree that sharding on something other than the primary key is nice from a user point of view, but I can't think of a way to implement it that isn't horribly inefficient. If we shard on something other than the primary key, then when someone does a point get for a given primary key, how do we know which custom-shard to send the query to? We could send the point get to every custom-shard, but that's extremely wasteful. This would also make it difficult to enforce primary key uniqueness.\r\n\r\nIt seems likely that the user will want to move data between custom shards over time. I was thinking that we would support this by allowing them to change the boundaries of the custom shards.\r\n\r\nIn addition to the business about sharding on a non-primary key, there's another aspect of #911: the purpose of the sharding is making queries more efficient rather than locating the data in a specific place. Suppose that `CustomerId` was actually a prefix on the primary key. If the user sets up custom-shards that are lexicographic ranges on the primary key, then RethinkDB can use that information to send a range query to only one shard instead of all of them. So there are benefits even if all the custom-shards are replicated in exactly the same way. This is the \"use case in #911\" that I was referring to above."
+  , issueCommentId = 47959670
+  }

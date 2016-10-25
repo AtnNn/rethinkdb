@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-08) 21 : 06 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25927579"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1514#issuecomment-25927579"
+  , issueCommentCreatedAt = 2013 (-10) (-08) 21 : 06 : 07 UTC
+  , issueCommentBody =
+      "@danielmewes -- sorry for not letting you know about the rules earlier -- that's my fault. They go like this:\r\n\r\n* When a ReQL proposal is scheduled for a release, we debate it on GitHub and give everyone an opportunity to chime in. We try not to debate it until it's scheduled because we used to debate things, arrive at conclusions, and then forget the rationale by the time we scheduled the feature, which required a while new debate.\r\n* ReQL proposal debates are typically time boxed from a few days to a few weeks, depending on the thorniness of the issue.\r\n* If by the end of the discussion period we don't arrive at consensus, @mlucy makes the final call (though it should be very rare).\r\n\r\nWe found that this is a really good process to follow and it balances all variables quite well. Now onto the feature itself. I have a few thoughts about this.\r\n\r\nAfter thinking about this a bit, I think `r.table().sync()` also smells really weird. I think `conn.sync()` is much, much better (actually, I think `flush` is a much better name here than `sync` -- I'd strongly prefer that). It's more limiting (you can't do it on a single table), but I think it's ok, and it's much cleaner from the API perspective to do it on the connection.\r\n\r\nI also agree both with the assertion that `flush/sync` and `wait` are very different things and should be different commands, and with the assertion that it would be very confusing to the user. It seems that `noreply` introduces an async way to interact with the server, and should be treated as an async API. I think that for now we should implement @mlucy's proposal (https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23683989) -- changing the `close` method, instead of adding a separate `wait` method. Later on, we can add a `get_noreply_result` method to the connection, but this isn't necessary yet, so I'd ignore it for now.\r\n\r\nTL;DR -- I propose renaming `sync` to `flush` and doing it on a connection; not implementing `wait` and changing the `close` API to deal with it instead, and ignoring the aspect of getting results from noreply writes for now."
+  , issueCommentId = 25927579
+  }

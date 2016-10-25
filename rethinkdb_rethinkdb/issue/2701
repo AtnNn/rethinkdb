@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-12) 06 : 04 : 01 UTC
+  , issueUpdatedAt = 2014 (-08) (-12) 06 : 04 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2701/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2701"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2701
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Figure out secondary index ReQL behavior changes/migration."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2701"
+  , issueCreatedAt = 2014 (-07) (-15) 21 : 10 : 20 UTC
+  , issueBody =
+      Just
+        "If a ReQL expression's behavior is supposed to change (e.g. for a bugfix, as in #2697), we need to be able to do the following things:\r\n\r\n1. Add new ReQL functionality and bugfixes while evaluating old ReQL secondary index functions under the old behavior.\r\n\r\n2. Migrate the old secondary index functions to the new ReQL behavior (by rebuilding secondary indexes).\r\n\r\nIn the short run, we need to do (1.).  In the long run, maybe it would be nice to have (2.) -- we don't want users to find old secondary index behavior being inconsistent with current-version secondary index functions.\r\n\r\nThere's two well-known options for (1.).  One is that, whenever we change the behavior of a ReQL function, we create a new number for the `TermType` enum in the protobuf protocol, leaving the old number behind for old broken behavior.  The other, mentioned by @danielmewes in https://github.com/rethinkdb/rethinkdb/issues/2696#issuecomment-48953200, is that we have a ReQL version number and we evaluate ReQL functions under that version number.  Thus, secondary index functions from a v1.13 database would run under the v1.13 ReQL version.  I think the second option is easier to work with in the long run -- it matches up well with our file versioning scheme, and it makes managing and obsoleting old ReQL versions more straightforward, and it's a bit more Cartesian, so to speak.  Also, the version value would fit inside of configured_limits_t which is already passed around in @gchpaco's dynamic-array-limits branch.\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 37926149
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

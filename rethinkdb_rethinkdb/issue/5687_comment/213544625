@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-22) 18 : 31 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/213544625"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5687#issuecomment-213544625"
+  , issueCommentCreatedAt = 2016 (-04) (-22) 18 : 31 : 37 UTC
+  , issueCommentBody =
+      "@cefn My point was merely that if we made `filter` queries fail with an error if they are passed a function that returns a constant `true` or `false`, that would break certain useful code patterns. The one I described in pseudo-code is such an example.\r\n\r\nThe error would get triggered there if `conditions` is empty. The developer would have to write additional code to omit the `filter` in that case, or to add some `r.literal` wrapper around the `true` or something like that. So I think looking at whether the function is constant or not is not the right way to detect accidental use of the JavaScript operators. It would also be an incomplete check, as something like `filter(r.row('field').match(\"test\").and(r.row('field') > 5))` would *not* result in a constant function (it would result in something like `function() { return r.row('field').match(\"test\").and(true); }`).\r\n\r\nAs mentioned, it sounds like it could be a good heuristic though for detecting some common cases of operator use in the context of https://github.com/rethinkdb/rethinkdb/issues/5602 (i.e. providing a warning in the Data Explorer, rather than a full query error).\r\n\r\nOn a side note:\r\n`r.expr` is called that way because it turns a native value into a \"ReQL expression\" by the way. If you pass any value from your client language into a ReQL term, this step is performed implicitly and you don't need `r.expr`. For example `r.add(1, 2)` will just work.\r\nBut if you want to start out with a value and then call a ReQL function on it, you need to use `r.expr` explicitly to convert the value into a ReQL expression object. For example `1.add(2)` wouldn't work, but you'd need to do `r.expr(1).add(2)` since `add` is a function that's only defined on ReQL expressions.\r\nThe RethinkDB server never sees the `r.expr`. From its point of view, *every* value is a ReQL expression, no matter whether `r.expr` was used on the client to generate it or whether it was implicitly transformed to a ReQL expression by passing it as an argument to one of the ReQL functions.\r\nI hope that makes this clearer."
+  , issueCommentId = 213544625
+  }

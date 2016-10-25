@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2013 (-11) (-06) 22 : 03 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1618/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1618"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1618
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Drivers need to code defensively against noreply shenanigans"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1618"
+  , issueCreatedAt = 2013 (-11) (-06) 21 : 48 : 58 UTC
+  , issueBody =
+      Just
+        "Admittedly if anyone is writing queries like this they probably need a therapist more than they need a good error message.\r\n\r\nOur drivers can get tripped up by queries like this one:\r\n\r\n```Python\r\nr.expr(1).run(noreply=r.table(\"foo\").count() > 10)\r\n```\r\n\r\nbecause they check if the `noreply` argument evaluates to `True` in the host language which I'm pretty sure all of our query objects do due to promiscuous truthiness. Then it doesn't read of the socket but a response gets sent back. Drivers should enforce that static optargs `noreply` `profile` and `json_response` (currently not implemented) are actually static boolean values and not more complicated expressions. They should probably just error in this case.\r\n\r\nI suspect all of our drivers (I only confirmed python) suffer from this problem."
+  , issueState = "open"
+  , issueId = Id 22227920
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

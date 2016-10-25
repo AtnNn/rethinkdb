@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-24) 22 : 18 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/214047060"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4630#issuecomment-214047060"
+  , issueCommentCreatedAt = 2016 (-04) (-24) 22 : 18 : 47 UTC
+  , issueCommentBody =
+      "I like @nviennot's proposal for a generic abstraction over different types of asynchronous behavior.  Two things I'd change, though:\r\n\r\n* I wouldn't call the class `Handler`.  For backwards-compatibility reasons we probably want a `Handler` to continue being the thing it is now.  Maybe `AsyncHandler` is a better name?\r\n* I don't think `wait` should be part of the signature since it will never be called internally by the code receiving the `AsyncHandler`, and only makes sense for the one synchronous handler.  The signature should probably literally only require that an `AsyncHandler` define what to do on a value and what to do on an error.\r\n\r\nI think we should continue to support the existing `em_run` interface with no changes, but I wouldn't be opposed to re-implementing it on top of the more generic architecture.  We should also consider offering something like a `fiber_run` that provides all of the nice syntactic sugar of `em_run` but for fibers.\r\n\r\n@tinco -- since this is an API change it needs to go through the ReQL proposal process for 2.4 in case anyone has objections.  The 2.4 proposal process should be happening pretty soon though, and we'd be happy to accept a pull request.  We have a lot of tests using `em_run`, so if you re-implemented `em_run` on top of the more generic architecture that would be a good way to test whether it works in edge cases."
+  , issueCommentId = 214047060
+  }

@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-02) 18 : 10 : 59 UTC
+  , issueUpdatedAt = 2015 (-07) (-02) 18 : 11 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4492/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4492"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4492
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Raft - Restarting a server temporary makes the table unavailable for reads"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4492"
+  , issueCreatedAt = 2015 (-07) (-02) 04 : 31 : 03 UTC
+  , issueBody =
+      Just
+        "Just played a bit with the auto failover, it's awesome :)\r\n\r\nI have a table with 3 replicas on a table with 3 servers. I'm just doing point reads.\r\n- If I kill the master, I may loose availability, and this seems reasonable. It's basically the time to find a new master.\r\n- If I restart the master I just killed, my point read may fail (not always) with\r\n```\r\n{ [ReqlRuntimeError: Cannot perform read: primary replica for shard [\"\", +inf) not available in:\r\nr.db(\"test\").table(\"test\").get(\"ping\")\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n]\r\n  message: 'Cannot perform read: primary replica for shard [\"\", +inf) not available in:\\nr.db(\"test\").table(\"test\").get(\"ping\")\\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n',\r\n  frames: [] }\r\n```\r\n\r\nI found that surprising that restarting the master create a loose of availability. What happens there?\r\nThe acting master get the read after it has delegates the master position to the available old master? If yes, could it forward the read there?"
+  , issueState = "closed"
+  , issueId = Id 92545053
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

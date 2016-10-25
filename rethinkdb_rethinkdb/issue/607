@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-01) 01 : 05 : 04 UTC
+  , issueUpdatedAt = 2013 (-05) (-01) 08 : 30 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/607/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/607"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 607
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Look at sindex streaming logic."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/607"
+  , issueCreatedAt = 2013 (-04) (-04) 17 : 45 : 50 UTC
+  , issueBody =
+      Just
+        "I suspect that we need to rework a bit of our streaming logic for sindexes. Right now we do this sort of hacky (but the best kind of hacky) thing where we record the last considered key for a range get and then send our next request with that as the cutoff. We're going to basically need to port this logic over to sindexes as well.\r\n\r\nThis bug won't show up until you have a decent amount of data in BTree with the same sindex value. You should be able to recreate this like so:\r\n\r\n```Python\r\nid = table.sindex_create(\"foo\", lambda x: x[\"sid\"]).run()\r\ntable.insert([{\"sid\" : 1} for i in xrange(5001)])\r\n```\r\nI'm assuming here that there are 5 hash shards and that we return 1000 results from each hash shard so I need there to be at least on hash shard with more than 1000 results. This numbers are being futzed with right now so if you this fails to reproduce the bug check these assumptions."
+  , issueState = "closed"
+  , issueId = Id 12811589
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

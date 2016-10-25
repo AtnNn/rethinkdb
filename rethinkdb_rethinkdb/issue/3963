@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-25) 22 : 31 : 41 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3963/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3963"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3963
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Suggestion: computed attributes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3963"
+  , issueCreatedAt = 2015 (-03) (-22) 19 : 55 : 38 UTC
+  , issueBody =
+      Just
+        "Computed attributes could work like computed columns in a DBMS.\r\n\r\nHere's a proposed syntax:\r\n```Python\r\nr.table_create('posts', computed_attrs = {\r\n    \"computed-attr-1\": lambda doc: r.branch(doc.age.gt(40), '40+', '40 or less'),\r\n# or\r\n    \"computed-attr-2\": r.branch(r.row['age'].gt(40), '40+', '40 or less')\r\n}).run()\r\n\r\nor\r\n\r\nr.table_update('posts', computed_attrs = {\r\n    \"computed-attr-1\": lambda doc: r.branch(doc.age.gt(40), '40+', '40 or less'),\r\n# or\r\n    \"computed-attr-2\": r.branch(r.row['age'].gt(40), '40+', '40 or less'),\r\n# one computed attr referencing another computed attr:\r\n    \"computed-attr-3\": lambda doc: doc.age.div(doc.another_cattr)\r\n}).run()\r\n\r\n\r\nr.table(\"posts\").insert({\r\n    \"id\": 1,\r\n    \"title\": \"Lorem ipsum\",\r\n    \"age\": 4\r\n    \"content\": \"Dolor sit amet\"\r\n}).run(conn)\r\n\r\nr.table('posts').pluck('id', 'computed-attr-1').run()\r\n\r\n```"
+  , issueState = "open"
+  , issueId = Id 63568953
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-30) 20 : 09 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243474158"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6083#issuecomment-243474158"
+  , issueCommentCreatedAt = 2016 (-08) (-30) 15 : 14 : 48 UTC
+  , issueCommentBody =
+      "What version of the Java driver are you using? Do the numbers in your stacktrace ie:`(Cursor.java:110)` correspond to source line numbers? If so, they're not matching up with the current source. :crying_cat_face: \r\n\r\nMaybe double check you're using the latest driver.\r\n\r\nAre you accessing the `Cursor` from a single thread? Are you using multiple threads with the driver?\r\n\r\nAlso, to answer your question: the reason why there's an `addAll` is there on L85 is because the cursor response is finished and the last cursor response has the last cursor data. I'm not sure what the proper Java iterator protocol is, but repeat calls to [`getNext`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Cursor.java#L206-L220) should drain the buffered items until `item.size()==0`, then you should hit the exception. [`hasNext`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Cursor.java#L182) *should* let you know if there are any items to draw from before you hit any exception.\r\n\r\n:walking: :zzz: [***\"Every passing day seems all the same to the sleepwalker...\"***](https://www.youtube.com/watch?v=R5IvcvdIxcQ)\r\n\r\n"
+  , issueCommentId = 243474158
+  }

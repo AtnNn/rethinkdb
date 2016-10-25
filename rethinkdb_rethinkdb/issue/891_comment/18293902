@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 17 : 23 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 181337
+        , simpleUserLogin = N "pixelspark"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/181337?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pixelspark"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18293902"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/891#issuecomment-18293902"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 17 : 23 : 35 UTC
+  , issueCommentBody =
+      "I completely understand (and support!) the rationale for choosing to be case sensitive. \r\n\r\nGiven that there are many other use cases that require some kind of transformation on property names, I'd suggest making this part of a more generic interface for manipulating key names (in addition to #879 and replacing #881). Having the generic interface of course makes it easy to add shortcuts for the more specific cases (e.g. key renaming, lowercasing keys, et cetera). Something along the lines of:\r\n\r\n```javascript\r\nr.table('foo').transformKeys(function(k) { return k.lower() }) // for making keys lowercase\r\nr.table('foo').transformKeys(function(k) { return r.branch(k.eq('foo'), 'foo', k); }); // renaming 'foo' => 'bar' \r\n````\r\n\r\nThe above could even be combined with what is proposed in #889, so that transformKeys accepts a pattern to apply the transformation to. This is probably a nice fix for the issues with nested keys you mention:\r\n```javascript\r\nr.table('foo').transformKeys({some:{key:{someWhere:true}}}, function(k) { return 'someWhereElse'; }); // rename some.key.someWhere to some.key.someWhereElse\r\n```\r\n\r\nOf course, we could implement shortcuts at the driver side (so that x.rename('from','to') maps to transformKeys behind the scenes). By the way, support for lower/uppercase string transformation is already being requested in #874.\r\n\r\nWhat do you think?\r\n"
+  , issueCommentId = 18293902
+  }

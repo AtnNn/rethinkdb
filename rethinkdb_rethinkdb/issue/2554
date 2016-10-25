@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-01) 23 : 01 : 15 UTC
+  , issueUpdatedAt = 2014 (-08) (-02) 00 : 04 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2554/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/2554"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2554
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 573768
+        , simpleUserLogin = N "barosl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/573768?v=3"
+        , simpleUserUrl = "https://api.github.com/users/barosl"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Python 3 compatible driver with tests"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2554"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2554.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2554.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2554"
+  , issueCreatedAt = 2014 (-06) (-16) 19 : 00 : 34 UTC
+  , issueBody =
+      Just
+        "As a supplement to the existing Python 3 patch, I made a more complete patch to add Python 3 compatibility.\r\n\r\n## Driver\r\n\r\nWhile the basic semantics remains the same, the following changes were made.\r\n\r\n1. It uses the iterative version of a function on Python 2 if possible. The existing patch simply replaced all the occurrences of `xrange` to `range`, `iteritems` to `items`, `iterkeys` to `keys`, and so on. These changes may slow down the Python 2 clients. Although the impact may not be significant, I thought keeping the original performance was preferable.\r\n2. Type checks involving `str` and `unicode` are done correctly. In Python 2, `basestring` is checked against `isinstance()`. In Python 3, `str` is checked instead.\r\n3. `multiprocessing.queues.SimpleQueue` is renamed to `multiprocessing.SimpleQueue` in the Python 3 version.\r\n4. Use `cPickle` on Python 2.\r\n\r\nThe common code needed to make compatibility resides in `_compat.py`.\r\n\r\n## Documentation\r\n\r\nI changed the `gen_python.py` script to generate the output which is suitable for both Python 2 and 3. It uses a function to properly inject `__doc__` to the target objects.\r\n\r\nI sent a pull request to `rethinkdb/docs` separately. See https://github.com/rethinkdb/docs/pull/361\r\n\r\n## Test cases\r\n\r\nAll of the tests from `rql_test` are passed except one, which is `TestBatching` of `conections/connection.py`. It complains about the iteration behavior of the driver. As the same failure occurs with Python 2, I guess this problem is not related to Python 3.\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"/Users/barosl/work/rethinkdb/test/rql_test/connections/connection.py\", line 385, in runTest\r\n    self.assertGreaterEqual(len(cursor.responses), 1)\r\nAssertionError: 0 not greater than or equal to 1\r\n```\r\n\r\nThe test procedure I used was:\r\n\r\n```\r\n$ (cd drivers/python && make install PYTHON=python3)\r\n$ (cd test/rql_test && PYTHON=/usr/bin/python3 ./test-runner '.*py')\r\n```\r\n\r\n## Build scripts\r\n\r\nSome build scripts including `convert_protofile` and `test-runner` are converted to support Python 3. They are backward-compatible, so the dependency on Python 2 need not be changed. However one might think of allowing either Python 2 *or* 3 as a dependency, though I hardly think of a UNIX system that supports only Python 3 and not 2."
+  , issueState = "closed"
+  , issueId = Id 35825703
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

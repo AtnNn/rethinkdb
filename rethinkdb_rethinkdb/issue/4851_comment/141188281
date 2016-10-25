@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 18 : 56 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 863286
+        , simpleUserLogin = N "dalanmiller"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/863286?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dalanmiller"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/141188281"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4851#issuecomment-141188281"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 18 : 56 : 57 UTC
+  , issueCommentBody =
+      "Hurr you go @mlucy. I just vomited this out to get some activity going on the Web UI for a new video. \r\n\r\n(Sidenote: Is this the proper way to use `.wait(...)`? )  \r\n\r\n```python\r\n\r\nimport rethinkdb as r\r\nimport random\r\nimport time\r\nimport datetime\r\nfrom pprint import pprint\r\n\r\nconn = r.connect()\r\n\r\ntest = r.db(\"test\").table(\"players\")\r\n\r\ndocs_to_insert = []\r\n\r\nfor name in r.db(\"test\").table(\"names\").sample(250).run(conn):\r\n    pprint(name)\r\n    docs_to_insert.append(dict(\r\n        name = \"{} {}\".format(name['first_name'], name['last_name']),\r\n        last_updated = r.now(),\r\n        score = random.randint(-10,10),\r\n    ))\r\n\r\npprint(docs_to_insert[:5])\r\n\r\ntest.insert(docs_to_insert).run(conn)\r\n\r\npprint(test.count().run(conn))\r\n\r\nwhile True:\r\n\r\n    while test.wait(wait_for=\"all_replicas_ready\", timeout=60).run(conn)['ready'] != 1:\r\n\r\n        time.sleep(1)\r\n\r\n    print \"LOOPING OVER MODIFICATIONS\"\r\n    for player in test.sample(100).run(conn):\r\n        test.get(player['id']).update({\r\n            \"score\": player['score'] + random.randint(-10,50)\r\n        }).run(conn)\r\n\r\n    time.sleep(2)\r\n\r\n    while test.wait(wait_for=\"ready_for_writes\", timeout=60).run(conn)['ready'] != 1:\r\n        time.sleep(1)\r\n\r\n    docs_to_insert = []\r\n\r\n    for name in r.db(\"test\").table(\"names\").sample(10).run(conn):\r\n        docs_to_insert.append(dict(\r\n            name = \"{} {}\".format(name['first_name'], name['last_name']),\r\n            last_updated = r.now(),\r\n            score = 0,\r\n        ))\r\n\r\n    print \"INSERTING NEW DUDES\"\r\n    test.insert(docs_to_insert).run(conn)\r\n\r\n    time.sleep(random.randint(2,5))\r\n\r\n    print \"READING ALL\"\r\n\r\n    for x in test.run(conn):\r\n        pass\r\n\r\n    time.sleep(random.randint(2,3))\r\n\r\n```"
+  , issueCommentId = 141188281
+  }

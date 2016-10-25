@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-11) 08 : 42 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20797906"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1016#issuecomment-20797906"
+  , issueCommentCreatedAt = 2013 (-07) (-11) 08 : 42 : 44 UTC
+  , issueCommentBody =
+      "Actually, what I have in mind is mostly an enhancement on top of `r.register_type` to make it more useful in the common case. Here's how I imagine it might would work:\r\n\r\n```python\r\nfrom time import time\r\n\r\nclass MyTime(r.CustomType):\r\n   def __init__(self, utc_time):\r\n      self.utc_time = utc_time\r\n\r\n   @staticmethod\r\n   def now():\r\n      return MyTime(time.now())\r\n\r\n   # Serialization is handled by the parent class so the user\r\n   # doesn't have to even think about it.\r\n   # For more complex cases than this though these methods\r\n   # can be overloaded.\r\n   # With just `r.register_type` this is mandatory, not an option\r\n   def serialize(self):\r\n      return json.dumps(self)\r\n\r\n   def parse(self, serialized)\r\n      self.update(json.parse(serialized))\r\n\r\n   # We could use the same trick that we do with lambda\r\n   # functions to serialize a user provided comparison\r\n   # function. I'm not totally sold on this though.\r\n   def less_than(self, other):\r\n      self.utc_time < other.utc_time\r\n\r\n# For existing types we basically default to the register type proposal\r\nr.CusumType.register(crazy_type,\r\n   serialize=lambda self: ...,\r\n   parse=lambda self: ...,\r\n   less_than=lambda self, other: ...\r\n)\r\n\r\n# Again, the serialize and deserialize methods are optional, defaulting\r\n# to json serialization of all fields. The inherited method throws on\r\n# non serializable fields.\r\nr.CustomType.register(complex)\r\n```"
+  , issueCommentId = 20797906
+  }

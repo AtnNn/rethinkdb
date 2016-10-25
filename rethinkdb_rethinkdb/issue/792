@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-13) 23 : 08 : 44 UTC
+  , issueUpdatedAt = 2013 (-05) (-24) 22 : 52 : 55 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/792/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/792"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 792
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7032
+        , simpleUserLogin = N "anatol"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7032?v=3"
+        , simpleUserUrl = "https://api.github.com/users/anatol"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rethinkdb crashes when systemd restarts it (with SIGINT)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/792"
+  , issueCreatedAt = 2013 (-05) (-13) 03 : 17 : 18 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nI am working on rethinkdb support in Arch and I have a problem with systemd service file.\r\n\r\nWhen I run 'systemctl restart rethinkdb' the database fails to restart. The reason is that it seems rethinkdb process crashes when systemd asks it to stop. Here is log:\r\n\r\n2013-05-12T19:57:33.056546902 0.007647s info: Running rethinkdb 1.4.5 (GCC 4.8.0)...\r\n2013-05-12T19:57:33.082618828 0.033719s info: Running on Linux 3.9.2-1-ARCH x86_64\r\n2013-05-12T19:57:33.082700083 0.033800s info: Loading data from directory /var/lib/rethinkdb/default\r\n2013-05-12T19:57:33.578008504 0.529109s info: Listening for intracluster connections on port 29015\r\n2013-05-12T19:57:33.579301335 0.530401s info: Listening for client driver connections on port 28015\r\n2013-05-12T19:57:33.579401125 0.530501s info: Listening for administrative HTTP connections on port 8080\r\n2013-05-12T19:57:33.585240927 0.536341s info: Listening on addresses: 127.0.0.1, 192.168.1.81\r\n2013-05-12T19:57:33.585249833 0.536350s info: Server ready\r\n2013-05-12T19:57:44.566733612 11.517834s info: Server got SIGINT; shutting down...\r\n2013-05-12T19:57:44.566935061 11.518035s info: Shutting down client connections...\r\n2013-05-12T19:57:44.567007044 11.518107s error: Error in src/extproc/spawner.cc at line 43:\r\n2013-05-12T19:57:44.567053118 11.518153s error: Spawner process died!\r\n2013-05-12T19:57:44.567045065 11.518145s info: All client connections closed.\r\n2013-05-12T19:57:44.567083371 11.518183s error: Backtrace:\r\n2013-05-12T19:57:44.567076200 11.518176s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\n2013-05-12T19:57:44.571213122 11.522313s info: Storage engine shut down.\r\n2013-05-12T19:57:44.572231810 11.523332s error: Error in src/extproc/pool.cc at line 189:\r\n2013-05-12T19:57:44.572482495 11.523582s error: Guarantee failed: [0 == res]  (errno 3 - No such process) could not kill worker\r\n2013-05-12T19:57:44.572718583 11.523818s error: Backtrace:\r\n2013-05-12T19:57:44.572997054 11.524097s error: Sun May 12 19:57:44 2013\\n\\n1: /usr/bin/rethinkdb() [0x859251]\\n2: /usr/bin/rethinkdb() [0x857209]\\n3: /usr/bin/rethinkdb() [0x7a3251]\\n4: /usr/bin/rethinkdb() [0x55c251]\\n5: /usr/bin/rethinkdb() [0x7723f8]\r\n2013-05-12T19:57:44.574932993 11.526033s error: Exiting.\r\n\r\n\r\n\r\nSo systemd sends SIGINT on stop, but rethinkdb crashes. This leaves pid file, and because pid file exists rethinkdb does not want to start.\r\n\r\nRethinkdb should handle SIGINT correctly. It might be also rethinkdb<->systemd glitch.\r\n\r\n\r\nI'll be happy to provide more details."
+  , issueState = "closed"
+  , issueId = Id 14244308
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

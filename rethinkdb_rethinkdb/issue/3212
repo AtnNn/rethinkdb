@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-23) 22 : 49 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3212/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3212"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 3212
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91093
+        , simpleUserLogin = N "mfenniak"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91093?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mfenniak"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      ".group(...).count(predicate) drops groups with 0 counts"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3212"
+  , issueCreatedAt = 2014 (-10) (-20) 20 : 59 : 30 UTC
+  , issueBody =
+      Just
+        "I have a dataset created with this code (Python-driver):\r\n\r\n```python\r\nt = r.db(\"test\").table(\"test\")\r\nt.insert([\r\n    { \"Name\": \"1\", \"SomeNumber\": 1 },\r\n    { \"Name\": \"1\", \"SomeNumber\": 1 },\r\n    { \"Name\": \"2\", \"SomeNumber\": 2 },\r\n    { \"Name\": \"2\", \"SomeNumber\": 200 },\r\n    { \"Name\": \"2\", \"SomeNumber\": 2 },\r\n]).run()\r\n```\r\n\r\nAnd I've run this grouping query; grouping by name, and then counting with a predicate:\r\n```python\r\nt.group(\"Name\").count(lambda r: r['SomeNumber'] > 1).run()\r\n```\r\n\r\nAnd the results are:\r\n```python\r\n{\r\n    '2': 3\r\n}\r\n```\r\n\r\nIt's surprising to me that the result (\"1\": 0) is missing.  There are two records with the Name \"1\", which are part of the grouped results.  But then when I count with the predicate and zero records are matched, the \"1\" key from the grouping is removed, rather than being present with the value of 0.  This is fairly counter-intuitive to me.  Without the group operator, I can provide a count with a predicate that matches no records and I get a 0 return value, rather than, say, null.  Why shouldn't I be able to do the same with the group?\r\n\r\nI do not have a practical use-case to argue.  This behaviour surprised me while I was writing unit tests while updating mfenniak/rethinkdb-net to support the updated grouping aggregation features of v1.12.\r\n\r\nref: brought up on mailing list to inquire whether this was as-designed, https://groups.google.com/forum/#!topic/rethinkdb/HXCHeTthF64"
+  , issueState = "open"
+  , issueId = Id 46324892
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

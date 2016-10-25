@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-18) 18 : 45 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/233420705"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5969#issuecomment-233420705"
+  , issueCommentCreatedAt = 2016 (-07) (-18) 18 : 45 : 19 UTC
+  , issueCommentBody =
+      "All changefeeds are serviced by the Primary for each shard, and will automatically get closed if any of those shards becomes unavailable. So all of the ones alive[1] at any one time will be talking to the same sources of data. However, there are a couple of things that are going to prevent the items from being guaranteed to be in the same order:\r\n\r\n1. In many cases different shards have their Primaries on different servers. So the messages containing changes from that shard may arrive at different times to the machine hosting the changefeed they may be acted on in different orders. Additionally there are some internal details to how messages are handled inside each server that might wind up in differing orders even on messages from the same shard. However, we have logic in that system to guarantee that for a given `id` we will always see the changes in the right order, so you will never see data moving backwards in time.\r\n\r\n2. In an attempt to reduce the amount of network traffic on highly volatile data we have the concept of `squash`ing, where the server handling the changefeed combines multiple changes to a since document into a single entry before sending it along. The exact output of that `squash`ing is very sensitive to exact timing (and to caching behaviors in the clients [2]), and so there is a relatively good chance that you would see different points-in-times in the entries for very active values.\r\n\r\nAnd a general request: rather than asking questions here (as a bug) please ask them in one of the channels from our [community page](http://rethinkdb.com/community/). The Slack channel is especially active, but we generally monitor all of them.\r\n\r\nSince this is not really a bug, I am closing it as such, but if you need more clarification feel free to further ask in this issue.\r\n\r\n[1] There is a brief window between when a Primary becomes unavailable and the machine servicing the changefeed notices it, so there are brief windows where that is not completely true.\r\n\r\n[2] To the point where it is very hard to write functional tests around that behavior."
+  , issueCommentId = 233420705
+  }

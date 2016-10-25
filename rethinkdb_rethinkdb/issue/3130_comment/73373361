@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-07) 17 : 23 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73373361"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3130#issuecomment-73373361"
+  , issueCommentCreatedAt = 2015 (-02) (-07) 17 : 23 : 10 UTC
+  , issueCommentBody =
+      "One last musing before I let this poor issue die. I was thinking that the main reason I like `.drop()` is because it's re-useable. You can drop lots of things potentially. Indexes, tables, databases. Maybe even fields in an object if we ever implement something like #895.\r\n\r\nThe big issue with create is the ordering. People are comfortable with lazy streams, but using laziness for this seems wrong because lazily evaluating `r.table` for a non-existent table would still fail, it still has to be special cased, which is exactly the opposite of what I like about `.drop`. So, while it doesn't have a precedent currently, maybe the corresponding thing to do is to make `create` as a command reuseable, but not have it chained afterward. This might look like:\r\n\r\n```\r\nr.create().db('test')\r\nr.db('test').create().table('foo')\r\nr.table('foo').create().index('bar')\r\n```\r\n\r\nThis isn't quite as pretty as chaining `.create()`, but it makes more sense, and removes a bunch of redundancy from the protocol (we can have m + 2 terms for dropping and creation instead of m * 2 terms)."
+  , issueCommentId = 73373361
+  }

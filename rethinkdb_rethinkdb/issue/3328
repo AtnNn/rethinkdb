@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 19 : 34 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3328/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3328"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3328
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "AddressSanitizer: stack-buffer-underflow in intrusive_list.hpp:18"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3328"
+  , issueCreatedAt = 2014 (-11) (-15) 00 : 51 : 03 UTC
+  , issueBody =
+      Just
+        "When running `ClusteringNamespaceInterface.ReadOutdated` and a few other unit tests with clang address sanitization without `THREADED_COROUTINES`:\r\n\r\n```\r\n ==32044==ERROR: AddressSanitizer: stack-buffer-underflow on address 0x7f52126f2960 at pc 0x0000017da24b bp 0x7f52126efa90 sp 0x7f52126efa88\r\n WRITE of size 8 at 0x7f52126f2960 thread T5\r\n     #0 0x17da24a in intrusive_list_node_t<publisher_t<signal_t::subscription_t*>::subscription_t>::intrusive_list_node_t() /home/atnnn/code/rethinkdb/./src/containers/intrusive_list.hpp:18:56\r\n     #1 0x17da007 in intrusive_list_t<publisher_t<signal_t::subscription_t*>::subscription_t>::intrusive_list_t() /home/atnnn/code/rethinkdb/./src/containers/intrusive_list.hpp:56:35\r\n     #2 0x17d9d66 in publisher_t<signal_t::subscription_t*>::publisher_t() /home/atnnn/code/rethinkdb/./src/concurrency/pubsub.hpp:88:19\r\n     #3 0x17d9a0c in publisher_controller_t<signal_t::subscription_t*>::publisher_controller_t() /home/atnnn/code/rethinkdb/./src/concurrency/pubsub.hpp:123:30\r\n     #4 0x17d96cf in signal_t::signal_t() /home/atnnn/code/rethinkdb/./src/concurrency/signal.hpp:89:32\r\n     #5 0x17d7c2f in cond_t::cond_t() /home/atnnn/code/rethinkdb/./src/concurrency/cond_var.hpp:15:14\r\n     #6 0x3f048b8 in auto_drainer_t::auto_drainer_t() /home/atnnn/code/rethinkdb/src/concurrency/auto_drainer.cc:7:17\r\n     #7 0x5b9cda1 in connectivity_cluster_t::heartbeat_manager_t::heartbeat_manager_t(connectivity_cluster_t::connection_t*, auto_drainer_t::lock_t, std::string) /home/atnnn/code/rethinkdb/src/rpc/connectivity/cluster.cc:417:5\r\n     #8 0x5b7425b in connectivity_cluster_t::run_t::handle(keepalive_tcp_conn_stream_t*, boost::optional<peer_id_t>, boost::optional<peer_address_t>, auto_drainer_t::lock_t, bool*) /home/atnnn/code/rethinkdb/src/rpc/connectivity/cluster.cc:1098:29\r\n     #9 0x5b76ba4 in connectivity_cluster_t::run_t::connect_to_peer(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*) /home/atnnn/code/rethinkdb/src/rpc/connectivity/cluster.cc:324:17\r\n     #10 0x5bd9de5 in void std::_Mem_fn<void (connectivity_cluster_t::run_t::*)(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*)>::operator()<peer_address_t const* const&, int&, boost::optional<peer_id_t> const&, auto_drainer_t::lock_t const&, bool* const&, static_semaphore_t* const&, void>(connectivity_cluster_t::run_t*, peer_address_t const* const&, int&, boost::optional<peer_id_t> const&, auto_drainer_t::lock_t const&, bool* const&, static_semaphore_t* const&) const /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/functional:569:11\r\n     #11 0x5bd9539 in void std::_Bind<std::_Mem_fn<void (connectivity_cluster_t::run_t::*)(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*)> (connectivity_cluster_t::run_t*, peer_address_t const*, std::_Placeholder<1>, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, static_semaphore_t*)>::__call_c<void, int&, 0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul>(std::tuple<int&>&&, std::_Index_tuple<0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul>) const /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/functional:1272:11\r\n     #12 0x5bd8f70 in void std::_Bind<std::_Mem_fn<void (connectivity_cluster_t::run_t::*)(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*)> (connectivity_cluster_t::run_t*, peer_address_t const*, std::_Placeholder<1>, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, static_semaphore_t*)>::operator()<int&, void>(int&) const /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/functional:1335:11\r\n     #13 0x5bd8bce in pmap_runner_one_arg_t<std::_Bind<std::_Mem_fn<void (connectivity_cluster_t::run_t::*)(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*)> (connectivity_cluster_t::run_t*, peer_address_t const*, std::_Placeholder<1>, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, static_semaphore_t*)>, int>::operator()() /home/atnnn/code/rethinkdb/./src/concurrency/pmap.hpp:20:9\r\n     #14 0x5bde636 in callable_action_instance_t<pmap_runner_one_arg_t<std::_Bind<std::_Mem_fn<void (connectivity_cluster_t::run_t::*)(peer_address_t const*, int, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, co_semaphore_t*)> (connectivity_cluster_t::run_t*, peer_address_t const*, std::_Placeholder<1>, boost::optional<peer_id_t>, auto_drainer_t::lock_t, bool*, static_semaphore_t*)>, int> >::run_action() /home/atnnn/code/rethinkdb/./src/arch/runtime/callable_action.hpp:31:25\r\n     #15 0x1914d01 in callable_action_wrapper_t::run() /home/atnnn/code/rethinkdb/src/arch/runtime/runtime_utils.cc:42:5\r\n     #16 0x1917bd8 in coro_t::run() /home/atnnn/code/rethinkdb/src/arch/runtime/coroutines.cc:196:9\r\n\r\n 0x7f52126f2960 is located 125280 bytes inside of 131072-byte region [0x7f52126d4000,0x7f52126f4000)\r\n allocated by thread T5 here:\r\n     #0 0x164f0ef in __interceptor_posix_memalign /home/ssd1/atnnn/src/llvm-3.5.0.src/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:107:3\r\n \r\n Thread T5 created by T0 here:\r\n     #0 0x163645f in __interceptor_pthread_create /home/ssd1/atnnn/src/llvm-3.5.0.src/projects/compiler-rt/lib/asan/asan_interceptors.cc:180:3\r\n     #1 0x1955c6e in linux_thread_pool_t::run_thread_pool(linux_thread_message_t*) /home/atnnn/code/rethinkdb/src/arch/runtime/thread_pool.cc:200:19\r\n     #2 0x1908d76 in run_in_thread_pool(std::function<void ()> const&, int) /home/atnnn/code/rethinkdb/src/arch/runtime/runtime.cc:69:5\r\n     #3 0x66f3347 in unittest::run_in_thread_pool(std::function<void ()> const&, int) /home/atnnn/code/rethinkdb/src/unittest/unittest_utils.cc:108:5\r\n     #4 0x6698814 in unittest::ClusteringNamespaceInterface_ReadOutdated_Test::TestBody() /home/atnnn/code/rethinkdb/src/unittest/clustering_namespace_interface.cc:62:1\r\n     #5 0x6c15ae2 in void testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) /../src/gtest.cc:1989\r\n     #6 0x6c08280 in void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) /../src/gtest.cc:2025\r\n     #7 0x6bf1016 in testing::Test::Run() /../src/gtest.cc:2061\r\n     #8 0x6bf1e5b in testing::TestInfo::Run() /../src/gtest.cc:2237\r\n     #9 0x6bf2614 in testing::TestCase::Run() /../src/gtest.cc:2344\r\n     #10 0x6bf871f in testing::internal::UnitTestImpl::RunAllTests() /../src/gtest.cc:4066\r\n     #11 0x6c129c2 in bool testing::internal::HandleSehExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) /../src/gtest.cc:1989\r\n     #12 0x6c0a110 in bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) /../src/gtest.cc:2025\r\n     #13 0x6bf8401 in testing::UnitTest::Run() /../src/gtest.cc:3699\r\n     #14 0x6bc6050 in RUN_ALL_TESTS() /home/atnnn/code/rethinkdb/./build/external/gtest_1.6.0/include/gtest/gtest.h:2236:10\r\n     #15 0x6bc5ce0 in main /home/atnnn/code/rethinkdb/src/unittest/main.cc:8:12\r\n     #16 0x7f521ec8576c in __libc_start_main /build/buildd/eglibc-2.15/csu/libc-start.c:226\r\n```"
+  , issueState = "open"
+  , issueId = Id 48858855
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

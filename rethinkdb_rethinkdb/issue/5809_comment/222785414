@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-31) 18 : 55 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/222785414"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5809#issuecomment-222785414"
+  , issueCommentCreatedAt = 2016 (-05) (-31) 18 : 55 : 17 UTC
+  , issueCommentBody =
+      "Hi @ghatwala, thanks for your efforts to port RethinkDB to PowerPC.\r\n\r\nThis one is easy to address. If you look at line 111 of the file `src/rpc/connectivity/cluster.cc`, you can see that you just need to add an additional case that maps the architecture to a string constant.\r\n\r\nUnfortunately there will be more work coming up. The biggest part is probably porting our coroutine context switching code to PowerPC. Check out the file `src/arch/runtime/context_switching.cc` and look for `_lightweight_swapcontext`. This function is currently implemented for i386, amd64 and arm (32 bit). You'll need to add an implementation for ppc64le that pushes all registers to one context and pops them from another one. This is part of our custom coroutine library.\r\nAs a temporary work-around, you can compile with \"make THREADED_COROUTINES=1\" to use a thread-based emulation of coroutines. This emulation should work on all platforms without additional code, but is going to be pretty slow."
+  , issueCommentId = 222785414
+  }

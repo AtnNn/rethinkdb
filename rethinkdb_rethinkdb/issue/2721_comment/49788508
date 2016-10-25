@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-22) 19 : 30 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49788508"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2721#issuecomment-49788508"
+  , issueCommentCreatedAt = 2014 (-07) (-22) 19 : 30 : 11 UTC
+  , issueCommentBody =
+      "I'm in favor of automatically coercing results to an array *in the driver*, unless the user provides a special opt arg that they want to get the cursor.\r\n\r\nThe reason is this:\r\n* In almost all cases, users want the full result set anyway. Returning an array just makes that easier and avoids confusion over which queries return arrays and which return cursors.\r\n* In those cases, there is no gain in exposing the cursor. The user will load all results into memory on the client in either case. Huge result sets blow no matter whether we provide the cursor or array interface by default.\r\n* If a user expects a huge result and want to be able to handle it, they will typically write special code in their application anyway. I can only think of two cases where this works: a) Results can be streamed to some other place (e.g. a browser), and don't have to be kept in memory before being sent out. b) the application performs some client-side reduction on the result, like counting or summation.\r\nIn case a) users will typically be aware of the fact that they need a cursor to accomplish this. Having to specify a special flag to get the cursor seems very reasonable. In case b) it might be less obvious, because both getting an array or a cursor works on a semantic level. However I still think that requiring memory for the whole query result on the client (by default) is expected even then.\r\n\r\nSo in summary: Returning a cursor doesn't provide any advantage in the typical case. If a user wants to take advantage of a cursor they will usually have to take special measures anyway (like streaming results to a consumer). Having to add a flag to `run` in such cases doesn't seem unexpected."
+  , issueCommentId = 49788508
+  }

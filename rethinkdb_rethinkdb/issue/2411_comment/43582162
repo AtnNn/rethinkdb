@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-20) 03 : 07 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1029519
+        , simpleUserLogin = N "PrakashThapa"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1029519?v=3"
+        , simpleUserUrl = "https://api.github.com/users/PrakashThapa"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43582162"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2411#issuecomment-43582162"
+  , issueCommentCreatedAt = 2014 (-05) (-20) 03 : 07 : 33 UTC
+  , issueCommentBody =
+      "two table:p and o, \r\np: \r\n````\r\n{\r\n   \"id\": 1,\r\n    \"income\": 10000\r\n}\r\n````\r\ntable o:\r\n````\r\n{\r\n   \"id\": 1,\r\n   \"initial\":50\r\n}\r\n````\r\ncount all from table `o` where  `p.profile.income` is greater than `o.initial * 5000`\r\n````\r\n r.table(\"p\") \r\n  .outerJoin(r.table(\"o\"),function(p, o){\r\n    return p(\"income\").default(0).gt(o(\"initial\").default(0).mul(5000))\r\n  })\r\n.map({id:r.row(\"left\")(\"id\"),item:r.branch(r.row(\"right\").count()==0,0,1)})\r\n.group(\"id\").sum(\"item\")\r\n````\r\nOR\r\n````\r\nr.table(\"p\").map(function(f){\r\n  return {\r\n    id:f(\"id\"),\r\n    item:r.table(\"o\").count(function(x){\r\n      return f(\"income\").default(0).gt(x(\"initial\").default(0).mul(5000))\r\n    })\r\n  }\r\n  \r\n})\r\n````\r\nis there any better way to rewrite this query?\r\n\r\nIt is very specific query but might be interesting for performance testing. \r\n\r\nThis is [very simplified] json version of [Xmark Queries](https://www.monetdb.org/XQuery/Benchmark/Xmark/Queries) xmark:q11\r\n"
+  , issueCommentId = 43582162
+  }

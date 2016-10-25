@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-07) 01 : 40 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19084561"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/955#issuecomment-19084561"
+  , issueCommentCreatedAt = 2013 (-06) (-07) 01 : 38 : 52 UTC
+  , issueCommentBody =
+      "SQL dbs typically allow any leftmost prefix of a compound index to be used by the optimizer to efficiently find rows. So it's the status quo, and we should probably do it too (especially since we already know it's useful from @lincolnq's report).\r\n\r\nCould we allow specifying a prefix everywhere where the user can specify a compound index to search by that prefix? E.g.:\r\n\r\n```\r\n// where `idx` is a compound index of the form `[l, m, n]`\r\n\r\n// get all documents where idx starts with `foo`\r\nr.table('foo').getAll(['foo'], { index: 'idx' })\r\n\r\n// get all documents where idx starts with `['foo', 'bar']`\r\nr.table('foo').getAll(['foo', 'bar'], { index: 'idx' })\r\n\r\n// get all documents where idx is between the prefex\r\nr.table('foo').between(['foo', 'bar'], ['zet', 'zem'], { index: 'idx' })\r\n```\r\n\r\nThis gives a few benefits:\r\n\r\n1. People can efficiently search by compound index prefixes\r\n2. The syntax is very natural\r\n3. We don't have to define new commands and complicate the API at all\r\n4. The lt/lte/gt/gte will be automatically handled by between once we add openness/closeness flags\r\n\r\nWould this proposal work?"
+  , issueCommentId = 19084561
+  }

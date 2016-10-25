@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-09) 00 : 30 : 28 UTC
+  , issueUpdatedAt = 2014 (-07) (-14) 23 : 21 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2337/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2337"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2337
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8194
+        , simpleUserLogin = N "chrisguidry"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8194?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisguidry"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rethinkdb.errors.RqlClientError: RqlClientError: Token 1 not in stream cache."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2337"
+  , issueCreatedAt = 2014 (-05) (-01) 22 : 03 : 52 UTC
+  , issueBody =
+      Just
+        "Following up on our IRC conversation, @iloveagent57 and I were able to reproduce the \"Token X not in stream cache...\" error.\r\n\r\nWe're on RethinkDB 1.11.3 using the Python 1.11.0-1 driver.\r\n\r\nTo reproduce, run this script once with the argument 'create_data'.  It will build two tables:\r\n\r\nlookup: a very small table with 10 documents and numerical ids\r\n\r\nbig: a table with 1000 documents, each of which has 10 string fields of about 39,000 bytes, a field referring to one of the 10 integer IDs from lookup and an auto-generated ID.\r\n\r\nThe run_query function simulates some of our production code, where we are lazy-instantiating lookup values as we iterate queries (that's what all the first=True business is about).  For brevity, you can run the script without recreating the data each time.\r\n\r\nIn our tests, if we do size_of_field=500 (which means 500 copies of the ASCII letters, about 26,000 bytes) the queries run just fine.\r\n\r\nWhen we up that to 750 copies of ASCII (39,000 bytes), it fails after the first loop iteration with this exception:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"./scripts/repro2.py\", line 41, in <module>\r\n    run_query(connection)\r\n  File \"./scripts/repro2.py\", line 29, in run_query\r\n    for index, big_doc in enumerate(rethinkdb.table('big').get_all(3, index='lookup').run(connection)):\r\n  File \"/home/ubuntu/environment/local/lib/python2.7/site-packages/rethinkdb/net.py\", line 55, in __iter__\r\n    self.conn._check_error_response(self.responses[0], self.term)\r\n  File \"/home/ubuntu/environment/local/lib/python2.7/site-packages/rethinkdb/net.py\", line 281, in _check_error_response\r\n    raise RqlClientError(message, term, frames)\r\nrethinkdb.errors.RqlClientError: RqlClientError: Token 1 not in stream cache. in:\r\nr.table('big').get_all(3, index='lookup')\r\n```\r\n\r\nWe know these document sizes are somewhat pathological, but we have lots of documents storing HTML text content of variable length.  It seems that we only see this error for larger streams of larger documents.\r\n\r\n\r\n```python\r\nimport string\r\nimport rethinkdb\r\nimport sys\r\n\r\ndef create_test_data(connection, number_of_fields, size_of_field):\r\n    tables = rethinkdb.table_list().run(connection)\r\n    for table in ['big', 'lookup']:\r\n        if table in tables:\r\n            rethinkdb.table_drop(table).run(connection)\r\n        rethinkdb.table_create(table).run(connection)\r\n\r\n    rethinkdb.table('big').index_create('lookup').run(connection)\r\n    rethinkdb.table('big').index_wait().run(connection)\r\n\r\n    for i in xrange(1, 11):\r\n        rethinkdb.table('lookup').insert({'id': i}).run(connection)\r\n\r\n    def fat_document(lookup):\r\n        doc = {'field_name_number_%s' % i: string.ascii_letters * size_of_field\r\n               for i in xrange(number_of_fields)}\r\n        doc['lookup'] = lookup\r\n        return doc\r\n\r\n    for i in xrange(1, 1001):\r\n        rethinkdb.table('big').insert(fat_document(i)).run(connection)\r\n\r\ndef run_query(connection):\r\n    first = True\r\n    for index, big_doc in enumerate(rethinkdb.table('big').get_all(3, index='lookup').run(connection)):\r\n        if first:\r\n            lookup = rethinkdb.table('lookup').get(3).run(connection)\r\n            print lookup\r\n            first = False\r\n        print index\r\n    print 'done'\r\n\r\nif __name__ == '__main__':\r\n    connection = rethinkdb.connect(db='test')\r\n    if 'create_data' in sys.argv:\r\n        create_test_data(connection, number_of_fields=10, size_of_field=750)\r\n    run_query(connection)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 32652052
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 69
+          , milestoneClosedIssues = 10
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.12.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/69"
+          , milestoneCreatedAt = 2014 (-05) (-16) 20 : 37 : 28 UTC
+          , milestoneState = "closed"
+          }
+  }

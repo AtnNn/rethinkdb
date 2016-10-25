@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-15) 02 : 59 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164622802"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5188#issuecomment-164622802"
+  , issueCommentCreatedAt = 2015 (-12) (-15) 02 : 25 : 38 UTC
+  , issueCommentBody =
+      "The crucial use case for this, which you almost always want to do, is to distinguish between additions or removals and changes. Since it's not generally desirable to handle changes like a deletion and then an addition. You almost always want to have a separate change handler.\r\n\r\nThe following seems reasonable:\r\n\r\n```js\r\nswitch row('type') {\r\n  case 'initial':\r\n  case 'add': handleAdd(row); break;\r\n  case 'uninitial':\r\n  case 'remove': handleRemove(row); break;\r\n  case 'change': handleChange(row); break;\r\n}\r\n```\r\nor in python (which has no switch):\r\n```py\r\nif row['type'] in ('initial', 'add'):\r\n    handle_add(row)\r\nelif row['type'] in ('uninitial', 'remove'):\r\n    handle_remove(row)\r\nelif row['type'] == 'change':\r\n    handle_change(row)\r\n```\r\n\r\nOverall though, it seems less important how initial/uninitial are denoted.  So while I lean towards giving them their own types, I don't think we should make the tag opt-in just because uninitial is weird. We should figure out how to make it easier to deal with correctly"
+  , issueCommentId = 164622802
+  }

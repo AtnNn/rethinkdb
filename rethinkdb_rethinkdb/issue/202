@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2013 (-02) (-13) 04 : 13 : 26 UTC
+  , issueUpdatedAt = 2013 (-02) (-13) 04 : 13 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/202/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/202"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 202
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 440336
+        , simpleUserLogin = N "christopherhesse"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/440336?v=3"
+        , simpleUserUrl = "https://api.github.com/users/christopherhesse"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Crash on startup with corrupt data files"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/202"
+  , issueCreatedAt = 2012 (-12) (-30) 21 : 26 : 54 UTC
+  , issueBody =
+      Just
+        "I did a hard reboot of my computer and it looks like the rethinkdb data files got corrupted.  RethinkDB fails to start when using those data files.  I don't see anywhere to put the data files, so I put them on dropbox: https://www.dropbox.com/s/pmzqgoo1ovz458h/rethinkdb_data.zip\r\n\r\nThe error looks like this:\r\n\r\n       info: Running rethinkdb 1.3.1 (CLANG 4.1 ((tags/Apple/clang-421.11.66)))...\r\n       info: Loading data from directory rethinkdb_data\r\n       info: Listening on addresses (add more using '--bind'): 127.0.0.1.\r\n       info: Listening for intracluster connections on port 29015.\r\n       info: Listening for client driver connections on port 28015.\r\n       info: Listening for administrative HTTP connections on port 8080.\r\n       Version: rethinkdb 1.3.1 (CLANG 4.1 ((tags/Apple/clang-421.11.66)))\r\n       error: Error in ./arch/types.hpp at line 53:\r\n       error: I/O operation failed. Exiting.\r\n       error: Backtrace:\r\n       error: Sun Dec 30 11:45:19 2012\r\n              \r\n              1: 0   rethinkdb                           0x0000000104e4a798 _ZN16lazy_backtrace_tC2Ev + 120\r\n              2: 1   rethinkdb                           0x0000000104e497af _Z16format_backtraceb + 31\r\n              3: 2   rethinkdb                           0x00000001052139f2 _Z18report_fatal_errorPKciS0_z + 418\r\n              4: 3   rethinkdb                           0x0000000104e3155e _ZN18linux_iocallback_t13on_io_failureEv + 30\r\n              5: 4   rethinkdb                           0x0000000104e354d0 _ZN30linux_templated_disk_manager_tI14pool_diskmgr_tE4doneEPN15stats_diskmgr_tIN28conflict_resolving_diskmgr_tIN20accounting_diskmgr_tIN17stats_diskmgr_2_tINS0_8action_tEE8action_tEE8action_tEE8action_tEE8action_tE + 96\r\n              6: 5   rethinkdb                           0x0000000104e3539f _ZN15stats_diskmgr_tIN28conflict_resolving_diskmgr_tIN20accounting_diskmgr_tIN17stats_diskmgr_2_tIN14pool_diskmgr_t8action_tEE8action_tEE8action_tEE8action_tEE4doneEPSA_ + 111\r\n              7: 6   rethinkdb                           0x0000000104e3525e _ZN28conflict_resolving_diskmgr_tIN20accounting_diskmgr_tIN17stats_diskmgr_2_tIN14pool_diskmgr_t8action_tEE8action_tEE8action_tEE4doneEPS7_ + 622\r\n              8: 7   rethinkdb                           0x0000000104e34f23 _ZN20accounting_diskmgr_tIN17stats_diskmgr_2_tIN14pool_diskmgr_t8action_tEE8action_tEE4doneEPS4_ + 115\r\n              9: 8   rethinkdb                           0x0000000104e34de0 _ZN17stats_diskmgr_2_tIN14pool_diskmgr_t8action_tEE4doneEPS1_ + 112\r\n              10: 9   rethinkdb                           0x0000000104e33233 _ZN14pool_diskmgr_t8action_t4doneEv + 163\r\n              11: 10  rethinkdb                           0x0000000104e32a52 _ZN14blocker_pool_t8on_eventEi + 242\r\n              12: 11  rethinkdb                           0x0000000104e43df5 _ZN18poll_event_queue_t3runEv + 565\r\n              13: 12  rethinkdb                           0x0000000104e46d35 _ZN19linux_thread_pool_t12start_threadEPv + 773\r\n              14: 13  libsystem_c.dylib                   0x00007fff8b19f742 _pthread_start + 327\r\n              15: 14  libsystem_c.dylib                   0x00007fff8b18c181 thread_start + 13\r\n       error: Exiting.\r\n       [1522] worker: Couldn't read job function: end-of-file received\r\n       [1530] worker: Couldn't read job function: end-of-file received\r\n       [1520] worker: [1524] worker: Couldn't read job function: end-of-file received\r\n       Couldn't read job function: end-of-file received\r\n       [1528] worker: Couldn't read job function: end-of-file received\r\n       [1521] worker: [1529] worker: Couldn't read job function: end-of-file received\r\n       Couldn't read job function: end-of-file received\r\n       [1514] worker: Couldn't read job function: end-of-file received\r\n       [1515] worker: Couldn't read job function: end-of-file received\r\n       [1526] worker: Couldn't read job function: end-of-file received\r\n       [1519] worker: Couldn't read job function: end-of-file received\r\n       [1523] worker: Couldn't read job function: end-of-file received\r\n       [1527] worker: [1513] worker: Couldn't read job function: end-of-file received\r\n       Couldn't read job function: end-of-file received\r\n       [1518] worker: Couldn't read job function: end-of-file received\r\n       [1517] worker: [1]    1510 trace trap  rethinkdb\r\n       Couldn't read job function: end-of-file received\r\n       [1525] worker: Couldn't read job function: end-of-file received\r\n       [1516] worker: Couldn't read job function: end-of-file received"
+  , issueState = "closed"
+  , issueId = Id 9585895
+  , issueComments = 16
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-28) 00 : 52 : 26 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2853/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2853"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2853
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Pseudo-tables for administering tables and checking their status"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2853"
+  , issueCreatedAt = 2014 (-08) (-11) 20 : 21 : 10 UTC
+  , issueBody =
+      Just
+        "As part of #2680, we need to make pseudo-tables for changing the replication settings of tables and for checking the status of the tables.\r\n\r\nA first draft is in branch `tim_table_config` and internal code review 1893. The API implemented there is as follows:\r\n\r\n* There's a table called `rethinkdb.table_config`. Its documents have the following format:\r\n    ```python\r\n    {\r\n        \"name\": \"db_name.table_name\"  # this is the primary key\r\n        \"uuid\": \"12345678-1234-1234-1234-1234567890ab\",\r\n        \"shards\": [\r\n            {\r\n                \"split_point\": \"<key in internal string format>\",\r\n                \"replicas\": [\"server_1_name\", \"server_2_name\"],  # order doesn't matter\r\n                \"directors\": [\"server_1_name\"]  # order does matter\r\n            },\r\n            ...\r\n        ]\r\n    }\r\n    ```\r\n\r\n* There's a table called `rethinkdb.table_status`. Its documents have the following format:\r\n    ```python\r\n    {\r\n        \"name\": \"db_name.table_name\",  # this is the primary key\r\n        \"uuid\": \"12345678-1234-1234-1234-1234567890ab\",\r\n        \"shards\": [\r\n            {\r\n                \"server_1_name\": {\r\n                    \"role\": \"director\",\r\n                    \"status\": \"ready\"\r\n                },\r\n                \"server_2_name\": {\r\n                    \"role\": \"replica\",\r\n                    \"status\": \"backfill_data\"\r\n                }\r\n            },\r\n            ...\r\n        ]\r\n    }\r\n    ```\r\n\r\nWe should figure out what we want the final API to be and implement that."
+  , issueState = "closed"
+  , issueId = Id 39996478
+  , issueComments = 15
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

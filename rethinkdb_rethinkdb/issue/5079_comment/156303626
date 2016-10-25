@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-13) 02 : 38 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 64992
+        , simpleUserLogin = N "jab"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/64992?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jab"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/156303626"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5079#issuecomment-156303626"
+  , issueCommentCreatedAt = 2015 (-11) (-13) 02 : 38 : 23 UTC
+  , issueCommentBody =
+      "Consider something like:\r\n```python\r\ndef create_user(**kw):\r\n    kw.setdefault('created', r.now())\r\n    kw.setdefault('authtoken', r.uuid())\r\n    r.table('user').insert({k: v for (k, v) in kw.items() if v not in (None, False, '')}).run(conn)\r\n```\r\nThis code wants to be able to check values like `r.now()` for containment in `(None, False, '')`. (This application treats a field with value `None`, `False`, or `''` as equivalent to the field being absent, and prefers to normalize using the latter. However fields with values like `[]` or `{}` should be preserved, hence the containment check rather than `{k: v for (k, v) in kw.items() if v}`.)\r\n\r\nMaking `__contains__` throw an error would prevent this construction. Would you prefer to support this?"
+  , issueCommentId = 156303626
+  }

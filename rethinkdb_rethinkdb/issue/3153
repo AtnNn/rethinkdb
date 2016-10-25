@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 19 : 32 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3153/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3153"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3153
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "improve startup behavior when there are no servers to --join to"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3153"
+  , issueCreatedAt = 2014 (-10) (-07) 21 : 52 : 33 UTC
+  , issueBody =
+      Just
+        "Currently if you start a server with the `--join` option and there is no server running at the given location then the server hangs with the last two lines being:\r\n\r\n```\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Attempting connection to 1 peer...\r\n```\r\n\r\nWhile this behavior is not bad, I think it would be improved by eventually timing out. My reasoning is that if you are using a launch service (e.g.: systemd, launchd) then the users might be tricked into thinking that everything is going well when in fact your server is effectively hung.\r\n\r\nOf course there needs to be a balance since, as @timmaxw pointed out, we also don't want to cause problems for people who may have a cluster of computers all pointing at each other and if we set the timeout too low they may all self-terminate before the next machine can come on-line.\r\n\r\nI think a timeout (and failure exit) somewhere around 5-10 minutes would be good, with periodic warnings that no joinable servers have been found to the log/stderr would be a good solution. A command-line switch for this is probably overkill."
+  , issueState = "open"
+  , issueId = Id 45174423
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

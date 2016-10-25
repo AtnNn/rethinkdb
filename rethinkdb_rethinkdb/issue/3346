@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-11) (-19) 03 : 34 : 14 UTC
+  , issueUpdatedAt = 2015 (-01) (-09) 23 : 16 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3346/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3346"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3346
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "distinct on get_all()/between()"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3346"
+  , issueCreatedAt = 2014 (-11) (-17) 03 : 35 : 52 UTC
+  , issueBody =
+      Just
+        "`r.between(:index => :some_index).distinct` does not work. RethinkDB complains that the `id` index and the `some_index` index are both being used. However, `get_all()` works fine. Example:\r\n\r\n```ruby\r\n#!/usr/bin/env ruby\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\r\nr.db_drop(:test).run rescue nil\r\nr.db_create(:test).run\r\nr.table_create(:table).run\r\n\r\nr.table(:table).index_create(:field1).run\r\n\r\n# returns 0\r\nputs r.table(:table).get_all(1,3, :index => :field1).distinct.count.run\r\n\r\n# raises Cannot use 2 indexes in the same operation. Trying to use field1 and id (RethinkDB::RqlRuntimeError)\r\nputs r.table(:table).between(1,3, :index => :field1).distinct.count.run\r\n```"
+  , issueState = "closed"
+  , issueId = Id 49030910
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 88
+          , milestoneClosedIssues = 11
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.15.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/88"
+          , milestoneCreatedAt = 2014 (-12) (-16) 23 : 12 : 38 UTC
+          , milestoneState = "closed"
+          }
+  }

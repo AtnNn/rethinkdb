@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-15) 00 : 38 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140241887"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4840#issuecomment-140241887"
+  , issueCommentCreatedAt = 2015 (-09) (-15) 00 : 38 : 25 UTC
+  , issueCommentBody =
+      "It seems that this crash is caused by trying to configure a table with a tag for which there is no server.\r\n```js\r\nr.tableCreate('t1')\r\nr.table('t1').reconfigure({shards: 1, replicas: {\"a\": 1}, primaryReplicaTag: \"a\"})\r\n```\r\n\r\nis enough to trigger it.\r\n\r\nThe bug is most likely in line 104 of generate_config.cc in the function `validate_params()`:\r\n```C++\r\nfor (const server_id_t &server : servers_with_tags.at(it->first)) {\r\n```\r\n\r\nWe don't check whether the tag exists in `servers_with_tags` before calling `at` on it."
+  , issueCommentId = 140241887
+  }

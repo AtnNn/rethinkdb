@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 04 : 02 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29682013"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1725#issuecomment-29682013"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 04 : 02 : 30 UTC
+  , issueCommentBody =
+      "> I'm failing to see what the `combine` proposal is adding.\r\n\r\nHere is what I think it would get us, and what I was trying to convey. Suppose you're doing demographics analysis and want to determine an average salary in a city. Here is how you'd do it in SQL:\r\n\r\n```\r\nSELECT city, AVG(salary)\r\nFROM residents\r\nGROUP BY city\r\n```\r\n\r\nAnd here is what this query would look like under the current proposal:\r\n\r\n```python\r\nr.table('residents').group('city').avg('salary')\r\n```\r\n\r\nNow, suppose you're thinking \"hmm, I wonder what this will look like if I see the average age too\". In SQL, all you have to do is add `AVG(age)`:\r\n\r\n```\r\nSELECT city, AVG(salary), AVG(age)\r\nFROM residents\r\nGROUP BY city\r\n```\r\n\r\nThe typing distance is very short, but most importantly the conceptual distance is very short too. You don't have to learn any new concepts at all. Now, here's what this query would look like in ReQL under proposed syntax (I'm assuming the `do` syntax, but the same thing applies under `split`):\r\n\r\n```python\r\nr.table('residents').group('city').do(lambda x: [x.avg('salary'), x.avg('age')])\r\n```\r\n\r\nIgnoring the question of labeling the fields and what this actually returns, we're asking users to make quite a large conceptual jump. They have to introduce the `do` command, lambdas, and arrays to get to their data.\r\n\r\nGiven how ridiculously common it is to want to do such a thing, I think we should think about simpler porcelain syntax. That being said, I agree `combine` is bad syntax, and that removing the notion of aggregators as nouns is a good idea. I think we should hunt around for a better solution than `combine`."
+  , issueCommentId = 29682013
+  }

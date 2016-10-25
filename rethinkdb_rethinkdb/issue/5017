@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-04) 05 : 37 : 53 UTC
+  , issueUpdatedAt = 2015 (-11) (-04) 05 : 37 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5017/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5017"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:build"
+          , labelName = "cp:build"
+          }
+      ]
+  , issueNumber = 5017
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "build issue on MacOS in src/rdb_protocol/changefeed.cc"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5017"
+  , issueCreatedAt = 2015 (-10) (-27) 18 : 47 : 56 UTC
+  , issueBody =
+      Just
+        "I am getting a build issue on MacOS (both locally on 10.11, and on gantz which is on 10.10.5), but is not reproducing on `newton` even with Clang3.5. Bisecting puts this as having introduced in 4e0c48d9, so assigning to @mlucy \r\n\r\n```\r\nsrc/rdb_protocol/changefeed.cc:1547:9: error: no matching member function for call to 'each_sub_in_vec'\r\n        each_sub_in_vec<range_sub_t>(range_subs, &spot, lock, f);\r\n        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\nsrc/rdb_protocol/changefeed.cc:1393:10: note: candidate function [with Sub = ql::changefeed::range_sub_t] not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'const std::function<void (range_sub_t *)>' for 4th argument\r\n    void each_sub_in_vec(\r\n         ^\r\nsrc/rdb_protocol/changefeed.cc:1556:41: error: no viable conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'const std::function<void (point_sub_t *)>'\r\n        each_point_sub_with_lock(&spot, f);\r\n                                        ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1485:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'nullptr_t' for 1st argument\r\n    function(nullptr_t) noexcept : __f_(0) {}\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1486:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'const std::__1::function<void (ql::changefeed::point_sub_t *)> &' for 1st argument\r\n    function(const function&);\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1487:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'std::__1::function<void (ql::changefeed::point_sub_t *)> &&' for 1st argument\r\n    function(function&&) noexcept;\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1491:41: note: candidate template ignored: disabled by 'enable_if' [with _Fp = std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>]\r\n                                        __callable<_Fp>::value &&\r\n                                        ^\r\nsrc/rdb_protocol/changefeed.cc:1406:51: note: passing argument to parameter 'f' here\r\n        const std::function<void(point_sub_t *)> &f) throw ();\r\n                                                  ^\r\nsrc/rdb_protocol/changefeed.cc:1567:41: error: no viable conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'const std::function<void (limit_sub_t *)>'\r\n        each_limit_sub_with_lock(&spot, f);\r\n                                        ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1485:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'nullptr_t' for 1st argument\r\n    function(nullptr_t) noexcept : __f_(0) {}\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1486:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'const std::__1::function<void (ql::changefeed::limit_sub_t *)> &' for 1st argument\r\n    function(const function&);\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1487:5: note: candidate constructor not viable: no known conversion from 'std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>' to 'std::__1::function<void (ql::changefeed::limit_sub_t *)> &&' for 1st argument\r\n    function(function&&) noexcept;\r\n    ^\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional:1491:41: note: candidate template ignored: disabled by 'enable_if' [with _Fp = std::__1::__bind<void (ql::changefeed::subscription_t::*)(std::exception_ptr, ql::changefeed::detach_t), std::__1::placeholders::__ph<1> &, std::exception_ptr, ql::changefeed::detach_t>]\r\n                                        __callable<_Fp>::value &&\r\n                                        ^\r\nsrc/rdb_protocol/changefeed.cc:1410:51: note: passing argument to parameter 'f' here\r\n        const std::function<void(limit_sub_t *)> &f) throw ();\r\n                                                  ^\r\n3 errors generated.\r\n```"
+  , issueState = "closed"
+  , issueId = Id 113654943
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

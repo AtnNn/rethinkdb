@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-19) 23 : 44 : 23 UTC
+  , issueUpdatedAt = 2014 (-06) (-19) 23 : 45 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1947/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1947"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1947
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "We serialize rdb_modification_report_ts even if there's no sindex queue"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1947"
+  , issueCreatedAt = 2014 (-02) (-13) 23 : 14 : 28 UTC
+  , issueBody =
+      Just
+        "For example in file `src/rdb_protocol/btree.cc`, definition for `rdb_modification_report_cb_t::on_mod_report()`:\r\n```cpp\r\n...\r\nwrite_message_t wm;\r\nwm << rdb_sindex_change_t(mod_report);\r\nstore_->sindex_queue_push(wm, &acq);\r\n...\r\n```\r\n(there are two or three more places that do basically the same thing)\r\n\r\n`sindex_queue_push()` has a loop that iterates over the current sindex queues and pushes the serialized mod_report onto those. Unless an sindex is in construction stage, there are no sindex queues as far as I know. The mod_report is serialized after each write without ever being used.\r\n\r\nI have not yet empirically measured the impact of it, but it's easy to change."
+  , issueState = "closed"
+  , issueId = Id 27561029
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

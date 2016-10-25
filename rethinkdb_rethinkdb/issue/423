@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-02) 20 : 33 : 06 UTC
+  , issueUpdatedAt = 2013 (-07) (-10) 03 : 51 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/423/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/423"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 423
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 153008
+        , simpleUserLogin = N "solidsnack"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/153008?v=3"
+        , simpleUserUrl = "https://api.github.com/users/solidsnack"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Provide a way to log to `stdout`/`stderr`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/423"
+  , issueCreatedAt = 2013 (-03) (-07) 19 : 52 : 09 UTC
+  , issueBody =
+      Just
+        "Thank you for an interesting and nicely put together database.\r\n\r\nI am investigating RethinkDB for use with some analytics datasets and noticed in passing that there isn't a well defined way to log to syslog. This is really too bad, since rolling your log retention and parsing one time for syslog saves you a lot of potential work (and also mistakes, like forgetting to set up log retention for some new database people want to try out).\r\n\r\nNot all programs log to syslog, but many can log to `stdout`/`stderr`. For example, Nginx. For such a program, a reasonable workaround is to set the log files to `/dev/stderr` and `/dev/stdout`; and then have a little wrapper that logs things with `logger`, voila:\r\n\r\n```bash\r\n#!/bin/bash\r\nset -o errexit -o nounset -o pipefail\r\nfunction -h {\r\ncat <<EOF\r\n USAGE: lcat <program> <args>\r\n\r\n  Wraps a command invocation with logging, sending STDOUT and STDERR to\r\n  syslog, setting the syslog tag to:\r\n\r\n    <program>[<pid>]\r\n\r\n  Where <pid> is the PID of <program> (not of the logger). The syslog\r\n  priority for STDOUT is user.info; that of STDERR is user.notice.\r\n\r\nEOF\r\n}; function --help { -h ;}\r\n\r\nfunction lcat {\r\n  local tag=\"${1##*/}[$$]\"\r\n  exec 1> >(exec logger -t \"$tag\" -p user.info)\r\n  exec 2> >(exec logger -t \"$tag\" -p user.notice)\r\n  exec \"$@\"\r\n}\r\n\r\nif [[ $# = 0 ]]\r\nthen\r\n  --help\r\nelse\r\n  lcat \"$@\"\r\nfi\r\n```\r\n\r\nThis manages to get things logged with the right process tag *and* PID. So as long as there is a way to log to `stdout`/`stderr`, those of us fond of syslog can take things the rest of the way."
+  , issueState = "closed"
+  , issueId = Id 11775927
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

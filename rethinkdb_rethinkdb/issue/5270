@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-14) 20 : 29 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5270/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5270"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5270
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 952451
+          , simpleUserLogin = N "nighelles"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/952451?v=3"
+          , simpleUserUrl = "https://api.github.com/users/nighelles"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "uninitial values sometimes arrive after new initial value"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5270"
+  , issueCreatedAt = 2016 (-01) (-08) 03 : 51 : 26 UTC
+  , issueBody =
+      Just
+        "With the `init_fuzz_various_queries.rb` test from branch `daniel_init_various_fuzz` and a binary from `v2.2.x` I'm intermittently seeing a failure that looks like this:\r\n\r\n```rb\r\nState did not match query result. (RuntimeError)\r\n Query: r.table(\"test\").between(0, 2, {\"index\" => :ts})\r\n State: [...]\r\n Actual: [..., {\"id\"=>16, \"ts\"=>0.5}, ...]\r\n\r\nFailed log:\r\n[\"initializing\",\r\n...,\r\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0}},\r\n...,\r\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}},\r\n {\"old_val\"=>{\"id\"=>16, \"ts\"=>0}},\r\n...,\r\n \"ready\",\r\n...]\r\n\r\nFailed write log:\r\n[...,\r\n [16,\r\n  {\"changes\"=>\r\n    [{\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}, \"old_val\"=>{\"id\"=>16, \"ts\"=>0}}],\r\n   \"deleted\"=>0,\r\n   \"errors\"=>0,\r\n   \"inserted\"=>0,\r\n   \"replaced\"=>1,\r\n   \"skipped\"=>0,\r\n   \"unchanged\"=>0}],\r\n...]\r\n```\r\n\r\nYou can see that we get an initial value for id 16 correctly. Then the document is updated and the `ts` value changed from `0` to `0.5`. On the changefeed, we then see first a new initial value with the new `ts`, followed by an uninitial value for the old `ts`.\r\n\r\nThe correct behavior would be to see the uninitial value before we see the new initial value."
+  , issueState = "open"
+  , issueId = Id 125537297
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

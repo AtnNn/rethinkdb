@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-27) 17 : 26 : 31 UTC
+  , issueUpdatedAt = 2015 (-07) (-27) 17 : 26 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4581/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4581"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4581
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2072672
+        , simpleUserLogin = N "chrisfosterelli"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2072672?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisfosterelli"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "How do/can atomic upserts work?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4581"
+  , issueCreatedAt = 2015 (-07) (-26) 09 : 12 : 44 UTC
+  , issueBody =
+      Just
+        "Hi guys!\r\n\r\nSo, to quote the [RethinkDB documentation](http://rethinkdb.com/docs/architecture/#query-execution):\r\n\r\n> Currently, values obtained by executing JavaScript code, random values, and values obtained as a result of a subquery (e.g. incrementing the value of an attribute by the value of an attribute in a different document) cannot be performed atomically. If the user runs a query that cannot be executed atomically, by default RethinkDB will throw an error\r\n\r\nWhen I attempt to `update`, I get an error _as expected_. However, this feature behaves counter-intuitively when I begin doing upserts:\r\n\r\n```javascript\r\nr.table('FruitCollection').insert({ \r\n  id : 1, \r\n  fruits : r.table('otherCollection').get(1)('fruits').count()\r\n}, { \r\n  conflict : 'update' \r\n});\r\n```\r\n\r\nAs I understand it, this operation **is not atomic when updating** based on the documentation. Although, it doesn't throw an error which suggests it is atomic. However, what about this operation:\r\n\r\n```javascript\r\nr.table('FruitCollection').insert({ \r\n  id : 1, \r\n  fruits : r.table('FruitCollection').get(1)('fruits').default([]).append('orange')\r\n}, { \r\n  conflict : 'update' \r\n});\r\n```\r\n\r\nThis is far more confusing as well. It uses a subquery, which should not be atomic, however it only touches one document, which is supposed to be atomic. It doesn't throw an error, so I would be led to believe this is atomic, but neither does the first query so the behaviour is very confusing.\r\n\r\nWhat I would really like to do is this:\r\n\r\n```javascript\r\nr.table('FruitCollection').insert({ \r\n  id : 1, \r\n  fruits : r.row.default([]).append('orange')\r\n}, { \r\n  conflict : 'update' \r\n});\r\n```\r\n\r\nBut `r.row` is not supported when doing `insert`.\r\n\r\n1. Should these first two queries throw a non-atomic error and require a `nonAtomic` flag?\r\n2. Does it make sense to add `r.row` support to `insert`?\r\n3. If not, is there no way to atomically upsert using append/add/etc in Rethinkdb?\r\n\r\nI propose adding more clear documentation on atomicity to the pages on `insert`, and perhaps changing the behaviour to throw an error if it is not atomic. Thanks for all your hard work on Rethink!"
+  , issueState = "closed"
+  , issueId = Id 97301269
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

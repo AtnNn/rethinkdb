@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-18) 21 : 05 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4010/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4010"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 4010
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider changing how stats interact with backfills with sindexes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4010"
+  , issueCreatedAt = 2015 (-04) (-03) 02 : 10 : 50 UTC
+  , issueBody =
+      Just
+        "Currently if we have a single table with sindexes on server A, and we reshard into 2 shards, one on server A and one on server B, we will see the following stats:\r\n\r\nServer A (backfiller):\r\nX reads\r\nX writes\r\n\r\nServer B (backfillee):\r\nX reads\r\nX + Y writes\r\n\r\nWhere X is `table.count()` and Y is the number of rows which are included in at least one secondary index tree.\r\n\r\n* Backfiller reads - these are from reading the rows to send to the backfillee.\r\n* Backfiller writes - these are from deleting the rows that were sent to the backfillee.\r\n* Backfillee reads - these are from reading the rows in a parallel traversal to perform sindex post-construction.\r\n* Backfillee writes - these are from writing the rows received from the backfiller plus writing to the secondary index trees in sindex post-construction.\r\n\r\nInstead, I would expect the backfill to have these stats (as to not look artificially inflated):\r\nServer A (backfiller):\r\nX reads\r\nX writes\r\n\r\nServer B (backfillee):\r\n0 reads\r\nX writes\r\n\r\nCurrently sindexes are counted extra for reads and writes only during `index_create` and in backfills.  This would simplify that to only during `index_create`.  Opinions?"
+  , issueState = "open"
+  , issueId = Id 66053610
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

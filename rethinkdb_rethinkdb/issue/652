@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-09) 09 : 38 : 47 UTC
+  , issueUpdatedAt = 2013 (-05) (-09) 09 : 39 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/652/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/652"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 652
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 72652
+        , simpleUserLogin = N "skizzerz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/72652?v=3"
+        , simpleUserUrl = "https://api.github.com/users/skizzerz"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Rethink crashes when running groupedMapReduce on large table"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/652"
+  , issueCreatedAt = 2013 (-04) (-12) 05 : 08 : 23 UTC
+  , issueBody =
+      Just
+        "I have a table with 39,046 documents that I was attempting to run a grouped map reduce on. However, whenever running this (via data explorer in the web UI or the python driver), the rethinkdb process would terminate unexpectedly and service rethinkdb status reported stopped/crashed. The mapreduce functions were nothing fancy, the exact code (javascript) is below:\r\n\r\nr.db('league').table('players').groupedMapReduce(function(row) { return row('games').count(); }, function(row) { return 1; }, function(acc, row) { return acc + 1; })\r\n\r\nNothing is present in the log file that it specified when starting the instance.\r\n\r\nPossibly related, but it also crashed when I simply tried to fetch every document in the table from python via r.db('league').table('players').run(conn).\r\n\r\nIf you need any more information, please ask and I'll try my best to offer it. This happens 100% of the time I try those two queries (however for the fetching all docs query, if I make use of skip() and limit() I can successfully access every document)"
+  , issueState = "closed"
+  , issueId = Id 13103360
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

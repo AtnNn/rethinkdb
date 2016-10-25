@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-03) 19 : 24 : 07 UTC
+  , issueUpdatedAt = 2016 (-08) (-03) 19 : 24 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6011/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6011"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6011
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8102403
+        , simpleUserLogin = N "vinay10949"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8102403?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vinay10949"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Append values into an array if doesnt exist else append into the array of array Rethinkdb "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6011"
+  , issueCreatedAt = 2016 (-07) (-29) 10 : 41 : 42 UTC
+  , issueBody =
+      Just
+        "```\r\n{\r\n    \"VALUES\": [{\r\n        \"NO\": 4082,\r\n        \"NUMBERS\": [{\r\n            \"VALUE\": 643323.59,\r\n            \"DATE\": 1468226790461\r\n        }, {\r\n            \"VALUE\": 711323.59,\r\n            \"DATE\": 1468208833506\r\n        }, {\r\n            \"VALUE\": 712932.59,\r\n            \"DATE\": 1468157982163\r\n        }]\r\n    }, {\r\n        \"NO\": 4083,\r\n        \"BALANCE\": [{\r\n            \"VALUE\": 348552.72,\r\n            \"DATE\": 1467361028896\r\n        }]\r\n    }],\r\n    \"CREATESTMP\": 1469778206,\r\n    \"LOGIN\": \"ABC\",\r\n    \"UPDSTMP\": 1469778445,\r\n    \"id\": \"de723106-c66f-4d1d-ad8f-d6b57f14dc02\"\r\n}\r\n```\r\nThis is the object in rethinkdb. i want to append data into NUMBERS array where NO inside VALUES MAtches,else add new object into VALUES Array\r\n```\r\n\r\nstatus = r.db('usersData')\r\n.table('profile')\r\n.get_all('ABC', index = 'LOGIN')\r\n.map(lambda item: {\r\n    \"VALUES\": item[\"VALUES\"].map(lambda VAL: {\r\n            r.branch(VAL[\"NO\"].eq(4082), VAL.merge({\r\n                    \"NUMBERS\": VAL[\"NUMBERS\"].append({\r\n                        \"VALUE\": 1000,\r\n                        \"DATE\": 1468222222\r\n                    }))\r\n            }),\r\n            VAL)\r\n    }), 'UPDSTMP': timestamp\r\n}).nth(0).run(con)\r\n\r\nIt replaces the entire items in values array with one in VAL\r\n```"
+  , issueState = "closed"
+  , issueId = Id 168298429
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

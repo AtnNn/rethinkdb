@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-15) 15 : 19 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140426405"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2427#issuecomment-140426405"
+  , issueCommentCreatedAt = 2015 (-09) (-15) 15 : 19 : 21 UTC
+  , issueCommentBody =
+      "I'm not specifically asking for the connection itself to be thread safe but I don't think implementing thread safety/connection pooling should be an exercise left up to the reader.\r\n\r\nAs far as I can tell it is not well documented that thread safety isn't guaranteed, here are the docs I've learned most of the driver stuff from and it never mentions this:\r\n\r\nhttps://rethinkdb.com/docs/guide/python/\r\nhttps://rethinkdb.com/docs/cookbook/python/\r\n\r\nEven here it doesn't mention it under connect: https://rethinkdb.com/api/python/ but does mention it under repl.\r\n\r\nBut once you find out that it isn't thread safe your only options are to create a new connection whenever you need them (like my code example) or implement your own thread safe connection pool. I assume most users of the driver are not going to implement the pool and will take the slow route of opening a new connection every request.\r\n\r\nI think one of the primary use cases for rethinkdb is web applications and threaded applications servers are one of the most popular ways to serve web applications so how to use rethinkdb in that way should be a well documented and a supported use case in my opinion.\r\n\r\nFor example, this is the first hit on how to use flask with rethinkdb and they open a connection per request:\r\n\r\nhttps://realpython.com/blog/python/rethink-flask-a-simple-todo-list-powered-by-flask-and-rethinkdb/\r\n\r\nThe rethinkdb flask extension itself is thread safe but only because flask is a framework that heavily relies on thread local global magic, for frameworks like pyramid that don't follow those bad practices it'll be less common to accidentally attach to a threadlocal.\r\n\r\nEven code in the rethinkdb does a connection per request:\r\n\r\nhttps://github.com/rethinkdb/countdown/blob/master/countdown.py\r\n\r\nI think since making the connection has significant overhead that connection pooling should be a first class citizen in the driver.\r\n\r\n\r\n"
+  , issueCommentId = 140426405
+  }

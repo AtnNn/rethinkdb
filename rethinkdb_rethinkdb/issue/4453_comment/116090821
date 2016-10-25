@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-27) 15 : 50 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2151889
+        , simpleUserLogin = N "behrad"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2151889?v=3"
+        , simpleUserUrl = "https://api.github.com/users/behrad"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/116090821"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4453#issuecomment-116090821"
+  , issueCommentCreatedAt = 2015 (-06) (-27) 15 : 49 : 46 UTC
+  , issueCommentBody =
+      "> How large are the documents?\r\n\r\nThey are pretty small jsons (300 bytes at large)\r\n\r\n\r\n> What is the CPU on the server, and how much RAM does it have?\r\n\r\n6 cores, with 32G Ram without SSD storage.\r\n\r\n\r\n> If you check the RethinkDB log for a line saying \"Automatically using cache size of ...\", what value does it show?\r\n\r\nI'm starting it with `rethinkdb` with no extra config/parameters. cache_size is 11G.\r\n\r\n\r\n> How are you performing the inserts? Are you using batch inserts? How large are the batches?\r\n\r\nfirstly I was running 2 processes, each running 1000 iterations of `r.table('alert').insert(data)` which data consist of 10 documents. \r\nCurrently my real world scenario is saving a doc, upon each one/two updates are run subsequently via\r\n\r\n```\r\n.update( {id: UUID, param: r.get('param').default([]).append([\"myvalue\"]) }\r\n```\r\n\r\nfor concurrent 500 inserts (+500/1000 updates) I see 70% cpu usage for minutes!!!\r\n![screenshot from 2015-06-27 19_10_38](https://cloud.githubusercontent.com/assets/2151889/8392753/ceeb6eb0-1d09-11e5-986d-ecb908b1a2a9.png)\r\n\r\n\r\n\r\n> For the specific case of orderBy.limit, I also recommend making sure that the orderBy is using an index or it will have to read the whole table before continuing.\r\n\r\nyes, using an index\r\n\r\n![screenshot from 2015-06-27 19_11_02](https://cloud.githubusercontent.com/assets/2151889/8392754/d63f1e96-1d09-11e5-8f6d-4a7d62602567.png)\r\n"
+  , issueCommentId = 116090821
+  }

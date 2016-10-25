@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2014 (-03) (-25) 19 : 38 : 05 UTC
+  , issueUpdatedAt = 2014 (-07) (-25) 06 : 57 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2161/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/2161"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2161
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 77907
+        , simpleUserLogin = N "Aleaxander"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/77907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Aleaxander"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "test: http_admin: fix wrong pack of ack_expectations[uuid]"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2161"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2161.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2161.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2161"
+  , issueCreatedAt = 2014 (-03) (-25) 10 : 30 : 48 UTC
+  , issueBody =
+      Just
+        "ack_expectations[uuid] needs an object instead of a number.\r\n\r\nack_expectations[uuid] used to need a number before commit \r\n7b52a05(\"Fix log, refactorget_durability, fix switch primary\"), \r\nwhich changed it to accept a object. However that commit forgot\r\nto change it on http_admin.py side, thus introduced following error\r\nwhile running regress-852 test:\r\n\r\n    Traceback (most recent call last):\r\n      File \"$RETHINKDBtest/regression/issue_852.py\", line 41, in <module>\r\n        affinities = {dc: 1}, ack_expectations = {dc: 2})\r\n      File \"$RETHINKDB/test/common/http_admin.py\", line 562, in add_namespace\r\n        info = self.do_query(\"POST\", \"/ajax/semilattice/%s_namespaces/new\" % protocol, data_to_post)\r\n      File \"$RETHINKDB/test/common/http_admin.py\", line 349, in do_query\r\n        return self.do_query_specific(host, http_port, method, route, payload)\r\n      File \"$RETHINKDB/test/common/http_admin.py\", line 361, in do_query_specific\r\n        return json.loads(self.do_query_specific_plaintext(host, http_port, method, route, payload, headers))\r\n      File \"$RETHINKDB/test/common/http_admin.py\", line 374, in do_query_specific_plaintext\r\n        raise BadServerResponse(response.status, response.reason)\r\n    http_admin.BadServerResponse: Server returned error code: 400 Bad Request\r\n\r\nAnd you can see following error from rethinkdb log:\r\n\r\n    info: HTTP request throw a schema_mismatch_exc_t with what = Expected object instead got: 2\r\n\r\nThis patch does make the \"400 Bad Request\" error dispear, but the\r\ntestcase still failed due to rethinkdb crash.\r\n\r\nSigned-off-by: Liu Aleaxander <Aleaxander@gmail.com>"
+  , issueState = "closed"
+  , issueId = Id 30111589
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

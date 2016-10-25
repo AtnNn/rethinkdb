@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 36 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5429/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5429"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5429
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "When backfilling, prioritize immediate availability"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5429"
+  , issueCreatedAt = 2016 (-02) (-19) 21 : 24 : 48 UTC
+  , issueBody =
+      Just
+        "This is a bit related to #2732 and comes from my experience with #5427, but probably deserves its own issue. Per #5427, my cluster ended up in a state where 4 of 5 replicas went into a \"backfilling\" state, which threw the table into \"outdated reads\" mode.\r\n\r\nWhen debugging, I noticed all 4 replicas were backfilling from the same source server `j7q2y3g1_rethinkdb_usage_service_iad_dyq` with equal priority, even though I only 2 of them were needed to restore availability. I assume that the bottleneck here is going to be that source server, so I'd like to propose that the logic prioritize completing the minimum number of replicas for consensus before backfilling the additional ones.\r\n\r\nHere's a slimmed-down version of an `r.db('rethinkdb').table('jobs')` query that only shows \"backfill\" type jobs:\r\n```json\r\n[\r\n  {\r\n    \"duration_sec\": 2568.846983,\r\n    \"id\": [\r\n      \"backfill\",\r\n      \"0238627c-e9d1-5832-965f-12843b523c16\"\r\n    ],\r\n    \"info\": {\r\n      \"db\": \"usage\",\r\n      \"destination_server\": \"d5f9qbdp_rethinkdb_usage_service_iad_ygs\",\r\n      \"progress\": 0.8705998181050844,\r\n      \"source_server\": \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\",\r\n      \"table\": \"records\"\r\n    },\r\n    \"servers\": [\r\n      \"d5f9qbdp_rethinkdb_usage_service_iad_ygs\",\r\n      \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\"\r\n    ],\r\n    \"type\": \"backfill\"\r\n  },\r\n  {\r\n    \"duration_sec\": 2568.847506,\r\n    \"id\": [\r\n      \"backfill\",\r\n      \"3ae3feb5-70be-5521-82d7-70426c99fadf\"\r\n    ],\r\n    \"info\": {\r\n      \"db\": \"usage\",\r\n      \"destination_server\": \"wz8st25d_rethinkdb_usage_service_iad_wrs\",\r\n      \"progress\": 0.7491699386661852,\r\n      \"source_server\": \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\",\r\n      \"table\": \"records\"\r\n    },\r\n    \"servers\": [\r\n      \"wz8st25d_rethinkdb_usage_service_iad_wrs\",\r\n      \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\"\r\n    ],\r\n    \"type\": \"backfill\"\r\n  },\r\n  {\r\n    \"duration_sec\": 1995.574837,\r\n    \"id\": [\r\n      \"backfill\",\r\n      \"4e45f954-e298-583c-8f6a-7d60f5514c47\"\r\n    ],\r\n    \"info\": {\r\n      \"db\": \"usage\",\r\n      \"destination_server\": \"w01obfwx_rethinkdb_usage_service_iad_681\",\r\n      \"progress\": 0.8875880771302812,\r\n      \"source_server\": \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\",\r\n      \"table\": \"records\"\r\n    },\r\n    \"servers\": [\r\n      \"w01obfwx_rethinkdb_usage_service_iad_681\",\r\n      \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\"\r\n    ],\r\n    \"type\": \"backfill\"\r\n  },\r\n  {\r\n    \"duration_sec\": 2568.847289,\r\n    \"id\": [\r\n      \"backfill\",\r\n      \"52ede828-119f-5f71-9942-339b6b04fd2c\"\r\n    ],\r\n    \"info\": {\r\n      \"db\": \"usage\",\r\n      \"destination_server\": \"3r4gws0x_rethinkdb_usage_service_iad_ryv\",\r\n      \"progress\": 0.7875658449895411,\r\n      \"source_server\": \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\",\r\n      \"table\": \"records\"\r\n    },\r\n    \"servers\": [\r\n      \"3r4gws0x_rethinkdb_usage_service_iad_ryv\",\r\n      \"j7q2y3g1_rethinkdb_usage_service_iad_dyq\"\r\n    ],\r\n    \"type\": \"backfill\"\r\n  }\r\n]\r\n```"
+  , issueState = "open"
+  , issueId = Id 134978482
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

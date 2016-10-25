@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2013 (-11) (-21) 23 : 32 : 35 UTC
+  , issueUpdatedAt = 2013 (-12) (-14) 21 : 49 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1364/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1364"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1364
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improve Streaming Logic (pre-fetching?)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1364"
+  , issueCreatedAt = 2013 (-08) (-27) 01 : 12 : 51 UTC
+  , issueBody =
+      Just
+        "I'm watching our Python import-export script run, and here's how it works:\r\n* Script sends initial request.\r\n* Server fetches batch of results from shards.  This takes a few seconds, during which the client is doing no work.\r\n* Script churns through batch, during which the server is doing no work.\r\n* Server fetches next batch of results once the client has exhausted the current batch, which takes a few more seconds during which the client is doing no work.\r\n* etc. etc.\r\n\r\nI think we should fetch the next batch before the client gets to the end of the first batch; otherwise you get worse throughput and random multi-second latency spikes.  Probably just prefetching one batch ahead would be good enough, but we could also do something more clever.\r\n\r\nThe Ruby client already does this in the driver.  The easiest thing would just be to make the other drivers do this too.  (See extensive discussion in #661.)"
+  , issueState = "closed"
+  , issueId = Id 18582904
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

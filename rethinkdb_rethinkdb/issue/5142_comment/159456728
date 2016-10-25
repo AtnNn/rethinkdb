@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-25) 01 : 24 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159456728"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5142#issuecomment-159456728"
+  , issueCommentCreatedAt = 2015 (-11) (-25) 01 : 24 : 41 UTC
+  , issueCommentBody =
+      "@marshall007 - you're right, these functions have quite a bit of overlap, and it could probably be simplified.\r\n\r\nNotably: `table_check` and `tables_check` are nearly identical in their purpose, with the following differences:\r\n* `table_check` is called for importing a file, and `tables_check` is called for importing a database.\r\n* `table_check` will create the table, while `tables_check` will not - this is probably because when importing a single file, we don't have sindex information.\r\n* `table_check` may use the pkey specified in command-line arguments or the auto-generated pkey\r\n* `tables_check` must use the pkey from an existing info file\r\n\r\nThat said, it should be possible to combine these into a single call, although some edge cases may be tricky.  As for combining these with `create_table`, there are a few more considerations:\r\n* The call would need to be made for all tables before importing data\r\n * This is so users don't spend hours importing data before running into an error that could have been spotted instantly.\r\n * We probably don't need to handle cases where the user changes the configuration during the import - that is their own fault (i.e. running similar imports from two places or dropping a table during the import).\r\n* If we're rewriting `create_table`, it may be a good opportunity to leverage sindex status so we don't always recreate an index.\r\n * If the index is outdated, we create it\r\n * Otherwise, we check if the index function binary matches the one we have\r\n * If it doesn't match, we drop it and add our index function.\r\n\r\nKeep in mind that `create_table` is currently being used in the \"import file\" path, although it is more of a no-op.  If you'd like to take a shot at this, I'd be happy to review the pull request (you can do it here or separately, whichever works).  Let me know if you have any questions or concerns."
+  , issueCommentId = 159456728
+  }

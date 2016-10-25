@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-10) 18 : 54 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91650954"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4036#issuecomment-91650954"
+  , issueCommentCreatedAt = 2015 (-04) (-10) 18 : 54 : 15 UTC
+  , issueCommentBody =
+      "I actually don't think the io threads are the problem here. In fact more i/o threads will give the operating system and the drive more opportunity to re-order operations, making it more efficient.\r\n\r\nThe low read rate on the disk of about 0.7 MB/s that you reported @kikohs is not unreasonable. It's doing 168 i/o transactions per second. If all of them are random reads of about 4 KB (which is likely with RethinkDB), that's a very reasonable read rate for a rotational drive.\r\nHowever I'm baffled by the fact that it seems to be doing multiple disk reads for every read. I find it especially weird that the newly created test table is immediately slow. I would expect that table to fully fit into cache with ease.\r\n\r\nI wouldn't be surprised if we had a bug in our cache balancer, the piece of code that distributes the available cache size across all tables. If it for some reason sets it to 0 for a table, that might explain this terrible performance. I'll investigate.\r\n\r\n"
+  , issueCommentId = 91650954
+  }

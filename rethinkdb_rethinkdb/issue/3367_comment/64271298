@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-24) 21 : 51 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/64271298"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3367#issuecomment-64271298"
+  , issueCommentCreatedAt = 2014 (-11) (-24) 21 : 51 : 17 UTC
+  , issueCommentBody =
+      "@VeXocide explained to me that if you need a specific type of guarantee, implementing them with changefeeds is a whole lot more difficult than with triggers.\r\nWhile you could theoretically run a changefeed client on the same server as the primary for the table to get very similar guarantees as a trigger running on the primary, maintaining this can become a pain when failover and primary changes come into play.\r\n\r\nResumable changefeeds fix many issues, but will still behave somewhat differently from triggers in certain failure cases and require additional code to handle those on the client side.\r\n\r\nSo I suppose there's a point in having triggers in addition to changefeeds.\r\n\r\nA simple implementation of triggers (as the one described in the original post) might be useful already.\r\n\r\nIt would still not work for cases where you cannot afford to miss a change. If the trigger writes to a table B and the server(s) hosting table B go down, the trigger will be unable to execute and the change will be lost. It would provide stronger guarantees than the current (non-resumable) version of changefeeds, but still might not be strong enough for many applications.\r\nFor this, we would probably need to implement some sort of log to rerun triggers at a later time if they fail. That in turn poses the question of what happens if a trigger has other side-effects that succeeded before it failed..."
+  , issueCommentId = 64271298
+  }

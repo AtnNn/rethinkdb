@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-01) (-17) 13 : 17 : 28 UTC
+  , issueUpdatedAt = 2013 (-01) (-17) 13 : 17 : 28 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/229/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/229"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 229
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 48436
+          , simpleUserLogin = N "coffeemug"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/48436?v=3"
+          , simpleUserUrl = "https://api.github.com/users/coffeemug"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 16249
+        , simpleUserLogin = N "seanhess"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/16249?v=3"
+        , simpleUserUrl = "https://api.github.com/users/seanhess"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Javascript (node.js) driver - some docs out of date, confusing errors. Remove minification?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/229"
+  , issueCreatedAt = 2013 (-01) (-16) 20 : 29 : 43 UTC
+  , issueBody =
+      Just
+        "From this page: http://www.rethinkdb.com/docs/guides/drivers/, the Javascript example doesn't work. It says connection not open. \r\n\r\n    var r = require('rethinkdb')\r\n    r.connect({ host: 'localhost', port: 28015 })\r\n    r.db('test').tableCreate('tv_shows').runp()\r\n    r.table('tv_shows').insert({ name: 'Star Trek TNG' }).runp()\r\n\r\nFine, so I'll visit this page and follow along - http://www.rethinkdb.com/api/#js\r\n\r\n    var r = require('rethinkdb')\r\n    r.connect({ host: 'localhost', port: 28015 }, function(conn) {\r\n        conn.run(r.db('test').tableCreate('tv_shows'))\r\n    })\r\n\r\nThen I get `TypeError: Cannot read property 'callback' of undefined`. And the JS is minified? Please don't minify server-side javascript, I have no idea what I'm doing wrong. \r\n\r\nconn.run requires a callback. I had the impression that it was optional. The minification makes it really hard to tell what is wrong. \r\n\r\n    var r = require('rethinkdb')\r\n    r.connect({ host: 'localhost', port: 28015 }, function(conn) {\r\n        console.log(\"CONNECTED\")\r\n        conn.run(r.dbCreate('libros'), function(err) {\r\n          console.log(\"CREATED\", err)\r\n        })\r\n    })\r\n\r\nSo this executes, but err comes back with \r\n\r\n    { name: 'Runtime Error',\r\n      message: 'Cannot compute blueprint because a machine is offline.\\n\\tr.dbCreate(\\'libros\\')\\n\\t^^^^^^^^^^^^^^^^^^^^' }\r\n\r\nIs that... ok? I know you guys are working on rewriting the driver, but it seems kind of crazy to use at the moment. \r\n\r\nAn ETA on the new driver?\r\n\r\nCan you remove minification on the server driver? (Just distribute both versions?)\r\n\r\nCan you provide new docs that show how to connect to a non-test database and do stuff?\r\n\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 10034223
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-18) 21 : 19 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63546705"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3301#issuecomment-63546705"
+  , issueCommentCreatedAt = 2014 (-11) (-18) 21 : 19 : 29 UTC
+  , issueCommentBody =
+      "I think we should do the following:\r\n* If the user inserts and retrieves a string, return the string they inserted without normalization.  Doing otherwise would be confusing and a source of bugs.\r\n* If the user compares two strings, compare them as if they had been normalized.  @AtnNn tells me that there's a fast algorithm in ICU to compare two non-normalized strings that always produces the same ordering as normalizing and then comparing those strings.\r\n* If the user uses a string as an on-disk key, normalize the string before calling our key serialization function on it.  This might cause confusion if the user has two canonical-equivalent strings that their app thinks are different and they try to use them both as keys, but it seems better than the alternative.\r\n* If the user performs a Unicode-aware operation (`split`, `upcase`, `match`), normalize the string before performing the operation.\r\n  - I'm a little worried about normalizing before calling `match`, since people might expect that the string they get out of a match group is a substring of the string they inserted, so maybe this is actually a bad idea."
+  , issueCommentId = 63546705
+  }

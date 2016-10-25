@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2015 (-02) (-11) 02 : 43 : 36 UTC
+  , issueUpdatedAt = 2015 (-04) (-02) 21 : 30 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3746/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3746"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      ]
+  , issueNumber = 3746
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "On startup: Cannot write directory removal messages to log"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3746"
+  , issueCreatedAt = 2015 (-02) (-06) 19 : 55 : 35 UTC
+  , issueBody =
+      Just
+        "Every time I start a server from the current v1.16.x I'm getting these two messages:\r\n```\r\nRecursively removing directory rethinkdb_data/tmp\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nIn recursion: removing file rethinkdb_data/tmp\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\n```\r\n\r\nThis is of course a consequence of https://github.com/rethinkdb/rethinkdb/issues/1780 .\r\nThe log is actually working fine, but maybe these messages get printed before it's ready?\r\n\r\nUsually the `tmp` directory should be empty, and I'm not sure why we're recreating it on every startup. We could change the startup code so that it checks if the `tmp` directory exists *and is empty* (we already have a method `check_dir_emptiness(base_path)` in directory_lock.cc). If the directory exists but is not empty, it recreates it just like it does now. If it exists and is empty, it does nothing, hence avoiding the warning message in the usual case.\r\n\r\nMarking as `pr:high` because it's a regression in v1.16.x."
+  , issueState = "closed"
+  , issueId = Id 56859725
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 93
+          , milestoneClosedIssues = 14
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/93"
+          , milestoneCreatedAt = 2015 (-02) (-11) 18 : 24 : 38 UTC
+          , milestoneState = "closed"
+          }
+  }

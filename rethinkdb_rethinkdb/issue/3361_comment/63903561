@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-21) 00 : 05 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63903561"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3361#issuecomment-63903561"
+  , issueCommentCreatedAt = 2014 (-11) (-21) 00 : 05 : 08 UTC
+  , issueCommentBody =
+      "Hi @austinnichols101, thank you for your report.\r\n\r\nTo explain some of the measurement inconsistencies you've found:\r\n  The web UI not showing reads for secondary index based table access is a known problem, see https://github.com/rethinkdb/rethinkdb/issues/2379 . Sorry for the confusion.\r\n  The profiler server time might also be misleading here, since RethinkDB sends query results in batches for certain types of queries, and the profiler only accounts for the first batch that's received.\r\n\r\nSince there's disk access: Are you using an SSD or a rotational hard drive? If you run the same query a second time, does it run faster?\r\nAlso: Can you check what the cache size is that RethinkDB is using? You can find the cache size in the `Logs` section of the web UI. It will show up as an entry such as \"Using cache size of ... MB\".\r\n\r\nIf RethinkDB is doing a full traversal of the table on a rotational drive because the table doesn't fit into memory, this sort of runtime is certainly possible. RethinkDB doesn't particularly optimize the disk layout for rotational drives, and hence requires a lot of random disk seeks to perform a full table traversal (it's more optimized for SSDs, and also fine for point access to individual documents on HDDs)."
+  , issueCommentId = 63903561
+  }

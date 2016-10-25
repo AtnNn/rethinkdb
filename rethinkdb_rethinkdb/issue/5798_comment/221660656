@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-25) 18 : 15 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/221660656"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5798#issuecomment-221660656"
+  , issueCommentCreatedAt = 2016 (-05) (-25) 18 : 15 : 06 UTC
+  , issueCommentBody =
+      "@shaqq you can run reads against the non-voting replica by doing both of the following:\r\n1. Connect the clients directly to the server that has the non-voting replicas\r\n2. Pass the `{read_mode: \"outdated\"}` flag to `run` for every query (http://rethinkdb.com/api/javascript/run/)\r\n\r\nIn outdated read mode, the server will first check if it has a local copy of the data. If yes, it uses that copy to serve the read. If not (e.g. if you're accessing another table that is not replicated locally), it will pass the request on to another random replica.\r\n\r\nThere's currently no way of restricting this on a per-user level. I don't think we will be adding it soon since it sounds like a fairly special use case, though I could be convinced otherwise of course."
+  , issueCommentId = 221660656
+  }

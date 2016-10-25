@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-06) 20 : 09 : 01 UTC
+  , issueUpdatedAt = 2015 (-08) (-06) 20 : 09 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4632/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4632"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4632
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 368589
+        , simpleUserLogin = N "jamhall"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/368589?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jamhall"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Converting date string to date object and updating the document"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4632"
+  , issueCreatedAt = 2015 (-08) (-05) 08 : 29 : 12 UTC
+  , issueBody =
+      Just
+        "Hello,\r\n\r\nI've gone through all of the docs, but I can't seem to find an easy way to do what I want to do. I have imported a CSV into a table.\r\n\r\nAn example of a record:\r\n\r\n```\r\n{\r\n\"humidity\":  \"75.1\" ,\r\n\"id\":  \"000362a9-0812-4a03-98ce-c46f84aa8da2\" ,\r\n\"temperature\":  \"2.604\" ,\r\n\"time\":  \"2014-02-11 06:23\" ,\r\n\"windspeed\":  \"3.646\"\r\n}\r\n```\r\n\r\nConverting the numbers(temperature, windspeed, humidity) is easy:\r\n```\r\nr.table('weather').update(function(doc) {\r\n    return doc.merge({\r\n        temperature: doc('temperature').coerceTo('number'),\r\n        windspeed: doc('windspeed').coerceTo('number'),\r\n        humidity: doc('humidity').coerceTo('number')\r\n    })\r\n});\r\n```\r\nHowever, converting the date is the dfficult part...\r\n\r\nI've tried doing (in the web interface):\r\n\r\n```\r\nr.table('weather').update(r.js('(function (point)  { var  t = point(\"time\").split(/[- :]/); return point.merge({ time: new Date(t[0], t[1]-1, t[2], t[3], t[4]); }) })') , { nonAtomic: true});\r\n\r\n```\r\nThat throws an error:\r\n\r\n``` \r\n\"first_error\":  \"TypeError: object is not a function\" \r\n```\r\n\r\nI've also tried:\r\n\r\n```\r\nr.table('weather').update({ time: r.js('(function (point)  { var  t = point(\"time\").split(/[- :]/); return new Date(t[0], t[1]-1, t[2], t[3], t[4]) })') }, { nonAtomic: true});\r\n```\r\n\r\nThat also throws an error:\r\n\r\n```\r\n\"Expected type DATUM but found FUNCTION:\r\nVALUE FUNCTION\r\n```\r\n\r\nSurely there must be another way to easily convert typical (YYYY-MM-DD H:I) date strings into date objects?\r\n\r\nPerhaps it's trivial...\r\n\r\nThank you!\r\n\r\nGreat database btw! \r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 99151402
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

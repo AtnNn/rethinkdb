@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-21) 10 : 36 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/227402948"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5428#issuecomment-227402948"
+  , issueCommentCreatedAt = 2016 (-06) (-21) 10 : 36 : 58 UTC
+  , issueCommentBody =
+      "Well, that's exactly what's puzzling me. The `jobs` changefeed returns a few queries per second if I don't filter them out, but they're basically the admin UI fetching a list of servers/tables/status, things like that. None of our business logic is there, no inserts or anything that would take more than a few kilobytes of easily compressible text.\r\n\r\nOur cluster has about 4~20k reads per second, and 10~600 writes per second, but 90% are inserts or updates which are about 1kB in size. So I think even if all the insert queries were secretly being transferred between nodes, it would be a few hundred kB/s for the whole cluster.\r\n\r\nI've tried it again today just to be sure - we've scaled to 5 nodes and 2 proxies, I've ran just `r.db('rethinkdb').table('jobs').changes()` at first from a web UI, then after a minute I quickly changed it to `r.db('rethinkdb').table('jobs').filter(doc => doc('type').ne('backfill')).changes()` so it wouldn't kill my browser, as it seems there are some 300'000 second old backfill jobs still claiming to be running (even when all shards on all nodes are up to date).\r\n\r\n[Here is the screenshot](https://www.dropbox.com/s/6euw9mdyzymmy4a/Screenshot%202016-06-21%2013.27.56.png?dl=0) from Prometheus monitoring - on one node, the traffic went up from 1.1MB/s to 3.5MB/s. There are also other things running on those nodes, but the spike always correlates with me running the changefeed on jobs.\r\n\r\nWe're running RethinkDB 2.3.4~0jessie on a Debian Jessie x64 docker container running on a CoreOS cluster.\r\n\r\nIt's important for us to be able, in the future, to have a permanently running changefeed on all jobs to monitor slow queries - or, to be able to enable such logging in RethinkDB servers themselves. Alternatively, we'd need to hack our way through python and node.js drivers to log every query after it's executed."
+  , issueCommentId = 227402948
+  }

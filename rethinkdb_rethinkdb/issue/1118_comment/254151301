@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-17) 08 : 58 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 8804879
+        , simpleUserLogin = N "dvergeylen"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8804879?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dvergeylen"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/254151301"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-254151301"
+  , issueCommentCreatedAt = 2016 (-10) (-17) 08 : 58 : 55 UTC
+  , issueCommentBody =
+      "As this have been transferred to milestone 2.4-polish (for obvious reasons), I just wanted to emphase what @danielmewes has written at [this comment](https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-222234293) as a work-around for the time being. I suggest the following to support the other common aggregation operations:\r\n\r\n* `sum()`: Very similar to `count()` but we increment by the value of `el` instead of 1.\r\n\t* `<f_BASE> = 0`\r\n\t* `<f_APPLY> = function(acc, el) { return acc.add(el); }`\r\n\t* `<f_UNAPPLY> = function(acc, el) { return acc.sub(el); }`\r\n\t* `<f_EMIT> = function(acc) { return acc; }`\r\n* `min()`:\r\n\t* `<f_BASE> = Number.POSITIVE_INFINITY`\r\n\t* `<f_APPLY> = function(acc, el) { return (el < acc ? el : acc); }`\r\n\t* `<f_UNAPPLY> = function(acc, el) { return acc; }`\r\n\t* `<f_EMIT> = function(acc) { return acc; }`\r\n* `max()`:\r\n\t* `<f_BASE> = Number.NEGATIVE_INFINITY`\r\n\t* `<f_APPLY> = function(acc, el) { return (el > acc ? el : acc); }`\r\n\t* `<f_UNAPPLY> = function(acc, el) { return acc; }`\r\n\t* `<f_EMIT> = function(acc) { return acc; }`\r\n* `avg()`: Similar to what Daniel did, but I would handle empty sets with a one liner like this:\r\n\t* `<f_EMIT> = function(acc) { return (acc('c').neq(0) ? acc('sum').div(acc('c')) : 0); }`\r\n\r\nAny thoughts on this would be appreciated. :smiley: "
+  , issueCommentId = 254151301
+  }

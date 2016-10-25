@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-03) 21 : 26 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15866371"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/498#issuecomment-15866371"
+  , issueCommentCreatedAt = 2013 (-04) (-03) 21 : 26 : 12 UTC
+  , issueCommentBody =
+      "I wonder if it might be worth it to introduce the notion of `canonicalized` data. That is data in which the `null`s have been removed. As part of this we would have a function called `canonicalize` which stripped out `null`s so one could write:\r\n\r\n```Ruby\r\n> r.canonicalize({:a => 1, :b => nil})\r\n{:a => 1} \r\n```\r\nThis would give you a nice shortcut to insert values. Because you could just say:\r\n\r\n```Ruby\r\nr.table('a').insert(r.canonicalize(json.dumps(a)))\r\n```\r\n\r\nFurthermore we could have the notion of a canonical table so one could do:\r\n\r\n```Ruby\r\nr.table_create(\"foo\", canonical = True).run\r\nr.table(\"foo\").insert({:id => nil}).run #generates a key\r\n```\r\n\r\nBasically canonical tables would automatically canonicalize docs inserted in to them thus culling the `null`s. We could talk about having it keep them canonical as well... but that seems like it may get tricky."
+  , issueCommentId = 15866371
+  }

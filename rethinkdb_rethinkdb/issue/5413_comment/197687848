@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-17) 04 : 27 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/197687848"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5413#issuecomment-197687848"
+  , issueCommentCreatedAt = 2016 (-03) (-17) 04 : 22 : 09 UTC
+  , issueCommentBody =
+      "@larkost also in [`cursor.mocha#L982`](https://github.com/rethinkdb/rethinkdb/blob/331da0f8b37fcabbde9b86f8cbd249250fbf823e/test/rql_test/connections/cursor.mocha#L982). This is not intended behavior. As I mentioned, the final callback is only for the callback-style and should not be used in conjunction with promises. Expecting a promise returned from the final callback to be resolved before the `.then(...)` doesn't make sense because you shouldn't be using both.\r\n\r\n```js\r\n// valid callback-style\r\ncursor.eachAsync(function (row, cb) {\r\n  return cb('error');\r\n}, function (err) {\r\n  // err == 'error'\r\n})\r\n\r\n// valid promise-style\r\ncursor.eachAsync(function (row) {\r\n  return Promise.reject('error');\r\n})\r\n.then(function () {\r\n  // ...\r\n})\r\n.catch(function (err) {\r\n  // err == 'error'\r\n})\r\n```\r\n\r\nThe tests should be written in a way that that reflects one of these styles. Not both, as many tests currently do:\r\n\r\n```js\r\n// mixing both styles\r\ncursor.eachAsync(function (row) {\r\n  return Promise.reject('error');\r\n}, function (err) {\r\n  // err == 'error'\r\n})\r\n.then(function () {\r\n  // ...\r\n})\r\n```"
+  , issueCommentId = 197687848
+  }

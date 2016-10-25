@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-10) (-12) 19 : 14 : 36 UTC
+  , issueUpdatedAt = 2015 (-10) (-12) 19 : 40 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4943/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/4943"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4943
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Java Driver: Fixes ordering of Funcall Arguments in the AST."
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4943"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4943.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4943.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4943"
+  , issueCreatedAt = 2015 (-10) (-11) 06 : 07 : 23 UTC
+  , issueBody =
+      Just
+        "For @deontologician ,\r\n\r\nAfter some protocol debugging in the C# driver, it appears the Java driver is also affected. Per the Python source code:\r\n\r\n```\r\nclass FunCall(RqlQuery):\r\n    tt = pTerm.FUNCALL\r\n\r\n    # This object should be constructed with arguments first, and the\r\n    # function itself as the last parameter.  This makes it easier for\r\n    # the places where this object is constructed.  The actual wire\r\n    # format is function first, arguments last, so we flip them around\r\n    # before passing it down to the base class constructor.\r\n    def __init__(self, *args):\r\n        if len(args) == 0:\r\n            raise ReqlDriverError(\"Expected 1 or more arguments but found 0.\")\r\n        args = [func_wrap(args[-1])] + list(args[:-1])\r\n    .....\r\n```\r\n\r\nSeems like the actual wire-line format is function first, arguments last, so we flip them around when building the AST.\r\n\r\nThis PR adds a `Funcall` template that overrides `build()` moving the last argument to the first. It's been about 14 years since I wrote Java, so I hope this is correct. :)\r\n\r\nThis should also get a few more unit tests to pass.\r\n\r\nP.S.: I tried to keep the PR as small as possible so the AST should get regenerated."
+  , issueState = "closed"
+  , issueId = Id 110837144
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

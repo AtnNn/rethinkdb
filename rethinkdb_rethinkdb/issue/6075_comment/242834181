@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-26) 19 : 50 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/242834181"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6075#issuecomment-242834181"
+  , issueCommentCreatedAt = 2016 (-08) (-26) 19 : 50 : 39 UTC
+  , issueCommentBody =
+      "> Do you mean miss of insertion can still happen for a read in this case ?\r\n\r\nYes, even on a single server RethinkDB internally shards the data in order to utilize multiple CPU cores. The read might already have passed over a given ID on one core, while it's still in front of it on another one. So an insert on the former core would be missed, while one on the latter core would still be included in the result.\r\n\r\nI'm not saying to go back in replaying them. What I imagine is something like this:\r\n```\r\nwhile (true) {\r\n  cursor = r.db(db).table(table).orderBy().optArg(\"index\", \"tx\").between(offset, r.maxVal()).optArg(\"left_bound\", \"open\").run[Cursor[_]](connection)\r\n  for (el : cursor) {\r\n    if (el.tx > offset + 1) {\r\n      // Detected a skipped transaction. Run the query again. Next time the missing document will be\r\n      // included.\r\n      break;\r\n    } else {\r\n       handleTransaction(el);\r\n    }\r\n  }\r\n}\r\n```"
+  , issueCommentId = 242834181
+  }

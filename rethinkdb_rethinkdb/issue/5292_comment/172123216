@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-15) 23 : 30 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/172123216"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5292#issuecomment-172123216"
+  , issueCommentCreatedAt = 2016 (-01) (-15) 23 : 13 : 26 UTC
+  , issueCommentBody =
+      "The reference implementation for .NET for this particular issue is here:\r\n\r\nhttps://github.com/bchavez/RethinkDb.Driver/blob/master/Source/RethinkDb.Driver/Net/SocketWrapper.cs\r\n\r\nI have an `awatiers` dictionary/map in `SocketWrapper`:\r\n```\r\nprivate ConcurrentDictionary<long, Awaiter> awaiters = new ConcurrentDictionary<long, Awaiter>();\r\n```\r\nThis correlates the incoming responses with `awaiters` (consumer threads) based on the query token that are expecting a response. It looks like Java has something similar [`ConcurrentMap`](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html) that looks like it does the same thing. Key: `long` is the QueryToken, and Value: `Awaiter` is a consumer thread awaiting a response. \r\n\r\nNext, what is an `Awaiter`?\r\n````\r\npublic class Awaiter : TaskCompletionSource<Response>\r\n```\r\nin .NET, it represents a future value of an asynchronous operation. In Java, it kinda looks like [`FutureTask<V>`](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html). Honestly, I don't know enough about Java concurrency to give you any real guidance on how to use `FutureTask` or best practice guidance on using these concurrent constructs. I'm sure others will have more XP in this area about how to use them.\r\n\r\nWhen incident threads write to the network stream (in .NET `SendQuery`), an awaiter is returned to the caller/thread if one is requested. The thread immediately returns and awaits the future value (something like this in Java: [`FutureValue.get()`](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html#get()) )\r\n\r\n> Future: get(): Waits if necessary for the computation to complete, and then retrieves its result.\r\n\r\nWhen a message is received on the socket (the **ResponsePump** is receive blocking on the socket), the **ResponsePump** thread reads the response. Checks the `awaiters` dictionary map, correlates the response token with the `FutureValue`, then sets the future value.\r\n\r\n*I think* then, in Java, the thread awaiting the response will finally return from `FutureTask.get()`. At least, in theory anyway. :smiley: \r\n\r\nOnce you have this mechanism working. The calling semantics change and inversion takes place. Don't call us, we'll call you. This lets you remove `readResponse` in `ConnectionInstance.java` and avoids the issue @danielmewes mentioned.\r\n\r\nAlso, you'll want to make sure `cursorCache` is a `ConcurrentMap`. Otherwise, multiple threads adding themselves to the cache can cause concurrency issues in `HashMap` (or at least they do in .NET) when the dictionary is re-sized internally.\r\n\r\nHope that helps. -Brian"
+  , issueCommentId = 172123216
+  }

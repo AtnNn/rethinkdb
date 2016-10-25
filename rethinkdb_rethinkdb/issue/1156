@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-09) (-05) 19 : 37 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1156/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1156"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:packaging"
+          , labelName = "cp:packaging"
+          }
+      ]
+  , issueNumber = 1156
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "The init script is too complicated and has different defaults"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1156"
+  , issueCreatedAt = 2013 (-07) (-10) 03 : 51 : 21 UTC
+  , issueBody =
+      Just
+        "The init script is 200 lines of complicated shell script. It has a parser for config files and it tries to manage having multiple rethinkdb instances. It has a `start` command which is like `rethinkdb serve`, but with a different behaviour. It also has `status`, `restart` and `stop` commands that rethinkdb does not have.\r\n\r\nThe init script uses different defaults. Config files that work with the init script do not work with plain rethinkdb and vice-versa.\r\n\r\nBecause the init script does so much, it is hard to port to other platforms. A few users have written systemd, upstart and OS X startup scripts for rethinkdb, which all behave very differently.\r\n\r\nBecause of its complexity, it is a source of many bugs and confused users, such as #1078, #1069, #1126, #722, #1115, #1128, #791, #36, #916, #423, #250 and #199.\r\n\r\nIt might be desirable to to move a lot of the complexity of the init script into rethinkdb itself. The goal would be to make it easy to have a uniform behaviour of init scripts on all platforms and to not have different behaviour and default values between the init script and rethinkdb itself.\r\n\r\nHere are some ideas:\r\n\r\n* Add a `status` command to rethinkdb that checks if the server process is still alive.\r\n* Add a `stop` command that kills the rethinkdb process and waits for it to die.\r\n* Add a `restart` command that is equivalent to `stop` + `serve`.\r\n* Add an `--instance <name>` option, that would tell rethinkdb to look in `/etc/rethinkdb/instances.d/<name>.conf`\r\n* For rethinkdb serve and create, `--instance` would be similar to the `--config-file` option, but it would use the defaults that the init script uses (for example, the data directory would be in /var/share/rethinkdb/ and rethinkdb would try to setuid).\r\n* For rethinkdb admin, import and proxy, the `--instance` option would override the `--join` option with the cluster port defined in the config file."
+  , issueState = "open"
+  , issueId = Id 16559542
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

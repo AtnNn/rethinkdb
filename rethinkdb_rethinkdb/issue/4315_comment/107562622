@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-01) 15 : 05 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107562622"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4315#issuecomment-107562622"
+  , issueCommentCreatedAt = 2015 (-06) (-01) 15 : 05 : 25 UTC
+  , issueCommentBody =
+      "I'm trying to see how this would work in practice. Take for example:\r\n\r\n```js\r\nvar conn = r.connectionFuture(...)\r\nconn.use('example')\r\nvar dataPromise = r.table('foo').run(conn)\r\ndataPromise.then(function(data){\r\n    return r.table('bar')./*some query dependent on data*/.run(conn)\r\n}).then(function(){\r\n   conn.close()\r\n})\r\n\r\nvar secondPromise  = r.table('foo').get(x).run(conn)\r\nsecondPromise.then(function(secondData){\r\n   ....run(conn)\r\n})\r\n```\r\n\r\nSo here we can assume `conn` is a wrapped connection promise. If it's not resolved, it chains itself onto a query. If it is resolved, it is used directly to run the query. It's not obvious which code will run first, or if everything will be run before close is called, or what.\r\n\r\nIt seems like we only get the benefits of this interface in the first query on the connection. It looks synchronous, but then in order to use the results we need to go back to the promise interface again.\r\n\r\n@stuartpb is this how you're imagining it would work or is there something else you intended?"
+  , issueCommentId = 107562622
+  }

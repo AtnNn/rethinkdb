@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 22 : 38 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94962942"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94962942"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 22 : 38 : 02 UTC
+  , issueCommentBody =
+      "I'm not really sure that proposal solves much.  Given that we prefetch batches, the server we need to hold on to *at least* three batches of previous results.  Even then, if the clients aren't sharing any information, the new client wouldn't know which changes have been processed and which ones haven't.\r\n\r\nIf we require users to solve this, they would have to have some sort of persistence in their application layer to determine where to start from in the recovered feed.  If they are going to have to do that, we should given them the ability to request 'change id's (which could just be timestamps or even a monotonically increasing token) alongside the changefeed events.\r\n\r\nIf we don't give users change ids, they won't have a reliable way to recover a changefeed unless they save every change they've processed in a way every client can access it.  If we do give change ids, they can *maybe* recover a changefeed assuming the change hasn't left the window on the server.  In fact, if we want it to be really solid, clients could ack the last change id processed so that the server can throw old responses away.  This would be easy to fit into a CONTINUE query."
+  , issueCommentId = 94962942
+  }

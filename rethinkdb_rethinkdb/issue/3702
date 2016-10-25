@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-29) 22 : 31 : 04 UTC
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 31 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3702/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3702"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 3702
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 49256
+        , simpleUserLogin = N "yaru22"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/49256?v=3"
+        , simpleUserUrl = "https://api.github.com/users/yaru22"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "javascript API for async cursor.each"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3702"
+  , issueCreatedAt = 2015 (-01) (-30) 14 : 11 : 13 UTC
+  , issueBody =
+      Just
+        "Currently, `cursor.each` has the following signature:\r\n```js\r\ncursor.each(function(err, row) {\r\n  if (err) throw err;\r\n  processRow(row);\r\n});\r\n```\r\nI've encountered situations where `processRow(row)` had to run asynchronously in series, but I don't think it's possible to do that with `cursor.each()` if I'm not mistaken. Correct me if I'm wrong.\r\nI could do what I wanted with `cursor.next()` as follows:\r\n```js\r\nvar fetchRow = function fetchRow(err, row) {\r\n  if (err) throw err;\r\n  asyncFunc(function (err, result) {\r\n    if (err) throw err;\r\n    cursor.next(fetchRow);\r\n  });\r\n};\r\ncursor.next(fetchRow);\r\n```\r\nHowever, the above feels cumbersome and I'd like if `cursor.each` accepts `done` parameter so I can do something like this:\r\n```js\r\ncursor.each(function (err, row, done) {\r\n  if (err) throw err;\r\n  asyncFunc(done);\r\n});\r\n```\r\nSo if `done` parameter is provided, it runs asynchronously and otherwise, it runs synchronously. Similar to how [Mocha is doing](http://mochajs.org/#asynchronous-code)."
+  , issueState = "closed"
+  , issueId = Id 56037519
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

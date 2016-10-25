@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-08) 18 : 42 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 10660963
+        , simpleUserLogin = N "srevenant"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/10660963?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srevenant"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138647915"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2371#issuecomment-138647915"
+  , issueCommentCreatedAt = 2015 (-09) (-08) 17 : 53 : 44 UTC
+  , issueCommentBody =
+      "Doing forks is highly dangerous, even with COW.  We have been plagued with our backups crashing our database server, because of this fork behavior.  Looking into things the core problem is when our server (Linux) runs out of memory because of so many forked process from backups.\r\n\r\nThe problem is that this backup process is effectively a \"fork bomb.\"  It blindly forks as many processes as you have dbs and tables, without any management.  If you have hundreds and hundreds of tables, you can easily consume all available resources, just to do a backup.  This is highly dangerous.\r\n\r\nIt should probably have a finite number of workers (perhaps 2x the number of available cores), and then each worker can pull from a queue of next available tables to backup.  Ideally this would use threads, not process forks.\r\n\r\nIn the meantime, perhaps a backup flag that runs it single-process.  While not as speedy, it is much more stable.  And then have the -forkbomb option for the less reliable but more resource intensive/speedy approach :)\r\n\r\nOr less tongue in check, perhaps -safe vs -fast."
+  , issueCommentId = 138647915
+  }

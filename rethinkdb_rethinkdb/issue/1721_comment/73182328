@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-06) 04 : 46 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73182328"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73182328"
+  , issueCommentCreatedAt = 2015 (-02) (-06) 04 : 45 : 26 UTC
+  , issueCommentBody =
+      "Here's a proposal, vaguely based on what I described here https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-69837446 but taking non-boolean return values into account.\r\n\r\nThis is an extension of the rule @mlucy described as being similar to Ruby:\r\n* `or` returns the first truthy value it encounters. If it encounters no truthy values, *the last undefined value it encounters is returned. If it encounters no undefined values, the last value it encounters is returned.*\r\n* `and` returns the first falsey value it encounters. If it encounters no falsey values, *the last undefined value it encounters is returned. If it encounters no undefined values, the last value it encounters is returned.*\r\n\r\nHere's how `undefined` would fit into that:\r\n* `undefined` is neither truthy nor falsey.\r\n* you can think of `undefined` as a non-existence error. So when `or` or `and` as defined above return `undefined`, that actually means rethrowing the error.\r\n\r\nSome examples of what that would do:\r\n```\r\nr.or(\"a\", \"b\", \"c\") -> \"a\"\r\nr.or(\"a\", \"b\", undefined) -> \"a\"\r\nr.or(undefined, \"a\", \"b\") -> \"a\"\r\nr.or(undefined, undefined, undefined) -> undefined\r\n  (Note: the error message of the third `undefined` in the argument list is used)\r\nr.or(false, false, undefined) -> undefined\r\nr.or(undefined, false, false) -> undefined\r\n\r\nr.and(\"a\", \"b\", \"c\") -> \"c\"\r\nr.and(\"a\", \"b\", undefined) -> undefined\r\nr.and(undefined, \"a\", \"b\") -> undefined\r\nr.and(undefined, false, \"b\") -> false\r\nr.and(false, undefined, \"b\") -> false\r\nr.and(undefined, undefined, undefined) -> undefined\r\n  (Note: the error message of the third `undefined` in the argument list is used)\r\nr.and(true, true, undefined) -> undefined\r\nr.and(undefined, true, true) -> undefined\r\n```\r\n\r\nI think `r.and` and `r.or` should be the only terms to handle `undefined` values at least for now. So something like `!undefined`, `undefined == undefined` or any other operation applied onto `undefined` - with the exception of `r.default` - would still be `undefined` (in other words: just rethrow the non-existence error)."
+  , issueCommentId = 73182328
+  }

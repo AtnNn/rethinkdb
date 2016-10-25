@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-01) 07 : 21 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1723142
+        , simpleUserLogin = N "derkan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1723142?v=3"
+        , simpleUserUrl = "https://api.github.com/users/derkan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57427689"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-57427689"
+  , issueCommentCreatedAt = 2014 (-10) (-01) 07 : 21 : 27 UTC
+  , issueCommentBody =
+      "Hi,\r\nFor python [rdb ORM](https://github.com/caoimhghin/rethink/blob/master/rethinkdb_rdb/model.py) library has a simple solution. But you sould be working under context of connection, and if an exception occurs, your connection is not returned to pool. With wrapping `yied` this problem is corrected.\r\n```\r\nclass ConnectionPool(object):\r\n    _idle = Queue.Queue()\r\n    _active = 0\r\n    _total = 5\r\n\r\n    @contextmanager\r\n    def get(self):\r\n        if self._idle.empty() and self._active < self._total:\r\n            connection = connect(host=DATABASE['host'], port=DATABASE['port'], db=DATABASE['db'])\r\n        else:\r\n            connection = self._idle.get()\r\n        self._active += 1\r\n        try:\r\n            yield connection\r\n        finally:\r\n           self._idle.put(connection)\r\n           self._active -= 1\r\n\r\nconnections = ConnectionPool()\r\n```"
+  , issueCommentId = 57427689
+  }

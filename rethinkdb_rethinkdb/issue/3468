@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-07) 00 : 40 : 04 UTC
+  , issueUpdatedAt = 2015 (-01) (-07) 00 : 40 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3468/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3468"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:web-ui"
+          , labelName = "cp:web-ui"
+          }
+      ]
+  , issueNumber = 3468
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1366
+          , simpleUserLogin = N "deontologician"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1366?v=3"
+          , simpleUserUrl = "https://api.github.com/users/deontologician"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Cannot perform read: lost contact with reader"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3468"
+  , issueCreatedAt = 2014 (-12) (-23) 01 : 02 : 24 UTC
+  , issueBody =
+      Just
+        "Get this occasionally in the webui when reconfiguring. My guess is the table.info() calls are failing.\r\n\r\n```javascript\r\nCannot perform read: lost contact with direct reader in:\r\n\r\nr.do(r.db(\"rethinkdb\").table(\"server_config\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"table_status\").get(\"de68f77f-2382-46e3-b173-8cf30435a2fa\"), r.db(\"rethinkdb\").table(\"table_config\").get(\"de68f77f-2382-46e3-b173-8cf30435a2fa\"), function(var_84, var_85, var_86) {\r\n  return r.branch(var_85.eq(null), null, var_85.merge({\r\n    max_shards: 32,\r\n    num_shards: var_85(\"shards\").count(),\r\n    num_servers: var_84.count(),\r\n    num_default_servers: var_84.filter(function(var_87) {\r\n      return var_87(\"tags\").contains(\"default\");\r\n    }).count(),\r\n    num_available_shards: var_85(\"shards\").filter(function(var_88) {\r\n      return var_88(\"replicas\")(var_88(\"replicas\")(\"server\").indexesOf(var_88(\"primary_replica\"))(0))(\"state\").eq(\"ready\");\r\n    }).count(),\r\n    num_replicas: var_85(\"shards\").concatMap(function(var_89) {\r\n      return var_89(\"replicas\");\r\n    }).count(),\r\n    num_available_replicas: var_85(\"shards\").concatMap(function(var_90) {\r\n      return var_90(\"replicas\").filter({\r\n        state: \"ready\"\r\n      });\r\n    }).count(),\r\n    num_replicas_per_shard: var_85(\"shards\").map(function(var_91) {\r\n      return var_91(\"replicas\").count();\r\n    }).max(),\r\n    status: var_85(\"status\"),\r\n    shards_assignments: var_86(\"shards\").map(r.range(), function(var_92, var_93) {\r\n      return {\r\n        id: var_93.add(1),\r\n        num_keys: \"N/A\",\r\n        primary: {\r\n          id: var_84.filter({\r\n            name: var_92(\"primary_replica\")\r\n          }).nth(0)(\"id\"),\r\n          name: var_92(\"primary_replica\")\r\n        },\r\n        replicas: var_92(\"replicas\").filter(function(var_94) {\r\n          return var_94.ne(var_92(\"primary_replica\"));\r\n        }).map(function(var_95) {\r\n          return {\r\n            id: var_84.filter({\r\n              name: var_95\r\n            }).nth(0)(\"id\"),\r\n            name: var_95\r\n          };\r\n        })\r\n      };\r\n    }).coerceTo(\"array\"),\r\n    id: var_85(\"id\"),\r\n    indexes: null,\r\n    distribution: [],\r\n    total_keys: null\r\n  }).do(function(var_96) {\r\n    return r.branch(var_96(\"status\")(\"ready_for_writes\").not(), var_96, var_96.merge({\r\n      indexes: r.db(var_96(\"db\")).table(var_96(\"name\"), {\r\n        useOutdated: true\r\n      }).indexStatus().pluck(\"index\", \"ready\", \"blocks_processed\", \"blocks_total\").merge(function(var_97) {\r\n        return {\r\n          id: var_97(\"index\"),\r\n          db: var_96(\"db\"),\r\n          table: var_96(\"name\")\r\n        };\r\n      }),\r\n      distribution: r.db(var_96(\"db\")).table(var_96(\"name\"), {\r\n        useOutdated: true\r\n      }).info()(\"doc_count_estimates\").map(r.range(), function(var_98, var_99) {\r\n        return {\r\n          num_keys: var_98,\r\n          id: var_99\r\n        };\r\n      }).coerceTo(\"array\"),\r\n      total_keys: r.db(var_96(\"db\")).table(var_96(\"name\"), {\r\n        useOutdated: true\r\n      }).info()(\"doc_count_estimates\").sum(),\r\n      shards_assignments: var_96(\"shards_assignments\").map(r.range(), function(var_100, var_101) {\r\n        return var_100.merge({\r\n          num_keys: r.db(var_96(\"db\")).table(var_96(\"name\"), {\r\n            useOutdated: true\r\n          }).info()(\"doc_count_estimates\")(var_101)\r\n        });\r\n      }).coerceTo(\"array\")\r\n    }));\r\n  }).without(\"shards\"));\r\n})\r\n```\r\n "
+  , issueState = "closed"
+  , issueId = Id 52705039
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

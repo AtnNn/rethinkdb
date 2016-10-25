@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-06) (-29) 21 : 01 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5498/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5498"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5498
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Server does not automatically detect container memory limits"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5498"
+  , issueCreatedAt = 2016 (-03) (-09) 20 : 34 : 30 UTC
+  , issueBody =
+      Just
+        "When running a Linux container, e.g. docker, you can set memory and swap limits independently for the container (actually the cgroup.) RethinkDB's automatic cache size detection logic does NOT take this into account, and simply checks its host's entire memory size.\r\n\r\nThus, when you run something like `docker run -m 128MB -p 28015:28015 rethinkdb` (which runs `rethinkdb 2.2.5~0jessie` at the time of this writing), then run a simple script to write random values to it repeatedly, the database server will be killed by the kernel at some point in the future for overflowing its memory limit.\r\n\r\nNote for reproduction: when you give `docker` the `-m` flag, it sets both the resident memory limit and the swap limit independently to the value you give it. I couldn't figure out how to make it limit swap to nothing, so I disabled swap on the machine during testing.\r\n\r\nThe `/proc/self/cgroup` file and `/sys/fs/cgroup/memory` directory seem to be a good place to get the data desired."
+  , issueState = "open"
+  , issueId = Id 139693402
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

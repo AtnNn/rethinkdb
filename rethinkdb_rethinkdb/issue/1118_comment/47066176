@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 06 : 52 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47066176"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-47066176"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 06 : 52 : 45 UTC
+  , issueCommentBody =
+      "Alright, here's my proposal for how this should work.  I think that long-term you should be able to call `changes` on any operation which is done entirely on the shards (to be more specific, anything that produces a `lazy_datum_stream_t` with a bunch of deferred computation).  In particular, I think you should be able to call `changes` on any selection + transformations + optional terminal, including single-row selections (see #2542).\r\n\r\nI think that we basically need three interfaces:\r\n* For a stream selection, you get `{old_val: ..., new_val: ...}` objects.  If a document enters the selection, `old_val` is `nil`, and if a document leaves the selection, `new_val` is `nil`.  (`r.table('test').changes()` already follows this interface, and can be considered a stream selection on the whole table.)\r\n* For a single selection, you just the values of the object.  There should be an optarg to indicate whether you want the current value of the object to be the first value in the feed (I think this is usually what you want).  If you write `r.table('test').get(1).changes()`, you shouldn't get this:\r\n\r\n    ```\r\n    {old_val: {id: 1, a: 1}, new_val: {id: 1, a: 2}}\r\n    {old_val: {id: 1, a: 2}, new_val: {id: 1, a: 3}}\r\n    {old_val: {id: 1, a: 3}, new_val: {id: 1, a: 4}}\r\n    ```\r\nbut rather just:\r\n\r\n    ```\r\n{id: 1, a: 1} # POSSIBLY included based on an optarg\r\n{id: 1, a: 2}\r\n{id: 1, a: 3}\r\n{id: 1, a: 4}\r\n```\r\n\r\n* For a stream selection **with a terminal**, I think you should get a stream of plain objects representing the value of that aggregation after doing a live map-reduce thing (the same as you get on a single selection).  Once again, I think there should be an optarg indicating whether you want the initial value of the aggregation, which you almost always do.\r\n\r\n---\r\n\r\nSo the following would all be legal:\r\n* `r.table('test').changes()` -- supported now.\r\n* `r.table('test').filter(...).changes()` -- same format as above\r\n* `r.table('test').get(1).changes(include_first: true)` -- stream of plain objects, no `new_val`/`old_val`\r\n* r.table('test').filter(...)['a'].sum().changes(include_first: true)` -- same format as above\r\n\r\nThat's basically three separate but interconnected features.  I think that `.get(...).changes()` should be implemented first, because it's relatively independent of the other two and can get through CR on its own.\r\n\r\n---\r\n\r\nI'm not yet sure what to do about persistence.  I think persistence is relatively independent of the change-streaming feature, so we should do the change-streaming stuff and then add persistence later.\r\n\r\nIf we want persistence, I think a good interface would be something like:\r\n```rb\r\nr.table('test').filter(...)['a'].sum().persist('sum_a')\r\nr.table('test').persist_list('sum_a')\r\nr.table('test').persist_status('sum_a')\r\nr.table('test').persist_drop('sum_a')\r\nr.table('test').persist_get('sum_a')\r\n\r\nr.table('test').persist_get('sum_a').changes()\r\nr.table('test').filter(...)['a'].sum().persist('sum_a').changes() # create and subscribe in one go\r\n```\r\nBasically persistent aggregations would be sort of like indexes on the table."
+  , issueCommentId = 47066176
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-01) 20 : 38 : 21 UTC
+  , issueUpdatedAt = 2013 (-05) (-01) 23 : 52 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/585/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/585"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 585
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Look at sindex performance."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/585"
+  , issueCreatedAt = 2013 (-04) (-02) 21 : 27 : 05 UTC
+  , issueBody =
+      Just
+        "Right now sindexes slow down rethinkdb alot even when you haven't created any.\r\n\r\nI'm pretty sure I know the cause of this: we allocate a sindex block even if there aren't any sindexes and each operations needs to acquire it after it's complete which requires waiting in line (since the sindex block must be acquired in the same order as the superblock.) There's a very simple solution to this which is to just recorded in the superblock if there are no sindexes (the most intuitive way being to not allocated the sindex block and have it be set to null block id. However we might want to look in to speeding things up even when there are sindexes. My hunch is that we should evaluate our locking scheme because I think I know some ways to improve it.\r\n\r\nNone of this should be done until we determine that this is indeed the cause of the slowness."
+  , issueState = "closed"
+  , issueId = Id 12726460
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,85 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-06) 00 : 49 : 15 UTC
+  , issueUpdatedAt = 2013 (-10) (-26) 22 : 12 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/884/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/884"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 884
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: r.default"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/884"
+  , issueCreatedAt = 2013 (-05) (-22) 05 : 08 : 55 UTC
+  , issueBody =
+      Just
+        "I think that we should have a term `default` with the following semantics:\r\n* `r(X).default{|e| Y}`\r\n  - If `X` throws an error, the block is executed with `e` set to the text of that error and `Y` is returned.\r\n  - If `X` returns NULL, the block is executed with `e` set to NULL and `Y` is returned.\r\n* `r(X).default(Y)`\r\n  - If `X` throws an error or returns NULL, `Y` is returned.\r\n\r\nI think that this is a good interface because it solves the very common problem of wanting to write:\r\n```ruby\r\ntable.update{|row| {:score => row[:score].default(0) + 1}}\r\n```\r\nRegardless of whether the user is using NULL or the absence of an attribute to represent non-existence.\r\n\r\nIt also allows people to drop malformed elements from a filter:\r\n```ruby\r\ntable.filter {|row|\r\n  (row[:mother][:age] < row[:father][:age]).default(false)\r\n}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 14604412
+  , issueComments = 49
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-06) (-06) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 31
+          , milestoneClosedIssues = 67
+          , milestoneDescription =
+              Just
+                "The primary purpose of this release is to make ReQL improvements we've been waiting to make for so long.\r\n\r\n"
+          , milestoneTitle = "1.6"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/31"
+          , milestoneCreatedAt = 2013 (-04) (-27) 01 : 30 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

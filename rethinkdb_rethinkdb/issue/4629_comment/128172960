@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 22 : 45 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128172960"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128172960"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 22 : 44 : 54 UTC
+  , issueCommentBody =
+      "@coffeemug We cannot increment the counter across tables, or the changefeed client would have no way of reconstructing the order of writes.\r\n\r\nA given changefeed client only received changes for one table. Suppose a client performs the following writes:\r\n    `[\"client_X\", 1]` to table \"a\", `[\"client_X\", 2]` to table \"b\", `[\"client_X\", 3]` to table \"a\"\r\nNow the changefeed client that listens for changes on table \"a\" will receive a notification with ID `[\"client_X\", 1]` first, followed by `[\"client_X\", 3]`. When it receives that second notification, it has no way of knowing whether it has to hold back that notification because it needs to wait on `[\"client_X\", 2]`, or not.\r\n\r\nWith the table component, the IDs would look like this instead:\r\n    `[\"client_X\", \"a\", 1]`, `[\"client_X\", \"b\", 1]`, `[\"client_X\", \"a\", 2]`\r\n\r\nThis allows the changefeed client to know when a change to its table (for its client) is missing, and it has to wait for that change to get in first before sending out the more recent notifications."
+  , issueCommentId = 128172960
+  }

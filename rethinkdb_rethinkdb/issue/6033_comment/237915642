@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-05) 17 : 44 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/237915642"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6033#issuecomment-237915642"
+  , issueCommentCreatedAt = 2016 (-08) (-05) 17 : 44 : 23 UTC
+  , issueCommentBody =
+      "That definitely looks like a data corruption issue. Do you have a backup of this data (or another replica)?\r\n\r\nHave you recently created any new secondary indexes on this cluster?\r\nIn RethinkDB 2.3.2 we've fixed a data corruption issue related to index construction https://github.com/rethinkdb/rethinkdb/issues/5715\r\nIf you've constructed any indexes recently, this could be related.\r\n\r\nIn that case you could also be able to recover the system by dropping all secondary indexes and then recreating them while the system is not under load. This assumes of course that you can at least start the server and connect to it without it crashing when it's not under load.\r\n\r\nDoes it crash immediately after you restart it? The stacktrace suggests that the crash happens in response to either a write operation, or an index construction (which would be resumed automatically right after a restart). Backfilling could also enter this code-path when the server reconnects to other replicas."
+  , issueCommentId = 237915642
+  }

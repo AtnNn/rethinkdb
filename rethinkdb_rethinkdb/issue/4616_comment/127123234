@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-03) 04 : 53 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127123234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4616#issuecomment-127123234"
+  , issueCommentCreatedAt = 2015 (-08) (-03) 04 : 53 : 30 UTC
+  , issueCommentBody =
+      "Hi @danielcompton , this is indeed expected. RethinkDB decides when to send the first batch of a sequence based on a number of criteria.\r\nBy default a batch is sent to the driver once the results reach about 1 MB of size, or computing them takes 0.5 seconds, whichever comes first. In addition, these thresholds are reduced by a factor of 4 for the first batch. See the `*batch*` parameters that are described on http://rethinkdb.com/api/javascript/run/ for a full list of criteria.\r\n\r\nEspecially because of the time limit, the sequence of batches that RethinkDB sends to the client is not deterministic. If all results can be computed within the first batch, it will send a single SUCCESS_SEQUENCE response. In general though, any query that returns a cursor can result in an arbitrary number of SUCCESS_PARTIAL responses followed by exactly one SUCCESS_SEQUENCE response.\r\n\r\nI hope that makes sense.\r\n\r\nI think it's usually desirable that the driver hides these details."
+  , issueCommentId = 127123234
+  }

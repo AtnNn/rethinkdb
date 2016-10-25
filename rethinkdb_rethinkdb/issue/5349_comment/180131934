@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-05) 01 : 00 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/180131934"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5349#issuecomment-180131934"
+  , issueCommentCreatedAt = 2016 (-02) (-05) 01 : 00 : 22 UTC
+  , issueCommentBody =
+      "Hi @AtnNn these traces were pulled from network packets from Wireshark before reaching the client for parsing.\r\n\r\nIf you examine the network-level packets, you *should* see the discrepancies at the network packet level. As the result passes through the application layer on the client side the official drivers maybe shield these effects.\r\n\r\nI guess the main issue is:\r\n* Do we possibly want linux & windows servers returning possibly different values **at the network level** and have the drivers shield these differences between linux/windows?\r\n\r\nAlso, I'm not exactly sure how you are getting the date/time unit tests pass in the official drivers because what I'm finding with the Date/Time tests are off protocol? They have these \"JUL\" values in the iso8601 values.\r\n\r\n```\r\nTest:\r\n\ttimes/timezones.yaml, LineNum: 81\r\nExpected ReQL:\r\n\t(\"2015-07-08T00:00:00-08:00\")\r\nExpected C#/Java:\r\n\t\"2015-07-08T00:00:00-08:00\"\r\nRun ReQL:\r\n\tr.epoch_time(1436428422.339).in_timezone('-08:00').date().to_iso8601()\r\nRun C#/Java:\r\n\tr.epochTime(1436428422.339).inTimezone(\"-08:00\").date().toIso8601()\r\nRunOpts: []\r\n\r\nProtocol In Context:\r\n\tJSON Send: Token: 19, JSON: [1,[100,[[106,[[104,[[101,[1436428422.339]],\"-08:00\"]]]]]],{}]\r\n\tJSON Recv: Token: 19, JSON: {\"t\":1,\"r\":[\"2015-Jul-08 00:00:00\"]}\r\n\r\nPROBLEM:\r\n\r\nExpected string to be \r\n\"\\\"2015-07-08T00:00:00-08:00\\\"\" with a length of 27, but \r\n\"\\\"2015-Jul-08 00:00:00\\\"\" has a length of 22.\r\n```\r\n"
+  , issueCommentId = 180131934
+  }

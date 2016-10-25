@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 00 : 48 : 58 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 00 : 48 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2041/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2041"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2041
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 139396
+        , simpleUserLogin = N "wojons"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/139396?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wojons"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "symlink documents"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2041"
+  , issueCreatedAt = 2014 (-02) (-28) 10 : 38 : 56 UTC
+  , issueBody =
+      Just
+        "This has 2 use cases for it one is more straight forward than the other. It would be nice to have a table where I can can have some primary key that links to another document that could be on another table or db by its primary key. It would be very similar to a join but would be totally inveisable to the driver. This becomes a really useful way on saving on the number of writes. \r\n\r\nLets say i have a socaial network and i always want to know the most recent post that user has made sure i could put that in the users document or something like that and then do a join or make 2 calls or what ever i turn out to do. I normally would have a table like user_posts and would use a secondary index and sort the results to get the most recent post. But what i want is to have another table that i have the primay key match up to the users_id (not requreied to be done by rethink) but then a magic symlink so when this document is called it knows the primary key on the other table avoiding a index scan on the secondray index. This way every time the user writes a new post i would write the full data the normal user_posts table but then i would take the primary key and put it into the other tabale most_recent_posts.\r\n\r\nif this feature could also be done more on the server its even better what i mean something like.\r\n\r\n```\r\nr.table().symlink(user_id, r.table().insert())\r\n```\r\n\r\nThat would take the id from the doc that was written and do the symlink all in one connection lowering the number of round ripes if user_id is an array and the same number of docs are written with insert it matches them up. other wise symlink can also be done.\r\n\r\n```\r\nr.table().symlink(user_id, r.table().get(other_id))\r\n```\r\n\r\nThe more advance feature of something like this would be using something similar to getAll inside the doc to link to other sub docs and that is automatically pulled by the rethinkdb server. but this would allow for all sorts of nesting and then calling all the child documents with in this. and the chil docs would be placed right where the symlink for them was so for example.\r\n\r\n```\r\nr.table().insert({\r\n    'recent_post' : r.symlink(r.table().get()),\r\n    'newest_friend: r.symlink(r.table().get()),\r\n    'meta': 'hello world'\r\n})\r\n```\r\n\r\nNow if you think that is powerful think about how powerful that will be once things like that are added to appending and poping off from an array and can keep track of the last 50 posts with out having to do a range query and everything is kept track as primary key calls.\r\n\r\nI know this has a few issues like if you end up with curricular and if the doc is gone. Would have to keep track of if its seen its self before. and I guess have to set the value to Null if its misisng or add a new Dataum called brokenlink or something.\r\n"
+  , issueState = "closed"
+  , issueId = Id 28491574
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

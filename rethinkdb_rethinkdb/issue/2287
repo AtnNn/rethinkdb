@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-04) (-21) 16 : 39 : 34 UTC
+  , issueUpdatedAt = 2014 (-04) (-21) 20 : 15 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2287/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2287"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2287
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2307986
+        , simpleUserLogin = N "iloveagent57"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2307986?v=3"
+        , simpleUserUrl = "https://api.github.com/users/iloveagent57"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Change in reduce behavior in 1.12.3"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2287"
+  , issueCreatedAt = 2014 (-04) (-21) 13 : 53 : 40 UTC
+  , issueBody =
+      Just
+        "Using this for setup:\r\nr.dbCreate('test')\r\nr.db('test').tableCreate('reduce_stuff')\r\nr.db('test').table('reduce_stuff').insert([{id: 'item1', 'a': 1, 'b': 2}, {id: 'item2', 'c': 3, 'd': 4}])\r\nr.db('test').table('reduce_stuff')\r\n  .map(function(r) {return r.coerceTo('array')})\r\n  .reduce(function(acc, s) {return acc.add(s)}, [])\r\n  .reduce(function(acc2, t) {return acc2.add([t.nth(1)])}, [])\r\n\r\nIn version 1.11.3, this returns:\r\n[\r\n3 ,\r\n4 ,\r\n\"item2\" ,\r\n1 ,\r\n2 ,\r\n\"item1\"\r\n]\r\n\r\nIn version 1.12.3, the same query returns:\r\n[\r\n\"a\" ,\r\n1 ,\r\n2 ,\r\n\"item1\" ,\r\n3 ,\r\n4 ,\r\n\"item2\"\r\n]\r\n(The \"a\" seems to be erroneously included)\r\nNow, the same thing can (and maybe really should) be done with a map() in place of the last reduce(), which works fine, but it might be worth checking out any changes made to reduce()."
+  , issueState = "closed"
+  , issueId = Id 31896781
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-10) (-14) 16 : 18 : 09 UTC
+  , issueUpdatedAt = 2016 (-10) (-19) 12 : 54 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6143/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6143"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6143
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5202669
+        , simpleUserLogin = N "yspb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5202669?v=3"
+        , simpleUserUrl = "https://api.github.com/users/yspb"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "autocomplete"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6143"
+  , issueCreatedAt = 2016 (-10) (-13) 18 : 03 : 42 UTC
+  , issueBody =
+      Just
+        "Simple problem, but I can't understand how to solve it reading official docs.\r\n\r\nHave table of tags:\r\n\r\n```\r\n{\r\n\"autocomplete\": [\"c\" ,\"ca\" ,\"cat\" ,\"catc\" ,\"catch\"] ,\r\n\"count\": 3184 ,\r\n\"id\":  \"003eee04-f383-4b30-b0c5-4fc91b064dac\" ,\r\n\"name\":  \"catch\"\r\n} \r\n{\r\n\"autocomplete\": [\"m\" ,\"mo\" ,\"mov\" ,\"move\"] ,\r\n\"count\": 5104 ,\r\n\"id\":  \"00066703-0ee8-405f-af4b-b67786d0a3b5\" ,\r\n\"name\":  \"move\"\r\n}\r\n```\r\n\r\nI want to implement autocomplete on user input.\r\n\r\nCreated two indexes:\r\n```\r\nr.db('store').table('tags').indexCreate('autocomplete', {multi: true});\r\nr.db('store').table('tags').indexCreate('count');\r\n```\r\n\r\n1)\r\nThis does not work\r\n\r\n```\r\nr.db('store').table('tags')\r\n.getAll('s', {index : 'autocomplete'})\r\n.orderBy({index:r.desc('count')}).pluck('name').limit(20);\r\n```\r\n\r\n2)\r\nIf sort in memory, then it is > 100ms... too much\r\n\r\n```\r\nr.db('store').table('tags')\r\n.getAll('s', {index : 'autocomplete'})\r\n.orderBy(r.desc('count')).pluck('name').limit(20);\r\n```\r\n\r\nHow to create multiple index on array and count field? Thx!\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 182859060
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

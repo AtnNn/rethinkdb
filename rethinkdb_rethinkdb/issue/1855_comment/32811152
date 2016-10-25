@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-21) 00 : 37 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32811152"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1855#issuecomment-32811152"
+  , issueCommentCreatedAt = 2014 (-01) (-21) 00 : 37 : 08 UTC
+  , issueCommentBody =
+      "I'd actually like to talk about this a tiny bit more, since we sort of went all over the place.\r\n\r\nHere's what I currently think is best:\r\n* `collapse` takes one object, 0 or more fields, and an optarg `clobber`.\r\n* `collapse` with no fields specified collapses all fields, otherwise it just collapses the specified fields.\r\n* By default `clobber` is set to true.\r\n  - In this mode we resolve conflicts alphabetically if no fields were specified, i.e. `right` beats `left` beats `abc`.\r\n  - If you specify fields, we resolve conflicts in the order you specified the fields (i.e. `collapse('right', 'left')` => `left` beats `right`)).\r\n* `clobber` may also be set to false.\r\n  - In this mode we leave any conflicting fields in their original sub-object.\r\n\r\nBasically, I think we should forget about the delimiter for now.  (It would be easy to add in later though.)\r\n\r\nOne thing I'm uncertain about is having `clobber` default to `true`.  It would make `collapse` more like the current `zip`, but it seems less safe by default."
+  , issueCommentId = 32811152
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 19 : 07 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128112533"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4634#issuecomment-128112533"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 19 : 07 : 42 UTC
+  , issueCommentBody =
+      "Thanks for reporting this @let4be . This indeed looks like a duplicate of #4611. \r\n\r\nDoes this ReQL function do what you need?\r\nI'm writing this in the syntax for the JavaScript driver. You'll have to translate it for Go (I'm not familiar with Go):\r\n```js\r\nvar reqlCountersAggregation = function(e) {\r\n    return e.coerceTo('array').map(function(keyValue) {\r\n        return [\r\n            keyValue(0),\r\n            keyValue(1)\r\n                .map(function(stringNum) { return stringNum.coerceTo('number'); } )\r\n                .sum() ];\r\n    }).coerceTo('object');\r\n}\r\n\r\n....map(reqlCountersAggregation)\r\n```\r\n\r\nThe trick is in the `e.coerceTo('array')`. This converts an object such as `{x: [\"1\", \"2\"], y: [\"3\"]}` into an array of key-value pairs: `[[\"x\", [\"1\", \"2\"]], [\"y\", [\"3\"]]]`."
+  , issueCommentId = 128112533
+  }

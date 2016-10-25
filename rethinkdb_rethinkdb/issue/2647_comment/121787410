@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-16) 00 : 20 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/121787410"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2647#issuecomment-121787410"
+  , issueCommentCreatedAt = 2015 (-07) (-16) 00 : 20 : 01 UTC
+  , issueCommentBody =
+      "> I suppose this is achievable already, now by storing data in chunks in separate documents.\r\n\r\nYou could also use `.slice()` to chunk the response and then convert the cursor to a stream on the client-side. You'll still probably run into the query size limit trying to persist large files, though. It would definitely be nice to just be able to query any binary field in a document as a stream.\r\n\r\n```js\r\nr.http('http://httpbin.org/image/png')\r\n  .do(function (blob) {\r\n    var parts = blob.count().div(1024).ceil(); // ceil available in v2.1 release\r\n    return r.range(parts).map(function (part) {\r\n      return blob.slice(part.mul(1024), part.add(1).mul(1024))\r\n    });\r\n  })\r\n```"
+  , issueCommentId = 121787410
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-27) 20 : 34 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/96811351"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-96811351"
+  , issueCommentCreatedAt = 2015 (-04) (-27) 20 : 34 : 15 UTC
+  , issueCommentBody =
+      "I'd like to make a slightly more general proposal:\r\n* `run` accepts a new optarg `resumable` which default to `false` but can also be set to `true` or a number.\r\n* If `resumable` is set to `true` and `run` returns a cursor, then that cursor will have a new method `resume` on it.  If you are disconnected from the server, you can call `cursor.resume` to pick up where you left off.  This is most useful for changefeed cursors.\r\n  - Resuming reconnects to the same server.\r\n  - You can't resume across server restarts.\r\n  - We'll pick some long default timeout (like an hour), and if you're disconnected from a resumable feed for longer than that it's destroyed.\r\n  - If `resumable` is set to a number, we'll use that number as the number of seconds before we time out.\r\n* We'll add a new optarg `feed_buffer_size` which defaults to `100000` and controls the buffer size for new changefeeds the query creates (including resumable changefeeds).\r\n\r\nInternally, we'll add a new query type `STEAL` that steals one of these cross-connection resumable cursors, and it will require explicit driver support.  We should also make sure that if the user is iterating over a cursor, we don't \"commit\" the element of the cursor until their block is done executing.  In the future we'll also add support for a more low-level interface using btree timestamps.\r\n\r\n(Also, if for some reason it turns out to be easier to only implement this for changefeeds rather than all cursors, that's fine for the first version.)"
+  , issueCommentId = 96811351
+  }

@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2013 (-09) (-30) 22 : 56 : 03 UTC
+  , issueUpdatedAt = 2013 (-09) (-30) 22 : 56 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1496/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1496"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1496
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Crashes in next when doing concurrent batched inserts"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1496"
+  , issueCreatedAt = 2013 (-09) (-30) 18 : 54 : 35 UTC
+  , issueBody =
+      Just
+        "If I run batched inserts (soft durability) from multiple clients, I get the following crash after roughly half a minute:\r\n\r\n```\r\ninfo: Creating directory /home/daniel/rethinkdb/build/release/rethinkdb_data\r\ninfo: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/daniel/rethinkdb/build/release/rethinkdb_data' did not already exist.)\r\ninfo: Running rethinkdb 1.9.0-483-g22f9a8 (GCC 4.6.3)...\r\ninfo: Running on Linux 3.8.0-26-generic x86_64\r\ninfo: Loading data from directory /home/daniel/rethinkdb/build/release/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all` command line option.\r\ninfo: Server ready\r\npure virtual method called\r\nVersion: rethinkdb 1.9.0-483-g22f9a8 (GCC 4.6.3)\r\nerror: Error in src/errors.cc at line 114:\r\nerror: std::terminate() called without any exception.\r\nerror: Backtrace:\r\nerror: Mon Sep 30 11:49:46 2013\r\n       \r\n       1: format_backtrace(bool) at backtrace.cc:197\r\n       2: report_fatal_error(char const*, int, char const*, ...) at errors.cc:68\r\n       3: terminate_handler() at errors.cc:114\r\n       4: +0xb5846 at 0x7fee12e58846 (/usr/lib/x86_64-linux-gnu/libstdc++.so.6)\r\n       5: +0xb5873 at 0x7fee12e58873 (/usr/lib/x86_64-linux-gnu/libstdc++.so.6)\r\n       6: +0xb628f at 0x7fee12e5928f (/usr/lib/x86_64-linux-gnu/libstdc++.so.6)\r\n       7: rdb_replace_and_return_superblock(btree_loc_info_t const&, btree_point_replacer_t const*, promise_t<superblock_t*>*, rdb_modification_info_t*) at btree.cc:225\r\n       8: do_a_replace_from_batched_replace(auto_drainer_t::lock_t, fifo_enforcer_sink_t*, fifo_enforcer_write_token_t const&, btree_loc_info_t const&, btree_point_replacer_t const*, promise_t<superblock_t*>*, rdb_modification_report_cb_t*, counted_t<ql::datum_t const>*) at btree.cc:321\r\n       9: callable_action_instance_t<boost::_bi::bind_t<void, void (*)(auto_drainer_t::lock_t, fifo_enforcer_sink_t*, fifo_enforcer_write_token_t const&, btree_loc_info_t const&, btree_point_replacer_t const*, promise_t<superblock_t*>*, rdb_modification_report_cb_t*, counted_t<ql::datum_t const>*), boost::_bi::list8<boost::_bi::value<auto_drainer_t::lock_t>, boost::_bi::value<fifo_enforcer_sink_t*>, boost::_bi::value<fifo_enforcer_write_token_t>, boost::_bi::value<btree_loc_info_t>, boost::_bi::value<one_replace_t*>, boost::_bi::value<promise_t<superblock_t*>*>, boost::_bi::value<rdb_modification_report_cb_t*>, boost::_bi::value<counted_t<ql::datum_t const>*> > > >::run_action() at bind.hpp:747\r\n       10: coro_t::run() at coroutines.cc:186\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nI could only reproduce the issue in release mode so far (the above is release with SYMBOLS=1).\r\n\r\nI will do some git bisect to see what exactly introduced the issue.\r\nWonder if the recent changes to the batched insert code could have something to do with this (@mlucy?)..."
+  , issueState = "closed"
+  , issueId = Id 20283155
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

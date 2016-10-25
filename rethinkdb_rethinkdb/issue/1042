@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-27) 23 : 04 : 54 UTC
+  , issueUpdatedAt = 2013 (-08) (-28) 23 : 14 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1042/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1042"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1042
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "cJSON -> datum_t conversion is slooow"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1042"
+  , issueCreatedAt = 2013 (-06) (-19) 20 : 00 : 38 UTC
+  , issueBody =
+      Just
+        "I was profiling a query that contained a (not overly specific) getAll(), followed by a filter.\r\n\r\nIt turned out that approximately 46% of the time were spent in datum_t::init_json().\r\n\r\nVirtually all of the calls to init_json() originated from the transform_visitor_t called directly from the btree traversal. In other words, reading the cJSON encoded documents from the btree is very expensive.\r\n\r\nA few more details:\r\nInside of init_json(), 58% of its time were spent on datum_t::add() for objects, with the remaining processing time spread out over a number of different steps. Inside of add(), actually inserting into the std::map makes up for 41% of the time spent in add().\r\n\r\nI'm not sure what's the best way to optimize it, and am hoping for suggestions.\r\n\r\nThe std::map insertion could probably be made a lot faster by just using an std::vector instead of a map. Usually, even for read operations, the tree used by std::map is only faster than a vector if there are a lot of entries, presumably due to its bad cache locality. Eliminating the std::map would however only solve part of the issue."
+  , issueState = "closed"
+  , issueId = Id 15765254
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

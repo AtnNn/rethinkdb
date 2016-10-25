@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-12) 01 : 51 : 32 UTC
+  , issueUpdatedAt = 2014 (-08) (-12) 01 : 51 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2477/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2477"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2477
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Race condition with sindex creation and backfilling"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2477"
+  , issueCreatedAt = 2014 (-05) (-29) 02 : 30 : 28 UTC
+  , issueBody =
+      Just
+        "Looking at `do_agnostic_btree_backfill()` in the file `src/btree/backfill.cc`, one can see that the list of current secondary indexes is sent once at the beginning of a backfill.\r\n\r\nSay a secondary index is created on the primary while it is backfilling to a secondary. I think it can happen that the secondary will not be notified about the new secondary index, and it will not create it.\r\nThe same can happen with when a secondary index is dropped while backfilling.\r\n\r\nThe missing indexes will be created once the node with the secondaries is restarted, because that triggers a new backfill.\r\n\r\nThe bug is not super severe since it's easy to recover from.\r\n\r\nA very quick work-around would be to send another index list at the end of a backfill, though some rare race conditions might still remain."
+  , issueState = "closed"
+  , issueId = Id 34524192
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

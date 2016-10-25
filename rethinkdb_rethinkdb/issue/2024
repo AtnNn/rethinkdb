@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-02) (-27) 02 : 15 : 36 UTC
+  , issueUpdatedAt = 2014 (-02) (-27) 02 : 15 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2024/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2024"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2024
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "GMR: polymorphism for grouped_data/groups_to_array"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2024"
+  , issueCreatedAt = 2014 (-02) (-26) 04 : 25 : 41 UTC
+  , issueBody =
+      Just
+        "Suppose I run the following:\r\n\r\n```\r\nr.table('wiki_articles')('text').group(r.row.split(), {multi:true}).count()\r\n```\r\n\r\nI get a group and a reduction with frequency of word usage. Now I want to sort it:\r\n\r\n```\r\nr.table('wiki_articles')('text').group(r.row.split(), {multi:true}).count().orderBy(r.desc('reduction'))\r\n```\r\n\r\nNo such luck -- my `orderBy` works on each reduction, not on whole `grouped_data` object. This is really bad because to do anything useful with `grouped_data` I have to first run `groups_to_array`.\r\n\r\nI think it should work completely differently. Every time we call anything on `grouped_data`, it should be called on the object (as if it were an array or a stream), not on each reduction. So I should be able to call `coerce_to('array')` on `grouped_data` and actually get an array.\r\n\r\nThe current implementation allows me to do `r.table('wiki_articles')('text').group(r.row.split(), {multi:true}).count().add(1)`, but that's not useful -- I almost never ever want to do that. Instead, I should be forced to map.\r\n\r\nI also don't think `groups_to_array` should be equivalent to `coerce_to('array')` when called on `grouped_data` and should work on `grouped_stream` (which I thought was the whole point of `groups_to_array`)."
+  , issueState = "closed"
+  , issueId = Id 28307920
+  , issueComments = 15
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

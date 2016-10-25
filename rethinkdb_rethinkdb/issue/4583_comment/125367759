@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-27) 22 : 37 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 361373
+        , simpleUserLogin = N "jbmikk"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/361373?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jbmikk"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/125367759"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4583#issuecomment-125367759"
+  , issueCommentCreatedAt = 2015 (-07) (-27) 22 : 36 : 00 UTC
+  , issueCommentBody =
+      "@danielmewes It's true, I didn't notice that proposal.\r\n\r\nThe [#2692](https://github.com/rethinkdb/rethinkdb/issues/2692) version seems like a good extension of the language. It extends the bracket command, and other commands as well, to support sub-object selections. However I find it ambiguous, what happens when you change an arbitrary object? Are you modifying the original object or the resulting expression from it? Even if you have a non table object created with r.expr() you may still want to be able to do both.\r\n\r\nThe current bracket behaviour would be:\r\n\r\n    r.expr({field1: {field2: {field3: 'hello'}}})('field1').merge({field2: \"new value\"})\r\n    //returns {field2: \"new value\"}\r\n\r\nHowever if we let it change the original object, the **exact** same expression could have a different result:\r\n\r\n    r.expr({field1: {field2: {field3: 'hello'}}})('field1').merge({field2: \"new value\"})\r\n    //returns {field1: {field2: \"new value\"}}\r\n\r\nUnless of course this only works with the update command, which doesn't make much sense to me.\r\n\r\nMaybe we could have a way to indicate when we start a selection:\r\n\r\n    r.expr({field1: {field2: {field3: 'hello'}}}).select()('field1').merge({field2: \"new value\"})\r\n    //returns {field1: {field2: \"new value\"}}\r\n\r\nWhere the select() command would indicate \"From here on, any changes to sub-selections will affect this object right here\".\r\n\r\nThe r.path() command as initially proposed is much simpler. It would simply return an object like many other commands. It's just a simple way to build deep objects which you can pass around to other existing commands such as merge().\r\n\r\nIf the sub-object selection from [#2692](https://github.com/rethinkdb/rethinkdb/issues/2692) was fully implemented the r.path() command would not make sense anymore. You could simply update or merge any object you want no matter how deep it is. "
+  , issueCommentId = 125367759
+  }

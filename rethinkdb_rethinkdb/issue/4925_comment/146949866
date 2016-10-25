@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-09) 18 : 05 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/146949866"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4925#issuecomment-146949866"
+  , issueCommentCreatedAt = 2015 (-10) (-09) 18 : 05 : 53 UTC
+  , issueCommentBody =
+      "Talked to @barkerja directly.\r\nThere were a lot of groups in the data, all of which had to be loaded into memory.\r\nThe mid-term solution for this one and similar queries is going to be https://github.com/rethinkdb/rethinkdb/issues/2719\r\n\r\nShort-term we found the following equivalent query which is actually lazily evaluated and avoids the memory overhead:\r\n```\r\nr.table('custom_field_values')\r\n  .distinct({index: 'contact_id_custom_field_id'})\r\n  .map({\r\n    group: r.row,\r\n    reduction: r.table('custom_field_values').getAll(r.row, {index: 'contact_id_custom_field_id'}).count()\r\n  })\r\n```"
+  , issueCommentId = 146949866
+  }

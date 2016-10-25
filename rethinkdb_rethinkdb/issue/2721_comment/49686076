@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-22) 01 : 00 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49686076"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2721#issuecomment-49686076"
+  , issueCommentCreatedAt = 2014 (-07) (-22) 00 : 58 : 59 UTC
+  , issueCommentBody =
+      "> I'm **extremely** hesitant to do this automatically.\r\n\r\nI am too. I usually have a very negative reaction to hiding distinct concepts from users that might have large performance or semantics implications on their programs, but thinking about it carefully, I think in this particular case it's justified. Here is why.\r\n\r\nAt this point I've seen dozens of examples of user code where they're forced to coerce to an array, and in every single case the user was doing something sensible (meaning, they were storing a resultset that was guaranteed to be small in an array). I haven't seen a single example where the user is doing something unreasonable (like coercing a potentially large table to an array).\r\n\r\nEmpirically, the explicit conversion ends up penalizing the overwhelmingly common case to make a very small minority of the cases safer. But if you consider the worst case scenario, it actually isn't that bad. The user can't do anything catastrophic -- in the limit case they're just going to trip up the array limit. One might argue that it's bad for obvious reasons (and we had that argument many times before), but I think in practice the benefits of allowing seamless array features coupled with an array limit dramatically outweigh the downsides (if they don't, we should be reconsidering the whole thing altogether).\r\n\r\nI think the explicit conversion made sense before we introduces the array limit because converting implicitly would have been too dangerous. But now it's just a nuisance. I don't think the explicit conversion produces the kind of reaction we originally expected in people's minds. Instead of thinking \"arrays are different from streams, I should restructure my code\" the user typically thinks \"arghhh, my resultset is always going to be small, why do I have deal with this?\" Then they just tack on a coercion and move on, without thinking much about it further.\r\n\r\nSo I think the benefit of pushing this behavior further down (when they hit the 100k limit) far outweighs the disadvantages. IMO making people convert explicitly introduces a pretty serious nuisance and doesn't actually result in what we want (people don't think about this carefully, they just get frustrated, fix it, and move on)."
+  , issueCommentId = 49686076
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-08) 20 : 57 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91034570"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4031#issuecomment-91034570"
+  , issueCommentCreatedAt = 2015 (-04) (-08) 20 : 55 : 40 UTC
+  , issueCommentBody =
+      "In your query the array will be constructed N * M times (which means copying N * M * L elements), and `contains` will have to access N * M * L elements.\r\n\r\nYou can avoid the repeated construction by using `r.do` to gain a bit of efficiency (though the `contains` will still take time in O(N * M * L) overall):\r\n```python\r\nr.expr(MY_ARRAY_OF_VALS).do(lambda my_array:\r\n  r.table(MY_TABLE).map(lambda x:\r\n    {\r\n      'NEW_ARR_OF_DOCS: x['ARR_OF_DOCS'].filter(lambda y:\r\n        my_array.contains(y['VAL_FIELD'])\r\n      )\r\n    }\r\n  )\r\n)\r\n```"
+  , issueCommentId = 91034570
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-12) 20 : 22 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/183475318"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5396#issuecomment-183475318"
+  , issueCommentCreatedAt = 2016 (-02) (-12) 20 : 22 : 36 UTC
+  , issueCommentBody =
+      "Hi @nickmishustin, we fixed the second bug yesterday in `next` with https://github.com/rethinkdb/rethinkdb/commit/dd28b112016190053e39bb773869af5f792c4551 . You might want to try the latest commit.\r\n\r\nI'm not familiar with gevent myself. @Tryneus could you take a look at @nickmishustin example above please?\r\nIf gevent works similar to Tornado, you might have to write something like this instead of the for loop:\r\n```py\r\nclass ProjectsNamespace(BaseAuthNamespace):\r\n    def DB_listener(self):\r\n        feed = yield r.table('projects').changes().run()\r\n        while (yield feed.fetch_next()):\r\n            change = yield feed.next()\r\n            self.logger.debug('changefeed event') \r\n    def recv_connect(self):\r\n        self.spawn(self.DB_listener)\r\n\r\n```"
+  , issueCommentId = 183475318
+  }

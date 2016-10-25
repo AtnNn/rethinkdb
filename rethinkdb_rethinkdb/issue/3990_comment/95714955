@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 20 : 49 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95714955"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3990#issuecomment-95714955"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 20 : 49 : 54 UTC
+  , issueCommentBody =
+      "I think we should continue to use a latency target for the first batch because I think that's the factor that most affects the user's experience.\r\n\r\nThe throughput point is fair.\r\n\r\nHere's what I think we should do:\r\n* Change the target latency for the first batch to be 50ms instead of 125ms (it will be longer in practice, of course).\r\n* Change the target latency for subsequent batches to be a soft target of 200ms instead of a hard target of 500ms.  Add a new hard target of 1s or something.\r\n  - By soft target, I mean we should add some sort of logic to stop the new target latency for subsequent batches from totally killing throughput on expensive `map`s.  (`minBatchRows` is a crude way to do this because it will also hurt the latency of `filter` operations without meaningfully increasing their throughput, but might be good enough.  We could consider adding a `minProcessedRows` flag that says \"make sure you've looked at `n` rows before returning\" to get around that.)\r\n"
+  , issueCommentId = 95714955
+  }

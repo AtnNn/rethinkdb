@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 19 : 09 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61695967"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-61695967"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 19 : 09 : 33 UTC
+  , issueCommentBody =
+      "Thank you for chiming in @mkleehammer. We will definitley try to make the logic as straight forward as possible. Could be something similar to what you propose, though we would definitely need to support cursors.\r\n\r\nSome clarification regarding semantic guarantees:\r\n- Generally in RethinkDB, you have the guarantee that if you do a write and the write finishes successfully, and then later do a read, the read will see the write. This is independent of connections, and would work automatically with any connection pool.\r\n- In addition, on a given (single) connection, you can queue up a write and a read in languages that support this (from the ones we officially support this is only possible in node.js). What I mean by this is that you do *not* wait for the write to finish (i.e. its callback to be called) before initiating the read. In this scenario, RethinkDB still guarantees that - at least on a semantic level - the read is not run before the write has completed. With a connection pool, maintaining this guarantee where it is needed requires being able to explicitly \"check out\" a connection or something similar to that (e.g. to pass in something like a \"preceding operation token\" when running a query).\r\n\r\nThe second guarantee makes some code nicer to write in node.js, because you can sometimes avoid nesting callbacks."
+  , issueCommentId = 61695967
+  }

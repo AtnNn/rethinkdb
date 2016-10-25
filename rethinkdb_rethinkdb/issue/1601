@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2013 (-11) (-02) 00 : 47 : 12 UTC
+  , issueUpdatedAt = 2013 (-11) (-02) 01 : 00 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1601/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1601"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1601
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Guarantee failed: [data_token.has()] once again"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1601"
+  , issueCreatedAt = 2013 (-11) (-01) 21 : 54 : 29 UTC
+  , issueBody =
+      Just
+        "I was running a two-node cluster, had workload x stress clients running from three client machines, had just set up replication (it was still replicating) and then also created a secondary index. A few seconds later one of the servers crashed with this message:\r\n\r\n```\r\ninfo: Creating directory /mnt/ssd2/daniel/latency/stress/rethinkdb_data\r\ninfo: Running rethinkdb foo (GCC 4.6.3)...\r\ninfo: Running on Linux 3.0.0-13-server x86_64\r\ninfo: Loading data from directory /mnt/ssd2/daniel/latency/stress/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Attempting connection to 1 peer...\r\ninfo: Connected to server \"Tinker\" c141283f-e417-42d9-ab46-ec88608144bb\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1, 192.168.0.11, 192.168.1.11, 192.168.2.11, 192.168.3.11, 192.168.4.11, 192.168.5.11, ::1, fe80::21b:21ff:fed8:b256, fe80::21b:21ff:fed8:b257, fe80::21b:21ff:fed8:b2a4, fe80::21b:21ff:fed8:b2a5, fe80::225:90ff:fe09:a74a, fe80::225:90ff:fe09:a74b\r\ninfo: Server ready\r\nVersion: rethinkdb foo (GCC 4.6.3)\r\nerror: Error in src/buffer_cache/mirrored/mirrored.cc at line 178:\r\nerror: Guarantee failed: [data_token.has()] \r\nerror: Backtrace:\r\nerror: Fri Nov  1 14:46:55 2013\r\n       \r\n       1: /home/daniel/rethinkdb/build/release/rethinkdb() [0x849232]\r\n       2: /home/daniel/rethinkdb/build/release/rethinkdb() [0x43b2b0]\r\n       3: /home/daniel/rethinkdb/build/release/rethinkdb() [0x95127c]\r\n       4: /home/daniel/rethinkdb/build/release/rethinkdb() [0x84194e]\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nThis happened in my branch `daniel_backfill_latency_tweaks`, but the problem might very well exist in next as well.\r\n*Update: Yes, it exists in next as well.*\r\n\r\nI have not yet tried reproducing it. *Update: Can be reproduced by following roughly the steps described above*\r\n\r\nThe previous time this message popped up was apparently trying to load a wrong version of the database (https://github.com/rethinkdb/rethinkdb/issues/626), but this time I definitely started  the node that crashed with a completely empty data directory.\r\nThere is a small chance that the data on the other machine in the cluster was corrupted, but it don't think that data corruption on that level can propagate over the cluster can they? *Update: Reproduces with completely fresh data directories on both nodes.*"
+  , issueState = "closed"
+  , issueId = Id 21986927
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-30) 21 : 15 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/222555488"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5805#issuecomment-222555488"
+  , issueCommentCreatedAt = 2016 (-05) (-30) 21 : 15 : 51 UTC
+  , issueCommentBody =
+      "Hi @jwr, there are two things that can cause disk reads in a write workload:\r\n\r\n* Garbage collection; RethinkDB implements an incremental garbage collector for the on-disk data that operates in the background. While it gets scheduled more agressively if it can't keep up with the writes and can start impacting write throughput at that point, I think it would be unusual for it to suddenly kick in at 23M records. It usually becomes active really early on.\r\n\r\n* Once the data size becomes too large to fit into RethinkDB's cache, RethinkDB will have to read index blocks from disk in order to perform a write. The performance difference between in-memory data sets and out-of-memory data sets can be dramatic. My suspicion is that this is what's happening in your case.\r\n\r\nThe dashboard of the web UI has a \"cache used\" indicator under the \"Resources\" headline. What percentage are you seeing there? (note that if you've restarted RethinkDB in the meantime, you might have to perform some read and/or write operations to fill it back up). Once it hits 100%, RethinkDB will need to evict data from cache and then reload it from disk when it's needed.\r\n\r\nBy default, RethinkDB automatically uses roughly half the available RAM for its cache. You can increase this limit by passing the `--cache-size <size in MB>` command line option to `rethinkdb`."
+  , issueCommentId = 222555488
+  }

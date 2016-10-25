@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-21) 16 : 36 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59955241"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3215#issuecomment-59955241"
+  , issueCommentCreatedAt = 2014 (-10) (-21) 16 : 22 : 55 UTC
+  , issueCommentBody =
+      "@AtnNn Thanks for posting this and for your help on IRC this morning.\r\n\r\nA bit more about the use-case: I am running a CoreOS cluster and using a [service discovery tool](https://github.com/progrium/registrator) that runs on each host and hooks into the Docker Events API. When a container with any exposed ports comes up, the service discovery tool registers that container into [etcd](https://github.com/coreos/etcd), a distributed KV store that's also running on each host and in turn backs a [DNS server](https://github.com/skynetservices/skydns) also running on each host. This DNS server then provides service-name-to-host-IP resolution. So if hosts 10.0.0.1, 10.0.0.2, and 10.0.0.3 are running Rethink containers, the DNS server will resolve `rethinkdb.services.local` to those IPs.\r\n\r\nSo a couple thoughts regarding a potential `--join-all`: \r\n\r\n* Could it support SRV records? The above-mentioned DNS server responds to SRV records, and it would be cool if Rethink could use them. SRV records provide weightings like MX records and more information about the service, like port number.\r\n* Some servers, like Haproxy and Nginx have directives to customize DNS behavior. For example, Nginx has a `resolver` directive, which lets you set the resolver (otherwise commonly set in `/etc/resolv.conf`) and TTLs independently of the OS network stack.\r\n\r\nWith regard to @AtnNn's suggested workaround; it worked great except I had to add an `if-fi` around the `printf` for the case of the first Rethink container coming up. \r\n\r\n```\r\n#!/bin/bash\r\nDUG=$(dig +short A cluster.example.com)\r\nif [[ -n \"$DUG\" ]]; then\r\n    printf -- '--join %s ' \"$DUG\"\r\nfi\r\n```"
+  , issueCommentId = 59955241
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 17 : 46 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5184/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5184"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5184
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Make optargs nicer in the java driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5184"
+  , issueCreatedAt = 2015 (-12) (-09) 05 : 19 : 57 UTC
+  , issueBody =
+      Just
+        "Currently we just have a two argument chainable method for optargs:\r\n\r\n```java\r\nbetween(3, 100).optArg(\"left_bound\", \"open\").optArg(\"right_bound\", \"closed\")\r\n```\r\n\r\nBut we actually can do better than this since we have all of the optarg names and types listed in [global_info.json](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/global_info.json), I believe it would be possible to do something along the lines of:\r\n\r\n```java\r\nbetween(3, 100, Optarg.of<>()\r\n    .leftBound(Bound.OPEN)\r\n    .rightBound(Bound.CLOSED))\r\n```\r\n\r\nPros:\r\n1. Optargs can be checked at compile time\r\n2. Syntax is a bit better than chaining `.optArg` a bunch of times\r\n3. Better syntax for lambdas provided to optargs.\r\n\r\nCurrently, we have no optargs that accept lambdas, but there are several proposals to add them (#3753, #3736 ) Right now, since the value in the optarg is dynamically typed, Java can't infer the lambda type, so we'd need to do things like:\r\n\r\n```java\r\n.optArg(\"emit\", (ReqlFunction2)((acc, b) -> stuff_here)).optArg(\"bar\", 3)\r\n```\r\ncompared to:\r\n\r\n```java\r\nOptArg.of<>().foo((a, b) -> stuff_here).bar(3)\r\n```"
+  , issueState = "open"
+  , issueId = Id 121162341
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

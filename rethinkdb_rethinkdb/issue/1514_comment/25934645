@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-08) 22 : 55 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25934645"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1514#issuecomment-25934645"
+  , issueCommentCreatedAt = 2013 (-10) (-08) 22 : 55 : 21 UTC
+  , issueCommentBody =
+      "Here's what I think we should do:\r\n\r\n* We should add a `QueryType` called `WAIT`.  I like this because `WAIT` operates on a per-connection basis, and currently all the stuff that takes advantage of connection state (like `CONTINUE`) is in `Query`.  Since this function sends a special `Query`, rather than a term, it should be defined on the connection.  I think this is better for a few reasons:\r\n  - `close`, which would be calling wait most of the time, is already defined on `conn`.\r\n  - It isn't 100% obvious that you'll always have one connection in play.  We've talked about having connection pools in the clients, for example, or people might home-roll their own.  With every other term we have, you can just send the term over one of the connections and it works fine; `r.wait.run(conn_pool)` wouldn't work in that situation.\r\n  - The semantics are cleaner.  What does `r.wait.run(noreply:true)` mean, for example?  Do you send the `wait` term and then just return immediately?  What about `r.table('test').insert({}).do{|res| r.wait}.run(noreply:true)`?  Does the `wait` wait on the noreply write that it's a part of, entering a loop?  Would we have to add another static analysis step to rule out things like that?\r\n* We should introduce a 0-argument function on connection objects, `conn.wait`.  As @jdoliner notes, it's easy and can be useful.  I don't feel too strongly about this point, though, if other people hate it.\r\n* We should add an optarg called `wait` to `conn.close`.  It should default to true, and we should wait before closing the connection, but the user can write `conn.close(wait:'false')` if they don't want to wait.\r\n* We should delay discussion about what to do with `conn.wait`'s potential future arguments until we actually want to put them in.  We should put them wherever we put the `noreply` optarg, since they're similar in that they affect connection stuff rather than ReQL execution.  Currently `noreply` is in the global optargs, but I talked with @jdoliner and he thought we should maybe break it out.  We can decide whether or not to do that when we decide where to put `conn.wait`'s future arguments.\r\n* I don't care about the names of `sync` and `wait`.  `flush` and `noreply_wait` seem fine to me.\r\n\r\n@danielmewes, @jdoliner, @coffeemug -- does that sound good to you?\r\n\r\n@danielmewes, I'm also sorry for not taking the time to explain the ReQL proposal process.  I'm so used to it I'd almost forgotten we had it.\r\n\r\nI think we should give this another day of discussion, maybe two if there's a lot to be said, then settle it."
+  , issueCommentId = 25934645
+  }

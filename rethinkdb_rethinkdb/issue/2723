@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-07) (-22) 22 : 02 : 43 UTC
+  , issueUpdatedAt = 2014 (-09) (-13) 01 : 40 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2723/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2723"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2723
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 438271
+        , simpleUserLogin = N "phase5"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/438271?v=3"
+        , simpleUserUrl = "https://api.github.com/users/phase5"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Damaged DB after power failure"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2723"
+  , issueCreatedAt = 2014 (-07) (-19) 14 : 11 : 18 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nI am in a bit of a pickle and hoping there might be someone willing to help me out.\r\n\r\nA power failure today appears to have left my database in an unusable state.\r\nI don't suspect any kind of bug here - more likely writeback cache data that never got committed to disk or something.  There were also filesystem errors on boot which fsck fixed. (well, it did its thing to work around them best it could)\r\n\r\nBackups - yes, I had a script that ftp'd a dump off the server every day.  Like an idiot I never checked on it and it seems it stopped working in December.\r\n\r\nI had a similar issue quite some time ago and some nice gent offered to run some tools he had on my database to try and make it run enough for me to do a dump.  At the time it was possible for me to reconstruct the database manually within a few hours so I thought that was more appropriate than taking up more of a dev's time.   This time however, it is not possible for me to reconstruct the database so I am here hoping someone might have a relatively quick fix, and enough kindness to help me out.\r\n\r\nRethinkDB version is 1.11.2 (Yes, I know its out of date.   We got to that version after having issues with previous versions and since it did not cause any problems, we did not dare touch it as we had a lot of hassle with bugs in previous versions)\r\n\r\nInfo I saw requested on other similar threads:\r\n\r\nroot@cnc:~# uname -a\r\nLinux cnc.*****.net 3.11.0-13-generic #20-Ubuntu SMP Wed Oct 23 07:38:26 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\nroot@cnc:~# mount\r\n/dev/vda1 on / type ext4 (rw,noatime,errors=remount-ro)\r\nproc on /proc type proc (rw,noexec,nosuid,nodev)\r\nsysfs on /sys type sysfs (rw,noexec,nosuid,nodev)\r\nnone on /sys/fs/cgroup type tmpfs (rw)\r\nnone on /sys/fs/fuse/connections type fusectl (rw)\r\nnone on /sys/kernel/debug type debugfs (rw)\r\nnone on /sys/kernel/security type securityfs (rw)\r\nudev on /dev type devtmpfs (rw,mode=0755)\r\ndevpts on /dev/pts type devpts (rw,noexec,nosuid,gid=5,mode=0620)\r\ntmpfs on /run type tmpfs (rw,noexec,nosuid,size=10%,mode=0755)\r\nnone on /run/lock type tmpfs (rw,noexec,nosuid,nodev,size=5242880)\r\nnone on /run/shm type tmpfs (rw,nosuid,nodev)\r\nnone on /run/user type tmpfs (rw,noexec,nosuid,nodev,size=104857600,mode=0755)\r\nnone on /sys/fs/pstore type pstore (rw)\r\nsystemd on /sys/fs/cgroup/systemd type cgroup (rw,noexec,nosuid,nodev,none,name=systemd)\r\n(database is on /dev/vda1)\r\n\r\nLog:\r\n2014-07-19T13:50:11.019696017 0.750991s info: Running rethinkdb 1.11.2-0ubuntu1~saucy (GCC 4.8.1)...\r\n2014-07-19T13:50:11.098599199 0.829894s info: Running on Linux 3.11.0-13-generic x86_64\r\n2014-07-19T13:50:11.098831182 0.830125s info: Loading data from directory /srv/db/rethinkdb_data\r\n2014-07-19T13:50:11.984559900 1.715854s info: Listening for intracluster connections on port 29015\r\n2014-07-19T13:50:12.196786448 1.928081s info: Listening for client driver connections on port 28015\r\n2014-07-19T13:50:12.196943438 1.928238s info: Listening for administrative HTTP connections on port 8080\r\n2014-07-19T13:50:12.425441532 2.156737s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 195.248.75.64, 195.248.75.168, ::1, fe80::1ff:fe00:13a%2\r\n2014-07-19T13:50:12.427420911 2.158715s info: Server ready\r\n2014-07-19T13:50:12.858554669 2.589850s error: Error in src/serializer/log/extent_manager.cc at line 23:\r\n2014-07-19T13:50:12.858687157 2.589981s error: Guarantee failed: [state_ != state_in_use || extent_use_refcount == 0]\r\n2014-07-19T13:50:12.858713854 2.590008s error: Backtrace:\r\n2014-07-19T13:50:14.368481369 4.099776s error: Sat Jul 19 13:50:12 2014\\n\\n1: backtrace_t::backtrace_t() at 0xc6ab50 (rethinkdb)\\n2: format_backtrace(bool) at 0xc6aee3 (rethinkdb)\\n3: report_fatal_error(char const*, int, char const*, ...) at 0xca34be (rethinkdb)\\n4: extent_manager_t::reserve_extent(long) at 0x80b311 (rethinkdb)\\n5: data_block_manager_t::mark_live(long, block_size_t) at 0x802a5f (rethinkdb)\\n6: ls_start_existing_fsm_t::on_lba_ready() at 0x7fd9b8 (rethinkdb)\\n7: lba_start_fsm_t::on_lba_extents_read() at 0x8100ec (rethinkdb)\\n8: reader_t::extent_reader_t::on_extent_read() at 0x80e721 (rethinkdb)\\n9: thread_doer_t<std::_Bind<std::_Mem_fn<void (linux_iocallback_t::*)()> (linux_iocallback_t*)> >::on_thread_switch() at 0x81bc0a (rethinkdb)\\n10: linux_message_hub_t::on_event(int) at 0x82e7b5 (rethinkdb)\\n11: epoll_event_queue_t::run() at 0x82ed9e (rethinkdb)\\n12: linux_thread_pool_t::start_thread(void*) at 0x82da27 (rethinkdb)\\n13: /lib/x86_64-linux-gnu/libpthread.so.0(+0x7f6e) [0x7f0d8091ef6e] at 0x7f0d8091ef6e (/lib/x86_64-linux-gnu/libpthread.so.0)\\n14: clone+0x6d at 0x7f0d806499cd (/lib/x86_64-linux-gnu/libc.so.6)\r\n2014-07-19T13:50:14.464686825 4.195982s error: Exiting.\r\n\r\nCompressed database files are 3.4M\r\n\r\nAny of you guys think you can help and are kind enough to spare the time?"
+  , issueState = "closed"
+  , issueId = Id 38234041
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

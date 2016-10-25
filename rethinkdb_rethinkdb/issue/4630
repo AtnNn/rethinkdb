@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-14) 20 : 29 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4630/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4630"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4630
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Ruby EventMachine Handler callback API"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4630"
+  , issueCreatedAt = 2015 (-08) (-05) 05 : 02 : 30 UTC
+  , issueBody =
+      Just
+        "Hi :)\r\n\r\nI was trying to abort a ongoing query from an em_run() call, but the only way I found was to save the `caller` variable (which is a `QueryHandle`) from any of these callbacks: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L63-L92 and then call `close()` on the `query_handle`.\r\n\r\nThis might not be ideal, because these callbacks might not have had the time to be called, but `EM.next_tick()` did. Maybe an EM callback would want to close the query_handle already.\r\n\r\nHere's what I suggest we do:\r\n1) Remove all the `caller` arguments from the `Handler` callbacks.\r\n2) Add a new callback `on_dispatch(query_handle)` that would be called right around here: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L530\r\n\r\nThis way we don't need a response from the server to terminate an ongoing query.\r\n\r\n---\r\n\r\nI've made NoBrainer compatible with EventMachine through the use of Fibers (so the code is still written in an asynchronous manner). If you are curious about how I use the `Handler` callbacks, check it out here: https://github.com/nviennot/nobrainer/blob/master/lib/no_brainer/query_runner/em_driver.rb\r\n\r\nFurther, I've written a self-contained Goliath server to demonstrate the usefulness of the Fiber abstraction: https://gist.github.com/nviennot/67a0795db7ccad973885\r\nMaybe we could add this as a real-time tutorial to complement http://www.rethinkdb.com/docs/rails/"
+  , issueState = "open"
+  , issueId = Id 99119813
+  , issueComments = 16
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

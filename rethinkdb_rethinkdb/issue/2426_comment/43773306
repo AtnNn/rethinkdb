@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-21) 15 : 43 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43773306"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2426#issuecomment-43773306"
+  , issueCommentCreatedAt = 2014 (-05) (-21) 15 : 43 : 50 UTC
+  , issueCommentBody =
+      "There's no efficient way to do an operation on two indexes in RethinkDB (which you'd need to do a `get_all` by one index and then order by a second one).  You should be able to get what you want with a compound index, though.\r\n\r\nLet's say you have two fields `a` and `b`, both of which are integers, and you want to get all the rows where `a = 5` ordered by `b`.  You can write:\r\n```rb\r\nr.table('test').index_create('ab'){|row| [row['a'], row['b']]}.run(conn)\r\nr.table('test').between([5], [6], index:'ab').order_by(index:'ab').run(conn)\r\n```"
+  , issueCommentId = 43773306
+  }

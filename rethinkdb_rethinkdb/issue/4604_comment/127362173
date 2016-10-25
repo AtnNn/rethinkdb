@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-03) 18 : 26 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127362173"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4604#issuecomment-127362173"
+  , issueCommentCreatedAt = 2015 (-08) (-03) 18 : 26 : 13 UTC
+  , issueCommentBody =
+      "Ah sorry, you're right.\r\nI guess the `r.literal` solution doesn't actually work because of https://github.com/rethinkdb/rethinkdb/issues/4613 though?\r\n\r\nYou could use `replace`, which is like `update` but without the `merge` and do the `merge` manually again as you did originally:\r\n\r\n```js\r\nr.db('test')\r\n .table('Session')\r\n .get('c5ce22e2-3587-4841-b9a5-bd4520de8deb')\r\n .replace(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      source.merge({ flash: r.literal({}) }),\r\n      source.merge({ flash: { emptyFlash: true } })\r\n    ),\r\n    source.merge({ flash: r.literal({}) })\r\n  );\r\n})\r\n```\r\n\r\nThat should allow `r.literal` to work, because it's then directly passed into `merge`."
+  , issueCommentId = 127362173
+  }

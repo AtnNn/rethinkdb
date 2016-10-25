@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-25) 23 : 25 : 19 UTC
+  , issueUpdatedAt = 2014 (-09) (-17) 02 : 46 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2652/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2652"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2652
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Datum object deserialization is linear in C++03, but possibly n*log(n) in C++11."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2652"
+  , issueCreatedAt = 2014 (-07) (-03) 22 : 06 : 38 UTC
+  , issueBody =
+      Just
+        "We use the following logic when deserializing datum_t objects:\r\n\r\n```\r\n    // Using position should make this function take linear time, not\r\n    // sz*log(sz) time.\r\n    auto position = m->begin();\r\n\r\n    for (uint64_t i = 0; i < sz; ++i) {\r\n        std::pair<std::string, counted_t<const datum_t> > p;\r\n        res = datum_deserialize(s, &p.first);\r\n        if (bad(res)) { return res; }\r\n        res = datum_deserialize(s, &p.second);\r\n        if (bad(res)) { return res; }\r\n        position = m->insert(position, std::move(p));\r\n    }\r\n```\r\n\r\nSee the complexity section of http://en.cppreference.com/w/cpp/container/map/insert and you'll find:\r\n\r\n> 3-4) Amortized constant if the insertion happens in the position just after the hint, logarithmic in the size of the container otherwise.\r\n\t**(until C++11)**\r\n3-4) Amortized constant if the insertion happens in the position just before the hint, logarithmic in the size of the container otherwise.\r\n\t**(since C++11)**\r\n\r\nBecause key/value pairs of objects are serialized in increasing order by key, it follows that when deserialized, the insertions will happen just *after* the hint.  Thus we lack our linear time *guarantee* in C++11, but we have it before C++11.\r\n\r\nI think the idea of this change is so that you can use `m.begin()` and `m.end()` and get sensible amortized performance, if you're inserting in decreasing or increasing order, respectively.  Presumably, the std::map objects now need to keep some pointer to the first and last nodes at the root, or something, to accomplish this.\r\n\r\nI don't know how the implementations behave in practice.\r\n\r\nIf we want to guarantee linear time construction with std::maps, we could create an input iterator that reads std::pair<std::string, counted_t<const datum_t> > values off the stream, and pass that to the constructor.  Or maybe all practical implementations give linear time construction anyway.\r\n\r\nMaybe the solution is to switch to std::unordered_map.  That's good for other reasons (see general performance issues regarding datums).  (I would do such by wrapping it in a struct, auditing all the uses of .begin() and .end() to see which depend on the keys being in order, and then unwrapping it.)\r\n\r\nFake edit:  Okay, I asked a friend, and his response was, \"owned for using std::map\"."
+  , issueState = "closed"
+  , issueId = Id 37128082
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 76
+          , milestoneClosedIssues = 60
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.15"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/76"
+          , milestoneCreatedAt = 2014 (-07) (-30) 21 : 42 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

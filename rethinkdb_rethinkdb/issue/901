@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-03) 17 : 55 : 32 UTC
+  , issueUpdatedAt = 2014 (-06) (-03) 20 : 51 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/901/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/901"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 901
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Resolve python collision when importing protobuf"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/901"
+  , issueCreatedAt = 2013 (-05) (-23) 23 : 04 : 13 UTC
+  , issueBody =
+      Just
+        "I had google app engine installed on my laptop.\r\n\r\nImporting the RethinkDB driver produce this error\r\n```\r\n>>> import rethinkdb as r\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/lib/python2.7/site-packages/rethinkdb/__init__.py\", line 2, in <module>\r\n    from net import connect, Connection, Cursor\r\n  File \"/usr/lib/python2.7/site-packages/rethinkdb/net.py\", line 8, in <module>\r\n    import ql2_pb2 as p\r\n  File \"/usr/lib/python2.7/site-packages/rethinkdb/ql2_pb2.py\", line 3, in <module>\r\n    from google.protobuf import descriptor\r\nImportError: No module named protobuf\r\n```\r\n\r\nThe reason is because I have in `/usr/lib/python2.7/site-packages`\r\n- a symbolic link `google`\r\n- a `google.protobuf` directory.\r\n\r\nSo when we do `import google.protobuf`, Python fails to load the module.\r\nThere seems to be a way to fix it but I haven't taken a closer look -- See http://stackoverflow.com/questions/13613889/how-to-resolve-a-python-module-import-collision.\r\n\r\nI'll just write something in the docs for now. Removing the symbolic link fix this issue but well.., it's not a good solution."
+  , issueState = "closed"
+  , issueId = Id 14700112
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

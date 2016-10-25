@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-08) (-29) 08 : 34 : 16 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5897/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5897"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "d4c5f9"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:devops"
+          , labelName = "cp:devops"
+          }
+      ]
+  , issueNumber = 5897
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 863286
+        , simpleUserLogin = N "dalanmiller"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/863286?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dalanmiller"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Add features required for smoother clustering in containerized / scheduled environments"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5897"
+  , issueCreatedAt = 2016 (-06) (-30) 18 : 51 : 35 UTC
+  , issueBody =
+      Just
+        "There are many issues currently facing RethinkDB in a containerized environment. \r\n\r\nThe major one is that RethinkDB assumes that it is in a static clustering environment versus a dynamic one. Hosts of RethinkDB instances may go down and then RethinkDB expects them to appear again at the same ip and port. This expectation is at odds with what happens in a containerized / scheduled environment as services can disappear and appear under new IPs and ports. RethinkDB needs some sort of API to have more fine-grained options to mutate the current cluster settings dynamically from an external source.\r\n\r\nFor example, in Kubernetes, a RethinkDB pod should have both a container for RethinkDB and an additional RethinkDB sidekick or sidecar container. This sidecar process will manage the proper translation and synchronization between the Kubernetes API and its current state and the RethinkDB cluster and its current state. Surely, we could have a variety of different sidecar containers for Mesos, Swarm, and anything else that appears down the road. \r\n\r\nA crafty example for RethinkDB semi-auto-discovery done by @rosskukulinski can be seen in [his repository here](https://github.com/rosskukulinski/kubernetes-rethinkdb-cluster/blob/master/image/run.sh). This example works great, but as @encryptio enlightened me, only for fixed sized clusters. Having an automatically scaling RethinkDB service would be currently impossible without these additional features this issue proposes. Checking out his repo is recommended: \r\nhttps://github.com/rosskukulinski/kubernetes-rethinkdb-cluster\r\n\r\nHere's just a couple points of what RethinkDB needs:\r\n* RethinkDB needs an additional feature to be added where hosts in the cluster can be reassigned IPs and ports. \r\n* This should probably be done through modifying system tables\r\n * Right now the cluster node data is stored in `r.db(\"rethinkdb\").table(\"stats\")`\r\n * Q: Maybe this newer API should be something stored in a table named `r.db(\"rethinkdb\").table(\"cluster_config\")`? \r\n* One should be able to edit documents, which represent nodes in the cluster\r\n * It should be possible to modify what their new IP and port is\r\n * It should be possible to remove a node, permanently\r\n * It should be possible to add nodes \r\n * Q: Is consistency less guaranteed if this is written to a single node and propagated to others in the cluster? \r\n\r\nPossible race conditions:\r\n\r\n* A node within a given cluster is disconnected and another node is spun up with the intention of joining another cluster but given the IP address of the original node that disconnected. The original cluster attempts and successfully connects to the new node and results in unintentional clustering. \r\n\r\n@encryptio feel free to edit this to make more clear or specific as you see fit \r\nAlso CC: @rosskukulinski"
+  , issueState = "open"
+  , issueId = Id 163240935
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

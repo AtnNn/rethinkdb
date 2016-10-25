@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-16) 01 : 32 : 35 UTC
+  , issueUpdatedAt = 2015 (-06) (-16) 01 : 32 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4401/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4401"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4401
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 316661
+          , simpleUserLogin = N "timmaxw"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/316661?v=3"
+          , simpleUserUrl = "https://api.github.com/users/timmaxw"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Creating multiple tables in series times out, leaves in inconsistent state"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4401"
+  , issueCreatedAt = 2015 (-06) (-15) 22 : 06 : 28 UTC
+  , issueBody =
+      Just
+        "Running this on a 2-server cluster on `next`:\r\n```js\r\nr.range(0, 10).forEach(r.tableCreate(r.expr(\"t\").add(r.row.coerceTo(\"string\"))))\r\n```\r\nwill fail on the second table with\r\n```\r\nWe lost contact with the server(s) hosting table `test.t1`. The table may or may not have been created in:\r\nr.range(0, 10).forEach(r(\"t\").add(r.row.coerceTo(\"string\")).tableCreate())\r\n```\r\n\r\nFrom adding some debug statements it seems that the table creation times out while waiting in the call to `wait_until_change_visible` in `table_meta_client_t::create_or_emergency_repair()`.\r\n\r\nIt leaves table `t1` in a state where it shows up in `rethinkdb.table_config` and `rethinkdb.table_status` but not in `r.tableList()`."
+  , issueState = "closed"
+  , issueId = Id 88552790
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

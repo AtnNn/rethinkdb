@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-08) (-18) 21 : 14 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6062/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6062"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 6062
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 804919
+        , simpleUserLogin = N "1lann"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/804919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/1lann"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Poor performance with .limit() after a large .skip()"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6062"
+  , issueCreatedAt = 2016 (-08) (-18) 14 : 30 : 13 UTC
+  , issueBody =
+      Just
+        "I'm having an issue where the time complexity of the query `.skip(n).limit(m)` appears to be `n * (1/m)`. So the performance decreases further the greater the `.skip()`, but at the same time the performance decreases the smaller the value of the `.limit()`.\r\n\r\nSo for example,\r\n\r\n```\r\nr.db(...).table(...).skip(100).limit(1)\r\n```\r\nis about 4-7x slower than\r\n```\r\nr.db(...).table(...).skip(100).limit(30)\r\n```\r\n\r\nand\r\n\r\n```\r\nr.db(...).table(...).skip(1000).limit(1)\r\n```\r\n\r\nis much slower.\r\n\r\nThe table I'm testing with has about 9 million rows, each row with a document similar to this:\r\n```\r\n{\r\n \160\160\160\"a\": 29,\r\n\160\160\160\160\"c\": \"254\",\r\n\160\160\160\160\"d\": 36,\r\n\160\160\160\160\"g\": 49853,\r\n\160\160\160\160\"id\": \"000003d7-8cd6-474b-891e-867667d6824a\",\r\n\160\160\160\160\"ip\": \"96fceea1-40ad-4500-a507-1c1603853995\",\r\n\160\160\160\160\"k\": 27,\r\n\160\160\160\160\"l\": 1,\r\n\160\160\160\160\"m\": 274,\r\n\160\160\160\160\"n\": 287,\r\n\160\160\160\160\"p\": \"all\",\r\n\160\160\160\160\"t\": 7931,\r\n\160\160\160\160\"w\": 3,\r\n\160\160\160\160\"wp\": 28\r\n}\r\n```\r\n\r\nUsing `.slice()` however has consistent constant time performance. This may be related to #6012.\r\n\r\nThe performance degradation is amplified when querying from a cluster node that isn't part of the table shard that has some latency (about 150 ms from the rest of the cluster). For example if my data resides in sydney, and I perform the query on a node in singapore, it is 10x slower than if I were to perform the query on sydney. That means that the exact same query can take 15 seconds in singapore, and 150 ms in sydney, even though the latency between the two is only about 150 ms."
+  , issueState = "open"
+  , issueId = Id 171915255
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

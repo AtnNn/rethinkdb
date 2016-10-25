@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-24) 02 : 03 : 17 UTC
+  , issueUpdatedAt = 2015 (-03) (-24) 02 : 03 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2557/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2557"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 2557
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Avoid incompletely erase shard data; outdated data could re-appear"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2557"
+  , issueCreatedAt = 2014 (-06) (-16) 23 : 04 : 46 UTC
+  , issueBody =
+      Just
+        "This is a theoretic race condition in the clustering layer, and I'm not sure if there already is something in the code to prevent this or not. @timmaxw do you remember anything about this?\r\n\r\nSuppose we have two nodes A and B and get the following sequence of events:\r\n- A and B are replicas for table T\r\n- The admin removes A as a replica\r\n- A goes through the \"reactor be nothing\" procedure. While in the \"nothing_when_done_erasing\" stage, it first sets the metainfo/version range for the shards corresponding to A to zero, and then starts erasing the data from the btree.\r\n- Before A is done erasing, it is shut down\r\n- The admin adds A back as a replica\r\n- A is started up again\r\n- I *think* A would now directly go through the reactor_be_primary / reactor_be_secondary procedure, starting by backfilling all data from B. (if it is somehow guaranteed that A first goes through be_nothing again, everything should be fine)\r\n\r\nThe problem is that A hasn't finished deleting all old data at the time it begins backfilling new data."
+  , issueState = "closed"
+  , issueId = Id 35844462
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

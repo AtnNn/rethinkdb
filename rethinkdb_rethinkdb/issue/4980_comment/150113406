@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-22) 05 : 44 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/150113406"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4980#issuecomment-150113406"
+  , issueCommentCreatedAt = 2015 (-10) (-22) 05 : 44 : 52 UTC
+  , issueCommentBody =
+      "@mariostallone -- I have a few questions that should help diagnose this:\r\n\r\n- What exactly do you mean by \"when it was trying to elect a new raft leader\"? Do you remember what operation you tried to perform (since leader election is something that happens internally, not something a user does).\r\n- Could you check the RethinkDB log files on each machine for stack traces? (Depending on how you run Rethink, log files will probably be in `/var/log/rethinkdb.log`)\r\n\r\nFYI, RethinkDB processes don't automatically restart if there is a crash. If a node fails, the other two nodes will continue handle the requests if sharding/replication is properly set up. Your app server does need to reconnect to other working nodes. Depending on which driver you use, the driver might support that automatically (I believe `rethinkdbdash` does), you can do it manually, or you can connect your app server to the proxy.\r\n\r\nThe proxy would help in this situation -- if one of the nodes fails, the proxy will automatically reroute your app's requests to other nodes."
+  , issueCommentId = 150113406
+  }

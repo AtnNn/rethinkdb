@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-19) 19 : 48 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94308537"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4081#issuecomment-94308537"
+  , issueCommentCreatedAt = 2015 (-04) (-19) 19 : 48 : 04 UTC
+  , issueCommentBody =
+      "The primay motivation for the queries requiring a connection explicitly passed to run is that it allows the queries to be easily reused and built up, without needing connection logic. While I don't think this is a bad idea outright, a solution needs should solve this problem as well.\r\n\r\nThe current pattern for what you're suggesting is that the factories should create the queries, without needing to know anything about the connection, and then return the final queries to something that knows which connection the query is going to be run on.\r\n\r\n```py\r\ndef factory(value):\r\n    return r.db('foo').table('bar').filter(r.row('x') > value)\r\n\r\ndef main():\r\n    conn = r.connect()\r\n    factory(33).run(conn)\r\n```\r\n\r\nIf the query has knowledge about the connection, then building this kind of factory requires higher coupling because now you need to pass in the initial bound object or the connection itself (and do the binding in the factory).\r\n\r\nI could see this as being an alternative though. There are times when both are convenient, but it's often not the best idea to \"do it both ways\" in terms of api design, you can make things really convoluted. So, I'd be interested to see what others think\r\n"
+  , issueCommentId = 94308537
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 03 : 05 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107783354"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4316#issuecomment-107783354"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 03 : 02 : 59 UTC
+  , issueCommentBody =
+      "Basically, for potential duck-typing solutions, we have (in order of increasing difficulty/reward):\r\n\r\n- Just check for `_start` (easiest but, beyond basic sanity-checking, most liable to cause problems)\r\n- Design and check a magic number that describes specifics of the internal implementation (slightly harder, but also slightly more stable and extensible)\r\n- Design and check for a stable interface (requires careful design work and thought, but well-guarantees correctness and extensibility)\r\n\r\nI'm actually kind of :-1: on the first one, with my layman's understanding of `_start`, due to its theoretical potential to cause small, unintended problems in a case where the `_start` implementation is *not quite close enough* between versions (if I pass in a 1.12 connection to a 2.0 query, will it try to use protobuf? Will the AST be compatible?).\r\n\r\nI think `rethinkdb` should go with the version-magic approach for now (maybe falling back to a `_start` check with a warning and/or some more sniffing to detect potentially-incompatible connections), maybe cutting new patch releases to earlier compatible minor versions that implement the same version-magic cookie.\r\n\r\nThen, later, after #3771 settles, there should be a stable interface for connections to target that would deprecate and supersede the version magic cookie (maybe using a table of translators to convert from the magic cookie's expected interface to the standard interface, if possible)."
+  , issueCommentId = 107783354
+  }

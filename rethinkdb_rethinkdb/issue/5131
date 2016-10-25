@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-19) 20 : 18 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5131/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5131"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5131
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 502394
+        , simpleUserLogin = N "skinkie"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/502394?v=3"
+        , simpleUserUrl = "https://api.github.com/users/skinkie"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Access to batch objects of a changefeed in client drivers"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5131"
+  , issueCreatedAt = 2015 (-11) (-22) 00 : 35 : 41 UTC
+  , issueBody =
+      Just
+        "I am publishing a changefeed of geometry objects over websockets. The system consists of three parts, the extract part transforms each object when entering the system into a single GeoJSON feature. The features are bulk inserted into RethinkDB. From RethinkDB to the client I am using the Python client driver, in combination with the Tornado loop interface and SockJS.\r\n\r\nA websocket extension in permessage-deflate which allows compression per each individual websocket message. Compression works better on larger documents where more features are sent in a single message, than many small messages having just one feature.\r\n\r\nThe current changefeed supports the squash attribute with an optional numeric timeout value. When the timeout is reached the last version of the the changed objects are being collected. The documentation suggests that the latest version per obect are send out in a stream. On slack @AtnNn pointed out that the changefeed actually is transferred as batch.\r\n\r\nThe Python implementation exposes the changefeed using an iterator. Hence, it looks like every change is just an individual message with an old and new value. If we closely examine the drivers we notice that the storage component per iterator contains \"items\", which may be filled in a batch. To make the aggregated featureset I am interested in as many objects as possible per batch. Either by a alternative Cursor implementation where next() contains all elements of items. Or a direct interface to the the items interface.\r\n\r\nBelow is my working interface where net.py and net_tornado.py have been modified. As not being a Python interface expert, I would like to ask to come up with a more clean interface than I have provided. Personally I think a new cursor class that exposes batch objects may be considered more clean. But I don't know how to plug that in with respect to the ReQL language.\r\n\r\nnet.py driver\r\n```py\r\nclass DefaultCursor(Cursor):\r\n    def __iter__(self):\r\n        return self\r\n\r\n    def __next__(self):\r\n        return self._get_next(None)\r\n\r\n    def __all__(self):\r\n       result = [self._get_next(None)] + list(self.items)\r\n       self.items.clear()\r\n       return result\r\n\r\n    def _empty_error(self):\r\n        return DefaultCursorEmpty()\r\n\r\n    def _get_next(self, timeout):\r\n        deadline = None if timeout is None else time.time() + timeout\r\n        while len(self.items) == 0:\r\n            self._maybe_fetch_batch()\r\n            if self.error is not None:\r\n                raise self.error\r\n            self.conn._read_response(self.query, deadline)\r\n        return self.items.popleft()\r\n```\r\n\r\nThe client implementation would look like as:\r\n```py\r\nt = r.table(table).changes(squash = 3, include_initial = False).run(connection).__iter__()\r\n    for x in it:\r\n        features = [x] + it.__all__()\r\n```\r\n\r\nFor the tornado_net.py driver a more self contained version was created:\r\n```py\r\n    @gen.coroutine\r\n    def _get_all(self, timeout):\r\n        deadline = None if timeout is None else self.conn._io_loop.time() + timeout\r\n        while len(self.items) == 0:\r\n            self._maybe_fetch_batch()\r\n            if self.error is not None:\r\n                raise self.error\r\n            yield with_absolute_timeout(deadline, self.new_response)\r\n        result = list(self.items)\r\n        self.items.clear()\r\n        raise gen.Return(result)\r\n```\r\n\r\nAnd its client implementation:\r\n```py\r\nfeed = yield r.table(table).changes(squash = 3, include_initial = False).run(connection)\r\nwhile (yield feed.fetch_next()):\r\n    items = yield feed._get_all(None)\r\n```"
+  , issueState = "open"
+  , issueId = Id 118229878
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

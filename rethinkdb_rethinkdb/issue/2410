@@ -1,0 +1,80 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-13) 20 : 31 : 54 UTC
+  , issueUpdatedAt = 2014 (-09) (-23) 20 : 43 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2410/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2410"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2410
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1923532
+        , simpleUserLogin = N "janih"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1923532?v=3"
+        , simpleUserUrl = "https://api.github.com/users/janih"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Deserialization of rdb value failed with error archive_result_t::RANGE_ERROR."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2410"
+  , issueCreatedAt = 2014 (-05) (-17) 09 : 22 : 59 UTC
+  , issueBody =
+      Just
+        "I have one node and was inserting data. I don't think it was anything that I havent done many times before. Then I got this:\r\n\r\n```\r\nVersion: rethinkdb 1.12.4-0ubuntu1~trusty (GCC 4.8.2)\r\nerror: Error in src/rdb_protocol/lazy_json.cc at line 19:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of rdb value failed with error archive_result_t::RANGE_ERROR.\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\nerror: Sat May 17 02:52:14 2014\r\n       \r\n       1: backtrace_t::backtrace_t() at 0xf76d30 (rethinkdb)\r\n       2: format_backtrace(bool) at 0xf770c3 (rethinkdb)\r\n       3: report_fatal_error(char const*, int, char const*, ...) at 0xfb0975 (rethinkdb)\r\n       4: get_data(rdb_value_t const*, buf_parent_t) at 0xb7e772 (rethinkdb)\r\n       5: lazy_json_t::get() const at 0xb7e8e4 (rethinkdb)\r\n       6: rget_cb_t::handle_pair(scoped_key_value_t&&, concurrent_traversal_fifo_enforcer_signal_t) at 0xbe0fd5 (rethinkdb)\r\n       7: concurrent_traversal_adapter_t::handle_pair_coro(scoped_key_value_t*, semaphore_acq_t*, fifo_enforcer_write_token_t, auto_drainer_t::lock_t) at 0xc48750 (rethinkdb)\r\n       8: callable_action_instance_t<std::_Bind<std::_Mem_fn<void (concurrent_traversal_adapter_t::*)(scoped_key_value_t*, semaphore_acq_t*, fifo_enforcer_write_token_t, auto_drainer_t::lock_t)> (concurrent_traversal_adapter_t*, scoped_key_value_t*, semaphore_acq_t*, fifo_enforcer_write_token_t, auto_drainer_t::lock_t)> >::run_action() at 0xc48594 (rethinkdb)\r\n       9: coro_t::run() at 0xafb738 (rethinkdb)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nRunnin on:\r\n```\r\n3.13.0-24-generic #47-Ubuntu SMP Fri May 2 23:30:00 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\n\r\nLines on dmesg(after a few retries and errors):\r\n```\r\n[ 1400.697097] traps: rethinkdb[4455] trap int3 ip:b7e785 sp:618bda80 error:0\r\n[ 2156.255800] traps: rethinkdb[6016] trap int3 ip:b7e785 sp:d387a80 error:0\r\n[ 2194.883569] traps: rethinkdb[6995] trap int3 ip:b7e785 sp:61563a80 error:0\r\n```\r\n\r\nI was going to try to dump the database and recreate it but I get a deserialization error while running rethindb dump:\r\n```\r\nerror: Error in src/rdb_protocol/lazy_json.cc at line 19:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of rdb value failed with error archive_result_t::SOCK_EOF.\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\nerror: Sat May 17 12:40:28 2014\r\n       \r\n       1: backtrace_t::backtrace_t() at 0xf76d30 (rethinkdb)\r\n       2: format_backtrace(bool) at 0xf770c3 (rethinkdb)\r\n       3: report_fatal_error(char const*, int, char const*, ...) at 0xfb0975 (rethinkdb)\r\n       4: get_data(rdb_value_t const*, buf_parent_t) at 0xb7e772 (rethinkdb)\r\n       5: post_construct_traversal_helper_t::process_a_leaf(buf_lock_t*, btree_key_t const*, btree_key_t const*, signal_t*, int*) at 0xbe55cf (rethinkdb)\r\n       6: process_a_leaf_node(traversal_state_t*, buf_lock_t, int, btree_key_t const*, btree_key_t const*) at 0xc3518b (rethinkdb)\r\n       7: do_a_subtree_traversal_fsm_t::on_node_ready(buf_lock_t) at 0xc3a29e (rethinkdb)\r\n       8: acquire_a_node_fsm_t::you_may_acquire() at 0xc38582 (rethinkdb)\r\n       9: coro_pool_t<acquisition_waiter_callback_t*>::worker_run(acquisition_waiter_callback_t*, auto_drainer_t::lock_t) at 0xc386b8 (rethinkdb)\r\n       10: callable_action_instance_t<std::_Bind<std::_Mem_fn<void (coro_pool_t<acquisition_waiter_callback_t*>::*)(acquisition_waiter_callback_t*, auto_drainer_t::lock_t)> (coro_pool_t<acquisition_waiter_callback_t*>*, acquisition_waiter_callback_t*, auto_drainer_t::lock_t)> >::run_action() at 0xc38932 (rethinkdb)\r\n       11: coro_t::run() at 0xafb738 (rethinkdb)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 33727124
+  , issueComments = 36
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

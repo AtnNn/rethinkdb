@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-08) 09 : 13 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/231312965"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5891#issuecomment-231312965"
+  , issueCommentCreatedAt = 2016 (-07) (-08) 09 : 13 : 17 UTC
+  , issueCommentBody =
+      "We're having the same issue, I think.\r\n\r\nWe have 5 servers and 8 proxies. The servers have numbered names, rethinkdb1-5 (so - one replication controller with one pod and one service allocated to one machine), but proxies have one name - `rethinkdb`. \r\n\r\nShould we use canonical name for the proxy? In current setup we do. I wonder if proxies or databases just get confused sometimes, since by default, Kubernetes proxy creates one IP address for this domain name, rethinkdb, and then round-robins the connections between those 8 rethinkdb proxies.\r\n\r\nWhen this problem occurs, the admin UI shows the \"some servers are not available\" message, even if all servers seem to be connected to each other, but only proxies have connectivity issues.\r\n\r\nToday, we fixed this problem by restarting one of the servers. The last time, this got fixed by restarting one proxy which couldn't connect to one server.\r\n\r\nWe start servers by `--join`ing the 4 other servers. We're starting proxies by `--join`ing all 5 servers.\r\n\r\nWe also don't use `SessionAffinity` for the proxies right now. This means if anyone uses the domain name for proxy, it returns a round-robin'd IP address for any of the proxies. I guess this could cause an issue if any of the servers would ever want to access one specific proxy by its canonical address?"
+  , issueCommentId = 231312965
+  }

@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-10) (-09) 20 : 17 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1766/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1766"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1766
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Investigate query latency more"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1766"
+  , issueCreatedAt = 2013 (-12) (-13) 10 : 24 : 24 UTC
+  , issueBody =
+      Just
+        "I ran the following test (prompted by https://twitter.com/diolpah/statuses/411378878154682368):\r\n\r\n```javascript\r\nr.tableCreate('foo')\r\nr.table('foo').insert(r.expr([{a: r.expr(['a']).mul(400)}]).mul(200))\r\n```\r\n\r\nThis gives us 200 docs of way more than 400 bytes each, but you get the idea.\r\n\r\nI then ran some benchmarks. In Ruby (driver version 1.11.0.1):\r\n\r\n```ruby\r\nrequire 'benchmark'\r\nputs Benchmark.measure { c = r.table('foo').limit(100).run(); 1 }\r\n\r\n# Takes 170ms.\r\n```\r\n\r\nSimilarly in Python (driver version 1.11.0-1):\r\n\r\n```python\r\nimport timeit\r\ntimeit.timeit(setup=\"import rethinkdb as r; r.connect().repl();\", stmt=\"r.table('foo').limit(200).run()\", number=1)\r\n\r\n# Takes over 150ms\r\n```\r\n\r\nAll tests were done on RethinkDB 1.11.2.\r\n\r\nSince people are complaining about latency, we should do the following:\r\n\r\n* Determine the latencies of a similar workload on comparable systems\r\n* If our performance is worse, see why and what we can do. (As a silly example, we could avoid parsing json on the driver until the user actually reads from the cursor).\r\n\r\n@mlucy -- given that you recently did work on streaming/returning json/having drivers recognize it, do these latencies roughly seem right to you? (I'm curious if we might have hit a regression)"
+  , issueState = "open"
+  , issueId = Id 24238105
+  , issueComments = 22
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

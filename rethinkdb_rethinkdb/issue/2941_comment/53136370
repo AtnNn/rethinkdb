@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-23) 00 : 12 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53136370"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2941#issuecomment-53136370"
+  , issueCommentCreatedAt = 2014 (-08) (-23) 00 : 11 : 42 UTC
+  , issueCommentBody =
+      "We could make steps 2-3 and possibly 4 more user-friendly by adding a \"shut down when without responsiblities\" (or \"leave cluster when without responsibilities\") command.\r\n\r\nInternally that could be implemented as the persistent flag @timmaxw mentioned that is set on the server in question. Whenever the server's actual role for a given shard changes to be nothing, the server would check whether this was its last responsiblity and shut itself down if it was.\r\nTo avoid race conditions, the flag would also stop the server from gaining any new responsiblity once it has been set. This can be enforced by not allowing any reactor on the server to transit into any \"higher\" state out of a reactor_be_nothing state.\r\nIf a user manually assigns a role to a server that has the flag set, the server will simply never fulfill that role. That's seems ok.\r\n\r\nI don't think retiring a server is quite as uncommon. A handfull of people have asked for this. I think if you run a large cluster you will often have servers that have to undergo maintenance or have to be replaced. So eventually this will become pretty important."
+  , issueCommentId = 53136370
+  }

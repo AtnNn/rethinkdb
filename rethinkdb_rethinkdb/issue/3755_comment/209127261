@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-12) 22 : 22 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/209127261"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3755#issuecomment-209127261"
+  , issueCommentCreatedAt = 2016 (-04) (-12) 22 : 22 : 23 UTC
+  , issueCommentBody =
+      "I think that this is all possible without too much work. But we need to separate the `dump` and `restore` portions. The latter is a bit easier so I will do that in this message, then a second one for `dump`.\r\n\r\nFor `restore` this should be really easy to do, since `tarfile` already allows us to access individual files either serially or in any arbitrary way we want. There should be no issues with doing this for multiple processes simultaneously since we are read-only.\r\n\r\nThe one expiation is if we are streaming through `stdin`, and there we should only be processing it in one thread anyways in most cases, unless we want to make a producer/consumer model to try and keep things moving (and then we are still reading on only one thread).\r\n\r\nA side comment here is that we are already creating an extra file (`tar_temp_file_path`) when coming form `sys.stdout`. The `tarfile` module already supports streaming reads with the `r|*`-style formats. I did run into a `UnicodeDecodeError` issue when trying this on Python3.4, so that would need to be worked around (it was in the `zip` portion, so we could probably avoid it)."
+  , issueCommentId = 209127261
+  }

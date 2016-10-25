@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-11) 21 : 44 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/195566372"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5507#issuecomment-195566372"
+  , issueCommentCreatedAt = 2016 (-03) (-11) 21 : 44 : 53 UTC
+  , issueCommentBody =
+      "Hi @devlounge ,\r\n\r\nthe good news is that you will be able to easily do this yourself in RethinkDB 2.3 by using the `fold` command that we are introducing. The details of `fold` are discussed in https://github.com/rethinkdb/rethinkdb/issues/3736#issuecomment-163095798 and following , but here is how you would implement the consecutive group command:\r\n\r\n```js\r\nr.expr([{\"foo\": 1}, {\"foo\":1}, {\"foo\":0}, {\"foo\": 1}])\r\n .fold({},\r\n         // Accumulator function.\r\n         // Starts a new group or adds an element to the current group's `reduction`\r\n         function(current_group, input_element) {\r\n           // The `branch` is to start a new group when necessary\r\n           return r.branch(\r\n               current_group(\"group\").eq(input_element(\"foo\")).default(false),\r\n               current_group.merge({reduction: current_group(\"reduction\").append(input_element)}),\r\n               {group: input_element(\"foo\"), reduction: [input_element]});\r\n         },\r\n         {\r\n           // Emitter function. Emits the old_group accumulator if we just started a new group.\r\n           emit: function(old_group, input_element, new_group) {\r\n               return r.branch(old_group(\"group\").ne(new_group(\"group\")), [old_group], []).default([]);\r\n           },\r\n           // Final emitter function. Emit the final group if there is any\r\n           finalEmit: function(final_group) {\r\n               return r.branch(final_group.ne({}), [final_group], []);\r\n           }\r\n         })\r\n```\r\n\r\n(@chipotle: Would this be a suitable example for the `fold` API page? Maybe for the cookbook?)\r\n\r\nAs a side remark: This can't actually work when using an index with the `group`, since an indexed group will always traverse the sequence in the order of the index (so the individual groups will be contiguous in any case).\r\n\r\nI'll leave this open to discuss adding this as a native feature. However I think it's a lower priority thing since you can already implement it yourself with the above query."
+  , issueCommentId = 195566372
+  }

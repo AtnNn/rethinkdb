@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-08) (-08) 17 : 22 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2819/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2819"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 2819
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Unify argument evaluation"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2819"
+  , issueCreatedAt = 2014 (-08) (-05) 23 : 57 : 01 UTC
+  , issueBody =
+      Just
+        "Currently, argument evaluation in the various `term_t`s is done intermixed with interpretation; see for example obj_or_seq_op_term_t which evaluates its first argument `v0` and then dispatches based on its type before further argument evaluation occurs.  This made the implementation of the BRACKET term in #1179 unnecessarily awkward, as BRACKET needs to evaluate its *second* argument and dispatch based on its type.\r\n\r\nI would prefer decoupling argument evaluation from interpretation.  As an example, suppose we had a byte code interpreter backing up the `term_t`s; there would never be any question of which argument was evaluated when, as they would all have been evaluated prior to the `term_t::eval_impl` ever being called.  We don't need to go all the way to using a byte code interpreter to implement this idea, but it's the easiest way to communicate what I want done.  What we have at present would be well suited to lazy evaluation if we wanted to or thought it was in any way a good idea to do that, but we do not use that flexibility, and it complicates matters unnecessarily.\r\n\r\n(@coffeemug: this doesn't need to get done soon, but it's a nuisance.)"
+  , issueState = "open"
+  , issueId = Id 39577496
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

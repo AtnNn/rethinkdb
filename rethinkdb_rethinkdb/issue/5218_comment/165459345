@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-17) 13 : 58 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1793187
+        , simpleUserLogin = N "r-marques"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1793187?v=3"
+        , simpleUserUrl = "https://api.github.com/users/r-marques"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165459345"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5218#issuecomment-165459345"
+  , issueCommentCreatedAt = 2015 (-12) (-17) 13 : 58 : 55 UTC
+  , issueCommentBody =
+      "So here are the new results:\r\n\r\n- table with 1 shard, 1 replica an connecting to a node that does not have the shard\r\n```bash\r\n[2.5033794960036175, 2.435514319993672, 2.4714058880053926]\r\n[9.021154685993679, 22.03969965201395, 35.02799635299016]\r\n[242.3431261490041, 241.08487274199433, 240.5605552240013]\r\n[213.71790749499633, 211.88588908698875, 212.46761007899477]\r\n[44.6750634820055, 45.01772438400076, 45.02924897900084]\r\n[40.98371652800415, 40.877164545003325, 40.84964338700229]\r\n```\r\n\r\nSo running the first query went from ~7 secs to 200 msec. Counting the documents went from 1 sec to 24 secs and in the last test, just getting the cursor still takes ~4 sec\r\n\r\n- same tests connected to the node owning the shard\r\n\r\n```bash\r\n[41.02760539500741, 41.1561020109948, 40.839776997003355]\r\n[48.14223549400049, 60.929255732989986, 73.67640126599872]\r\n[240.48292418199708, 239.2011230019998, 239.20667525399767]\r\n[211.49938626198855, 211.3284923350002, 212.07590925200202]\r\n[83.09043296100572, 83.78626965198782, 83.60765462399286]\r\n[79.48957002699899, 79.29227662400808, 78.96847818800597]\r\n```\r\n\r\nThe values are higher in this case\r\n\r\nI also ran the queries in the data explorer of the webui just  to make sure and it takes around the same time e.g. running the test_1 query to count the elements takes ~25 secs\r\n\r\nI don't really know how to interpret this results so any pointers to how to make it perform better are welcome."
+  , issueCommentId = 165459345
+  }

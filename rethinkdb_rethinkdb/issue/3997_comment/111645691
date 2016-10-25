@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-13) 00 : 17 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1794527
+        , simpleUserLogin = N "ccorcos"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1794527?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ccorcos"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/111645691"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3997#issuecomment-111645691"
+  , issueCommentCreatedAt = 2015 (-06) (-13) 00 : 17 : 49 UTC
+  , issueCommentBody =
+      "@deontologician I'm not terribly familiar with rethinkdb, but I'd really like to do be able to query some social network kind of stuff. Here's my first ever attempt at building a ReQL query so it could be totally wrong, but the goal is to get a sorted and limited list of posts that are either posted by or liked by the users you follow.\r\n\r\n```js\r\nvar following = r.table(\"follows\").filter(r.row('userId').eq(userId)) // the follow table contains {userId, followId}\r\n\r\nfollowing.eqJoin(\"followId\", r.table(\"posts\"), index=\"userId\") // get the posts posted by the people you follow\r\n  .union(following.eqJoin(\"followId\", r.table(\"likes\"), index=\"userId\") // get the liked by the people you follow\r\n    .eqJoin(\"postId\", r.table(\"posts\"))) // get the posts that are liked\r\n    .orderBy({index: 'date'}).limit(10).run() // order and limit\r\n```\r\n\r\nI've been using Meteor which gives change feeds with Mongo, but Mongo doesn't do joins so I'm at a loss here..."
+  , issueCommentId = 111645691
+  }

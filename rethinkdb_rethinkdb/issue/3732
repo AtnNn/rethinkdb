@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-02) (-06) 17 : 59 : 25 UTC
+  , issueUpdatedAt = 2015 (-02) (-11) 19 : 00 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3732/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3732"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3732
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "virtual tables giving odd result for initial value on point changefeeds"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3732"
+  , issueCreatedAt = 2015 (-02) (-05) 01 : 18 : 57 UTC
+  , issueBody =
+      Just
+        "When a record is deleted, and then another record created with the same id any point changefeeds created immediacy after will give a bad answer for the initial record in that changefeed. This is related to issue #3723, and might well be another result of the same cause.\r\n\r\n```python\r\nr.table('bob').insert({'id':1, 'version':1}).run(conn)\r\nr.table('bob').get(1).delete().run(conn)\r\n\r\nr.table.insert({'id':1, 'version':2}).run(conn)\r\nfeed = self.table.get(1).changes().run(conn2)\r\n\r\nfeed.next() # gets {'new_val': None} rather than  {'new_val': {'version': 2, 'id': 1}}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 56613748
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

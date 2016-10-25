@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-22) 20 : 12 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4521/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4521"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:web-ui"
+          , labelName = "cp:web-ui"
+          }
+      ]
+  , issueNumber = 4521
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Dashboard fails to load when two tables have the same name"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4521"
+  , issueCreatedAt = 2015 (-07) (-09) 19 : 16 : 57 UTC
+  , issueBody =
+      Just
+        "![selection_074](https://cloud.githubusercontent.com/assets/1366/8604520/ef9ebc24-2633-11e5-8dbf-b063697f86b6.png)\r\n\r\nError on the console is:\r\n\r\n```\r\nTable `test.pilpy` is ambiguous; there are multiple tables with that name.\", frames: Array[8], message: \"Table `test.pilpy` is ambiguous; there are multiple tables with that name in:\r\n{servers: r.do(r.db(\"rethinkdb\").table(\"server_status\")(\"name\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"table_config\").concatMap(function(var_33) { return var_33(\"shards\").default([]); }).concatMap(function(var_34) { return var_34(\"replicas\"); }).distinct(), function(var_35, var_36) { return {servers_connected: var_35.count(), servers_missing: var_36.setDifference(var_35), unknown_missing: r.db(\"rethinkdb\").table(\"table_config\").filter(function(var_37) { return var_37.hasFields(\"shards\").not(); })(\"name\").isEmpty().not()}; }), tables: {tables_ready: r.db(\"rethinkdb\").table(\"table_status\").count(function(var_38) { return var_38(\"status\")(\"all_replicas_ready\"); }), tables_unready: r.db(\"rethinkdb\").table(\"table_status\").count(function(var_39) { return var_39(\"status\")(\"all_replicas_ready\").not(); })}, indexes: {num_sindexes: r.db(\"rethinkdb\").table(\"table_config\").map(function(var_40) { return r.branch(r.db(\"rethinkdb\").table(\"table_status\").get(var_40(\"id\"))(\"status\")(\"ready_for_outdated_reads\"), r.db(var_40(\"db\")).table(var_40(\"name\")).indexList().count(), 0); }).sum(), sindexes_constructing: r.db(\"rethinkdb\").table(\"jobs\").filter({type: \"index_construction\"})(\"info\").map(function(var_41) { return {db: var_41(\"db\"), table: var_41(\"table\"), index: var_41(\"index_name\"), progress: var_41(\"progress\")}; }).coerceTo(\"array\")}, resources: {cache_used: r.db(\"rethinkdb\").table(\"stats\").filter(function(var_42) { return var_42(\"id\").contains(\"table_server\"); })(\"storage_engine\")(\"cache\")(\"in_use_bytes\").sum(), cache_total: r.db(\"rethinkdb\").table(\"server_status\")(\"process\")(\"cache_size_mb\").map(function(var_43) { return var_43.mul(1048576); }).sum(), disk_used: r.db(\"rethinkdb\").table(\"stats\").filter(function(var_44) { return var_44(\"id\").contains(\"table_server\"); })(\"storage_engine\")(\"disk\")(\"space_usage\").map(function(var_45) { return var_45(\"data_bytes\").add(var_45(\"garbage_bytes\")).add(var_45(\"metadata_bytes\")).add(var_45(\"preallocated_bytes\")); }).sum()}}\r\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  \r\n```\r\n\r\n~~Looks to be an issue in the code that sums up disk and cache usage per table. Since some of the info is not available through the admin tables, just through `r.table(x).info()`~~\r\n\r\nLooking at the highlighted exception, it's due to getting indexes from tables. Similar problem"
+  , issueState = "open"
+  , issueId = Id 94130114
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

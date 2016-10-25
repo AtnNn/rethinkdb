@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-24) 19 : 12 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/228435111"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2719#issuecomment-228435111"
+  , issueCommentCreatedAt = 2016 (-06) (-24) 19 : 11 : 02 UTC
+  , issueCommentBody =
+      "A workaround for this is to use `distinct` which emits the group values lazily and still allows the reductions to be performed across all shards. This is much faster than native `group` in every case I've tried:\r\n\r\n```js\r\nr.table('test')\r\n  .distinct({ index: 'date' })\r\n  .map({\r\n    group: r.row,\r\n    reduction: r.table('test').getAll(r.row, { index: 'date' }).count()\r\n  })\r\n```\r\n\r\n@danielmewes noted the only difference between this rewrite and `.group(...)` is that the distinct can result in empty groups if a document is modified while the query is being run."
+  , issueCommentId = 228435111
+  }

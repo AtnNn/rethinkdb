@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-08) 20 : 09 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/146672056"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4917#issuecomment-146672056"
+  , issueCommentCreatedAt = 2015 (-10) (-08) 20 : 09 : 56 UTC
+  , issueCommentBody =
+      "@larkost Testing for a bug like this in general is hard (at least I don't know how). A pointer wasn't being updated when moving an object, and so it kept pointing to an old memory location. Some other code would then access that pointer and overwrite whichever values was at that point stored in that location.\r\n\r\nUsually Valgrind should catch such problems, but we tried it and it didn't catch the problem in this case. It's possible that there are certain parameters that would enable Valgrind to catch this. I think that would be worth investigating. You can build a binary that works with Valgrind as follows:\r\n```\r\nmake VALGRIND=1 ALLOCATOR=system DEBUG=1\r\n```\r\n(the DEBUG=1 is optional)\r\n\r\nThere is also a suppressions file which should be used to avoid a bunch of false alarms:\r\n```\r\nvalgrind --suppressions=scripts/rethinkdb-valgrind-suppressions.supp build/debug_valgrind_system/rethinkdb --no-update-check ...\r\n```\r\n\r\nIn this particular case, the crash could actually be reproduced by the Python connection test, among many others. In fact any test that used a cursor and retrieved more than one batch from it would run into the segmentation fault. However this was only the case with certain compiler and/or library versions, because of memory layouts being different. On `newton` as well as the other machines that we are running our tests on for example the memory corruption would remain (seemingly) without any obvious consequences.\r\nI don't think there's much value in writing a separate regression test for this particular bug, since it's extremely unlikely that we'll make the same mistake in the exact same place again. Instead it would be neat if we could make Valgrind catch these properly."
+  , issueCommentId = 146672056
+  }

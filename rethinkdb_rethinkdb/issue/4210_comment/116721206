@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-29) 15 : 05 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 8432687
+        , simpleUserLogin = N "pagejohn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8432687?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pagejohn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/116721206"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4210#issuecomment-116721206"
+  , issueCommentCreatedAt = 2015 (-06) (-29) 15 : 05 : 15 UTC
+  , issueCommentBody =
+      "Agree with cayblood - business transactions must be secure and must be able to span multiple documents.  \r\nHigh level security requirements (for our web app):\r\n1.  Apply on a \"transaction type\" where each transaction accesses one or more document.   Essentially this translates the user transaction into one or more system transactions.\r\n2. Define transaction as read or write:  read only may not change any data\r\n3. Business Rules.  This looks at the transaction in context with the user e.g. an \"Update Personal Settings\" transaction would be disallowed if the requesting UID is not authed or if is not the UID in the record being updated.  Must be able to apply multiple security validation steps per transaction type.\r\n4.  Cross Table Business Rule example.  A cross table example would be \"Get Friend Profile\" where the rule is if the requested profile's UID is not in the requesting user's UID's Friends List then don't allow the get.  The last example is an absolute must have for any web app otherwise anyone hijacking a valid client session can pull anybody's profile.\r\n5.  Changefeeds.  Explicitly in our app, only UIDs that are members of a convo should be able to listen to it.  A changefeed subscription should therefore be controlled like a read.\r\n6.  Nonsense request.  If the transaction received has a payload that that doesn't make sense (e.g. is not JSON that contains the 'fields' that are needed to implement a security rule) then it should be denied.\r\n7.  All fails should be logged (somewhere).\r\nThis is our hottest topic - if anyone has or can point us to a security rules solution to front end RethinkDB would love to hear from you."
+  , issueCommentId = 116721206
+  }

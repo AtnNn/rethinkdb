@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-05) (-12) 18 : 35 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5755/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5755"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 5755
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1577
+        , simpleUserLogin = N "alf"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1577?v=3"
+        , simpleUserUrl = "https://api.github.com/users/alf"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error in time logic: Year is out of valid range: 1400..10000."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5755"
+  , issueCreatedAt = 2016 (-05) (-09) 13 : 33 : 24 UTC
+  , issueBody =
+      Just
+        "It seems that things start breaking if you're handling dates before the year 1400.\r\n\r\nThe easiest way to provoke this error message is:\r\n\r\n```js\r\nr.ISO8601(\"0001-01-01T00:00:00Z\")\r\n```\r\n\r\nIt seems this limitation is [documented](https://www.rethinkdb.com/docs/dates-and-times/java/#technical-details), however the error message does not point to this and google isn't very helpful since the error message seems to be a generic error from a library.\r\n\r\nSince it is possible to insert data that contains pre-medieval dates like below, confusion ensues.\r\n\r\n```js\r\nr.db(\"test\").table(\"test\").insert({id: 1, date: r.epochTime(-63576576000)})\r\n```\r\n\r\nI stumbled upon this since the .NET RethinkDb.Driver seems to serialize dates differently in different situations. Thus when I insert a new row it uses epochTime, but when I compare the date in a row with a datetime it uses iso8601.\r\n\r\nI suggest the following improvements:\r\n\r\n1. The error message is adjusted to include the above link to technical details\r\n2. Log a warning or raise an error when creating dates outside the limits using epochTime.\r\n3. Fix the limitation."
+  , issueState = "open"
+  , issueId = Id 153777146
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

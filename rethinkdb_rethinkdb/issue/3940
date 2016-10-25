@@ -1,0 +1,67 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-16) 22 : 43 : 46 UTC
+  , issueUpdatedAt = 2015 (-03) (-20) 00 : 25 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3940/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3940"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3940
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Initial data from a changefeed should not be squashed"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3940"
+  , issueCreatedAt = 2015 (-03) (-16) 20 : 34 : 32 UTC
+  , issueBody =
+      Just
+        "The following code is a quick hack to reproduce what's going on, and must be run from `test/changefeed` with a port that has `rethinkdb` running\r\n\r\n```\r\nimport rethinkdb as r\r\nimport os, sys, time\r\n\r\nsys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir, 'common'))\r\nimport utils\r\n\r\nif __name__ == \"__main__\":\r\n    conn = r.connect(\"localhost\", 28344)\r\n    feed_conn = r.connect(\"localhost\", 28344)\r\n\r\n    try:\r\n        r.db_drop(\"foo\").run(conn)\r\n    except:\r\n        pass\r\n    r.db_create(\"foo\").run(conn)\r\n    r.db(\"foo\").table_create(\"foo\").run(conn)\r\n    r.db(\"foo\").table(\"foo\").wait().run(conn)\r\n    documents = [{\"id\": x} for x in xrange(5)]\r\n    r.db(\"foo\").table(\"foo\").insert(documents).run(conn)\r\n\r\n    query = r.db(\"foo\") \\\r\n             .table(\"foo\") \\\r\n             .order_by(index=r.desc(\"id\")) \\\r\n             .limit(10) \\\r\n             .changes(squash=3.0)\r\n\r\n    with utils.NextWithTimeout(query.run(feed_conn), stopOnEmpty=False) as feed:\r\n        start = time.time()\r\n\r\n        initial = []\r\n        for x in xrange(len(documents)):\r\n            print time.time()\r\n            initial.append(next(feed))\r\n\r\n        print time.time() - start\r\n```\r\n\r\ntogether with the following patch\r\n\r\n```\r\ndiff --git a/test/common/utils.py b/test/common/utils.py\r\nindex fb8543c..dabc23b 100644\r\n--- a/test/common/utils.py\r\n+++ b/test/common/utils.py\r\n@@ -616,7 +616,7 @@ class NextWithTimeout(threading.Thread):\r\n                 continue\r\n             try:\r\n                 self.latestResult = next(self.feed)\r\n-                time.sleep(.5)\r\n+                time.sleep(.05)\r\n             except Exception as e:\r\n                 self.latestResult = e\r\n                 if not self.stopOnEmpty:\r\n```\r\n\r\nIt shows the following\r\n\r\n```\r\n1426538023.42\r\n1426538026.43\r\n1426538026.48\r\n1426538026.53\r\n1426538026.58\r\n3.20775604248\r\n```\r\n\r\nNote the `3.0` second delay between the first and rest of the results, which corresponds to the `squash` time."
+  , issueState = "closed"
+  , issueId = Id 62202345
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

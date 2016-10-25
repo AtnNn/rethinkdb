@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-02) 18 : 48 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223385833"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5757#issuecomment-223385833"
+  , issueCommentCreatedAt = 2016 (-06) (-02) 18 : 48 : 31 UTC
+  , issueCommentBody =
+      "Getting a newer V8 version to work is not completely trivial. Maybe we can try building without V8 snapshots first.\r\nThe disadvantage is that the `r.js` command is going to be a lot slower.\r\n\r\nCan you try the following patch?\r\n```\r\ndiff --git a/mk/support/pkg/v8.sh b/mk/support/pkg/v8.sh\r\nindex dc339ad..e816f31 100644\r\n--- a/mk/support/pkg/v8.sh\r\n+++ b/mk/support/pkg/v8.sh\r\n@@ -45,7 +45,7 @@ pkg_install () {\r\n         *)      arch=native ;;\r\n     esac\r\n     mode=release\r\n-    pkg_make $arch.$mode CXX=$CXX LINK=$CXX LINK.target=$CXX GYPFLAGS=\"-Dwerror= $arch_gypflags\" V=1\r\n+    pkg_make $arch.$mode CXX=$CXX LINK=$CXX LINK.target=$CXX GYPFLAGS=\"-Dwerror= $arch_gypflags\" V=1 snapshot=off\r\n     for lib in `find \"$build_dir/out/$arch.$mode\" -maxdepth 1 -name \\*.a` `find \"$build_dir/out/$arch.$mode/obj.target\" -name \\*.a`; do\r\n         name=`basename $lib`\r\n         cp $lib \"$install_dir/lib/${name/.$arch/}\"\r\n@@ -56,7 +56,7 @@ pkg_install () {\r\n pkg_link-flags () {\r\n     # These are the necessary libraries recommended by the docs:\r\n     # https://developers.google.com/v8/get_started#hello\r\n-    for lib in libv8_{base,libbase,snapshot,libplatform}; do\r\n+    for lib in libv8_{base,libbase,nosnapshot,libplatform}; do\r\n         echo \"$install_dir/lib/$lib.a\"\r\n     done\r\n     for lib in libicu{i18n,uc,data}; do\r\n```"
+  , issueCommentId = 223385833
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-12) (-15) 18 : 38 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1841/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1841"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1841
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider making writes never block reads (from other connections)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1841"
+  , issueCreatedAt = 2014 (-01) (-10) 02 : 54 : 57 UTC
+  , issueBody =
+      Just
+        "Right now a long-running write (such as a batched insert) will block reads under certain circumstances.\r\nIf we want to guarantee low latencies for simple read operations, this is a huge problem.\r\n\r\nIt seems that from the cache/snapshotting side, this will be relatively easy to implement with the new cache. Essentially write transactions would take snapshots of data they change pro-actively, so subsequent reads could use those snapshots without having to wait for the write to release a block. I've discussed this a little with @srh today. There would be some memory overhead under certain conditions, but it might be worth it.\r\n\r\nSemantically, any read transaction that starts while a given write transaction is still active would see the state from before the write transaction has started. Once a write completes, any read beginning after that will see the new state.\r\nI believe that from the outside this would be indistinguishable from our current behavior, unless I'm forgetting about something (assuming that we process only one query at a time per connection, which we currently do).\r\n\r\nI'm putting this into backlog for now. It seems that there are more important issues, but I think that we should definitely do it eventually if its not too complicated. In combination with a few additional tweaks, this would actually allow us to give hard guarantees on how long a point read can take."
+  , issueState = "open"
+  , issueId = Id 25372307
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-17) 01 : 42 : 58 UTC
+  , issueUpdatedAt = 2015 (-11) (-17) 01 : 43 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4743/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4743"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4743
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Hang in `multi_table_manager_t` during table fuzzing"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4743"
+  , issueCreatedAt = 2015 (-08) (-22) 00 : 22 : 59 UTC
+  , issueBody =
+      Just
+        "I ran a 15 minute test of the table fuzzer (1 server, 1 client thread, changefeeds enabled, v2.1.x with fixes for #4734 #4735 and #4736), and after about 10 minutes, the fuzzer was hanging on a query.  Trying queries in the web UI with gdb attached to the process showed that while queries could run, most queries that would touch a table would hang.\r\n\r\nThe hang was observed to happen on waiting for the `new_mutex_in_line_t` acquisition of a table's `mutex` in `multi_table_manager_t::on_get_status`.  Restarting the server clears up the hang (although it did not respond to a SIGINT and had to be SIGKILLed).  There may be a deadlock in handling table mutexes in `multi_table_manager_t`.\r\n\r\nFurther runs of the fuzzer have not reproduced the bug, so it may be that it is very rare given these conditions."
+  , issueState = "closed"
+  , issueId = Id 102484695
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

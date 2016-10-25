@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-09) 21 : 56 : 52 UTC
+  , issueUpdatedAt = 2014 (-03) (-18) 06 : 36 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1778/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1778"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1778
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Switching to daemon mode shouldn't happen until we can successfully access the log file"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1778"
+  , issueCreatedAt = 2013 (-12) (-17) 02 : 52 : 49 UTC
+  , issueBody =
+      Just
+        "Consider the following scenario (@wojons just ran into this).\r\n\r\n1. Manually create a data directory for RethinkDB: `rethinkdb create -d /var/lib/rethinkdb/instance1/data/`.\r\n2. Go into the data directory and give access permissions for the files inside, but not from the directory (an easy mistake to make): `cd /var/lib/rethinkdb/instance1/data/; sudo chown rethinkdb:rethinkdb *`.\r\n3. Try to start RethinkDB via init.d: `/etc/init.d/rethinkdb start`\r\n\r\nRethinkDB cannot startup because it can't access files, but the user is given no error message. What happens is that the process checks access to the directory, determines it's ok, and successfully switches to daemon mode. Rethink then tries to access data files, cannot, tries to write to the log file, but also cannot because it doesn't have permissions. But it has switched to daemon mode already, so the user doesn't see the error message printed on stderr.\r\n\r\nWe shouldn't switch to the daemon mode until we've successfully verified that we can write to the log file (presumably by starting the logging component first?)\r\n\r\nAssigning to @Tryneus."
+  , issueState = "closed"
+  , issueId = Id 24396852
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 57
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.11.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/57"
+          , milestoneCreatedAt = 2014 (-01) (-12) 20 : 47 : 15 UTC
+          , milestoneState = "closed"
+          }
+  }

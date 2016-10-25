@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 06 : 33 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47065014"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-47065014"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 06 : 33 : 18 UTC
+  , issueCommentBody =
+      "So, there are advantages to both designs.  Here are my thoughts on maintaining a tree:\r\n\r\nPros:\r\n* Harder for the user to mess up.\r\n* Works with a wider variety of functions (e.g. `min` and `max`).\r\n\r\nCons:\r\n* It takes up space.  Like, O(n) in the size of the table.  This can add up quickly.\r\n* It's more work to implement.\r\n* It's usually slower.\r\n\r\n---\r\n\r\nI would lean toward the inverse solution because it's easier, it scales better, and I would guess most people will be using our aggregators (`sum`, `avg`, etc.) rather than their own, and we can provide the inverse functions for them.\r\n\r\nFor `min` and `max`, we can say that we only offer live `min` and `max` on an index.  (We first need to implement `min` and `max` on an index, but we should do that anyway.)\r\n\r\nWhen we eventually make `sample` an aggregator, we can solve the inverse problem for `sample` by just making it fast in all cases (if we implement constant-time `count` by storing counts in our btree nodes, this won't be all that hard)."
+  , issueCommentId = 47065014
+  }

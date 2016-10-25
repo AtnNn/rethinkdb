@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-30) 20 : 45 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/229783587"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5897#issuecomment-229783587"
+  , issueCommentCreatedAt = 2016 (-06) (-30) 20 : 45 : 45 UTC
+  , issueCommentBody =
+      "RethinkDB currently continues to try to connect to cluster members for a LONG time (I don't believe it's infinite, but on the order of days) at their last known IP. Since Kubernetes can reuse a Pod IP when it shuts down a Pod and starts up new ones, you could get unlucky and schedule a *different* RethinkDB cluster's node on the same IP as an old one.\r\n\r\nhttps://github.com/rethinkdb/rethinkdb/issues/1905 talks about the \"accidentally joining clusters together\" problem that Kubernetes aggressively exacerbates. In there, there's some mention of a `cluster_id` which would solve the problem of the clusters joining accidentally. I commented on some details there.\r\n\r\nHowever, that's still not ideal:\r\nIt'd be nice to be able to tell RethinkDB not to try to connect to cluster nodes that are known to be incorrect. Similarly, it'd be nice to be able to tell RethinkDB to connect to a node that it should be joined with (*without* restarting it.)\r\n\r\nThe thing I'm thinking would be an ideal Kube config is: You manually manage a Deployment which creates ReplicaSets of Pods for each node in a RethinkDB cluster, using PetSets and PersistentVolume provisioners to manage their independent volumes automatically (requires Kube 1.3, unreleased at the time of this writing.) The Pod specifies two containers:\r\n- One running RethinkDB, with no `--join` arguments.\r\n- One sidecar, simple script in Python/Ruby/JS/Shell which watches the Kubernetes API for Pod changes matching a label it's been told that matches all Pods in the cluster.\r\n    - When it sees Pods other than itself (including on startup), it sends a message to its local RethinkDB telling it to join that Pod by its Pod IP.\r\n    - When it sees Pods removed from Kube, it sends a message to its local RethinkDB telling it to not talk to that Pod again (by its Pod IP.) This avoids having a Pod happen to start up in the same IP, but for a different RethinkDB cluster, and having the clusters join. There's a race condition here, but it can be solved by #1905. (Example use case: multiple developers spinning up and down small RethinkDB clusters in a dev environment, intending them to stay separated.)\r\n\r\nThe Deployment object would declare a `cluster_id` label, which would be used by the sidecar, and if #1905 happens, also with the RethinkDB container.\r\n\r\nAdditionally, you add a single Service for the driver port across all the nodes in the cluster, then point your apps at it. No Services are needed for inter-cluster communication (this happens via Pod IPs.)\r\n\r\nThis means you can update the Deployment to grow the cluster, without any weird behavior like joining other clusters or failing until you update other objects. Yay! (Down-sizing is pretty hard in this case due to the inability to declare *which* Pod goes down; I think Kube will need to have some extra support to do this on top of what's planned for 1.3, but I'm not sure.)\r\n\r\nFrom and end-user perspective, this will be pretty simple. `kubectl apply -f deployment.yaml -f service.yaml`, then go use it. Resizing the cluster is editing the deployment with `kubectl edit` or by changing the deployment file and `apply`ing it again."
+  , issueCommentId = 229783587
+  }

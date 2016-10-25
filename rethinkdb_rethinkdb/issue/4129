@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-27) 19 : 39 : 35 UTC
+  , issueUpdatedAt = 2015 (-04) (-27) 19 : 44 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4129/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4129"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4129
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 25490
+        , simpleUserLogin = N "digi604"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/25490?v=3"
+        , simpleUserUrl = "https://api.github.com/users/digi604"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Concurrency problem"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4129"
+  , issueCreatedAt = 2015 (-04) (-27) 15 : 32 : 48 UTC
+  , issueBody =
+      Just
+        "I have a lock table and i want to update the lock to True and set the current time if the lock is False or lock time now() - 60s.\r\n\r\nIf i have multiple threads connecting to the db this works with concurrent threads trying to acquire a lock :\r\n\r\n    r.table('status').get('event_import_lock').update(\r\n            lambda lock: r.branch((lock[\"blocked\"] == False) | (lock['block_time'] < r.now()-60),\r\n            {'blocked': True, 'block_time': r.now()},\r\n            {}\r\n            ), return_changes=True).run(conn)\r\n\r\n\r\nbut with this query if 2 threads try to acquire a lock sometimes they both end up with the lock:\r\n\r\n    res = r.table(\"status\").filter(\r\n       (r.row[\"id\"] == 'event_import_lock') & (\r\n       (r.row[\"blocked\"] == False) | (r.row['block_time'] < r.now() - 60))).update(\r\n        {'blocked': True, 'block_time': r.now()}, return_changes=True).run(conn)\r\n\r\n\r\nDo i not understand something here? Is the filter and update not executed at the same time? Did i do something wrong?"
+  , issueState = "closed"
+  , issueId = Id 71321163
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-04) 19 : 40 : 05 UTC
+  , issueUpdatedAt = 2015 (-08) (-04) 22 : 33 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4623/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4623"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4623
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 127315
+        , simpleUserLogin = N "kulbirsaini"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/127315?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kulbirsaini"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Rethinkdb starts sending responses to queries in an async for loop only after all the queries have finished executing on server side"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4623"
+  , issueCreatedAt = 2015 (-08) (-04) 15 : 36 : 12 UTC
+  , issueBody =
+      Just
+        "I have the following code which uses JavaScript driver for Rethinkdb.\r\n\r\n```javascript\r\nvar r = require('rethinkdb');\r\n\r\nfunction printCount(i, connection) {\r\n  r.db('pytwitter').table('tweets').count().run(connection, function(error, data){\r\n    console.log(new Date(), i, 'Error:', error, 'Data:', data);\r\n    connection.close();\r\n  });\r\n}\r\n\r\nfunction connectAndPrint(i) {\r\n  r.connect({ host: 'localhost', port: 28015 }, function(error, conn) {\r\n    printCount(i, conn, true);\r\n  });\r\n}\r\n\r\nconsole.log(new Date(), \"Started\");\r\nfor (var i = 0; i < 10; i++) {\r\n  connectAndPrint(i);\r\n}\r\n```\r\n\r\nResults when running only for one iteration\r\n```bash\r\nTue Aug 04 2015 20:53:43 GMT+0530 (IST) 'Started'\r\nTue Aug 04 2015 20:53:44 GMT+0530 (IST) 0 'Error:' null 'Data:' 1432098\r\n```\r\nTime taken is roughly one second for executing and returning the data.\r\n\r\nNow, results with 10 iterations.\r\n```bash\r\nTue Aug 04 2015 20:53:49 GMT+0530 (IST) 'Started'\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 0 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 4 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 3 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 8 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 7 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 2 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 1 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 6 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 5 'Error:' null 'Data:' 1432098\r\nTue Aug 04 2015 20:53:56 GMT+0530 (IST) 9 'Error:' null 'Data:' 1432098\r\n```\r\nNote the 7 seconds delay in returning the first result. And then all the results are with us within the same second.\r\n\r\n![Cluster Performance Graph](https://cloud.githubusercontent.com/assets/127315/9064742/8bdb3d62-3aeb-11e5-964f-f8d9781dae7e.png)\r\n\r\nI am running `rethinkdb 2.0.4~0trusty` (GCC 4.8.2) on `Linux 3.13.0-37-generic x86_64` (Linux Mint 17). Table tweets has 1.4M documents (tweets fetched from twitter but no nested entities/users. Only top level fields within an object).\r\n\r\nAlso, I am running two instances of Rethinkdb on the same machine and table has 2 shards and two replicas (I know it doesn't make sense to run two instances on same machine but that's unrelated to the issue at hand).\r\n\r\nAlso note that I am new to `node.js` and it's pretty possible that I have written bad code but googling for the same/related issue left me wondering why no one wrote a similar bad example ever."
+  , issueState = "closed"
+  , issueId = Id 98997991
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

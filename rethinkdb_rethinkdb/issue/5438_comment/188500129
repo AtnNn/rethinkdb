@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-24) 23 : 01 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/188500129"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5438#issuecomment-188500129"
+  , issueCommentCreatedAt = 2016 (-02) (-24) 23 : 01 : 39 UTC
+  , issueCommentBody =
+      "Ah, so that's where that core setting is nowadays! `ulimit` doesn't seem to exist anymore(?)... Well, anyway, I'll add that tomorrow.\r\n\r\nOh I see, that's probably a simple way to find which table the problem is in, if there is any. But the result of that test is basically boolean, right? I'll probably do a variant of that, that returns one document at a time to the client, using a for-loop over all documents. Luckily this database (and clients) isn't completely critical (yet), and all related services will be automatically restarted by systemd when the DB crashes. And it's all set up to synchronize their state on startup, so there's likely not too much data-loss :) But I'll see if I can get around to doing something like this tomorrow.\r\n\r\nCould something like an invalid utf-8 sequence cause this? Non-ascii text is quite common, and the content is from external sources (M2M). It might in theory contain all kinds of \"things\"... However, the data is received in json format which is parsed by rapidjson (in python), so I hope it's safe to assume it is valid.\r\n\r\nBut, reading the stack trace it seems that it crashed \"on the way up\" from a write; generating the response to the client. Does this imply that the data was written to the DB? Hm... but wait, we use soft durability so I guess it was never persisted to disk in any case... And also the changefeeds likely never got any message for that document before the db crashed.\r\n\r\nThe configuration is quite simple; a single node on a 4-core VM. 8G ram, I think.\r\nFile system and most other things is basically untouched debian defaults. I even think the database is on the root partition (!).\r\nThe db load is about 10 updates per second and then probably about 20 changefeeds on that with various queries. The biggest table - where most of the action takes place - is probably between 50-100k documents of ~4kB.\r\n"
+  , issueCommentId = 188500129
+  }

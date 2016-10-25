@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-11) 00 : 35 : 22 UTC
+  , issueUpdatedAt = 2015 (-03) (-11) 00 : 35 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3920/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3920"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3920
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Attempt to acquire an `auto_drainer_t` lock that's already pulsed."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3920"
+  , issueCreatedAt = 2015 (-03) (-10) 23 : 47 : 27 UTC
+  , issueBody =
+      Just
+        "In shutting down the following `guarantee` triggered.\r\n\r\n```\r\n#0  auto_drainer_t::lock_t::lock_t (this=0x7f5109956800, p=0x7f510d856b48) at src/concurrency/auto_drainer.cc:22\r\n#1  0x0000000001dd59c3 in ql::changefeed::client_t::maybe_remove_feed (this=0x7f510d856ad0, uuid=...) at src/rdb_protocol/changefeed.cc:2495\r\n#2  0x0000000001de055e in ql::changefeed::real_feed_t::maybe_remove_feed (this=0x7f50f83ecc00) at src/rdb_protocol/changefeed.cc:1186\r\n#3  0x0000000001dd412c in ql::changefeed::feed_t::del_sub_with_lock(rwlock_t *, std::function<unsigned long ()> &) (this=0x7f50f83ecc00, rwlock=0x7f50f83eccd8, f=...) at src/rdb_protocol/changefeed.cc:2217\r\n#4  0x0000000001dd44ca in ql::changefeed::feed_t::del_limit_sub (this=0x7f50f83ecc00, sub=0x7f5109841000, sub_uuid=...) at src/rdb_protocol/changefeed.cc:2275\r\n#5  0x0000000001df0582 in std::_Mem_fn<void (ql::changefeed::feed_t::*)(ql::changefeed::limit_sub_t*, uuid_u const&)>::operator() (this=0x7f510980eee0, __object=0x7f50f83ecc00, __args=..., __args=...)\r\n    at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:550\r\n#6  0x0000000001df04cd in std::__call<void, , 0, 1, 2>(<unknown type in /home/ssd3/vexocide/rethinkdb/build/debug_clang/rethinkdb, CU 0x4464074, DIE 0x4552a53>) (this=0x7f510980eee0, \r\n    __args=<unknown type in /home/ssd3/vexocide/rethinkdb/build/debug_clang/rethinkdb, CU 0x4464074, DIE 0x4552a53>) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:1145\r\n#7  0x0000000001df0426 in std::operator()<void> (this=0x7f510980eee0) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:1203\r\n#8  0x0000000001defe8d in std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (ql::changefeed::feed_t::*)(ql::changefeed::limit_sub_t *, const uuid_u &)> (ql::changefeed::feed_t *, ql::changefeed::limit_sub_t *, uuid_u)> >::_M_invoke(const std::_Any_data &) (__functor=...) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:1777\r\n#9  0x000000000150c7ae in std::function<void ()>::operator()(void) const (this=0x7f5109956c68) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:2160\r\n#10 0x0000000001dd3961 in ql::changefeed::subscription_t::destructor_cleanup(std::function<void ()> &) (this=0x7f5109841000, del_sub=...) at src/rdb_protocol/changefeed.cc:2163\r\n#11 0x0000000001def7c9 in ql::changefeed::limit_sub_t::~limit_sub_t (this=0x7f5109841000) at src/rdb_protocol/changefeed.cc:1553\r\n#12 0x0000000001de6125 in ql::changefeed::limit_sub_t::~limit_sub_t (this=0x7f5109841000) at src/rdb_protocol/changefeed.cc:1552\r\n#13 0x0000000001de6149 in ql::changefeed::limit_sub_t::~limit_sub_t (this=0x7f5109841000) at src/rdb_protocol/changefeed.cc:1552\r\n#14 0x0000000001de373f in scoped_ptr_t<ql::changefeed::subscription_t>::reset (this=0x7f5109979320) at ./src/containers/scoped.hpp:72\r\n#15 0x0000000001de36e1 in scoped_ptr_t<ql::changefeed::subscription_t>::~scoped_ptr_t (this=0x7f5109979320) at ./src/containers/scoped.hpp:34\r\n#16 0x0000000001de0015 in scoped_ptr_t<ql::changefeed::subscription_t>::~scoped_ptr_t (this=0x7f5109979320) at ./src/containers/scoped.hpp:33\r\n#17 0x0000000001de1c46 in ql::changefeed::stream_t::~stream_t (this=0x7f51099792a0) at src/rdb_protocol/changefeed.cc:2006\r\n#18 0x0000000001de1995 in ql::changefeed::stream_t::~stream_t (this=0x7f51099792a0) at src/rdb_protocol/changefeed.cc:2006\r\n#19 0x0000000001de19b9 in ql::changefeed::stream_t::~stream_t (this=0x7f51099792a0) at src/rdb_protocol/changefeed.cc:2006\r\n#20 0x000000000184eb03 in counted_release<ql::datum_stream_t> (p=0x7f51099792b8) at ./src/containers/counted.hpp:189\r\n#21 0x000000000184ea11 in counted_t<ql::datum_stream_t>::~counted_t (this=0x7f51098536e0) at ./src/containers/counted.hpp:60\r\n#22 0x0000000001849c85 in counted_t<ql::datum_stream_t>::~counted_t (this=0x7f51098536e0) at ./src/containers/counted.hpp:59\r\n#23 0x0000000001b63599 in ql::query_cache_t::entry_t::~entry_t (this=0x7f5109853640) at src/rdb_protocol/query_cache.cc:356\r\n#24 0x0000000001b61f7a in ql::query_cache_t::async_destroy_entry (entry=0x7f5109853640) at src/rdb_protocol/query_cache.cc:183\r\n#25 0x0000000001b65823 in std::_Bind<void (*(ql::query_cache_t::entry_t *))(ql::query_cache_t::entry_t *)>::__call<void, , 0>(<unknown type in /home/ssd3/vexocide/rethinkdb/build/debug_clang/rethinkdb, CU 0x313c8dd, DIE 0x31a513a>) (\r\n    this=0x7f51098479f8, __args=<unknown type in /home/ssd3/vexocide/rethinkdb/build/debug_clang/rethinkdb, CU 0x313c8dd, DIE 0x31a513a>) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:1145\r\n#26 0x0000000001b657d6 in std::_Bind<void (*(ql::query_cache_t::entry_t *))(ql::query_cache_t::entry_t *)>::operator()<void>(void) (this=0x7f51098479f8) at /usr/lib/gcc/x86_64-linux-gnu/4.6/../../../../include/c++/4.6/functional:1203\r\n#27 0x0000000001b6572c in callable_action_instance_t<std::_Bind<void (*(ql::query_cache_t::entry_t *))(ql::query_cache_t::entry_t *)> >::run_action(void) (this=0x7f51098479f0) at ./src/arch/runtime/callable_action.hpp:31\r\n#28 0x000000000150dcc2 in callable_action_wrapper_t::run (this=0x7f51098479e0) at src/arch/runtime/runtime_utils.cc:42\r\n#29 0x0000000001515c97 in coro_t::run () at src/arch/runtime/coroutines.cc:204\r\n#30 0x0000000000000000 in ?? ()\r\n```\r\n\r\nA copy of the executable and core file is in `newton:/home/vexocide/mlucy/3920`."
+  , issueState = "closed"
+  , issueId = Id 60588555
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

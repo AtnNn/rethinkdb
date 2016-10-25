@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-09) 18 : 47 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1211640
+        , simpleUserLogin = N "woodzee"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1211640?v=3"
+        , simpleUserUrl = "https://api.github.com/users/woodzee"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/238651957"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4428#issuecomment-238651957"
+  , issueCommentCreatedAt = 2016 (-08) (-09) 18 : 47 : 01 UTC
+  , issueCommentBody =
+      "Ran into the same issue here using the python driver with rethinkdb 2.3.4. Attempting to use r.literal inside of r.branch.\r\n\r\n```python\r\nchanges = r.table(\"posts\").get(2).update(\r\n    lambda post :\r\n    r.branch(\r\n        post[\"revision\"] <= 12,\r\n        {\r\n            \"configuration\" : r.literal(\r\n                {\r\n                    \"foo\" : \"bar\",\r\n                    \"superhuman\" : \"strength\"\r\n                }\r\n            )\r\n        },\r\n        {}\r\n    ), return_changes=True\r\n).run(connection)\r\n```\r\n\r\nRestructuring to move the branch inside does not work either.\r\n\r\n```python\r\nchanges = r.table(\"post\").get(12).update(\r\n    {\r\n        \"configuration\": r.branch(\r\n            r.row[\"revision\"] <= 12,\r\n            r.literal(\r\n                {\r\n                    \"foo\" : \"bar\",\r\n                    \"superhuman\" : \"strength\"\r\n                }\r\n            ),\r\n            {}\r\n        )\r\n}, return_changes=True).run(connection)\r\n```\r\n\r\nError : Stray literal keyword found: literal is only legal inside of the object passed to merge or update and cannot nest inside other literals.\r\n\r\nHave found work arounds, but wanted to add some more info to this issue. Would be a nice addition to have.\r\n"
+  , issueCommentId = 238651957
+  }

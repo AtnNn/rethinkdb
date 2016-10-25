@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-15) 19 : 40 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67052046"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3438#issuecomment-67052046"
+  , issueCommentCreatedAt = 2014 (-12) (-15) 19 : 40 : 06 UTC
+  , issueCommentBody =
+      "I think @grandquista nailed the relevant question.\r\nIs it possible for the user to pass something in that looks like a ReQL term object in the client language? Especially in duck-typed languages there might be an issue.\r\n\r\nIn the Python driver for example we use `isinstance(val, RqlQuery)` to determine whether a query argument should be sent directly as a ReQL term or converted into a ReQL constant. My understanding of Python isn't good enough to know how `isinstance` works exactly, though generally if a user is able to inject an object that passes the `isinstance(..., RqlQuery)` test, there will be a vulnerability.\r\n\r\nAnother potential source of security issues is the fact that in some languages (e.g. JavaScript), certain ReQL terms identify the opt args parameter based on whether a given argument is an object or not. If the user is able to pass in an object where the developer expected them to pass in for example a string, the RethinkDB driver might interpret the argument as a set of opt args rather than an argument to the query, which can potentially make the query behave in a pretty different way than what the developer had in mind.\r\n\r\nIf the user is able to pass in a function, then they'll be able to run arbitrary code in the client (the RethinkDB driver will internally evaluate the function to convert it into a ReQL AST). I don't think this is usually possible though.\r\n\r\nI actually think something like a `r.const(...)` term would make a lot of sense. Basically it would make sure that everything inside that term must be a constant datum, and cannot contain any other (dynamic) ReQL terms. I'll open a separate issue with a proposal."
+  , issueCommentId = 67052046
+  }

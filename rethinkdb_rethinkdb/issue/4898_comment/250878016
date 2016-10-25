@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-30) 23 : 59 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1441929
+        , simpleUserLogin = N "jlhawn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1441929?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jlhawn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/250878016"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4898#issuecomment-250878016"
+  , issueCommentCreatedAt = 2016 (-09) (-30) 23 : 59 : 21 UTC
+  , issueCommentBody =
+      "I've also got an idea for how to possibly fix this issue. I have some experience implementing other distributed systems, but I admit I have almost no idea of how the systems tables are currently implemented. So at the risk of sounding totally ignorant, here is my idea:\r\n\r\nHow about having the systems tables (i.e., the `rethinkdb` database) be a single Raft consensus group? Just as not every server in a cluster today hosts a replica of a table shard, not every server in the cluster need be a member of this consensus group. For example: in a cluster with 10 servers an operator can designate 3 servers to be \"cluster config managers\". This subset of the servers would be responsible for managing a replica of all of the systems tables. This replication can be managed by an operator just like any other table. These manager servers could also host shards for other tables as configured by an operator.\r\n\r\nAll queries on the systems tables would by routed from any server to the primary replica of the `rethinkdb` systems tables for up-to-date reads and writes. All other servers would connect to one (or all) of these cluster managers to \"discover\" which table shard replicas they are responsible for and how to connect to peers for the corresponding consensus groups. The other servers could then consume a change feed for the systems tables to be notified of changes to server, db, and table configuration.\r\n\r\nAs long as a majority of these manager servers are available then these operations can succeed. Note that this is *not* the same as a majority of all servers in the cluster. If a majority of these manager servers do become unavailable for some reason then an operator could perform a reconfigure with the `emergencyRepair` option - as they would with any other table. While the majority of manager servers are unavailable, you would not be able to join new servers or reconfigure any other tables, I don't know yet if this affects the availability of the other tables. I also haven't thought much about what to do in the event that all of the manager servers fail permanently. I guess you would have to pick an existing server to \"promote\" to the new role with the most recent view of the system tables that it had and then restart all other servers to `--join` this new manager. As usual, designating more (5, or 7) manager servers (from different racks, availability zones, etc) would provide higher likelihood of availability of the cluster config.\r\n\r\nJust as before, there is not really any hard notion of a server being a \"member\" of the cluster other than the servers which host a replica of the cluster config. I guess you can think of it as one Raft consensus group which coordinates other Raft Consensus groups?"
+  , issueCommentId = 250878016
+  }

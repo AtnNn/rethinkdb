@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-12) 19 : 23 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/92105026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4051#issuecomment-92105026"
+  , issueCommentCreatedAt = 2015 (-04) (-12) 19 : 23 : 31 UTC
+  , issueCommentBody =
+      "@larkost, some experimenting indicates that this might be possible.  If we change `DefaultCursor::__iter__` to only ever return one iterator from the Cursor:\r\n\r\n```py\r\n    def __iter__(self):\r\n        if not self._has_iter:\r\n            raise RqlDriverError('Cannot iterate over a cursor twice.')\r\n        self._has_iter = False\r\n        return self\r\n```\r\n\r\nThen I get this behavior:\r\n\r\n```py\r\n> cursor = r.range(10000).run(c)\r\n\r\n> len(list(cursor))\r\n10000\r\n\r\n> len(list(cursor))\r\nRqlDriverError: Cannot iterate over a cursor twice.\r\n```\r\n\r\nThis may have some other side-effects, though, I'm not sure if any code would try to obtain more than one iterator to the same object.\r\n"
+  , issueCommentId = 92105026
+  }

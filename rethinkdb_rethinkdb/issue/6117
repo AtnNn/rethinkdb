@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-09) (-24) 18 : 17 : 50 UTC
+  , issueUpdatedAt = 2016 (-09) (-25) 08 : 28 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6117/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6117"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6117
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2128182
+        , simpleUserLogin = N "ivan-kleshnin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2128182?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ivan-kleshnin"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Zero elements for logical conditions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6117"
+  , issueCreatedAt = 2016 (-09) (-20) 12 : 51 : 16 UTC
+  , issueBody =
+      Just
+        "RethinkDB lacks (obvious) logical identities (\"zero\" elements) which are required\r\nto assemble conditions on the fly.\r\n\r\nSuppose we need to build a filter to find all conflicting entries before model edit.\r\nRethinkDB does not have UNIQUE secondaries so one possible approach is to tolerate potential concurrency problems and check for uniqueness in additional read.\r\n\r\nLet `fields` be an array of fields which must be unique among all table rows\r\nand `model` be a model object.\r\n\r\nWithout \"zero\" element it's messy:\r\n\r\n```js\r\nlet [headField, ...tailFields] = fields\r\nlet cond = D.row(headField).eq(model[headField]).and(D.row(\"id\").ne(model.id))\r\nlet conflictsC = reduce((cond, field) => {\r\n return cond.or(D.row(field).eq(model[field]).and(D.row(\"id\").ne(model.id)))\r\n}, cond, tailFields)\r\n\r\nlet conflictsQ = D.table(table).filter(conflictsC)\r\n```\r\n\r\nAnd with \"zero\" element it's better:\r\n\r\n```js\r\nlet andID = D.row(\"id\") // logical ONE, supposed to always be true\r\nlet orID = D.row(\"_never_happens_\") // logical ZERO, supposed to always be false\r\n\r\nlet conflictsC = reduce((cond, field) => {\r\n  return cond.or(D.row(field).eq(model[field]).and(D.row(\"id\").ne(model.id)))\r\n}, orID, fields)\r\n\r\nlet conflictsQ = D.table(table).filter(conflictsC)\r\n```\r\n\r\nUnless I missed an easier way to achieve such functionality, I'd like to have equivalents of `andID` and `orID` elements among RethinkDB exports."
+  , issueState = "closed"
+  , issueId = Id 178050677
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

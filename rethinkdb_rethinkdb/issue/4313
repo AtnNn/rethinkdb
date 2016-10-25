@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-02) 20 : 23 : 03 UTC
+  , issueUpdatedAt = 2015 (-06) (-03) 19 : 26 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4313/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4313"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4313
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 316661
+          , simpleUserLogin = N "timmaxw"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/316661?v=3"
+          , simpleUserUrl = "https://api.github.com/users/timmaxw"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 414768
+        , simpleUserLogin = N "dancannon"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/414768?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dancannon"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Database crashing due to \"Guarantee failed\""
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4313"
+  , issueCreatedAt = 2015 (-05) (-29) 22 : 07 : 25 UTC
+  , issueBody =
+      Just
+        "After enabled host discovery by default for GoRethink one of the tests started failing pretty consistently (this test only connects to a single server). The host discovery part of the driver runs a change feed query to find what servers the driver can connect to. I enabled logging of every query sent to the DB and have posted the output below (The EOF error is from the server_status query).\r\n\r\nI realise that there is not much information in this issue but honestly I dont have any idea what is going on, if you could give me any pointers of what to look for I will try to add more information.\r\n\r\n```\r\nINFO[0000] r.DB(\"rethinkdb\").Table(\"server_status\") [1,[15,[[14,[\"rethinkdb\"]],\"server_status\"]]]\r\nINFO[0000] r.DB(\"rethinkdb\").Table(\"server_status\").Changes() [1,[152,[[15,[[14,[\"rethinkdb\"]],\"server_status\"]]]]]\r\nINFO[0000] r.DB(\"test\").TableDrop(\"table\") [1,[61,[[14,[\"test\"]],\"table\"]]]\r\nINFO[0000] r.DB(\"test\").TableCreate(\"table\") [1,[60,[[14,[\"test\"]],\"table\"]]]\r\nDEBU[0000] Error discovering hosts EOF, waiting 552.330144ms\r\nFATA[0000] Error finding person: dial tcp 127.0.0.1:28015: connection refused\r\n```\r\n\r\n```\r\nRunning rethinkdb 2.0.1 (CLANG 4.2 (clang-425.0.28))...\r\nRunning on Darwin 14.0.0 x86_64\r\nLoading data from directory /Users/danielcannon/rethinkdb_data\r\nwarn: Cache size does not leave much memory for server and query overhead (available memory: 618 MB).\r\nwarn: Cache size is very low and may impact performance.\r\nListening for intracluster connections on port 29015\r\nListening for client driver connections on port 28015\r\nListening for administrative HTTP connections on port 8080\r\nListening on addresses: 127.0.0.1, 127.94.0.1, 127.94.0.2, ::1\r\nTo fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.\r\nServer ready, \"Daniels_MacBook_Pro_local_pyy\" d36c8870-53c1-4ae5-8497-3c852ae6a251\r\nA newer version of the RethinkDB server is available: 2.0.2. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.\r\nVersion: rethinkdb 2.0.1 (CLANG 4.2 (clang-425.0.28))\r\nerror: Error in src/rdb_protocol/artificial_table/caching_cfeed_backend.cc at line 98:\r\nerror: Guarantee failed: [dirtiness != dirtiness_t::none_or_some || !dirty_keys.empty()] If nothing is dirty, we shouldn't have gotten here\r\nerror: Backtrace:\r\nerror: Fri May 29 22:30:56 2015\r\n\r\n1: 0 rethinkdb 0x0000000101db308b _Z11deserializeIL17cluster_version_t5EE16archive_result_tP13read_stream_tP17repli_timestamp_t + 539 at 0x101db308b ()\r\n2: 0 rethinkdb 0x00000001019854ec _ZN26callable_action_instance_tI21pmap_runner_one_arg_tINSt3__16__bindIM29traversal_progress_combiner_tFviEJPS3_RNS1_12placeholders4__phILi1EEEEEExEED0Ev + 2684 at 0x1019854ec ()\r\n3: 0 rethinkdb 0x0000000101985d27 _ZN26callable_action_instance_tI21pmap_runner_one_arg_tINSt3__16__bindIM29traversal_progress_combiner_tFviEJPS3_RNS1_12placeholders4__phILi1EEEEEExEED0Ev + 4791 at 0x101985d27 ()\r\n4: 0 rethinkdb 0x000000010198510a _ZN26callable_action_instance_tI21pmap_runner_one_arg_tINSt3__16__bindIM29traversal_progress_combiner_tFviEJPS3_RNS1_12placeholders4__phILi1EEEEEExEED0Ev + 1690 at 0x10198510a ()\r\n5: 0 rethinkdb 0x0000000101b8b75c _Z11deserializeIL17cluster_version_t5EE16archive_result_tP13read_stream_tP13name_string_t + 8268 at 0x101b8b75c ()\r\n6: 0 rethinkdb 0x0000000101bdc1d1 _ZN5boost6detail7variant15visitation_implIN4mpl_4int_ILi0EEENS1_20visitation_impl_stepINS_3mpl6l_iterINS7_6l_itemINS3_5long_ILl3EEEN2ql10changefeed9keyspec_t7range_tENS9_INSA_ILl2EEENSE_7limit_tENS9_INSA_ILl1EEENSE_7point_tENS7_5l_endEEEEEEEEENS8_ISK_EEEENS1_9move_intoEPvNS_7variantISF_SH_SJ_NS1_5void_ESU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_SU_E18has_fallback_type_EEENT1_11result_typeEiiRSX_T2_NS3_5bool_ILb0EEET3_PT_PT0_ + 1457 at 0x101bdc1d1 ()\r\n7: 0 rethinkdb 0x0000000101bddc73 _ZN26callable_action_instance_tINSt3__16__bindIMN40caching_cfeed_artificial_table_backend_t19caching_machinery_tEFvN14auto_drainer_t6lock_tEEJPS3_S5_EEEE10run_actionEv + 67 at 0x101bddc73 ()\r\n8: 0 rethinkdb 0x000000010197ad28 _ZN22threaded_context_ref_tC2Ev + 1304 at 0x10197ad28 ()\r\nerror: Exiting.\r\n[1] 70682 trace trap rethinkdb\r\n```"
+  , issueState = "closed"
+  , issueId = Id 82606201
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 101
+          , milestoneClosedIssues = 9
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/101"
+          , milestoneCreatedAt = 2015 (-06) (-03) 19 : 26 : 22 UTC
+          , milestoneState = "closed"
+          }
+  }

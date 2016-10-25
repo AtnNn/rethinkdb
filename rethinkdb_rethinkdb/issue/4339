@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-05) 23 : 21 : 27 UTC
+  , issueUpdatedAt = 2015 (-06) (-05) 23 : 21 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4339/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4339"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4339
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "raft branch: shard not failing over when server is killed"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4339"
+  , issueCreatedAt = 2015 (-06) (-03) 19 : 38 : 23 UTC
+  , issueBody =
+      Just
+        "The `./test/run -v changefeeds.basic` test is showing a case where failover is not happening when a primary goes down. The failure is in the `test_primary_falure` subtest and the steps that it goes through:\r\n\r\n1. spin up 3 server instances, joined as a cluster\r\n2. create a single table with 3 replicas, filled with a 10 records of sample data (like: `{'id':1}`)\r\n3. figure out the primary for the first/single shard and get the id of a record in that range\r\n4. create a table changefeed using a replica other than the primary as the server\r\n5. confirm that the changefeed works (update the record, read the change out)\r\n6. kill the primary server\r\n7. try step 5 again, expecting an error when we change from the feed\r\n\r\nBut instead we are getting a failure in step 7 when we try to update the record. Specifically the error is:\r\n```\r\nRqlRuntimeError: Cannot perform write: primary replica for shard [\"\", +inf) not available in:\r\nr.db('test').table('basic_py2_7_6').get(1).update(r.expr({'update': 1}))\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```"
+  , issueState = "closed"
+  , issueId = Id 84738361
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

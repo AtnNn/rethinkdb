@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 00 : 40 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140934070"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4598#issuecomment-140934070"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 00 : 40 : 22 UTC
+  , issueCommentBody =
+      "This is an awesome write-up @mike-marcacci .\r\n\r\nI wonder if we could do something simpler and more constrained to solve the issue of atomic multi-document writes.\r\n\r\nHere's a very rough idea of something that might be an option, though we could probably make the interface nicer:\r\n\r\n```js\r\nr.updateAtomically(precondition, [table1, key1, updateValue1], [table2, key2, updateValue2], ...)\r\n```\r\nA call to `updateAtomically` could either complete or fail. If it completes, it guarantees that\r\n1. `precondition` held at some point in time\r\n2. while `precondition` kept holding, the documents to all supplied keys in the supplied tables were updated (or inserted) to their respective update values\r\n\r\nIf it fails, it guarantees that none of the updates were performed.\r\n\r\nThe argument types would be restricted as follows, in order to make sure that the semantics are easier to reason about:\r\n* `precondition` is a function that doesn't perform a write. In order to guarantee the semantics of `updateAtomically`, it should also not use any non-deterministic terms other than reading from a table (e.g. not `r.uuid`, `sample` or `r.http`). For implementing the `updateAtomically` command, we would probably extract all tables that the function accesses, and establish a simple table lock on those.\r\n* `tableX` is a value of type TABLE, i.e. `r.db(...).table(...)`\r\n* `keyX` is the primary key value. It must be a literal, and cannot be a subquery itself\r\n* `updateValueX` must be an object value. For simplicity let's say that it must be a constant literal as well. Specifically it cannot depend on the previous value of the document (though we could probably lift parts of that restriction).\r\n\r\n`updateAtomically` would behave similar to a multi-document check-and-set operation, except that the precondition is more flexible.\r\n\r\nSo you would call this function like this:\r\n```js\r\nsender_balance = r.table('accounts').get(sender_id)('balance').run();\r\nreceiver_balance = r.table('accounts').get(receiver_id)('balance').run();\r\nprecondition = function() {\r\n    // Make sure that the balance hasn't changed since we've retrieved the documents\r\n    return r.table('accounts').get(sender_id)('balance').eq(sender_balance)\r\n                .and(r.table('accounts').get(receiver_id)('balance').eq(receiver_balance));\r\n};\r\n\r\n// Update the sender and receiver documents atomically\r\nsuccess = r.updateAtomically(\r\n  precondition,\r\n  [r.table('accounts'), sender_id, {balance: sender_balance - transfer_amount}],\r\n  [r.table('accounts'), receiver_id, {balance: receiver_balance + transfer_amount}]).run().\r\n\r\nif (!success) {\r\n // Fail, or start over...\r\n}\r\n```"
+  , issueCommentId = 140934070
+  }

@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 17 : 38 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5301/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5301"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 5301
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 92157
+        , simpleUserLogin = N "quexer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/92157?v=3"
+        , simpleUserUrl = "https://api.github.com/users/quexer"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Single insert performance is not good,  only 1-4k per second per shard"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5301"
+  , issueCreatedAt = 2016 (-01) (-20) 02 : 35 : 00 UTC
+  , issueBody =
+      Just
+        "- We're evaluating rethinkdb, but our benchmark shows that single insert in rethinkdb ***is not good.***\r\n- In addition, there're still [100 open issues](https://github.com/rethinkdb/rethinkdb/labels/tp%3Aperformance)  labeled \"tp:performance\"\r\n- Performance is our biggest concern and it become a blocker for us to adopt rethinkdb\r\n\r\n------------------\r\n**Test Bed**\r\n\r\n- db server : KVM virtual host in cloud,  8G, 100G ssd, 1Gbps, ubuntu 14.04 64bit,  rethinkdb: **v2.2.3** with default config (no direct-io)\r\n- load server: KVM virtual host  in cloud x3, 32 cores, 1Gbps, ubuntu 14.04 64bit\r\n- client driver : [gorethink](https://github.com/dancannon/gorethink/)\r\n- 1M docs in table.  (table durability = **\8220soft\"**)\r\n- **Single** insert per operation. (insert durability = **\8220soft\"**)\r\n- concurrent insert operation only (no read)\r\n\r\n**Test Result**\r\n\r\n![tbl](https://cloud.githubusercontent.com/assets/92157/12438339/d5666b4c-bf60-11e5-856a-8a51d86fb7e0.png)\r\n\r\n\r\n**Conclusion**\r\n- replica has big impact to insert performance\r\n- insert performance in replica cluster is not great (1k \8212 4k ops per shard)\r\n- scale out is  good,  2X shards gains 2X performance\r\n- scale up is  good,  change CPU from 4 cores to 8 cores gains 2X performance\r\n\r\nfor more detail of the benchmark,  see the attached pdf\r\n[Rethinkdb insert benchmark.pdf](https://github.com/rethinkdb/rethinkdb/files/96874/Rethinkdb.insert.benchmark.pdf)\r\n"
+  , issueState = "open"
+  , issueId = Id 127590604
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2013 (-03) (-08) 03 : 57 : 32 UTC
+  , issueUpdatedAt = 2013 (-03) (-15) 00 : 05 : 00 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/372/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/372"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 372
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Query remains running after connection closes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/372"
+  , issueCreatedAt = 2013 (-02) (-22) 00 : 53 : 00 UTC
+  , issueBody =
+      Just
+        "Reported by @christopherhesse, running the following python script results in the query running in the cluster even after the client connection has closed (when it should be interrupted).  This happens both with and without a call to `conn.close()`.  The query was designed to take a while to run so the behavior can be more easily observed, as long as you have a bit of data in the two tables.\r\n\r\n```python\r\n#!/usr/bin/python\r\nimport time\r\nimport sys\r\nimport rethinkdb as r\r\nimport thread\r\n\r\ndef run_query():\r\n    r.db(\"marvel\").table(\"heroes\").inner_join(r.db(\"marvel\").table(\"villains\"), lambda hero, villain: r.js(\"true\")).count().run()\r\n\r\nconn = r.connect()\r\nthread.start_new_thread(run_query, ())\r\ntime.sleep(0.1)\r\nsys.exit(1)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 11269478
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

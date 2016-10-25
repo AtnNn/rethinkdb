@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-24) 17 : 52 : 51 UTC
+  , issueUpdatedAt = 2016 (-06) (-28) 19 : 20 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5884/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5884"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5884
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1932776
+        , simpleUserLogin = N "Calavoow"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1932776?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Calavoow"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Unpacking optional arguments throws error"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5884"
+  , issueCreatedAt = 2016 (-06) (-24) 15 : 19 : 24 UTC
+  , issueBody =
+      Just
+        "I'm trying to create multiple tables in a database called `test` at once in one query, and I tried to construct a query using `forEach` on the web interface as follows:\r\n```js\r\nr.expr([\r\n  {name:'test1', opt:{}},\r\n  {name: 'test2', opt:{}}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), r.row('opt'))\r\n)\r\n```\r\nWhere `opt` would later contain my options such as custom primary keys. This query however throws:\r\n```\r\ne: Expected 1 argument (not including options) but found 2.\r\n```\r\n\r\nThe variant without opt keys does work:\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', opt:{}},\r\n  {name: 'test2', opt:{}}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'))\r\n)\r\n```\r\nso does\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', primarykey: 'id'},\r\n  {name: 'test2', primarykey: 'id'}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})\r\n)\r\n```\r\n\r\nSo I figured it may be cause by packing the objects to rethink objects, i.e. `{}` -> `r.expr({})`. But I run into the same issue as my first example query:\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', opt:r.expr({})},\r\n  {name: 'test2', opt:r.expr({})}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), r.row('opt'))\r\n)\r\n```\r\n\r\nThus it seems rethink somehow wrongly parses optional arguments if they are not explicit in the query (i.e. `tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})`).\r\nWhat could be the issue here?"
+  , issueState = "closed"
+  , issueId = Id 162169907
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

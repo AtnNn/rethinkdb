@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-25) 07 : 46 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134512999"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-134512999"
+  , issueCommentCreatedAt = 2015 (-08) (-25) 07 : 46 : 55 UTC
+  , issueCommentBody =
+      "@sontek -- talked to @danielmewes in depth, and here are some more details:\r\n\r\n- When we cut out the expensive operations in the python driver, we can push the server to ~120k docs/second/client.\r\n- Spinning up multiple parallel clients gets us to ~625k docs/second.\r\n- I'm not entirely sure if we can scale it up like that with async on a single connection; we'll double check, but it definitely works with multiple clients/connections.\r\n- We also might be able to auto-parallelize this on the server so async/threaded approach isn't necessary.\r\n\r\nNote that one reason why you were getting very slow speeds is that the `filter` command always scans its entire input (which in this case is the entire table) and doesn't take advantage of indexes. To take advantage of indexes and allow scale up, you want to use `between` (http://rethinkdb.com/api/python/between/).\r\n\r\nWe're doing a product planning meeting tomorrow where we'll discuss 2.2 scheduling (including Python driver optimizations). I'll be able to post an ETA then. Thanks for giving us the workload info -- this makes investigating all this dramatically easier!"
+  , issueCommentId = 134512999
+  }

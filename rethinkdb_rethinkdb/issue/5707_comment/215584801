@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-28) 22 : 44 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/215584801"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5707#issuecomment-215584801"
+  , issueCommentCreatedAt = 2016 (-04) (-28) 22 : 44 : 15 UTC
+  , issueCommentBody =
+      "I think #2768 is probably a bad idea.  You don't want to make `map` act like `do`, because then you have two terms which are 99% the same, except that one treats arrays as a single datum and the other treats arrays as a sequence.  (Worse, this is a subtle distinction that isn't at all obvious from the names.)\r\n\r\nIt's also extremely unusual: no other language that I know of makes `map` turn into a function call when called on a non-sequence.\r\n\r\nBy contrast, I think it's actually fairly common for functional languages to define `map` on objects.  In Ruby, for example:\r\n```\r\nirb(main):076:0> {a: 1}.map{|k,v| [k,v]}\r\n[[:a, 1]]\r\n```\r\n\r\nOr in JQuery:\r\n```\r\nvar dimensions = { width: 10, height: 15, length: 20 };\r\nvar keys = $.map(dimensions, function(val, key) {\r\n  return [key, val];\r\n});\r\n```\r\n\r\n---\r\n\r\nPersonally, I would expect calling `map` on an object to just work (although it's a little bit debatable whether it should return an array or another object).\r\n\r\nAlso, we've in general tried to add new functionality to ReQL by adding new behavior to existing commands rather than by introducing new commands for one special use case.  This has made the language a little more complicated to implement, but I think in the long run it's been a very good thing, because it's stopped the number of commands from ballooning out of control every time we get a new use case.\r\n\r\nWhen there's an opportunity to satisfy a specific use case by adding a new general rule that makes sense (like #878, which defines a general rule for applying stream operations like `map` or `filter` to objects), I think that's usually the right way to do it."
+  , issueCommentId = 215584801
+  }

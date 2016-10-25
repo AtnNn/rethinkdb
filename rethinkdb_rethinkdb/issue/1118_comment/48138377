@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-07) 03 : 35 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48138377"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-48138377"
+  , issueCommentCreatedAt = 2014 (-07) (-07) 03 : 35 : 50 UTC
+  , issueCommentBody =
+      "> I think `return_initial` should default to `true`.  I think we should give people a way to turn it off because *technically* the initial value isn't a change, and they might only want to see changes.\r\n\r\nI'm in favor of dropping `return_initial` altogether. The user can always add `.skip(1)` and just drop the first value if they don't want to see it. I think that's much more elegant than adding a new optarg.\r\n\r\n> what do you think?\r\n\r\nIn single row cases I think we should not be reporting errors at all (wait, hear me out!) In case of a stream changefeed we had to report an error because going over 100k elements means you've missed changes to objects you might never see again. But in case of a datum changefeed, an overfill merely means you've missed some changes in time, but you haven't missed the actual object. I think that once the array gets to 100k elements, we should treat it as a queue and simply start dropping old changes from the array. This seems like perfectly reasonable and unsurprising behavior to me.\r\n\r\nIn case of `.group(f).changes()` we can still return an object `{error: ...}` instead of a group pseudotype, couldn't we? The driver could then determine what to do with that object (probably throw a client-side exception the user could recover from and continue).\r\n\r\nFailing all that, I think `{old_val: ..., new_val: ...}` syntax isn't so bad at all. I understand your reservations about it, but I think it would be a minor issue that we could stomach. I'd return the first value via `{old_val: x, new_val: x}` -- that seems quite natural to me.\r\n\r\nI'd suggest leaving this part of the proposal open until we implement it and play with the feature. I suspect the right path will be much more clearly illuminated then."
+  , issueCommentId = 48138377
+  }

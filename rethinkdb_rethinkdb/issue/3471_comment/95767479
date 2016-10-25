@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 01 : 25 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95767479"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95767479"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 01 : 25 : 15 UTC
+  , issueCommentBody =
+      "Let's say your shard is on machine A and you have 1000 clients connected to machine B with open changefeeds.  If there's a change on A, we send a single message to machine B, which then sends 1000 messages to 1000 clients.  Unless we do something clever, locating the queues on the shards will cause us to send 1000 messages from A to B instead in the case of named changefeeds.  (This was what I meant when I said \"intracluster\"; the messages B sends leave the cluster.)\r\n\r\nThere are two problems with this: the first is that you're sending a bunch more data inside the cluster, and the second is that it's centralized.  Imagine you have one really overtaxed machine A hosting a really popular table, and a bunch of less-overtaxed machines B1, B2, B3.  With the current setup, you can spread your clients subscribing to changes on A's table evenly across B1, B2, and B3; A will send 3 messages per change, and B1/B2/B3 will each send `n/3` messages where `n` is the number of clients.  With the queues on the shards, `A` will instead have to send `n` messages; the increased network load is falling on the busiest node, and you can't spread it out by connecting to more machines."
+  , issueCommentId = 95767479
+  }

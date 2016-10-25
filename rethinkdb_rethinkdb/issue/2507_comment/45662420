@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-10) 19 : 48 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45662420"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2507#issuecomment-45662420"
+  , issueCommentCreatedAt = 2014 (-06) (-10) 19 : 48 : 09 UTC
+  , issueCommentBody =
+      "These stalls are a consequence of throttling based on unsaved data in the cache.\r\nInterestingly, somewhat reducing the unsaved data limit both reduces the stalls (though they're still there, just shorter) and increases the overall throughput in this specific benchmark.\r\n\r\n```\r\nnext SOFT_UNWRITTEN_CHANGES_LIMIT = 100:\r\n[OVERALL], Throughput(ops/sec), 839.7433744247758\r\n[UPDATE], AverageLatency(us), 13562.918219420128\r\n[UPDATE], MaxLatency(us), 610948\r\n\r\nnext SOFT_UNWRITTEN_CHANGES_LIMIT = 400:\r\n[OVERALL], Throughput(ops/sec), 1288.4439462461185\r\n[UPDATE], AverageLatency(us), 8730.986049853314\r\n[UPDATE], MaxLatency(us), 1114543\r\n\r\nnext SOFT_UNWRITTEN_CHANGES_LIMIT = 1000:\r\n[OVERALL], Throughput(ops/sec), 1219.7353174361165\r\n[UPDATE], AverageLatency(us), 9080.033888072767\r\n[UPDATE], MaxLatency(us), 2239727\r\n\r\nnext (SOFT_UNWRITTEN_CHANGES_LIMIT = 4000, the current value):\r\n[OVERALL], Throughput(ops/sec), 1052.0003787201363\r\n[UPDATE], AverageLatency(us), 10183.972411996874\r\n[UPDATE], MaxLatency(us), 5512636\r\n```\r\n\r\nSee how it's fastest at a limit of 400 blocks per cache? (that's a total of ~10 MB)\r\n\r\nI wouldn't suggest lowering the limit though. On SSDs and under other workloads the situation is going to be completely different.\r\n\r\nTo conclude: This is not a bug per-se. We can consider changing throttling to slow down more gradually. Though it's not clear whether that is generally preferable."
+  , issueCommentId = 45662420
+  }

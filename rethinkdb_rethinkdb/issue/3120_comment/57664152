@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-02) 17 : 18 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57664152"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3120#issuecomment-57664152"
+  , issueCommentCreatedAt = 2014 (-10) (-02) 17 : 18 : 11 UTC
+  , issueCommentBody =
+      "Note that the `r.js` workaround is going to use a lot of CPU on busy-waiting in the `while(true) { }` loop. That might make it a bad choice for testing, depending on what you are actually measuring.\r\nNote that the way that `r.js()` uses CPU is also different from how most other queries running on a  RethinkDB server use the CPU, since `r.js()` is executed in an external helper process that's scheduled by the operating system while \"regular\" queries are run in a coroutine within one of RethinkDB's main threads, using RethinkDB's internal coroutine scheduler.\r\n\r\nAnother way to simulate a long-running query is by setting up an HTTP server with some slowly responding server-side script. For example this PHP script on the HTTP server would do the trick:\r\n```php\r\n<?php\r\nsleep(1);\r\n?>\r\n```\r\n(you can use `usleep($micro_seconds)` if you need more precision)\r\nThen you can run `r.http('http://server/sleep-script.php')` to simulate a long-running query. This will not use the CPU very much, but still keep the query active."
+  , issueCommentId = 57664152
+  }

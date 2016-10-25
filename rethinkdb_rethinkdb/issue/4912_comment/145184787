@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-02) 23 : 50 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/145184787"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4912#issuecomment-145184787"
+  , issueCommentCreatedAt = 2015 (-10) (-02) 23 : 50 : 09 UTC
+  , issueCommentBody =
+      "I looked at the core file, and right now I'm thinking this might be memory corruption.\r\n\r\nThere are only 3 lines where we read from or write to `range_subs`.  In all three of those places we seem to be acquiring the lock correctly.  (We also have a drainer lock in the `msg_visitor_t`, so it isn't being destroyed by the `feed_t` being destroyed.)\r\n\r\nAlso, when I look at the core dump, the `env_t` pointer seems in the `range_sub_t` seems to have garbage in it (it has an invalid `return_empty_normal_batches` field and an `interruptor` of `0x4`).  That means we either have memory corruption, we aren't done constructing it, are we have already destructed it.\r\n\r\nI'm mostly sure we aren't partway through constructing it because we only insert `range_sub_t`s into `range_subs` after they're done being constructed (we call `add_sub_with_lock`).\r\n\r\nI'm less sure it hasn't been destructed, but the `drainer` on the `range_sub_t` isn't pulsed.  (It's possible, of course, that the object was destroyed and then garbage data written to where the drainer is, but the drainer looks otherwise valid.)\r\n\r\n@danielmewes -- do we ever run the fuzzer against the server under valgrind?"
+  , issueCommentId = 145184787
+  }

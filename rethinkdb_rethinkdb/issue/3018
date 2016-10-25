@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-09) 21 : 54 : 38 UTC
+  , issueUpdatedAt = 2014 (-09) (-09) 21 : 59 : 41 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3018/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3018"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3018
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Reql_admin branch - indexCreate/indexDrop fails"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3018"
+  , issueCreatedAt = 2014 (-09) (-06) 08 : 23 : 01 UTC
+  , issueBody =
+      Just
+        "On commit 347e7c8368af8066893174f1ab4a41801d812c77, on a cluster with 3 machines, one table `foo` with 2 shards and 2 replicas (`reconfigure(2,2)`), this will almost fails everytime:\r\n\r\n```\r\nr.db('test').table('foo').indexList().forEach(function(index) {\r\n  return r.db('test').table('foo').indexDrop(index)\r\n});\r\nr.db('test').table('foo').indexCreate('1');\r\nr.db('test').table('foo').indexCreate('2');\r\nr.db('test').table('foo').indexCreate('3');\r\nr.db('test').table('foo').indexCreate('4');\r\nr.db('test').table('foo').indexCreate('5');\r\nr.db('test').table('foo').indexCreate('6');\r\nr.db('test').table('foo').indexCreate('7');\r\nr.db('test').table('foo').indexCreate('8');\r\nr.db('test').table('foo').indexCreate('9');\r\nr.db('test').table('foo').indexList().forEach(function(index) {\r\n  return r.db('test').table('foo').indexDrop(index)\r\n})\r\n```\r\n\r\nSometimes because `indexDrop` will not found the index, or sometimes because `indexCreate` will complain about an index that already exist.\r\nThe queries are synchronously executed in the data explorer.\r\n\r\nI don't have any problem with this in 1.14."
+  , issueState = "closed"
+  , issueId = Id 42111961
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

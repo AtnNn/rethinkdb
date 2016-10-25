@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-12) 00 : 32 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24287061"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1396#issuecomment-24287061"
+  , issueCommentCreatedAt = 2013 (-09) (-12) 00 : 32 : 24 UTC
+  , issueCommentBody =
+      "I've looked into this more.\r\n\r\nSnappy is really fast (4-5x zlib on zlib's fastest compression speed), but it has really poor compression on some workloads.  It can barely compress English text at all (it takes the size down by about 20%, compared to about 50% for zlib).  My hypothesis is that zlib is getting good compression on english text by compressing more common characters (like `e`) to fewer than 8 bits; snappy doesn't do entropy encoding, so it can't do very well on those inputs (about all it can do is eliminate common subsequences of letters).\r\n\r\nSnappy does much better on more redundant data; it takes the size of a random github issue I picked through the JSON API down by about 50%, probably because of all the repeated URLs and stuff.\r\n\r\n"
+  , issueCommentId = 24287061
+  }

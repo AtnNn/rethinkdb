@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 23 : 35 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5826435
+        , simpleUserLogin = N "freedombird9"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5826435?v=3"
+        , simpleUserUrl = "https://api.github.com/users/freedombird9"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124763236"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4572#issuecomment-124763236"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 23 : 19 : 51 UTC
+  , issueCommentBody =
+      "I've reproduced the issue today. My rethinkdb just lay idle (no change is made to the database table) for about half an hour, and then it cannot get any change feeds. But after restarting the program, the problem was gone. So I have to do something like:\r\n\r\nwhile True:\r\n----conn = get_rdb_connection()\r\n----feed = rdb.table('skydata').changes(squash=False).run(conn)\r\n----while True:\r\n--------try:\r\n------------change = feed.next(wait=300) # 5 minutes timeout\r\n--------except RqlTimeoutError:\r\n------------feed.close()\r\n------------conn.close(noreply_wait=False)\r\n------------logger.warn(\"connection may not be alive, reconnecting...\")\r\n------------del conn\r\n------------del feed\r\n------------break\r\n--------\"\"\" some other codes \"\"\"\r\n\r\nto keep the connection \"alive\""
+  , issueCommentId = 124763236
+  }

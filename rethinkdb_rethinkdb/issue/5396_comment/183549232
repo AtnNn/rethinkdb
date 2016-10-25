@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-13) 01 : 03 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/183549232"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5396#issuecomment-183549232"
+  , issueCommentCreatedAt = 2016 (-02) (-13) 01 : 03 : 15 UTC
+  , issueCommentBody =
+      "@nickmishustin - I do not know the details of your `spawn` method, or how you're using gevent in your application, so it's hard for me to tell what's causing the problem.  If it helps, here is a small script that works fine for me for the same use case:\r\n\r\n```py\r\nimport rethinkdb as r\r\nimport gevent\r\n\r\nr.set_loop_type('gevent')\r\n\r\nconn = r.connect()\r\nfeed = r.table('test').changes().run(conn)\r\n\r\ndef read_feed():\r\n  for change in feed:\r\n    print('Change: %s' % str(change))\r\n\r\ngevent.Greenlet.spawn(read_feed).get()\r\n```\r\n\r\nYou shouldn't need to monkey-patch anything (although it shouldn't break anything, either), as the rethinkdb driver will use `gevent.socket` directly rather than the base socket implementation."
+  , issueCommentId = 183549232
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-07) 23 : 24 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245449649"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6094#issuecomment-245449649"
+  , issueCommentCreatedAt = 2016 (-09) (-07) 23 : 24 : 06 UTC
+  , issueCommentBody =
+      "Three additional notes from our conversation:\r\n* The property `stable` of a sorting algorithm usually refers to our current behavior, that is maintaining the input order for elements with equal sorting keys. The proposed change would make the sorting unstable in that sense, but in a deterministic way.\r\n* The main case where this comes up is if someone does `r.table(...).orderBy('foo')` (possibly with a `getAll` or `between` before the `orderBy`). The result if this is not deterministic if there are duplicate values for a given `foo`, since `r.table(...)` does not return results in a deterministic order.\r\n* For this case, there is usually an easy work-around by adding an index-based `orderBy` in front of the final `orderBy`: `r.table(...).orderBy({index: \"id\"}).orderBy('foo')`. This makes the order of the input to `orderBy('foo')` deterministic, and hence the overall result is deterministic since `orderBy` is \"stable\"."
+  , issueCommentId = 245449649
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-11) (-25) 17 : 45 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4810/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4810"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4810
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "add a distributed mutex ReQL term"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4810"
+  , issueCreatedAt = 2015 (-09) (-08) 18 : 29 : 40 UTC
+  , issueBody =
+      Just
+        "A comment on our mailing list today asked about how to build a distributed mutex (\"Using RethinkDB as the backend for a distributed mutex\", Sep 7, 17:38). While there are some ideas that get close to creating a distributed mutex, none of them are either bullet-proof or performant.\r\n\r\nWe already have most/all of the infrastructure required to implement mutexes, and would just need to decide what promises we would make on our implementation, and where they would be located. On location there are two proposals:\r\n1. Create a virtual table in the `rethinkdb` database, and allow record creation/deletion in there that would implicitly try to grab/release a mutex of that id. In this version of the interface there would be three values in the object: `id`, `acquire_timeout`, and `hold_timeout`. The `acquire_timeout` would be the number of seconds to attempt to acquire the lock (throw an error if this is exceeded), and the `hold_timeout` would be a timer that would automatically release the lock after that number of seconds (to prevent stale locks).\r\n2. Add a ReQL term (`lock` maybe) that would return a mutex object that could then be `released` when you were done with it. An `id` value would probably be required, and then the same `acquire_timeout` and `hold_timeout` values could be opt-args.\r\n\r\nThe virtual table option would have the nice feature of not requiring any new ReQL (vs. 2 new entries), but would probably feel a bit tacked-on.\r\n\r\nThe locks should probably be acquired on a semi first-in-first-out basis. That is we would attempt to do as close to that as possible, but would not make strict promises that that is what happens. The goal there is to try to make sure that we don't starve any one client rather than a true ordering guarantee."
+  , issueState = "open"
+  , issueId = Id 105443261
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

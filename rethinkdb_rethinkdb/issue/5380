@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 28 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5380/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5380"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 5380
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1752631
+        , simpleUserLogin = N "pires"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1752631?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pires"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Java driver connection/cursor handling simplification"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5380"
+  , issueCreatedAt = 2016 (-02) (-09) 19 : 57 : 10 UTC
+  , issueBody =
+      Just
+        "As per @bchavez comments:\r\n> So, after some additional review, I have a strong feeling the ResponsePump and awaiters stuff should really go into SocketWrapper like the .NET driver. I think there's too much state to \"remember to clear\" in Connection class if a connection is restarted... and it will be harder to get right as Connection code gets bigger in the future ... it also encourages usage of the awatiers dictionary at the Connection level, which shouldn't be accessed by anything else other than the response pump like this: pires#2\r\n>\r\n>if ResponsePump and awatiers get encapsulated in SocketWrapper generally these problems go away like in the .NET driver when a new socket is created on reconnect.... Currently, the Java Connection a lil bit more complicated to get right the way it is setup now.... For example: how awaiters is being cleared at the Connection.close() level ... if we move ResponsePump and it's awaiters state in SocketWrapper these network \"state\" troubles go away because it's logically separated from the main connection class.\r\n>\r\n>:heavy_check_mark: Connection is responsible for closing high-level Cursors. Then...\r\n>:heavy_check_mark: SocketWrapper:ResponsePump is responsible for cleaning up it's own awaiters.\r\n>\r\n>SocketWrapper and it's state wont ever be used again, and can safely be GC'ed. And avoids \"forgot to clear\" state issues.\r\n>\r\n>Let me know what you think. If you think the name SocketWrapper is too low level, maybe we could rename it. Dunno.\r\n\r\nI agree and this would be good to have."
+  , issueState = "open"
+  , issueId = Id 132517517
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

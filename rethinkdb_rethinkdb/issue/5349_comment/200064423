@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-22) 22 : 41 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/200064423"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5349#issuecomment-200064423"
+  , issueCommentCreatedAt = 2016 (-03) (-22) 22 : 41 : 28 UTC
+  , issueCommentBody =
+      "Hi @larkost ,\r\n\r\nAre you referring to in-memory storage of floating point values?\r\n\r\nIf I recall correctly, the failing C# test is here\r\n[**`DatumNumber.YamlTest` Line 165**](https://github.com/bchavez/RethinkDb.Driver/blob/master/Source/RethinkDb.Driver.Tests/Generated/DatumNumber.cs#L167):\r\n```\r\nr.expr(1234567890123456789012345678901234567890.0)\r\n```\r\nI would probably feel more comfortable with rounding issues as a result of some kind of mathematical operation but I don't think there are any mathematical operations being performed on the floating point value when the test is using `r.expr()`. I feel a bit reluctant to pass this one off as a rounding issue tho. My main concern is the different wire-line responses I get from windows vs linux for the same `r.expr()` query.\r\n```\r\nSEND >>> 1.234567890123456_[8]_e39: CLIENT\r\nRECV <<< 1.234567890123456_[9]_e39: Linux Server\r\nRECV <<< 1.234567890123456_[7]_e39: Windows Server\r\n0 10010000000 1101000001100100100100000011101011100000011011100000: CLIENT\r\n0 10010000000 1101000001100100100100000011101011100000011011100000: Linux Server\r\n0 10010000000 1101000001100100100100000011101011100000011011011111: Windows Server\r\n```\r\nI'd be more than happy to test any findings. Alternatively, you can hit up a PR that changes the [`serverDownload` URL](https://github.com/bchavez/RethinkDb.Driver/blob/master/Builder/build.fsx#L7). Any PR to the repo triggers the full battery of unit tests on AppVeyor in the **Tests** tab: https://ci.appveyor.com/project/bchavez/rethinkdb-driver"
+  , issueCommentId = 200064423
+  }

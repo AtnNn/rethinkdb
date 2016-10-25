@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-11) (-25) 23 : 31 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5149/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5149"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5149
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Compare-and-swap (CAS) command as a building block for synchronization primitives"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5149"
+  , issueCreatedAt = 2015 (-11) (-25) 13 : 04 : 20 UTC
+  , issueBody =
+      Just
+        "From Wikipedia article on [CAS](https://en.wikipedia.org/wiki/Compare-and-swap):\r\n> This operation is used to implement synchronization primitives like semaphores and mutexes, as well as more sophisticated lock-free and wait-free algorithms.\r\n\r\nCAS will be useful in #5144 for instance.\r\n\r\nProposed syntax:\r\n\r\n```javascript\r\n// When you want to use CAS for a few attributes only:\r\nr.table(\"posts\").get(1).update({\r\n    title: r.compareAndSwap(\"Lorem ipsum OBSOLETUS\", \"Lorem ipsum NOVUS\"),\r\n    content: \"Dolor sit amet\"\r\n})\r\n\r\n// When you want to use CAS for many attributes:\r\nr.table(\"posts\").get(1).update( r.compareAndSwap(\r\n{\r\n    title: \"Lorem ipsum OBSOLETUS\",\r\n    content: \"Dolor sit amet OBSOLETUS\"\r\n}, {\r\n    title: \"Lorem ipsum NOVUS\",\r\n    content: \"Dolor sit amet NOVUS\"\r\n}\r\n))\r\n```\r\n\r\nThis could be internally converted to something like\r\n```javascript\r\nr.table(\"posts\").get(1).update({\r\n    title: r.branch(\r\n      r.row('title').eq(\"Lorem ipsum OBSOLETUS\"),\r\n      \"Lorem ipsum NOVUS\",\r\n      r.error(r.row('title')) // return an error indicating what was the unexpected value\r\n    )\r\n})\r\n```\r\n"
+  , issueState = "open"
+  , issueId = Id 118832494
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-08) 03 : 30 : 10 UTC
+  , issueUpdatedAt = 2014 (-01) (-12) 20 : 47 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1796/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1796"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1796
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "count() behavior not consistent with query result involving secondary index, OR secondary indexes broken somehow"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1796"
+  , issueCreatedAt = 2013 (-12) (-23) 18 : 43 : 19 UTC
+  , issueBody =
+      Just
+        "Opened by @srh here: https://github.com/rethinkdb/docs/issues/160\r\n\r\nThis behavior is reported:\r\n\r\n```\r\n<divad12>     query = r.table('table').order_by(r.desc('field1'), index=r.desc('field2'))\r\n<divad12>     print query.count().run(r_conn())  # 4644\r\n<divad12>     results = list(query.limit(5000).run(r_conn()))\r\n<divad12>     print len(results)  # 1011\r\n```\r\n\r\nWithout using the secondary index, we don't get weird behavior.\r\n\r\n```\r\n<divad12>     query = r.table('table').order_by(r.desc('field1'), r.desc('field2'))\r\n<divad12>     print query.count().run(r_conn())  # 4644\r\n<divad12>     results = list(query.limit(5000).run(r_conn()))\r\n<divad12>     print len(results)  # 4644\r\n```\r\n\r\nAnd apparently use of r.desc affects the numbers!\r\n\r\n```\r\n<divad12>     query = r.table('table').order_by('field1', index='field2')\r\n<divad12>     print query.count().run(r_conn())  # 4644\r\n<divad12>     results = list(query.limit(5000).run(r_conn()))\r\n<divad12>     print len(results)  # 4560\r\n```\r\n\r\nRemoving the use of .limit(5000) reportedly does not affect the outcome.\r\n\r\nObserved with `rethinkdb 1.11.2 (CLANG 4.2 (clang-425.0.28))` (OS X).\r\n\r\n\r\n-------\r\n\r\nA little more information:\r\nI can reproduce this on linux, and with the JavaScript driver too.\r\n\r\nI tried a few variants of this query\r\n```\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'github_stars'})\r\n```\r\n\r\nResults\r\n```\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'github_stars'}) // 4560 docs\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'github_stars'}).count() // 4644\r\n\r\nr.db('test').table('plugins').orderBy('id', {index:'github_stars'}) // 4560 docs\r\nr.db('test').table('plugins').orderBy('id', {index:'github_stars'}).count() // 4644\r\n\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'id'}) // 4644 docs\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'id'}).count() // 4644\r\n\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'name'}) // 4373 docs\r\nr.db('test').table('plugins').orderBy('vimorg_rating', {index:'name'}).count() // 4644\r\n```\r\n\r\n-------\r\n\r\nThe data set is on newton `/home/michel/bugs/2013.12.23`"
+  , issueState = "closed"
+  , issueId = Id 24718802
+  , issueComments = 15
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 57
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.11.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/57"
+          , milestoneCreatedAt = 2014 (-01) (-12) 20 : 47 : 15 UTC
+          , milestoneState = "closed"
+          }
+  }

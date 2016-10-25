@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-09) 23 : 45 : 18 UTC
+  , issueUpdatedAt = 2015 (-04) (-09) 23 : 45 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4029/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4029"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Ruby"
+          , labelName = "Ruby"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4029
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Ruby driver does not handle signals well"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4029"
+  , issueCreatedAt = 2015 (-04) (-08) 15 : 53 : 57 UTC
+  , issueBody =
+      Just
+        "The following self contained test:\r\n\r\n```ruby\r\n#!/usr/bin/env ruby\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\r\nr.db_drop(:test).run rescue nil\r\nr.db_create(:test).run\r\nr.table_create(:table).run\r\n\r\nSignal.trap(:USR2) { }\r\nThread.new { sleep 0.2; Process.kill(:USR2, 0) }\r\n\r\nr.db(:test).table(:table).changes().run().each { }\r\n```\r\n\r\nResults in the following error:\r\n\r\n    ..../rethinkdb-1.16.0.1/lib/net.rb:248:in `wait': Internal driver error, no response found. (RethinkDB::RqlDriverError)\r\n\r\nThe expect behavior is that the test program should just hang waiting for changes."
+  , issueState = "closed"
+  , issueId = Id 67161199
+  , issueComments = 17
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-26) 20 : 09 : 41 UTC
+  , issueUpdatedAt = 2016 (-08) (-26) 20 : 09 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6075/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6075"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6075
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 940628
+        , simpleUserLogin = N "shengc"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/940628?v=3"
+        , simpleUserUrl = "https://api.github.com/users/shengc"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "java driver dropping bits"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6075"
+  , issueCreatedAt = 2016 (-08) (-26) 18 : 36 : 15 UTC
+  , issueBody =
+      Just
+        "I am using rethink 2.3.2 java driver to read back data ordered by a secondary index. This is the code I am using,\r\n\r\n    r.db(db).table(table).orderBy().optArg(\"index\", \"tx\").between(offset, r.maxVal()).optArg(\"left_bound\", \"open\").run[Cursor[_]](connection)\r\n\r\nI am using an `AtomicLong` to keep track of the `offset`, and whenever a read using the above line exhausts, I immediately initiate another read using the same line by setting the offset kept in the `AtomicLong`.\r\n\r\nThis worked well in a smaller scale of data, now we move to `UAT`, a lot more data comes in, and writes are more frequent, the code starts to exhibit weird behavior. For example, I have `tx = 401, 402, 403, 404, 405` in the rethink table, and the read gives me back `401`, `403`, `405`. This is not reproducible, something it happens, sometimes it does not. I test run two process using the same code simultaneously, one does not lose bits at all, the other loses bits from time to time. I also have an impression when `cursor.next()` cannot be called in time, the bits loss will usually come. My rethink db instance runs with only 1 node, so this bizarre behavior really surprises me. Is there anything I can try in my query, or something else ? Thanks! \r\n"
+  , issueState = "closed"
+  , issueId = Id 173516105
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

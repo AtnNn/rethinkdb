@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-18) 00 : 28 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32668699"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1877#issuecomment-32668699"
+  , issueCommentCreatedAt = 2014 (-01) (-18) 00 : 28 : 16 UTC
+  , issueCommentBody =
+      "Another way to do it without `default` is with `branch`.\r\n\r\n\r\n```js\r\nvar newDoc = { metaData: { ...}, results: [...] };\r\n\r\nr.db(\"foo\").table(\"bar\").get(1).replace( function(doc) {\r\n    return r.branch(\r\n        doc.eq(null),\r\n        newDoc,\r\n        doc.merge({ doc(\"results\").add(newDoc(\"results\")) })\r\n    )\r\n})\r\n```\r\n\r\nNote that we do more than just Mongo's push here (since we insert the document -- which require the r.branch).\r\nThe equivalent of\r\n```js\r\ndb.students.update(\r\n                    { name: \"joe\" },\r\n                    { $push: { scores: 89 } }\r\n                  )\r\n```\r\nis\r\n```js\r\nr.table(\"students\").filter({name: \"joe\"})\r\n    .update({ scores: r.row(\"scores\").default([]).append(89) })\r\n```"
+  , issueCommentId = 32668699
+  }

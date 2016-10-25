@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-06) 18 : 34 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5909/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5909"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5909
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2478976
+        , simpleUserLogin = N "jonhartnett"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2478976?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jonhartnett"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Python Twisted Driver Unexpected Timeout"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5909"
+  , issueCreatedAt = 2016 (-07) (-02) 16 : 53 : 03 UTC
+  , issueBody =
+      Just
+        "When using the Twisted Drivers for Python, the connection to the database times out a small (but detrimental) percentage of the time, despite working perfectly the rest of the time. Both the server and the client are on one machine in my use case, so network related issues are not the culprit. Upon further digging, I discovered that this is due to the handshake never completing. Turns out in some cases the database server sends the authentication response in the same message as the protocol versioning.\r\nFor example \r\n```\r\nb'{\"max_protocol_version\":0,...,\"success\":true}\\x00{\"authentication\":\"...\",\"success\":true}\\x00'\r\n```\r\ninstead of the usual\r\n```\r\nb'{\"max_protocol_version\":0,...,\"success\":true}\\x00'\r\nb'{\"authentication\":\"...\",\"success\":true}\\x00'\r\n```\r\n\r\nThis invalidates the handshake because the driver (in net_twisted.DatabaseProtocol._handleHandshake) only processes the first block of data from each response. Luckily the solution is quite simple. Simply wrap the processing in a while loop and the issue disappears.\r\n\r\n```\r\ndef _handleHandshake(self, data):\r\n        try:\r\n            self.buf += data\r\n            while True: # wrap processing in 'while' to handle all messages\r\n                end_index = self.buf.find(b'\\0')\r\n                if end_index != -1:\r\n                    response = self.buf[:end_index]\r\n                    self.buf = self.buf[end_index + 1:]\r\n                    request = self.factory.handshake.next_message(response)\r\n\r\n                    if request is None:\r\n                        # We're now ready to work with real data.\r\n                        self.state = DatabaseProtocol.READY\r\n                        # We cancel the scheduled timeout.\r\n                        self._timeout_defer.cancel()\r\n                        # We callback our wait_for_handshake.\r\n                        self.wait_for_handshake.callback(None)\r\n                    elif request != \"\":\r\n                        self.transport.write(request)\r\n                else: # break when no more completed messages\r\n                    break\r\n        except Exception as e:\r\n            self.wait_for_handshake.errback(e)\r\n```"
+  , issueState = "open"
+  , issueId = Id 163526841
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

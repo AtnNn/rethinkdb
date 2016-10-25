@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-20) 22 : 44 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/133204462"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-133204462"
+  , issueCommentCreatedAt = 2015 (-08) (-20) 22 : 44 : 20 UTC
+  , issueCommentBody =
+      "@Morgul thank you for sharing your thoughts on this. The `getAll` solution that you mention is what's currently being proposed.\r\n\r\nThe main advantages of this over enabling general `filter` terms to use indexes transparently are:\r\n* It's easier for us to implement, because we don't have to analyze the `filter` function. We could restrict this to work only for simple predicates of the form `filter({field: value, ...})`, but that would make it impossible to use this for `between` predicates for example.\r\n* Furthermore, it's hard to deduce which indexes can be used for a specific `filter` predicate. If all indexes are on individual fields this is relatively simple, but we allow indexes on all sorts of functions and combinations of fields. Again, we could restrict the optimizer to make use of only simple indexes, but it would also limit its applications.\r\n\r\nYour syntax of specifying the `index` value \"inline\" in the `filter` predicate is an interesting idea, but I think it's problematic in practice because we cannot distinguish whether the predicate `filter({field: {value: 'a', filter: 'field'}})` means that you want to filter for documents with `field = 'a'`using the index `field`, or if you want to filter for documents where `field` has the actual object `{value: 'a', filter: 'field'}` as its value.\r\n\r\nOne thing that might work is to add support for the more explicit `.getAll(..., {index: ...}).getAll(..., {index: ...})...` syntax, and additionally supporting automatic use of simple (single-field, and possibly compound) indexes for simple filter predicates of the form `filter({field1: val1, field2: val2, ...}) .\r\nThat way the feature would be really convenient to use in the case you describe, while users who need more complex predicates (e.g. filtering by ranges using `between`) or who want to use non-trivial indexes can still use the more explicit syntax.\r\nFurthermore we could implement and test the explicit syntax first, and add the `filter` shortcut later."
+  , issueCommentId = 133204462
+  }

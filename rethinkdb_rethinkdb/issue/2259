@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-08) 19 : 09 : 44 UTC
+  , issueUpdatedAt = 2015 (-01) (-23) 21 : 50 : 55 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2259/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2259"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2259
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "API - Add a term that waits for a table to be ready"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2259"
+  , issueCreatedAt = 2014 (-04) (-15) 23 : 30 : 32 UTC
+  , issueBody =
+      Just
+        "`tableList` can return a table that is not yet available, and we currently don't have a way to wait for the table to be ready.\r\n\r\nIt happens when in thinky I create a Model (that creates the table) and a relation (that creates an index on the table).\r\nThis was the real reason behind #2248 -- `tableCreate` returns only when a table is available.\r\n\r\n\r\nThis script quickly ends up throwing an error.\r\n\r\n```js\r\nvar r = require('rethinkdb');\r\n\r\nvar s8 = function() {\r\n    return Math.floor((1+Math.random())*0x100000).toString(16).substring(1)+Math.floor((1+Math.random())*0x100000).toString(16).substring(1);\r\n}\r\nvar i = 0;\r\nr.connect({port: 42935}, function(err, conn1) {\r\nr.connect({port: 42935}, function(err, conn2) {\r\n    var run = function() {\r\n        var name = s8();\r\n        var count = 0;\r\n        r.tableCreate(name).do(function(result) {\r\n            return r.table(name).indexCreate(\"foo\").do(function(result) {\r\n                return r.table(name).indexWait(\"foo\");\r\n            });\r\n        }).run(conn1, function(err, result) {\r\n            if (err) throw err;\r\n            count++;\r\n            if (count === 2) {\r\n                console.log(i++);\r\n                run();\r\n            }\r\n        });\r\n\r\n        r.branch(\r\n            r.tableList().contains(name),\r\n            r.table(name).indexCreate(\"bar\").do(function(result) {\r\n                return r.table(name).indexWait(\"bar\");\r\n            }),\r\n            r.expr(\"Nothing to do\")\r\n        ).run(conn2, function(err, result) {\r\n            if (err) throw err;\r\n            count++;\r\n            if (count === 2) {\r\n                console.log(i++);\r\n                run();\r\n            }\r\n        });\r\n\r\n    };\r\n    run();\r\n\r\n});\r\n});\r\n```"
+  , issueState = "closed"
+  , issueId = Id 31600667
+  , issueComments = 56
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-31) 16 : 53 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/236412707"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6014#issuecomment-236412707"
+  , issueCommentCreatedAt = 2016 (-07) (-31) 05 : 56 : 02 UTC
+  , issueCommentBody =
+      "So, I tried to implement this in the C# driver and here's what happened. There are two actions I thought were most reasonable to handle:\r\n\r\n**Act 1 - Two Threads - One Reader, One Closer**\r\n```\r\nThread A: Cursor.MoveNextAsync() // and waiting for a response.\r\nThread B: Cursor.Close() // a cursor close by a different thread.\r\n```\r\n**Act 2 - One Thread - Aborted Read, then Close**\r\n```\r\nThread A: Cursor.MoveNextAsync() // Thread A aborts the async wait operation.\r\nThread A: Cursor.Close() // Then comes around and moves to close the cursor.\r\n```\r\n\r\n### Solution 1\r\nMy first thought for **Act 1** was any call to `Close()` forcibly cancels any pending async operation in `MoveNextAsyc`. Any future calls to `MoveNextAsync` just get rejected outright. The thread that called `Close` wins and gets to read the last response. But, it turns out every `Cursor` needs to carry around some extra synchronization primitives to pull this off. It's probably okay, but seems like it makes cursors heavy... probably my OCD killing me here... Another disadvantage is the cursor code gets *kind of* complicated. All these additional semaphore registrations within the OS to handle cross-thread async abort signaling make me weary. Ultimately, two threads need to communicate with each other one way or another about who's going to handle the last read... drama right? yea... hm.\r\n\r\nI did it, but it's not pretty... so, bit more thinking on it....\r\n\r\n### Solution 2\r\nI thought of another solution that used an interlocking mechanism that doesn't need OS semaphore primitives for cross-thread communication. I like it since it keeps cursor objects lightweight. Ye, simple object locking is pretty much handled by the CLR runtime using a `thinlock` bit flag in a CLR object header (or a quick lookup in the CLR `syncblock` table). coo. not bad...\r\n\r\nBut one burning question remains... in **Solution 2** is how am I going to know if I'm in **Act 1** or **Act 2**. It's possible I'm in **Act 1**, but **Thread A** goes off and does something and maybe never comes back to processes the last `STOP` message. Hmm. Yea.\r\n\r\nOne way I'm thinking to discriminate between **Act 1** and **Act 2** is by asking the user when calling `Close()` use a parameter `Close(bool waitForReplyOnThisThread = false)`. But it could encourage misusage. If the user lies to me, could potentially result in two `PrimeCursor` reads of the last response (not that it's a big deal). But yea...\r\n\r\n### Solution 2.5\r\nUse some kind of atomic interlocked counter to deflect any `MoveNextAsync` that happen the instant `Close` happens. Haven't really thought this one through yet.\r\n\r\n-----\r\n\r\nI just dunno. Perhaps I just need to get past the OCD, bite the bullet, and use a `SemaphoreSlim` for signaling. It's not that bad... If anyone got ideas on how to pull this off in a more lightweight (or simpler) way, hook me up. :electric_plug:  :bulb: \r\n\r\nCome to think of it... starting to wonder, I haven't had a bug in the cursor code since February'16 when I rewrote it... my .NET peeps seem happy. If it ain't broke, why fix it? :octocat: \r\n\r\n:dash: :walking: [***\"Bubbles of gas in my brain... Send me off balance, it's not enough\"***](https://www.youtube.com/watch?v=AS6NfeREKPk)"
+  , issueCommentId = 236412707
+  }

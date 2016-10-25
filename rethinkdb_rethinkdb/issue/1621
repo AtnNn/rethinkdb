@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-02) (-21) 02 : 06 : 36 UTC
+  , issueUpdatedAt = 2014 (-02) (-21) 02 : 08 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1621/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1621"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1621
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "segfault during secondary index creation after sharding"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1621"
+  , issueCreatedAt = 2013 (-11) (-07) 19 : 54 : 18 UTC
+  , issueBody =
+      Just
+        "Steps:\r\n\r\n * setup cluster with 4 nodes.\r\n * create database and table with soft writes and 8GB cache\r\n * enable 2 replicas with 1 write ack\r\n * start inserting data at ~100 docs/sec (durability='soft', return_vals=False, upsert=True) and run with noreply=True\r\n * after about 1 minute, rebalance to 4 shards\r\n * after all the replicas are available (a minute or two) create a multi-index on a field with between 2 and 4 values per doc (with high cardinality).\r\n * watch the system crash.\r\n\r\nHere's my output from one of my logs:\r\n\r\n```\r\n2013-11-07T10:35:13.604213507 0.003061s info: Creating directory /space/rethinkdb/data2\r\n2013-11-07T10:35:13.604414210 0.003262s info: Running rethinkdb 1.10.1-dirty (GCC 4.6.3)...\r\n2013-11-07T10:35:13.607196993 0.006045s info: Running on Linux 3.7.10-gentoo-r1 x86_64\r\n2013-11-07T10:35:13.607238068 0.006086s info: Loading data from directory /space/rethinkdb/data2\r\n2013-11-07T10:35:13.674039923 0.072887s info: Listening for intracluster connections on port 29025\r\n2013-11-07T10:35:13.674090765 0.072938s info: Attempting connection to 1 peer...\r\n2013-11-07T10:35:13.674884754 0.073732s info: Connected to server \"dbeval1\" 43ec4b47-8286-40c7-93d7-f7658a167f63\r\n2013-11-07T10:35:13.675518955 0.074366s info: Listening for client driver connections on port 28025\r\n2013-11-07T10:35:13.675528801 0.074376s info: Administrative HTTP connections are disabled.\r\n2013-11-07T10:35:13.675529408 0.074377s info: Listening on addresses: 127.0.0.1\r\n2013-11-07T10:35:13.675529845 0.074377s info: To fully expose RethinkDB on the network, bind to all addresses\r\n2013-11-07T10:35:13.675530276 0.074378s info: by running rethinkdb with the `--bind all` command line option.\r\n2013-11-07T10:35:13.675530690 0.074378s info: Server ready\r\n2013-11-07T10:35:24.423665209 10.822513s info: Connected to server \"dbeval3\" 2c6ac736-5338-4189-8104-31824737f4a7\r\n2013-11-07T10:35:40.555691139 26.954539s info: Connected to server \"dbeval4\" 1a615039-47da-43fb-b0b4-1b2c1092695c\r\n2013-11-07T10:42:05.874686458 412.273534s error: Error in src/arch/runtime/thread_pool.cc at line 319:\r\n2013-11-07T10:42:05.874731635 412.273579s error: Segmentation fault from reading the address 0x4.\r\n2013-11-07T10:42:05.874749501 412.273597s error: Backtrace:\r\n2013-11-07T10:42:05.896924095 412.295772s error: Thu Nov  7 10:42:05 2013\r\n\r\n1: +0x6a6227 at 0x7f9e6cea6227 (rethinkdb)\r\n2: +0x13550b at 0x7f9e6c93550b (rethinkdb)\r\n3: +0x187150 at 0x7f9e6c987150 (rethinkdb)\r\n4: +0x10bf0 at 0x7f9e6acd8bf0 (/lib64/libpthread.so.0)\r\n5: +0x12f0b5 at 0x7f9e6aa470b5 (/lib64/libc.so.6)\r\n6: +0x6f39d2 at 0x7f9e6cef39d2 (rethinkdb)\r\n7: +0x6f3f44 at 0x7f9e6cef3f44 (rethinkdb)\r\n8: +0x693554 at 0x7f9e6ce93554 (rethinkdb)\r\n9: +0x695b0a at 0x7f9e6ce95b0a (rethinkdb)\r\n10: +0x18239e at 0x7f9e6c98239e (rethinkdb)\r\n2013-11-07T10:42:05.900002779 412.298850s error: Exiting.\r\n```\r\n\r\nThis is running 1.10.1 - it is dirty because I've added this:\r\n\r\n```\r\ndiff --git a/src/rpc/connectivity/heartbeat.hpp b/src/rpc/connectivity/heartbeat.hpp\r\nindex 4e6f33c..2356221 100644\r\n--- a/src/rpc/connectivity/heartbeat.hpp\r\n+++ b/src/rpc/connectivity/heartbeat.hpp\r\n@@ -33,8 +33,8 @@ public:\r\n     void set_keepalive_tracker(const peer_id_t &peer_id, heartbeat_keepalive_tracker_t *tracker);\r\n \r\n private:\r\n-    static const int64_t HEARTBEAT_INTERVAL_MS = 2000;\r\n-    static const uint32_t HEARTBEAT_TIMEOUT_INTERVALS = 5;\r\n+    static const int64_t HEARTBEAT_INTERVAL_MS = 4000;\r\n+    static const uint32_t HEARTBEAT_TIMEOUT_INTERVALS = 15;\r\n \r\n     void on_timer();\r\n \r\n```\r\n\r\nbecause occasionally under very heavy load i would loose too many heartbeats and nodes would disappear and come back.\r\n\r\neach of the four instances of rethinkdb are running on the same machine but in their own numa node (each with 4 cores).\r\n\r\nthe issue looks a lot like #52 and after the cluster goes down i can't bring it back up again (rethinkdb crashes after startup with the same error)."
+  , issueState = "closed"
+  , issueId = Id 22291411
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

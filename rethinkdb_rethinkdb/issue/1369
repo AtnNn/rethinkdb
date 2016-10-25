@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-09) 21 : 26 : 49 UTC
+  , issueUpdatedAt = 2014 (-10) (-09) 21 : 27 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1369/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1369"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1369
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improve performance and scalability for workload X"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1369"
+  , issueCreatedAt = 2013 (-08) (-27) 22 : 03 : 58 UTC
+  , issueBody =
+      Just
+        "I sent this benchmark over e-mail to @mlucy and @jdoliner, but I'm going to post it here instead for collaboration.\r\n\r\nHere's the initial setup I think we should focus on (based on all the data I've collated):\r\n\r\n* A cluster of five RethinkDB nodes\r\n* One large table with ~1 billion documents (event data -- clickstream, network logs, etc.)\r\n  * Each document 1-2KB in size\r\n  * Has the following fields: autogen ID, datetime of the event, customer_id (which customer generate the event), type of event (i.e. user click, network packet, etc.), a bunch of other data (irrelevant what it is, just has to fill up the docs to 1-2KB)\r\n  * Secondary indexes on datetime, customer_id, type of event\r\n* Five shards\r\n* Two replicas, two write acks\r\n* Hard durability\r\n\r\nAnd here's the workload:\r\n\r\n* Constant insert rate of ~5m docs per day (~60 docs/second) -- a total of 16 clients\r\n* Run queries of the following form\r\n  1. Read a random event event with an id X -- run this query ~1000 times/second, a total of 32 clients\r\n  * Give me all events of type X for customer Y at time period Z (where time period is about a month) -- run this query once per second, a total of two clients\r\n  * Give me all events for customer Y -- run this query ten times per second, a total of 8 clients\r\n  * How many events happened for time period Z (where time period is about a month) -- run this query once per second, a total of 1 client\r\n* We should periodically drop clients and connect new ones (i.e. pick a random client and reconnect every second).\r\n\r\nStuff to look out for (i.e. requirements that will allow us to call this project done, and RethinkDB good):\r\n\r\n* Latency for write queries and point read queries should never exceed a well-bounded value (say, 5ms)\r\n* Latency for queries 2-4 shouldn't exceed a reasonable value (say, 20ms - 2s)\r\n* Time to connect shouldn't exceed a well bounded value (say, 10ms).\r\n\r\nWe'll also have to test adding a replica. When we bump the replica number by one, we have to test the following:\r\n\r\n* Make sure throughput doesn't drop/latency doesn't increase by a well defined number (e.g. 15%). If the number is higher than 15% it's a show-stopper since it will disrupt a real-time system.\r\n* How long does it take to add a replica? (should be a well-bounded number on our dataset, e.g. no more than 3-5 hours, with a reasonably correct progress bar). We don't do resharding without interrupting now, so we should only worry about adding replicas."
+  , issueState = "closed"
+  , issueId = Id 18637086
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

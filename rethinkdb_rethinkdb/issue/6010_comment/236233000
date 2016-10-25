@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-29) 16 : 50 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/236233000"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/6010#issuecomment-236233000"
+  , issueCommentCreatedAt = 2016 (-07) (-29) 16 : 50 : 59 UTC
+  , issueCommentBody =
+      "Hey @QianJin2013 great work on tracking down that bug. You got mad (aka good) debugging skills tracking this one down. Your PR is :100: on point.\r\n\r\nSo, I think (and you probably already know) `outstandingRequests` basically acts as a small gate to prevent too many continues from being sent over the wire. I think `outstandingRequests` is mostly useful in `maybeSendContinue()` where it checks for `&& outstandingRequests == 0`.\r\n\r\nBy the time `close()` actually happens, `outstandingRequests` is forever `+1`. I think it's just an extra check so any crazy operations on the `Cursor` that happen after a `close()` won't accidentally fire off and send a continue. \"Closed is closed,\" so says the shopkeeper...\r\n\r\nI don't see a possible leak yet but maybe you could explain more about how you see `outstandingRequests` could cause a potential leak somewhere. Ultimately the continue callstack looks like `maybeSendContinue() -> conn.continue_() -> sendQuery` not necessarily going through the `runQuery` execution path.\r\n\r\nI'll agree with you, though, using `outstandingRequests` as a gated counter makes the code harder to reason about. Perhaps it was originally designed to allow firing off multiple continues at a single time, but realistically, that's not what's happening in the current implementation... IIRC, there is only one continue over the wire at any given time. This is one of the reasons why I completely rewrote the `Cursor` implementation in the C# driver. The C# implementation doesn't rely on a gated `outstandingRequests` counter and it makes the code much more easy to reason about (at least I think) (and so far, fewer bugs I'm hoping). Fingers crossed. :smiley_cat: \r\n\r\n:art: :dash: [**Marshmello - CoLoUR**](https://www.youtube.com/watch?v=6UhNJC8OyVA)"
+  , issueCommentId = 236233000
+  }

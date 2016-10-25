@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-26) 02 : 16 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159783681"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5100#issuecomment-159783681"
+  , issueCommentCreatedAt = 2015 (-11) (-26) 02 : 16 : 58 UTC
+  , issueCommentBody =
+      "@gamesbrainiac - I'm not entirely sure what this issue is proposing.  I tried out the existing `asyncio` implementation of the Python driver, and it appears to work correctly with `async` and `await`:\r\n\r\n```py\r\nimport rethinkdb as r\r\nimport asyncio\r\n\r\nr.set_loop_type('asyncio')\r\n\r\nasync def run():\r\n    conn = await r.connect('localhost')\r\n    print('res: %d' % await r.expr(1).run(conn))\r\n    await conn.close()\r\n\r\nasyncio.get_event_loop().run_until_complete(run())\r\n```\r\n\r\nThere is the possibility of extending the `AsyncioCursor` object to support `__aiter__` according to [PEP 0492](https://www.python.org/dev/peps/pep-0492/#asynchronous-iterators-and-async-for).  This would be fairly useful, as you currently cannot use cursors as iterators in any of the async backends for the Python driver."
+  , issueCommentId = 159783681
+  }

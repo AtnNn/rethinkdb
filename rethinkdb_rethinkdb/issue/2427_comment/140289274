@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-15) 06 : 00 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140289274"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2427#issuecomment-140289274"
+  , issueCommentCreatedAt = 2015 (-09) (-15) 06 : 00 : 48 UTC
+  , issueCommentBody =
+      "@coffeemug I was asking because I was seeing huge performance problems by establishing a connection per thread vs re-using the same connection so I don't think its as cheap as you are thinking it is.  I wouldn't insist on re-using the connections in a threadsafe way if it wasn't so slow:\r\n\r\nHere is doing queries with a re-used connection:\r\n\r\n```\r\n$ python one.py \r\nqueries took 538ms\r\n\r\n$ python one.py \r\nqueries took 548ms\r\n\r\n$ python one.py \r\nqueries took 547ms\r\n\r\n$ python one.py \r\nqueries took 548ms\r\n```\r\n\r\nand here is a connection per query:\r\n\r\n```\r\n$ python conns.py \r\nqueries took 872ms\r\n\r\n$ python conns.py \r\nqueries took 1141ms\r\n\r\n]$ python conns.py \r\nqueries took 1134ms\r\n\r\n$ python conns.py \r\nqueries took 879ms\r\n```\r\n\r\nHere is the code for each, this is selecting 10 documents so its very tiny queries:\r\n\r\n```python\r\n# one.py\r\nimport rethinkdb as r\r\nimport time\r\n\r\nstart = time.time()\r\nconn = r.connect()\r\nfor i in range(1000):\r\n    len([x for x in r.table(\"boom\").run(conn)])\r\nend = time.time()\r\nduration = int(1000 * (end - start))\r\nprint(\"queries took %sms\" % duration)\r\n```\r\n\r\n```python\r\n# conns.py\r\nimport rethinkdb as r\r\nimport time\r\n\r\nstart = time.time()\r\n\r\nfor i in range(1000):\r\n    conn = r.connect()\r\n    len([x for x in r.table(\"boom\").run(conn)])\r\nend = time.time()\r\nduration = int(1000 * (end - start))\r\nprint(\"queries took %sms\" % duration)\r\n```"
+  , issueCommentId = 140289274
+  }

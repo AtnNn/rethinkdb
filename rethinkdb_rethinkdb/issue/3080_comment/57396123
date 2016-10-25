@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-30) 23 : 00 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57396123"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3080#issuecomment-57396123"
+  , issueCommentCreatedAt = 2014 (-09) (-30) 22 : 58 : 57 UTC
+  , issueCommentBody =
+      "Currently RethinkDB will fragmentize its data pretty harshly no matter what the file system. If you write a few large documents instead of many small documents, each document will get placed relatively contiguously in the file -- they'll probably get grouped in common RethinkDB extents because their blocks are getting written at the same time, and most of those extents, having no garbage entries, won't get garbage collected.  If you are writing many small documents, the btrfs fragmentation might affect performance of our block garbage collection routines, because they're what, in particular, try to read single RethinkDB extents and write them.  (On the other hand, btrfs fragmentation might be improved by RethinkDB garbage collection, because they're doing chunky writes.)\r\n\r\nThis btrfs behavior is something that we'd like to look more at when we work on making data be stored and accessible more contiguously (both to make individual documents be more rigorously contiguous and to make b-trees more efficiently traversable.  Then btrfs fragmentation would probably have a more negative affect.\r\n\r\nIt would also be interesting to see what the numbers are when large documents are involved and when the durability: 'soft' optarg is used."
+  , issueCommentId = 57396123
+  }

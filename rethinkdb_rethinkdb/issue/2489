@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-03) 02 : 46 : 08 UTC
+  , issueUpdatedAt = 2014 (-06) (-03) 17 : 09 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2489/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2489"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2489
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Crash on next with Mac OS X 10.9.3"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2489"
+  , issueCreatedAt = 2014 (-06) (-02) 07 : 01 : 27 UTC
+  , issueBody =
+      Just
+        "Excited to try out `r.args` and ditch protobufs, I tried building from next@df9c129a9 (latest commit as of time of writing) on Mac OS X 10.9.3.\r\n\r\nI am getting this when running an import script that does a lot of `r.insert`'s and not much else.\r\n\r\n```\r\n$ rethinkdb\r\ninfo: Creating directory /Users/chrismcc/workspace/ti/rethinkdb_data\r\ninfo: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/chrismcc/workspace/ti/rethinkdb_data' did not already exist.)\r\ninfo: Running rethinkdb 1.12.5-fallback (CLANG 5.1 (clang-503.0.40))...\r\ninfo: Running on Darwin 13.2.0 x86_64\r\ninfo: Using cache size of 1651 MB\r\ninfo: Loading data from directory /Users/chrismcc/workspace/ti/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, ::1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all` command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.12.5-fallback (CLANG 5.1 (clang-503.0.40))\r\nerror: Error in src/serializer/log/log_serializer.cc at line 660:\r\nerror: Guarantee failed: [erase_it != offset_tokens.end()] We probably tried unregistering the same token twice.\r\nerror: Backtrace:\r\nerror: Mon Jun  2 06:55:12 2014\r\n       \r\n       1: 0   rethinkdb                           0x000000010d7fbde4 _Z19rethinkdb_backtracePPvi + 132 at 0x10d7fbde4 ()\r\n       2: 0   rethinkdb                           0x000000010d4653d8 _ZN11backtrace_tC2Ev + 72 at 0x10d4653d8 ()\r\n       3: 0   rethinkdb                           0x000000010d465c28 _ZN26lazy_backtrace_formatter_tC2Ev + 40 at 0x10d465c28 ()\r\n       4: 0   rethinkdb                           0x000000010d464fe9 _Z16format_backtraceb + 25 at 0x10d464fe9 ()\r\n       5: 0   rethinkdb                           0x000000010d69e91c _Z18report_fatal_errorPKciS0_z + 412 at 0x10d69e91c ()\r\n       6: 0   rethinkdb                           0x000000010d843271 _ZN16log_serializer_t22unregister_block_tokenEP24ls_block_token_pointee_t + 273 at 0x10d843271 ()\r\n       7: 0   rethinkdb                           0x000000010d843ba9 _Z15counted_releaseP24ls_block_token_pointee_t + 41 at 0x10d843ba9 ()\r\n       8: 0   rethinkdb                           0x000000010d48fe46 _ZN3alt10page_acq_t13get_buf_writeE12block_size_t + 54 at 0x10d48fe46 ()\r\n       9: 0   rethinkdb                           0x000000010d47862a _Z25clear_superblock_metainfoP10buf_lock_t + 42 at 0x10d47862a ()\r\n       10: 0   rethinkdb                           0x000000010d6e04dd _ZNK7store_t15update_metainfoERK12region_map_tI13binary_blob_tES4_P17real_superblock_t + 61 at 0x10d6e04dd ()\r\n       11: 0   rethinkdb                           0x000000010d6da875 _ZNK7store_t25check_and_update_metainfoERK12region_map_tI13binary_blob_tEP17real_superblock_t + 69 at 0x10d6da875 ()\r\n       12: 0   rethinkdb                           0x000000010d6da663 _ZN7store_t5writeERK12region_map_tI13binary_blob_tERK7write_tP16write_response_t18write_durability_t22transition_timestamp_t13order_token_tP18write_token_pair_tP8signal_t + 163 at 0x10d6da663 ()\r\n       13: 0   rethinkdb                           0x000000010d61bb6e _ZN10listener_t15local_writereadERK7write_t22transition_timestamp_t13order_token_t27fifo_enforcer_write_token_t18write_durability_tP8signal_t + 702 at 0x10d61bb6e ()\r\n       14: 0   rethinkdb                           0x000000010d5fbbe3 _ZN13broadcaster_t20background_writereadEPNS_12dispatchee_tEN14auto_drainer_t6lock_tENS_22incomplete_write_ref_tE13order_token_t27fifo_enforcer_write_token_t18write_durability_t + 291 at 0x10d5fbbe3 ()\r\n       15: 0   rethinkdb                           0x000000010d605767 _ZNK5boost4_mfi3mf6Iv13broadcaster_tPNS2_12dispatchee_tEN14auto_drainer_t6lock_tENS2_22incomplete_write_ref_tE13order_token_t27fifo_enforcer_write_token_t18write_durability_tEclEPS2_S4_S6_S7_S8_S9_SA_ + 135 at 0x10d605767 ()\r\n       16: 0   rethinkdb                           0x000000010d60569c _ZN5boost3_bi5list7INS0_5valueIP13broadcaster_tEENS2_IPNS3_12dispatchee_tEEENS2_IN14auto_drainer_t6lock_tEEENS2_INS3_22incomplete_write_ref_tEEENS2_I13order_token_tEENS2_I27fifo_enforcer_write_token_tEENS2_I18write_durability_tEEEclINS_4_mfi3mf6IvS3_S7_SA_SC_SE_SG_SI_EENS0_5list0EEEvNS0_4typeIvEERT_RT0_i + 124 at 0x10d60569c ()\r\n       17: 0   rethinkdb                           0x000000010d6053aa _ZN5boost6detail8function26void_function_obj_invoker0INS_3_bi6bind_tIvNS_4_mfi3mf6Iv13broadcaster_tPNS7_12dispatchee_tEN14auto_drainer_t6lock_tENS7_22incomplete_write_ref_tE13order_token_t27fifo_enforcer_write_token_t18write_durability_tEENS3_5list7INS3_5valueIPS7_EENSI_IS9_EENSI_ISB_EENSI_ISC_EENSI_ISD_EENSI_ISE_EENSI_ISF_EEEEEEvE6invokeERNS1_15function_bufferE + 26 at 0x10d6053aa ()\r\n       18: 0   rethinkdb                           0x000000010d61261f _ZN18calling_callback_t18coro_pool_callbackEN5boost8functionIFvvEEEP8signal_t + 31 at 0x10d61261f ()\r\n       19: 0   rethinkdb                           0x000000010d60fa26 _ZN11coro_pool_tIN5boost8functionIFvvEEEE10worker_runES3_N14auto_drainer_t6lock_tE + 166 at 0x10d60fa26 ()\r\n       20: 0   rethinkdb                           0x000000010d60fe18 _ZN26callable_action_instance_tINSt3__16__bindIM11coro_pool_tIN5boost8functionIFvvEEEEFvS6_N14auto_drainer_t6lock_tEEJPS7_S6_S9_EEEE10run_actionEv + 136 at 0x10d60fe18 ()\r\n       21: 0   rethinkdb                           0x000000010d45d898 _ZN6coro_t3runEv + 72 at 0x10d45d898 ()\r\nerror: Exiting.\r\nTrace/BPT trap: 5\r\n```\r\n\r\nBuilt with `DEBUG=1`\r\n\r\nApologies if this is a known issue, I can just wait until 1.13 is out :smile:"
+  , issueState = "closed"
+  , issueId = Id 34749772
+  , issueComments = 24
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

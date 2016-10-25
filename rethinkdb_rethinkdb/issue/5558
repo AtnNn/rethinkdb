@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 17 : 32 : 30 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 18 : 53 : 32 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5558/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5558"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5558
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Can i use index reliably immediately after a lot of bulk inserts?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5558"
+  , issueCreatedAt = 2016 (-03) (-24) 10 : 15 : 55 UTC
+  , issueBody =
+      Just
+        "I have encountered a rare case problem:\r\nI insert about 100,000 records to a table `bookings`, using bulk insert method (passing row array),\r\nimmediately after insertion done,  i call verify function to check data integrity, it failed, but if i ran the check function again, it succeeded.\r\n\r\nThis is the asserted reql: \r\n```\r\nassertEquals(\"should no any `driveId` which does not exist in `drives`\", 0,\r\n        (long) r.table(S.bookings).distinct().optArg(S.index, S.driveId)\r\n                .filter(driveId -> r.not(r.table(S.drives).get(driveId)))\r\n                .count()\r\n                .run(db.c));\r\n```\r\n\r\nAll indexes are correctly created and indexWait called when create index.\r\n\r\n```\r\ndb.recreateTable(S.bookings, S.bookingId /*primary key*/);\r\ndb.createIndex(S.bookings, S.userId);\r\ndb.createIndex(S.bookings, S.driveId);\r\ndb.createIndex(S.bookings, S.driveIdAndStatus, new String[]{S.driveId, S.status});\r\ndb.createIndex(S.bookings, S.createdAt);\r\n```\r\n\r\n```\r\ndb.recreateTable(S.drives, S.driveId /*primary key*/);\r\ndb.createIndex(S.drives, S.userId);\r\ndb.createIndex(S.drives, S.createdAt);\r\n```\r\n\r\n```\r\nbulk insert to bookings table....\r\n```\r\n\r\nMy question is: Can i use index **reliably** immediately after a lot of data inserted to table?\r\n"
+  , issueState = "closed"
+  , issueId = Id 143207481
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

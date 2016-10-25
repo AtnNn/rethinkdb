@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-03) 06 : 24 : 04 UTC
+  , issueUpdatedAt = 2013 (-04) (-03) 06 : 39 : 00 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/362/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/362"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 362
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Dealing with empty/single-object streams"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/362"
+  , issueCreatedAt = 2013 (-02) (-18) 21 : 53 : 22 UTC
+  , issueBody =
+      Just
+        "I have the following dataset:\r\n\r\n```javascript\r\nr.db('test').tableCreate('tv_shows').run()\r\nr.table('tv_shows').insert([{ name: 'Star Trek TNG', episodes: 178 },\r\n                            { name: 'Battlestar Galactica', episodes: 75 }]).run()\r\nr.db('test').tableCreate('characters').run();\r\nr.table('characters').insert([{ name: 'Worf', show: 'Star Trek TNG' },\r\n                              { name: 'Data', show: 'Star Trek TNG' },\r\n                              { name: 'William Adama', show: 'Battlestar Galactica' },\r\n                              { name: 'Homer Simpson', show: 'The Simpsons' }]).run()\r\n```\r\n\r\nSuppose that for each character I'd like to inject info from a relevant TV show. I can do it like this:\r\n\r\n```javascript\r\nr.table('characters').map(function (character) {\r\n  return r.table('tv_shows').filter({ name: character('show') }).nth(0).merge(character);\r\n}).run()\r\n```\r\n\r\nBut this doesn't work because the inner `filter` occasionally returns empty streams (when there is no corresponding tv show). The obvious solution is to use a branch:\r\n\r\n```javascript\r\nr.table('characters').map(function (character) {\r\n  return r.branch(r.table('tv_shows').filter({ name: character('show') }).count().gt(0),\r\n                  r.table('tv_shows').filter({ name: character('show') }).nth(0),\r\n                  r.expr({})).merge(character);\r\n}).run()\r\n```\r\n\r\nBut eww. @neumino suggested a neat trick of appending an empty object:\r\n\r\n```javascript\r\nr.table('characters').map(function (character) {\r\n  return r.table('tv_shows').filter({ name: character('show') }).append({}).nth(0).merge(character);\r\n}).run()\r\n```\r\n\r\nBetter, but still yucky. One option is to make a stream implicitly convertible to an object as follows: `[]` converts to `{}`, `[x]` converts to `x`, and [x, y, [z*]] throws an error (cannot implicitly convert stream with more than one element to object). I like this solution (I think).\r\n\r\nAnother option is to have the user do an explicit cast from stream to object using the rules above. I like this less.\r\n\r\nWhat do you think?"
+  , issueState = "closed"
+  , issueId = Id 11132899
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

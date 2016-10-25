@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 05 : 32 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29684787"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-29684787"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 05 : 32 : 36 UTC
+  , issueCommentBody =
+      "> The thing about falsey error semantics is it plays really badly with logic operators [...] But I'm pretty convinced there are always going to be more problems.\r\n\r\nWe could adopt a ternary logic the way SQL does and we wouldn't run into more problems:\r\n\r\n* `x['foo'] => unknown` if `foo` is missing\r\n* `~unknown => unknown`\r\n* `branch(unknown, x, y) => y`\r\n* define other logic operators like `any` and `all` in terms of `branch` above\r\n\r\nThis would work well. The simpler short term solution is to patch `any` and `not`. My opinion is that we should just do that before the LTS release (these are probably the most pernicious cases).\r\n\r\n> I think one thing we should consider, not necessarily as a replacement for the other options, is a `strict_missingattr` optarg which removes all the `default` magic.\r\n\r\nWe already do that as an optarg for `filter` (and it's awesome). We should do that in every function where there is a default magic (and allow it in run?) I'd be totally in favor of that.\r\n\r\n> And if I could tell confused users to just pass `(strict_missingattr=True)` to `run` to help figure out why they're not getting anything back from `reduce` that could help things a lot.\r\n\r\nAs far as I can see, `reduce` is actually strict:\r\n\r\n```javascript\r\nr.expr([{a:1}, {a:2}, {b:3}]).reduce(function(x, y) { return {a: x('a').add(y('a'))}; })\r\n\r\nRqlRuntimeError: No attribute `a` in object:\r\n{\r\n\t\"b\":\t3\r\n} in:\r\nr([{a: 1}, {a: 2}, {b: 3}]).reduce(function(var_4) { return {a: var_4(\"a\").add(var_5(\"a\"))}; })\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```"
+  , issueCommentId = 29684787
+  }

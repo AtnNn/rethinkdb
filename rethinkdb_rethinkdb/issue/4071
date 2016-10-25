@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-20) 18 : 58 : 13 UTC
+  , issueUpdatedAt = 2015 (-05) (-07) 20 : 34 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4071/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/4071"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4071
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 327925
+        , simpleUserLogin = N "takluyver"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/327925?v=3"
+        , simpleUserUrl = "https://api.github.com/users/takluyver"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add asyncio event loop support"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4071"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4071.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4071.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4071"
+  , issueCreatedAt = 2015 (-04) (-16) 13 : 58 : 14 UTC
+  , issueBody =
+      Just
+        "This probably needs quite a bit of work, but it's working for a basic example, and I wanted to communicate early. @techdragon talked me into working on this at the PyCon sprints.\r\n\r\nAsyncio is part of the standard library in Python 3.4. It's a rather similar API to tornado, so I copied and pasted the net_tornado code that's already in rethinkdb and modified it until it works. The syntax is only valid on Python 3, but the module shouldn't be imported until you do `r.set_loop_type('asyncio')`, so that shouldn't be a problem.\r\n\r\nHere's the asyncio version of the tornado example from your [async drivers blog post](http://www.rethinkdb.com/blog/async-drivers/) (BTW, that example is missing a colon on the `while` line):\r\n\r\n```python\r\nimport asyncio\r\nimport rethinkdb as r\r\n\r\nr.set_loop_type(\"asyncio\")\r\n\r\n@asyncio.coroutine\r\ndef print_changes():\r\n    conn = yield from r.connect(host=\"localhost\", port=28015)\r\n    feed = yield from r.table(\"tv_shows\").changes().run(conn)\r\n    while (yield from feed.fetch_next()):\r\n        change = yield from feed.next()\r\n        print(change)\r\n\r\nloop = asyncio.get_event_loop()\r\nloop.run_until_complete(print_changes())\r\n```"
+  , issueState = "closed"
+  , issueId = Id 68929968
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-22) 15 : 41 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/150265067"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4981#issuecomment-150265067"
+  , issueCommentCreatedAt = 2015 (-10) (-22) 15 : 36 : 48 UTC
+  , issueCommentBody =
+      "```\r\nReqlLogicError: Expected type DATUM but found SELECTION:\r\n```\r\n\r\nThis is happening because you can't put a selection into an object. You'd need to cast it to array like:\r\n\r\n```\r\nrql\r\n.table('foo')\r\n.getAll('bar')\r\n.merge({\r\n  qux: r.table('oop').getAll('bar', { index: 'lop' }).coerceTo('array')\r\n})\r\n.delete()\r\n```\r\n\r\nBut then you'll get the error for the reason you expect which is that you can only do a delete on a selection, and merge turns the selection into a stream (I believe). So delete won't work since it isn't referring to an actual document on disk, but a new transformed document in memory with the extra \"qux\" field.\r\n\r\nPersonally, I think the way you're doing it is fine. RethinkDB doesn't have transactions, so there's no real benefit to trying to do a join and then a delete, it's just extra work the server has to do copying all the elements into an array etc. There is, however, issue #4853 which proposes a reference type. If that were implemented we might be able to make a cascading delete like this easier to write."
+  , issueCommentId = 150265067
+  }

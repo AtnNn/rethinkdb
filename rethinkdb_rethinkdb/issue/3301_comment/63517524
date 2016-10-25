@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-18) 18 : 14 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63517524"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3301#issuecomment-63517524"
+  , issueCommentCreatedAt = 2014 (-11) (-18) 18 : 14 : 21 UTC
+  , issueCommentBody =
+      "My vote is for UTF-normalization. While it does break the absolute round-tripping, it does so in a way that is more likely to be user-friendly. For example when someone is searching for \"\252ber\" they don't really care about whether the first letter is a single code-point or two (u + \168). \r\n\r\n@AtnNn does a nice job of showing the cases where (for example) Python screws up on this. But to me that is exactly why we should be doing this. For most people those combinations are the same thing, and they will only be confused when they are not. The bad examples are different at the binary level, not the meaning level.\r\n\r\nNormalization would mean that for all operations inside RethinkDB we would be consistent, at the cost of sometimes being inconsistent with comparisons outside of RethinkDB on round-trips. We already have the generic problem with data coming from multiple sources.\r\n\r\nTo illustrate here are the benefits/drawbacks of a hypothetical normalizing system in Python2.7:\r\n```python\r\ntwoByte = '\252' # b'\\xc3\\xbc'\r\noneByte = u'\252' # b'\\xfc'\r\n\r\noneByte == unicodedata.normalize('NFC', u'\252') # True\r\n\r\n# the good\r\nr.table('bob').insert({'id': twoByte}).run()\r\nlist(r.table('bob').get(oneByte).run()) == [{'id': oneByte}] # True\r\nlist(r.table('bob').get(twoByte).run()) == [{'id': oneByte}] # True\r\n\r\n# the bad\r\nlist(r.table('bob').get(twoByte).run()) == [{'id': twoByte}] # False, it will never return the twoByte value\r\n```\r\n\r\nNote that this is significantly harder to manually enter in bad cases in Python3.x since you have to work at it to get the twoByte version."
+  , issueCommentId = 63517524
+  }

@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-06) (-13) 23 : 03 : 44 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5850/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5850"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5850
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 455594
+        , simpleUserLogin = N "ajselvig"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/455594?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ajselvig"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Server hangs when empty metadata file is present in data directory"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5850"
+  , issueCreatedAt = 2016 (-06) (-13) 17 : 04 : 41 UTC
+  , issueBody =
+      Just
+        "Hello- We had an issue this morning where, somehow, the metadata file had gotten deleted from our data directory. When starting the server, we got the \"No such file... error: \r\n\r\n> error: Inaccessible database file: \"/opt/rethinkdb/clypboard-data/default/metadata\": No such file or directory\\nSome possible reasons:\\n- the database file couldn't be created or opened for reading and writing\\n- the user which was used to start the database is not an owner of the file\r\n\r\nThis error itself is a bit strange, as the directory is owned and writeable by the rethinkdb user, which is the same user that starts the db, so I'm not quite sure why it can't create the metadata file from scratch. \r\n\r\nAs a misguided effort to remedy this, we created an empty metadata file with the proper permissions. This is where the real issue occurs. The server starts up, saying it's going to read data from the directory, then just hangs, pegging a CPU. There is no log output beyond: \r\n\r\n> 2016-06-13T09:59:26.228686179 0.188088s notice: Loading data from directory /opt/rethinkdb/clypboard-data/default\r\n\r\nThe process just sits there, spinning on a CPU, indefinitely. It can't be terminated normally (needs sigkill). \r\nThe lack of log information is particularly frustrating here, since there's really no insight into what's happening (or even the fact that anything is wrong).\r\n\r\nWe eventually fixed it by copying over a recent backup of the metadata file. This seemed to work fine and the server started up nearly instantly. \r\n\r\nI wish I could provide more information, but I'm not sure how to access anything more than what rethinkdb logs. Here's our setup:\r\n\r\n4.2.0-38-generic #45~14.04.1-Ubuntu\r\nrethinkdb 2.3.4~0trusty (GCC 4.8.2)\r\n\r\nThanks!"
+  , issueState = "open"
+  , issueId = Id 159998856
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

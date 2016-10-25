@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-02) 21 : 39 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5964
+        , simpleUserLogin = N "cultofmetatron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5964?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cultofmetatron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161440329"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5031#issuecomment-161440329"
+  , issueCommentCreatedAt = 2015 (-12) (-02) 21 : 32 : 33 UTC
+  , issueCommentBody =
+      "Observables are much more powerful abstraction than a Promise that can be fullfilled multiple times. They are asynchronous sequences that can be composed with higher order functions in much the same way lodash can operate on arrays.\r\n\r\ncursors by comparison seem limited and clumsy. It would be great if the rethinkdb driver nativly implemented cursors.\r\n\r\ndoing so would make the streaming functionality much more usable. for instance, you could write code like this.\r\n\r\n```javascript\r\nlet joinedObservable = combineLatest(\r\n  query1.run().filter(somefunc1), \r\n  query2.run().map(somefunc2).filter(somefunc3)), \r\n  (val1, val2) =>  combineValuesInMeaningfulWay(val1, val2));\r\n\r\ncombineLatest(latestSocket, joinedObservable, (socket, value) => {\r\n  return {\r\n    socket: socket,\r\n    value: value\r\n  };\r\n}).subscribe((data) => data.socket.emit('someEvent', data.value));\r\n```\r\n\r\nI admit it seems a bit contrived. imagine combining asynchronous values coming from several sources including socket.io, rethink and rabbitmq. wrapping all theses sources behind observables makes combining them much more managable. \r\n\r\nThe reason you don't see observables very much in the backend is because most node applications are web servers. The entire interaction revolves around a single event (http request).  Observables realy show their utility when you have lots of diffrent events to coordinate. (socket.io for instance). Observables let you do this with minimum side effects/state.\r\n\r\nRethink db isn't trying to be just any database. You guys want to be the database for realtime apps. As such, it would be infinitely useful to have streaming interfaces that allow composability across multiple values the way Promises allow composability over one shot asynchronous functions.  cursors in my experience are frustratingly clumsy when you want to do anything more complex than simply passing along values.  The fact that rethinkdbdash makes cursors into arrays by default is testament to this."
+  , issueCommentId = 161440329
+  }

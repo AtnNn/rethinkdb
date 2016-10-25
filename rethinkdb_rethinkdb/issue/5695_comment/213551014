@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-22) 18 : 58 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/213551014"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5695#issuecomment-213551014"
+  , issueCommentCreatedAt = 2016 (-04) (-22) 18 : 51 : 18 UTC
+  , issueCommentBody =
+      "@hungnt-me If there are a lot of groups, this query could contribute to memory consumption.\r\nThis is how you can rewrite it using the `fold` command to use less memory on the server (as it will return a cursor instead and be evaluated lazily):\r\n```js\r\nr.db('my_db')\r\n  .table('my_table')\r\n  .orderBy({index: \"excluded_mapped\"})\r\n  .fold(\r\n    // Initial accumulator value\r\n    {count: 0, group: null},\r\n    // Accumulator function gets the current accumulator and the next item. Returns the new accumulator.\r\n    function(acc, item) {\r\n        var excluded_mapped = r.expr([item('excluded'), item('mapped')]);\r\n        // Check if we need to start a new group. Increment count otherwise.\r\n        return r.branch(excluded_mapped.ne(acc('group')),\r\n                        {count: 1, group: excluded_mapped},\r\n                        {count: acc('count').add(1), group: excluded_mapped});\r\n    },\r\n    {\r\n      // Use an emit function to emit the groups\r\n      emit: function(old_acc, item, new_acc) {\r\n        var old_group = old_acc('group');\r\n        var new_group = new_acc('group');\r\n        // Emit the `old_acc` whenever the group changed (except for the initial group, which is never emitted)\r\n        return r.branch(old_group.ne(null).and(old_group.ne(new_group)), [old_acc], []);\r\n      },\r\n      finalEmit: function(final_acc) {\r\n          // Emit the final group\r\n          return r.branch(final_acc('group').ne(null), [final_acc], []);\r\n      }\r\n    }\r\n   )\r\n```\r\n(Edit: Added missing `return`s)\r\n\r\nNote that the `fold` command is only available since RethinkDB 2.3.0.\r\n\r\n@chipotle Do you think this would be a good example to add to the `fold` docs?"
+  , issueCommentId = 213551014
+  }

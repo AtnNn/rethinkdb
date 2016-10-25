@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-06) 01 : 12 : 26 UTC
+  , issueUpdatedAt = 2015 (-08) (-06) 01 : 32 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4582/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4582"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      ]
+  , issueNumber = 4582
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Can we detect non-atomic non-function arguments to update/replace?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4582"
+  , issueCreatedAt = 2015 (-07) (-26) 18 : 43 : 16 UTC
+  , issueBody =
+      Just
+        "In http://stackoverflow.com/a/31634756/2413884 , a user suggested the following query to emulate `r.row` in an `insert:\r\n```js\r\nr.table('FruitStore')\r\n.insert({\r\n  id : 1, \r\n  count : r.table('FruitStore').get(1)('count').default(0).add(1) \r\n}, { \r\n  conflict : 'update'\r\n})\r\n```\r\n\r\nHe was probably mislead by a bad sentence in our FAQ (https://github.com/rethinkdb/docs/issues/834), but there is also another problem here:\r\nIn `update` and `replace`, we try to detect non-atomic operations by inspecting the function passed into them. However as this demonstrates, there are ways of doing a single-document update without involving a function, e.g.:\r\n```js\r\n// Increment a counter. This is non-atomic, but there's no error:\r\ntable.get(1).update({counter: table.get(1)('counter').add(1)})\r\n```\r\n\r\nThe problem is that what we pass to `update` in this case is not a function.\r\n\r\nWe should try to detect such cases I think. @mlucy is this possible?\r\nIf performing the check directly is difficult, maybe we could always wrap the argument to `update` or `replace` into a function first before we evaluate it?\r\n\r\n(This is also slightly related to https://github.com/rethinkdb/rethinkdb/issues/3700 , though the situation there is a bit different)"
+  , issueState = "closed"
+  , issueId = Id 97340515
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

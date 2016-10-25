@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-31) 01 : 17 : 14 UTC
+  , issueUpdatedAt = 2013 (-10) (-31) 01 : 17 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1578/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1578"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1578
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JavaScript driver - ArrayResult.next is kind of broken"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1578"
+  , issueCreatedAt = 2013 (-10) (-27) 02 : 34 : 06 UTC
+  , issueBody =
+      Just
+        "I believe a lot of people expect this code to work (See http://stackoverflow.com/questions/18119387/iterating-over-a-mongodb-cursor-serially-waiting-for-callbacks-before-moving-to/18119789#18119789 or https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/cursor.coffee#L21)\r\n\r\n\r\n```js\r\nr.connect({port: 28014}, function(err, connection) {\r\n    if (err) throw err;\r\n    r.db(\"doc\").table(\"users\").coerceTo('ARRAY').run( connection, function(err, cursor) {\r\n        if (err) throw err;\r\n\r\n        cb = function(err, result) {\r\n            if (err) {\r\n                if (err.message === 'No more rows in the cursor.') {\r\n                    console.log('Done.')\r\n                }\r\n                else {\r\n                    throw err\r\n                }\r\n            }\r\n            else {\r\n                console.log(result)\r\n                cursor.next(cb)\r\n            }\r\n        }\r\n\r\n        cursor.next( cb )\r\n    })\r\n})\r\n```\r\n\r\nIt throws with\r\n \r\n```js\r\nutil.js:0\r\n(function (exports, require, module, __filename, __dirname) { // Copyright Joy\r\n^\r\nRangeError: Maximum call stack size exceeded\r\n```\r\n\r\nThere are one and a half bugs here.\r\n\r\nThe first one is that ArrayResult.next doesn't check if there is an element before executing the callback (line 139), so it keeps calling itself with `undefined` as a result.\r\n\r\n\r\nThe second one is that if the array has more than 3255 elements, we are still going to get a Maximum call stack (node v0.10.20)\r\n\r\nWhile it's technically the user's fault, I think it would be better for us to provide a better implementation of `next`.I tried a quick fix with `setImmediate` and it seems to work fine in Node.\r\n`setImmediate` is not defined in some browsers (including Chrome), but a `setTimeout` should also do the trick.\r\n\r\nI'm not sure, but I think we should also use `setImmediate` with a normal cursor too. We may hit the same bug when #1543 will be released (or if the user somehow has 4 nested calls in each callback)."
+  , issueState = "closed"
+  , issueId = Id 21645462
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

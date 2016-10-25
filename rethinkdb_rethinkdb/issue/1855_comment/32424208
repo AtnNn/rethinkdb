@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-15) 22 : 51 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32424208"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1855#issuecomment-32424208"
+  , issueCommentCreatedAt = 2014 (-01) (-15) 22 : 49 : 09 UTC
+  , issueCommentBody =
+      "After talking to @mlucy in person he's cool with doing a delimiter-based `collapse` as long as the user turns this mode on with an optarg (which I completely agree with). So:\r\n\r\n```javascript\r\nr.expr({a: 1, b: 2}).collapse()\r\n{a: 1, b: 2}\r\n\r\nr.expr({a: 1, b: 2}).collapse('a')\r\n{a: 1, b: 2}\r\n\r\nr.expr({a: 1, b: 2}).collapse('c')\r\n{a: 1, b: 2}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse()\r\n{a: 1, b: 3, c: 4}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse('left')\r\n{a: 1, b: 2, right: {b: 3, c: 4}}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse('right')\r\n{b: 3, c: 4, left: {a: 1, b: 2}}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse('left', 'right')\r\n{a: 1, b: 3, c: 4}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse('right', 'left')\r\n{a: 1, b: 2, c: 4}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse(delimeter='_')\r\n{left_a: 1, left_b: 2, right_b: 3, right_c: 4}\r\n\r\nr.expr({left: {a: 1, b: 2}, right: {b: 3, c: 4}}).collapse('left', delimeter='_')\r\n{left_a: 1, left_b: 2, right: {b: 3, c: 4}}\r\n```\r\n\r\nA few more notes:\r\n\r\n* `collapse` should not recurse\r\n* I'm cool with avoiding handling nested syntax for the moment (e.g. `obj.collapse({a:'b'})`) until we know people want it.\r\n* We should find a better name than `delimiter`\r\n\r\n@mlucy @atnnn -- how does this proposal sound?\r\n\r\n\r\n\r\n"
+  , issueCommentId = 32424208
+  }

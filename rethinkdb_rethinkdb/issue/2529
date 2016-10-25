@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-12) 01 : 21 : 21 UTC
+  , issueUpdatedAt = 2014 (-06) (-26) 22 : 29 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2529/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2529"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2529
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Weirdly inconsistent insert performance on 2-node cluster"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2529"
+  , issueCreatedAt = 2014 (-06) (-10) 23 : 07 : 15 UTC
+  , issueBody =
+      Just
+        "When I insert small documents into a table with soft durability with servers running on magneto and electro I get very weirdly inconsistent insert throughputs.\r\n\r\n1. Sometimes the insert rate on a new table would first go up to a high value, then drop to 0 and remain there for about 1 second before resuming at its regular speed. I could even reproduce this on a single node\r\n\r\n2. With only one node in a cluster, I got stable insert rates of ~20k inserts/s. With two nodes in the cluster (but the table still being on only the one same node as before), I one time got about the same rate. Another time I got a maximum of ~6k which was extremely stable.\r\n\r\n3. Sharding the table into 2 shards did not improve the throughput over the rate I got with a single node. That is very odd, especially since I connected clients directly to both nodes in the cluster and they are not CPU bound or anything like that.\r\n\r\nOverall this is super weird. I can run the experiment five times and each time the performance behavior is different. Sometimes I get 6k inserts/s, another time I get 14k, then 20k. In either case, it seems to \"stick\" for a while with whichever rate it started with more or less. Sometimes it changes after a few minutes. Sometimes it has the stall at the beginning. Other times it doesn't."
+  , issueState = "closed"
+  , issueId = Id 35435219
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

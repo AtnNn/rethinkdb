@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-17) 18 : 40 : 23 UTC
+  , issueUpdatedAt = 2016 (-03) (-30) 23 : 22 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4529/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4529"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      ]
+  , issueNumber = 4529
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 952451
+          , simpleUserLogin = N "nighelles"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/952451?v=3"
+          , simpleUserUrl = "https://api.github.com/users/nighelles"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6763826
+        , simpleUserLogin = N "llambda"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6763826?v=3"
+        , simpleUserUrl = "https://api.github.com/users/llambda"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Error: write EPIPE when inserting 54MB file"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4529"
+  , issueCreatedAt = 2015 (-07) (-10) 02 : 52 : 41 UTC
+  , issueBody =
+      Just
+        "Hello, first of all thank you for this great and fantastic database software.\r\n\r\nNow, I wanted to report an issue I am encountering of inserting files of 54MB size; for instance, the Atom RPM ( easily downloadable at https://atom.io/download/rpm ) into a test RethinkDB database. (I was able to upload 20MB and smaller files without error. I have not tried other sizes yet.)\r\n\r\nLinux version 4.0.6-300.fc22.x86_64, iojs v2.3.4. Fedora 22. rethinkdb node module 2.0.2, rethinkdb 2.0.4 database.\r\n\r\nThis is the error in the console:\r\n\r\n```\r\nevents.js:141\r\n      throw er; // Unhandled 'error' event\r\n            ^\r\nError: write EPIPE\r\n    at Object.exports._errnoException (util.js:814:11)\r\n    at exports._exceptionWithHostPort (util.js:837:20)\r\n    at WriteWrap.afterWrite (net.js:758:14)\r\n```\r\n\r\nAnd this is a test case:\r\n\r\n```\r\nnpm -i bluebird stream-to-buffer\r\n```\r\n\r\n```\r\nvar Promise = require('bluebird');\r\nPromise.longStackTraces();\r\n\r\nvar fs = require('fs');\r\n\r\nvar streamToBuffer = Promise.promisify(require('stream-to-buffer'));\r\nvar r = require('rethinkdb');\r\n\r\nvar file = fs.createReadStream('/tmp/atom.rpm');\r\n\r\nstreamToBuffer(file)\r\n.then(function (buffer) {\r\n    return r.connect()\r\n    .then(function (conn) {\r\n        return r.table('test')\r\n        .insert({\r\n            size: buffer.length,\r\n            date: new Date(),\r\n            file: buffer\r\n        })\r\n        .run(conn, function (err, ok) {\r\n            console.error(err)\r\n            console.log(ok)\r\n        })\r\n    })\r\n})\r\n```\r\n\r\nEdit: After running a bunch of times, one time I got this message:\r\n\r\n```\r\n{ [RqlClientError: Query size (76321093) greater than maximum (67108863) in:\r\nr.table(\"test\").insert({size: 57240724, date: r.ISO8601(\"2015-07-10T03:04:43.647Z\"), file: r.binary(<data>)})\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^]\r\n  name: 'RqlClientError',\r\n  msg: 'Query size (76321093) greater than maximum (67108863).',\r\n  frames: [],\r\n  message: 'Query size (76321093) greater than maximum (67108863) in:\\nr.table(\"test\").insert({size: 57240724, date: r.ISO8601(\"2015-07-10T03:04:43.647Z\"), file: r.binary(<data>)})\\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^' }\r\n```"
+  , issueState = "closed"
+  , issueId = Id 94200712
+  , issueComments = 18
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-16) 21 : 50 : 23 UTC
+  , issueUpdatedAt = 2016 (-08) (-16) 21 : 50 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5931/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5931"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 5931
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Bad error message when `eachAsync` row handler returns a promise which resolves to something besides undefined"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5931"
+  , issueCreatedAt = 2016 (-07) (-10) 02 : 35 : 23 UTC
+  , issueBody =
+      Just
+        "If you write this:\r\n\r\n```\r\ncursor.eachAsync(() => new Promise((res) => {res(0)}));\r\n```\r\n\r\nYou get the error:\r\n\r\n```\r\nUnhandled rejection ReqlDriverError: Row handler for eachAsync may only return a Promise or undefined.\r\n```\r\n\r\n---\r\n\r\nThe error message doesn't clearly communicate that in addition to the row handler returning a Promise or undefined, the Promise it returns has to resolve to undefined (or another Promise, presumably).  It took me a long time to figure out what was wrong.  (The behavior makes sense after thinking about it, though; returning a promise which resolves to something would require throwing that value away, which is sketchy.)\r\n\r\nThis is really easy to run into, because if you hit it if you try to issue a write for everything in the cursor:\r\n```\r\ncursor.eachAsync((c) => {\r\n  return someWrite(c).run(conn);\r\n})\r\n```"
+  , issueState = "closed"
+  , issueId = Id 164695891
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 11
+          , milestoneNumber = 120
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/120"
+          , milestoneCreatedAt = 2016 (-04) (-07) 18 : 34 : 44 UTC
+          , milestoneState = "open"
+          }
+  }

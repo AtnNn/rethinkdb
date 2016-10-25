@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-13) 03 : 30 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/156312377"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5079#issuecomment-156312377"
+  , issueCommentCreatedAt = 2015 (-11) (-13) 03 : 30 : 07 UTC
+  , issueCommentBody =
+      "Well the issue here is what kind of equality to support (object or value) and whether we should only support it for the `in` operator, since we don't support it for the `==` operator. In other words, even if we did this, you still couldn't write code like this:\r\n\r\n```python\r\ndef create_user(**kw):\r\n    kw.setdefault('created', r.now())\r\n    kw.setdefault('authtoken', r.uuid())\r\n    r.table('user').insert({k: v for (k, v) in kw.items() if v != '' ).run(conn)\r\n```\r\n\r\nThe workaround would be to strip out the keys you don't want before adding reql terms to the dict\r\n\r\n```python\r\ndef create_user(**kw):\r\n    stripped = {k: v for k, v in kw.items() if v not in ('', None, False)}\r\n    stripped.setdefault('created', r.now())\r\n    stripped.setdefault('authtoken', r.uuid())\r\n    r.table('user').insert(stripped).run(conn)\r\n```\r\n\r\nI would say in the vast majority of cases where someone invokes `__contains__` it would probably be when they're trying to write a query like `r.table(foo).map(r.row['bar'] in [1,2,3])` or something like it, and they'll run into the fact that we don't translate `__contains__` into the reql term `.contains()` (because it doesn't allow you to return arbitrary objects like the arithmetic and comparison methods do). In that case, it would be nice to get a helpful warning that you should use `.contains()` instead. "
+  , issueCommentId = 156312377
+  }

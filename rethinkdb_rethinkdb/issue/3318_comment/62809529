@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-12) 22 : 45 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62809529"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3318#issuecomment-62809529"
+  , issueCommentCreatedAt = 2014 (-11) (-12) 22 : 45 : 43 UTC
+  , issueCommentBody =
+      "Oh I see. So this matters if multiple rows in `r.table('sessions')` have the same `\"client_id\"` value right?\r\n\r\nMaybe it could be something like this:\r\n```\r\nr.cache(s(\"client_id\"),\r\n        r.db(\"aidax\").table(\"clients\").getAll(s(\"client_id\"))\r\n```\r\n\r\nThe `r.cache()` term would check whether the value for the key provided in its first argument has already been computed, and if not evaluate its second argument and store it for future use.\r\nIn any case it will return the result data.\r\n\r\nIt would probably work on a best-effort basis, i.e. there wouldn't be any guarantee that it actually doesn't recompute the result multiple times. Otherwise distributing the query would become tricky. In practice it would probably compute the value for a given key at most once per batch/shard pair."
+  , issueCommentId = 62809529
+  }

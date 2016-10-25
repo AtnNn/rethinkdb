@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-10) 23 : 15 : 43 UTC
+  , issueUpdatedAt = 2013 (-04) (-20) 01 : 34 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/619/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/619"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 619
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 646357
+          , simpleUserLogin = N "wmrowan"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/646357?v=3"
+          , simpleUserUrl = "https://api.github.com/users/wmrowan"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91093
+        , simpleUserLogin = N "mfenniak"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91093?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mfenniak"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Python driver doesn't support inserting objects w/ 'self' as a key"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/619"
+  , issueCreatedAt = 2013 (-04) (-07) 20 : 46 : 24 UTC
+  , issueBody =
+      Just
+        "It looks like the Python driver can't correctly handle objects that have the key 'self' in them as it conflicts with the `__init__` method's self parameter.  Here's a piece of test code:\r\n\r\n```python\r\nimport rethinkdb as r\r\nconn = r.connect(\"127.0.0.1\", 28015)\r\nr.db(\"test\").table(\"test\").insert({\"self\": \"woot\"}).run(conn)\r\n```\r\n\r\nAnd here's the traceback output:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"import.py\", line 10, in <module>\r\n    r.db(\"test\").table(\"test\").insert({\"self\": \"woot\"}).run(conn)\r\n  File \"/home/mfenniak/Development/github/venv/local/lib/python2.7/site-packages/rethinkdb/ast.py\", line 513, in insert\r\n    return Insert(self, records, upsert=upsert)\r\n  File \"/home/mfenniak/Development/github/venv/local/lib/python2.7/site-packages/rethinkdb/ast.py\", line 11, in __init__\r\n    self.args = [expr(e) for e in args]\r\n  File \"/home/mfenniak/Development/github/venv/local/lib/python2.7/site-packages/rethinkdb/query.py\", line 19, in expr\r\n    return MakeObj(**val)\r\nTypeError: __init__() got multiple values for keyword argument 'self'\r\n```\r\n\r\nThe error seems to occur with 'self' as a top-level key, and also as a key inside any embedded object as well.  I'm using RethinkDB 1.4.2 (Linux x86-64) and Python 2.7.3 w/ the 1.4.0-2 RethinkDB driver."
+  , issueState = "closed"
+  , issueId = Id 12901694
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 28
+          , milestoneClosedIssues = 12
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.4.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/28"
+          , milestoneCreatedAt = 2013 (-04) (-10) 23 : 19 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

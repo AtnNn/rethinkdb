@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-12) 21 : 18 : 11 UTC
+  , issueUpdatedAt = 2016 (-02) (-13) 07 : 25 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5395/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5395"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5395
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 679144
+        , simpleUserLogin = N "Prinzhorn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/679144?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Prinzhorn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "r.error() doesn't always result in an error in the node.js driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5395"
+  , issueCreatedAt = 2016 (-02) (-12) 10 : 53 : 31 UTC
+  , issueBody =
+      Just
+        "I've just started working with RethinkDB but it seems like I found a bug right away. Or I'm doing something really edge-casey. Or wrong? Or both.\r\n\r\nnode v5.1.0\r\ndriver 2.2.1\r\nrethinkdb 2.2.4~0trusty (GCC 4.8.2)\r\n\r\nHere's the code to reproduce together with an explanation. I'm basically trying to implemented optimistic locking using `r.branch`. I know it's not atomic and thus there's no guarantee, but that's good enough for my use case (it's not a banking software...). Every doc in the `thing` database has a `version` property. When updating a thing, I compare the two versions to make sure the update is based on the most recent document. The example code has a conflict hard coded. The version is already at 3 but the update tries to update the version from 1 to 2.\r\n\r\n```js\r\nvar r = require('rethinkdb');\r\n\r\nvar dbConfig = {\r\n\thost: 'localhost',\r\n\tport: 28015,\r\n\tdb: 'test'\r\n};\r\n\r\nr.connect(dbConfig, function(err, conn) {\r\n\tif(err) {\r\n\t\tconsole.error(err);\r\n\t\tprocess.exit(1);\r\n\t}\r\n\r\n\tr.tableCreate('thing').run(conn, function(err) {\r\n\t\t//We silently ignore the error because the table likely exists already.\r\n\r\n\t\tr.table('thing').insert({\r\n\t\t\tid: 'foobar',\r\n\t\t\tversion: 3\r\n\t\t}).run(conn, function(err) {\r\n\t\t\tif(err) {\r\n\t\t\t\tconsole.error(err);\r\n\t\t\t\tprocess.exit(1);\r\n\t\t\t}\r\n\r\n\t\t\tr.table('thing').get('foobar').replace(function(thing) {\r\n\t\t\t\treturn r.branch(\r\n\t\t\t\t\tthing('version').eq(1),\r\n\t\t\t\t\tthing.merge({version: 2}),\r\n\t\t\t\t\tr.error('version conflict')\r\n\t\t\t\t)\r\n\t\t\t}).run(conn, function(err, ironman) {\r\n\t\t\t\tconsole.log(err, ironman);\r\n\t\t\t\tconn.close();\r\n\t\t\t})\r\n\t\t});\r\n\t});\r\n});\r\n```\r\n\r\n**Instead of an error I get the following response (error parameter is `null`)**\r\n\r\n```js\r\n{ deleted: 0,\r\n  errors: 1,\r\n  first_error: 'version conflict',\r\n  inserted: 0,\r\n  replaced: 0,\r\n  skipped: 0,\r\n  unchanged: 0 }\r\n```\r\n\r\nIn other cases, like the one in the [documentation](https://rethinkdb.com/api/javascript/error/), `r.error` inside `r.branch` actually results in an error."
+  , issueState = "closed"
+  , issueId = Id 133209008
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

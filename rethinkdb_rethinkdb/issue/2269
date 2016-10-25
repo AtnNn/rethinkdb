@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-13) 23 : 29 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2269/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2269"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      ]
+  , issueNumber = 2269
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Reconsider handling of NaN and inf"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2269"
+  , issueCreatedAt = 2014 (-04) (-17) 02 : 19 : 15 UTC
+  , issueBody =
+      Just
+        "Also see #2266.\r\n\r\nThis query just fails, with no obvious way to catch and handle the error:\r\n```\r\nr.expr([1e200]).map(r.expr(1e200).mul(r.row))\r\n\r\nRqlRuntimeError: Non-finite number: inf in:\r\nr([1e+200]).map(r(1e+200).mul(r.row))\r\n```\r\n\r\nThat is bad, because it makes analytical queries fragile, and allows for an easy DoS attack if users can insert large floating point numbers into a table.\r\n\r\nI personally would prefer having nan and inf as legal values in ReQL, though there is the question of how to encode them in JSON.\r\n\r\nAnother option would be to ignore these errors in operations such as `map` and `reduce`, though that seems like a bad idea.\r\n\r\nIdeally we would have something like `default` but for illegal numbers, so users could handle these errors and have them not break their whole query."
+  , issueState = "open"
+  , issueId = Id 31696056
+  , issueComments = 50
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

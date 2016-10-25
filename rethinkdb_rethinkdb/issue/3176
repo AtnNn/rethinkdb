@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-10) (-22) 01 : 54 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3176/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3176"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 3176
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add \"failure taken care of\" flag to test suite"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3176"
+  , issueCreatedAt = 2014 (-10) (-10) 18 : 31 : 36 UTC
+  , issueBody =
+      Just
+        "__Motivation__\r\n\r\nTo copy from https://github.com/rethinkdb/company/issues/70#issuecomment-58695013 : \r\n\r\nThere are two different purposes for our test suite:\r\n1. Getting notified when a specific change breaks something or introduces a regression\r\n2. Having an overview of what is broken and still needs to be fixed\r\n\r\nFor (1), it is necessary that tests don't remain in a failing state for long. In fact once a test fails, an issue should be created and the test should be deactivated at the same time.\r\nFor (2) on the other hand we want to run all relevant tests, and get a full report including tests that have been failing for a while.\r\n\r\nTo give an example: If you look at http://dr-doom:8010/files/test-linux-default/317/test_results/test_results.html you can see that there are both failures attributed to recent regressions (e.g. the cpplint one, tracked and closed in #3172), as well as failures corresponding to issues that have been open for a while (e.g. regression.2790, #2790).\r\n\r\nIf we could filter out the second type of failures, it would be a lot easier to spot new regressions by looking at the daily test report.\r\n\r\n__Proposal__\r\n\r\nI propose the following solution:\r\n- The technical part:\r\n  - Add a file to flag tests as \"failure being tracked\". Optionally we could list the issue number there next to the test name\r\n  - Extend the test report generator to add a separate section for tests that are flagged in that file\r\n- The procedural part:\r\n  - As soon as there is an issue on GitHub to track the test failure, whoever opens the issue (or notices that a test is failing due to an existing issue), should add the test to that file.\r\n  - We should exempt the flag file from our general code review requirement. Everybody can commit changes to that file directly to next (but please be careful to not accidentally commit other changes as well).\r\n  - Occasionally we go through the tests in that section and remove the flag for those that have been fixed, so we can detect regressions in the future.\r\n\r\nI think this is better than deactivating failing tests with corresponding open issues completely, because it's very easy to forget to reactivate them once the issue has been fixed."
+  , issueState = "open"
+  , issueId = Id 45510038
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

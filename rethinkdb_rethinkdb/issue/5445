@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-26) 23 : 42 : 45 UTC
+  , issueUpdatedAt = 2016 (-03) (-17) 20 : 36 : 33 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5445/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5445"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5445
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 655305
+        , simpleUserLogin = N "lucidfrontier45"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/655305?v=3"
+        , simpleUserUrl = "https://api.github.com/users/lucidfrontier45"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "tornado example gives `Error: Stream is closed` when connect to remote server."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5445"
+  , issueCreatedAt = 2016 (-02) (-25) 04 : 03 : 20 UTC
+  , issueBody =
+      Just
+        "Hi all.\r\n\r\nI followed the tornado rethinkdb example described in https://rethinkdb.com/blog/async-drivers/ .\r\nIt works OK so far as connecting to local rethinkdb.\r\n\r\nWhen I changed to connect to remote rethinkdb, the following error occurred.\r\n\r\n```py\r\nTraceback (most recent call last):\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/ioloop.py\", line 600, in _run_callback\r\n    ret = callback()\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/stack_context.py\", line 275, in null_wrapper\r\n    return fn(*args, **kwargs)\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/ioloop.py\", line 615, in <lambda>\r\n    self.add_future(ret, lambda f: f.result())\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/concurrent.py\", line 232, in result\r\n    raise_exc_info(self._exc_info)\r\n  File \"<string>\", line 3, in raise_exc_info\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/gen.py\", line 1014, in run\r\n    yielded = self.gen.throw(*exc_info)\r\n  File \"/home/du/PycharmProjects/iot-test/async_rethink.py\", line 13, in print_changes\r\n    conn = yield conn_future\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/gen.py\", line 1008, in run\r\n    value = future.result()\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/concurrent.py\", line 232, in result\r\n    raise_exc_info(self._exc_info)\r\n  File \"<string>\", line 3, in raise_exc_info\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/gen.py\", line 1014, in run\r\n    yielded = self.gen.throw(*exc_info)\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/rethinkdb/tornado_net/net_tornado.py\", line 240, in reconnect\r\n    res = yield ConnectionBase.reconnect(self, noreply_wait, timeout)\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/gen.py\", line 1008, in run\r\n    value = future.result()\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/concurrent.py\", line 232, in result\r\n    raise_exc_info(self._exc_info)\r\n  File \"<string>\", line 3, in raise_exc_info\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/tornado/gen.py\", line 1014, in run\r\n    yielded = self.gen.throw(*exc_info)\r\n  File \"/home/du/.virtualenvs/iot-test/lib/python3.5/site-packages/rethinkdb/tornado_net/net_tornado.py\", line 116, in connect\r\n    (self._parent.host, self._parent.port, str(err)))\r\nrethinkdb.errors.ReqlDriverError: Could not connect to isc-dev:28015. Error: Stream is closed\r\n```\r\n\r\nAm I missing something? My whole code is as follows.\r\n\r\n```python\r\nfrom pprint import pprint\r\n\r\nimport rethinkdb as r\r\nfrom tornado import ioloop, gen\r\n\r\nr.set_loop_type(\"tornado\")\r\n\r\n\r\n@gen.coroutine\r\ndef print_changes(conn_future):\r\n    conn = yield conn_future\r\n    feed = yield r.table(\"data\").changes().run(conn)\r\n    while (yield feed.fetch_next()):\r\n        change = yield feed.next()\r\n        pprint(change)\r\n\r\n\r\nconnection = r.connect() # OK\r\n# connection = r.connect(host=\"isc-dev\") <- error\r\ncurrent = ioloop.IOLoop.current()\r\ncurrent.add_callback(print_changes, connection)\r\ncurrent.start()\r\n```\r\n\r\nThank you."
+  , issueState = "closed"
+  , issueId = Id 136272372
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 118
+          , milestoneClosedIssues = 15
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.2.6"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/118"
+          , milestoneCreatedAt = 2016 (-03) (-17) 20 : 36 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

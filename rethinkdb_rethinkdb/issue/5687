@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-19) 22 : 54 : 26 UTC
+  , issueUpdatedAt = 2016 (-04) (-22) 18 : 31 : 38 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5687/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5687"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5687
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 159819
+        , simpleUserLogin = N "cefn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/159819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cefn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Documentation for r.row (javascript) contains significant error and filter(...) should fail hard to reveal it"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5687"
+  , issueCreatedAt = 2016 (-04) (-19) 10 : 43 : 27 UTC
+  , issueBody =
+      Just
+        "I was trying to understand the operation of ```r.row``` by reference to [the javascript documentation](https://rethinkdb.com/api/javascript/row/). I was deeply confused by how this example offered in the documentation) could ever possibly work. \r\n\r\n```javascript\r\nr.table('users').filter(r.row('embedded_doc')('child') > 5).run(conn, callback)\r\n```\r\nI investigated further (executable example below) and indeed it seems to be a straight-up error in a central part of the RethinkDB documentation.\r\n\r\nThe example should instead read...\r\n\r\n```javascript\r\nr.table('users').filter(r.row('embedded_doc')('child').gt(5)).run(conn, callback);\r\n```\r\n\r\nThe example was clearly inconsistent with my mental model of ReQL. ReQL relies on late-bound and remote execution, only feasible within a new function scope, whereas this was evaluating the greater-than operator directly in the current javascript scope. \r\n\r\nIf others try to make sense of ReQL by reference to this example, they are going to be very misled.\r\n\r\nSadly given the current behaviour of filter it doesn't throw an exception either (filter accepts boolean parameters, and hence javascript's type system hides the bug). Perhaps modifying filter to fail hard when passed a badly typed value like this should be a separate bug.\r\n\r\nEXECUTABLE EXAMPLE SHOWING FAILURE\r\n\r\n```javascript\r\nvar r = require(\"rethinkdb\"),\r\n    Promise = require(\"bluebird\");\r\n\r\nvar dbName = \"tmp3948\";\r\n\r\nr.connect({\r\n        host:\"localhost\",\r\n        port:28015\r\n    })\r\n    .then(function(conn){\r\n        return Promise.resolve()\r\n            .then(function(){\r\n                return r.dbDrop(dbName).run(conn).catch(function(){\r\n                    //do nothing - table didn't exist\r\n                });\r\n            })\r\n            .then(function(){\r\n                return r.dbCreate(dbName).run(conn);\r\n            })\r\n            .then(function(){\r\n                return conn.use(dbName);\r\n            })\r\n            .then(function(){\r\n                return r.tableCreate(\"users\").run(conn);\r\n            })\r\n            .then(function(){\r\n                var userRecord = {\r\n                    embedded_doc:{\r\n                        child:10,\r\n                    },\r\n                };\r\n                return r.table(\"users\").insert(userRecord).run(conn);\r\n            })\r\n            .then(function(){\r\n\r\n                //this invocation (direct from the documentation at https://rethinkdb.com/api/javascript/row/ ) doesn't select the record and is flawed, but unfortunately doesn't throw an exception - could it?\r\n                return r.table('users').filter(r.row('embedded_doc')('child') > 5).run(conn)\r\n\r\n                //the invocation below works to select the record\r\n                //return r.table('users').filter(r.row('embedded_doc')('child').gt(5)).run(conn);\r\n\r\n            })\r\n            .then(function(result){\r\n                return result.toArray();\r\n            })\r\n            .then(function(arr){\r\n                console.log(JSON.stringify(arr));\r\n            });\r\n    })\r\n```"
+  , issueState = "closed"
+  , issueId = Id 149420613
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 52
+          , milestoneClosedIssues = 66
+          , milestoneDescription =
+              Just
+                "These issues have been moved to another repository. Usually `docs` or one of the private repos."
+          , milestoneTitle = "moved"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/52"
+          , milestoneCreatedAt = 2013 (-11) (-06) 22 : 17 : 28 UTC
+          , milestoneState = "closed"
+          }
+  }

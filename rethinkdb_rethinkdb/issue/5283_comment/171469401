@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-13) 23 : 21 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/171469401"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5283#issuecomment-171469401"
+  , issueCommentCreatedAt = 2016 (-01) (-13) 23 : 20 : 43 UTC
+  , issueCommentBody =
+      "I'm not quite sure what an API for this could look like.\r\n\r\nHere's a work-around that I mentioned yesterday, that works with the features currently implemented, but is less efficient:\r\n\r\nThe idea is to be able to request another `n` results (approximately) of a range. For this we maintain the \"boundary\" key `k` up to which we have already retrieved results.\r\n\r\nTo fetch the next `n` results, we would run the following query first:\r\n  `k' <- tbl.between(k, r.maxval, {leftBound: \"open\"}).orderBy({index: 'id'}).slice(-1)('id')`\r\nThis will give us a new boundary `k'` that is *approximately* `n` documents past `k`. We then use `k'` to actually get the data for the new \"page\" as a changefeed:\r\n  `tbl.between(k, k', {leftBound: \"open\", rightBound: \"closed\"}).changes({includeInitial: true})`\r\nand update the boundary `k <- k'`.\r\n\r\nWhen loading the next page, we keep the changefeed for the previous page(s) around.\r\nTogether those changefeeds will provide a consistent view on all data in the range `[r.minval, k]` at any given time.\r\n\r\nThe reason we have to first retrieve `k'` instead of opening a changefeed on `tbl.between(k, r.maxval).limit(n)` directly, is that if we did that, the subsequent changefeeds would have \"holes\". If somebody inserted a new document just before `k'`, we would miss it since it would be outside the `limit(n)` but before the `between` range of the subsequent changefeed (that will cover the next `n` elements after `k'`)."
+  , issueCommentId = 171469401
+  }

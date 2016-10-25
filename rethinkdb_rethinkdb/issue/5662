@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-14) 18 : 34 : 36 UTC
+  , issueUpdatedAt = 2016 (-04) (-19) 21 : 21 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5662/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5662"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5662
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 15014338
+        , simpleUserLogin = N "bgnorlov"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/15014338?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bgnorlov"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Weird error with r.args"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5662"
+  , issueCreatedAt = 2016 (-04) (-14) 04 : 22 : 50 UTC
+  , issueBody =
+      Just
+        "I tried to retrieve all folders and merge them with all boards which stored as array of ids but got error which I don't understand \r\n```javascript\r\nr.connect(config.rethinkdb).then(dbConn=> {\r\n  var time = Date.now();\r\n  r.db('codesign').table('folders').getAll('26711', {index: 'users_id'}).merge((folder)=> {\r\n    return {boards: r.db('codesign').table('boards').getAll(r.args(folder('boards')), {index: 'id'}).coerceTo('array')}\r\n  }).coerceTo('array').run(dbConn).then((res)=> {\r\n    console.log(Date.now() - time, res.length);\r\n  })\r\n});\r\n\r\nUnhandled rejection ReqlQueryLogicError: Expected 2 or more arguments but found 1 in:\r\nr.db(\"codesign\").table(\"folders\").getAll(\"26711\", {\"index\": \"users_id\"}).merge(function(var_0) { return {\"boards\": r.db(\"codesign\").table(\"boards\").getAll(r.args(var_0(\"boards\")), {\"index\": \"id\"}).coerceTo(\"array\")}; }).coerceTo(\"array\")\r\n\r\n```\r\nSeems like r.args not working with brackets operator. I tried to change to r.args(folder('boards').coerceTo('array')) or  r.args(r.expr(folder('boards').coerceTo('array')) but the same result"
+  , issueState = "closed"
+  , issueId = Id 148248790
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

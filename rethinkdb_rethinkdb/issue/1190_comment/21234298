@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 06 : 53 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21234298"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1190#issuecomment-21234298"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 06 : 53 : 03 UTC
+  , issueCommentBody =
+      "@coffeemug you and I spoke about this in person a while ago and one of the stumbling blocks we had was how to do things like swapping arguments and stuff. I think I have a pretty elegant solution to that actually. We can introduce a `blank` primitive (`r._`) it works like this:\r\n\r\n```Javascript\r\nr.contains(r._, 5)\r\n// is equivalent to\r\nfunction (val) { return r.contains(val, 5); }\r\n\r\nr.contains([1,2,3], r._)\r\n// is equivalent to\r\nfunction (val) { return r.contains([1,2,3]), val); }\r\n```\r\n\r\nI think this may be an advanced feature (mostly because it's hard to see the use case until you're in it) but I think it's pretty intuitive once you grok it.\r\n\r\nAdditionally we can add a way to positionally curry arguments with `r._0` `r._1` etc.passing `r._n` as an argument to a function means: \"return a new function and put the nth argument here\" for example suppose I want to square an array of numbers:\r\n\r\n```Javascript\r\nr.expr([1,2,3,4]).map(r.mul(r._0, r._0))\r\n```\r\n\r\nagain I think this is definitely going to be a pretty advanced feature but I do think it's pretty useful."
+  , issueCommentId = 21234298
+  }

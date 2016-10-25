@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-27) 18 : 44 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/96776632"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3740#issuecomment-96776632"
+  , issueCommentCreatedAt = 2015 (-04) (-27) 18 : 44 : 44 UTC
+  , issueCommentBody =
+      "Another proposal by @skizzerz https://github.com/rethinkdb/rethinkdb/issues/849#issuecomment-96435146\r\n\r\n------------------\r\n\r\nBumping this issue, as the thought just occurred to me not too long ago that a client-visible macroing system would be incredibly useful to make it easier to use very complex queries, especially when you want to run the same query both manually in data explorer as well as multiple places throughout an application.\r\n\r\nMy thoughts on how this would look are as follows (names chosen to be consistent with the db/table/index commands):\r\n\r\n#### r.macroCreate(macroName, function) \8594 object\r\nThis would create a macro with the given macroName using the given function. The function can return anything and can take parameters, which are passed in when executing the macro. Macro names are case-sensitive, must be unique, and are global across all databases.\r\n\r\n**Example:** Creates a macro to compute a golfer's score for a game.\r\n```javascript\r\nr.macroCreate('getscore',\r\n    function (player, net) {\r\n        return r.branch(\r\n            net.default(true),\r\n            player('gross_score').sub(player('course_handicap'),\r\n            player('gross_score')\r\n        );\r\n    }\r\n).run(conn, callback);\r\n```\r\n\r\n#### r.macroDrop(macroName) \8594 object\r\nDeletes a previously-created macro.\r\n\r\n**Example**\r\n```javascript\r\nr.macroDrop('getscore').run(conn, callback);\r\n```\r\n\r\n#### r.macroRename(oldName, newName) \8594 object\r\nRenames a macro.\r\n\r\n**Example**\r\n```javascript\r\nr.macroRename('getscore', 'getScore').run(conn, callback);\r\n```\r\n\r\n#### r.do([args]*, macroName) \8594 any\r\n#### any.do([args]*, macroName) \8594 any\r\nThis adds two overloads to the existing do command to execute a macro. In both overloads, the given macroName is executed as if the macro function itself were present in the do command instead of simply the name.\r\n\r\nFor the first overload, if args are specified, they are passed in exactly as they would be if a function were passed to r.do. For the second overload, any specified arguments are passed *after* the previous result (in other words, the first argument would be the result of executing the part before .do, and any other arguments are as specified in the command).\r\n\r\n**Examples**\r\n```javascript\r\nr.do(\r\n    r.table('players').get('f19b5f16-ef14-468f-bd48-e194761df255'),\r\n    true,\r\n    'getscore'\r\n).run(conn, callback);\r\n\r\n// In this example, the \"player\" argument is the result of .get() and the \"net\" argument\r\n// is the first argument passed into .do()\r\nr.table('players').get('f19b5f16-ef14-468f-bd48-e194761df255').do(true, 'getscore').run(conn, callback);\r\n```\r\n\r\nIf overloading do is not desirable (and the syntax is rather clunky in order to make it fit with existing overloads), consider the following commands instead that achieve the same purpose:\r\n```\r\nr.macro(macroName, [args]*) \8594 any\r\nany.macro(macroName, [args]*) \8594 any\r\n```\r\n\r\nNote that in this version, the macroName comes first, which is convenient when it is only a string as opposed to a potentially-gigantic function. The do overloads above kept the macroName last in order to be consistent with where the function would normally be located."
+  , issueCommentId = 96776632
+  }

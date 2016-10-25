@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-15) 04 : 28 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70038468"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-70038468"
+  , issueCommentCreatedAt = 2015 (-01) (-15) 04 : 28 : 38 UTC
+  , issueCommentBody =
+      "If we're willing to make some compromises, we could design the API such that the user can't tell which method is being used under the hood. It would look something like this:\r\n```python\r\n>>> r.table(\"foo\").changes(resumable=True)\r\n[{ 'old_val': ..., 'new_val': ..., 'token': OPAQUE}]\r\n# then after the crash\r\n>>> r.table(\"foo\").changes(resume_token=OPAQUE)\r\n[{ 'old_val': ..., 'new_val': ..., 'token': OPAQUE}]\r\n```\r\nThe initial implementation would look like this: When the user calls `.changes(resumable=True)`, the server generates a \"changefeed ID\" and allocates a ring buffer for changes. The `OPAQUE` sent with each change is the changefeed ID and a timestamp/index into the ring buffer. If a client connection is abruptly lost, the changefeed ID and ring buffer stay alive for a while. If the client calls `.changes(resume_token=OPAQUE)` then the server looks up that ring buffer and resumes right where the client left off. If the ring buffer already expired, or it was on a different server, then the server sends `{obsolete_range: [null, null]}`, then streams the entire table, then sets up a new buffer and streams changes that way.\r\n\r\nIn a later implementation, we could make `OPAQUE` be a full-blown storage engine timestamp, and `.changes(resume_token=OPAQUE)` would do a backfill. So the client wouldn't have to change at all when we switched from the naive implementation to the intelligent implementation under the hood.\r\n\r\n(I'm not sure if this is actually the right way to go. It seems like the naive implementation has a lot of hidden \"gotchas\" the user has to know about.)"
+  , issueCommentId = 70038468
+  }

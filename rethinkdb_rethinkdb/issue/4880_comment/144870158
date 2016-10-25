@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-01) 22 : 54 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144870158"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4880#issuecomment-144870158"
+  , issueCommentCreatedAt = 2015 (-10) (-01) 22 : 54 : 26 UTC
+  , issueCommentBody =
+      "@deontologician it appears the issue is with the refactoring of [these lines](https://github.com/marshall007/rethinkdb/blob/07197781e47b01e6ab81749dfc72da9002df7ff3/drivers/javascript/cursor.coffee#L221-L227). If you change the definition of `nextCb` to the following, the `polyglot/changefeeds/edge` tests pass again:\r\n\r\n```js\r\nnextCb = (err, data) =>\r\n    if err?\r\n        if err.message is 'No more rows in the cursor.'\r\n            onFinished?()\r\n        else \r\n            cb(err)\r\n    else if cb(null, data) isnt false\r\n        @_next nextCb\r\n    else\r\n        onFinished?()\r\n```\r\n\r\nBasically, my refactored version was continuing iteration even after encountering an error. I can throw the fix in a new PR if you'd like. Just let me know!"
+  , issueCommentId = 144870158
+  }

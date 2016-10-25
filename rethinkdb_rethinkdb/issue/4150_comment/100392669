@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-08) 23 : 22 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/100392669"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-100392669"
+  , issueCommentCreatedAt = 2015 (-05) (-08) 23 : 22 : 21 UTC
+  , issueCommentBody =
+      "@internalfx -- your point about simplicity is well taken.  I have a few worries about implicit indexing by default, though, especially if it's implemented by examining `filter` predicates and trying our best on them.\r\n\r\n* Indexed and non-indexed queries have such radically different performance characteristics that they're effectively different operations.  There's a rule of thumb that different operations should look different so that you know which one you're doing.  (Anecdotally, I've talked to some very smart people using systems that do implicit indexing, and a surprising number of them have no idea which parts of their queries are indexed and which aren't.  I realize this is hard to believe, but it's true, and in some cases (e.g. compound indexes) it's hard to blame them since it isn't 100% obvious in systems like SQL which operations a given compound index makes fast.)\r\n* Systems that try to automatically optimize queries for people inevitably end up implementing important functionality that only the optimizer knows how to do, which leads to the common and lamentable scenario of people having to twist their code into knots in order to fool the optimizer into doing what they want.\r\n* If you talk to people who have run systems that automatically pick indexes for them (or do other similarly invasive query optimizations), most of them have a story where some query was running perfectly fine, they upgraded their system by a minor version, and performance fell through the floor because the optimizer was silently making different decisions under the hood.  (This ties into the previous point, because they usually end up having to fix it by fiddling with their query to trick the optimizer into doing the right thing.)\r\n\r\nBasically, I think choosing indexes is usually too important of a decision to be done automatically under the hood in all cases.  Optimizations that speed things up by 20%, sure, do them automatically, but indexes can turn 5 hour queries into 100ms queries, and if you don't know what the optimizer is doing or the optimizer starts doing something different between versions it can make your app totally unusable.\r\n\r\nI think the case being discussed here where app developers are producing complicated queries based on user input is a special case, because if we didn't offer a way of having the database choose indexes they'd be forced to write their own hacky version of it.\r\n\r\n(Note: I would feel better about making `filter` a lot smarter if our profiler were better.  One of the advantages of the current system is that you can look at a giant ReQL query and know which parts are indexed and which aren't.  If our profiler made it easy to determine the same information at a glance, that would be less important.)"
+  , issueCommentId = 100392669
+  }

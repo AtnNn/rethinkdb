@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-04) 23 : 43 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65724644"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3408#issuecomment-65724644"
+  , issueCommentCreatedAt = 2014 (-12) (-04) 23 : 43 : 58 UTC
+  , issueCommentBody =
+      "If we were to go with the mutability approach, here's one way we could do it:\r\n* Remove the copy constructor and assign operators from `datum_t`, so it's move-only, but add an explicit `.copy()` method. This would make it obvious where datums were being copied and make it easy to eliminate unnecessary copies.\r\n* When running an operation that can be implemented destructively, check if the underlying `counted_t` has a refcount of 1, and if so, operate destructively.\r\n* In general lambdas would use `.copy()`, but we should special-case the situation where a lambda uses its argument exactly once so it doesn't do any copying."
+  , issueCommentId = 65724644
+  }

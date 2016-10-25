@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-18) 17 : 09 : 41 UTC
+  , issueUpdatedAt = 2016 (-02) (-18) 17 : 10 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5419/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5419"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5419
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 4298791
+        , simpleUserLogin = N "ironhee"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4298791?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ironhee"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "offsetsOf returns wrong offset when orderBy is not applied."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5419"
+  , issueCreatedAt = 2016 (-02) (-18) 10 : 44 : 12 UTC
+  , issueBody =
+      Just
+        "```js\r\nfunction idToOffset(query, pk) {\r\n  const offset = query.offsetsOf(row => row('id').eq(pk)).nth(0);\r\n  return offset;\r\n}\r\n\r\nconst query = table.query();  // orderBy is not applied\r\n\r\nconst resource = await query.nth(10).run(connection);\r\nconst offset = await pkToOffset(query, resource.id).run(connection);\r\n\r\nexpect(offset).to.equal(10);  // sometimes, offset is not 10. (12, 13, 11...)\r\n```\r\n\r\nLike this situation.\r\n\r\n```js\r\nconst query = table.query().orderBy('id'); \r\n```\r\n\r\nWhen `orderBy` applied, Problem is removed. \r\nIs this intended?"
+  , issueState = "closed"
+  , issueId = Id 134542542
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

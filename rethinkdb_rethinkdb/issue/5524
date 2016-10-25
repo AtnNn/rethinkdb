@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-15) 18 : 10 : 45 UTC
+  , issueUpdatedAt = 2016 (-03) (-15) 18 : 10 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5524/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5524"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5524
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2229435
+        , simpleUserLogin = N "gngeorgiev"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2229435?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gngeorgiev"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "[Q] ReQL Updating object inside an embedded array emits create and delete changes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5524"
+  , issueCreatedAt = 2016 (-03) (-15) 10 : 50 : 59 UTC
+  , issueBody =
+      Just
+        "Hey guys,\r\n\r\nI am hitting the following problem: Suppose that I have the following structure:\r\n\r\n```json\r\n{\r\n    \"id\": 1,\r\n    \"data\": {\r\n       \"arr\": [{\"text\":\"item1\"}]\r\n    }\r\n}\r\n```\r\n\r\nAnd the following query:\r\n```javascript\r\nr.db('test').table('test').get(1).update(function (item) {\r\n    return {\r\n        data: {\r\n          arr: item('data')('arr').map(function (row) {\r\n             return r.branch(\r\n                  row('text').eq('item1'),\r\n                  row.merge({updated:true}),\r\n                  row\r\n             )\r\n          })\r\n        }\r\n    }\r\n})\r\n```\r\n\r\nI am listening for changes in this specific array only, and when the item is updated both create and delete events are emitted. I really need to receive an update event, e.g. `old_val` is not null and `new_val` is not null.\r\n\r\nThanks in advance guys"
+  , issueState = "closed"
+  , issueId = Id 140936767
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 52
+          , milestoneClosedIssues = 66
+          , milestoneDescription =
+              Just
+                "These issues have been moved to another repository. Usually `docs` or one of the private repos."
+          , milestoneTitle = "moved"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/52"
+          , milestoneCreatedAt = 2013 (-11) (-06) 22 : 17 : 28 UTC
+          , milestoneState = "closed"
+          }
+  }

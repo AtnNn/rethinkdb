@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-03) 08 : 33 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 314077
+        , simpleUserLogin = N "avimar"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/314077?v=3"
+        , simpleUserUrl = "https://api.github.com/users/avimar"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161550315"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5099#issuecomment-161550315"
+  , issueCommentCreatedAt = 2015 (-12) (-03) 08 : 33 : 29 UTC
+  , issueCommentBody =
+      "-Yes -- subsequent queries are faster since they are assumedly cached.\r\n\r\n-I tried playing with the 'outdated' option.\r\n--Connecting to SSD, without outdated: 14 second, then 4 second on retry (cached).\r\n--Connecting to SSD, with outdated enabled: 2.4 seconds, then 1.6 seconds on retry (cached).\r\n\r\n--Connecting to HD, without outdated: 13 second, then 4.3 second on retry (cached).\r\n--Connecting to hD, with outdated enabled: 10 seconds, then 3 seconds on retry (cached).\r\n--These tests are slightly skewed since I pulled a different data set on each query to make sure it wasn't using the cache. Is there a way to disable the cache within the query for this debugging?\r\n--It seems the point that it uses the master unless I set readMode: 'outdated' makes a huge difference. Even polling the SSD machine, it would have to grab it via the HD one. But it seems when I query the HD one, it prefers to do index lookups locally rather than delegate it. So, for now, I use 'outdated' and connect to the SSD host!\r\n\r\n\r\n-With Tincd I saw the same non-change in ping time when I connected to either host."
+  , issueCommentId = 161550315
+  }

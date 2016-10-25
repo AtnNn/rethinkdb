@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-24) 01 : 07 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2722/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2722"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2722
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Indexing time periods and ranges"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2722"
+  , issueCreatedAt = 2014 (-07) (-19) 01 : 17 : 35 UTC
+  , issueBody =
+      Just
+        "Querying for overlapping ranges is a common operation. There is currently no good way to optimize it using an index.\r\n\r\nHere is a sample query:\r\n\r\n```\r\nr.table('events')\r\n .filter(lambda event:\r\n   (event['start'] < end) & (event['end'] > start))\r\n```\r\n\r\nIf we had `r.range` (#875) it might be possible to create a multi-index like this:\r\n\r\n```\r\nhour = 86400\r\ndef hour_blocks(start, end):\r\n  n = r.floor((end - start) / hour)\r\n  offset = r.floor(start / hour)\r\n  return r.expr(offset).do(lambda offset: r.range(n).map(lambda i: i + offset))\r\n\r\nr.table('events')\r\n .index_create('hours', lambda ev: hour_blocks(ev['start'], ev['end']), multi=True)\r\n```\r\n\r\nAnd query it like this:\r\n\r\n```\r\nr.table('events')\r\n .getAll(r.args(hour_blocks(start, end)), index='hours')\r\n .filter(lambda event:\r\n   (event['start'] < end) & (event['end'] > start))\r\n```\r\n\r\nBut it is still a lot of work. There must be some easier way to work with ranges and time periods. Perhaps something like `getIntersecting` (#2571)"
+  , issueState = "open"
+  , issueId = Id 38223315
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

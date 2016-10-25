@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-10) 01 : 26 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55059835"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1375#issuecomment-55059835"
+  , issueCommentCreatedAt = 2014 (-09) (-10) 01 : 25 : 36 UTC
+  , issueCommentBody =
+      "After speaking with @mlucy about this, he asked me to put down my thoughts here, which is as follows:\r\n\r\n- I think that array/datum size limits and the memory allocation limits are solving in some sense the same problem--please do not detonate my database because I accidentally wrote a dumb query.\r\n- With my developer hat on array size limits are very understandable and datum limits are a bit weird.  Particularly given that the way we perform operations in the database make a lot of junk datums that will be cleaned up almost immediately, it is possible to violate the datum limit by accident without knowing why.\r\n- A limit on a number of datums doesn't really help us if someone accidentally does a file read from `/dev/zero` or an HTTP GET on something stupidly enormous.\r\n- Memory limits are a bit opaque but at least it's a comprehensible situation: \"query exceeded allocated memory at point X\" should be enough to start debugging.\r\n- With my sysadmin hat on array size limits and datum limits don't solve any of the problems I want, which is that I have a server with X GB of memory that I know needs to be able to serve such and such query requests per second.\r\n- Even if our memory limits are imperfect (for example, we may not be able to easily track mailbox allocations) they are still useful; after all, some shard had to build that thing that we are reading.\r\n- Accordingly I think that if we add query limits, *even if they are not perfectly precise*, we don't really need array limits or datum limits."
+  , issueCommentId = 55059835
+  }

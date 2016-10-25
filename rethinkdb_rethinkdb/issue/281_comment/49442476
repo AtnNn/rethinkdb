@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-18) 15 : 16 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49442476"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49442476"
+  , issueCommentCreatedAt = 2014 (-07) (-18) 15 : 15 : 15 UTC
+  , issueCommentBody =
+      "Oh, and with regard to cursors; in this example:\r\n\r\n```\r\nvar lmData = new LmData(options);\r\nlmData.usingRethink(function(conn, r) {\r\n    return r.table('table').filter({ some: 'criterion' }).run(conn);\r\n})\r\n```\r\nyou need to keep hold of the connection inside of the function that's ultimately passed to `using()`:\r\n\r\n```\r\nvar lmData = new LmData(options);\r\nlmData.usingRethink(function(conn, r) {\r\n    return r.table('table').filter({ some: 'criterion' }).run(conn)\r\n    .then(function(cursor) {\r\n        // do something with the cursor and connection, but don't pass the connection out, like below\r\n        return [conn, cursor];                \r\n    });\r\n})\r\n// `conn` no long available here, even if passed through the Promise interface somehow; it's been returned to the pool.\r\n.spread(function(conn, cursor) {\r\n    // `conn` has been returned to the pool, you shouldn't use it like this.\r\n}) \r\n```"
+  , issueCommentId = 49442476
+  }

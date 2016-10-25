@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-30) 23 : 06 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/160773196"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5157#issuecomment-160773196"
+  , issueCommentCreatedAt = 2015 (-11) (-30) 21 : 52 : 55 UTC
+  , issueCommentBody =
+      "Had some time, so I'll post the test now :)\r\n\r\n*test-modifier.py*\r\n```\r\n#! /usr/bin/env python3\r\n\r\ndb_name = 'test_db'\r\ntable_name = 'test_table'\r\nprint('(re)creating table: %s.%s' % (db_name, table_name))\r\n\r\nimport rethinkdb as r\r\nr.connect().repl()\r\nif db_name in r.db_list().run():\r\n\tr.db_drop(db_name).run()\r\nr.db_create(db_name).run()\r\nr.db(db_name).table_create(table_name, durability='soft').run()\r\n\t\r\ntable = r.db(db_name).table(table_name)\r\n\t\r\nindexes = {'value'}\r\nfor index in indexes.difference(table.index_list().run()):\r\n\ttable.index_create(index).run()\r\n\r\nmax_id = 25000\r\nprint('inserting %d ...' % max_id)\r\nfor doc_id in range(1, max_id + 1):\r\n\ttable.insert({\r\n\t\t'id': doc_id,\r\n\t\t'value': doc_id % 20,\r\n\t\t'bloat': '#'*250,\r\n\t}).run(noreply=True)\r\n\r\nimport random\r\nimport time\r\n\r\nprint('modifying...')\r\nwhile True:\r\n\ttime.sleep(0.05)\r\n\r\n\tdoc_id = random.randint(1, max_id)\r\n\ttable.get(doc_id).update({\r\n\t\t'value': max_id - doc_id,\r\n\t}).run()\r\n\tprint('  ^^  ', doc_id)\r\n```\r\nStart it and leave it running.\r\nIt seems that the number of documents (25k) and the `bloat` field are not strictly required to reproduce the problem but increases the chance of it occurring a lot. Probably because of timing.\r\n\r\nThen run this, *test-listen.py*:\r\n```\r\n#! /usr/bin/env python3\r\n\r\nimport time\r\nimport rethinkdb as r\r\n\r\nr.connect().repl()\r\n\r\ntable = r.db('test_db').table('test_table')\r\n\t\r\nprint('receiving changes...')\r\nstartTime = time.time()\r\n\r\nimport sys\r\nout=sys.stdout\r\ndef progress(t):\r\n\tout.write(t)\r\n\tout.flush()\r\n\r\nmissing = object()\r\ncount = 0\r\nfor change in table.get_all(3, index='value').changes(include_initial=True, include_states=True).run():\r\n\tstate = change.get('state')\r\n\tif state:\r\n\t\tif state == 'ready':\r\n\t\t\tduration = time.time() - startTime\r\n\t\t\tprint('\\n%d initial in %.13f' % (count, duration))\r\n\t\t\tbreak\r\n\t\tcontinue\r\n\r\n\tnew = change.get('new_val', missing)\r\n\told = change.get('old_val', missing)\r\n\t\r\n\tif len(change) == 1:\r\n\t\tif new is None or old is None:\r\n\t\t\tpass   # skip 'None' events\r\n\r\n\t\telif new is not None:\r\n\t\t\tprogress('i')    # initial\r\n\t\t\tcount += 1\r\n\telif old is None:\r\n\t\tprogress('a')        # add\r\n\telif new is None:\r\n\t\tprogress('d')        # delete\r\n\telse:\r\n\t\tprogress('u')        # update\r\n```\r\nWhen there's no problem it will print a bunch of \"i\":s (initial) and then exit (printing the time it took to receive the `ready` state).\r\nWhen the problem occurs, it will print a bunch of \"i\":s, then hang (take a longer time than normal), might print \"d\" (delete), *which is strange as no deletes are being made?!?*. Now break the `test-modifier.py` process. Now, `test-listen.py` will never finish; the `ready` state will never be received.\r\nSo far, when the modifier process is stopped (at the right time) the query hangs 100% of all the tests I've run.\r\n\r\nedit: removed the `_modified` field, it was a remnant of the test scripts made for #5153.\r\n"
+  , issueCommentId = 160773196
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-22) 00 : 08 : 45 UTC
+  , issueUpdatedAt = 2016 (-03) (-22) 00 : 08 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5520/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5520"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5520
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Changefeed stamp assertion failed: [stamp >= rs->latest[server_uuid]]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5520"
+  , issueCreatedAt = 2016 (-03) (-14) 22 : 14 : 17 UTC
+  , issueBody =
+      Just
+        "While running `table_fuzzer.py --servers 5 --changefeeds --kill` against `next`, I ran into the following crash:\r\n\r\n```\r\n2016-03-14T14:48:14.262835888 102.465463s error: Error in ../src/rdb_protocol/changefeed.cc at line 1544:\r\n2016-03-14T14:48:14.263367764 102.465995s error: Assertion failed: [stamp >= rs->latest[server_uuid]]\r\n2016-03-14T14:48:14.264754626 102.467382s error: Backtrace:\r\n2016-03-14T14:48:16.208420227 104.411054s error: Mon Mar 14 14:48:14 2016\r\n\r\n1 [0x16e373b]: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:108\r\n2 [0x1ba5f40]: backtrace_t::backtrace_t() at backtrace.cc:210 (discriminator 1)\r\n3 [0x1ba72fc]: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:331\r\n4 [0x1ba5bc7]: format_backtrace(bool) at backtrace.cc:205\r\n5 [0x1ba9e7e]: report_fatal_error(char const*, int, char const*, ...) at errors.cc:85\r\n6 [0x1aec418]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1aec418] at 0x1aec418 ()\r\n7 [0x1aec2d7]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1aec2d7] at 0x1aec2d7 ()\r\n8 [0x1aec211]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1aec211] at 0x1aec211 ()\r\n9 [0x1ae19fa]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1ae19fa] at 0x1ae19fa ()\r\n10 [0x1ae19c9]: ql::changefeed::feed_t::update_stamps(uuid_u, unsigned long) at changefeed.cc:1547\r\n11 [0x1ae49ca]: ql::changefeed::msg_visit(ql::changefeed::feed_t*, auto_drainer_t::lock_t const*, uuid_u, unsigned long, boost::variant<ql::changefeed::msg_t::stop_t, ql::changefeed::msg_t::change_t, ql::changefeed::msg_t::limit_start_t, ql::changefeed::msg_t::limit_change_t, ql::changefeed::msg_t::limit_stop_t, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_> const&) at changefeed.cc:2723\r\n12 [0x1ae9538]: ql::changefeed::artificial_t::send_all(ql::changefeed::msg_t const&) at changefeed.cc:3714\r\n13 [0x1a470a2]: cfeed_artificial_table_backend_t::machinery_t::send_all_change(new_mutex_acq_t const*, store_key_t const&, ql::datum_t const&, ql::datum_t const&) at cfeed_backend.cc:16 (discriminator 5)\r\n14 [0x1daa8b5]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1daa8b5] at 0x1daa8b5 ()\r\n15 [0x1daa4a1]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1daa4a1] at 0x1daa4a1 ()\r\n16 [0x1dac07a]: std::function<void (log_message_t const&, peer_id_t const&, uuid_u const&, ql::datum_t const&)>::operator()(log_message_t const&, peer_id_t const&, uuid_u const&, ql::datum_t const&) const at functional:2471\r\n17 [0x1da9e90]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da9e90] at 0x1da9e90 ()\r\n18 [0x1da99c9]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da99c9] at 0x1da99c9 ()\r\n19 [0x1da992c]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da992c] at 0x1da992c ()\r\n20 [0x1453296]: callable_action_wrapper_t::run() at runtime_utils.cc:48\r\n21 [0x144c55d]: coro_t::run() at coroutines.cc:205 (discriminator 1)\r\n22 [0x1da964d]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da964d] at 0x1da964d ()\r\n23 [0x1da9619]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da9619] at 0x1da9619 ()\r\n24 [0x1da9426]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x1da9426] at 0x1da9426 ()\r\n25 [0x1da6f99]: logs_artificial_table_backend_t::read_all_rows_raw(std::function<void (log_message_t const&, peer_id_t const&, uuid_u const&, ql::datum_t const&)> const&, signal_t*, admin_err_t*) at logs_backend.cc:449\r\n26 [0x1da91aa]: logs_artificial_table_backend_t::cfeed_machinery_t::get_initial_values(new_mutex_acq_t const*, std::vector<ql::datum_t, std::allocator<ql::datum_t> >*, signal_t*) at logs_backend.cc:406 (discriminator 1)\r\n27 [0x1a47971]: cfeed_artificial_table_backend_t::read_changes(ql::env_t*, ql::changefeed::streamspec_t const&, ql::backtrace_id_t, signal_t*, counted_t<ql::datum_stream_t>*, admin_err_t*) at cfeed_backend.cc:91 (discriminator 1)\r\n28 [0x1a43a0c]: artificial_table_t::read_changes(ql::env_t*, ql::changefeed::streamspec_t const&, ql::backtrace_id_t) at artificial_table.cc:88\r\n29 [0x197a42f]: ql::changes_term_t::eval_impl(ql::scope_env_t*, ql::args_t*, ql::eval_flags_t) const at seq.cc:544\r\n30 [0x18bc3cf]: ql::op_term_t::term_eval(ql::scope_env_t*, ql::eval_flags_t) const at op.cc:220\r\n31 [0x177ea97]: ql::runtime_term_t::eval_on_current_stack(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:274\r\n32 [0x177ef3c]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x177ef3c] at 0x177ef3c ()\r\n33 [0x177ecf1]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x177ecf1] at 0x177ecf1 ()\r\n34 [0x177ec7b]: ql::runtime_term_t::eval(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:295\r\n35 [0x19c86c5]: ql::query_cache_t::ref_t::run(ql::env_t*, ql::response_t*) at query_cache.cc:263 (discriminator 1)\r\n...\r\n```"
+  , issueState = "closed"
+  , issueId = Id 140812000
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

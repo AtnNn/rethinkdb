@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-08) 22 : 42 : 21 UTC
+  , issueUpdatedAt = 2014 (-02) (-21) 23 : 08 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1245/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1245"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1245
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "src/extproc/js_job.cc:58:9: error: field of type 'v8::Persistent<v8::Context>' has private copy constructor"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1245"
+  , issueCreatedAt = 2013 (-08) (-08) 00 : 56 : 30 UTC
+  , issueBody =
+      Just
+        "Seen in the nightly osx build:\r\n\r\nhttps://jenkins.dev.rethinkdb.com/job/package-osx/144/console\r\n\r\n```\r\n    [173/337] CC src/extproc/js_job.cc -o build/release_clang_notcmalloc/obj/extproc/js_job.o\r\nsrc/extproc/js_job.cc:58:9: error: field of type 'v8::Persistent<v8::Context>' has private copy constructor\r\n        context(v8::Context::New()),\r\n        ^\r\n./support/build/v8/include/v8.h:750:13: note: declared private here\r\n  V8_INLINE(Persistent(const Persistent& that)) : val_(that.val_) {}\r\n            ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\nsrc/extproc/js_job.cc:59:9: error: no matching constructor for initialization of 'v8::Context::Scope'\r\n        scope(context) { }\r\n        ^     ~~~~~~~\r\n./support/build/v8/include/v8.h:4964:9: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'v8::Persistent<v8::Context>' to 'const v8::Context::Scope' for 1st argument\r\n  class Scope {\r\n        ^\r\n./support/build/v8/include/v8.h:4966:24: note: candidate constructor not viable: no known conversion from 'v8::Persistent<v8::Context>' to 'Handle<v8::Context>' for 1st argument\r\n    explicit V8_INLINE(Scope(Handle<Context> context)) : context_(context) {\r\n                       ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\n./support/build/v8/include/v8.h:4970:15: note: candidate constructor not viable: requires 2 arguments, but 1 was provided\r\n    V8_INLINE(Scope(Isolate* isolate, Persistent<Context>& context)) // NOLINT\r\n              ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\nsrc/extproc/js_job.cc:269:53: error: 'New' is a private member of 'v8::Persistent<v8::Value>'\r\n    *persistent_handle = v8::Persistent<v8::Value>::New(value);\r\n                                                    ^\r\n./support/build/v8/include/v8.h:781:23: note: declared private here\r\n  V8_INLINE(static T* New(Isolate* isolate, T* that));\r\n                      ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\nsrc/extproc/js_job.cc:269:62: error: too few arguments to function call, expected 2, have 1\r\n    *persistent_handle = v8::Persistent<v8::Value>::New(value);\r\n                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      ^\r\n./support/build/v8/include/v8.h:781:3: note: 'New' declared here\r\n  V8_INLINE(static T* New(Isolate* isolate, T* that));\r\n  ^\r\n./support/build/v8/include/v8.h:80:31: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                              ^\r\nsrc/extproc/js_job.cc:324:41: error: no matching function for call to 'New'\r\n    v8::Local<v8::Value> local_handle = v8::Local<v8::Value>::New(*found_value);\r\n                                        ^~~~~~~~~~~~~~~~~~~~~~~~~\r\n./support/build/v8/include/v8.h:437:29: note: candidate function not viable: no known conversion from 'v8::Persistent<v8::Value>' to 'Handle<v8::Value>' for 1st argument\r\n  V8_INLINE(static Local<T> New(Handle<T> that));\r\n                            ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\n./support/build/v8/include/v8.h:438:29: note: candidate function not viable: requires 2 arguments, but 1 was provided\r\n  V8_INLINE(static Local<T> New(Isolate* isolate, Handle<T> that));\r\n                            ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\n./support/build/v8/include/v8.h:441:29: note: candidate function not viable: requires 2 arguments, but 1 was provided\r\n  V8_INLINE(static Local<T> New(Isolate* isolate, const Persistent<T>& that));\r\n                            ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\n./support/build/v8/include/v8.h:464:29: note: candidate function not viable: requires 2 arguments, but 1 was provided\r\n  V8_INLINE(static Local<T> New(Isolate* isolate, T* that));\r\n                            ^\r\n./support/build/v8/include/v8.h:80:69: note: expanded from macro 'V8_INLINE'\r\n#define V8_INLINE(declarator) inline __attribute__((always_inline)) declarator\r\n                                                                    ^\r\n```"
+  , issueState = "closed"
+  , issueId = Id 17782907
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-08) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 40
+          , milestoneClosedIssues = 96
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.8"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/40"
+          , milestoneCreatedAt = 2013 (-06) (-29) 01 : 55 : 11 UTC
+          , milestoneState = "closed"
+          }
+  }

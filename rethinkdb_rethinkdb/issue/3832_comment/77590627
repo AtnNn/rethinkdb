@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-06) 16 : 42 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77590627"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3832#issuecomment-77590627"
+  , issueCommentCreatedAt = 2015 (-03) (-06) 16 : 42 : 15 UTC
+  , issueCommentBody =
+      "@danielmewes : Not sure if this suggestion is compelling to other users, but I'd like to show another use case.\r\n\r\nAnd instead of '--defaults', maybe a better name is '***--map***' or '--row-transform'.\r\n\r\nIf such option existed, importing a huge CSV file using the 2 separate commands shown below...\r\n\r\n```\r\nrethinkdb import --format csv --delimiter ' ' --table t --force -f ~/t.csv\r\n\r\nr.table('t').update({\r\n  'ms': r.row['ms'].coerce_to('number'),\r\n  'when': r.iso8601(r.add(r.row['YYYY-MM-DD'], 'T', r.row['HH:mm:ss.sss']), default_timezone='-3'),\r\n  'node': 1\r\n}).run()\r\n```\r\n\r\n...could be done with only one pass like this...\r\n\r\n```\r\nrethinkdb import --format csv --delimiter ' ' --table t --force -f ~/t.csv --map \"\\\r\nlambda imported_row: {\r\n  'ms': imported_row['ms'].coerce_to('number'),\r\n  'when': r.iso8601(r.add(imported_row['YYYY-MM-DD'], 'T', imported_row['HH:mm:ss.sss']), default_timezone='-3'),\r\n  'node': 1\r\n}\"\r\n```\r\n"
+  , issueCommentId = 77590627
+  }

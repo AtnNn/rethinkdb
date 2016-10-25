@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-08) 16 : 20 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245474942"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5494#issuecomment-245474942"
+  , issueCommentCreatedAt = 2016 (-09) (-08) 02 : 15 : 50 UTC
+  , issueCommentBody =
+      "#### Setting table-level schemas\r\n\r\nAt a glance, (2) seems like the obvious choice (as a first-pass). However, I think there will be strong use cases around setting a table schema _in addition to_ some arbitrary write hook. You'd also probably want to ensure the schema validation takes place before the write hook is called.\r\n\r\nGiven that (as it's currently implemented) you can only create a single write hook per table (3) becomes interesting simply because you need the distinction in order to have one of each. Furthermore, it seems like the internal representations of a write hook vs schema would differ enough to warrant that. For example, there's no reason to eagerly compile and store the binary representation of the schema (\"write hook\") since we need to store the pseudotype representation anyway.\r\n\r\nLast, I think `r.schema` is a better name for this term than `r.model`. \"Model\" seems unnecessarily vague since we are literally talking about schemas here. Plus, now that we have `hz.model` in Horizon, it could be confusing.\r\n\r\n#### Pseudo-type handling\r\n\r\nMy only note here is that I lied when I told @danielmewes that the `format` keyword already applies to all types. Currently in `ajv` it is only supported on string types (open issue [here](https://github.com/epoberezkin/ajv/issues/291)). I don't think that's much of a blocker though.\r\n\r\n> To allow additional flexibility, we could simply allow any type to be used with the `\"reql_*\"` formats.\r\n\r\n\128077 here, definitely seems to be the most flexible option.\r\n\r\n#### Schema migration\r\n\r\nI'm mostly in the \"do nothing\" camp on this one. I would assume that the `ignore_write_hooks` optarg (or some equivalent) would also apply to schema validators. As a result, it will already be possible for existing documents to be in violation of the defined table schema at any given moment.\r\n\r\nI could see an argument for a slightly modified (2) though. You could have `.setSchema()` (assuming something like (3) from \"setting schemas\" above) accept a boolean optarg that tells it whether or not to validate all existing docs against the new schema before committing it."
+  , issueCommentId = 245474942
+  }

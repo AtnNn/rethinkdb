@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-09) 23 : 16 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22428621"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1262#issuecomment-22428621"
+  , issueCommentCreatedAt = 2013 (-08) (-09) 23 : 16 : 30 UTC
+  , issueCommentBody =
+      "So, this is a decision I'm starting to question because it's been universally confusing, but here goes:\r\n\r\nISO 8601 has a notion of a date+time without a specified time zone.  If you enter one of those, the server treats it as UTC for the sake of ordering with other times that do have time zones, or for converting it to epoch time.\r\n\r\n```ruby\r\nirb(main):14457:0> t1 = r.iso8601(\"2013-08-09T16:10:53\")\r\nr.iso8601(\"2013-08-09T16:10:53\")\r\nirb(main):14458:0> t2 = r.iso8601(\"2013-08-09T16:10:53-07:00\")\r\nr.iso8601(\"2013-08-09T16:10:53-07:00\")\r\nirb(main):14459:0> r([t1.timezone, t1.to_iso8601, t1.to_epoch_time]).run\r\n[nil, \"2013-08-09T16:10:53\", 1376064653]\r\nirb(main):14460:0> r([t2.timezone, t2.to_iso8601, t2.to_epoch_time]).run\r\n[\"-07:00\", \"2013-08-09T16:10:53-07:00\", 1376089853]\r\n```\r\n\r\nWe mostly have this notion so that we can accept ISO 8601 date times without adding or losing information (in this case, attaching a time zone to a time that doesn't have a time zone).  Another way to think about it is that it's a \"local time\", where the server's local time is always UTC.  (If you were to write `Time.iso8601(r.now.to_iso8601.run)` in Ruby, you would get a time in your local time zone rather than in UTC.)\r\n\r\n`r.now` returns a time without a time zone because we don't know what time zone the client was in, and there's no real reason to use the server's time zone."
+  , issueCommentId = 22428621
+  }

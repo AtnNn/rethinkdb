@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-18) 22 : 08 : 19 UTC
+  , issueUpdatedAt = 2013 (-10) (-18) 23 : 13 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/570/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/570"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 570
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "NULL/default/contains/etc. proposal"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/570"
+  , issueCreatedAt = 2013 (-04) (-02) 02 : 13 : 38 UTC
+  , issueBody =
+      Just
+        "Slava, Bill, Sam and I just talked about this.  Here's what I think we should do about all of these:\r\n\r\n* Adopt `default` with exception semantics.  You write either `query.default(val)` or `query.default {|exc| func_of_exc}`.  I think we should do this because exception semantics are easy to explain and easy to implement (it's a small edit distance from what we have now to these semantics).\r\n\r\n* Rename `contains` to `has_fields`.  Make it polymorhpic, where calling `seq.has_fields(:a, :b)` is equivalent to `seq.filter {|x| x.has_fields(:a, :b)}`.  Our new consistent rule for polymorphism is that terms which return an arbitrary object (like `pluck`) are polymorphic with respect to `map`, and predicates which only return a bool are polymorphic with respect to `filter`.  (I don't think most users will ever explicitly learn this rule, but I would bet it has the right shape for their brains.)\r\n\r\n* `has_fields` will return true if the object has all of the keys passed to it **AND** the value of all those keys is non-null.  It turns out that for real queries this is what you want most of the time.\r\n\r\n* Introduce a new primitive (`has_attributes`, `has_names`, `has_keys`, something like that) which returns true if the object has all of the kys (**without** checking whether the value of those keys is NULL).  We don't have to emphasize this in the documentation, but people need some way to do this.\r\n\r\n---\r\n\r\nThis gives two ways to solve the problem people have where they want to write e.g.:\r\n```ruby\r\ntbl.filter {|user| user[:age] > 10} # some users don't have `age`!\r\n```\r\n\r\n```ruby\r\ntbl.has_fields(:age).filter {|user| user[:age] > 10}\r\ntbl.filter {|user| user[:age].default(0) > 10}\r\ntbl.filter {|user| (user[:age] > 10).default(false)}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 12687516
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

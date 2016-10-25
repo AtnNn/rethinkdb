@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-29) 20 : 25 : 39 UTC
+  , issueUpdatedAt = 2016 (-02) (-29) 20 : 25 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5455/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5455"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5455
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1626913
+        , simpleUserLogin = N "jodagm"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1626913?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jodagm"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "crash: error: Error in src/rdb_protocol/datum.cc at line 1475"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5455"
+  , issueCreatedAt = 2016 (-02) (-28) 10 : 30 : 47 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nWe started getting these crashes after upgrading to 2.2.5. This happens when we are running our automated tests against local rethinkdb:\r\n\r\n```\r\nRunning rethinkdb 2.2.5~0wily (GCC 5.2.1)...\r\nRunning on Linux 4.2.0-30-generic x86_64\r\nLoading data from directory /home/jonathan/rethinkdb_data\r\nListening for intracluster connections on port 29015\r\nListening for client driver connections on port 28015\r\nListening for administrative HTTP connections on port 8080\r\nListening on addresses: 127.0.0.1, 127.0.1.1, ::1\r\nTo fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.\r\nServer ready, \"jonathan_wa3\" 231ce904-2cc7-4591-bfc9-e954a2ad2174\r\nVersion: rethinkdb 2.2.5~0wily (GCC 5.2.1)\r\nerror: Error in src/rdb_protocol/datum.cc at line 1475:\r\nerror: Unreachable code: \r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\naddr2line: 'rethinkdb': No such file\r\nerror: Sun Feb 28 10:15:48 2016\r\n       \r\n       1 [0xad99da]: backtrace_t::backtrace_t() at 0xad99da (rethinkdb)\r\n       2 [0xad9eba]: format_backtrace[abi:cxx11](bool) at 0xad9eba (rethinkdb)\r\n       3 [0xd66626]: report_fatal_error(char const*, int, char const*, ...) at 0xd66626 (rethinkdb)\r\n       4 [0x92706e]: void ql::datum_t::write_json_unchecked_stack<rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>, rapidjson::RAllocator>, rapidjson::UTF8<char>, rapidjson::UTF8<char>, rapidjson::RAllocator> >(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>, rapidjson::RAllocator>, rapidjson::UTF8<char>, rapidjson::UTF8<char>, rapidjson::RAllocator>*) const at 0x92706e (rethinkdb)\r\n       5 [0x927276]: void ql::datum_t::write_json<rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>, rapidjson::RAllocator>, rapidjson::UTF8<char>, rapidjson::UTF8<char>, rapidjson::RAllocator> >(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>, rapidjson::RAllocator>, rapidjson::UTF8<char>, rapidjson::UTF8<char>, rapidjson::RAllocator>*) const at 0x927276 (rethinkdb)\r\n       6 [0xacd0e0]: write_response_internal(ql::response_t*, rapidjson::GenericStringBuffer<rapidjson::UTF8<char>, rapidjson::RAllocator>*, bool) at 0xacd0e0 (rethinkdb)\r\n       7 [0xacefee]: json_protocol_t::send_response(ql::response_t*, long, linux_tcp_conn_t*, signal_t*) at 0xacefee (rethinkdb)\r\n       8 [0xad5351]: void save_exception<void query_server_t::connection_loop<json_protocol_t>(linux_tcp_conn_t*, unsigned long, ql::query_cache_t*, signal_t*)::{lambda()#1}::operator()() const::{lambda()#1}>(std::__exception_ptr::exception_ptr*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, cond_t*, void query_server_t::connection_loop<json_protocol_t>(linux_tcp_conn_t*, unsigned long, ql::query_cache_t*, signal_t*)::{lambda()#1}::operator()() const::{lambda()#1}&&) at 0xad5351 (rethinkdb)\r\n       9 [0xad5d2d]: void query_server_t::connection_loop<json_protocol_t>(linux_tcp_conn_t*, unsigned long, ql::query_cache_t*, signal_t*)::{lambda()#1}::operator()() const at 0xad5d2d (rethinkdb)\r\n       10 [0x9e7102]: coro_t::run() at 0x9e7102 (rethinkdb)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n\r\n```\r\n\r\nthis is what our app shows:\r\n```\r\nMessage:\r\n    Connection is closed in:\r\nr.table(\"offers\").getAll(\"Organization1\", {\"index\": \"channel_publisher\"}).filter(r.row(\"status\").eq(\"active\").and(r.row(\"payout\").ge(0), r.row(\"currency\").eq(\"USD\"), r.row(\"product\")(\"productType\").eq(\"Mobile App\"), r.row(\"redirectUrlStatus\").eq(\"valid\"),  r.row(\"segment\")(\"os\").contains(\"IOS\").or(r.row(\"segment\")(\"os\").contains(\"ANDROID\")), r.row(\"product\")(\"productId\").eq(\"N/A\").not(),r.row(\"subscription\")(\"status\").eq(\"inactive\").or(r.row(\"subscription\")(\"status\").eq(\"deleted\")).not(), r.branch(r.row.hasFields({\"expirationTimestamp\": true}), r.now().sub(r.row(\"expirationTimestamp\")).le(0), true), r.branch(r.row.hasFields({\"endDate\": true}), r.now().sub(r.row(\"endDate\")).le(0), true)).or().and()).changes({\"includeInitial\": true})\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nDetails:\r\n    msg: Connection is closed.\r\n    frames: \r\n    domain: [object Object]\r\n    domainThrown: true\r\n\r\n```\r\n\r\nThis has not happened on our production server and it could be something related to our tests. we do start and stop changefeeds and delete tables as part of each test, but we did not experience this crash before.\r\n\r\nThanks,\r\nJonathan"
+  , issueState = "closed"
+  , issueId = Id 137036656
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

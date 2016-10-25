@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-18) 20 : 23 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/198527842"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5413#issuecomment-198527842"
+  , issueCommentCreatedAt = 2016 (-03) (-18) 20 : 23 : 22 UTC
+  , issueCommentBody =
+      "I had a brief look at this and these are my thoughts:\r\n\r\n1. I agree with @marshall007 on the `row error passed through outer promise rather than final function` argument. I think errors should not only be passed to the `final` callback, but should also be rejected on the returned promise. As far as I understand there isn't any issue with an unhandled rejected promise being returned if it is never used. There shouldn't be a need to any catch blocks if you don't intent to use the returned promise, unless I'm completely wrong on how this works.\r\n\r\n2. I agree with @larkost that we should wait on a promise returned by the `final` function. I think the distinction between callback-style and promise-style isn't as clear as it might at first seem. `eachAsync` is always a partially callback-style command, since it calls a callback for every iterated row.\r\nI can see the argument of taking a variant of `eachAsync` that's designed around promises, and then nodeifying it in order to get a purely callback-based alternative from it. However I don't think that there's anything wrong if a user wants to use the `final` callback and also wants to use the returned promise.\r\nI don't think it would be obvious that the `final` callback is merely intended for use in a purely callback-style environment. Sure, every case where `final` is used with promises can be rewritten to a `then` block on the promise returned from `eachAsync`. But again I don't think this will necessarily be obvious, and some users might end up using the `final` callback anyway in promise-based code. Additionally there's the argument from symmetry with the row handler callback. The motivation for the row handler callback and the `final` callback existing in the first place are different, but that doesn't mean that they should behave differently.\r\n\r\nHope that makes sense."
+  , issueCommentId = 198527842
+  }

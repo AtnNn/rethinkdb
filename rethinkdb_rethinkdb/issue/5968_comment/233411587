@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-18) 18 : 14 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/233411587"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5968#issuecomment-233411587"
+  , issueCommentCreatedAt = 2016 (-07) (-18) 18 : 14 : 05 UTC
+  , issueCommentBody =
+      "Changefeeds always get their data from the primary for each shard, so if any primary involved in a changefeed goes down that changefeed is always broken, and will need to be restarted. There has been some work on fixing this problem in #3471, but it is a rather thorny one that will involve some carefully planned changes to our underlying data structures.\r\n\r\nSeparately the main problem of the implicit `single` read mode is that because the data is not guaranteed to have hit the disk on the Primary (let alone on a majority of the replicas) there is a chance that if that server dies (e.g.: someone pulls the power cord(s)) immediately after sending the data you could get a change in the changefeed that (once recovery happens) will not be reflected in the database.\r\n\r\nSince you also have a second question about identical changefeeds going to multiple machines, in the same scenario the two subscribers could differ in whether they saw a singe change or not, depending entirely on the timing.\r\n\r\nAnd a general request: rather than asking questions here (as a bug) please ask them in one of the channels from our [community page](http://rethinkdb.com/community/). The Slack channel is especially active, but we generally monitor all of them.\r\n\r\nSince this is not really a bug, I am closing it as such, but if you need more clarification feel free to further ask in this issue."
+  , issueCommentId = 233411587
+  }

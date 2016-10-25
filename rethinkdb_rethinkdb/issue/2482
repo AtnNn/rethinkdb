@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-06) 22 : 05 : 54 UTC
+  , issueUpdatedAt = 2015 (-07) (-06) 22 : 05 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2482/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2482"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 2482
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "`make test` does not work on MacOS X"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2482"
+  , issueCreatedAt = 2014 (-05) (-30) 16 : 29 : 07 UTC
+  , issueBody =
+      Just
+        "Running `make test` on MacOS is not working on `next` for a good number of reasons. I am fixing them as I go, but fixing one keeps finding another one. So far the list:\r\n1. `bench/stress-client/python_interface.cc` does not provide a default for `take_this_sample` and clang is objecting to that.\r\n2. clang also does not like that some files that use `bench/stress-client/protocols/sqlite_protocol.hpp` do not use the private variable `_dbname`. Rather than turning warnings off for this, I just move this one from `private` to `protected`.\r\n3. The `friend` declaration for `sqlite_mirror_verify_op_t` is as `class` rather than `struct` in `bench/stress-client/opts/sqlite_mirror.hpp`\r\n4. `test/common/rdb_workload_common.py` imports `rethinkdb` which gets the generic installed version of the Python driver, rather than the one being built/tested.\r\n5. A number of regression tests, and `test/common/scenario_common.py` all use `common/driver.py`'s `find_rethinkdb_executable` which assumes that the build directories are called exactly `debug` or `release`. On MacOS they are more like `release_clang_notcmalloc`. The fix is to modify `utils.latest_build_dir` to handle all of the tricks that `find_rethinkdb_executable` does, and point the later at the former.\r\n6. The Python driver build process looks for the `protoc` executable be on the path, rather then using from `build/external/protobuf_2.5.0` (if you are not installed)"
+  , issueState = "closed"
+  , issueId = Id 34660370
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

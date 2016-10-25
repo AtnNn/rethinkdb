@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-18) 20 : 24 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/185899333"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5406#issuecomment-185899333"
+  , issueCommentCreatedAt = 2016 (-02) (-18) 20 : 24 : 38 UTC
+  , issueCommentBody =
+      "@VeXocide and I talked about this a little bit offline, and he mentioned another thing, which is that it's probably a good idea to have the server report what protocol versions it supports *before* the client requests a particular protocol version, because that allows you to write clients that can connect to older versions of the server.\r\n\r\nWe decided that it's probably a good idea to require the client to specify a protocol version in the first JSON object it sends to the server.  He convinced me that we probably need a capabilities array eventually for things like supported encryption/compression options, whether or not a client can print its own backtraces, etc., but it seems better to leave it out of the first version since the server wouldn't actually do anything differently based on what's in the array right now.  Later when we add support for things like that, we can bump the protocol version field and say that that new protocol version requires a capabilities array.\r\n\r\n(We also talked a bit about the idea of leaving off the protocol version and adding it later, with the convention that an unspecified protocol version is protocol v0, but that seems like a bad idea because you can't distinguish between a third party client that forgot to specify a protocol version and one written to the spec of the very first protocol, which might make debugging confusing for people.)\r\n\r\n(We also talked a bit about why we would have both a protocol version and a magic number: in my mind the magic number should be bumped when the gross format of the exchange changes.  So large changes like the current one where we go from sending plaintext back and forth to sending JSON objects would involve bumping the magic number.  I think that if the semantics of the JSON objects we're sending back and forth changes, that shouldn't require bumping the magic number and you should bump the protocol version instead.)"
+  , issueCommentId = 185899333
+  }

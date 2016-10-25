@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 23 : 46 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95751141"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95751141"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 23 : 46 : 56 UTC
+  , issueCommentBody =
+      "I agree with @mlucy's latest summary. Specifically:\r\n\r\n- I don't think we should support acks for now. This sounds complicated (for us and for the user), it's not clear that people want it (yet), etc. I think we should hold off on it, and add it later if it turns out to be important.\r\n- I'd always include a token as part of a persistent feed, and allow users to pass an optional `since` argument.\r\n- I think we should keep things in RAM for the first implementation (and either use the array size limit, or a similar optarg). If the queue overflows, we should return an error when someone passes a token that's earlier than the data we have. (We can fix that later by using btree timestamps).\r\n- I like mirroring the index API. I'd call the functions `feed_*`, not `changefeed_*`, though. Shorter is better, and IMO it's just as clear.\r\n- A pseudotable API to feeds would still be really nice, but we can potentially leave it out as long as we have a term to list feeds. We can add a pseudotable later (along with one for indexes).\r\n\r\nThis seems pretty reasonable to me, I wouldn't overcomplicate things beyond this. We can always expand the API later as we understand the use cases better."
+  , issueCommentId = 95751141
+  }

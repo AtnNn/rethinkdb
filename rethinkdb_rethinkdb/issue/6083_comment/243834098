@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-01) 18 : 14 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243834098"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6083#issuecomment-243834098"
+  , issueCommentCreatedAt = 2016 (-08) (-31) 17 : 13 : 07 UTC
+  , issueCommentBody =
+      "Hey @rpazuki , thanks for the reply. Are you ***really s.u.r.e*** you are using the latest [`v2.3.3`](http://search.maven.org/#search%7Cga%7C1%7Crethinkdb) of the **Java** driver? :no_mouth:\r\n\r\nAfter giving it some additional thought, the stack trace you posted isn't making any sense.\r\n\r\n* 1) `ConnectionInstance` was removed a [long time ago:here](https://github.com/rethinkdb/rethinkdb/commit/1a9d46ca4f9377b62edab244c33495dde2f17158) when the Java driver was made thread-safe.\r\n```\r\ncom.rethinkdb.net.ConnectionInstance.readResponse(ConnectionInstance.java:79) a\r\n```\r\n* 2) AFAIK, it is impossible with the current Java driver to get from `Cursor.next()` to `Connection.readResponse()`. Some ***Back To The Future*** stuff going on right thrrr. :car::zap::fire: :smile_cat: \r\n````\r\ncom.rethinkdb.net.Connection.readResponse(Connection.java:130) at\r\ncom.rethinkdb.net.Cursor$DefaultCursor.getNext(Cursor.java:172) at\r\ncom.rethinkdb.net.Cursor.next(Cursor.java:110) at\r\n```\r\n\r\n*You gotta* be using an older version of the driver. Is there a way to clear your package cache somehow maybe?? \r\n\r\nAlso, I pulled the latest [`sources.jar`](http://search.maven.org/remotecontent?filepath=com/rethinkdb/rethinkdb-driver/2.3.3/rethinkdb-driver-2.3.3-sources.jar) from Maven Central and the current `v2.3.3` release is pretty current with the [Java source here on GitHub](https://github.com/rethinkdb/rethinkdb/tree/next/drivers/java) (minus a recent minor commit). So, I'm still not sure how you can generate the stack trace you posted given the current release.\r\n\r\n> ... and I used your point by running the same code on a single thread. It is fine, but not on multithread one.\r\n\r\n**That** particular behavior makes sense if you are using a really old Java driver version when switching between `single-threaded` and `multi-threaded` usage. I would expect this particular threading behavior prior to **February 3, 2016** when the Java driver's `Connection` was not thread-safe. See https://github.com/rethinkdb/rethinkdb/pull/5292. The current Java version `v2.3.3` is thread-safe. If you are **really**, ***really***, using `v2.3.3` then `multi-threaded` usage should be fine.\r\n\r\nIf you are truly using the latest version, then I'm all out of ideas.\r\n\r\n:headphones: :notes: [***Antiserum & Mayhem - Trippy***](https://www.youtube.com/watch?v=o95ZTp5fuF8)"
+  , issueCommentId = 243834098
+  }

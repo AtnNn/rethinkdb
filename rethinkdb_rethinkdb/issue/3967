@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-28) 00 : 44 : 20 UTC
+  , issueUpdatedAt = 2015 (-03) (-31) 19 : 52 : 38 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3967/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3967"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3967
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1366
+          , simpleUserLogin = N "deontologician"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1366?v=3"
+          , simpleUserUrl = "https://api.github.com/users/deontologician"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "[2.0RC]Js driver - feed.close() should send the STOP query without waiting"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3967"
+  , issueCreatedAt = 2015 (-03) (-23) 04 : 07 : 55 UTC
+  , issueBody =
+      Just
+        "It's the second part of https://github.com/rethinkdb/rethinkdb/issues/3938\r\nIIn the JS driver, `feed.close()` does not immediately send the `STOP` query, see\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/cursor.coffee#L190\r\n\r\nTypically this will hang (assuming no operation is happening on the table `test`).\r\n```js\r\nr = require('./rethinkdb.js'); // 2.0RC driver\r\n\r\nr.connect().bind({}).then(function(connection) {\r\n  this.connection = connection;\r\n  return r.db('test').table('test').changes().run(this.connection);\r\n}).then(function(feed) {\r\n  feed.each(function(err, change) {\r\n    if (err) {\r\n      console.log('ERROR');\r\n      console.log(err);\r\n    }\r\n    else {\r\n      console.log(change);\r\n    }\r\n  });\r\n  return feed.close();\r\n}).then(function() { // never called here.\r\n  console.log('Feed was successfully closed.');\r\n  return this.connection.close();\r\n}).then(function() {\r\n  console.log('Connection was successfully closed.');\r\n}).error(function(err) {\r\n  console.log('ERROR');\r\n  console.log(err);\r\n});\r\n```\r\n\r\nThe logic related to `closeAsap` should be removed, and the driver should accept to send a `STOP` query even if a `CONTINUE` query is going on. It requires a bit of refactoring since the driver currently assumes one query per token.\r\n\r\nI don't know if there's the same problem in the python and ruby driver, but someone should probably take a look."
+  , issueState = "closed"
+  , issueId = Id 63618846
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

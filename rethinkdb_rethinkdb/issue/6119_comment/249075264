@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-23) 01 : 16 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/249075264"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6119#issuecomment-249075264"
+  , issueCommentCreatedAt = 2016 (-09) (-23) 01 : 16 : 32 UTC
+  , issueCommentBody =
+      "@danmactough I'm guessing the `guests` array is fairly large? This query can be optimized in several ways, but performance definitely suffers with large and complex nested documents. This biggest things I see off the bat are:\r\n\r\n- wrapping the expression in `r.do(...)` is a no-op in this case and might impact performance.\r\n- you should only capture `.default()` in the outer most case. Catching non-existence errors is actually rather expensive, so use it only when necessary.\r\n- `.map(row => [ k, v ]).coerceTo('object')` is the most efficient way to build an object from key/value pairs. You can also do `<object>.coerceTo('array')` to do the opposite.\r\n- use `r.do(<expr>, function (result) { ... })` to evaluate an expression once and reuse its values throughout your query rather than performing the same operations over and over again.\r\n\r\nHope some of that helps! Feel free to ping me if trying some of that doesn't seem to help."
+  , issueCommentId = 249075264
+  }

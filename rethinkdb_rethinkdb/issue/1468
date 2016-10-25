@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2013 (-09) (-27) 23 : 02 : 45 UTC
+  , issueUpdatedAt = 2013 (-09) (-27) 23 : 02 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1468/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1468"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1468
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improve batched replace logic"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1468"
+  , issueCreatedAt = 2013 (-09) (-20) 19 : 48 : 11 UTC
+  , issueBody =
+      Just
+        "I was doing some profiling on an insert workload, and our batched replace code could use some work.\r\n\r\nOn a batched insert where the actual call to `access->get_namespace_if()->write(...)` takes about 50ms, you can expect to spend another 5-10ms just constructing/destructing the vector of `datum_func_pair_t`s.  (The rest of the work, including JSON parsing, comes out to around 6ms.)\r\n\r\nThe situation is worse for actual batched replaces.  As far as I can tell from looking at the code, if we have a batched replace containing 10 point replaces, we serialize the replacement function 10 times.\r\n\r\nThe batched_replace code needs to be reworked so that instead of always having a vector of `<key,function>` pairs, it has either a vector of `<key,datum>` pairs or a vector of keys with a single function."
+  , issueState = "closed"
+  , issueId = Id 19837290
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

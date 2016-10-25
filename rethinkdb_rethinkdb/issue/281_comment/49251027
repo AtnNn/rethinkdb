@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-17) 02 : 06 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49251027"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49251027"
+  , issueCommentCreatedAt = 2014 (-07) (-17) 02 : 06 : 03 UTC
+  , issueCommentBody =
+      "> @neumino are you proposing that reads should not wait for writes on the same connection? You should open a separate issue about it.\r\n\r\nYes, I just opened https://github.com/rethinkdb/rethinkdb/issues/2711\r\n\r\n\r\n\r\n> Looking at your proposal, I had assumed that connections were returned to the pool before the callback to run gets called.\r\n\r\nThat's the case. Connections are returned in the pool when the result of the query is anything but a cursor/feed (with data not yet fetched) and before executing the callback.\r\n\r\nSo for the example you gave\r\n```\r\npool = r.connectionPool({max: 1});\r\nquery.run(pool, function(err, res){\r\n  query2.run(pool);\r\n});\r\n```\r\n`query2` is executed as long as `query` does not return a cursor/feed.\r\nIf `query` returns a cursor, then `query2` will be executed only if there are more than 2 batches of documents (we pre-fetch one batch).\r\n\r\nSo yes, this is a caveat in my proposal. If you do not close a cursor or fetch all its data, the connection is not going to be put back in the pool.\r\n\r\n> And it will be easy to leak connections if close isn't called:\r\n\r\nYes, like I said before, if you don't fetch all the data or close a cursor, the connection won't be released. However, your example uses `each`, and at some point the driver will receive a `SUCCESS_SEQUENCE` (after a few `SUCCESS_PARTIAL`) and will release the connection at that time.\r\n\r\nSo yes a connection can \"leak\" if the cursor is not closed, but as long as you fetch all the data (with `toArray` or `each`), it will never leak (and you don't have to call `close` on the cursor).\r\n\r\nI believe that most of our users just coerce cursors to arrays so this is 99.9% safe.\r\n\r\n\r\n> The cause of these issues and the reason why I prefer explicitly getting connections from the pool is that your proposal uses the exact same API for pools as for connections, but the behavior in each case is very different\r\n\r\nYes this is true, but just to be clear\r\n\r\nThese snippets do the same thing\r\n```py\r\n# Python\r\nresult = r.table(\"test\").insert({id: 1}).run(connection)\r\nif result.errors == 0:\r\n  r.table(\"test\").get(1).run(connection);\r\n```\r\n\r\n```py\r\n# Python\r\nresult = r.table(\"test\").insert({id: 1}).run() #using a pool\r\nif result.errors == 0:\r\n  r.table(\"test\").get(1).run();\r\n```\r\n\r\nBut these usually don't\r\n```js\r\n// JavaScript\r\nr.table(\"test\").insert({id: 1}).run(connection)\r\nr.table(\"test\").get(1).run(connection); // you will see your write\r\n```\r\n\r\n```js\r\n// JavaScript\r\nr.table(\"test\").insert({id: 1}).run()\r\nr.table(\"test\").get(1).run(); // you won't see your write\r\n```\r\n\r\nI wrote \"usually\", because we more or less say that your read is going to see your write, but this is not a strong guarantee.\r\n- These two queries are not atomic, another query could reverse the first write (before the read)\r\n- The first write can fail and the 2nd query has no idea whether the write was acknowledge or not\r\n\r\n\r\nI am not strongly opposed of giving users access to `getConnection` and `putConnection`, but I wouldn't advise them to use it (because they would need to understand how the driver is using the connections - which is not obvious). \r\nI also really don't see what they would gain from manually using these methods."
+  , issueCommentId = 49251027
+  }

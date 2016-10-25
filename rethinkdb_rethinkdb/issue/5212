@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-12) (-16) 03 : 20 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5212/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5212"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5212
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "How to handle non-constant arguments in changefeeds"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5212"
+  , issueCreatedAt = 2015 (-12) (-15) 21 : 08 : 03 UTC
+  , issueBody =
+      Just
+        "Given the data:\r\n\r\n```\r\n{\r\n    \"id\": \"user1\",\r\n    \"following\": [\"user2\"],\r\n    \"status\": \"offline\",\r\n}\r\n{\r\n    \"id\": \"user2\",\r\n    \"following\": [\"user1\", \"user3\"],\r\n    \"status\": \"online\",\r\n}\r\n{\r\n    \"id\": \"user3\",\r\n    \"following\": [],\r\n    \"status\": \"offline\",\r\n}\r\n```\r\n\r\nA straightforward \"presence list\" query, such as:\r\n\r\n```\r\ntable.getAll(r.args(\r\n        table.get(\"user2\")(\"following\")\r\n    )).pluck(\"id\", \"status\")\r\n    .changes({include_initial: true, include_states: true})\r\n```\r\n\r\nCorrectly finds the initial state and responds to changes to the followed users' `status` fields, but does NOT respond to changes in `user2`'s `following` list.\r\n\r\nI instead expected it to succeed and respond to all database operations that could have changed the result of the query, or for it to fail and tell me that this changefeed can't be done (yet.) Should this query fail? I can see good uses for this kind of subquery in changefeeds where you really don't care if the subquery changes, but for things like this presence example, it's pretty surprising behavior.\r\n\r\nThis is somewhat related to #3997, being a self-join.\r\n\r\nPinging @mlucy and @danielmewes."
+  , issueState = "open"
+  , issueId = Id 122366483
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

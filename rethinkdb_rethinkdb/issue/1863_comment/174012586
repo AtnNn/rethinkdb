@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-22) 18 : 59 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 354848
+        , simpleUserLogin = N "hamiltop"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/354848?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hamiltop"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/174012586"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1863#issuecomment-174012586"
+  , issueCommentCreatedAt = 2016 (-01) (-22) 18 : 59 : 51 UTC
+  , issueCommentBody =
+      "```\r\nWe can decrement the balance so that the positive balance invariant is always respected, but then if the app server dies right after that, the Receiver account will never be incremented.\r\nWell, that's fixable, if we remember that we need to do an increment on the receiver account in a pending_sends set. Let's pick a some random xid to denote the money transaction id. So the update is now \"if balance > X, decrement balance by X, and add to pending_sends set the pair [xid, receiver_id, X]\". This way, if the app server dies, we remembered that we have to increment receiver_id's balance X amount of money. We still have the problem of having incrementing the receiver's account by X, and removing the xid from the sender's pending_sends array to prevent giving the receiver too much money. That's fixable too, we can add a pending_receives set on the receiver side, and add [xid, X] to the set. Once done, we can safely remove the xid from the pending_sends. And once done we can atomically increment the sender's account and remove the xid from his pending_receives.\r\n```\r\n\r\nI think I see a problem. Here's the problematic sequence of events:\r\n\r\nServer A sets the pending_sends pair. Server A goes down before it adds to pending_receives. We bring up Server B. Server B sees the pending_sends pair. It then adds the pair to pending_receives. It then removes the pair from pending_sends, then atomically increments the sender's account and removes the pair from pending_receives. Now Server A comes back online. It was healthy the whole time, just under a network partition. It then adds the pair to pending_receives, eventually resulting in a double processing of the \"increment to the sender's account\".\r\n\r\nThis might be solved by an effective \"Shoot the node in the head\" type of solution, but I believe it's a definite problem."
+  , issueCommentId = 174012586
+  }

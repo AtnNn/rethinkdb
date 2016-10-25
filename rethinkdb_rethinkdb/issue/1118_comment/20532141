@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-05) 18 : 13 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20532141"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-20532141"
+  , issueCommentCreatedAt = 2013 (-07) (-05) 18 : 13 : 36 UTC
+  , issueCommentBody =
+      "@coffeemug actually having thought about this a bit more I think the multi-table version of this is less a question of being complicated from an engineering perspective and more a question of being algorithmically untenable. You can imagine even a fairly simple multi-table mapreduce such as: `table.eq_join(\"foo\", table2).map(...).reduce(...)` is very complicated to keep track of in an incremental way, and in a lot of cases downright impossible. Even a single row change in `table2` can conceivably change the value of every single piece of data going in to the map reduce so there's really just no efficient way to compute an incremental view without basically rerunning the map reduce for every change to `table2`. We could maybe make some optimizations that made it more efficient if you had an approximately one-to-one join (which is probably the most common case) but that's going to be a big undertaking that only works in very specific cases which will be hard to explain to people and will behave very badly when it's used outside of those cases. Furthermore if people start using arbitrary sub expressions like: `table.map(lambda x: query_on_table2(x)).reduce(lambda x,y: query_on_table3(x,y))` then all bets are off.\r\n\r\nI definitely agree that it's annoying to have 2 features which aren't compatible but I think the reality is this is a situation where you can't sugarcoat the algorithmic limitations. Doing so is just going to lead to people bumping in to the limitations as exponential runtimes which is clearly a lot worse.\r\n\r\nMy conclusion here is that the easier thing of having map reduce jobs rooted on a single table is actually the right thing to do because it's something I know we can make fast and make in to a very useful feature. Also it's really a very doable thing because almost all the annoying parts of it are already written and \"working\" for secondary indexes and the system was designed to be easily extended to support incremental map reduce. I'll write up a full proposal for this at some point in the near future."
+  , issueCommentId = 20532141
+  }

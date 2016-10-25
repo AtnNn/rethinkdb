@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-12) 22 : 15 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2230126
+        , simpleUserLogin = N "icesmurf"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2230126?v=3"
+        , simpleUserUrl = "https://api.github.com/users/icesmurf"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/195815157"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5503#issuecomment-195815157"
+  , issueCommentCreatedAt = 2016 (-03) (-12) 21 : 57 : 03 UTC
+  , issueCommentBody =
+      "ruby-2.2.1, rethinkdb (2.2.0.4), ubuntu 15.10, rvm 1.26.11\r\n\r\n```\r\n#0:/var/lib/gems/2.1.0/gems/rethinkdb-2.2.0.4/lib/net.rb:688:RethinkDB::Connection:-:       socket = TCPSocket.open(@host, @port)\r\n```\r\n\r\nThat's not wrapped in a timeout, and it's the section where AFAIK ruby is attempting to setup the socket connection, (which it can't since it's firewalled). Unless i'm missing something (quite possibly, i'm only intermediate at ruby at best), i can't see anything that'd wrap that connection in a timeout in the code at all. If you mean the code i wrote successfully times out, if you get the \"Ruby Level Timeout\", then that's NOT what we're expecting, we're expecting the RQL error to be triggered in the rescue block. My expectation as a API consumer here is that if i specify a :timeout, i shouldn't have to manually wrap it in a timeout block ;-)\r\n\r\nI've attached an execution log so you can follow through, from my reading of the log, it looks like the rethinkdb isn't even attempting to wrap the socket connection, if there's agreement, i can write a patch to wrap it as i do similar to the code above, but i'm not sure if that will break anything else, or that's following the \"rethinkdb\" way of doing stuff, or if there's other things i have to think about. :-) \r\n\r\n[execution.txt](https://github.com/rethinkdb/rethinkdb/files/170642/execution.txt)\r\n"
+  , issueCommentId = 195815157
+  }

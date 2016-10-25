@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-18) 01 : 49 : 56 UTC
+  , issueUpdatedAt = 2014 (-06) (-25) 21 : 49 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2556/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2556"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2556
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "`r.http` fails to parse headers when redirected"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2556"
+  , issueCreatedAt = 2014 (-06) (-16) 22 : 16 : 51 UTC
+  , issueBody =
+      Just
+        "Running `r.http('atnnn.com')` results in `RqlRuntimeError: Error in HTTP GET of 'atnnn.com': unknown error when parsing response headers.`.\r\n\r\nLooking at the header parsing in `http_job.cc`, it is actually passing down the following headers:\r\n```\r\nHTTP/1.0 301 Moved Permanently\r\nServer: Apache\r\nStatus: 301 Moved Permanently\r\nExpires: Tue, 17 Jun 2014 22:09:30 GMT\r\nDate: Mon, 16 Jun 2014 22:09:30 GMT\r\nLocation: http://www.atnnn.com\r\n\r\nHTTP/1.1 200 OK\r\nServer: GitHub.com\r\nContent-Type: text/html; charset=utf-8\r\nLast-Modified: Fri, 23 May 2014 08:51:29 GMT\r\nExpires: Mon, 16 Jun 2014 22:16:12 GMT\r\nCache-Control: max-age=600\r\nContent-Encoding: gzip\r\nContent-Length: 793\r\nAccept-Ranges: bytes\r\nDate: Mon, 16 Jun 2014 22:09:30 GMT\r\nVia: 1.1 varnish\r\nAge: 198\r\nConnection: close\r\nX-Served-By: cache-lax1435-LAX\r\nX-Cache: MISS\r\nX-Cache-Hits: 0\r\nX-Timer: S1402956570.634137392,VS0,VE66\r\nVary: Accept-Encoding\r\n```\r\n\r\nWhich actually contains the headers from before and after the redirect.  The `curl_easy_setopt` documentation for `CURLOPT_HEADERFUNCTION` notes that \"This includes all responses which occur during authentication negotiation. If you need to operate on only the headers from the final response, you will need to collect headers in the callback yourself and use HTTP status lines, for example, to delimit response boundaries.\"\r\n\r\nThis means that we need to parse out the final response from our headers manually, which is annoying, but whatever.\r\n"
+  , issueState = "closed"
+  , issueId = Id 35841543
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 73
+          , milestoneClosedIssues = 21
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.13.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/73"
+          , milestoneCreatedAt = 2014 (-06) (-25) 21 : 49 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

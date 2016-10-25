@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 57 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5716/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5716"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 5716
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 53049
+        , simpleUserLogin = N "rocketraman"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/53049?v=3"
+        , simpleUserUrl = "https://api.github.com/users/rocketraman"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "ReQL does not support creating polygons with multiple holes except via geojson"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5716"
+  , issueCreatedAt = 2016 (-04) (-25) 16 : 24 : 59 UTC
+  , issueBody =
+      Just
+        "I am attempting to create a polygon with more than one hole. There does not appear to be any mechanism to do this via `polygonSub`, since `polygonSub` cannot be called on the result of a `polygonSub`. For example:\r\n\r\n```\r\nr.polygon([-83.292,42.441],[-82.939,42.454],[-82.906,42.418],[-83.162,42.251],[-83.292,42.441])\r\n.polygonSub(r.polygon([-83.115,42.414],[-83.101,42.393],[-83.08,42.401],[-83.091,42.414],[-83.115,42.414]))\r\n.polygonSub(r.polygon([-83.07,42.4],[-83.053,42.384],[-83.047,42.387],[-83.046,42.4],[-83.07,42.4]))\r\n```\r\n\r\nproduces the server error:\r\n\r\n```\r\ne: Expected a Polygon with only an outer shell.  This one has holes in:\r\nr.polygon([-83.292, 42.441], [-82.939, 42.454], [-82.906, 42.418], [-83.162, 42.251], [-83.292, 42.441]).polygonSub(r.polygon([-83.115, 42.414], [-83.101, 42.393], [-83.08, 42.401], [-83.091, 42.414], [-83.115, 42.414])).polygonSub(r.polygon([-83.07, 42.4], [-83.053, 42.384], [-83.047, 42.387], [-83.046, 42.4], [-83.07, 42.4]))\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^       \r\n```\r\n\r\nHowever, the server does seem to support this case, and a polygon with multiple holes can be created via the `geojson` command. An example using the same coordinates as above:\r\n\r\n```\r\nr.geojson({'type': 'Polygon', 'coordinates': [\r\n[[-83.292,42.441],[-82.939,42.454],[-82.906,42.418],[-83.162,42.251],[-83.292,42.441]],\r\n[[-83.115,42.414],[-83.101,42.393],[-83.08,42.401],[-83.091,42.414],[-83.115,42.414]],\r\n[[-83.07,42.4],[-83.053,42.384],[-83.047,42.387],[-83.046,42.4],[-83.07,42.4]]]})\r\n```"
+  , issueState = "open"
+  , issueId = Id 150917337
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

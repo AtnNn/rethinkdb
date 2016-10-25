@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-07) 19 : 12 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/193401250"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5482#issuecomment-193401250"
+  , issueCommentCreatedAt = 2016 (-03) (-07) 19 : 12 : 39 UTC
+  , issueCommentBody =
+      "Thanks for the configuration data @artdude543 .\r\n\r\nIt looks like the query that's failing is this one:\r\n```coffeescript\r\nfetch_data: (server_uuid) =>\r\n        query = r.expr\r\n            tables: r.db(system_db).table('table_config').pluck('db', 'name', 'id').coerceTo(\"ARRAY\")\r\n            servers: r.db(system_db).table('server_config').pluck('name', 'id').coerceTo(\"ARRAY\")\r\n            issues: driver.queries.issues_with_ids()\r\n            num_issues: r.db(system_db).table('current_issues').count()\r\n            num_servers: r.db(system_db).table('server_config').count()\r\n            num_tables: r.db(system_db).table('table_config').count()\r\n            num_available_tables: r.db(system_db).table('table_status')('status').filter( (status) ->\r\n                status(\"all_replicas_ready\")\r\n            ).count()\r\n            me: r.db(system_db).table('server_status').get(server_uuid)('name')\r\n```\r\n\r\nThe `table_config` and `server_config` outputs you posted look fine to me, which leaves `table_status` and `server_status` as potential sources of unexpected data.\r\n\r\nA third option is that `/ajax/me` returns something odd.\r\n\r\n@artdude543 Could you try three more things and post the results here?\r\n```js\r\nr.db('rethinkdb').table('table_status')\r\n```\r\n```js\r\nr.db('rethinkdb').table('server_status')\r\n```\r\nand finally go to `/ajax/me` on the RethinkDB server in your browser (e.g. if you're accessing the web UI through `http://server:8080`, go to `http://server:8080/ajax/me`)? Usually this should give you the UUID of the server you're connecting to.\r\n\r\nThanks for your help in tracking this down!"
+  , issueCommentId = 193401250
+  }

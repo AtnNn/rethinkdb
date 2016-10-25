@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-16) 03 : 13 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164974506"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4147#issuecomment-164974506"
+  , issueCommentCreatedAt = 2015 (-12) (-16) 03 : 13 : 26 UTC
+  , issueCommentBody =
+      "Ideally we'd want to support omitting duplicates from multi-indexes for `between` as well as for `get_all`.\r\n\r\nHere's an alternative algorithm that I think works for both:\r\n\r\n* When we store a row with a multi-index `m`, we also store a sorted array of all the values in `m` plus their offsets in `m` `(so [\"a\", \"c\", \"b\", \"c\"]` becomes `[[\"a\", 0], [\"b\", 2], [\"c\", 1], [\"c\", 3]]`.\r\n* When you're in the middle a multi-index traversal over the range `[A, B)` and you see a value `X`, you look up `X` in that sorted array via binary search.  (We serialize the offset in the multi-index array into the key alongside the index value, so you know enough to distinguish the `c` at index 1 and the `c` at index 3 during traversal.)\r\n* We look at the value immediately before `X` in that array.  If that value is in `[A, B)`, we drop `X` from the traversal.  If it isn't (or if `X` is the first element of the array) we include `X` in the traversal.\r\n\r\nIf we're OK doing work proportional to the size of the array, we can skip the first bullet point and just recompute the sorted array when we load the row off of disk.  For most multi-indexes (i.e. ones without thousands of entries) that should be plenty fast."
+  , issueCommentId = 164974506
+  }

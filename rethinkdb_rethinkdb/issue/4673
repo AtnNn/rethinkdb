@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-17) 06 : 43 : 22 UTC
+  , issueUpdatedAt = 2015 (-08) (-17) 18 : 01 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4673/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4673"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4673
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 172936
+        , simpleUserLogin = N "freiksenet"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/172936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/freiksenet"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Errors when creating many tables fast"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4673"
+  , issueCreatedAt = 2015 (-08) (-12) 07 : 04 : 18 UTC
+  , issueBody =
+      Just
+        "Hello!\r\n\r\nIn our testing code we create a database, several tables (about 6), insert data and create some indexes. With javascript client version < 2, it worked fine, but after upgrading to version 2, we are having weird errors. They were solved by waiting ~2 seconds after creating tables and inserting data. It seems that the tables are no longer ready on the tableCreate promise resolve. I also get weird errors that connection is closed from tableCreate promises, even though the operation clearly succeeded. (tables *are* created, data *is* inserted, but index creation fails)\r\n\r\n```js\r\nexport async function createTestDatabase(conn, dbName) {\r\n  await RethinkDB.dbCreate(dbName).run(conn);\r\n  await* TEST_DATA.get('tables').map(async function (data, table) {\r\n    await RethinkDB.db(dbName).tableCreate(table).run(conn);\r\n    await RethinkDB.db(dbName)\r\n      .table(table)\r\n      .insert(data.toJS())\r\n      .run(conn);\r\n  });\r\n  // With this pause it works fine\r\n  await new Promise((resolve) => {\r\n    setTimeout(() => resolve(), 2000);\r\n  });\r\n  await* TEST_DATA.get('tables').get(TYPE_TABLE).map(async function (type) {\r\n    const table = type.get('name');\r\n    const indexes = type.get('indexes') || List();\r\n    await* indexes.map(async function (index) {\r\n      const name = index.get('name');\r\n      const fields = index.get('fields');\r\n      const indexDefinition = fields.rest().reduce(\r\n        (acc, field) => acc(field),\r\n        RethinkDB.row(fields.first())\r\n      );\r\n      await RethinkDB\r\n        .db(dbName)\r\n        .table(table)\r\n        .indexCreate(name, indexDefinition)\r\n        .run(conn);\r\n      await RethinkDB\r\n        .db(dbName)\r\n        .table(table)\r\n        .indexWait(name)\r\n        .run(conn);\r\n    });\r\n  });\r\n}\r\n```\r\n\r\n## Errors:\r\n\r\nFrom tableCreate promises:\r\n\r\n```\r\nUnhandled rejection ReqlRuntimeError: Connection is closed in:\r\nr.db(\"testdb0dab7ebe_ddc5_4fab_a426_2e88d250e487\").tableCreate(\"User\")\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n    at new ReqlRuntimeError (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/errors.js:72:13)\r\n    at mkErr (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/util.js:177:10)\r\n    at TcpConnection.<anonymous> (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/net.js:323:18)\r\n    at TcpConnection.cancel (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/util.js:26:16)\r\n    at TcpConnection.cancel (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/net.js:603:43)\r\n    at wrappedCb (/home/freiksenet/Work/functo/reindex-api/node_modules/rethinkdb/net.js:262:17)\r\n    at tryCatcher (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/util.js:26:23)\r\n    at Promise.successAdapter (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/nodeify.js:23:30)\r\n    at Promise._settlePromiseAt (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/promise.js:575:21)\r\n    at Promise._settlePromises (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/promise.js:693:14)\r\n    at Async._drainQueue (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/async.js:123:16)\r\n    at Async._drainQueues (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/async.js:133:10)\r\n    at Immediate.Asy\r\n\r\nIn our testing code we create a database, several tables (about 6), insert data and create some indexes. With javascript client version < 2, it worked fine, but after upgrading to version 2, we are having weird errors. They were solved by waiting ~2 seconds after creating tables and inserting data. It seems that the tables are no longer ready on the tableCreate promise resolve. I also get weird errors that connection is closed from nc.drainQueues [as _onImmediate] (/home/freiksenet/Work/functo/reindex-api/node_modules/bluebird/js/main/async.js:15:14)\r\n    at processImmediate [as _immediateCallback] (timers.js:371:17)\r\n```\r\n\r\nFrom index creation\r\n\r\n```\r\n ReqlRuntimeError: Table `testdb0dab7ebe_ddc5_4fab_a426_2e88d250e487.Micropost` does not exist in:\r\nr.db(\"testdb0dab7ebe_ddc5_4fab_a426_2e88d250e487\").table(\"Micropost\").indexCreate(\"author\", r.row(\"author\")(\"value\"))\r\n```\r\n```"
+  , issueState = "closed"
+  , issueId = Id 100481260
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

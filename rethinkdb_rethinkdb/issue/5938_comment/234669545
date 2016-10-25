@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-22) 22 : 20 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234669545"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5938#issuecomment-234669545"
+  , issueCommentCreatedAt = 2016 (-07) (-22) 22 : 11 : 18 UTC
+  , issueCommentBody =
+      "Here's the unfinished Java `sendQuery` implementation I had locally:\r\n```\r\nprivate Future<Response> sendQuery(Query query, Optional<Long> deadline, boolean awaitResponse) {\r\n    // check if response pump is running\r\n    if (!exec.isShutdown() && !exec.isTerminated()) {\r\n\r\n        final CompletableFuture<Response> awaiter;\r\n        if(awaitResponse) {\r\n            awaiter = new CompletableFuture<>();\r\n            awaiters.put(query.token, awaiter);\r\n        }\r\n        try {\r\n            lock.lock();\r\n            socket.orElseThrow(() -> new ReqlDriverError(\"No socket available.\"))\r\n                    .write(query.serialize());\r\n\r\n            if( awaiter != null){\r\n                return awaiter.toCompletableFuture();\r\n            }\r\n            else{\r\n                return //return something statically completed empty response in java\r\n                       //CompletableFuture<Response>.CompletedDefault or something\r\n                       //not sure how to do that yet in java. or maybe just null? kkthxbye\r\n            }\r\n        } finally {\r\n            lock.unlock();\r\n        }\r\n    }\r\n\r\n    // shouldn't be here\r\n    throw new ReqlDriverError(\"Can't write query because response pump is not running.\");\r\n}\r\n```\r\n\r\nThen just fix up the calls to `sendQuery` with the new `awaitResponse=true` parameter for those that expect responses, and `awaitResponse=false` that don't (sendNoReply) . That should be all that's required."
+  , issueCommentId = 234669545
+  }

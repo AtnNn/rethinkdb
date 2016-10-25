@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 17 : 53 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 27421
+        , simpleUserLogin = N "mkleehammer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/27421?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mkleehammer"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61683744"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-61683744"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 17 : 53 : 35 UTC
+  , issueCommentBody =
+      "Excellent question.  In my port I ended up only using the auto-coersion methods which close the cursor immediately.  I believe this would be the 90+% case for most apps and it eliminates the connections and cursors from the user code where possible.\r\n\r\nHowever, the generic fetch method returns whatever its query returns, including cursors.\r\n\r\n```\r\nvar cursor = yield this.fetch(...);\r\n```\r\n\r\nThe results of the query are examined and if it is a cursor, the connection is attached to the request (if it wasn't already) instead of being returned to the pool.  Similarly, the cursor is stashed in the request so the middleware can close it also if the user doesn't do so manually.\r\n\r\nFor the cases where you do want to close the cursor for performance reasons, a simple call to close when things are working is rarely the difficulty.  It is handling exceptions which this design handles.  To close the cursor manually, simply do so.\r\n\r\n```\r\nvar cursor = yield this.fetch(...);\r\n// use cursor\r\nyield cursor.close()\r\n```\r\n\r\nWhat I'm not handling yet is multiple open cursors / multiple connections.  I haven't dug into the semantics of this in RethinkDB in enough detail yet, however.  I've tried a couple of designs that seem to work: I know I'd like an event from a cursor when it is complete, but only 'data' and 'error' are documented.  Second, I'd need to track whether a connection has been handed out to user code or just the cursor.  If just the cursor, then the connection can be returned immediately.\r\n "
+  , issueCommentId = 61683744
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-25) 23 : 16 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/242575717"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5897#issuecomment-242575717"
+  , issueCommentCreatedAt = 2016 (-08) (-25) 23 : 15 : 00 UTC
+  , issueCommentBody =
+      "> > What is the safe way to run production nodes until this gets resolved?\r\n>\r\n> Not sure out of my head. @encryptio might have some insights into this.\r\n\r\nOne way to make sure that inter-cluster connections don't talk to the wrong pods is to run a single service per rethinkdb server pod, pointing at only that pod, then using those services for intra-cluster communication (as @mlucy mentioned in [this comment](https://github.com/rethinkdb/rethinkdb/issues/5897#issuecomment-230668542).) That'll come with a performance cost, but I no longer think it'll be a huge one if you're using the (default as of kube 1.3) `iptables` based forwarder.\r\n\r\nAnother way is to use a unique TLS cert root for each cluster and then use TLS for the inter-cluster connections. (Again, that comes with an additional performance cost; this time probably more than using an extra layer of network indirection.)\r\n\r\n> only one of our nodes is frequently reporting this - `Received invalid clustering header from [::ffff:10.244.83.0]:36446, closing connection -- something might be connecting to the wrong port.`\r\n\r\nWhat pod does that IP represent? Is it one of the RethinkDB cluster members? (Notable special case, is it itself?) Or is it something external?"
+  , issueCommentId = 242575717
+  }

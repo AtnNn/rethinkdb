@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-07) 06 : 35 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/119088919"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4271#issuecomment-119088919"
+  , issueCommentCreatedAt = 2015 (-07) (-07) 06 : 35 : 32 UTC
+  , issueCommentBody =
+      "I've been fiddling with this for most of the day, and it appears that the slowness of non-existent fields comes almost entirely from exception overhead (although we make it worse by frequently catching and rethrowing exceptions).\r\n\r\nI observe about a 10-20x slowdown in release mode, which exists whether you're filtering with a function or with a shortcut object (and functions are persistently slower than shortcut objects, both because functions themselves have more overhead and because we do more catch/rethrow shenanigans).\r\n\r\nChanging the exception in question to do no formatting at all speeds things up by ~10-20%.  Changing the exception to do the formatting lazily largely eliminates those gains (because there's overhead for the variant and for copying the variables we capture).  Changing the code to return directly rather than using the exception path brings that path into parity with the path where the field exists.  (I'm not sure why profiling previously pointed to string formatting as the culprit.  Maybe the size of the document affects it?  I was mostly testing with ~3kb documents, and the code path for filter with a function formats the entire object.)\r\n\r\nAnyway, the short summary is that the easy patch we thought would fix this doesn't appear to be effective.\r\n\r\nI think we should extend the scope of https://github.com/rethinkdb/rethinkdb/issues/1721 to include moving us off of exceptions for handling query language errors and try hard to do that for 2.2 or 2.3.  After that we can profile this again and see what still needs to be done.\r\n\r\n@danielmewes, does that sound good to you?\r\n"
+  , issueCommentId = 119088919
+  }

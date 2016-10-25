@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-07) 19 : 38 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1448194
+        , simpleUserLogin = N "jedwards1211"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1448194?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jedwards1211"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245392870"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/364#issuecomment-245392870"
+  , issueCommentCreatedAt = 2016 (-09) (-07) 19 : 38 : 41 UTC
+  , issueCommentBody =
+      "So here is a more concrete example of something I am working on.  I'm working on a data historian with a bunch of tenants and channels.  So in MongoDB I could use the range shard key:\r\n\r\n`{tenantId: 1, channelId: 1, pageTimestamp: 1}`\r\n\r\nand then for example if I query\r\n```\r\n{\r\n  tenantId: ..., \r\n  channelId: {$in: ['channel1', 'channel2', ...]},\r\n  pageTimestamp: {$gte: 14800000, $lte: 20800000}\r\n}\r\n```\r\nit will only contact shards that contain one or more documents matching the query (unless I misunderstand something) instead of having to do an expensive scatter/gather query.\r\n\r\nAnother important note is that MongoDB *can guarantee the uniqueness* of the tenantId, channelId, pageTimestamp combination even if the collection is sharded, because each combination is only mapped to a single chunk and guaranteeing uniqueness within each chunk is easy.  So I would think there's nothing that would inherently prevent RethinkDB from likewise providing ranged sharding with compound keys?\r\n\r\nOtherwise, I have no idea how to do this optimally in RethinkDB sharding.  Do you have any ideas?  "
+  , issueCommentId = 245392870
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-24) 19 : 38 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47020282"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-47020282"
+  , issueCommentCreatedAt = 2014 (-06) (-24) 19 : 38 : 30 UTC
+  , issueCommentBody =
+      "What I find interesting about CouchDB's implementation is that they don't require an inverse reduction function.\r\n\r\nInstead they seem to store the intermediate reduction results. For example if your reduction function is `(x, y) -> x+y` and you have documents `[1, 2, 3, 4]`, they would store the following results:\r\n```\r\na: 1 + 2 -> 3\r\nb: 3 + 4 -> 7\r\nc: a + b -> 10\r\n```\r\n(i.e. build a binary reduction tree and store the intermediate results at each node)\r\n\r\nNow if we let's say update the first value from 1 to 10, they only have to recompute `log_2(n)` results:\r\n```\r\na': 10 + 2 -> 12\r\nc': a' + b' -> 19\r\n```\r\n\r\nThis makes it more convenient for the user, since they don't have to come up with an inverse function (which might also be wrong, which we can't detect).\r\n\r\nIt's definitely more difficult to implement.\r\nI believe right now our reduction tree is heavily unbalanced also? That doesn't matter so much right now (unless the reduction function is extremely expensive), but would have to be changed to work incrementally without an inverse reduction."
+  , issueCommentId = 47020282
+  }

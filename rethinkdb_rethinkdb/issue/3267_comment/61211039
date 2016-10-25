@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-31) 03 : 23 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61211039"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3267#issuecomment-61211039"
+  , issueCommentCreatedAt = 2014 (-10) (-31) 03 : 23 : 52 UTC
+  , issueCommentBody =
+      "And just in case anyone else gets inspired to try out a pattern like this in their data models, it's still possible (although far less elegant) like such:\r\n\r\n```js\r\nr.expr({\r\n\tdata: {\r\n\t\tfoo: {\r\n\t\t\tbar: 'baz'\r\n\t\t}\r\n\t},\r\n\tpointer: ['foo','bar']\r\n}).do(function(row){\r\n\t// return row('data')(r.args(row('pointer'));\r\n\t// ------------------------------------------\r\n\t// The following query will hopefully be replaced by\r\n\t// the line above. For more information, see:\r\n\t// https://github.com/rethinkdb/rethinkdb/issues/3267\r\n\tvar count = row('pointer').count();\r\n\treturn r.branch(count.eq(0),\r\n\t\tnull,\r\n\t\tr.branch(count.eq(1),\r\n\t\t\trow('data')(row('pointer').nth(0)),\r\n\t\t\tr.branch(count.eq(2),\r\n\t\t\t\trow('data')(row('pointer').nth(0))(row('pointer').nth(1)),\r\n\t\t\t\tr.branch(count.eq(3),\r\n\t\t\t\t\trow('data')(row('pointer').nth(0))(row('pointer').nth(1))(row('pointer').nth(2)),\r\n\t\t\t\t\tr.branch(count.eq(4),\r\n\t\t\t\t\t\trow('data')(row('pointer').nth(0))(row('pointer').nth(1))(row('pointer').nth(2))(row('pointer').nth(3)),\r\n\t\t\t\t\t\tr.branch(count.eq(5),\r\n\t\t\t\t\t\t\trow('data')(row('pointer').nth(0))(row('pointer').nth(1))(row('pointer').nth(2))(row('pointer').nth(3))(row('pointer').nth(4)),\r\n\t\t\t\t\t\t\tr.error('Pointer exceeded max depth of 5.')\r\n\t\t\t\t\t\t)\r\n\t\t\t\t\t)\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t)\r\n})\r\n```"
+  , issueCommentId = 61211039
+  }

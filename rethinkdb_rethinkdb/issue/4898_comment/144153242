@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-29) 18 : 47 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144153242"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4898#issuecomment-144153242"
+  , issueCommentCreatedAt = 2015 (-09) (-29) 18 : 47 : 22 UTC
+  , issueCommentBody =
+      "@tlperkins That would fully solve the issue. I think it is a bit difficult in practice for two reasons though:\r\n\r\n1. There currently is no global elected leader for the cluster. There is one Raft leader per table, but not a single one across all tables. We actually don't even have a notion of a given server being a \"member\" of a cluster. This makes it easy to add, remove and replace servers in a RethinkDB cluster, but makes it hard to define what a majority of servers would be. This in turn would be required to implement a consensus and/or leader election algorithm. Considering only the servers that are currently connected, and picking a deterministic one out of those is what works around that issue in the proposal above.\r\n\r\n2. Assume we somehow define which servers are members of the cluster, and derive the notion of a majority of servers based on that. In that case some problems would arise in the case of a network partition, or if a sufficient number of servers failed. It would then become impossible to perform certain meta operations. We would probably need to add some sort of \"manual override\" in order to keep the cluster maintainable in those scenarios.\r\n\r\nBoth of these complications are clearly solvable. They are however not trivial to solve, and the solutions will likely make the cluster behave less forgivingly in case of network partitions and/or server failures. They will also most likely require explicitly managing the cluster membership of servers, which can be a bit painful for cloud-based deployments (though we could probably find a way to make it pretty convenient).\r\n\r\nNote that there are similar restrictions if you create an auxiliary \"locking\" table manually. You need to maintain which servers should be replicas of the table, and if a majority of replicas of the table become unavailable, it will stop working. This is probably fine in many deployments (especially those with a relatively static set of servers), but works less well in more \"elastic\" setups like when using cloud servers that come and go relatively frequently.\r\n\r\nI hope that makes sense.\r\n\r\nThe current idea would be to avoid the issue when all servers are connected, and require manual conflict resolution (like now) if a netsplit occurs, should a table get created on both sides of the netsplit before it is resolved.\r\n\r\n@tlperkins How frequent of an operation is table./database creation in your setup?"
+  , issueCommentId = 144153242
+  }

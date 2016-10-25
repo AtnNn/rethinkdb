@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 04 : 09 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95794461"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95794461"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 04 : 08 : 41 UTC
+  , issueCommentBody =
+      "As far as I can tell, allowing the user to omit the `since` parameter makes it easy for the user to lose changes. For example, suppose the user is reading from a changefeed and writing the changes to some other database in soft durability mode. As soon as the second database acknowledges each batch, the client reads another batch from the server. If the second database crashes, any changes it had in memory will be lost; the RethinkDB server will have discarded them because the client already read the next batch.\r\n\r\nIn general, any sort of buffering between when the client reads from the changefeed and when the changes (and timestamps) are written to durable storage can cause this issue. This worries me because buffering is often invisible, as in the case of a database buffering changes in RAM before writing them to disk; and when the changes are lost, they will be lost silently. Requiring the user to pass `since=<token>` will turn the silent failure into an explicit error, and requiring the client to ack changes will prevent this scenario completely.\r\n\r\nI personally think making the `since` argument mandatory is an OK solution. Users will need to handle the case where the changefeed is unresumable anyway, so the extra error case doesn't complicate their implementation. Storing the `since` argument might complicate their implementation a bit. Acking is more or less equivalent to storing the `since` argument server-side."
+  , issueCommentId = 95794461
+  }

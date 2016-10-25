@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-20) 17 : 52 : 32 UTC
+  , issueUpdatedAt = 2016 (-07) (-20) 17 : 52 : 33 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5978/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5978"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5978
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 39480
+        , simpleUserLogin = N "tve"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/39480?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tve"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "update with r.literal ends up with \"$reql_type$\":  \"LITERAL\"  in data"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5978"
+  , issueCreatedAt = 2016 (-07) (-20) 17 : 39 : 18 UTC
+  , issueBody =
+      Just
+        "I'm updating a row with a nested hash literal and I end up with `\"$reql_type$\":  \"LITERAL\" ` in my data, which I believe should never happen. I'm using version 2.3.4. The sequence I'm running in the UI is:\r\n```\r\nr.db(\"crs\").table(\"resources\").delete()\r\n\r\nr.db(\"crs\").table(\"resources\").get(\"raZsCqcfQGTLj7WhpqcquA\").replace(function(var_29) {\r\n  return { id: \"raZsCqcfQGTLj7WhpqcquA\", bag: var_29(\"bag\").default({}).merge(null)}\r\n}, {durability: \"soft\", return_changes:true, non_atomic:true})\r\n\r\nr.db(\"crs\").table(\"resources\").get(\"raZsCqcfQGTLj7WhpqcquA\").update({\r\n  bag: {red: r.literal({colors:{top:\"blu\", bot:\"grn\"}})}\r\n}, {durability: \"soft\", return_changes:true, non_atomic:true})\r\n```\r\nand I end up with the following after the last statement:\r\n```\r\n{\r\n\"changes\": [\r\n{\r\n\"new_val\": {\r\n \"bag\": {\r\n \"red\": {\r\n  \"$reql_type$\":  \"LITERAL\" ,\r\n   \"value\": {\r\n   \"colors\": {\r\n    \"bot\":  \"grn\" ,\r\n    \"top\":  \"blu\"\r\n   }\r\n  }\r\n }\r\n} ,\r\n \"id\":  \"raZsCqcfQGTLj7WhpqcquA\"\r\n} ,\r\n\"old_val\": {\r\n\"bag\": null ,\r\n\"id\":  \"raZsCqcfQGTLj7WhpqcquA\"\r\n}\r\n}\r\n] ,\r\n\"deleted\": 0 ,\r\n\"errors\": 0 ,\r\n\"inserted\": 0 ,\r\n\"replaced\": 1 ,\r\n\"skipped\": 0 ,\r\n\"unchanged\": 0\r\n}\r\n```\r\n\r\nIf I remove the .merge(null) in the 2nd statement it works as expected.\r\nThis may be related to #5977"
+  , issueState = "closed"
+  , issueId = Id 166639349
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

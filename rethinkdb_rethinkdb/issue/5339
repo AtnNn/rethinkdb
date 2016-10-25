@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-02) (-02) 19 : 48 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5339/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5339"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 5339
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "add `optional` values to yaml testing"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5339"
+  , issueCreatedAt = 2016 (-02) (-01) 23 : 38 : 00 UTC
+  , issueBody =
+      Just
+        "When testing `changefeed`s, especially `order_by.limit.changes` there are some cases when the server can validly re-arrange the order it does things, and this will change the specific output (but not the eventual state). For example:\r\n```python\r\ntbl.insert([{'id':1}, {'id':2}, {'id':3}]).run()\r\nfeed = tbl.order_by('id').limit(2).changes().run()\r\ntbl.get_all(2,3).delete().run()\r\n```\r\nIn this case `feed` could be only the deletion of 2 (if 3 gets deleted first):\r\n```python\r\n[{'old_val'={'id':2}, 'new_val'=None}]\r\n```\r\nOr we could see 3 move into the list for a moment:\r\n```python\r\n[{'old_val'={'id':2}, 'new_val'={'id':3}},\r\n {'old_val'={'id':3}, 'new_val'=None}]\r\n```\r\nIn our yaml testing system we can use the following structure to make sure that we see the the right `old_val` and `new_val` records, but not make sure we have the right number like this:\r\n```\r\n- py: feedValue = fetch(feed)\r\n  ot: partial([{'new_val'=None}])\r\n- py: feedValue\r\n  ot: partial([{'old_val'={'id':2}}])\r\n```\r\n\r\nWhat I would like to add is a way of specifying that there is a value that we might see, so in this case:\r\n```\r\n- py: feedValue = fetch(feed)\r\n  ot: bag([partial({'new_val'=None}),\r\n               optional({'old_val'={'id':2}, 'new_val'={'id':3}})])\r\n```\r\nThis would take a bit of work to get into all of the languages, but would allow us to be more specific about our output."
+  , issueState = "open"
+  , issueId = Id 130520096
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

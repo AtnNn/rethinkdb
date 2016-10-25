@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-07) 00 : 05 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128542970"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4572#issuecomment-128542970"
+  , issueCommentCreatedAt = 2015 (-08) (-07) 00 : 05 : 52 UTC
+  , issueCommentBody =
+      "I took a better measurement and with TCP keepalive enabled in the client it takes about 11 minutes with the default settings on Linux until a dead connection is noticed by the driver.\r\nThis isn't great, but certainly better than nothing.\r\n\r\nThe timeout can be reduced by tuning kernel parameters:\r\n`/proc/sys/net/ipv4/tcp_keepalive_time`: The time of inactivity until the first keepalive probe is sent in milliseconds (default: 7200 = 7.2s)\r\n`/proc/sys/net/ipv4/tcp_keepalive_intvl`: The interval at which subsequent keepalive probes are sent in seconds (default: 9s)\r\n`/proc/sys/net/ipv4/tcp_keepalive_probes`: The number of missing probes after which the connection is considered dead (default: 75)\r\n\r\nSo by default it takes 7.5s + 74 * 9s = 673.5 seconds or a bit over 11 minutes.\r\n\r\nBy setting `tcp_keepalive_intvl` to 1s and `tcp_keepalive_probes` to 10 for example, this time can be reduced to 7.5s + 9 * 1s = 16.5 seconds."
+  , issueCommentId = 128542970
+  }

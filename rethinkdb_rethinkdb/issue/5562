@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-06) 20 : 24 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5562/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5562"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 5562
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Improve connection behavior when part of the cluster (e.g. proxy) is behind firewall"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5562"
+  , issueCreatedAt = 2016 (-03) (-24) 19 : 02 : 17 UTC
+  , issueBody =
+      Just
+        "@hamiltop investigated this scenario and found the following sequence of steps that currently causes incomplete connectivity:\r\n\r\n> 1. Bring up cluster of 3 nodes\r\n> 2. Create table with 3 shards/3 replicas\r\n> 3. Bring up proxy behind NAT. Connect to one of the nodes\r\n> 4. Add 4th node to cluster\r\n> 5. Reconfigure table to 4 shards / 4 replicas\r\n> 6. query all records on that table via proxy.\r\n\r\nThe query in step 6 fails because the proxy doesn't connect to the new (fourth) server.\r\n\r\nOur current connection logic is based on the assumption that every server can connect to every other server, including proxies. In this case that's not true, because the proxy is behind a NAT.\r\n\r\nWhenever a server joins the cluster, it receives a list of connected servers from the other peer together with the IP addresses. The joining server then attempts to establish a connection to all of these servers.\r\nIn the scenario above, the 4th node will receive a list of all other servers (including the proxy) from the existing nodes. It will then try to connect to the remaining nodes, including the proxy. This fails because of the NAT.\r\n\r\nThe proxy never learns about the new server, and hence doesn't try to connect to it either.\r\n\r\nCurrently, the easiest way to resolve such a situation is to restart the proxy, which will trigger a connect to each of the existing servers from the proxy's end.\r\n\r\nWe should investigate whether we can improve this, e.g. by making servers periodically exchange connectivity information rather than only on connection setup.\r\n\r\nWith 2.3, the above situation will at least raise an issue, which will make it easier to detect."
+  , issueState = "open"
+  , issueId = Id 143331831
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

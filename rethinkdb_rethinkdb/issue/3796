@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-02) (-20) 18 : 46 : 15 UTC
+  , issueUpdatedAt = 2015 (-02) (-20) 18 : 46 : 20 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3796/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3796"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3796
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 69432
+        , simpleUserLogin = N "kmcgrady"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/69432?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kmcgrady"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Rethinkdb connection is not independent of library location"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3796"
+  , issueCreatedAt = 2015 (-02) (-18) 23 : 07 : 21 UTC
+  , issueBody =
+      Just
+        "We have encountered a situation where we have the following structure.\r\n* We have multiple web services that touch rethinkdb\r\n* We wanted to create a universal middleware that ensures a connection to the database. We created a library which given the configuration, makes the connection and ensures it's provided in the request.\r\n* Each web service, loads this library and uses it to ensure the connection. It then loads rethinkdb to run queries on the given connection.\r\n\r\nThis caused an error where the connection was not open, though it clearly was. I realized this is because the connection was created by our library's rethinkdb library, where our web services makes query on the connection using their own rethinkdb library. They both use the same version of rethinkdb. It seems that the connection object should be independent and run on any rethinkdb library (assuming they are the same version at least). We were able to create a workaround, but I figured I would mention it here. Thanks!"
+  , issueState = "closed"
+  , issueId = Id 58143834
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

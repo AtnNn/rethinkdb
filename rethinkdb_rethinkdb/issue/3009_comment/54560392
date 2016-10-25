@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-04) 23 : 36 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54560392"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3009#issuecomment-54560392"
+  , issueCommentCreatedAt = 2014 (-09) (-04) 23 : 36 : 21 UTC
+  , issueCommentBody =
+      "This is a particular nightmare because, following JSON, we encode all numeric types as doubles.  @larkost thinks we probably shouldn't have let people store floating point numbers as keys, but that ship has sailed (storing integers is fine).\r\n\r\nOne approach to resolving the problem is to add a new datum class that represents 64 bit integers, and modify the official drivers to use it.  This is easy in Python and Ruby, harder in JS (where all numbers are floats anyway).  This doesn't eliminate the data divergence problem, but it at least localizes it so that when people do things with numbers which they think are integers (which is I believe the normal behavior) it works.\r\n\r\nAs far as scope: an IEEE double has 52 bits of mantissa.  The least significant bit can vary depending on internal details and rounding state and so on; in the days when people used the Intel FPU instructions it was even possible that it could be good data, as the Intel FPU used 80 bit intermediate values.  Multiplication and division of floating point numbers is relatively harmless, but addition and subtraction are horrible and can destroy precision in a hurry; this magnifies that one bit of variance and can do so surprisingly quickly.\r\n\r\nIt is generally guaranteed by most standard libraries that the equivalent of `strtod(sprint(\"%g\", x)) == x`, that is that the binary coding is preserved by round tripping through strings.  It is *not* guaranteed and in fact impossible to guarantee that the reverse is true; if somebody specifies \960 to a hundred digits, that isn't going to be preserved through double conversion."
+  , issueCommentId = 54560392
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-14) 19 : 01 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 18605731
+        , simpleUserLogin = N "javierso"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/18605731?v=3"
+        , simpleUserUrl = "https://api.github.com/users/javierso"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/219237334"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3621#issuecomment-219237334"
+  , issueCommentCreatedAt = 2016 (-05) (-14) 19 : 01 : 01 UTC
+  , issueCommentBody =
+      "This is sort of a chicken an egg problem. If there is some piece of code that tries to call some of the logging macros  like logERR or logWRN before the fallback writer is installed/initialized then it doesn't yet know what the name of the log file is going to be. I reproduced this exact problem by calling a logERR before https://github.com/rethinkdb/rethinkdb/blob/next/src/clustering/administration/main/command_line.cc#L397\r\never gets called.\r\n\r\nI think the following method: https://github.com/rethinkdb/rethinkdb/blob/next/src/clustering/administration/logs/log_writer.cc#L495\r\n\r\nshould not be allowed to call fallback_log_writer_t::write if the fallback writer hasn't yet being installed and instead should display some sort of message like the following:\r\n\r\n```logging module not yet initialized```\r\n\r\nthat way we can get rid off of  the code that produces the error in \r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/src/clustering/administration/logs/log_writer.cc#L458\r\n\r\nLet me know what you think. I can submit this as a pull request"
+  , issueCommentId = 219237334
+  }

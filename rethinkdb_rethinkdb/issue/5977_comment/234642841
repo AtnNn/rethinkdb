@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-22) 20 : 05 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234642841"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5977#issuecomment-234642841"
+  , issueCommentCreatedAt = 2016 (-07) (-22) 20 : 05 : 41 UTC
+  , issueCommentBody =
+      "I think 1. would be fairly easy to implement if we modify it slightly. If we treat a `LITERAL` value outside of a `merge` as a `null` value, rather than a missing field, we could modify the `datum_t` class to do this transparently and without much performance penalty. The `getField` functions would simply return a `null` datum instead of the actual field value if they detect the field value to be a `LITERAL`.\r\n\r\nTreating them as missing fields is harder to fit into the existing API. Currently you iterate over fields in a `datum_t` by getting the total number of fields first, and then requesting each one of them by its index if I remember correctly. If we want to treat `LITERAL`s as missing fields, we would have to scan all fields before returning the size of the datum, which would be expensive. Furthermore, randomly accessing a field by index would no longer work efficiently.\r\n\r\nTreating `LITERAL` fields as `null` is not completely consistent with the usual meaning of `LITERAL`, so I'm not sure if this would actually be a good idea.\r\n\r\nA third option would be giving up the short-circuiting during a `merge`, and filtering out `LITERAL`s during a merge explicitly. This would make merges slightly less efficient when nested objects are involved and only present on one side of the merge, but I don't think it would be that bad."
+  , issueCommentId = 234642841
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-23) 18 : 52 : 16 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3552/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3552"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 3552
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Enforce usage of `auto_drainer_t`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3552"
+  , issueCreatedAt = 2015 (-01) (-13) 01 : 40 : 50 UTC
+  , issueBody =
+      Just
+        "Sometimes people forget to tie their coroutines to an `auto_drainer_t`, which leads to lurking race conditions. We could change the coroutine/`auto_drainer_t` API to force people to do the right thing. Specifically, I propose that we get rid of `auto_drainer_t` and the `coro_t::spawn_*()` functions, and instead replace them with this API:\r\n```c++\r\nclass coro_host_t {\r\npublic:\r\n    coro_host_t();\r\n    ~coro_host_t();\r\n    void spawn(const std::function<void(signal_t *interruptor)> &);\r\n};\r\n```\r\nThe `coro_host_t` destructor blocks until every coroutine started with `spawn()` has been stopped. So every class that currently uses an `auto_drainer_t` would instead use a `coro_host_t`. Since `coro_host_t` would be the only way to spawn coroutines, this would force every coroutine to be run safely."
+  , issueState = "open"
+  , issueId = Id 54140078
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 28 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2775/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2775"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2775
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Oversharding increases cost of secondary index access"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2775"
+  , issueCreatedAt = 2014 (-07) (-29) 19 : 14 : 51 UTC
+  , issueBody =
+      Just
+        "Say you have a single node, a table 't' with a secondary index 'idx' and run a query\r\n`r.table('t').between('a', 'b', {index: 'idx'})`.\r\n\r\nUsually this will do a traversal of the secondary index tree of every hash shard once and accumulate the results.\r\n\r\nHowever if you now shard the table (without adding another node) to let's say 4 range shards, the same query will traverse the secondary index trees on each hash shard not once, but four times.\r\nEach time it will traverse the exact same region of the tree, but filter out approximately 1/4th of the entries because their primary keys do not fit the range of the respective range shard.\r\n\r\nThere is no reason (apart from code simplicity) for why the tree should be traversed multiple times if multiple shards are on the same machine. Instead a single traversal could handle multiple primary key ranges at the same time.\r\n\r\n\r\nThis is probably not very high priority, especially since how shardings works might change.\r\n\r\nI don't think there is any reason to have multiple shards on the same machine in the first place, except if you previously had more machines for the table and had to migrate their shards. Still many users over-shard their tables, and might experience reduced performance as a consequence."
+  , issueState = "open"
+  , issueId = Id 39024574
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

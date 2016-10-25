@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-02) 18 : 36 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/145118232"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4902#issuecomment-145118232"
+  , issueCommentCreatedAt = 2015 (-10) (-02) 18 : 36 : 22 UTC
+  , issueCommentBody =
+      "@mbroadst No that's not what I meant. I just meant that since your query uses both the table configuration as well as the `logs` table, it doesn't work with changefeeds at the moment.\r\n\r\nThe changefeed query I mentioned above on the `logs` table works fine for me.\r\nSimilarly, once we have the `raft_leader` in the table configuration, you can listen to changes by simply doing:\r\n```js\r\nr.db('rethinkdb').table('table_status').filter({id: tableId})('raft_leader').changes()\r\n```\r\n\r\nYou just need to retrieve the table ID before.\r\n\r\nEventually you'll also be able to use the more efficient\r\n```js\r\nr.table(...).status()('raft_leader').changes()\r\n```\r\nbut this doesn't yet work because our changefeeds on single documents (rather than sequences) don't allow transformations (here: selecting the 'raft_leader' field) yet. We hope to add that functionality soon."
+  , issueCommentId = 145118232
+  }

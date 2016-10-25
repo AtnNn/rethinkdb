@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-01) 06 : 00 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/190559529"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5457#issuecomment-190559529"
+  , issueCommentCreatedAt = 2016 (-03) (-01) 06 : 00 : 48 UTC
+  , issueCommentBody =
+      "@vinaysshenoy , per your request, here are some of my thoughts:\r\n\r\n* The connection pool seems to be creating multiple connections to the same server. I'm not sure how useful this is. Connections themselves *should* be thread-safe. So, landing multiple queries on a single connection, in any order, from different threads should work just fine. The driver has internal locking to multiplex/serialize requests and demultiplex/deserialize responses over a single connection without disrupting other requests.\r\n\r\n* Adding and removing connections from `List<Connection>` seems like a lot of work to me with unnecessary locking. From my experience, locking is slow and should be avoided if possible. Also, from a design and architecture standpoint, exposing methods like  `var conn = pool.acquire()` and `pool.release(conn)` delegates additional responsibility to the caller. The caller needs to always \"remember\" to put the connection \"back into the pool\" after using it. In a project with a very large code base, the pool could be drained if someone forgot a single line. :beetle: :warning: A `.next()` method and an underlying simple array with an atomically increasing integer `mod` array length would do just as good?\r\n\r\nYMMV tho... I'm not an engineer at RethinkDB. @danielmewes or deontologician are the real deal w.r.t your Java issue."
+  , issueCommentId = 190559529
+  }

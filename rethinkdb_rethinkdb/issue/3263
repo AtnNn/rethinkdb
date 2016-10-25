@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 09 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3263/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3263"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 3263
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 605731
+        , simpleUserLogin = N "mstade"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/605731?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mstade"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JavaScript driver doesn't work across modules, if those modules import local driver instances"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3263"
+  , issueCreatedAt = 2014 (-10) (-30) 12 : 24 : 09 UTC
+  , issueBody =
+      Just
+        "You have two modules \8211 let's call them A and B \8211 and they both import the rethinkdb driver. Now, one of them \8211 A let's say \8211 produces a query, like so:\r\n\r\n```javascript\r\nvar query = r.table('test').get('some-id')\r\n```\r\n\r\nThen at some point, module B decides to run this query, which was passed to it, like so:\r\n\r\n```javascript\r\nfunction run(query, callback) {\r\n  r.connect({ host: 'localhost', port: 28015, db: 'test' }, function(err, conn) {\r\n    if (err) throw err\r\n    query.run(conn, callback)\r\n})\r\n```\r\n\r\nThis will now fail, with the error that the first argument to `run` must be a connection. This is because the `isConnection` [check][1] will fail if you have two driver instances loaded in separate modules, and one tries to run a query from the other. Even if the driver modules are identical, it will fail since the instances aren't.\r\n\r\n[1]: https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/net.coffee#L537\r\n\r\nI worked around this by passing in a rethinkdb driver instance to one of the modules, such that there's only ever one in play. This is a bit of a gotcha, and means you can't have query producing functions that then get executed elsewhere, if that elsewhere is in a different module context where a different driver instance resides.\r\n\r\nI'm sorry I can't provide a failing test right now; too much work in the way. I hope it's clear enough to understand anyway, and ideally I get some time at some point to send you a PR."
+  , issueState = "open"
+  , issueId = Id 47263484
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

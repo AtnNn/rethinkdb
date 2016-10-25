@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-08) 21 : 22 : 30 UTC
+  , issueUpdatedAt = 2014 (-10) (-08) 22 : 29 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3040/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3040"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3040
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "server is outputting all of the 'info:' lines on STDERR"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3040"
+  , issueCreatedAt = 2014 (-09) (-12) 00 : 18 : 59 UTC
+  , issueBody =
+      Just
+        "When the server is starting up all of the `info:` lines are currently going to STDERR rather than STDOUT. In normal operation we don't have anything on STDOUT at all. I talked to @gchpaco and @mlucy about this, and we are in agreement about the following:\r\n\r\n1. The `info` lines should be printed to STDOUT. `warn` and above should stay on STDERR.\r\n2. At least for STDOUT we can probably drop the `info:` text. The `log_file` should keep the designation.\r\n3. The current `info` level should probably be split into `info` and `notice` levels (consistent with syslog) with things like semilattice change and cluster connection messages remaining in the lower `info` level while important notices like the connection ports getting bumped to `notice`.\r\n4. `info` level messages should not (by default) go to STDOUT. They should still be in the `log_file`, and if desired we can add a `--verbose` flag to output these. `notice` would go out on STDOUT.\r\n\r\nThe goal would be to have a normal server startup output nothing to STDERR (because there were no errors/warnings)."
+  , issueState = "closed"
+  , issueId = Id 42584972
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

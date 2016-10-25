@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 03 : 28 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107786315"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4315#issuecomment-107786315"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 03 : 26 : 25 UTC
+  , issueCommentBody =
+      "> From your use case, it seems like a nice solution might be just storing the promise returned by `r.connect` somewhere, and then chaining your logic on it in your request handlers. Calling `.then` on an already resolved promise works as you'd expect.\r\n\r\nThat's... actually a potential solution, kind of, one I hadn't thought of. Doing `return conn` at the end of each `connPromise.then()`, and having each query have its own callback-local promise chain.\r\n\r\nIt's still not a super-elegant solution, and it's also kind of fragile (one mishandled `connPromise.then()` callback and the entire app blows up at the next query with no tracebacks).\r\n\r\n> It also seems strange that we treat just the connection like this, and don't return futures from queries that were invoked with a future for a connection.\r\n\r\nIt seems pretty straightforward to me - `conn` is a magic value that goes back into the driver, so it can resolve however it wants, but queries come directly to me, so they have to use the standard `Promise` (or Node callback) model.\r\n\r\n> Since this isn't a standard kind of pattern\r\n\r\nSure it is - this is the model used by libraries like `rethinkdbdash` as well as (IIRC, outside the RethinkDB world) MongoDB libraries like `mongoskin`. It's just a general connection pool abstraction, where `run(conn,cb)` means \"as soon as a connection's ready to handle this, run the query and call the callback\". (That's also why I would like to see this implemented as https://github.com/rethinkdb/rethinkdb/issues/3771#issuecomment-107127070 .)"
+  , issueCommentId = 107786315
+  }

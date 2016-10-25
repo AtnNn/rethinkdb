@@ -1,0 +1,34 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-20) 09 : 42 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5587/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5587"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5587
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1430058
+        , simpleUserLogin = N "ntquyen"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1430058?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ntquyen"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Instances in rethinkdb cluster got disconnected without any reason"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5587"
+  , issueCreatedAt = 2016 (-04) (-01) 03 : 17 : 07 UTC
+  , issueBody =
+      Just
+        "In my system I'm using multiple rethinkdb clusters 2.2.5 with 3 instances for each cluster. Each instance of every cluster is install in one separated node same data center. Recently from one of my clusters (lets call it \"account\" cluster with 3 instance A, B, C), there are 2 instances A, B got disconnected from instance C a few times every day without any reason. The log pattern (in `log_file`) is:\r\n\r\n```\r\n2016-03-31T07:03:20.376800729 665564.904051s notice: Disconnected from server \"C\" 123_456\r\n2016-03-31T07:03:20.654819525 665565.182070s info: Rejected a connection from server 123_456 since one is open already.\r\n2016-03-31T07:03:20.705102839 665565.232353s info: Rejected a connection from server 123_456 since one is open already.\r\n2016-03-31T07:03:21.163017032 665565.690268s notice: Connected to server \"C\" 123_456\r\n...\r\n2016-03-31T08:06:06.027032835 669330.554286s notice: Disconnected from server \"C\" 123_456\r\n2016-03-31T08:06:06.049267707 669330.576519s info: Rejected a connection from server 123_456 since one is open already.\r\n2016-03-31T08:06:06.194287878 669330.721537s info: Rejected a connection from server 123_456 since one is open already.\r\n2016-03-31T08:06:06.484053317 669331.011305s notice: Connected to server \"C\" 123_456\r\n...\r\n```\r\n\r\nIt happened for only ~1s, few times everyday. There was no log that explain the cause (such as `Heartbeat timeout`). And there was no related log in `dmesg -T` either.\r\n\r\nThe weird thing is that I don't have this issue in other clusters which are running in same machines\r\n\r\nConfiguration info:\r\n\r\nNode A and node B are VMs under Hyper-V: `CoreOS 773.1.0`, they are running in two physical machines but same data center. Same subnet.\r\n\r\n```\r\n$ uname -a\r\nLinux coreos-data-3 4.1.5-coreos #2 SMP Thu Aug 13 09:18:45 UTC 2015 x86_64 Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz GenuineIntel GNU/Linux\r\n\r\n$ docker version\r\nClient version: 1.7.1\r\nClient API version: 1.19\r\nGo version (client): go1.4.2\r\nGit commit (client): 2c2c52b-dirty\r\nOS/Arch (client): linux/amd64\r\nServer version: 1.7.1\r\nServer API version: 1.19\r\nGo version (server): go1.4.2\r\nGit commit (server): 2c2c52b-dirty\r\nOS/Arch (server): linux/amd64\r\n```\r\n\r\nNode C is a different physical machine (different subnet.) running bare metal `CoreOS 835.12.0` with two NICs behind bonding network. C is in same data center with 2 machines above.\r\n\r\n```\r\n$ uname -a\r\nLinux coreos-data-1 4.2.2-coreos-r2 #2 SMP Tue Feb 2 13:27:19 UTC 2016 x86_64 Intel(R) Xeon(R) CPU E5-2609 v2 @ 2.50GHz GenuineIntel GNU/Linux\r\n\r\n$ docker version\r\nClient:\r\n Version:      1.8.3\r\n API version:  1.20\r\n Go version:   go1.4.2\r\n Git commit:   cedd534-dirty\r\n Built:        Tue Feb  2 13:28:10 UTC 2016\r\n OS/Arch:      linux/amd64\r\n\r\nServer:\r\n Version:      1.8.3\r\n API version:  1.20\r\n Go version:   go1.4.2\r\n Git commit:   cedd534-dirty\r\n Built:        Tue Feb  2 13:28:10 UTC 2016\r\n OS/Arch:      linux/amd64\r\n```\r\nI'm not sure if there was network issue or it's an issue of rethinkdb. As I found no specific log about the cause, I have no way to trace the issue.\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 145075264
+  , issueComments = 4
+  , issueMilestone = Nothing
+  }

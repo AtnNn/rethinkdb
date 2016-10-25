@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-03) (-28) 22 : 03 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5569/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5569"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 5569
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Modify metajava.py to generate customized .optArg signatures"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5569"
+  , issueCreatedAt = 2016 (-03) (-28) 20 : 54 : 59 UTC
+  , issueBody =
+      Just
+        "Right now every type of signature is emitted for every AstSubclass. Ideally, we'd only emit the signatures necessary for each ast class.\r\n\r\nExample:\r\n\r\n`term_info.json`\r\n```java\r\n    \"DISTINCT\": {\r\n        \"include_in\": [\r\n            \"T_TOP_LEVEL\",\r\n            \"T_EXPR\"\r\n        ],\r\n        \"signatures\": [[\"T_EXPR\"]],\r\n        \"optargs\": {\r\n            \"index\": \"T_STR\"\r\n        },\r\n        \"id\": 42\r\n    },\r\n```\r\n\r\nWhen this is run through `AstSubclass.java` to create `Distinct.java`, only the following signature would be generated for `.optArg`:\r\n\r\n```java\r\npublic Distinct optArg(String optname, String value) {\r\n    OptArgs newOptargs = OptArgs.fromMap(optargs).with(optname, value);\r\n    return new Distinct(args, newOptargs);\r\n}\r\n```\r\nbut would not generate `optArg` signatures where the value is a `ReqlFunction2`, `ReqlFunction3` etc.\r\n\r\nThis would reduce noise in the generated files, as well as reduce clutter in auto-complete dropdowns. Most of the signatures are known statically not to be useful, so it would be nice to be able to avoid generating them.\r\n\r\nIf we end up adding another optarg with a function signature later, we should consider doing this"
+  , issueState = "open"
+  , issueId = Id 144080801
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

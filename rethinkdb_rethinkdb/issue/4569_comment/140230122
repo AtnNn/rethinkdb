@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-14) 23 : 10 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140230122"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-140230122"
+  , issueCommentCreatedAt = 2015 (-09) (-14) 23 : 10 : 15 UTC
+  , issueCommentBody =
+      "@sontek The 550ms were actually with a single client without splitting the query. The only difference (apart from hardware) that I see is the `'now'` field, which I had changed to `get_rint()`. After that change, you'll have to re-insert the data of course.\r\n\r\nYou can speed up the insert part by using the following code for `DO_INSERTS` (note the `noreply=True` and `durability=\"soft\"`):\r\n```py\r\nif DO_INSERTS:\r\n    for i in range(0, 300000):\r\n        r.table('test_numeric').insert({\r\n            'respondent_id': get_bigint(),\r\n            'row_id': get_bigint(),\r\n            'column_id': get_bigint(),\r\n            'value_id': get_bigint(),\r\n            'rid1': get_bigint(),\r\n            'rid2': get_bigint(),\r\n            'rid3': get_rint(),\r\n            'now': get_rint()\r\n        }).run(conn, noreply=True, durability=\"soft\")\r\n    conn.noreply_wait()\r\n```"
+  , issueCommentId = 140230122
+  }

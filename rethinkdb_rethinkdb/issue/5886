@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-05) 20 : 22 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5886/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5886"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5886
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 425716
+        , simpleUserLogin = N "contra"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/425716?v=3"
+        , simpleUserUrl = "https://api.github.com/users/contra"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Create getIntersecting equivalent for includes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5886"
+  , issueCreatedAt = 2016 (-06) (-25) 18 : 35 : 47 UTC
+  , issueBody =
+      Just
+        "Currently there is no way to run `.includes()` on an index, which makes it the only geospatial query that doesn't have a corresponding index-aware function.\r\n\r\n#### Current situation:\r\n\r\n```js\r\nr\r\n  .table('MyCoolData')\r\n  .getIntersecting(somePolygon, { index: 'area' })\r\n  .filter((doc) => somePolygon.includes(doc('area')))\r\n```\r\n\r\n- Gets all polygons that intersect (overfetching!)\r\n- Runs filter on all of these polygons to see which ones are actually included (huge waste of CPU)\r\n\r\n#### Proposed solution:\r\n\r\n```js\r\nr\r\n  .table('MyCoolData')\r\n  .getIncluded(somePolygon, { index: 'area' })\r\n```\r\n\r\n- Only gets polygons that are actually included\r\n\r\n\r\nAnd hopefully allows multiple arguments to minimize even more performance bottlenecks (https://github.com/rethinkdb/rethinkdb/issues/5885)"
+  , issueState = "open"
+  , issueId = Id 162293998
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

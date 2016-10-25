@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-27) 20 : 47 : 01 UTC
+  , issueUpdatedAt = 2015 (-01) (-27) 20 : 47 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3670/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3670"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3670
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Point changefeed query crashes `node.js`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3670"
+  , issueCreatedAt = 2015 (-01) (-27) 01 : 43 : 28 UTC
+  , issueBody =
+      Just
+        "\r\nFrom the `test/rql_test/` directory first up node, and then:\r\n\r\n```javascript\r\nvar r = require('./importRethinkDB.js').r;\r\nvar conn = null;\r\nr.connect({}, function (err, connection) { conn = connection; });\r\nr.tableCreate('bob').run(conn);\r\nr.db(\"test\").table('bob').get(1).changes().run(conn);\r\n```\r\n\r\nThis is crashing `node` (but not the server) with:\r\n```javascript\r\nr.db(\"test\").table('bob').get(1).changes().run(conn)\r\n{ _bitField: 0,\r\n  _fulfillmentHandler0: undefined,\r\n  _rejectionHandler0: undefined,\r\n  _promise0: undefined,\r\n  _receiver0: undefined,\r\n  _settledValue: undefined,\r\n  _boundTo: undefined }\r\n> \r\n/Users/larkost/Projects/rethinkdb/build/packages/js/net.js:191\r\n            feed = new cursors.AtomFeed(this, token, opts, root);\r\n                   ^\r\nTypeError: undefined is not a function\r\n    at TcpConnection.Connection._processResponse (/Users/larkost/Projects/rethinkdb/build/packages/js/net.js:191:20)\r\n    at TcpConnection.Connection._data (/Users/larkost/Projects/rethinkdb/build/packages/js/net.js:105:12)\r\n    at Socket.<anonymous> (/Users/larkost/Projects/rethinkdb/build/packages/js/net.js:495:32)\r\n    at Socket.emit (events.js:95:17)\r\n    at Socket.<anonymous> (_stream_readable.js:748:14)\r\n    at Socket.emit (events.js:92:17)\r\n    at emitReadable_ (_stream_readable.js:410:10)\r\n    at emitReadable (_stream_readable.js:406:5)\r\n    at readableAddChunk (_stream_readable.js:168:9)\r\n    at Socket.Readable.push (_stream_readable.js:130:10)\r\n```\r\n\r\nI am missing the function to call, and not using this as a Promise, but it should not be crashing `node.js`"
+  , issueState = "closed"
+  , issueId = Id 55564552
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

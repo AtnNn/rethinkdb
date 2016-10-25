@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-09) 19 : 20 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/194462299"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5497#issuecomment-194462299"
+  , issueCommentCreatedAt = 2016 (-03) (-09) 19 : 20 : 12 UTC
+  , issueCommentBody =
+      "Thanks for the proposal @sinfex .\r\n\r\nI don't think we can support this in RethinkDB. RethinkDB stores small documents (< 250 bytes) inline in the (primary key) index tree. That means that their physical location can change at any time if any rebalancing occurs on the tree.\r\n(in this scenario I'm already assuming that we use something we call \"logical block IDs\" as the \"physical\" location. It's slightly more stable than an actual physical location, which would be even worse (RethinkDB frequently relocates data within the file during garbage collection))\r\n\r\nPhysical references would also not work (well) in a clustered environment, since the reference would likely be a different one on each replica.\r\n\r\nWhich database are you citing from? If they are a distributed database, I'm curious how they implement this ID and what its limitations are.\r\n\r\nOn a side note, I think that the quote is somewhat misleading. The quote is making the implication that O(1) rather than O(log N) lookup time is \"critical in the age of Big Data\". However for realistic distributions on `N`, I think that those two complexity classes should be considered equivalent. `log N` gets very very close to a constant once `N` reaches a certain size."
+  , issueCommentId = 194462299
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-22) 07 : 48 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95064486"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3990#issuecomment-95064486"
+  , issueCommentCreatedAt = 2015 (-04) (-22) 07 : 47 : 44 UTC
+  , issueCommentBody =
+      "Actually I also didn't think it through carefully.\r\nAn appropriate value of `minBatchRows` should avoid a too dramatic drop in efficiency when the time needed for computing individual results gets close to the timeout (in that case we ignore the timeout until we've accumulated at least `minBatchRows` results). I think there's still a significant degradation with the current value of `minBatchRows`, though I don't know out of my head what the exact numbers are.\r\n\r\nStill I would be rather careful in reducing the latency goal for subsequent batches. I think it's relatively rare that you actually have to wait for one in an interactive scenario. Unless of course we make the first batch too small which might cause the Data Explorer to fetch another batch even for the first page of results...\r\n\r\n@mlucy what do you think of setting a `maxBatchRows` default value for the first batch instead of reducing the latency goal? I feel like that would make sense for interactive applications where you often only look at the first few results anyway."
+  , issueCommentId = 95064486
+  }

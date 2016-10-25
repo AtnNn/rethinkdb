@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-01) 21 : 44 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144858468"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4902#issuecomment-144858468"
+  , issueCommentCreatedAt = 2015 (-10) (-01) 21 : 44 : 25 UTC
+  , issueCommentBody =
+      "I think reading the full log table might be what's slow here. It's not parsed in the most efficient way at the moment. You can make it a bit faster by stopping once you've found the first match:\r\n```js\r\nr.db('rethinkdb').table('logs')\r\n      .orderBy(r.desc({index: \"id\"}))\r\n      .filter(function(log) {\r\n        return log('message').match(config('id')).and(log('message').match('Raft leader'));\r\n      }).limit(1)\r\n```\r\n\r\nI don't think we actually support changefeeds on such queries yet, since it involves fetching data from multiple tables.\r\n\r\nYou can however get a changefeed on the `logs` table, and that should be efficient. It's probably easiest if you first retrieve the table ID manually in your client, and then do something like this:\r\n```js\r\nr.db('rethinkdb').table('logs')\r\n  .filter(function(log) {\r\n      return log('message').match(tableId).and(log('message').match('Raft leader'));\r\n    })\r\n  .changes()\r\n```"
+  , issueCommentId = 144858468
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-23) 18 : 38 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3675/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3675"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3675
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Change the format of group queries in python and ruby to match javascript"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3675"
+  , issueCreatedAt = 2015 (-01) (-27) 21 : 11 : 03 UTC
+  , issueBody =
+      Just
+        "Currently, even when the value of a group query results in something other than a string, the ruby and python drivers try to make the value a key still. In python you need a hashable type (which is usually immutable), and this means json objects get turned into frozensets of tuples (both immutable and hashable).\r\n\r\nRuby has no problem with mutable values as keys in hashes, but I doubt it recalculates the hash value if the key changes because it's mutable. Even if it does, I think even though it works in Ruby, it's not a great idea.\r\n\r\nThe javascript driver, having only the ability to use strings for keys, has a sensible solution of making the group value an actual value:\r\n\r\n```javascript\r\n{\"group\": {\"some\": [\"key\"]},\r\n \"reduction\": {\"stuff\": \"here\"}\r\n}\r\n```\r\nIn python:\r\n```python\r\n{frozenset((\"some\", (\"key\"))): {\"stuff\": \"here\"}}\r\n```\r\n\r\nI think this situation is weird because we're trying to use a value as a key, and it's not one. I realize the resulting query is a lot nicer in the common case where the value of a group is a string, but I would argue that fighting against json itself isn't worth it for that small convenience. The fact that python and ruby can kinda accomodate this also isn't worth making what I see as kind of a large fork in an otherwise fairly consistent behavior across drivers.\r\n\r\n@mlucy @danielmewes I'm proposing this for a 2.0 backwards compatibility change. I am guessing this is purely a driver change\r\n"
+  , issueState = "open"
+  , issueId = Id 55674945
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

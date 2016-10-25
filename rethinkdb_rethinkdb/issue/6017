@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-30) 06 : 20 : 58 UTC
+  , issueUpdatedAt = 2016 (-09) (-02) 18 : 52 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6017/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6017"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6017
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 583701
+        , simpleUserLogin = N "internalfx"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583701?v=3"
+        , simpleUserUrl = "https://api.github.com/users/internalfx"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add native Reql hash function"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6017"
+  , issueCreatedAt = 2016 (-07) (-30) 00 : 48 : 53 UTC
+  , issueBody =
+      Just
+        "I've written a library called [Thinker](https://github.com/internalfx/thinker) for quickly synchronizing two databases locally or over a network.\r\n\r\nTo decide what records to copy I use this query...\r\n\r\n```javascript\r\n    r.db(sourceDB).table(table).orderBy({index: r.asc('id')})\r\n      .map(function (row) { return {id: row('id'), raw: row.toJSON()} })\r\n      .map(r.js(`(function (data) {\r\n        // JS hash function here\r\n        return {id: data.id, hash: hash(data.raw)}\r\n      })`))\r\n      .run({cursor: true})\r\n```\r\n\r\nI have to imagine that it would be far more performant if I could do this...\r\n\r\n```javascript\r\n    r.db(sourceDB).table(table).orderBy({index: r.asc('id')})\r\n      .map(function (row) { return {id: row('id'), raw: r.hash(row.toJSON())} })\r\n      .run({cursor: true})\r\n```"
+  , issueState = "closed"
+  , issueId = Id 168439424
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

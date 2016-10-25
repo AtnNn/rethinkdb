@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-19) 21 : 46 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/186422416"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5429#issuecomment-186422416"
+  , issueCommentCreatedAt = 2016 (-02) (-19) 21 : 46 : 00 UTC
+  , issueCommentBody =
+      "The problem might be that our current throttling is based on a maximum number of concurrent backfills per source. It always picks up to that number of replicas for backfilling.\r\nIf there are more replicas that want to backfill, it will pick the ones that it thinks will finish more quickly and that are critical for availability (for example non-voting replicas will not be picked at first). However it will still always fill up the limit. For example if there's one critical replica and 4 non-critical ones, and the limit is 4 (for the sake of the example), it will still backfill to three of the non-critical replicas.\r\n\r\nMaybe the limit should be dynamically adapted downwards if a smaller set of backfills can achieve availability just as quickly as a larger set of backfills. Though as mentioned above this problem is not trivial to solve."
+  , issueCommentId = 186422416
+  }

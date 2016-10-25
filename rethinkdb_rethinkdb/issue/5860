@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-15) 19 : 23 : 31 UTC
+  , issueUpdatedAt = 2016 (-06) (-15) 19 : 47 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5860/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5860"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5860
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 18014590
+        , simpleUserLogin = N "hgill"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/18014590?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hgill"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Changes: handling timeouts in RethinkDB/Dash"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5860"
+  , issueCreatedAt = 2016 (-06) (-15) 16 : 24 : 36 UTC
+  , issueBody =
+      Just
+        "This is a repost of https://github.com/neumino/rethinkdbdash/issues/261\r\nMore relevant here.\r\n\r\nFirst off, not sure if this is a feature request or an issue or am I just missing something.\r\n\r\nI have been able to set up change feeds successfully - so that RethinkDB informs the Nodejs server when changes happen to a table's documents and Nodejs in turn passes it on. But am stuck on trying to apply (Now-15minutes) on changefeeds. Think this can help make some powerful apps\r\n\r\nSome usecases\r\n\r\nE.g. 1:\r\nI would like RethinkDB to tell my app server that my cached copy of data has become old enough and I should refresh it.\r\n\r\nE.g. 2\r\nI can store all front-end click-stream data in localStorage and when RethinkDB says that we should sync that data, 2 minutes have passed, then the server can ask frontend to send it.\r\n\r\nE.g. 3\r\nMy Usecase:\r\nI am building a crawler/rss feed parser with RethinkDB and Nodejs.\r\nNow, I need to set up a time-bound refresh on the non-pubsubhubbub feeds I pull. So, if 15 minutes have passed since last refresh on any feeds in my table, go again.\r\n\r\nlastUpdated timestamp in document. I would like to use it like this:\r\n\r\n```\r\n    r.db('test').table('test')\r\n        .filter(doc=>{\r\n            return doc('lastUpdated').lt(new Date()-15*60000);\r\n        }).changes().run()\r\n        .then(change=>{\r\n             change.on('data',()=>{\r\n                      //parsing logic\r\n                      //This will run all day, with rethinkDB popping feeds to server as they become old\r\n                      //- so for a 1000 feeds, 1 change initiated by RethinkDB every 900 ms. \r\n                      //Hope you get the idea\r\n            })\r\n        });\r\n```\r\n\r\nThe above code doesn't work as I want it to (although it works as I expect it to)\r\nLooks like the \"new Date()\" I provide is taken as the moment when the change feed was set up.\r\n\r\nOr is there another way to do this that I am missing?\r\n\r\nElse, Is it possible to add that functionality to RethinkDB/dash? Not sure if there are performance implications?"
+  , issueState = "closed"
+  , issueId = Id 160465311
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

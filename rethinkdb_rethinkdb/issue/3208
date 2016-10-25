@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-24) 22 : 54 : 08 UTC
+  , issueUpdatedAt = 2014 (-10) (-24) 22 : 54 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3208/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3208"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3208
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improve counted/shared pointer behavior"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3208"
+  , issueCreatedAt = 2014 (-10) (-18) 00 : 09 : 52 UTC
+  , issueBody =
+      Just
+        "@gchpaco has a review up at http://newton:8080/ui#review:id=2216 that adds allocators and deallocators to `counted_t`.  The upside is that this will make it easy to track memory usage per-query, the downside is that it increases the overhead of a class being countable from 8 bytes to 40 bytes.\r\n\r\n@gchpaco, @VeXocide and I talked about this a bit earlier.  We decided that there were no really good options, but that we had our pick of bad ones:\r\n1. Eat the 40 bytes of overhead.  This will drastically increase memory usage if people have rows that contain lots of empty arrays or objects, but might otherwise be fine.\r\n2. Drop `counted_t` and use `std::shared_ptr`.  This will lose us the savings we get from not always having to do atomic increment and decrement operations, since we have a non-atomic `countable_t` type.  (I've also been meaning for a while to go through and try to make `datum_t`s not use atomic increment and decrement operations all the time, since we spend a surprising amount of time on that, and moving to `std::shared_ptr` would prevent that from happening.)\r\n3. Drop the idea of using allocators and try to hand-roll our own thing that uses less space in `counted_t`.\r\n4. Take `boost::shared_ptr` or `std::shared_ptr` and create a version of them that doesn't use atomic operations (@vexocide said he might play with this over the weekend).\r\n\r\n@srh, @danielmewes, @Tryneus, @timmaxw -- any strong opinions?"
+  , issueState = "closed"
+  , issueId = Id 46156410
+  , issueComments = 44
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

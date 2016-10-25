@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2013 (-07) (-05) 21 : 57 : 53 UTC
+  , issueUpdatedAt = 2013 (-07) (-10) 03 : 51 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1128/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1128"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1128
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1117819
+        , simpleUserLogin = N "jcmcken"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1117819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jcmcken"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "CentOS init script fails to start up multiple instances in unintuitive ways"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1128"
+  , issueCreatedAt = 2013 (-07) (-05) 02 : 35 : 06 UTC
+  , issueBody =
+      Just
+        "Here's what I'm using:\r\n\r\nPackage: ``rethinkdb-1.7.1-460.x86_64``\r\n\r\nLSB info:\r\n\r\n```text\r\nLSB Version:\t:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch\r\nDistributor ID:\tScientific\r\nDescription:\tScientific Linux release 6.4 (Carbon)\r\nRelease:\t6.4\r\nCodename:\tCarbon\r\n```\r\n\r\n(Scientific Linux is another RHEL clone like CentOS)\r\n\r\nUsing two very simple config files called ``default.conf`` (empty, using all defaults) and ``alternate.conf`` with this setting:\r\n\r\n```text\r\nport-offset=1\r\n```\r\n\r\nI get these errors when attempting to start:\r\n\r\n```text\r\nrethinkdb: alternate: will only listen on local network interfaces.\r\nrethinkdb: alternate: To expose rethinkdb on the network, add the 'bind=all' option to /etc/rethinkdb/instances.d/alternate.conf\r\nrethinkdb: alternate: Starting instance. (logging to `/var/lib/rethinkdb/alternate/data/log_file')\r\nrethinkdb: default: error: the default ports are already used by another instance\r\nrethinkdb: default: error: please use non-default values for driver-port, cluster-port and http-port in /etc/rethinkdb/instances.d/default.conf\r\n```\r\n\r\nFrom reading the init script, it looks like I have to explicitly set every single port option in alternate instances, otherwise it tries to set the default, which causes a conflict -- in contrast with the command line, where I can just do this:\r\n\r\n```bash\r\n[root@cinder instances.d]# rethinkdb --port-offset 1 -d /var/lib/rethinkdb/alternate/data --daemon\r\n[root@cinder instances.d]# rethinkdb -d /var/lib/rethinkdb/default/data --daemon\r\n[root@cinder instances.d]# \r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 16385334
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

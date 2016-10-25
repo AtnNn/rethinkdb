@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-15) 23 : 54 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/169888809"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5270#issuecomment-169888809"
+  , issueCommentCreatedAt = 2016 (-01) (-08) 04 : 19 : 06 UTC
+  , issueCommentBody =
+      "This looks like an actual algorithmic problem.  The current logic makes no effort whatsoever to hold back the results of reads until the change stream has caught up, but that's necessary to do ordering correctly here (since we need to wait for the uninitial val, which is produced by a change, before sending the initial val, which is produced by a read).\r\n\r\nFixing this in the most efficient way would be a bit of work, but if we're OK holding up the batch while we wait for changes to catch up then it should be a reasonably straightforward change.  We just have to:\r\n* Read.\r\n* Spin for the change stream to catch up.\r\n* Discard all changes to the right of the read's right bound.\r\n* Discard all changes inside the read's bounds but before the read's stamp.\r\n* Send on all changes to the left of the read's left bound.\r\n* Send the initial vals.\r\n* Send on all the changes inside the read's bounds and after the read's stamp.\r\n\r\nThis is a little bit scary because it's an invasive logic change, but it's much less scary than doing it the \"correct\" way, where we'd add a new member variable for the last-read batch and send on the changes we know are legal while we wait for the change stream to catch up with the read.\r\n\r\nHolding up the batch until the change stream catches up should be relatively fine here because in basically all cases the stream of changes will catch up with the read immediately (or even before the read completes)."
+  , issueCommentId = 169888809
+  }

@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-09) 16 : 30 : 31 UTC
+  , issueUpdatedAt = 2016 (-07) (-28) 21 : 38 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5841/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5841"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5841
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Java Driver: New handshake broke `.reconnect()`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5841"
+  , issueCreatedAt = 2016 (-06) (-09) 01 : 06 : 19 UTC
+  , issueBody =
+      Just
+        "I was noticing some weird behavior in the C# driver with the connection pooling code. I noticed, when `Connection.Close()` is called, any attempts to `.Reconnect()`, the reconnect always fails even if the TCP physical socket connection was okay.\r\n\r\nI think this is due some internal `Handshake` state that is not being `.reset()` when the reconnect is attempted.\r\n\r\n##### `Handshake.java`\r\n```\r\n    public Handshake(String username, String password) {\r\n        this.username = username;\r\n        this.password = password;\r\n        this.state = new InitialState(username, password);\r\n    }\r\n\r\n    public void reset() {\r\n        this.state = new InitialState(this.username, this.password);\r\n    }\r\n```\r\n\r\nAnd there's some code here that kinda [sits here](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/SocketWrapper.java#L82) except, on the 2nd time around, the `Handshake` was finished from the 1st attempt. :8ball:\r\n```\r\nvoid connect(Handshake handshake){\r\n....\r\n            while(!handshake.isFinished()) {\r\n                if (toWrite.isPresent()) {\r\n                    write(toWrite.get());\r\n                }\r\n                String serverMsg = readNullTerminatedString(deadline);\r\n                toWrite = handshake.nextMessage(serverMsg);\r\n            }\r\n....\r\n}\r\n```\r\nSo, the reconnect results in no re-authentication...\r\n\r\n`Handshake.reset()` is nowhere to be found in [`Connection.java`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java) or in [`SocketWrapper.java`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/SocketWrapper.java)\r\n\r\nThe *pythin* :snake: code seems to `Handshake.reset()` in something like [`ConnectionInstance`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/python/rethinkdb/asyncio_net/net_asyncio.py#L154)?\r\n\r\nMy fix in the C# driver is in [`SocketWrapper.cs`](https://github.com/bchavez/RethinkDb.Driver/blob/master/Source/RethinkDb.Driver/Net/SocketWrapper.cs#L42) / [UnitTest](https://github.com/bchavez/RethinkDb.Driver/blob/master/Source/RethinkDb.Driver.Tests/Network/ConnectionTest.cs#L70). ***I think*** this would be the right place for the reset. Also, seems to have resolved my `.Reconnect` issue in the C# driver. :smile_cat: \r\n\r\nLet me knoooooooo what your thinking and I'll submit a PR for ya.\r\n\r\nMuchas gracias,\r\nBrian\r\n\r\n:thought_balloon: :mag: [***\"I want to know... what you're thinking...\"***](https://www.youtube.com/watch?v=ijAYN9zVnwg)"
+  , issueState = "closed"
+  , issueId = Id 159309480
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

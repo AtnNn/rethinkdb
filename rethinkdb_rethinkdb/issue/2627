@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-22) 04 : 17 : 08 UTC
+  , issueUpdatedAt = 2014 (-08) (-22) 04 : 17 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2627/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2627"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2627
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "interface.log test is producing an error"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2627"
+  , issueCreatedAt = 2014 (-06) (-30) 22 : 46 : 45 UTC
+  , issueBody =
+      Just
+        "I am seeing an error most of the time I run `./run interface.log` test. The specific failure as show in the test is not real useful:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/home/ssd2/larkost/rethinkdb/test/interface/log.py\", line 33, in <module>\r\n    log = access.get_log(access.machines.keys()[0], max_length = num_entries + 100)\r\n  File \"/home/ssd2/larkost/rethinkdb/test/common/http_admin.py\", line 356, in get_log\r\n    raise BadServerResponse(200, log)\r\n```\r\nA bit of digging as a group and it looks like the root of the problem is in the `file_reverse_reader_t` function in `src/clustering/administration/logger.cc`. Specifically it is returning a pair of log lines in a single `get_next` call, including the intervening newline.\r\n\r\nI am not always getting this issue, and can't reproduce it locally, but get it pretty consistently on the `larkost/2623-v1.13.1-test-fixes` branch when running on newton."
+  , issueState = "closed"
+  , issueId = Id 36846024
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 76
+          , milestoneClosedIssues = 60
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.15"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/76"
+          , milestoneCreatedAt = 2014 (-07) (-30) 21 : 42 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

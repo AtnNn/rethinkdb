@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-04) 17 : 56 : 57 UTC
+  , issueUpdatedAt = 2016 (-04) (-04) 17 : 56 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5406/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5406"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      ]
+  , issueNumber = 5406
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: new client protocol"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5406"
+  , issueCreatedAt = 2016 (-02) (-17) 01 : 22 : 48 UTC
+  , issueBody =
+      Just
+        "Adding user accounts per #4519 will require us to change the client protocol to what's proposed below. The authentication aspect is based on https://tools.ietf.org/html/rfc5802#section-5.\r\n\r\n- `C` \8594 `S`: the magic version `V0_5` whose value has yet to be determined in a bike shed, I propose `0xd27951cc`.\r\n- `C` \8594 `S`: a JSON object terminated by a null byte. This JSON object MAY contain a member `\"authentication\"` describing the authentication mechanism used, we currently support `\"SCRAM-SHA-256\"`. If this is used it MUST also contain a member `\"user\"` containing the username, and a `\"nonce\"` containing a nonce per the above RFC.\r\n- `S` \8594 `C`: the server responds with a JSON object terminated by a null byte which MUST contain a member `\"version\"` containing the server version encoded as a string. Upon failure the object MUST contain the member `\"success\"` set to the value `false`, and MAY contain a member `\"error\"` containing a description of the error. Upon success the object MUST contain the member `\"success\"` set to `true`. If authentication is enabled the object MUST also contain `\"nonce\"` set to the extended nonce, `\"salt\"` containing the salt, and `\"iterations\"` set to the iteration count represented as a number.\r\n\r\nThe connection should be terminated if this was not successful. Otherwise, if authentication is not enabled this is the end of the exchange and the connection is now ready for use, else it is continued as follows.\r\n\r\n- `C` \8594 `S`: a JSON object terminated by a null byte which MUST contain the members `\"nonce\"` with the above nonce, and `\"proof\"`, a base64 encoded ClientProof.\r\n- `S` \8594 `C`: a JSON object terminated by a null byte which MUST contain a member `\"success\"` indicating whether this was success with a boolean. If not successful it MAY contain a member `\"error\"` containing a description of the error. However, if successful it MUST contain a member `\"signature\"` containing the ServerSignature, again as described in the RFC.\r\n\r\nAgain, the connection should be terminated if this was not successful, otherwise the connection is ready for use assuming the signature is valid."
+  , issueState = "closed"
+  , issueId = Id 134148084
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

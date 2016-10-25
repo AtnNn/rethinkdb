@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 00 : 40 : 53 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 00 : 40 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1819/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1819"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1819
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Have a way for users to define new methods in Python driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1819"
+  , issueCreatedAt = 2014 (-01) (-05) 20 : 40 : 54 UTC
+  , issueBody =
+      Just
+        "I often find myself defining intermediate functions in my code so that I don't wind up building monolithic queries on a single line. I might for example do something like this:\r\n\r\n```Python\r\ndef score(game):\r\n    return (game[\"points\"] - game[\"deductions\"]) * game[\"mulitplier\"]\r\n\r\ndef games(player):\r\n    return r.table(\"games\").get_all(player[\"id\"], index=\"player_id\")\r\n            .filter({\"game_state\" : \"valid\"})\r\n\r\ndef scores():\r\n    return r.table(\"players\")\r\n            .map(lambda p: games(p)\r\n                           .map(lambda x: score(x))\r\n                           .reduce(lambda x,y: x + y))\r\n```\r\n\r\nHaving to call the functions prefix is a little bit unreqly and I think it would be cool if there was a decorator that made functions in to methods. For example you might write:\r\n\r\n```Python\r\n@doc_method\r\ndef score(game):\r\n    return (game[\"points\"] - game[\"deductions\"]) * game[\"mulitplier\"]\r\n\r\n@doc_method\r\ndef games(player):\r\n    return r.table(\"games\").get_all(player[\"id\"], index=\"player_id\")\r\n            .filter({\"game_state\" : \"valid\"})\r\n\r\ndef scores():\r\n    return r.table(\"players\")\r\n            .map(lambda p: p.games()\r\n                           .map(lambda x: x.score())\r\n                           .reduce(lambda x,y: x + y))\r\n```\r\n\r\nSeems like this could be nice."
+  , issueState = "closed"
+  , issueId = Id 25077304
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

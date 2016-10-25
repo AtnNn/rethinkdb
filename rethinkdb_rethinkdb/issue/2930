@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-19) 01 : 00 : 26 UTC
+  , issueUpdatedAt = 2015 (-04) (-02) 21 : 30 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2930/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2930"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2930
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "ArrayLimit error is misleading"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2930"
+  , issueCreatedAt = 2014 (-08) (-18) 18 : 00 : 27 UTC
+  , issueBody =
+      Just
+        "On commit da09b85dfd13f6974bd4901673ac4d5f8605ab8d\r\n\r\nFor the following script, where the table `test` has 100001 documents:\r\n```\r\nvar r = require('./js');\r\n\r\nr.connect().bind({}).then(function(c) { \r\n    this.c = c;\r\n    return r.db('test').table('test').coerceTo(\"ARRAY\").run(this.c)\r\n}).then(function(result) {\r\n    console.log(\"Retrieved an array of\", result.length);\r\n}).error(console.log)\r\n.finally(function() {\r\n    if (this.c) {\r\n        this.c.close();\r\n    }\r\n})\r\n```\r\n\r\nThis get printed:\r\n```\r\n{ [RqlRuntimeError: Grouped data over size limit 100000.  Try putting a reduction (like `.reduce` or `.count`) on the end in:\r\nr.db(\"test\").table(\"test\").coerceTo(\"ARRAY\")\r\n                                                           ]\r\n  name: 'RqlRuntimeError',\r\n  msg: 'Grouped data over size limit 100000.  Try putting a reduction (like `.reduce` or `.count`) on the end.',\r\n  frames: [],\r\n  message: 'Grouped data over size limit 100000.  Try putting a reduction (like `.reduce` or `.count`) on the end in:\\nr.db(\"test\").table(\"test\").coerceTo(\"ARRAY\")\\n                                                           ' }\r\n```\r\n\r\nPutting in 1.14.x -- Feel free to move it in 1.14 if you think we should hold the release for this bug."
+  , issueState = "closed"
+  , issueId = Id 40514459
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

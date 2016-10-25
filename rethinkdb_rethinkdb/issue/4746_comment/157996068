@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-19) 19 : 23 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 700546
+        , simpleUserLogin = N "Zolmeister"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/700546?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Zolmeister"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157996068"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4746#issuecomment-157996068"
+  , issueCommentCreatedAt = 2015 (-11) (-19) 09 : 11 : 04 UTC
+  , issueCommentBody =
+      "Just want to let those interested know that this is still happening as of v2.2.1\r\ntableCreate takes 2.2s+ on a clean single-node local instance\r\n(seems like a fix is expected in 2.3 though)\r\n\r\nEdit: truncate workaround (coffeescript)\r\n\r\n```coffee\r\n# truncate all tables\r\nr.dbList()\r\n    .contains DB\r\n    .do (result) ->\r\n      r.branch result,\r\n        r.tableList()\r\n        .forEach( (table) ->\r\n          r.table(table).delete()\r\n        ),\r\n        {dopped: 0}\r\n    .run()\r\n\r\n# drop all indexes\r\nr.dbList()\r\n    .contains DB\r\n    .do (result) ->\r\n      r.branch result,\r\n        r.tableList()\r\n        .forEach( (table) ->\r\n          r.table(table).indexList().forEach (index) ->\r\n            r.table(table).indexDrop index\r\n        ),\r\n        {dopped: 0}\r\n    .run()\r\n```"
+  , issueCommentId = 157996068
+  }

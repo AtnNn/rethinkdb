@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-28) 18 : 17 : 47 UTC
+  , issueUpdatedAt = 2016 (-03) (-28) 18 : 17 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5567/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5567"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5567
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2086589
+        , simpleUserLogin = N "JOE95443"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2086589?v=3"
+        , simpleUserUrl = "https://api.github.com/users/JOE95443"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Exception in Python Driver when using orderby on getall with compound index"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5567"
+  , issueCreatedAt = 2016 (-03) (-28) 13 : 10 : 04 UTC
+  , issueBody =
+      Just
+        "This is an issue with the latest version of the RethinkDB Python driver. When trying to run a query with get_all and then order_by, an exception is thrown when using a compound index.\r\n\r\nTo reproduce:\r\nThe database table looks like this: `id | feed | datetime | content`\r\n\r\nCreate the index:\r\n ```python\r\nr.db('main').table('data').index_create(\"feedByTime\", lambda x: [x[\"feed\"], x[\"datetime\"]]).run(conn)\r\n```\r\n\r\nTry to use the index in a query, like so:\r\n ```python\r\n#The ID of a feed; eg:\r\nfeedid = 'J39438-DKIEOP-3934'\r\nprint r.db('main').table('data').between([feedid, r.minval], [feedid, r.maxval], index=\"feedByTime\").order_by(index=\"feedByTime\").run(conn)\r\n```\r\n\r\nThis error should be thrown:\r\n```python\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/local/lib/python2.7/dist-packages/rethinkdb/net.py\", line 196, in __str__\r\n    val_str = ', '.join(map(repr, self.items[:10]))\r\nTypeError: sequence index must be integer, not 'slice'\r\n```\r\n\r\nI added a `try: except:` around line 196 of net.py to `pass` all exceptions. Everything worked as expected with the try in place. It seems that this exception should cause a warning (maybe) rather than throwing an error and making the query fail.\r\n\r\n[Related Stackoverflow.com question](http://stackoverflow.com/questions/36238817/rethinkdb-getall-ordered-by-date-with-index?noredirect=1)"
+  , issueState = "closed"
+  , issueId = Id 143973896
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

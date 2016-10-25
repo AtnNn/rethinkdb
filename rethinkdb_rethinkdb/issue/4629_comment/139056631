@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-09) 21 : 53 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139056631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-139056631"
+  , issueCommentCreatedAt = 2015 (-09) (-09) 21 : 53 : 29 UTC
+  , issueCommentBody =
+      "> In general write_id is going to be an array of such timestamp pairs.\r\n\r\nI think the map notation you mention in your later post is better.\r\n\r\n> Are we going to send the write_id with every changefeed notification, or as a separate state document? \r\n\r\nI think either way is fine, honestly.  Sending it with every notification won't make them *that* much bigger.  I guess I think a state document is slightly better, but I don't have a strong opinion.\r\n\r\n> What should the field be called?\r\n\r\n`write_timestamp` or `write_timestamps` seem find to me.\r\n\r\n> Should we require timestamp information in the changefeeds to be enabled explicitly or do we always want them to be there?\r\n\r\nI think you should always be able to turn them on and off.  I think we should probably leave them off by default no matter where we put them, just to make the interface less intimidating for new users (since they are for a fairly advanced use case).\r\n\r\n> Should we provide a comparison function for timestamp arrays in the clients?\r\n\r\nProbably!\r\n\r\n> Maybe the timestamp array itself should be a ReQL pseudo-type, that gets deserialized to a custom class instance with a method for comparing them?\r\n\r\nThat solution is a little complicated, but it's probably more user friendly than having an `r.timestamp_lt` function or something.\r\n\r\nWe could also offer utility functions in the asynchronous interfaces like \"run this code when this timestamp is reached\", which I think would make a lot of code simpler.\r\n\r\n---\r\n\r\n> We might have to move this out of the 2.2 milestone and into 2.3 to keep the 2.2 release within the planned time frame.\r\n\r\nI'm definitely a little behind on 2.2 since the unsharding work is taking longer than I thought it would, so that would be another reason to consider bumping it."
+  , issueCommentId = 139056631
+  }

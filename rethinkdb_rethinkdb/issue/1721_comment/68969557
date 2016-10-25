@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-07) 02 : 16 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68969557"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-68969557"
+  , issueCommentCreatedAt = 2015 (-01) (-07) 02 : 15 : 35 UTC
+  , issueCommentBody =
+      "I think overall the fact that we have an implicit default in `filter` for handling missing field errors has made the lives of our users easier, even though it has occasionally caused confusion as well.\r\n\r\n@AtnNn which solution would you prefer?\r\n\r\nActually I have to agree that handling `unknown` in `branch` is a bit weird.\r\n\r\n\r\nSuppose the following semantics:\r\nWe attach the original error that causes the `unknown` to the `unknown` value, including the corresponding backtrace (this is essentially the errors as values proposal).\r\nThe only terms that could turn such an `unknown` back into a known value would be `any`, `all` and `default`. All other terms would instantly return back the `unknown` as soon as they encounter one in their arguments.\r\nIf we end up with an `unknown` at the top level, we would generate an error and send it to the user. The error would have exactly the same information as an exception, since we've attached that information the first time the `unknown` was produced.\r\n\r\nAssuming these semantics, that actually suggests that we could implement this very easily by piggy-backing on our existing exception logic.\r\n\r\nAll we would have to do would be modifying `any` and `all` as follows:\r\n* If `any` encounters a non-existence exception while evaluating one of its arguments, it keeps on evaluating its other arguments. If one of them ends up being `true`, it returns `true`. If all other arguments end up throwing a non-existence error as well (i.e. are `unknown`) or are `false`, then `any` rethrows the first non-existence error it has encountered.\r\n* For `all`, we just do the opposite. We rethrow the first encountered error if all other arguments evaluate to either `unknown` or `true`, but as soon as at least one other argument evaluates to `false`, we return `false`.\r\n"
+  , issueCommentId = 68969557
+  }

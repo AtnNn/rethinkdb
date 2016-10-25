@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-20) 23 : 43 : 34 UTC
+  , issueUpdatedAt = 2015 (-04) (-02) 21 : 30 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1179/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1179"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1179
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add a BRACKET term to the query language"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1179"
+  , issueCreatedAt = 2013 (-07) (-17) 19 : 24 : 14 UTC
+  , issueBody =
+      Just
+        "We currently have a bugs in the python and ruby driver which can be reproduce like so:\r\n\r\nPython:\r\n```Python\r\nr.expr([1])[r.expr(0)]\r\n```\r\nRuby:\r\n```Ruby\r\nr.expr([1])[r.expr(0)]\r\n```\r\n\r\nThe problem here is that the bracket operator doesn't know whether to send an `NTH` term or `GETATTR` term when the argument isn't a literal value. The solution to this is to add a generic `BRACKET` term which can be sent to the server and evaluates does either an `nth` or a `getattr` based on what it returns. \r\n\r\nWe may want to still keep the `nth` functions around in the languages and making them just be synonyms for `BRACKET` has the downside that someone could say:\r\n\r\n```Python\r\n>>> r.expr({\"foo\" : 1}).nth(\"foo\")\r\n1\r\n```\r\nwe could either keep around `NTH` and `GETATTR` for when we know which one we want or we could just add optargs to `BRACKET` and not have 2 extra terms. I prefer the latter. (We could also maybe just let it that ambiguity exist. I don't think it's that terrible.)"
+  , issueState = "closed"
+  , issueId = Id 16884204
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 76
+          , milestoneClosedIssues = 60
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.15"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/76"
+          , milestoneCreatedAt = 2014 (-07) (-30) 21 : 42 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

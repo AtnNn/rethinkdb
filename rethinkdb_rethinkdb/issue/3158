@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 20 : 10 : 37 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 20 : 10 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3158/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3158"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 3158
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider allowing drivers to use encrypted connections"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3158"
+  , issueCreatedAt = 2014 (-10) (-08) 18 : 49 : 17 UTC
+  , issueBody =
+      Just
+        "Similar to https://github.com/rethinkdb/rethinkdb/issues/3151 for intra-cluster communication, I believe there are a few things we can do to make working with encrypted client connections much easier.\r\n\r\nHere's my proposal:\r\n  Assume the user has set up a tool such as stunnel (https://www.stunnel.org/index.html) on the server to allow incoming SSL connections to RethinkDB's client port.\r\n  \r\n  We could extend the official drivers to support connecting to the server through SSL. From the user's perspective, this would take two things:\r\n  * a flag to `r.connect()` to enable SSL\r\n  * a way to supply a certificate to validate that the client is connecting to the right server (the path to the certificate file could be provided through the same flag that enables SSL actually)\r\n\r\nIn combination with the auth keys we already have and a firewall that restricts incoming connections to specific IP addresses, this would provide some reasonable level of security for running RethinkDB on unprotected networks.\r\n\r\nIt's not quite sufficient for just exposing the encrypted client port to the Internet though, since we might expose security vulnerabilities even before the auth key is validated (plus there's a high potential for DoS and brute force attacks).\r\nTo make that work, we should also investigate options to use a client-side certificate. I'm not very familiar with how that works with SSL, but it would be great if one could just configure stunnel on the server to check for a certain client certificate, and have another option in our drivers to supply one."
+  , issueState = "closed"
+  , issueId = Id 45281288
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

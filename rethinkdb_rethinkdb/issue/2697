@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-06) 17 : 10 : 23 UTC
+  , issueUpdatedAt = 2014 (-08) (-06) 17 : 10 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2697/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2697"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2697
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Array insert and splice operations don't check array size limit"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2697"
+  , issueCreatedAt = 2014 (-07) (-14) 02 : 47 : 33 UTC
+  , issueBody =
+      Just
+        "In `next` (and probably v1.13.x):\r\n\r\nStep 1.  Insert a document such as `{id: 1, a: [0, 1, 2, ..., 99998, 99999]}`  -- a document with a 100000-element array.\r\n\r\nStep 2. Do something like `r.table('foo').get(1).replace({id: 1, a: r.row('a').add([2])})`.  You'll get an error with `\"first_error\": \"Array over size limit `100000`.\"`\r\n\r\nThat's good.  Step 2 does not affect the behavior of Step 3 -- I'm just showing that some array size limit checks work for some operations.\r\n\r\nStep 3. Do `r.table('foo').get(1).replace({id: 1, a: r.row('a').spliceAt(0, [2])})`.  You'll get a return value with `\"replaced\": 1 ,` telling you that the replace operation was successful!\r\n\r\nThat's bad.  Now a 100001 element array has been inserted.\r\n\r\nStep 4.  Do `r.table('foo').get(1)`.\r\n\r\nThe server crashes with\r\n\r\n```\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of rdb value failed with error archive_result_t::RANGE_ERROR.\r\n```\r\n\r\nIn addition to datum_t::splice, the function datum_t::insert also does not check the array size limit.\r\n\r\n(A related problem is that datum_t has a wide interface with more than the minimal set of methods necessary to provide a correctly behaving type, all of which are responsible for independently enforcing constraints.  There is not a good reason or any reason for it to have a bunch of methods baked in like this.)\r\n"
+  , issueState = "closed"
+  , issueId = Id 37755964
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

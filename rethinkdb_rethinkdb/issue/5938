@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-26) 00 : 38 : 53 UTC
+  , issueUpdatedAt = 2016 (-07) (-28) 21 : 38 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5938/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5938"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5938
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17016383
+        , simpleUserLogin = N "maarest"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17016383?v=3"
+        , simpleUserUrl = "https://api.github.com/users/maarest"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "runNoReply in java does not work due to toCompletableFuture"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5938"
+  , issueCreatedAt = 2016 (-07) (-12) 01 : 50 : 20 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nI don't have a fix for the issue. If you try out this code, you'll see that it will hang:\r\n\r\n```\r\n   Connection conn = r.connection().hostname(\"localhost\").port(28015).db(\"test\").connect();\r\n    System.out.println(\"Connected!\");\r\n\r\n    r.table(\"authors\").insert(r.hashMap(\"name\", \"William Adama\")\r\n                    .with(\"tv_show\", \"Battlestar Galactica\")\r\n                    .with(\"posts\", r.array(\r\n                            r.hashMap(\"title\", \"Decommissioning speech\")\r\n                                    .with(\"content\", \"The Cylon War is long over...\"),\r\n                            r.hashMap(\"title\", \"We are at war\")\r\n                                    .with(\"content\", \"Moments ago, this ship received...\"),\r\n                            r.hashMap(\"title\", \"The new Earth\")\r\n                                    .with(\"content\", \"The discoveries of the past few days...\")\r\n                            )\r\n                    )).run(conn);\r\n\r\n    System.out.println(\"Inserted in Run!\");\r\n    r.table(\"authors\").insert(\r\n            r.hashMap(\"name\", \"William Adama\")\r\n                    .with(\"tv_show\", \"Battlestar Galactica\")\r\n                    .with(\"posts\", r.array(\r\n                            r.hashMap(\"title\", \"Decommissioning speech\")\r\n                                    .with(\"content\", \"The Cylon War is long over...\"),\r\n                            r.hashMap(\"title\", \"We are at war\")\r\n                                    .with(\"content\", \"Moments ago, this ship received...\"),\r\n                            r.hashMap(\"title\", \"The new Earth\")\r\n                                    .with(\"content\", \"The discoveries of the past few days...\")\r\n                            )\r\n                    )).runNoReply(conn);\r\n    System.out.println(\"Inserted in RunNoReply!\");\r\n```\r\n\r\nThis is apparently due to this line:\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L211\r\n`toCompletableFuture` that never completes in the future\r\n\r\nThis is I would say something quite important as we really need to have the massive performance improvement brought by runNoReply\r\n\r\nRegards,\r\nStephane"
+  , issueState = "closed"
+  , issueId = Id 164977040
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

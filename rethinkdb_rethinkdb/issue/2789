@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-08) 16 : 52 : 28 UTC
+  , issueUpdatedAt = 2014 (-08) (-12) 06 : 04 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2789/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2789"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2789
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Secondary indexes with common prefixes sometimes sort incorrectly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2789"
+  , issueCreatedAt = 2014 (-07) (-31) 22 : 11 : 21 UTC
+  , issueBody =
+      Just
+        "It appears that string keys (and probably array keys) should have a NULL byte appended to them for proper sorting, but they do not.  This is reproducible with the following test:\r\n\r\n```py\r\nr.table_create('test').run(c)\r\nr.table('test').insert([{'id':1,'idx':''}, {'id':2,'idx':' '}]).run(c)\r\nr.table('test').index_create('idx').run(c)\r\nr.table('test').index_wait('idx').run(c)\r\nr.table('test').order_by(index='idx').map(r.row['id']).coerce_to('array').run(c)\r\n\r\n[2,1]\r\n```\r\n\r\nThis should return `[1,2]` since `''` should sort before `' '`, but it does not.  Verified to be fixed by appending a NULL byte to the string key."
+  , issueState = "closed"
+  , issueId = Id 39243351
+  , issueComments = 40
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

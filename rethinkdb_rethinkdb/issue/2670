@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-01) (-08) 20 : 31 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2670/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2670"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2670
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "API proposal - Chaining commands that use indexes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2670"
+  , issueCreatedAt = 2014 (-07) (-08) 16 : 46 : 39 UTC
+  , issueBody =
+      Just
+        "Slightly related to https://github.com/rethinkdb/rethinkdb/issues/955 and the comment https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47030366\r\n\r\nCurrently:\r\n- We can chain `between` and `orderBy` if they use the same index\r\n- We can chain `between` and `group` if they use the same index\r\n\r\nWhile we cannot efficiently intersect indexes, it should be possible to have slightly better performance when chaining commands that use partially a compound index\r\n\r\nSuppose the compound index is built in `field1` and `field2`.\r\n```\r\nr.table(\"test\").getAll(<k values for field1>, {partial: \"compound\"}).orderBy({partial: \"compound\"})\r\n```\r\nWhere `partial` means \"a part of the compound index\". This should be somehow doable using a heap in `O(k)+O(log(k)*n)` where `n` is the total number of document to return.\r\n\r\nThe same thing applies for chaining `between` and `orderBy`.\r\n\r\n\r\nIt should also be possible to have a relatively efficient algorithm to chain `getAll` and `group` without blowing the memory.\r\n\r\n\r\nI'm putting it in backlog for now (I first want to be able to point to an issue when users hit this problem)"
+  , issueState = "open"
+  , issueId = Id 37389799
+  , issueComments = 19
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

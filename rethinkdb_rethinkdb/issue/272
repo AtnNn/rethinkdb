@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-14) 00 : 51 : 36 UTC
+  , issueUpdatedAt = 2014 (-03) (-26) 01 : 10 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/272/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/272"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 272
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Dynamic key for object in ReQL"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/272"
+  , issueCreatedAt = 2013 (-02) (-01) 02 : 42 : 46 UTC
+  , issueBody =
+      Just
+        "The only way to create an object or to add a pair (key, value) in an object is to use\r\n```\r\nr.expr{{ key: \"value\" })\r\n```\r\nor\r\n```\r\nr.expr({}).merge({key: \"value\" })\r\n```\r\n\r\nIn every case, we can not use a dynamic key, something like\r\n```\r\nr.expr({ r.expr(\"key\"): \"value\" })\r\n```\r\n\r\nFor the JavaScript driver, the problem lies in JavaScript. `{ r.expr(\"key\"): \"value\"}` is going to throw an error, and doing\r\n```\r\nvar obj = {}\r\nobj[r.expr(\"key\")] = \"value\"\r\n```\r\nwill create this object\r\n```\r\n{\r\n  \"[object Object]\": \"value\"\r\n}\r\n```\r\n\r\nWe will need to add a new method in ReQL that takes pairs of (key, value) and creates an object. Something like that\r\n```\r\nr.object([\"key1\", \"value1\"], [\"key2\", \"value2\"] )\r\n```\r\n\r\n-----------------------\r\n\r\nThe use case is the following one.\r\nI have a table \"posts\", \"tags\", \"links_posts\"tags\" and I want to retrieve all the posts with an attribute tags that is an object that look likes that\r\n```\r\ntags: {\r\n  tag1: true,\r\n  tag2: true,\r\n  tag3: true\r\n}\r\n```\r\n\r\nSo I can display all the post and let the users quickly filter them by tags (without having to fire a new request/query) or to go through an array of tags. I would just have to check if post.tags[tag_selected_by_user] is defined.\r\nI think it's something pretty useful for web developers."
+  , issueState = "closed"
+  , issueId = Id 10527024
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

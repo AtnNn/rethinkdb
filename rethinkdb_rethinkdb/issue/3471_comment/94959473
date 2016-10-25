@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 22 : 22 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94959473"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94959473"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 22 : 21 : 43 UTC
+  , issueCommentBody =
+      "Two minor comments on @mlucy's proposal:\r\n\r\nWe should find a different name for the `changes` optarg. `persist` sounds like the changefeed would survive server restarts. I think we could just call it `name`: `query.changes({name: \"my_cf\"})`.\r\n\r\nSecondly, I'm not sure if we should repurpose `delete` for closing named changefeeds. We currently use `close` for cursors and connections to tell them to free up resources.\r\nWhile named changefeeds live on the server and not the client, I think the process is conceptually closer to `close` than to `delete`.\r\nAnother crazy idea which might be really bad, but maybe worth considering:\r\nWe could delete named changefeeds on the server whenever a client sends a `STOP` query on its active cursor. In practice that would mean that if you call `close` on a cursor on a named changefeed on the client, it will also delete the changefeed on the server. This would work really nicely in the case where named changefeeds are used to handle connection loss. If the connection gets lost or the application server dies, it will never send a `STOP` so the changefeed will stay alive.\r\nThere's a risk that users will accidentally close named changefeeds though with this API, even if they intent to pick it up again from another connection."
+  , issueCommentId = 94959473
+  }

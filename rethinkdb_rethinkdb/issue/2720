@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-09) (-23) 21 : 59 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2720/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2720"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2720
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "ReQL proposal: modernizing joins"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2720"
+  , issueCreatedAt = 2014 (-07) (-18) 22 : 32 : 07 UTC
+  , issueBody =
+      Just
+        "We've learned a lot about how people use joins, and I think we can have a much cleaner, elegant, and useful API. I propose making the following changes:\r\n\r\n- Drop `innerJoin` and `outerJoin` commands. They're too slow for use in a realtime system, and everyone ends up creating an index and using `eqJoin` because these commands are effectively unusable for performance reasons.\r\n- Rename `eqJoin` to `join`.\r\n- Add more optargs to control behavior of `join`\r\n  - `include_missing` (defaults to `true`). This optarg would essentially provide outer join behavior. If a row isn't found in the right table, it would be included into the resultset anyway, with the right value set to `null`.\r\n  - `group` (defaults to `true`). If this optarg is set to false, the join command would operate as it does now. If it's set to true, it would group the right values into an array and inject them into the row via a `'joined'` field. If it's a string, it would act in a similar way to when it's set to `true` but the `'joined'` field would be renamed to the string. If the field name already exists in the document, it should be overwritten.\r\n  - `multi` (defaults to `false`). If this optarg is set to false, the join command operates as it does now. If it's set to `true`, the left field argument is treated as an array of ids, and the join command joins in each field from the rightmost table that exists in this array.\r\n\r\nSupersedes #1223, #1168, #1152, #2008."
+  , issueState = "open"
+  , issueId = Id 38217454
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

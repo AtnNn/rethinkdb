@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 11 : 39 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6177415
+        , simpleUserLogin = N "oldlam"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6177415?v=3"
+        , simpleUserUrl = "https://api.github.com/users/oldlam"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/141049288"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4769#issuecomment-141049288"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 11 : 29 : 13 UTC
+  , issueCommentBody =
+      "I'm also facing the segmentation fault here, with both `2.1.1` and `2.1.4` on OS X, fresh data,\r\nto reproduce this, create a table \"user\", then:\r\n\r\n```\r\nr.table('users').indexCreate('time', r.row('createdAt'))\r\nr.table('users').insert({name: 'aaa', createdAt: r.now()})\r\nr.table('users').insert({name: 'bbb', createdAt: r.now()})\r\n\r\nr.table('users').orderBy({index: r.desc('time')}).limit(2).changes()\r\n\r\nr.table('users').filter({name: 'bbb'}).update({name: 'zzz'}) // this will produce the crash\r\n```\r\n\r\nhere is the error message I got after the crash:\r\n\r\n```\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 359:\r\nerror: Segmentation fault from reading the address 0x8.\r\nerror: Backtrace:\r\nerror: Thu Sep 17 19:27:47 2015\r\nerror: Exiting.\r\n```\r\n\r\nEDIT:\r\njust downloaded `2.0.5` and do the above steps again, it's working without problem. \r\n\r\nThanks!"
+  , issueCommentId = 141049288
+  }

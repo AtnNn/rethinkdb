@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-04) 06 : 05 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36594856"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2035#issuecomment-36594856"
+  , issueCommentCreatedAt = 2014 (-03) (-04) 06 : 05 : 57 UTC
+  , issueCommentBody =
+      "We could change to doing that; it probably wouldn't be all that bad.\r\n\r\n@coffeemug -- just to make sure you understand the implications of that interpretation, `tbl.filter(...).group(...)` would no longer be equivalent to `tbl.group(...).filter(...)`, `tbl.group('a')['a']` would no longer be equivalent to `tbl['a'].group{|row| row}`, etc. etc.\r\n\r\nPerhaps more importantly, if you have e.g. a table of games, and you write `r.table('games').max('bonus_points')`, that will work, but if you write `r.table('games').group('user').max('bonus_points')`, that will give you an error if there exists a user which has never scored any bonus points (assuming the user represents that by the absence of the field).  (The current interpretation would just omit users who had never scored bonus points from the final output.)\r\n\r\nIf we do switch to that interpretation, we can't ship without this `default` fix, for the reason in the previous paragraph."
+  , issueCommentId = 36594856
+  }

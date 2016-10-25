@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-15) 11 : 42 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43169226"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/364#issuecomment-43169226"
+  , issueCommentCreatedAt = 2014 (-05) (-15) 05 : 12 : 13 UTC
+  , issueCommentBody =
+      "This interacts in a slightly awkward way with the incremental backfilling idea discussed in #1944 and #2002. In particular, if the ordering on the keys in the B-tree is not the same as the ordering used to construct shards, then incremental backfills are much less elegant. If they're different orderings, then a backfill is equivalent to creating a full-width but \"empty\" shard, then gradually \"filling\" it; we still have a \"RxR\" space. But if they're the same ordering, then a backfill is equivalent to creating a zero-width shard and then gradually moving the boundary until it's as big as you want it. You can also do neat things like create a zero-width shard and then gradually expand it to the desired size\r\n\r\nThere are a couple of things to consider here:\r\n* Switching the B-trees to use consistent hashing would make range-get performance *terrible*. So that's probably the wrong way to go, unless there's some additional advantage that I haven't considered.\r\n* A major advantage of incremental backfilling is that you can get rid of the pending operations queue. If a write applies to a key you've already backfilled, apply it directly; if it applies to a key you haven't backfilled yet, don't worry, because you'll get the write as part of the backfilled value. So you only need a short queue to hold writes that apply to keys that are in the process of backfilling. This means that backfilling requires constant additional memory, instead of an arbitrarily large `disk_backed_queue_t`. But to make this work, we need to be able to \"shard\" writes lexicographically; i.e. we need to be able to say, \"give me the part of this write that applies to keys in thus-and-such lexicographical range\". Again, this means we're keeping the \"RxR space nonsense\".\r\n* One of the original motivations for incremental backfilling (discussed in #2002) is to make it easier to recover from a failed backfill. Consistent hashing doesn't break this, but it does make it more complicated; it would probably mean pushing the \"RxR space nonsense\" all the way up to the administrative code (although not necessarily exposing it to the user).\r\n* One of the big issues advantages of consistent hashing over lexicographical order is that it makes rebalancing shards unnecessary. Incremental backfilling makes rebalancing way easier, because you can gradually move shard boundaries, in real time, for cost proportional to the distance the boundary is moved. But this only works if the ordering on the B-tree is the same as the ordering used to construct shards.\r\n* The above scheme is bad if the client is inserting keys in lexicographical order. A naive implementation will pass the keys from shard to shard repeatedly, so the cost of keeping the shards rebalanced will be several times the cost of actually inserting the data. Consistent hashing doesn't have that problem. So incremental backfilling doesn't completely fix the rebalancing issues."
+  , issueCommentId = 43169226
+  }

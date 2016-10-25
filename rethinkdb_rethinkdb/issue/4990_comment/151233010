@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-26) 18 : 13 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/151233010"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4990#issuecomment-151233010"
+  , issueCommentCreatedAt = 2015 (-10) (-26) 18 : 13 : 19 UTC
+  , issueCommentBody =
+      "@levin-kelevra: I ran into a similar desire working in one area of the tests and wrote up issue #4576 \"allow query fragments\". You can currently only use what I referred to as \"fragments\" if that fragment is the one that starts with `r`. So the following is already possible:\r\n\r\n```\r\nimport rethinkdb as r\r\nrecord = r.db('test').table('users').get(1)\r\nrecord.update({'name':'smith'}).run(conn)\r\nrecord.delete().run(conn)\r\n```\r\nI found the limiting, since I had to write `lambda`'s or functions when I wanted to have the latter (normally more complicated) part to be the shared part, and run it with multiple data source parts.\r\n\r\nI should also note that this is the case in all of our first-party drivers, and that this is completely a driver-side issue. The server would not be involved at all.\r\n\r\nUnfortunately your approach of trying to use strings a proxies for query fragments is not going to work without turning the entire query (at least the part before `run()` into a string, and then using `eval` on that. And that particular approach gives me the willies."
+  , issueCommentId = 151233010
+  }

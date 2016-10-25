@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-27) 21 : 16 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33423681"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1766#issuecomment-33423681"
+  , issueCommentCreatedAt = 2014 (-01) (-27) 21 : 16 : 02 UTC
+  , issueCommentBody =
+      "Hmm actually what @jdoliner wrote here https://github.com/rethinkdb/rethinkdb/issues/316#issuecomment-13468561 is probably the cause for this difference in latency.  Even though I used only a single node,\r\n`r.table('foo').limit(200).map(function (x) {return x;}).count()` requires all data to be serialized into cluster messages and deserialized again, while `r.table('foo').map(function (x) {return x;}).count()` I think evaluates the map and count immediately on the shards.\r\n\r\nAnother thing that should be kept in mind:\r\nThe profile only measures the time spent for computing the first batch. If you look at the profile of something like `r.table('foo')` vs. `r.table('foo').limit(200)`, then the profiler output is only comparable if their first batch is similarly sized. I'm not sure if these two queries actually send different batch sizes to the client or not, but it's a possible factor.\r\n\r\n"
+  , issueCommentId = 33423681
+  }

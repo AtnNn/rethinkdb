@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-10) (-17) 22 : 12 : 20 UTC
+  , issueUpdatedAt = 2016 (-10) (-17) 22 : 12 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6150/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6150"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6150
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17934304
+        , simpleUserLogin = N "bselack"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17934304?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bselack"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Allow compound secondary indexes to use the first part(s) of the index"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6150"
+  , issueCreatedAt = 2016 (-10) (-17) 15 : 23 : 08 UTC
+  , issueBody =
+      Just
+        "\r\nIn most relational databases and some NoSQL databases, when the index is comprised of multiple fields you can use the beginning field(s) to get data. \r\n\r\nFor example if a table looks like this\r\n\r\n```\r\n\r\n{\r\n\t\"id\": \"01037ecf-94ac-4d0f-b259-70af7bf57f30\",\r\n\t\"product\": \"Marvel - Black Widow Figurine\",\r\n\t\"product_id\": \"9cc3d6a0-aa88-40da-9247-b4a629a44ad7\",\r\n\t\"product_type\": \"toy\",\r\n\t\"status\": \"owned\",\r\n\t\"user_id\": \"95d9e83a-4aa7-43e5-95ec-d66bb559a982\"\r\n}\r\n\r\n```\r\n\r\nand I create an index like this\r\n\r\n```\r\nr.table('user_product').indexCreate('productsByUser',  [r.row(\"user_id\"), r.row(\"status\"), r.row(\"product_type\")])\r\n\r\n```\r\n\r\nI'm able to query like this\r\n\r\n```\r\n\r\nr.table('user_product').getAll(['1bc1a736-0c13-405e-86f2-3fbd74d253b5', 'owned', 'toy'], {index: 'productsByUser'})\r\n\r\n```\r\n\r\nbut not like this to get all of the user's owned products (regardless of product_type)\r\n\r\n```\r\n\r\nr.table('user_product').getAll(['1bc1a736-0c13-405e-86f2-3fbd74d253b5', 'owned'], {index: 'productsByUser'})\r\n\r\n```\r\n\r\nor not like this to get all the user's products (regardless or status or producty_type)\r\n\r\n```\r\n\r\nr.table('user_product').getAll(['1bc1a736-0c13-405e-86f2-3fbd74d253b5'], {index: 'productsByUser'})\r\n\r\n```\r\n\r\n\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 183446979
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

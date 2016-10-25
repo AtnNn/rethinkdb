@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-19) 18 : 38 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1441929
+        , simpleUserLogin = N "jlhawn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1441929?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jlhawn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/220414913"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5779#issuecomment-220414913"
+  , issueCommentCreatedAt = 2016 (-05) (-19) 18 : 38 : 57 UTC
+  , issueCommentBody =
+      "> Or do you want to find documents in the left table for which there is no document in the right table that contains the left document's `id` in its `fk` field?\r\n\r\nI have the same concern. Since there's no equivalent of `ON DELETE CASCADE` I have a job that runs regularly which cleans up \"orphaned\" data from some tables. For example, say I have 3 tables:\r\n\r\n- `users`: Fields(name, id, etc.)\r\n- `teams`: Fields(name, id, etc.)\r\n- `team_members`: Fields(team_id, user_id)\r\n\r\nThe `team_members` table is used to store which users are members of which teams. However, users or teams may be deleted from the database leaving documents in the `team_members` table which have no corresponding team or user. I want a periodic job to run which deletes these \"orphaned\" rows.\r\n\r\nSo far, I've only thought of this query (given indexes on the `id` fields):\r\n\r\n```javascript\r\nr.db(\"app\").table(\"team_members\").filter(function (membership) {\r\n\treturn r.or(\r\n\t\tr.db(\"app\").table(\"users\").getAll(membership(\"user_id\"), {index: \"id\"}).isEmpty(),\r\n\t\tr.db(\"app\").table(\"teams\").getAll(membership(\"team_id\"), {index: \"id\"}).isEmpty()\r\n\t)\r\n}).delete()\r\n```\r\n\r\nThis still requires a linear scan of the `team_members` table though which is okay, but is this the most efficient that I could hope for?"
+  , issueCommentId = 220414913
+  }

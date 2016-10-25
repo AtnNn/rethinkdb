@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-20) 22 : 11 : 58 UTC
+  , issueUpdatedAt = 2015 (-11) (-20) 22 : 12 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5121/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5121"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5121
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 811954
+        , simpleUserLogin = N "danielcompton"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/811954?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielcompton"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Java protobuf compiler can't compile with new VALUES term"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5121"
+  , issueCreatedAt = 2015 (-11) (-20) 03 : 38 : 48 UTC
+  , issueBody =
+      Just
+        "The 2.2 release added the `VALUES` term type. When I try to compile ql2.proto from the 2.2 release under Java (through Leiningen on [this project](https://github.com/apa512/rethinkdb-protobuf/)), I get an error. It looks like there is a collision between the `VALUES` term and a static field called `VALUES` that is created for every protocol buffer message type.\r\n\r\n```\r\n$lein do clean, protobuf, javac\r\n >  /Users/Daniel/.lein/cache/lein-protobuf/protobuf-2.6.1/src/protoc ql2.proto --java_out=/Users/Daniel/Developer/clojure/rethinkdb-protobuf/target/protosrc -I. -I/Users/Daniel/Developer/clojure/rethinkdb-protobuf/target/proto -I/Users/Daniel/Developer/clojure/rethinkdb-protobuf/resources/proto\r\nCompiling 1 source files to /Users/Daniel/Developer/clojure/rethinkdb-protobuf/target/classes\r\n/Users/Daniel/Developer/clojure/rethinkdb-protobuf/target/protosrc/rethinkdb/Ql2.java:12601: error: variable VALUES is already defined in enum TermType\r\n      private static final TermType[] VALUES = values();\r\n                                      ^\r\n/Users/Daniel/Developer/clojure/rethinkdb-protobuf/target/protosrc/rethinkdb/Ql2.java:12609: error: array required, but TermType found\r\n        return VALUES[desc.getIndex()];\r\n                     ^\r\n2 errors\r\nCompilation of Java sources(lein javac) failed.\r\n```\r\n\r\nThe generated source that is throwing the error is below.\r\n\r\n```java\r\n    /**\r\n     * Protobuf enum {@code rethinkdb.Term.TermType}\r\n     */\r\n    public enum TermType\r\n        implements com.google.protobuf.ProtocolMessageEnum {\r\n... snip\r\n      /**\r\n       * <code>VALUES = 186;</code>\r\n       *\r\n       * <pre>\r\n       * Return an array containing the values of the object.\r\n       * </pre>\r\n       */\r\n      VALUES(42, 186),\r\n... snip a few thousand lines of code\r\n      private static final TermType[] VALUES = values();\r\n\r\n      public static TermType valueOf(\r\n          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {\r\n        if (desc.getType() != getDescriptor()) {\r\n          throw new java.lang.IllegalArgumentException(\r\n            \"EnumValueDescriptor is not for this type.\");\r\n        }\r\n        return VALUES[desc.getIndex()];\r\n      }\r\n```\r\n\r\nIf I change the term to `VALUESX` then I'm able to compile it successfully.\r\n\r\nI'm not sure if there's really anything that can be done about this, short of changing the ql2 definition? I'll change it for our usage and make a note in the code so others maintaining the code don't get caught out.\r\n\r\nTo reproduce this yourself, checkout [rethinkdb-protobuf](https://github.com/apa512/rethinkdb-protobuf/), copy the 2.2 QL2 over the existing one, and run `lein do clean, protobuf, javac`."
+  , issueState = "closed"
+  , issueId = Id 117959112
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

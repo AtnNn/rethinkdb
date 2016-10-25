@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 05 : 04 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29683957"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-29683957"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 05 : 04 : 42 UTC
+  , issueCommentBody =
+      "The thing about falsey error semantics is it plays really badly with logic operators for example:\r\n\r\n```Python\r\ns.filter(lambda x: ~x[\"hidden\"])\r\n```\r\nYou clearly want the objects where `\"hidden\"` is set to `false` but you also get the ones where hidden isn't set at all. There are endless examples where this goes wrong. The patch to `r.any` only works as long as there's no inversion happening:\r\n\r\n```Python\r\ns.filter(lambda x: x[\"foo\"] | ~x[\"bar\"])\r\n```\r\n\r\nThis one probably doesn't do what you want anymore since it returns every row that doesn't have a field `\"bar\"`. \r\n\r\nThings get even weirder when you bring in `branch`.\r\n\r\nI'm sure you can come up with little patches for these problems, maybe we special case `~` such that `~error = error`. But I'm pretty convinced there are always going to be more problems. We went through endless layers of cheap hacks last time and came up with nothing. It also takes a lot of energy to constantly be coming up with these counter examples so I'd prefer if we don't recapitulate.\r\n\r\n---\r\n\r\nI think one thing we should consider, not necessarily as a replacement for the other options, is a `strict_missingattr` optarg which removes all the `default` magic. It's definitely ugly and not finding an elegant solution that pisses no one off and just feels right is a defeat we're not used to swallowing. But I think we might be making it worse by hoping that some solution will be that. And if I could tell confused users to just pass `(strict_missingattr=True)` to `run` to help figure out why they're not getting anything back from `reduce` that could help things a lot. I think it's obviously a feature that can be sufficiently harmful that there should be a way to remove it from the equation when you're debugging."
+  , issueCommentId = 29683957
+  }

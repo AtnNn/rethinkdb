@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-02) (-23) 20 : 02 : 16 UTC
+  , issueUpdatedAt = 2015 (-02) (-24) 20 : 13 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3819/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3819"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3819
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7718341
+        , simpleUserLogin = N "kacperzuk"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7718341?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kacperzuk"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Very slow inserts when listening on changes() in the same Node.js process"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3819"
+  , issueCreatedAt = 2015 (-02) (-23) 10 : 14 : 38 UTC
+  , issueBody =
+      Just
+        "I'm using this code. It attaches to the changefeed several times and tries to insert at the same time:\r\n```javascript\r\nvar r = require('rethinkdb');\r\nvar insert_time = null;\r\nvar listeners_count = 0;\r\n\r\nvar db = 'databasename';\r\nvar table = 'tablename';\r\n\r\nr.connect({\r\n    host: 'localhost',\r\n    port: 28015,\r\n    db: db\r\n}).then(function(conn) {\r\n    var attach_changes_handler = function() {\r\n        r.table(table).changes().run(conn).then(function(cursor) {\r\n            listeners_count += 1;\r\n            cursor.each(function() {});\r\n        });\r\n    }\r\n\r\n    var test = function() {\r\n        insert_time = Date.now();\r\n        r.table(table).insert({}).run(conn).then(function() {\r\n            console.log('Changefeed listeners: '+listeners_count+'; Insert time: '+(Date.now()-insert_time)+'ms');\r\n            setTimeout(test, 500);\r\n        });\r\n    }\r\n\r\n    test();\r\n    setInterval(attach_changes_handler, 1000);\r\n});\r\n```\r\n\r\nAnd here's the result:\r\n```\r\nChangefeed listeners: 0; Insert time: 13ms\r\nChangefeed listeners: 0; Insert time: 11ms\r\nChangefeed listeners: 1; Insert time: 115ms\r\nChangefeed listeners: 1; Insert time: 10ms\r\nChangefeed listeners: 2; Insert time: 632ms\r\nChangefeed listeners: 3; Insert time: 632ms\r\nChangefeed listeners: 4; Insert time: 1134ms\r\nChangefeed listeners: 6; Insert time: 2257ms\r\nChangefeed listeners: 8; Insert time: 3755ms\r\nChangefeed listeners: 13; Insert time: 4626ms\r\n```\r\n\r\nThings I observed:\r\n1. it doesn't happen when I do the inserts in one process and attach to the changefeed in another\r\n2. if I start another process that does inserts every 500ms, it speeds up inserts in the first process (they take about 500ms then).\r\n\r\nI'm using default config and rotational disk, it's not a virtual machine."
+  , issueState = "closed"
+  , issueId = Id 58566479
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

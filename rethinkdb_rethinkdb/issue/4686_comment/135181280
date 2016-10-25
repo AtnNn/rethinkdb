@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-26) 22 : 04 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6145910
+        , simpleUserLogin = N "frankleng"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6145910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/frankleng"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135181280"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4686#issuecomment-135181280"
+  , issueCommentCreatedAt = 2015 (-08) (-26) 21 : 51 : 19 UTC
+  , issueCommentBody =
+      "Thanks for the help thus far @danielmewes, my query basically looks identical to the one you mentioned + .zip().group([fields])\r\n\r\nHere is the table structure. \r\nlocation table - holds all geocoded addresses in the system ~ 100k records. Many data document can reference a single location.\r\n```\r\n[{\r\n  id: '1234',\r\n  geocode: geometry[lat, long],\r\n  city: 'Palo Alto',\r\n  street_name: 'Lyton Ave',\r\n  street_number: 22\r\n},\r\n{\r\n  id: '12345',  // this location does not match any data, an orphan node\r\n  geocode: geometry[lat, long],\r\n  city: 'Mountain View',\r\n  street_name: 'San Antonio Circle',\r\n  street_number: 11\r\n}]\r\n```\r\n```\r\ndata table - holds active data records ~ 10k records. each maps to a single location document. \r\n[{\r\n  location_id: '1234', // matches the Palo Alto address\r\n  data: {...}\r\n  id: 'abcd'\r\n}]\r\n```\r\nso we need to use a query to match all data documents based on a geo query. The problem is that since there are always many more locations than there is data, we end up returning more on the left side than right side.\r\nThe .group() is used to group data documents by location. \r\nThe end goal is to get rid of the location that matched geo query but did not match any data docs. I can accomplish this by attaching another .filter(), but that is quite slow.\r\nHope that made more sense. "
+  , issueCommentId = 135181280
+  }

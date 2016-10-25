@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-07) (-06) 21 : 51 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3699/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3699"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 3699
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "`interface.log_write_issue` test is failing on MacOS"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3699"
+  , issueCreatedAt = 2015 (-01) (-30) 02 : 23 : 07 UTC
+  , issueBody =
+      Just
+        "The `interface.log_write_issue` test is failing on MacOS, and it looks like the problem is that `RLIMIT_FSIZE` is not imposed on any threads other than the main one. This is semi-documented in that the docs say that it is not imposed on any threads other than the calling thread, but it is unclear that this is the case for processes inheriting this from their parent.\r\n\r\nI have a script that shows this, but first here is the results for MacOS:\r\n\r\n| From | to main thread | to second thread |\r\n| ------- | ------------------- | ---------------------- |\r\n| main thread | good | fails |\r\n| second thread | fails | fails |\r\n\r\nNewton (and presumably other lines) has the behavior we want for all cases. Most notably, the test relies on \"from main thread to second thread\".\r\n\r\nSo the question becomes what do we want to do from here? As I see it we have three options:\r\n1. Change the server to use the main thread to print to logs. I dislike this option.\r\n2. Ignore the problem on MacOS and change the test to self-neuter on that platform.\r\n3. Use another method to limit writes on MacOS. From a quick couple of tests I think that the only option is to create a read/write `.dmg` with limited space. We would then keep the behavior we have for linux.\r\n\r\n```python\r\n#!/usr/bin/env python\r\n\r\nimport os, resource, sys, tempfile, threading, subprocess\r\n\r\nif len(sys.argv) <= 1:\r\n\r\n    size_limit = 2 * 1024 * 1024 # two megabytes\r\n    writeChunk = 'X' * 100\r\n    \r\n    resource.setrlimit(resource.RLIMIT_FSIZE, (size_limit, resource.RLIM_INFINITY))\r\n    softLimit, _ = resource.getrlimit(resource.RLIMIT_FSIZE)\r\n    \r\n    def writeFile(name, inThread):\r\n        try:\r\n            with tempfile.NamedTemporaryFile() as targetFile:\r\n                while targetFile.tell() < size_limit:\r\n                    targetFile.write(\"X\" * min(100, (size_limit - targetFile.tell()) - 2) + \"\\n\")\r\n                print('%s, size: %d, soft: %d' % (name, targetFile.tell(), softLimit))\r\n                sys.stdout.flush()\r\n                subprocess.check_call([__file__, inThread, targetFile.name])\r\n        except IOError:\r\n            print('Hit limit in %s' % name)\r\n    \r\n    writeFile('from main thread to main thread', 'false')\r\n    \r\n    writeFile('from main thread to second thread', 'true')\r\n    \r\n    writer = threading.Thread(target=writeFile, args=['from second thread to main thread', 'true'])\r\n    writer.start()\r\n    writer.join()\r\n    \r\n    writer = threading.Thread(target=writeFile, args=['from second thread to second thread', 'false'])\r\n    writer.start()\r\n    writer.join()\r\n\r\nelse:\r\n    softLimit, _ = resource.getrlimit(resource.RLIMIT_FSIZE)\r\n    print('\\tsize: %d, soft: %d' % (os.path.getsize(sys.argv[2]), softLimit))\r\n    sys.stdout.flush()\r\n    def writeFile(name):\r\n        try:\r\n            outputFile = open(sys.argv[2], 'a')\r\n            outputFile.write('x' * 100)\r\n            outputFile.flush()\r\n        except IOError:\r\n            print('\\tcorrectly failed writing in %s' % name)\r\n        else:\r\n            print('\\tERROR: still able to write in %s' % name)\r\n        sys.stdout.flush()\r\n    \r\n    if sys.argv[1] == 'true':\r\n        writer = threading.Thread(target=writeFile, args=['second thread'])\r\n        writer.start()\r\n        writer.join()\r\n    else:\r\n        writeFile('in main thread')\r\n```\r\n"
+  , issueState = "open"
+  , issueId = Id 55986709
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

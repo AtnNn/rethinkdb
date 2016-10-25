@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-29) 04 : 04 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 8279246
+        , simpleUserLogin = N "jazoom"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8279246?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jazoom"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/202698816"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4147#issuecomment-202698816"
+  , issueCommentCreatedAt = 2016 (-03) (-29) 03 : 59 : 43 UTC
+  , issueCommentBody =
+      "I just came across a similar issue to this and I have to say, the behaviour is quite unexpected. Here's my issue:\r\n\r\nI have a secondary index where it is possible for some items to have the same value, but they will always have another value that is different. (e.g. { secondaryKey: a, otherValue: n} and {  secondaryKey: a, otherValue: o }. If the secondary key is the same, otherValue is guaranteed to be different (according to my api).\r\n\r\nI am doing this: getAll(r.args(secondaryKeys), { index: secondaryKey}). It is possible the secondaryKeys array there contains duplicates. The behaviour I expected was that one copy of every matching document would be returned. I was surprised that a copy was returned for every key, even if a duplicate. This should really be in your docs. It would have saved quite a bit of bug-hunting. Based on the above conversation, I can see you already know about this.\r\n\r\nFurthermore, and more surprisingly, the result of the above query DOESN'T return the other matching document (i.e.  {  secondaryKey: a, otherValue: o } ).\r\n\r\nSo we end up with 2 of this document:\r\n\r\n{ secondaryKey: a, otherValue: n}\r\n\r\nand none of this document:\r\n\r\n {  secondaryKey: a, otherValue: o }\r\n\r\nIf this is the way getAll is intended to work then you might consider changing the name? That behaviour is not what I think of when I read \"getAll\".\r\n\r\nRethinkDB is awesome. Keep up the great work, team!"
+  , issueCommentId = 202698816
+  }

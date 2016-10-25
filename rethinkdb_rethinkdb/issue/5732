@@ -1,0 +1,40 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 19 : 37 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5732/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5732"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 5732
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Alternative to run(conn)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5732"
+  , issueCreatedAt = 2016 (-04) (-28) 19 : 03 : 08 UTC
+  , issueBody =
+      Just
+        "Moved here from https://github.com/rethinkdb/docs/issues/1104 , suggested by @cefn:\r\n\r\nForgetting run(conn) at the end of a query chain before passing back a promise is my most common error so far. Isn't it possible to use a function callback structure a bit like a promise to ensure queries are run correctly?\r\n\r\nA function which returns anything which doesn't evaluate to a query can be routed to validation code and throw an immediate error, rather than waiting for the error to hit application code in the form of an unterminated query.\r\n\r\nBetter still, all queries are actually evaluated by calling ```run(conn)``` since this is an automatic by-product of returning from the function.\r\n\r\nPseudo-code might look like...\r\n\r\n```javascript\r\nconn = r.connect({\r\n    db: 'marvel'\r\n})\r\n\r\nvar tableResultPromise = conn.promiseResult(function(db){\r\n  return db.table('marvel')\r\n});\r\n\r\nvar cursorResultPromise = conn.promiseResult(function(db){\r\n  return db.table('dc').getAll('superman', 'ant man')\r\n});\r\n\r\n//this use of toArray is a promise-oriented extension to the API\r\nvar itemsResultPromise = conn.promiseResult(function(db){\r\n  return db.table('dc').getAll('superman', 'ant man').toArray()\r\n});\r\n\r\nitemsRecordsPromise.then(function(result){\r\n    console.log(JSON.stringify(result, null, '\\t'))\r\n})\r\n```"
+  , issueState = "open"
+  , issueId = Id 151718784
+  , issueComments = 11
+  , issueMilestone = Nothing
+  }

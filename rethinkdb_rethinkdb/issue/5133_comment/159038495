@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-23) 19 : 32 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159038495"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5133#issuecomment-159038495"
+  , issueCommentCreatedAt = 2015 (-11) (-23) 19 : 32 : 36 UTC
+  , issueCommentBody =
+      "Thanks for the feedback @grantwork .\r\n\r\nWe generally try to maintain intra-cluster compatibility between minor versions. Unfortunately a few important fixes we did within the 2.1.x series required protocol changes to work properly, so we had to break compatibility there. We hope that we can avoid this in the future.\r\n\r\nI recommend pinning RethinkDB to a particular release, and updating it manually. The release notes (e.g. https://github.com/rethinkdb/rethinkdb/releases/tag/v2.1.5-2) will have a corresponding note if intra-cluster compatibility is not maintained for a minor update.\r\n\r\nRegarding writes to a single server: RethinkDB by default relies on quorums to guarantee the completeness and consistency of all data even in the case of netsplits or server failures. It is not possible to allow a single master to keep accepting writes, while at the same time providing automatic failover and maintaining consistency guarantees.\r\n\r\nIt is possible to manually configure a given table to have the behavior you describe. However automatic failover will no longer occur. This is a very important restriction. If automatic failover was still occurring, the database could lose an arbitrary number of already acknowledged writes due to any sort of brief network glitch or temporary server shutdown.\r\n\r\nTo set up a single primary (master) that keeps accepting writes even if secondaries are missing, you can use the following configuration:\r\n```\r\nr.db(...).table(...).config().update({\r\n    shards: [\r\n        nonvoting_replicas: [\"secondary1\", \"secondary2\", ...],\r\n        primary_replica: [\"primary\"],\r\n        replicas: [\r\n            \"primary\", \"secondary1\", \"secondary2\", ...\r\n        ]\r\n    ]\r\n})\r\n```\r\nThe strings \"secondary1\", \"secondary2\" etc. need to be replaced by the server names of the secondary replicas, and \"primary\" should be the server that you want to use as the master."
+  , issueCommentId = 159038495
+  }

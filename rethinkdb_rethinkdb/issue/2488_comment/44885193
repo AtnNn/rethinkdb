@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-02) 20 : 14 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44885193"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2488#issuecomment-44885193"
+  , issueCommentCreatedAt = 2014 (-06) (-02) 20 : 14 : 38 UTC
+  , issueCommentBody =
+      "Yes, @coffeemug, that error message happens before even trying to access the log file, so the problem isn't with the log file itself.  Instead, a call to `::write(STDERR_FILENO, ...)` is failing, which is fairly strange.  I don't think we ever close `stderr`, but I suppose it's possible that the other side of the stream is closed (see the answer (here)[http://stackoverflow.com/questions/938412/what-does-the-eio-error-code-mean]).\r\n\r\n@ianjuma, are you in some way closing or disabling the terminal that you ran `rethinkdb` in?  You could try redirecting `stderr` to a file somewhere and see if that fixes it.  If this is the case, I'm not sure if there's any changes we should make to the code.\r\n\r\nWhen you say 'no operations can succeed', are you saying you can't read/write table data?  A logging issue shouldn't be interfering with the data layer."
+  , issueCommentId = 44885193
+  }

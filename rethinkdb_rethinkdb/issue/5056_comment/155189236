@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-09) 20 : 51 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/155189236"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5056#issuecomment-155189236"
+  , issueCommentCreatedAt = 2015 (-11) (-09) 20 : 51 : 31 UTC
+  , issueCommentBody =
+      "As mentioned in [#4784 (comment)](https://github.com/rethinkdb/rethinkdb/pull/4784#issuecomment-142113485) I think the `onFinishedCallback` should always act as the error handler (`null` if cursor completed without error).\r\n\r\n```js\r\ncursor.each(function(err, row), function()) // current\r\n\r\ncursor.each(function(row), function(err)) // callback-style\r\ncursor.each(function(row, done), function(err)) // callback-style w/ async handler\r\ncursor.each(function(row)).catch(function(err)) // promise-style from #4784\r\n```\r\n\r\nThis would unfortunately be a breaking change, but a trivial one to fix in user code. I think the end result is cleaner than any of the three options @danielmewes proposed. Plus we get to knock out #3702 and get rid of the dedicated `cursor.eachAsync` from #4784 (both would just be `cursor.each`)."
+  , issueCommentId = 155189236
+  }

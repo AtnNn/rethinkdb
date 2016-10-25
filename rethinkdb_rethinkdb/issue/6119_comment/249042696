@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-22) 22 : 09 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 357481
+        , simpleUserLogin = N "danmactough"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/357481?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danmactough"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/249042696"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6119#issuecomment-249042696"
+  , issueCommentCreatedAt = 2016 (-09) (-22) 22 : 09 : 16 UTC
+  , issueCommentBody =
+      "Here is a [document](https://gist.githubusercontent.com/danmactough/dfd123ee952703e1214902cf2af14f94/raw/df0ab8999959262de45429c790cafe09361a53fd/sample.json) I can reproduce this with:\r\n\r\n- Performing an insert takes ~200ms\r\n- Performing the following operation on that document takes nearly 4 minutes\r\n\r\n```js\r\nr.db(\"guestlist_service\").table(\"guestlists\")\r\n  .get(\"d72b8df0-7071-11e6-b43a-59e854e9bbf1\")\r\n  .replace(function (guestlist) {\r\n    return r.do(function () {\r\n      // We cache a hashmap of all groups with more than one guest\r\n      const groups = guestlist(\"guests\").default([])\r\n        .group(\"group_id\")\r\n        .ungroup()\r\n        .fold({}, (acc, grouping) => {\r\n          return grouping(\"group\").ne(null).and(grouping(\"reduction\").count().gt(1)).branch(\r\n            acc.merge(\r\n              r.object(\r\n                grouping(\"group\"),\r\n                { id: grouping(\"group\"),\r\n                  guestlist_id: \"d72b8df0-7071-11e6-b43a-59e854e9bbf1\",\r\n                  guest_count: grouping(\"reduction\").count() }\r\n              )\r\n            ),\r\n            acc\r\n          );\r\n        });\r\n\r\n      return guestlist.without(\"guests\", \"tag_names\", \"meals\", \"groups\", \"tag_counts\", \"meal_counts\").merge({\r\n        // Using the cached groups hashmap, we remove the group_id from any\r\n        // guest whose non-null group_id is not in the cached groups hashmap,\r\n        // which indicates that that group_id no longer has more than one guest\r\n        guests: guestlist(\"guests\").default([]).map(guest => {\r\n          return groups.keys().contains(guest(\"group_id\")).not().and(guest(\"group_id\").ne(null)).branch(\r\n            guest.merge({ group_id: null }),\r\n            guest\r\n          );\r\n        }),\r\n        guest_count: guestlist(\"guests\").default([])\r\n          .count(),\r\n        tag_names: guestlist(\"tags\").default({}).keys(),\r\n        meals: guestlist(\"guests\").default([])(\"meals\").default([])\r\n          .concatMap(meal => meal).distinct(),\r\n        // Write the cached groups hashmap\r\n        groups: groups,\r\n        tag_counts: guestlist(\"guests\").default([])(\"tags\").default([])\r\n          .concatMap(tag => tag)\r\n          .fold({}, (acc, tag) => {\r\n            return acc.hasFields(tag).branch(\r\n              acc.merge(r.object(tag, acc(tag).add(1))),\r\n              acc.merge(r.object(tag, 1))\r\n            );\r\n          }),\r\n        meal_counts: guestlist(\"guests\").default([])(\"meals\").default([])\r\n          .concatMap(meal => meal)\r\n          .fold({}, (acc, meal) => {\r\n            return acc.hasFields(meal).branch(\r\n              acc.merge(r.object(meal, acc(meal).add(1))),\r\n              acc.merge(r.object(meal, 1))\r\n            );\r\n          })\r\n      });\r\n    });\r\n  });\r\n```"
+  , issueCommentId = 249042696
+  }

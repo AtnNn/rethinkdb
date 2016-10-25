@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-10) 00 : 16 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55055366"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1375#issuecomment-55055366"
+  , issueCommentCreatedAt = 2014 (-09) (-10) 00 : 16 : 51 UTC
+  , issueCommentBody =
+      "@timmaxw You seem to be trending toward the same way I am, but I don't especially understand why we need to have special base classes etc. at all.  We could use the same `allocator` design the std lib does; http://en.cppreference.com/w/cpp/memory/allocator these things.  Our STL containers are supposed to already support it, and if we hack `make_counted` to use the allocator rather than `new` we should be able to slot it in.  Now threading those allocators through everywhere they need to go is a huge deal, I will not deny that.  I think it *should* be sufficient to attach an allocator to the `env` object we already thread through everything, and we can follow the lead of the array limits changes to figure out where that threading is no longer sufficient.  This also may give us the ability to use pool based memory allocation eventually, which could be a big win (we currently spend a lot of time incrementing and decrementing reference counts on short lived garbage).  We don't need to write our own\8212Boost provides one\8212but our previous experience with Boost has not been universally positive, to be certain.\r\n\r\nI should note that I loathe the way `allocator` is designed, but I can't put my finger on concrete reasons and it's integrated into the rest of the C++ std lib so it's probably not worth fighting over.\r\n\r\nOne detriment is due to the type system, the types of these things will change slightly; wikipedia notes \"Like all C++ class templates, instantiations of standard library containers with different allocator arguments are distinct types. A function expecting an std::vector<int> argument will therefore only accept a vector instantiated with the default allocator.\""
+  , issueCommentId = 55055366
+  }

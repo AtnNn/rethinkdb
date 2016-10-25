@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-16) 19 : 49 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157149357"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5099#issuecomment-157149357"
+  , issueCommentCreatedAt = 2015 (-11) (-16) 19 : 49 : 05 UTC
+  , issueCommentBody =
+      "Thanks for the report @avimar. That's very odd.\r\nI don't think this query should be significantly faster in 2.2, since the expensive part is probably the merge which should work in pretty much the same way as before. However it should also not be slower, let alone by such a magnitude.\r\n\r\nThe profile is often not very helpful for queries that return a cursor, since it will only cover the first batch of results that the server generates.\r\nCan you try re-running the query with a `.coerceTo('array')` at the end and post the profile that you get here? That will change the return type to an array rather than a cursor, but will make the profile output much more useful (and in case that makes the query run faster, we might also get some ideas about where to look next).\r\n\r\nWhen you say that the proxy changed, do you mean that you used to connect through a proxy before the upgrade, but now connect directly to one of the RethinkDB servers?\r\n\r\nHow fast are the network connections between the involved servers?"
+  , issueCommentId = 157149357
+  }

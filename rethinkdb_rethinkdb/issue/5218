@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-14) 20 : 29 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5218/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5218"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 5218
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1793187
+        , simpleUserLogin = N "r-marques"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1793187?v=3"
+        , simpleUserUrl = "https://api.github.com/users/r-marques"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Query taking a long time to execute in 32 node cluster"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5218"
+  , issueCreatedAt = 2015 (-12) (-16) 23 : 00 : 09 UTC
+  , issueBody =
+      Just
+        "##### Setup\r\n\r\n- 32 node cluster in ec2 m3.2xlarge (8 cores, 30GiB memory, ssd storage)\r\n- table with 6 million documents, 32 shards , and 5 replicas\r\n- python 3.4.3\r\n- driver rethinkdb 2.2.0.post1\r\n\r\n##### Example document\r\n\r\n```javascript\r\n{\r\n\r\n    \"assignee\": \"3049301306072a8648ce3d020106082a8648ce3d030101033200045a86875b2ac478d153dfff03c0ff41a7fd0e9a19a7a02e3e6b8693e979393dbbb329969e0f1fb058dbad655262f65a77\" ,\r\n    \"id\": \"cdfb20ec2991226a567b37dd9a99259cd18ffe735a095d91ebb768084cb243fe\" ,\r\n    \"signature\": \"303502187f06fb907a8c86d95b8f2bcb352d03eeb0d3301a139f54e7021900830ac501a050de370353b29aed0593dca21f189e9c960933\" ,\r\n    \"transaction\": {\r\n        \"current_owner\": \"3049301306072a8648ce3d020106082a8648ce3d03010103320004e160db58228809222568e77439ac6c3530b8ce1d9b49c58cf175439df7adaf364af2145e4ab3f3e3173b7cfe55ce87d4\" ,\r\n        \"data\": {\r\n            \"hash\": \"4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45\"\r\n        } ,\r\n        \"input\": null ,\r\n        \"new_owner\": \"3049301306072a8648ce3d020106082a8648ce3d0301010332000475c70719081277fe5271075069ee5a5d509d1cef95afa1b32161dc28bcefc82c3e34ffa278ad7357d00946a6ba6f56d0\" ,\r\n        \"operation\": \"CREATE\" ,\r\n        \"timestamp\": \"1450277322.428634\"\r\n    }\r\n\r\n}\r\n```\r\n\r\n##### Tests run\r\n\r\n```python\r\ndef read_transactions(num_transactions):\r\n    changes = list(r.table('backlog', read_mode=\"outdated\").order_by(index=r.asc('transaction_timestamp'))\r\n                   .filter(r.row['assignee'] == b.me)\r\n                   .limit(num_transactions)\r\n                   .run(b.conn))\r\n    return changes\r\n\r\n\r\ndef read_transactions_with_delete(num_transactions):\r\n    changes = r.table('backlog', read_mode=\"outdated\").order_by(index=r.asc('transaction_timestamp'))\\\r\n                   .filter(r.row['assignee'] == b.me)\\\r\n                   .limit(num_transactions)\\\r\n                   .delete(durability='soft', return_changes=True)\\\r\n                   .run(b.conn)\r\n    return changes\r\n\r\n\r\ndef test_1():\r\n    results = r.table('backlog').order_by(index=r.asc('transaction_timestamp'))\\\r\n                        .filter(r.row['assignee'] == b.me)\\\r\n                        .count()\\\r\n                        .run(b.conn)\r\n\r\ndef test_2():\r\n    results = r.table('backlog')\\\r\n                   .filter(r.row['assignee'] == b.me)\\\r\n                   .count()\\\r\n                   .run(b.conn)\r\n\r\ndef iterate_cursor():\r\n    changes = r.table('backlog', read_mode=\"outdated\").order_by(index=r.asc('transaction_timestamp'))\\\r\n                   .filter(r.row['assignee'] == b.me)\\\r\n                   .run(b.conn)\r\n    i = 0\r\n    for elem in changes:\r\n        i += 1\r\n        if i > 1000:\r\n            break\r\n\r\ndef iterate_cursor2():\r\n    changes = r.table('backlog', read_mode=\"outdated\").order_by(index=r.asc('transaction_timestamp'))\\\r\n                   .filter(r.row['assignee'] == b.me)\\\r\n                   .run(b.conn)\r\n\r\nif __name__ == '__main__':\r\n\r\n    t = Timer(\"read_transactions(1000)\", \"from __main__ import read_transactions\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"read_transactions_with_delete(1000)\", \"from __main__ import read_transactions_with_delete\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"test_1()\", \"from __main__ import test_1\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"test_2()\", \"from __main__ import test_2\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"iterate_cursor()\", \"from __main__ import iterate_cursor\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"iterate_cursor2()\", \"from __main__ import iterate_cursor2\")\r\n    print(t.repeat(3, 10))\r\n```\r\n\r\n##### Tests results\r\n\r\nPer test I am running the query 10 times and repeating this 3 times, so in the first case 66 seconds to run the query 10 times or 6.6 sec per query\r\n\r\n```bash\r\n[66.09757576099946, 66.03675155300152, 66.0780761269998]\r\n[48.11607390899735, 45.594180585001595, 43.56015088199638]\r\n[10.840785088999837, 10.779013731000305, 10.763167227996746]\r\n[8.124895454995567, 8.065428344001702, 8.034964015001606]\r\n[43.33825679599977, 43.332407430003514, 43.361559008997574]\r\n[43.2263467590019, 43.0067323330004, 43.10415925300185]\r\n```\r\n\r\nIn the 32 node cluster it takes ~6.5 secs to get 1000 documents with the first query. On my local development setup with one node cluster and 1 million documents in the table it takes 20msec\r\n\r\nFor the last test just getting the cursor takes ~4 secs\r\n\r\nI am willing to test this further in the cluster. Let me know what else you guys need"
+  , issueState = "open"
+  , issueId = Id 122623121
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

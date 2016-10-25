@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-25) 22 : 33 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/145/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/145"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 145
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Support up-to-date reads from replicas"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/145"
+  , issueCreatedAt = 2012 (-12) (-06) 00 : 42 : 26 UTC
+  , issueBody =
+      Just
+        "IRC user @xetorthio (if the github user is the same person) talked about being able to read from replicas while writing to the master, instead of having to send all reads to the master (which would swamp the machine).  But what was desired is for reads to not be out-of-date -- reads and writes should preserve ordering.  The wording was more like this:\n\n```\n<xetorthio> srh_: I should check how long it takes. but I could live with that. I wonder if I can tell rethink to replicate to all the available nodes for a shard. and not a specific number\n<srh_>I think you need a specific number right now.\n<xetorthio> srh_: that sucks, because I requirement would be that a node can never go down to be able to write\n```\n\nHowever, directly implementing that feature is not a good idea: it wouldn't work in the presence of netsplits, since the parser could send a write to the master and then try a read from a replica that is currently disconnected from the master.\n\nImplementing support for up-to-date reads from replicas, however, is doable and not fragile.  The parser sends to some replica a kind of out-of-date read that says \"wait until the write with timestamp *t* comes in before processing\", where *t* is the timestamp of the last write that went through the parser.  (And is *t* actually something trickier, some kind of branch history/timestamp pair??)"
+  , issueState = "open"
+  , issueId = Id 9039743
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

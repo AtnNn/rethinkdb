@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-08) 02 : 41 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245478292"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5494#issuecomment-245478292"
+  , issueCommentCreatedAt = 2016 (-09) (-08) 02 : 41 : 43 UTC
+  , issueCommentBody =
+      "- Agree about skipping coercion\r\n- Agree with @marshall007 about `r.schema`, it's more straightforward.\r\n- Agree we shouldn't do migration right now (option 1), but we should leave the possibility of it open.\r\n- One reason to special case table schemas (i.e. have `schema` key in table config) vs. just having them be a normal write hook is so that we can add migration capabilities later. So we could version the schema of a table and provide guarantees about migrating from one version to the next.'\r\n  - If it's an opaque write hook, we have less semantic info on how to migrate\r\n  - (Also it might not be us, if the schema is not opaque 3rd party migration tools will have an easier time)\r\n- Agree on using `format`, though it's annoying ajv doesn't support it on non-strings. \r\n\r\n### Ideas \r\n\r\n- We should make `r.schema` return a function subclass with a nice printable representation. That way you can pass them to filter etc.\r\n  - you'd use `value.do(r.schema(...))` to check instead of `.validate()`\r\n  - this would also reduce special casing for which terms can accept a schema object\r\n  - We should be able to store `r.schema` instances on disk, probably as a very light wrapper on the json representation similar to the geo types.\r\n- `r.schema` should have an optarg to either throw informative errors on validation failure (useful for table schema when doing bulk inserts) or just returning a boolean (better for filter, though we handle errors the same in that particular case).\r\n"
+  , issueCommentId = 245478292
+  }

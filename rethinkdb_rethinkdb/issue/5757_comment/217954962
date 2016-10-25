@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-09) 18 : 52 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/217954962"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5757#issuecomment-217954962"
+  , issueCommentCreatedAt = 2016 (-05) (-09) 18 : 52 : 56 UTC
+  , issueCommentBody =
+      "@anatol If you get a chance, can you try if compilation works with this patch?\r\n```\r\ndiff --git a/src/arch/runtime/callable_action.hpp b/src/arch/runtime/callable_action.hpp\r\nindex b34b1d0..b572519 100644\r\n--- a/src/arch/runtime/callable_action.hpp\r\n+++ b/src/arch/runtime/callable_action.hpp\r\n@@ -49,6 +49,10 @@ public:\r\n #pragma clang diagnostic push\r\n #pragma clang diagnostic ignored \"-Wunreachable-code\"\r\n #endif\r\n+#if defined(__GNUC__) && (100 * __GNUC__ + __GNUC_MINOR__ >= 600)\r\n+#pragma GCC diagnostic push\r\n+#pragma GCC diagnostic ignored \"-Wplacement-new=\"\r\n+#endif\r\n         // Allocate the action inside this object, if possible, or the heap otherwise\r\n         if (sizeof(callable_action_instance_t<Callable>) > CALLABLE_CUTOFF_SIZE) {\r\n             action_ = new callable_action_instance_t<Callable>(\r\n@@ -59,6 +63,9 @@ public:\r\n                     std::forward<Callable>(action));\r\n             action_on_heap = false;\r\n         }\r\n+#if defined(__GNUC__) && (100 * __GNUC__ + __GNUC_MINOR__ >= 600)\r\n+#pragma GCC diagnostic pop\r\n+#endif\r\n #ifdef __clang__\r\n #pragma clang diagnostic pop\r\n #endif\r\ndiff --git a/src/rdb_protocol/lazy_btree_val.hpp b/src/rdb_protocol/lazy_btree_val.hpp\r\nindex 1868795..79aed74 100644\r\n--- a/src/rdb_protocol/lazy_btree_val.hpp\r\n+++ b/src/rdb_protocol/lazy_btree_val.hpp\r\n@@ -7,7 +7,7 @@\r\n #include \"rdb_protocol/datum.hpp\"\r\n \r\n struct rdb_value_t {\r\n-    char contents[];\r\n+    char contents[1];\r\n \r\n public:\r\n     int inline_size(max_block_size_t bs) const {\r\n```\r\n\r\nI also committed this into the branch daniel_5757 (based on v2.3.x)."
+  , issueCommentId = 217954962
+  }

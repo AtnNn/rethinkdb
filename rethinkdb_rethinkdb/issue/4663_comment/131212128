@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-14) 19 : 15 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 278048
+        , simpleUserLogin = N "balasuar"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/278048?v=3"
+        , simpleUserUrl = "https://api.github.com/users/balasuar"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131212128"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4663#issuecomment-131212128"
+  , issueCommentCreatedAt = 2015 (-08) (-14) 19 : 12 : 07 UTC
+  , issueCommentBody =
+      "@danielmewes Correct, we only start with one instance of Rethink. It's managed by supervisor.\r\n\r\nThe output of `ps` shows that supervisor started one instance of rethink, which spawned another. That second instance spawned three more.\r\n\r\n```\r\nubuntu@ip-172-31-16-26:~$ ps -ef | grep rethink\r\nubuntu   10163   234  0 Aug11 ?        00:01:29 rethinkdb --bind all\r\nubuntu   10165 10163  0 Aug11 ?        00:00:00 rethinkdb --bind all\r\nubuntu   10239 10165  0 Aug11 ?        00:00:24 rethinkdb --bind all\r\nubuntu   10328 10165  0 Aug11 ?        00:00:54 rethinkdb --bind all\r\nubuntu   10329 10165  0 Aug11 ?        00:00:43 rethinkdb --bind all\r\nubuntu   13116 13097  0 19:09 pts/0    00:00:00 grep --color=auto rethink\r\nubuntu@ip-172-31-16-26:~$ ps -ef | grep supervisord\r\nroot       234     1  0 Aug06 ?        00:01:56 /usr/bin/python /usr/bin/supervisord --nodaemon --configuration /etc/supervisor/supervisord.conf\r\nubuntu   13120 13097  0 19:10 pts/0    00:00:00 grep --color=auto supervisord\r\nubuntu@ip-172-31-16-26:~$\r\n```\r\n\r\nStopping the process, and restarting them, right off the bat ends up with 3 rethink processes.\r\n\r\n```\r\nubuntu@ip-172-31-16-26:~$ sudo supervisorctl start all\r\nrethinkdb: started\r\nnodeapi: started\r\nnodeweb: started\r\nubuntu@ip-172-31-16-26:~$ ls\r\nbuilds  rethinkdb_data\r\nubuntu@ip-172-31-16-26:~$ ps -ef | grep rethink\r\nubuntu   13129   234  1 19:12 ?        00:00:00 rethinkdb --bind all\r\nubuntu   13131 13129  0 19:12 ?        00:00:00 rethinkdb --bind all\r\nubuntu   13205 13131  0 19:12 ?        00:00:00 rethinkdb --bind all\r\nubuntu   13219 13097  0 19:13 pts/0    00:00:00 grep --color=auto rethink\r\n```\r\n\r\nSupervisor config for Rethink looks like this:\r\n\r\n```\r\n[program:rethinkdb]\r\ncommand=rethinkdb --bind all\r\ndirectory=/home/ubuntu\r\nredirect_stderr=true\r\nstdout_logfile=/var/log/nodeapps/rethinkdb.log\r\nuser=ubuntu\r\n```"
+  , issueCommentId = 131212128
+  }

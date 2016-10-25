@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 21 : 34 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61718734"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1375#issuecomment-61718734"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 21 : 34 : 51 UTC
+  , issueCommentBody =
+      "My concern is that once we add the memory limit, the array size limit is going to be difficult to explain to users.\r\nIf a user asks us \"I'm running into an array size limit. Why is RethinkDB limited in this way?\"\r\nWe can currently answer \"This is a protection to make sure queries don't kill the server by consuming too much memory. You can increase it by running ... if you are sure your query doesn't actually use that much.\"\r\nOnce we have the memory size limit, this answer doesn't work anymore.\r\n\r\nThe other use case that you mention I think is much more difficult to justify. The basic motivation here is to warn users if they're using queries that should be using streaming and an index instead of generating big intermediate results if I see this correctly (please let me know if there's something else to it that I don't realize).\r\nHowever I think the array size limit is not actually great in doing that.\r\nThe first problem is that it will often not show up in small-scale tests, but only later when users roll out their application to larger data sets. In this respect it kicks in at a somewhat arbitrary boundary. This is not much unlike what the memory size limit would do. The memory size limit wouldn't actually be better, but I don't think it would be much worse in warning people about these conditions in their queries either.\r\nThe other problem is that - as we have seen on the mailing list - there isn't always a way to avoid generating the intermediate result. Here the memory size limit does a better job because it better differentiates between cases where the large intermediate result is *actually* large and those where the only issue is that we think that *generally* intermediate results with many entries should be avoided.\r\n\r\n(An alternative for the second motivation could be @neumino's idea of having warnings in the driver https://github.com/rethinkdb/rethinkdb/issues/3247 , though I think that has some problems too.)\r\n\r\nI still think that we should remove the array size limit when we introduce the memory limit. But if you feel strongly about this or more arguments in its favor come up, I would certainly be ok with leaving it in at least for now."
+  , issueCommentId = 61718734
+  }

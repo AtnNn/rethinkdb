@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 15 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2342/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2342"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2342
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 139396
+        , simpleUserLogin = N "wojons"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/139396?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wojons"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "run(stream=true) and custom batch size"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2342"
+  , issueCreatedAt = 2014 (-05) (-02) 19 : 19 : 23 UTC
+  , issueBody =
+      Just
+        "Info\r\n===\r\nSo after talking with @danielmewes for a little bit i learned about how rethinkdb handles batches that there is an internal batch size witch collates well with the batch size that is sent to the client. I know this problem is not as bad in official drivers since from what i was told they make the request for the next batch while processing the batch they just got.\r\n\r\nUse case\r\n=======\r\nSo in my use case i have 1 minute data points meaning 1440 points a day and the objects are all between +5kb sometimes they are larger then 10kb. So when i query over a few hours a data and start looking at day, week, month i start to see weird things with the cpu. It wakes up and then goes to sleep wakes up goes to sleep and keeps doing that. and at some point shortly after the last time it wakes up my data has finally all been disabled on the browser. \r\n\r\n\r\nWith really basic queries like r.table().filter() this is not to bad since the time it takes to process each batch is super short. but when you are doing large GMR jobs that consist  of lots of loops operations and so on (ask @danielmewes  or @atnnn about my gmr jobs) this becomes a really big problem.\r\n\r\nProposal\r\n=======\r\nI would like a stream flag added to the protocol so the  pipeline flows when there is a lot of work to be done in between getting the data from the table and sending it to the client. This can be done on different levels internal buffer on the db size where it processes everything and then able to still batch to the client or that it does the batches but always has batches running at each step and then throwing them at the client. Another option that will be important is for users to submit a batch size if you have production servers with some power behind them 1mb batch is very very small and should also be configurable.\r\n\r\n@coffeemug i know your first thought is to put this in to 2.x but this to me is very important and deals very closely with performance of rethinkdb from the users point of view. The database may be very fast but the batching is messing with that idea.  "
+  , issueState = "open"
+  , issueId = Id 32718153
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

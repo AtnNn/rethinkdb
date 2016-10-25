@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-06) 08 : 22 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73201682"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73201682"
+  , issueCommentCreatedAt = 2015 (-02) (-06) 08 : 21 : 05 UTC
+  , issueCommentBody =
+      "@AtnNn Note that in combination with `default = r.error`, the solution from https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73182328 fulfills the first two points of your list (though I'm not sure what exactly it would take to take `branch` into account).\r\n\r\nI didn't specify what to do with filter in that proposal, though I think we should probably keep the current `default = false` because it actually makes `filter` significantly easier to use in my experience. In that case indeed your first two points would not be fulfilled by default. I think it's still worth making `or` and `and` behave more intuitively, independent of what we do in `filter`.\r\n\r\nWhether it actually is easy to understand or surprising is pretty subjective I guess. I personally think it's very intuitive, as it's treating a missing field as `undefined`, where `undefined` means that the field can take any value that our type system allows for but we don't know which. The only heuristic involved in my proposal is which exact value out of all the truthy/falsey arguments to `r.or` and `r.and` we return in the presence of `undefined`. This is somewhat arbitrary indeed. However the truthness of the returned value is not. It follows the mathematical definition, and is sound as far as I can tell (as in you can plug in any actual value for `undefined` and the result of the `or`/`and` would still have the same truthness).\r\n\r\nWe've had a somewhat related discussion above. Some people consider the JavaScript way of handling `undefined` intuitive, but it seems very arbitrary to me and doesn't look mathematically sound (as in it leads to contradictions such as `!!undefined != undefined`, but `!undefined == !undefined`). SQL's NULL value seems a little closer to a mathematically workable system from what I can tell, but I think it doesn't trivially translate to ReQL.\r\n\r\nWe could make `r.do` and `r.args` pass `undefined` values through. It seems less important to me though."
+  , issueCommentId = 73201682
+  }

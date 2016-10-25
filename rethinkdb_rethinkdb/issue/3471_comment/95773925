@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 02 : 04 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95773925"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95773925"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 02 : 04 : 51 UTC
+  , issueCommentBody =
+      "The only messages we really need to send per client would be the \"acknowledgements\" from server B (with the connected clients) to server A (the primary) right?\r\n\r\nI don't think there's a way around this, because the primary needs to know where clients have left of in case they later resume from elsewhere.\r\nI can think of two ways to optimize this:\r\n* Don't send the ack from B to A for a given client for each change, but wait for say 50 changes before sending an ack. That means that if a client later resumes a feed, it will see more duplicate messages because A doesn't know that the client has already seen them. However we cannot give any guarantees about this anyway. Also if the client provides a `since` value, those changes can be trivially filtered out and we don't have any problem.\r\n* In addition to this, we could bundle acks from multiple clients together into a single cluster message. Something like: \"the following clients have now read up to at least change ID X: [c1, c2, c3, ...]\". The amount of data is still linear in the number of clients, but sending a single big message should be a lot more efficient than sending lots of small messages.\r\n\r\nI'm pretty sure that if we implement the first of these optimizations, we're perfectly fine.\r\n"
+  , issueCommentId = 95773925
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-02) 20 : 15 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/178799184"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5343#issuecomment-178799184"
+  , issueCommentCreatedAt = 2016 (-02) (-02) 20 : 15 : 58 UTC
+  , issueCommentBody =
+      "I see. It seems to me that the limiting part here is really that we don't allow access to the secondary index values of a table. This isn't a problem for performance, since they can be easily recomputed. But might be an issue for convenience in some cases.\r\n\r\nThe other missing piece is that we don't have a canonical conversion from an array to a string. However you could use `.toJsonString()`, or write your own function.\r\nFor example to get simply the concatenation of the array elements:\r\n```js\r\nr.expr([99, \"Alisson\", 31]).reduce(function(l, r) { return l.coerceTo('string').add(r.coerceTo('string')); })\r\n```\r\n(in the future, the `fold` term will be a better replacement to the `reduce` in this https://github.com/rethinkdb/rethinkdb/issues/3736 )\r\n\r\nThat being said, you can do this already by re-applying the secondary index function manually:\r\n```js\r\nr.table(\"test\").filter(\r\n    r.expr([r.row(\"client_id\",), r.row(\"name\"), r.row(\"age\")])\r\n     .reduce(function(l, r) { return l.coerceTo('string').add(r.coerceTo('string')); })\r\n     .match(\"/^[0-9]{2}[a-zA-Z]+31$/\")\r\n  )\r\n```\r\n\r\nThe index doesn't really help here anyway, since we can't query it efficiently when using `match`."
+  , issueCommentId = 178799184
+  }

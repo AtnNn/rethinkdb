@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 00 : 49 : 31 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 00 : 49 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1956/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1956"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1956
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3918958
+        , simpleUserLogin = N "Micka33"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3918958?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Micka33"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Cannot find module 'node-protobuf' in CasperJS"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1956"
+  , issueCreatedAt = 2014 (-02) (-18) 12 : 59 : 50 UTC
+  , issueBody =
+      Just
+        "Mac OSX `10.8.5`\r\nnode `v0.10.25`\r\nnpm `1.3.24`\r\nrethinkdb `1.11.3 (CLANG 4.2 (clang-425.0.28))` installed via `rethinkdb.pkg`\r\n\r\n```shell\r\n\10140  npm install rethinkdb\r\nnpm http GET https://registry.npmjs.org/rethinkdb\r\n...\r\nrethinkdb@1.11.0-4 node_modules/rethinkdb\r\n\9492\9472\9472 protobufjs@2.0.5 (ascli@0.3.0, bytebuffer@2.3.1)\r\n\10140  \r\n```\r\nMy casperjs script\r\n```javascript\r\nvar casper  = require('casper').create({\r\n                viewportSize: {width: 1224, height: 1000000},\r\n                pageSettings: {loadImages:  true, loadPlugins: true, localToRemoteUrlAccessEnabled: true},\r\n                verbose: true,\r\n                logLevel: \"debug\"\r\n              }),\r\n    redb    = require('rethinkdb');\r\n\r\ncasper.start('http://www.google.com/');\r\ncasper.run(function()\r\n{\r\n  this.exit();\r\n});\r\n```\r\nWhen I run my script I get this error\r\n```shell\r\n\10140  casperjs rethinkdb.js\r\nError: Cannot find module 'node-protobuf'                                       \r\n  /Users/micka/Documents/Work/project/phantomjs:/bootstrap.js:289\r\n  /Users/micka/Documents/Work/project/phantomjs:/bootstrap.js:254 in require\r\n  /Users/micka/Documents/Work/project/node_modules/rethinkdb/native-protobuf.js:8\r\n  /Users/micka/Documents/Work/project/node_modules/rethinkdb/native-protobuf.js:21\r\n\10140  \r\n```\r\nSo I decided to install the missing module, and this is what I get\r\n```shell\r\n\10140  checkItBaby git:(master) npm install node-protobuf\r\nnpm http GET https://registry.npmjs.org/node-protobuf\r\nnpm http 200 https://registry.npmjs.org/node-protobuf\r\nnpm http GET https://registry.npmjs.org/node-protobuf/-/node-protobuf-1.0.10.tgz\r\nnpm http 200 https://registry.npmjs.org/node-protobuf/-/node-protobuf-1.0.10.tgz\r\n\r\n> node-protobuf@1.0.10 install /Users/micka/Documents/Work/project/node_modules/node-protobuf\r\n> node-gyp rebuild\r\n\r\ngyp http GET http://nodejs.org/dist/v0.10.25/node-v0.10.25.tar.gz\r\ngyp http 200 http://nodejs.org/dist/v0.10.25/node-v0.10.25.tar.gz\r\n  CXX(target) Release/obj.target/protobuf/protobuf.o\r\n../protobuf.cpp:7:10: fatal error: 'google/protobuf/dynamic_message.h' file not found\r\n#include <google/protobuf/dynamic_message.h>\r\n         ^\r\n1 error generated.\r\nmake: *** [Release/obj.target/protobuf/protobuf.o] Error 1\r\ngyp ERR! build error \r\ngyp ERR! stack Error: `make` failed with exit code: 2\r\ngyp ERR! stack     at ChildProcess.onExit (/usr/local/Cellar/node/0.10.25/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:267:23)\r\ngyp ERR! stack     at ChildProcess.EventEmitter.emit (events.js:98:17)\r\ngyp ERR! stack     at Process.ChildProcess._handle.onexit (child_process.js:797:12)\r\ngyp ERR! System Darwin 12.5.0\r\ngyp ERR! command \"node\" \"/usr/local/Cellar/node/0.10.25/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js\" \"rebuild\"\r\ngyp ERR! cwd /Users/micka/Documents/Work/project/node_modules/node-protobuf\r\ngyp ERR! node -v v0.10.25\r\ngyp ERR! node-gyp -v v0.12.2\r\ngyp ERR! not ok \r\nnpm ERR! node-protobuf@1.0.10 install: `node-gyp rebuild`\r\nnpm ERR! Exit status 1\r\nnpm ERR! \r\nnpm ERR! Failed at the node-protobuf@1.0.10 install script.\r\nnpm ERR! This is most likely a problem with the node-protobuf package,\r\nnpm ERR! not with npm itself.\r\nnpm ERR! Tell the author that this fails on your system:\r\nnpm ERR!     node-gyp rebuild\r\nnpm ERR! You can get their info via:\r\nnpm ERR!     npm owner ls node-protobuf\r\nnpm ERR! There is likely additional logging output above.\r\n\r\nnpm ERR! System Darwin 12.5.0\r\nnpm ERR! command \"/usr/local/Cellar/node/0.10.25/bin/node\" \"/usr/local/bin/npm\" \"install\" \"node-protobuf\"\r\nnpm ERR! cwd /Users/micka/Documents/Work/project\r\nnpm ERR! node -v v0.10.25\r\nnpm ERR! npm -v 1.3.24\r\nnpm ERR! code ELIFECYCLE\r\nnpm ERR! \r\nnpm ERR! Additional logging details can be found in:\r\nnpm ERR!     /Users/micka/Documents/Work/project/npm-debug.log\r\nnpm ERR! not ok code 0\r\n\10140  \r\n```\r\n\r\nI get the exact same problems when installing rehtinkdb using brew instead.\r\nWhat can I do ?\r\n\r\nEDIT\r\n---\r\nI realized it works just fine when I require it in the node shell, but it breaks when I try to require it into a casperjs script.\r\nSo I opened an issue at CasperJS as well.\r\nHere is the link for cross-reference n1k0/casperjs/issues/836.\r\n"
+  , issueState = "closed"
+  , issueId = Id 27791365
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

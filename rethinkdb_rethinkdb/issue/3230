@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2014 (-11) (-14) 02 : 56 : 45 UTC
+  , issueUpdatedAt = 2015 (-01) (-23) 21 : 50 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3230/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3230"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3230
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider ways to avoid confusion over server-tag parameters to `reconfigure`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3230"
+  , issueCreatedAt = 2014 (-10) (-23) 00 : 24 : 48 UTC
+  , issueBody =
+      Just
+        "Under the current plan, `r.table().reconfigure()` will take several optargs: `shards`, `replicas`, and `director_tag`. `shards` will always default to its previous value; `replicas` will always default to the *number* of replicas that were used before, but it might lose tag information; and `director_tag` will always default to `default`. This has the potential to confuse users, because they might run `reconfigure(shards = 2, replicas = {\"us_east\": 2}, director_tag = \"us_east\")` and then `reconfigure(shards = 3)` and then wonder why the reconfiguration used servers that weren't in `us_east`.\r\n\r\nOur current plan for dealing with this is to de-emphasize the tag features. We would hide server tags from the web UI and describe them as an advanced feature in the API docs, and make it clear in the documentation that users must re-specify tags every time they reconfigure.\r\n\r\nHowever, this might not be enough. @danielmewes, @neumino, and possibly some other people I'm forgetting (@Tryneus? @deontologician?) have expressed concerns over this proposal. We should see if there's a better way to handle this issue.\r\n\r\nHere are a couple of alternatives, none of which I think are very good:\r\n\r\n1. We could internally store either a `table_config` or a set of `reconfigure` parameters, depending on whether the user most recently called `reconfigure` or wrote to `table_config`. If we're storing a set of `reconfigure` parameters, we would automatically reconfigure the table whenever something changes, like a server being permanently removed. This still has the problem that if the user writes to `table_config` and then calls `r.reconfigure()`, their settings from the last call to `r.reconfigure()` will be lost.\r\n\r\n2. We could secretly persist the tag parameters from the last call to `r.reconfigure()` on a table and use them as the defaults if the user calls `r.reconfigure()` again without specifying that parameter. If the user writes to `table_config` manually, we could (maybe) clear them. We wouldn't allow the user or the web UI to read them, except perhaps through a secret web-UI-only interface.\r\n\r\n3. We could have a separate form of `reconfigure` that uses tags. So it would be something like `reconfigure_with_tags(shards, replicas, director_tag)`, where all of the parameters are mandatory, and `replicas` must be of the form `{\"tag1\": replicas1, \"tag2\": replicas2, ...}`. Then the regular `reconfigure()` wouldn't deal in tags at all. This might reduce the confusion.\r\n\r\n4. We could cut out server tags completely. If people need more complicated configuration than `r.reconfigure(num_shards, num_replicas)`, then they can write their own custom admin tools that do exactly what they need. This is based on the assumption that only a few users will want to specify tags. The `default` tag is currently playing a role in retiring servers from the cluster, so we'd have to come up with an alternative.\r\n\r\nOr, we could just leave things the way they are.\r\n\r\n@danielmewes: I originally wrote up this issue before you said you had changed your mind. Feel free to close it if you no longer have concerns."
+  , issueState = "closed"
+  , issueId = Id 46576495
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

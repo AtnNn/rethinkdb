@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-05) 23 : 32 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4650/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4650"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4650
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8921895
+        , simpleUserLogin = N "ha1331"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8921895?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ha1331"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "slow inserts on OS X 10.10.4 "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4650"
+  , issueCreatedAt = 2015 (-08) (-09) 21 : 23 : 05 UTC
+  , issueBody =
+      Just
+        "Running this  (nodejs) script on my MacBook Pro 15\" mid 2015 :\r\n**************************************************************************\r\nvar r = require(\"rethinkdbdash\")();\r\n\r\nvar iters = 90000, i = 0;\r\nvar insert = function(){\r\n    if (i < iters){\r\n        r.db('test')\r\n                .table('test')\r\n                .insert({name: \"\", size: i})\r\n                .run()\r\n            .then(function(){\r\n                insert()\r\n            })\r\n            .error()\r\n        i++;\r\n    }\r\n}\r\ninsert();\r\n**************************************************************************\r\n\r\nI get 45 -50 writes/s and I think that is way way slow. I mean it's just a laptop with 2.2/Ghz (turbo 3.4Ghz) quad core i7, but it does have pretty beefy ssd, being PCIE and all that. \r\n\r\nI tried the same script on my server ( Xeon E3 1245v2, 3x 120GB intel ssd in raid 1, Ubuntu 14.4) and got ~500 writes/s. \r\n\r\nUsing durability soft MacBook does ~1.4k writes/s and server does 2.5k. I'm aware that this is mostly about latency, since the script waits for the insert before issuing the next insert. Also if I run two processes, I get  about 80 writes/s on the macBook. These results are still quite unexpected. \r\n\r\nOrder of magnitude difference seems hard to explain on hw specs alone when macBook's ssd is capable of about 20x more write iops than the servers ssd. \r\n\r\nit might just be the low power cpu of the macBook, but that would seem bit odd too, since during the {durability: \"hard\"} test cpu is happily doing 85-90% idle, nodejs's cpu% is at ~2% and rethinkdb doesn't even show on the top listing. \r\n\r\nHaving the rethinkdb running on ramdisk bumps the durability: hard writes to ~1.2k writes/s (top shows nodejs using about 15% cpu and rethinkdb shows up also, using about 100% cpu) \r\n\r\ndurability: soft on ramdisk writes are about 1.7k/s (top shows nodejs sucking about 25-30% of cpu and rethinkdb is in the 160ish %)\r\n\r\nI tried this initially on 2.1 Beta in macBook, but downgraded to 2.0.4 with no difference. I don't know if this OS X issue and I don't care too much about the speed, since I only use it for developement but still wanted to file this. If not for any other reason, to inform users not to expect too much and to highlight that poor performance on macBook doesn't mean it's going to be as slow in the production enviroment.\r\n\r\nThis is all I can say about this thing. @danielmewes  If you have any questions, I'm probably loitering at #rethinkdb."
+  , issueState = "open"
+  , issueId = Id 99930095
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-01) 18 : 04 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/230011726"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5900#issuecomment-230011726"
+  , issueCommentCreatedAt = 2016 (-07) (-01) 18 : 04 : 48 UTC
+  , issueCommentBody =
+      "This is a known race condition, yes. Table (and database) creation isn't serializable across the cluster.\r\n\r\nClosing as a duplicate of #4898, which also goes into several ways to fix the server-side implementation.\r\n\r\nUnfortunately I don't think there is a way to non-racily \"ensure a table exists\" without outside synchronization (e.g. rows in another table/some external lock mechanism/manually making a new schema update run once before deploying to multiple systems).\r\n\r\nFor reference, [horizon currently solves this](https://github.com/rethinkdb/horizon/blob/ef91b8fabd4537a8f63bb7180981ef8abcc1ada9/server/src/metadata/metadata.js) by having an extra \"collections\" table (in another database) which maps collection names to table names with random IDs at the end (since the rows of that table can be atomically updated, you can recover from races.) However, since it's a massive pain for people who want to touch ReQL outside of horizon, [that's going to be replaced with a mutex row](https://github.com/rethinkdb/horizon/issues/498) in the future (also in a separate table)."
+  , issueCommentId = 230011726
+  }

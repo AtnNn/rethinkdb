@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-14) 19 : 01 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/148156233"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1520#issuecomment-148156233"
+  , issueCommentCreatedAt = 2015 (-10) (-14) 18 : 56 : 48 UTC
+  , issueCommentBody =
+      "@coffeemug I don't think that's going to be a problem. We'll document it as a \"more precise but slow\" algorithm or something like that. Since it wouldn't be the default, most users will need to explicitly look it up before using it. I don't think there will be bug reports for an option that's not enabled by default and that's explicitly marked as being slow.\r\n\r\nAlso note that we need to keep the slow implementation around anyway, since we need to support `sample` on arrays. In that case I think it's nice to allow people to set the option so that they can get a *guarantee* that the sampling is uniform, rather than having `sample` be strictly uniform on arrays and only approximately uniform (with potentially significant deviations) on tables.\r\n\r\nThere is also the question about what to do on streams which are not table slices. Our current algorithm is a lot better than doing a `coerceTo('array').sample(n)`, since it doesn't load all data into memory first. It actually properly streams the data and keeps no more than n results in memory at a time.\r\n\r\nOne thing we could do is fail if `.sample` is called with `distribution=\"uniform\"` on an input that does support approximate sampling. But I don't think that would be very helpful, as it reduces the number of use cases (there is no equivalent non-hacky work-around that I know of for users who need uniform sampling in that case, other than implementing it in the client)."
+  , issueCommentId = 148156233
+  }

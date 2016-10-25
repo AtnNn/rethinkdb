@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-31) 21 : 03 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/136498371"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2269#issuecomment-136498371"
+  , issueCommentCreatedAt = 2015 (-08) (-31) 21 : 02 : 40 UTC
+  , issueCommentBody =
+      "> Making `default` catch those by default feels slightly wrong to me. But it probably wouldn't be terrible.\r\n\r\nI think `default` should definitely catch both `NaN` and `Inf` by default. I don't think of `default` as something that catches non-existence errors (and I don't think our users do either). I think most people think of `default` as \"there is some data problem in my db/query, let's try throwing `default` in there to handle it\". So `NaN` and `Inf` should definitely be handled.\r\n\r\nI do think that making either `NaN` and `Inf` a subset of non-existence errors is strange. I'd much prefer having a separate error class for these that `default` handles out of the box.\r\n\r\nIt would be nice to have an optarg to `default` to define which errors to handle (which effectively turns `default` into `catch`, which I think is what we want):\r\n\r\n```py\r\nr.expr(X).default(Y, catch_errors=['NonExitence', 'Math'])\r\n```\r\n\r\nI don't think the optarg is necessary for the first pass, though. I think relatively few people would actually use it, so I wouldn't bother with it until we get actual requests for this feature."
+  , issueCommentId = 136498371
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-16) 23 : 43 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/112603950"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4397#issuecomment-112603950"
+  , issueCommentCreatedAt = 2015 (-06) (-16) 23 : 43 : 28 UTC
+  , issueCommentBody =
+      "> although I would guess a lot of people don't know their schema when they first create the table.\r\n\r\nThat's actually the exact case that I'm concerned about. If the schema still changes a lot initially, that will drive up the risk of running into the key cache limit. At that point the table will not compress keys anymore. It will say \"key compression enabled\", but the feature will not actually work.\r\n\r\nI think having to specify the keys manually is better in that case because it's basically signalling \"while you're still experimenting with your schema, don't enable key compression. Once you know pretty well what your keys look like, create a new table with a list of keys and insert your production data there\".\r\nWe could also allow adding new keys to an existing table.\r\n\r\n@indiedotkim\r\n> I actually do not quite understand why the whole table would have to be re-written when extending the key/value space.\r\n\r\nOh I just meant rewriting the key cache, not the whole table. If we use an array for storing the cached keys, we would have to rewrite the array to disk whenever we modify it. That's mostly a problem with the abstractions we're currently using in our code for serializing things to disk. That's why I suggested using a btree for the cache, which would allow us to update it more efficiently."
+  , issueCommentId = 112603950
+  }

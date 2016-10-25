@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-03) 09 : 10 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/108258609"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4315#issuecomment-108258609"
+  , issueCommentCreatedAt = 2015 (-06) (-03) 09 : 09 : 01 UTC
+  , issueCommentBody =
+      "> It's still not a super-elegant solution, and it's also kind of fragile (one mishandled `connPromise.then()` callback and the entire app blows up at the next query with no tracebacks).\r\n\r\nI guess that can be worked around somewhat by restricting access to the original connection promise, though:\r\n\r\n```js\r\nvar conn;\r\nfunction runNormally(query) {\r\n  return query.run(conn);\r\n}\r\nvar runQuery;\r\nvar connPromise = r.connect().then(function(connection) {\r\n  conn = connection;\r\n  runQuery = runNormally;\r\n});\r\nrunQuery = function queueQueryRun(query) {\r\n  return new Promise(function(resolve,reject) {\r\n    connPromise.then(function(conn){\r\n      query.run(conn).then(resolve,reject);\r\n      return conn;\r\n    });\r\n  });\r\n};\r\n```"
+  , issueCommentId = 108258609
+  }

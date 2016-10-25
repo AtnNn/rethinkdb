@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 16 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2331/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2331"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2331
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Open extra intra-cluster connections during poor network conditions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2331"
+  , issueCreatedAt = 2014 (-04) (-29) 21 : 23 : 51 UTC
+  , issueBody =
+      Just
+        "Talked with @wojons in IRC, he mentioned a situation where nodes communicating over a VPN have very slow cross-cluster query execution times, especially for queries that process large amounts of data.\r\n\r\nBased on the latency and packet loss of a TCP connection, that connection will have a maximum throughput.  There are a couple ways to get more throughput between two nodes, which is to increase the TCP window size, or open extra connections between the nodes.\r\n\r\nCurrently, the connectivity layer tries to keep exactly one connection between each pair of nodes in the cluster.  It would be nice if we could detect poor network conditions and open up a temporary new connection for extra bandwidth.  We can do this when the TCP outgoing buffer reaches a certain level.  The tricky part is figuring out if the situation is caused by bandwidth limitations or CPU limitations on the other end."
+  , issueState = "open"
+  , issueId = Id 32486595
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

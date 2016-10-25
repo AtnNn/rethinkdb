@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-20) 20 : 12 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/227255304"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5868#issuecomment-227255304"
+  , issueCommentCreatedAt = 2016 (-06) (-20) 20 : 12 : 34 UTC
+  , issueCommentBody =
+      "@soheilaabrishami That depends a bit on what you need the output of the query to be, and how many documents go into each individual group. Normally, `.group.ungroup` gives you an array of objects, each with a field that again is an object of all the documents in the respective group.\r\n\r\nOne option that always works it to just do a `cursor = r.table(table_name).order_by(index='indx').run()` and then doing the grouping on the client (e.g by building a dictionary from group to array of documents).\r\n\r\nAlternatively, if each individual group is relatively small, there's a way of doing the grouping with a `fold` operation after the `order_by` on the server-side. But that doesn't really save you anything over just doing the grouping on the client."
+  , issueCommentId = 227255304
+  }

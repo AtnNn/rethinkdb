@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2013 (-10) (-02) 08 : 17 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1410/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1410"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1410
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 414768
+        , simpleUserLogin = N "dancannon"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/414768?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dancannon"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: Extend math functions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1410"
+  , issueCreatedAt = 2013 (-09) (-10) 13 : 24 : 22 UTC
+  , issueBody =
+      Just
+        "Currently ReQL supports only basic math functions (sub, add, mul, etc...). I believe the introduction of more advanced math functions would be beneficial. For example MySQL has the following set of functions (http://dev.mysql.com/doc/refman/5.0/en/mathematical-functions.html).\r\n\r\nOne use case for adding these functions is sorting. For example currently I am using the following code however this is not very usable as the more rows in the table the slower the query.\r\n\r\n```js\r\nr.db(\"news\").table(\"posts\").orderBy(r.js(\"(function (post) {\"+\r\n\"    var score   = post.Likes - post.Dislikes;\"+\r\n\"    var order   = Math.log(Math.max(Math.abs(score), 1), 10);\"+\r\n\"    var sign    = score < 1 ? -1 : 1;\"+\r\n\"    var seconds = (new Date(post.Created).getTime() / 1000) - 1134028003;\"+\r\n\"\"+\r\n\"    return order + ((sign * seconds) / 45000);\"+\r\n\"})\"))\r\n```\r\n\r\nThat function could look something like this if the math functions were implemented and while it is not very readable it should hopefully have much better performance than using r.js\r\n\r\n```js\r\nr.db(\"news\").table(\"posts\").orderBy(function(row) {\r\n  return ((row(\"Likes\").sub(row(\"Dislikes\"))).abs().max(1).log10())\r\n    .add(((row(\"Likes\").sub(row(\"Dislikes\"))).sign().mul(row(\"Created\").seconds().sub(1134028003))).div(45000));\r\n})\r\n```"
+  , issueState = "open"
+  , issueId = Id 19258286
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

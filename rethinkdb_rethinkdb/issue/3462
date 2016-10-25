@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 19 : 33 : 14 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3462/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3462"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 3462
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "multi index and update"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3462"
+  , issueCreatedAt = 2014 (-12) (-19) 14 : 18 : 34 UTC
+  , issueBody =
+      Just
+        "When using a multi index, a `get_all` may retrieve many times the same document. e.g\r\n\r\n```ruby\r\nr.table(:table).index_create(:field1, :multi => true).run\r\nr.table(:table).insert(:field1 => [1,2,3]).run # insert 1 document\r\nr.table(:table).get_all(1,2,3, :index => :field1).run.to_a # retrieve 3 documents\r\n```\r\n\r\nA quick workaround can be used with `distinct`. However `distinct` and `delete` or `update` are not compatible. e.g.\r\n\r\n```ruby\r\nr.table(:table).get_all(1,2,3, :index => :field1).distinct.update(:field2 => 2) # raises, expected selection but found datum\r\nr.table(:table).get_all(1,2,3, :index => :field1).update(:field2 => 2) # this works, but returns 3 replaced documents, instead of 1.\r\n```\r\n\r\nCan we have distinct return a selection? If not possible, can we have update() return the number of unique document really updated?\r\n\r\nRelated: https://github.com/rethinkdb/rethinkdb/issues/3345"
+  , issueState = "open"
+  , issueId = Id 52487217
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

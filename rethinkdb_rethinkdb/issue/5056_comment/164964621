@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-16) 02 : 15 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164964621"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5056#issuecomment-164964621"
+  , issueCommentCreatedAt = 2015 (-12) (-16) 02 : 15 : 19 UTC
+  , issueCommentBody =
+      "@deontologician That's a good point. From `2.2.x` to `2.3.x` we are theoretically only allowed to add functionality in a backwards-compatible way. Let's keep that separate from this discussion. We can discuss maybe decoupling the JS driver's version from the servers later.\r\n\r\nI like @marshall007's proposal of replacing\r\n```js\r\ncursor.each(function(err, row), function()) // current with onFinishedCallback\r\ncursor.each(function(err, row)) // current\r\n```\r\nby\r\n```js\r\ncursor.each(function(row), function(err)) // callback-style\r\ncursor.each(function(row, done), function(err)) // callback-style w/ async handler\r\ncursor.each(function(row)).catch(function(err)) // promise-style from #4784\r\n```\r\n\r\nWe could either remove `eachAsync`, or keep it around as a simple alias for the third new `each` case.\r\n\r\n--\r\n\r\nI always forget how this works in JavaScript. Is there a way we can find out the arity of the functions that are passed into `each`? If there is, we could do the following instead which would maintain backwards compatiblity:\r\n```js\r\ncursor.each(function(err, row), function()) // current with onFinishedCallback\r\ncursor.each(function(err, row)) // current\r\n\r\ncursor.each(function(row), function(err)) // callback-style\r\ncursor.each(function(row, done), function(err)) // callback-style w/ async handler\r\ncursor.eachAsync(function(row)).catch(function(err)) // promise-style\r\n```\r\n\r\nNote that in that case we'd need to keep `eachAsync` around.\r\n\r\nThis proposal feels a bit unclear to me though, and I think it might be too confusing.\r\n\r\nMy vote would be for @marshall007's proposal and keeping `eachAsync` as a deprecated alias for `each`."
+  , issueCommentId = 164964621
+  }

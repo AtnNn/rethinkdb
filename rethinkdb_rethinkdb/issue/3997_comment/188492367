@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-24) 22 : 39 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/188492367"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3997#issuecomment-188492367"
+  , issueCommentCreatedAt = 2016 (-02) (-24) 22 : 39 : 30 UTC
+  , issueCommentBody =
+      "@opsb \r\n> But how do you the same for the converse, the changes to the user related to a particular task? (including when the foreign key changes)\r\n\r\nThat's indeed the tricky part. You basically need a \"backindex\", a secondary index on the `user_id` field in the `tasks` table. Then whenever a document in the `user` table changes, you perform a `r.table('tasks').getAll(userId, {index: \"user_id\"})` query to fetch all the associated documents in the tasks table. That way you can generate the old and new task values when a user changes.\r\n\r\nIt gets even harder if you want to get not just the new values, but also the old values from before a change, even if multiple changes can happen in both the `users` and `tasks` table at the same time. I think this is where you can't do much anymore without introducing explicit locks.\r\n\r\nIf the old values are less important though and you only care about the current state of the join, I think you can emulate the changefeed on the join using two changefeeds (one on `users`, one on `tasks`) and using the \"backindex\" trick mentioned above."
+  , issueCommentId = 188492367
+  }

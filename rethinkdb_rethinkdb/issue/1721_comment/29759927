@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 22 : 48 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29759927"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-29759927"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 22 : 48 : 39 UTC
+  , issueCommentBody =
+      "@coffeemug --\r\n\r\n> I am extremely opposed to option 2. Forcing people to add default:false in almost every filter they write would make absolutely no sense to novice users, and would still be irritating to advanced users of the system.\r\n\r\nPeople would only add `default:false` in one very specific case:\r\n* They're using a function rather than the shortcut object syntax (rare for new users).\r\n* They're accessing fields in that function which don't always exist.\r\n* They want to drop any rows where any of those fields don't exist.\r\n  - This is true of queries like `r.table('test').filter{|row| row[:type].eq(1) & row[:class].eq(2)}`\r\n    * Note also that almost all queries of this specific form can be written using the shortcut syntax.\r\n  - This is **not** true of queries like `r.table('test').filter{|row| row[:type].eq(1) | row[:always_show].eq(true)}`\r\n  - This is **not** true of queries like `r.table('test').filter{|row| r.not(row[:hidden])}`\r\n\r\nI think that you are drastically overestimating the number of queries where this behavior is necessary for a good experience, and drastically underestimating the number where this behavior produces confusing and user-unfriendly behavior.  If we removed this behavior and added a good error message, the worst case is that users writing `&` queries that for some reason cannot be expressed with the shortcut syntax would have to add `default:false` to one term.  Right now the worst (and reasonably frequent) case is that users writing multiple classes of queries cannot understand them because we're doing something magical and implicit.\r\n\r\n> But we didn't just do it for filter. We did it for pluck and GMR and a few other places because using the system without it was intolerable.\r\n\r\nThat isn't true.  If you write `r([{a:1}, {c:1}]).pluck('a', 'b')`, you get `[{a:1}, {}]`.  We don't drop rows from the result.  Crucially, there are no arguments to pluck where we drop rows from the result for difficult-to-understand reasons.  Filter is a problem-child precisely because we don't have anything else that behaves that way anywhere else in the language.\r\n\r\n@jdoliner --\r\n\r\n> The thing about falsey error semantics is it plays really badly with logic operators for example\r\n> ```Python\r\n> s.filter(lambda x: ~x[\"hidden\"])\r\n> ```\r\n>\r\n> You clearly want the objects where \"hidden\" is set to false but you also get the ones where hidden isn't set at all. > There are endless examples where this goes wrong. The patch to r.any only works as long as there's no inversion > happening:\r\n\r\nI'm a little confused.  If hidden isn't set and errors are falsey, `~x[\"hidden\"] => ~error => ~false => true`, so you *would* get the objects where hidden isn't set."
+  , issueCommentId = 29759927
+  }

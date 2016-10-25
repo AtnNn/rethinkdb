@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-27) 19 : 53 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135535223"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3629#issuecomment-135535223"
+  , issueCommentCreatedAt = 2015 (-08) (-27) 19 : 52 : 46 UTC
+  , issueCommentBody =
+      "I think this would work everywhere where `identifier_format` currently works. It will affect the data format in the `r.db('rethinkdb')` system tables.\r\n\r\nI think what's unclear is what the result is actually going to look like.\r\n\r\nFor example consider this query:\r\n* with \"name\"\r\n```js\r\n$ r.db('rethinkdb').table('table_config', {identifierFormat: \"name\"})\r\n{\r\n    \"db\": \"test\" ,\r\n    \"durability\": \"hard\" ,\r\n    \"id\": \"ca6b7ff2-4fc8-46e9-aeb3-996b6a4099fb\" ,\r\n    \"indexes\": [ ],\r\n    \"name\": \"t1\" ,\r\n    \"primary_key\": \"id\" ,\r\n    \"shards\": [\r\n        {\r\n            \"nonvoting_replicas\": [ ],\r\n            \"primary_replica\": \"newton_kb8\" ,\r\n            \"replicas\": [\r\n                \"newton_kb8\"\r\n            ]\r\n        }\r\n    ] ,\r\n    \"write_acks\": \"majority\"\r\n}\r\n```\r\n\r\n* with \"uuid\"\r\n```js\r\n$ r.db('rethinkdb').table('table_config', {identifierFormat: \"uuid\"})\r\n{\r\n    \"db\": \"14b0d434-fbf9-445c-8249-76850c3c6bd3\" ,\r\n    \"durability\": \"hard\" ,\r\n    \"id\": \"ca6b7ff2-4fc8-46e9-aeb3-996b6a4099fb\" ,\r\n    \"indexes\": [ ],\r\n    \"name\": \"t1\" ,\r\n    \"primary_key\": \"id\" ,\r\n    \"shards\": [\r\n        {\r\n            \"nonvoting_replicas\": [ ],\r\n            \"primary_replica\": \"225a25c3-3948-431c-97e8-02b7756579ab\" ,\r\n            \"replicas\": [\r\n                \"225a25c3-3948-431c-97e8-02b7756579ab\"\r\n            ]\r\n        }\r\n    ] ,\r\n    \"write_acks\": \"majority\"\r\n}\r\n```\r\n\r\nNow what would we actually put in the `db` and replicas fields for `identifierFormat: \"both\"`?\r\n\r\nI propose we use arrays of `[uuid, name]`. So the result for \"both\" would look like this:\r\n```js\r\n$ r.db('rethinkdb').table('table_config', {identifierFormat: \"both\"})\r\n{\r\n    \"db\": [\"14b0d434-fbf9-445c-8249-76850c3c6bd3\" , \"test\"]\r\n    \"durability\": \"hard\" ,\r\n    \"id\": \"ca6b7ff2-4fc8-46e9-aeb3-996b6a4099fb\" ,\r\n    \"indexes\": [ ],\r\n    \"name\": \"t1\" ,\r\n    \"primary_key\": \"id\" ,\r\n    \"shards\": [\r\n        {\r\n            \"nonvoting_replicas\": [ ],\r\n            \"primary_replica\": [\"225a25c3-3948-431c-97e8-02b7756579ab\", \"newton_kb8\"] ,\r\n            \"replicas\": [\r\n                [\"225a25c3-3948-431c-97e8-02b7756579ab\", \"newton_kb8\"]\r\n            ]\r\n        }\r\n    ] ,\r\n    \"write_acks\": \"majority\"\r\n}\r\n```"
+  , issueCommentId = 135535223
+  }

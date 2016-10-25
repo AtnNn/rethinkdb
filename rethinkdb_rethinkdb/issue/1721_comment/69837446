@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-13) 22 : 54 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69837446"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-69837446"
+  , issueCommentCreatedAt = 2015 (-01) (-13) 22 : 53 : 29 UTC
+  , issueCommentBody =
+      "My thought model of this is based on a mathematical interpretation `undefined`. An `undefined` value can have any of the values that your type systems allows, but you don't know which one it is.\r\n\r\nHence: `undefined || false -> undefined`, since for example `true || false -> true` but `false || false -> false` (and thus you can't reason away the \"undefinedness\" of the expression).\r\n\r\nThe value of `!x == x` with x `undefined` would depend on whether your type system has an element for which this becomes true or not. If you can proof that `!x == x` is false for every possible value `x`, then `!undefined == undefined` would evaluate to `true`, otherwise to `undefined`. If in doubt, I think it's reasonable to just leave it `undefined` (in our case we would rethrow the non-existence error).\r\n\r\nSince we cannot generally proof whether a given term that involves `undefined` values should be `undefined` or indeed always evaluates to a well-defined value, my suggestion was that we limit turning `undefined` into something else to `all` and `any` where it is pretty straight forward once we assume them to return a boolean.\r\nGiven that these terms *do* return one of their arguments though and we might not want to change that, we would have to make a compromise and sacrifice the semantics of either\r\n* which value they return (for example `any(undefined, true)` should probably return `true`, but theoretically it would have to return `undefined` since we can't know whether `undefined` is truthy or not)\r\n* or what `undefined` means, e.g. by treating it as falsey like in your proposal (or in JS)"
+  , issueCommentId = 69837446
+  }

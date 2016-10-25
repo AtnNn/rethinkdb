@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-01) 03 : 16 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1978065
+        , simpleUserLogin = N "vinaysshenoy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1978065?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vinaysshenoy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/190515946"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5457#issuecomment-190515946"
+  , issueCommentCreatedAt = 2016 (-03) (-01) 03 : 16 : 25 UTC
+  , issueCommentBody =
+      "The problem is fixed now.\r\n\r\nI had written a very barebones connection pool using a `Semaphore`. The connection `acquire` and `release` methods were unsynchronised. After I synchronised them, the connections seem to work properly.\r\n\r\n```java\r\npublic class ConnectionPool {\r\n\r\n    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionPool.class);\r\n\r\n    private Semaphore semaphore;\r\n\r\n    private List<Connection> availableConnections;\r\n\r\n    private final int maxConnections;\r\n\r\n    private final Configuration.DbConnectionConfig config;\r\n\r\n    /**\r\n     * Initialize a Connection Pool, with the number of connections and the configuration for those connections\r\n     *\r\n     * @param maxConnections The number of database connections to be held in the pool. A good number to set this to would be the\r\n     *                       number of server threads\r\n     * @param config         The Connection config\r\n     */\r\n    public ConnectionPool(int maxConnections, Configuration.DbConnectionConfig config) {\r\n        this.maxConnections = maxConnections;\r\n        this.config = config;\r\n        initConnections();\r\n        semaphore = new Semaphore(maxConnections, true);\r\n    }\r\n\r\n    private void initConnections() {\r\n\r\n        availableConnections = new ArrayList<>(maxConnections);\r\n\r\n        for (int i = 0; i < maxConnections; i++) {\r\n\r\n            availableConnections.add(RethinkDB.r.connection()\r\n                    .hostname(config.hostname)\r\n                    .port(config.port)\r\n                    .db(config.dbname)\r\n                    .authKey(config.authKey)\r\n                    .timeout(config.timeout)\r\n                    .connect());\r\n        }\r\n    }\r\n\r\n    public Connection acquireConnection() {\r\n\r\n        synchronized (this) {\r\n            try {\r\n                semaphore.acquire();\r\n                return availableConnections.remove(0);\r\n            } catch (InterruptedException e) {\r\n                LOGGER.error(\"Could not acquire connection\", e);\r\n                return null;\r\n            }\r\n        }\r\n    }\r\n\r\n    public void releaseConnection(Connection connection) {\r\n\r\n        synchronized (this) {\r\n            availableConnections.add(connection);\r\n            semaphore.release();\r\n        }\r\n    }\r\n\r\n}\r\n```\r\n\r\n"
+  , issueCommentId = 190515946
+  }

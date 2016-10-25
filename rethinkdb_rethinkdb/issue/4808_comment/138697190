@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-08) 20 : 55 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 4692885
+        , simpleUserLogin = N "bgardner87"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4692885?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bgardner87"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138697190"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4808#issuecomment-138697190"
+  , issueCommentCreatedAt = 2015 (-09) (-08) 20 : 55 : 26 UTC
+  , issueCommentBody =
+      "I'll dump all of the info I can so far:\r\n\r\nWe have a RethinkDB cluster of 2 nodes each running on 16GB Digital Ocean VMs.  Neither machine has any swap space configured currently.  I've increased the RethinkDB cache size to 10GB on both installations.\r\n\r\nOne table in particular is 23 million records so far and we expect it to grow somewhat rapidly.  This table was located on one node 1 with no replication at the time.  Each record in this table should be about 750 Bytes.\r\n\r\nI recently upgraded RethinkDB from v1.15 to v2.1.3 and as a result had out of date index issues, so I started to rebuild all indices.  All rebuilt fine except for the largest table which ran for quite some time (I went to bed) and eventually just failed.\r\n\r\nThe failure was RethinkDB on that node becoming unresponsive, the Web UI was dead and it had disconnected from the cluster.  The process, however, kept running. The next day I couldn't find any issues in the log files, and the only message to the console was that the connection had terminated.  \r\n\r\nFor my next attempt, I increased the shards for the table to 2, so it's split between the 2 nodes.  My hope was that by splitting the data it would be able to index easier.  During this rebuild, I was watching with htop and noticed that the memory on the systems climbed steadily and eventually completely overwhelmed the system I was connected to, to the point that I was unable to run any commands at all due to lack of memory.  I used Digital Ocean's console to reboot the system.  This time, I did see out of memory errors in dmesg as well as the RethinkDB logs.\r\n\r\nMy next thought was to delete the index entirely and just re-create it.  After the crashes I had temp indices that, after a 2 more crash/reboot cycles, actually did build themselves.  My thought was I could probably do this with a new index even if it takes a couple of crashes and at least I'd have it built.\r\n\r\nIf any more information is needed, I'll gladly supply it."
+  , issueCommentId = 138697190
+  }

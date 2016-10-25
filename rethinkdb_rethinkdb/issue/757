@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-08) 07 : 30 : 30 UTC
+  , issueUpdatedAt = 2013 (-05) (-09) 19 : 54 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/757/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/757"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 757
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "RethinkDB 1.4.4 crash with branch queries and default database"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/757"
+  , issueCreatedAt = 2013 (-05) (-06) 13 : 48 : 20 UTC
+  , issueBody =
+      Just
+        "```\r\ninfo: Running rethinkdb 1.4.4-0ubuntu1~lucid (GCC 4.4.3)...\r\ninfo: Running on Linux 2.6.32-46-generic x86_64\r\ninfo: Loading data from directory rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all' command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.4.4-0ubuntu1~lucid (GCC 4.4.3)\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 319:\r\nerror: Segmentation fault from reading the address (nil).\r\nerror: Backtrace:\r\nerror: Mon May  6 15:12:57 2013\r\n       \r\n       1: rethinkdb() [0x52e3cf]\r\n       2: rethinkdb() [0x52f764]\r\n       3: rethinkdb() [0x5dbcef]\r\n       4: rethinkdb() [0x5d1972]\r\n       5: +0xf8f0 at 0x7ff43f5688f0 (/lib/libpthread.so.0)\r\n       6: rethinkdb() [0x4e4b3f]\r\n       7: rethinkdb() [0x48e794]\r\n       8: rethinkdb() [0x48eb1d]\r\n       9: rethinkdb() [0x491e92]\r\n       10: rethinkdb() [0x4f0084]\r\n       11: rethinkdb() [0x4e4b42]\r\n       12: rethinkdb() [0x491f31]\r\n       13: rethinkdb() [0x4f8910]\r\n       14: rethinkdb() [0x4e4b42]\r\n       15: rethinkdb() [0x491f31]\r\n       16: rethinkdb() [0x4f9a00]\r\n       17: rethinkdb() [0x4e4b42]\r\n       18: rethinkdb() [0x491f31]\r\n       19: rethinkdb() [0x4ec68a]\r\n       20: rethinkdb() [0x4e4b42]\r\n       21: rethinkdb() [0x491f31]\r\n       22: rethinkdb() [0x4ec5a5]\r\n       23: rethinkdb() [0x4e4b42]\r\n       24: rethinkdb() [0x4e7b2e]\r\n       25: rethinkdb() [0x5020d6]\r\n       26: rethinkdb() [0x502a3e]\r\n       27: rethinkdb() [0x503ea1]\r\n       28: rethinkdb() [0x504f28]\r\n       29: rethinkdb() [0x5031fd]\r\n       30: rethinkdb() [0x5bacaa]\r\n       31: rethinkdb() [0x5cecbc]\r\nerror: Exiting.\r\nTrace/breakpoint trap\r\n```\r\n\r\nI can reproduce this reliably, and it happens with a number of different queries, which have in common that they contain a ReQL branch term.\r\nThe backtrace does not seem stable. I get a different one every time, and sometimes no backtrace at all.\r\n\r\nI have experimented a bit and the problem seems to be associated with using the default database in the test part of the branch. Here is a much simpler query that you can use to test and reproduce the problem:\r\n\r\n1. This one works, no crash:\r\n```\r\n    r.branch(r.table('metaData').get('HomePage').contains('versions'), r.expr(true), r.expr(false))\r\n```\r\n\r\n2. This one also works, no crash (note that we select the db explicitly):\r\n```\r\n    r.branch(r.db('test').table('metaData').get('HomePage').contains('versions'), r.table('metaData').get('HomePage'), r.expr(false))\r\n```\r\n\r\n3. This one crashes the server:\r\n```\r\n    r.branch(r.table('metaData').get('HomePage').contains('versions'), r.table('metaData').get('HomePage'), r.expr(false))\r\n```\r\n\r\nIn both cases, prepare the database as follows:\r\n```\r\nr.db('test').tableCreate('metaData', {primaryKey:'pagename'})\r\nr.table('metaData').insert({pagename: 'HomePage', versions: [1]})\r\n```\r\n\r\n\r\n\r\nAppendix: The specific query that triggered the crash from above was this one (in PHP-RQL):\r\n\r\n```\r\n$metaData = r\\table('metaData')->get($pagename);\r\n        \r\n// If no version information is stored, default to 0\r\n$versionExistsTest = $metaData->ne(null)->rAnd($metaData->contains('versions'));\r\n$defaultVersions = r\\expr(array(0));\r\n        \r\n// Get the versions field.\r\n$versionsQuery = $metaData('versions');\r\n        \r\n$versions = r\\branch($versionExistsTest, $versionsQuery, $defaultVersions)->run($this->conn)->toNative();\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 14001576
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

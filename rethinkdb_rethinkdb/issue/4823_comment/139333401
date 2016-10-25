@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-10) 18 : 18 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139333401"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4823#issuecomment-139333401"
+  , issueCommentCreatedAt = 2015 (-09) (-10) 18 : 18 : 39 UTC
+  , issueCommentBody =
+      "Sorry you're running into this, and thanks for reporting it @Cherry .\r\n\r\nI think the crash on shutdown might be a red herring, since it looks like it would be a side-effect of the lock-up. It might still give us some pointers about where to look for the lock up though.\r\n\r\n@Cherry A few questions:\r\nAre you performing any meta operations, such as table creation, dropping tables, reconfiguring tables (I assume not, since it's a single server?), creating secondary indexes, etc.?\r\n\r\nWhat are the rough types of queries that are being run? Do you use changefeeds? Are there writes? Mostly single-document writes or also large range writes (write queries affecting many documents)?\r\n\r\nI can see in your config file that you set the number of cores to 4 (`cores=4`). How many logical cores does the server actually have?\r\n\r\nThe next time the lock-up happened, could you check how much RAM is available (e.g. through htop)?\r\nIs the server configured with a swap partition (or file)? If you look at the output of `free -m`, is any of the swap space currently in use? I'm just wondering if the rethinkdb process might somehow end up going into swap, which could theoretically explain the stalls (how much RAM does the server have?)."
+  , issueCommentId = 139333401
+  }

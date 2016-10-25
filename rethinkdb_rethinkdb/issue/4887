@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-09) (-25) 21 : 19 : 30 UTC
+  , issueUpdatedAt = 2015 (-09) (-25) 21 : 19 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4887/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4887"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 4887
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7519422
+        , simpleUserLogin = N "chris9753"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7519422?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chris9753"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "socket.io reference not working inside cursor.each"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4887"
+  , issueCreatedAt = 2015 (-09) (-25) 19 : 20 : 32 UTC
+  , issueBody =
+      Just
+        "**Summarized Issue: Basically socket.emit() only works once or -sometimes never- inside of cursor.each.(Javascript Driver)**\r\nI am inside an `io.on('connection',(socket)=>{ var externalSocketReference = socket; [rest of my code]}` and I have made a local reference to the socket object. Now somewhere in my code i have this \r\n\r\n```js\r\ndb_realtime.tableWithUserFeed('spot', id,'user')\r\n                .then(function (cursor) {\r\n                    cursor.each(function (err, item) {\r\n                      externalSocketReference.emit('name',item);\r\n// I tried referring directly to the 'socket' variable  as well.\r\n                    });\r\n                });\r\n```\r\n\r\nThe only way it works(consistently) is if I add an eventListener on EventEmitter and then socket.emit() in the triggered event listener like so:\r\n```js\r\ndb_realtime.tableWithUserFeed('spot', id,'user')\r\n                .then(function (cursor) {\r\n                    cursor.each(function (err, item) {\r\n                        myOwnEventEmitter.emit('name',item);\r\n                    });\r\n//and then...\r\nmyOwnEventEmitter.on('name',(item)=>(socket.emit('name',item);))\r\n```\r\n\r\n_If anyone is aware of this issue or knows how this can possibly happen please let me know.. It is eating me up..._"
+  , issueState = "closed"
+  , issueId = Id 108391941
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

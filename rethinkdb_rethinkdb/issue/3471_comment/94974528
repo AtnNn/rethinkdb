@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 23 : 33 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94974528"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94974528"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 23 : 33 : 21 UTC
+  , issueCommentBody =
+      "I think change IDs should be opaque. Internally they can be increasing integers, maybe with a couple of random bytes to catch the case where users try to use them with the wrong changefeed.\r\n\r\nSo I'm imaging something like this: `.changefeed(name=\"name\", since=C)` returns all changes since `C`. `.changefeed(name=\"name\", since=None)` returns all changes available in the buffer, however many that may be. We tell users to use the first version if they need to process each change exactly once, and the second version if they can tolerate duplicates.\r\n\r\nThe purpose of the explicit acks was to replace automatically discarding changes. So if we have optional explicit acks, we'll need a flag `discard=\"explicit\"` or `discard=\"implicit\"` to tell the server whether it should expect explicit acks or not.\r\n\r\nOne problem with `since=None` and `discard=\"implicit\"` is that if there is actually a gap in the changefeed, there will be no way to detect it. With `since=C` and `discard=\"implicit\"` we can error if `C` is older than the oldest change still in the queue. So I'm a little concerned that `since=None` and `discard=\"implicit\"` will make it easy for people to write incorrect code."
+  , issueCommentId = 94974528
+  }

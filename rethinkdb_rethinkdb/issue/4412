@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 21 : 49 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4412/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4412"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 4412
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Clean up query/cluster exceptions/errors"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4412"
+  , issueCreatedAt = 2015 (-06) (-17) 05 : 42 : 48 UTC
+  , issueBody =
+      Just
+        "I'm working on resolving merge conflicts between my typed errors branch and `next`.  I've been trying to combine them in a minimally invasive way, which has lead to the following slightly absurd situation:\r\n\r\n* The query language throws exceptions of types `exc_t` or `datum_exc_t` which inherit from `base_exc_t` (which inherits from `std::exception`) and have a message and a complicated type attached (LOGIC, RESOURCE, OP_FAILED, etc.).  (`exc_t` also has a backtrace.)\r\n* Most toplevel administration functions called by the ReQL code don't throw an exception; they return a boolean indicating whether they failed and optionally set an `admin_err_t` output variable (this was an `std::string` in `next` before the merge because errors were untyped).  `admin_err_t` has a string and a binary type (FAILED or INDETERMINATE) attached.\r\n  - Usually right after calling these functions, if they failed we produce an `exc_t` or a `datum_exc_t` from the `admin_err_t` right away, so there's a lot of boilerplate.\r\n* Some administrative operations produce an `admin_op_exc_t`, which inherits directly from `std::runtime_error`.  These have a message and a binary type attached.\r\n  - These exceptions are invariably caught and then an `admin_err_t` is assigned to.\r\n* Other administrative operations produce a `no_such_table_exc_t`, an `ambiguous_table_exc_t`, a `failed_table_op_exc_t`, or a `maybe_failed_table_op_exc_t`.  These inherit directly from `std::runtime_error` and come with nothing attached.\r\n  - There are a set of macros in `admin_op_exc.hpp` which automatically catch these excaptions and assign to an `admin_err_t`.\r\n* Some parts of clustering (I think the parts that are involved with a read or a write instead of an administrative operation) produce a `cannot_perform_query_exc_t`, which inherits from `std::exception` and has a message and a binary type attached.\r\n  - This is usually stored directly in a variant or caught and is transformed directly into an `exc_t` or `datum_exc_t`.\r\n\r\nBasically, we have 9 custom exception types and a data type which is invariably assigned to by an exception handler and then used to rethrow an exception.  As far as I can tell, administrative operations catch their own exceptions and output errors with an output variable, while all other operations throw exceptions directly.  We spend a truly ridiculous amount of boilerplate code converting between all these different classes (and occasionally discard information; there's at least one place where we catch a `base_exc_t`, throw away the type, output an `admin_err_t` with a fixed type (since `admin_err_t` can't represent the full range of types `base_exc_t` can), and then use the information in the `admin_err_t` to produce an `exc_t`.\r\n\r\nThere are also some places where we're using exceptions with binary types attached that really seem like they should have complicated types attached (e.g. some of the artificial backends produce what should really be logic errors rather an `OP_FAILED` errors).\r\n\r\n---\r\n\r\nI think we should instead have two exception types for all these roles: \"message + complicated type and \"message + complicated type with backtrace\".  (Basically `exc_t` and `datum_exc_t` but with `datum_exc_t` broken out so it isn't specific to the `ql` namespace.)  We'd continue to inherit from a common superclass so you can catch both at once if you don't care about the presence or absence of a backtrace.)\r\n\r\nI also think we should eliminate the intermediate output variable.  In 95% of cases I've seen while resolving merge conflicts we catch an exception, pack it into the output variable, and then unpack it into another exception that we rethrow on the other side."
+  , issueState = "open"
+  , issueId = Id 88918516
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

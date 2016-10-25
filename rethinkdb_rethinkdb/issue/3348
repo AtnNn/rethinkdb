@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-09) (-08) 22 : 03 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3348/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3348"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3348
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Small write transactions aren't merged very well during flush"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3348"
+  , issueCreatedAt = 2014 (-11) (-18) 04 : 17 : 22 UTC
+  , issueBody =
+      Just
+        "Sam Heather on our mailing list wrote the following benchmark:\r\n```\r\nimport rethinkdb as r\r\nr.connect('db2.pwserv.me', 28015).repl()\r\n#r.db('test').table_create('tv_shows').run()\r\nx = {\r\n        \"position\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [100.001, 100.001]\r\n        },\r\n        \"sessionId\": \"15\",\r\n        \"type\": \"ping\",\r\n        \"userTime\": 1416085847,\r\n        \"serverTime\": 1416085839\r\n}\r\nfor i in range(0, 100000):\r\n        r.table('tv_shows').insert(x).run(durability='soft', noreply=True)\r\n```\r\n\r\nIf I run this on a rotational drive I get pretty poor throughput (little more than 500 inserts/s). That is more or less expected I think, as we execute one insert at a time and the throughput is bound by disk seek times.\r\n\r\nHowever if I start multiple instances of this script, I would expect the overall write throughput to increase as the flushes for the concurrent writes should be merged.\r\nThis doesn't appear to be working as well as it should, since throughput doesn't increase very much at all."
+  , issueState = "open"
+  , issueId = Id 49179056
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-19) 07 : 31 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 181337
+        , simpleUserLogin = N "pixelspark"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/181337?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pixelspark"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18113640"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/838#issuecomment-18113640"
+  , issueCommentCreatedAt = 2013 (-05) (-19) 07 : 31 : 10 UTC
+  , issueCommentBody =
+      "Although a bit ugly, it seems like a usable workaround for now. Thanks @mlucy! For future reference and others looking for the same functionality, here is an example of how to implement pivot and unpivot in JS syntax:\r\n\r\n```javascript\r\nr.db('foo').table('bar')\r\n  /* Unpivot */\r\n  .concatMap(function(e) { \r\n    \treturn r.do(e(\"id\"), function(rid) {\r\n        \treturn e.coerceTo(\"array\").map(function(p) {\r\n            \treturn {id:rid, k:p.nth(0), v:p.nth(1)}; \r\n          })\r\n      })\r\n  })\r\n\r\n\t/* Pivot */  \r\n  .groupedMapReduce(function(e) { \r\n    \treturn e(\"id\") \r\n  }, function(e) { \r\n    \treturn r.expr([]).append(r.expr([]).append(e(\"k\")).append(e(\"v\"))) \r\n  }, function(acc, add) { \r\n    \treturn acc.union(add)\r\n  })\r\n  .map(function(x) { \r\n    return x(\"reduction\").coerceTo(\"object\") \r\n  })\r\n```"
+  , issueCommentId = 18113640
+  }

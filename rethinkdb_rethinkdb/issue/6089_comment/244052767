@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-01) 11 : 37 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/244052767"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6089#issuecomment-244052767"
+  , issueCommentCreatedAt = 2016 (-09) (-01) 11 : 35 : 34 UTC
+  , issueCommentBody =
+      "You would want to use `getAll` instead of `filter`. For example:\r\n\r\nthe index: `r.db(\"db\").table(\"table\").indexCreate(\"keyword\")`\r\nthe getAll: `r.db(\"db\").table(\"table\").getAll(\"facebook\", {index: \"keyword\"})`\r\n\r\nTo query the earliest date, you can do something like this:\r\n\r\n```js\r\nr.db(\"db\").table(\"table\").filter({\"name\":\"smith\"}).orderBy(r.asc(\"createdAt\")).nth(0).default(null)\r\n```\r\n\r\nThe `.nth(0).default(null)` selects the first result, or returns null if there were no results.\r\n\r\nTo do so in a more efficient manner (using an index), if you aren't expecting many rows matching \"smith\", you can do a `getAll` with an index on `name` alone, followed by an un-indexed orderBy, e.g.\r\n\r\n```js\r\nr.db(\"db\").table(\"table\").getAll(\"smith\", {index: \"name\"}).orderBy(r.asc(\"createdAt\")).nth(0).default(null) //  you'll have to create the \"name\" index\r\n```\r\n\r\nIt's also possible to create an index on both fields, though you'll probably want to test the performance of this as compared to the above on your actual data.\r\n\r\n```js\r\nr.db(\"db\").table(\"table\").indexCreate(\"nameAndCreatedAt\", function(item) {\r\n  return [item(\"name\"), item(\"createdAt\")];\r\n});\r\n```\r\n\r\nThen you can use the index like so:\r\n\r\n```js\r\nr.db(\"db\").table(\"table\").between([\"smith\", r.minval], [\"smith\", r.maxval], {index: \"nameAndCreatedAt\"}).orderBy({index: r.asc(\"nameAndCreatedAt\")}).nth(0).default(null)\r\n```"
+  , issueCommentId = 244052767
+  }

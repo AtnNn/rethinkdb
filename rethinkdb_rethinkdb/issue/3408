@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 13 : 44 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3408/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3408"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3408
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Client-side reduction faster than server-side reduction"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3408"
+  , issueCreatedAt = 2014 (-12) (-04) 19 : 13 : 24 UTC
+  , issueBody =
+      Just
+        "@marshall007 reported the following case over at https://github.com/rethinkdb/rethinkdb/issues/2629#issuecomment-65527708 : \r\n\r\n> My biggest gripe is with (2) because most of the time it's faster to pull all the rows down and do the reduction in code. I assume this is because we have to map over every row before starting the reduction.\r\n>\r\n> ```coffee\r\n## code: 183ms ##\r\nr.table 'standard_terms'\r\n.getAll 'disorders', index: 'field'\r\n.run().then (data) ->\r\n  dict = data.reduce (right, left) ->\r\n    right[left.term] = left\r\n    return right\r\n  , {}\r\n> \r\n> ## db: 595ms ##\r\nr.table 'standard_terms'\r\n.getAll 'disorders', index: 'field'\r\n.map (row) -> r.object row('term'), row\r\n.reduce (l, r) -> l.merge r\r\n.run()\r\n```\r\n\r\n@marshall007: Could you find out how many rows match the `getAll`, and send us an example document from the `standard_terms` table? That would make it easier for us to reproduce and investigate the server slowness.\r\n\r\nI doubt this is because of the `map` itself. My wild guess would be that either `r.object` or `merge` is slow, but in any case it needs testing."
+  , issueState = "open"
+  , issueId = Id 51015523
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

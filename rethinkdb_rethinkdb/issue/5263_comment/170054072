@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-08) 16 : 54 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/170054072"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5263#issuecomment-170054072"
+  , issueCommentCreatedAt = 2016 (-01) (-08) 16 : 54 : 40 UTC
+  , issueCommentBody =
+      "Ok I think know what happens here:\r\n\r\n1. The table (probably) doesn't exist, hence the `ReqlOpFailedError` is raised with the message \"Table `test.authors` does not exist in: [...]\"\r\n2. Because the `insert` query is so big, printing the error message takes a while.I can see a delay of about 10 seconds on my machine, before it starts printing out the error message and the query itself (which in the end just prints loads of spaces, because of the `   ^^^^     ` highlighting at the end). Within those 10 seconds, the error output looks exactly like @zopyx posted above.\r\n\r\n@zopyx The solution is simple: You need to create the table `authors` before you can use it. You can do this either through the web console (on port 8080 by default), or by running `r.table_create(\"authors\").run()` in Python.\r\nPlease let us know if that works.\r\n\r\nI'll open a separate issue to discuss if we should truncate long queries when printing exceptions."
+  , issueCommentId = 170054072
+  }

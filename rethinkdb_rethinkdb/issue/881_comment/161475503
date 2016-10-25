@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-03) 00 : 25 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161475503"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/881#issuecomment-161475503"
+  , issueCommentCreatedAt = 2015 (-12) (-03) 00 : 25 : 31 UTC
+  , issueCommentBody =
+      "This should also work for nested fields.\r\n\r\nProposal:\r\n```rb\r\n> r({:a => {:b => 1}, :c => 2}).rename({:a => {:b => :bar}}).run\r\n{:a => {:bar => 1}}\r\n> r({:a => {:b => 1}, :c => 2}).rename({:a => {:b => :bar}, :a => :foo}).run\r\n{:foo => {:bar => 1}}\r\n```\r\nNote that in this proposal, you can not move a field to a different level. E.g. you couldn't move `a.b` to the top level. I think that's probably fine.\r\n\r\nIt is also slightly ambiguous in the second example `> r({:a => {:b => 1}, :c => 2}).rename({:a => {:b => :bar}, :a => :foo}).run`\r\nwhether we refer to the field `a` by its old name `a`, or by its new name `foo` in the rename rule for `a.b`/`foo.b`. I suggest we always assume the old names (like I did here), so we don't need to imply any arbitrary ordering in which the renames will be applied. Basically all renames would be applied atomically in one step.\r\n\r\nI also suggest that we error on circular/conflicting renames (e.g. `{:a => :b, :b => :a}` or `{:a => :b, :b => :c}`).\r\n\r\nIf a target field name already exists, should we just cobble it? Or error? Or have an optarg `conflict: \"error\"|\"cobble\"|\"merge\"`? Maybe with names consistent with `insert` instead: `\"error\"|\"replace\"|\"update\"`?"
+  , issueCommentId = 161475503
+  }

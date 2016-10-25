@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-25) 08 : 50 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7080464
+        , simpleUserLogin = N "santo74"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7080464?v=3"
+        , simpleUserUrl = "https://api.github.com/users/santo74"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/221512068"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5790#issuecomment-221512068"
+  , issueCommentCreatedAt = 2016 (-05) (-25) 08 : 50 : 43 UTC
+  , issueCommentBody =
+      "I tested the eqJoin variant and it's only slightly faster than the getAll approach on secondary index:\r\n```\r\nr.db('example').table('posts')\r\n  .eqJoin('userKey', r.db('example').table('users'), {index: 'key'})\r\n  .map(function(joined) {\r\n    return joined('left').merge({\r\n      firstname: joined('right')('firstname'),\r\n      lastname: joined('right')('lastname')\r\n    });\r\n  })\r\n```\r\n```\r\n27 rows returned\r\n\r\n1.62s round-trip time --- 1.35s server time --- 40 shard accesses\r\n```\r\n\r\nCompared to 141ms for primary index, I'm still not impressed by the secondary indexes in RethinkDB"
+  , issueCommentId = 221512068
+  }

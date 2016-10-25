@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-30) 19 : 15 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97933556"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-97933556"
+  , issueCommentCreatedAt = 2015 (-04) (-30) 19 : 15 : 36 UTC
+  , issueCommentBody =
+      "> Given that, is there any reason why the developer needs to define the portion of the query that should be subjected to optimization?\r\n\r\nThe idea is that optimize allows the terms between it to be re-ordered, so any of them could become the first term.\r\n\r\nHaving `optimize` as a run opt arg is an interesting alternative.\r\n\r\nWe could have the server automatically identify subregions of the query where re-ordering is possible, basically any subquery of the form `table.(between|orderBy|getAll)*`.\r\nThe advantage is that it's easier to use and nicer to read. The disadvantage is that it doesn't allow you to limit the optimization to certain subequeries. For example you might have a query\r\n```js\r\nr.table('t1').getAll(..., {index: \"foo\"}).getAll(..., {index: \"bar\"}).merge({\r\n    other: r.table('t2').getAll(..., {index: \"doo\"}).coerceTo(\"ARRAY\")\r\n})\r\n```\r\n\r\nand you might want to have a guarantee that the query on `t2` is always executed as specified, while you want RethinkDB to pick the execution path for the part that's on `t1`.\r\nI'm unsure how often this degree of control will actually be useful."
+  , issueCommentId = 97933556
+  }

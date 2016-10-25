@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-29) 11 : 07 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/167766314"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5003#issuecomment-167766314"
+  , issueCommentCreatedAt = 2015 (-12) (-29) 11 : 07 : 36 UTC
+  , issueCommentBody =
+      "Talked about this with @deontologician and @larkost before the holidays. These are the things we decided to do:\r\n\r\n- [ ] Change how polyglot tests are translated into the different languages.\r\n  We currently have a set of regular expression based rewrites that translate from any input syntax (Python, JavaScript, I think also Ruby) into code for all three output languages. Even for the existing three languages, this process in its current form has some severe limitations, in particular the inability to translate optional arguments and lambdas.\r\n  The idea is to use the existing rewrites to translate *only* into Python code (this is for compatibility with existing `cd` and `ot` test lines, which might be using JS syntax; long term we should translate all such tests to Python syntax, so we can get rid of this step).\r\n  Then from the Python code, we will use this transpiler by @deontologician https://github.com/deontologician/multireql in order to generate code for Ruby, JavaScript and Java, including lambda expressions and optional arguments. We should probably discard the Java output of this until we have addressed the remaining points, and keep using the existing Java testing system until then.\r\n- [ ] Refactor how Polyglot tests are built in order to get better insights into how tests are specified for auditing purposes.\r\n- [ ] Go through the tests and replace tests with specialized JS, Ruby and Python lines with a single generic `cd` test, wherever the new transpiler can now do the translation automatically (primarily tests with optargs).\r\n- [ ] For remaining polyglot tests that need to be specialized, add `java:` lines.\r\n- [ ] Switch over the Java testing system to work within `test-runner`. At this point, Java tests will no longer be generated from Python-specific lines (i.e. `py:` lines), but only from language-agnostic `cd` lines and the newly introduced `java:` lines.\r\n\r\nWe should do this as soon as possible to make sure we can maintain the Java tests long term.\r\nThe new architecture should also make supporting additional languages easier in the future."
+  , issueCommentId = 167766314
+  }

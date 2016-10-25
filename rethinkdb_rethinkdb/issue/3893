@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-04) 01 : 17 : 07 UTC
+  , issueUpdatedAt = 2015 (-06) (-04) 01 : 17 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3893/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3893"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 3893
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 316661
+          , simpleUserLogin = N "timmaxw"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/316661?v=3"
+          , simpleUserUrl = "https://api.github.com/users/timmaxw"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Hard override to resolve situations where consensus is lost"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3893"
+  , issueCreatedAt = 2015 (-03) (-04) 22 : 19 : 14 UTC
+  , issueBody =
+      Just
+        "Sometimes the user may lose more than half of the voters in their Raft cluster or more than half of the replicas for a shard of a table. For example, two hard drives might fail at the same time; or a tornado might wipe out an entire datacenter. Currently this situation is unrecoverable. We should give the user a way to manually override the normal quorum requirements to recover from this situation. If the user decides to use these manual overrides, our normal consistency guarantees are invalidated; we will make a \"best effort\" to remain consistent, but it might not work.\r\n\r\nThere are actually two types of hard override:\r\n\r\n* We lose half or more of the voters for the Raft cluster for a table, so we cannot execute Raft transactions. In this case, the `table_meta_manager_t` needs to start a new table epoch, so that it can initialize the Raft state to a different set of voters. We need to make an effort to copy the old Raft state into the new Raft cluster, but it's always possible that some changes may be committed on the old Raft cluster and not the new one; we need to not crash in this case.\r\n\r\n* We still have a quorum of Raft voters, but we lose half of more of the voting replicas for a specific shard of a table. In this case we can fix it by executing a Raft transaction that overwrites the existing contract with a new one with a different set of voters.\r\n\r\nWe should also figure out how to present these options to the user. Here are a couple of options:\r\n\r\n* Allow the user to write to the `rethinkdb.table_config` system table with a special flag `override=true`.\r\n\r\n* Give the user a new command `table.recover()`\r\n\r\nI'm inclined to prefer the second option. It gives the implementation more leeway to recover in the safest possible way, instead of overriding the table metadata to the exact state the user specifies. But I haven't thought through the details."
+  , issueState = "closed"
+  , issueId = Id 59871831
+  , issueComments = 30
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

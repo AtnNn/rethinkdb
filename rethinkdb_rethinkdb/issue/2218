@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-04) (-05) 07 : 29 : 42 UTC
+  , issueUpdatedAt = 2014 (-04) (-07) 21 : 39 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2218/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2218"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2218
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 4495612
+        , simpleUserLogin = N "promolic1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4495612?v=3"
+        , simpleUserUrl = "https://api.github.com/users/promolic1"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Crash creating "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2218"
+  , issueCreatedAt = 2014 (-04) (-05) 07 : 24 : 02 UTC
+  , issueBody =
+      Just
+        "Hello. This is my first bug submission ever, so I hope to be clear and get some idea about what's going on.\r\n\r\nI have started to play with rethinkdb today, and found it really easy to manage. Particularly I am interested in the replication+sharding features.\r\n\r\nSo, I decided to create 4 instances in different  machines each one. Then, I assigned 2 to one datacenter (a1 and a2 to \"d1\"), and 2 to another one (b1 and b2 to \"d2\")\r\n\r\nI created a table, and left it empty. Then I decided to replicate the table, changing the replication settings from 1 to 2. And then, one of the nodes crashed. I think it was the primary assigned when I created the table.\r\n\r\n\r\nHere the ouput:\r\n\r\n\r\n```\r\nerror: Error in src/rdb_protocol/protocol.cc at line 743:\r\nerror: Guarantee failed: [resp != __null]\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\nerror: Sat Apr  5 07:11:49 2014\r\n\r\n       1: backtrace_t::backtrace_t() at 0x8d8208f (rethinkdb)\r\n       2: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at 0x8d8234d (rethinkdb)\r\n       3: format_backtrace(bool) at 0x8d8396b (rethinkdb)\r\n       4: report_fatal_error(char const*, int, char const*, ...) at 0x8d40b08 (rethinkdb)\r\n       5: rdb_r_unshard_visitor_t::operator()(rdb_protocol_t::sindex_status_t const&) at 0x8bd18ec\r\n (rethinkdb)\r\n       6: rdb_protocol_t::read_t::unshard(rdb_protocol_t::read_response_t*, unsigned int, rdb_prot\r\nocol_t::read_response_t*, rdb_protocol_t::context_t*, signal_t*) const at 0x8bd2ee2 (rethinkdb)\r\n       7: broadcaster_t<rdb_protocol_t>::all_read(rdb_protocol_t::read_t const&, rdb_protocol_t::r\r\nead_response_t*, fifo_enforcer_sink_t::exit_read_t*, order_token_t, signal_t*) at 0x88ecb09 (rethi\r\nnkdb)\r\n       8: broadcaster_t<rdb_protocol_t>::read(rdb_protocol_t::read_t const&, rdb_protocol_t::read_\r\nresponse_t*, fifo_enforcer_sink_t::exit_read_t*, order_token_t, signal_t*) at 0x88ed067 (rethinkdb\r\n)\r\n       9: master_t<rdb_protocol_t>::client_t::perform_request(boost::variant<master_business_card_\r\nt<rdb_protocol_t>::read_request_t, master_business_card_t<rdb_protocol_t>::write_request_t, boost:\r\n:detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::deta\r\nil::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::v\r\nariant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::varian\r\nt::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::vo\r\nid_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_,\r\nboost::detail::variant::void_, boost::detail::variant::void_> const&, signal_t*) at 0x8957aa9 (ret\r\nhinkdb)\r\n       10: multi_throttling_server_t<boost::variant<master_business_card_t<rdb_protocol_t>::read_r\r\nequest_t, master_business_card_t<rdb_protocol_t>::write_request_t, boost::detail::variant::void_,\r\nboost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost\r\n::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::det\r\nail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::\r\nvariant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::varia\r\nnt::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::v\r\noid_, boost::detail::variant::void_>, master_business_card_t<rdb_protocol_t>::inner_client_busines\r\ns_card_t, master_t<rdb_protocol_t>*, master_t<rdb_protocol_t>::client_t>::client_t::perform_reques\r\nt(boost::variant<master_business_card_t<rdb_protocol_t>::read_request_t, master_business_card_t<rd\r\nb_protocol_t>::write_request_t, boost::detail::variant::void_, boost::detail::variant::void_, boos\r\nt::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::de\r\ntail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail:\r\n:variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::vari\r\nant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::\r\nvoid_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_\r\n> const&, auto_drainer_t::lock_t) at 0x8958b14 (rethinkdb)\r\n       11: callable_action_instance_t<std::_Bind<std::_Mem_fn<void (multi_throttling_server_t<boos\r\nt::variant<master_business_card_t<rdb_protocol_t>::read_request_t, master_business_card_t<rdb_prot\r\nocol_t>::write_request_t, boost::detail::variant::void_, boost::detail::variant::void_, boost::det\r\nail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::\r\nvariant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::varia\r\nnt::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::v\r\noid_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_,\r\n boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_>, mas\r\nter_business_card_t<rdb_protocol_t>::inner_client_business_card_t, master_t<rdb_protocol_t>*, mast\r\ner_t<rdb_protocol_t>::client_t>::client_t::*)(boost::variant<master_business_card_t<rdb_protocol_t\r\n>::read_request_t, master_business_card_t<rdb_protocol_t>::write_request_t, boost::detail::variant\r\n::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::voi\r\nd_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, b\r\noost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost:\r\n:detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::deta\r\nil::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::v\r\nariant::void_, boost::detail::variant::void_> const&, auto_drainer_t::lock_t)> (multi_throttling_s\r\nerver_t<boost::variant<master_business_card_t<rdb_protocol_t>::read_request_t, master_business_car\r\nd_t<rdb_protocol_t>::write_request_t, boost::detail::variant::void_, boost::detail::variant::void_\r\n, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boo\r\nst::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::d\r\netail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail\r\n::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::var\r\niant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant:\r\n:void_>, master_business_card_t<rdb_protocol_t>::inner_client_business_card_t, master_t<rdb_protoc\r\nol_t>*, master_t<rdb_protocol_t>::client_t>::client_t*, boost::variant<master_business_card_t<rdb_\r\nprotocol_t>::read_request_t, master_business_card_t<rdb_protocol_t>::write_request_t, boost::detai\r\nl::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::va\r\nriant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant\r\n::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::voi\r\nd_, boost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, b\r\noost::detail::variant::void_, boost::detail::variant::void_, boost::detail::variant::void_, boost:\r\n:detail::variant::void_, boost::detail::variant::void_>, auto_drainer_t::lock_t)> >::run_action()\r\nat 0x892e3a0 (rethinkdb)\r\n       12: coro_t::run() at 0x8b4fa1c (rethinkdb)\r\nerror: Exiting.\r\n```\r\n\r\nSome extra details.\r\n\r\nRethinkDB 1.12.1\r\nUsing DigitalOcean 512MB instances (tried with Ubuntu 12.04 and Debian 7 getting the same result).\r\nApparently isn't due to the OOM killer, the systems seem to be fine in memory consumption.\r\n\r\n\r\nIf I forgot something please tell me.\r\n\r\nThanks for reading"
+  , issueState = "closed"
+  , issueId = Id 30910489
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

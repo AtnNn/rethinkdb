@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-15) 09 : 55 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140341507"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2427#issuecomment-140341507"
+  , issueCommentCreatedAt = 2015 (-09) (-15) 09 : 54 : 31 UTC
+  , issueCommentBody =
+      "Sorry, I should have been more clear. Establishing a connection isn't that cheap -- it requires a TCP handshake at the very least (which is expensive), and some setup on the server. What I meant by saying \"connections are cheap\" is that RethinkDB doesn't create a thread per connection, so once established, you can have tens of thousands of connections with very little overhead.\r\n\r\nThe code above creates 1k connections (one per query) and even that just doubles the time (which is surprising, I would expect it to be more expensive). But that isn't representative of most multithreaded code -- you wouldn't normally open 1k threads + connections per client per query.\r\n\r\nEach thread would probably run a number of queries on a single connection, so the overhead would be minimal relative to the number of queries run. Additionally, you can always set up a pool, and take connections from the pool as needed to minimize handshake overhead.\r\n\r\nThe problem with making the driver thread-safe in Python (or at least, in the defacto CPython implementation) is that the python interpreter would end up being stuck waiting on the GIL for a non-trivial amount of time. Some of the time is spent in native code/syscalls (which doesn't suffer from waiting on the GIL), but much of the code doesn't, so it's not immediately clear that that would be faster than opening a connection per thread.\r\n\r\nWe can definitely give it a try, though; if it proves to be faster, it'd be great to merge it into mainline driver."
+  , issueCommentId = 140341507
+  }

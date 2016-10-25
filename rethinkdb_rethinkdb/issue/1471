@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-24) 19 : 48 : 10 UTC
+  , issueUpdatedAt = 2013 (-10) (-24) 19 : 48 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1471/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1471"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1471
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Merge writebacks on the serializer level"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1471"
+  , issueCreatedAt = 2013 (-09) (-21) 00 : 56 : 13 UTC
+  , issueBody =
+      Just
+        "This can be part of a solution to #1080.\r\n\r\nThe problem\r\n------------------\r\nConsider the following setting: We have rotational drives, a number of n concurrent clients issuing writes, and hard durability requirements.\r\n\r\nUsually, the write throughput should scale almost linearly with n, up to the point were it approaches the maximal possible throughput of the hard drive. While each cache writeback has some constant costs for writing meta data, multiple write queries can be merged into the same writeback. The nice thing about this is that in RethinkDB, adding an additional write query to a writeback does not (usually) add random seeks. On a rotational drive this means that writing 1 query has essentially the same costs as writing 100 queries.\r\nUnfortunately there is a problem: The fact that we have S CPU hash shards for each table (currently S=4) means that only every S writes (on average) can be combined into the same writeback. This gives us a very significant disadvantage compared to for example MongoDB, because it makes us by a factor of roughly S slower. As we might want to increase S in the future (compare #1043), this is an especially serious issue.\r\n\r\n\r\nThe proposal\r\n-------------------\r\nI propose that we do the following: We limit the number of concurrent writes on the serializer and install a queue to merge multiple writes together. This can be done either for block writes or for index writes or for both. Let's assume that we do it only for index writes for now (rationale following below). The basic idea then is that as long as any index write in the serializer is not complete, we do not process new index writes. Instead, incoming index writes are added to a queue. Once all active index writes have completed, writes from the queue are collected and merged together into a single set of index writes. Those are then initiated.\r\n\r\nThe highest benefits can be expected from doing this for index writes because we have to write only one new LBA and metablock for all of them together. There might be some advantage in doing this for block writes too, but the disks' native command queueing might already be able to achieve the same effect I believe.\r\n\r\nThis solution has some nice properties:\r\n1. We do not introduce any additional delays in single-client workloads. The writebacks will be processed just as they are now, because there will never be any two concurrent index writes in the serializer.\r\n2. If there are multiple clients, index writes will be merged together only when the previous index write could not finish before the next one comes in. On fast SSDs, we would therefore not introduce additional latency. Only on hardware were index writes take time (such as on rotational drives), the changes would kick in and very likely reduce the costs of the queued up index writes significantly.\r\n\r\nI would appreciate comments and additional thoughts on this proposal.\r\n\r\nAlso, I'm not completely sure how effective this will be if we only consider index writes. There are different strategies which we could try. For example we could also queue up index writes if any block write is still being processed in the serializer."
+  , issueState = "closed"
+  , issueId = Id 19848813
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

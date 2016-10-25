@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-05) (-24) 02 : 17 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4853/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4853"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4853
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "ReQL proposal: document reference pseudotype"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4853"
+  , issueCreatedAt = 2015 (-09) (-17) 19 : 52 : 44 UTC
+  , issueBody =
+      Just
+        "I'd like to propose adding a document reference pseudotype to the database to store foreign keys, and build some operations around it in the server and the drivers.\r\n\r\nSuppose you have two tables `authors` and `posts`. Each post has a field `author`:\r\n\r\n```py\r\n# insert a document into the `posts` table\r\n> r.table('posts').insert({ 'text': 'foo', 'author': ref(db, table, uuid) })\r\n```\r\n\r\nI propose a `follow_refs` optarg to `run`:\r\n\r\n```py\r\n> post = r.table('posts').get(post_uuid).run()\r\n> post\r\n{ 'text': 'foo', 'author': ref(uuid) }\r\n\r\n> post['author']\r\nref(db, table, uuid)\r\n\r\n# References are runnable on the driver\r\n> post['author'].run()\r\n{'name': 'foo', 'age': 'bar'}\r\n\r\n# We can also follow references on the server\r\n> r.table('posts').get(post_uuid).run(follow_refs=True)\r\n{ 'text': 'foo', 'author': {'name': 'foo', 'age': 'bar'} }\r\n\r\n# Similarly for deletes:\r\n> r.table('posts').get(post_uuid).delete().run(follow_refs=True)\r\n# deletes both the post and its author\r\n```\r\n\r\nThe `follow_refs` optarg could also be an integer that specifies the depth the server will use to follow the refs. Presumably `-1` will follow all refs (but what to do about cycles?)\r\n\r\nThis will make the user experience much better for a large class of use cases, and will also make Falcor integration much more compelling because \"following\" references is a fundamental assumption baked into Falcor."
+  , issueState = "open"
+  , issueId = Id 107061242
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-19) 19 : 22 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43545017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2411#issuecomment-43545017"
+  , issueCommentCreatedAt = 2014 (-05) (-19) 19 : 22 : 53 UTC
+  , issueCommentBody =
+      "To return a stream of objects from `tbl1` ordered by the number of corresponding objects in `closed_auctions`, you need to look at every object in `tbl1` before you can get any back.  There's no way around this with the current architecture.  Making this fast would require triggers of some sort to update an index whenever a value in `closed_auctions` gets changed.  We may add that in a future version, but for now this type of query is always going to be slow.\r\n\r\nTo expand on what Michel said, though, another option would be to structure your data like this:\r\n* Documents in `tbl`\r\n```\r\n{\r\n  name: \"Bob\",\r\n  closed_auction_ids: [1, 2, 8, 23],\r\n  ...\r\n}\r\n```\r\n* Documents in `closed_auctions`:\r\n```\r\n{\r\n  id: 23,\r\n  ...\r\n}\r\n```\r\n\r\nThen you wouldn't be duplicating the information in `closed_auctions`, you'd just be listing the IDs.  Then you could write:\r\n```\r\nr.table('tbl1').indexCreate('num_closed_auctions', function(row){\r\n  return row('closed_auction_ids').count();\r\n})\r\nr.table('tbl1').orderBy({index:'num_closed_auctions'})\r\n```\r\nAnd if you wanted to get all the auctions for everyone in `tbl`, you could write:\r\n```\r\nr.table('tbl1').map(function(d){\r\n  return d('closed_auction_ids').map(function(auction_id){\r\n    return r.table('closed_auctions').get(auction_id);\r\n  });\r\n})\r\n```"
+  , issueCommentId = 43545017
+  }

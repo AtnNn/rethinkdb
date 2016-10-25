@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 20 : 34 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95712217"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95712217"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 20 : 34 : 50 UTC
+  , issueCommentBody =
+      "@timmaxw \r\nI quite like your proposal with `since` and the `discard` optarg.\r\n\r\nHere's a slight variation of this API (not sure yet if I like it more or not):\r\n- we default to *not* sending change IDs and to discarding old changes automatically (after ~3 batches)\r\n- we have one additional optarg to `changes` that enables both change IDs and `discard=explicit` at the same time. For example `acks=explicit`.\r\n- there's no way to enable `discard=explicit` without enabling change IDs or vice versa.\r\n- Instead of \"change IDs\", we might want to call them \"ack tokens\" in this API.\r\n- add a method on the cursor object: `feed.ack(ack token)`\r\n\r\n@coffeemug \r\n> The user could tell if there is a gap in the feed because if we overflow the array size limit boundary,\r\n\r\nI think @timmaxw might have talked about the case where a client reads something off the cursor, but then crashes before actually processing it? Then upon resuming, it cannot know which items the previous client had actually processed and which it hadn't. If we have a fixed discard window of e.g. 3 batches, the newly connecting client might miss some changes without noticing.\r\nHowever this problem doesn't arise when change IDs are enabled and available. Then the client can detect this easily.\r\n\r\n@kofalt \r\n> How long would a given `since` value be valid? \r\n\r\nThis is something we're still discussing. One proposal for our first implementation of this is that the server will keep old changes that are at least long enough to make sure that the application had a chance to process the event. Another option is to have an optional `ack mode` (`discard=explicit` in @timmaxw 's proposal), under which the client would explicitly invalidate old changes.\r\nIn either case there will be a maximum of 100,000 buffered changes for the first implementation."
+  , issueCommentId = 95712217
+  }

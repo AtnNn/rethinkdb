@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-25) 13 : 44 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/167236019"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5235#issuecomment-167236019"
+  , issueCommentCreatedAt = 2015 (-12) (-25) 13 : 42 : 10 UTC
+  , issueCommentBody =
+      "This is closely related to https://github.com/rethinkdb/rethinkdb/issues/3565 , and I think we should address both.\r\n\r\nI don't know if we can detect if the `rethinkdb` process specifically has gone into swap (we might!), but we can certainly detect when swap is being used at all on a server.\r\n\r\nOne edge case to consider is when someone uses suspend to disk on Linux. In that case, after resuming from the suspended state, everything will be in swap (since that's how suspend to disk / hibernation is implemented). It can take many days after that until all data has been paged back into RAM again, or it might never happen. There are three options I can think of:\r\n\r\n1. Ignore this issue. Hibernation is probably less common now than it used to be, since suspend to RAM is working much better on Linux these days. It's also obviously uncommon on servers.\r\n2. Try to measure swap usage in a smarter way. For example we could watch system statistics for how many pages are *paged out* to swap at a given moment. We could try to measure this instead of the total amount of pages in swap. Then we could generate an issue saying something along the lines of \"Swapping detected within the past 24 hours\".\r\n3. Allow users to disable the check or dismiss the issue.\r\n\r\nOption 3 would be nice, but could be a lot of work depending on how we want to implement it. I think option 2 would be the best one if it works.\r\n\r\nOther warnings we can consider:\r\n* less than 10% RAM available\r\n* less than 10% (or so) disk space available\r\n\r\nFor these the thresholds would probably need to be configurable. They also reach a bit more into the territory of general server monitoring, which we might want to avoid for now.\r\n(the difference between running out of RAM or disk and going into swap is that in the first case RethinkDB will be terminated, which is obviously noticeable. Going into swap is not immediately obvious)\r\n\r\n\r\nThis seems pretty important. Let's try to do this for 2.3."
+  , issueCommentId = 167236019
+  }

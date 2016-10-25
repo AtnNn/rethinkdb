@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-10) 03 : 57 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/207913269"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5635#issuecomment-207913269"
+  , issueCommentCreatedAt = 2016 (-04) (-10) 03 : 57 : 38 UTC
+  , issueCommentBody =
+      "You may be trying to link objects that were compiled with a different ABI, see https://gcc.gnu.org/onlinedocs/gcc-5.3.0/libstdc++/manual/manual/using_dual_abi.html for more information. If I remember correctly Clang could build using the GCC Standard Library, but it may be making assumptions regarding the ABI.\r\n\r\nA fun little tidbit 'cause it's Saturday evening and I'm bored. In the days when the earth was still flat, back before C++11, there were two ways of optimizing `std::string`, or `std::basic_string<char, std::char_traits<char>, std::allocator<char> >` for the pedantic.\r\n\r\nThe first, which GCC used to use was reference counting, instead of copying a string they simply bumped up the reference count which was usually more efficient. It's important to note that GCC wasn't as naive as C++03 and earlier regarding threading, thus the reference count was an atomic integer. Those aren't exactly cheap, but it was cheaper than allocating a new chunk of memory and copying the string over. If you wanted to change a string it would still have to make a copy, also known as Copy on Write or CoW.\r\n\r\nThe other option is called Small String Optimization, often abbreviated to SSO, and it uses the string internals. An `std::string` generally contains three pointers, one to the beginning of the allocated buffer / string, one to the end of the string, and a last to the end of the allocated buffer. That's 24 bytes to muck around with on a modern machine, and you can store small strings in those bytes instead of allocating memory on the heap.\r\n\r\nThen C++11 came around, which finally learned about threading, and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2534.html in particular. This mandated safe concurrent access to strings, which in turn meant the end of reference counted strings. GCC had to change, and in doing so the ABI had to change, hence this whole mess."
+  , issueCommentId = 207913269
+  }

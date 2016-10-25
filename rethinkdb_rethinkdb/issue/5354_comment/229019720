@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-28) 11 : 10 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 474389
+        , simpleUserLogin = N "ultrabug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/474389?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ultrabug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/229019720"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5354#issuecomment-229019720"
+  , issueCommentCreatedAt = 2016 (-06) (-28) 11 : 10 : 53 UTC
+  , issueCommentBody =
+      "@dalanmiller great news, thank you ! I finally got the hold on how to run the lib in develop mode in my virtualenv so I could give it a try and made a few comments as you can see.\r\n\r\nAlso, I think the `_get_next()` method is wrongly raising an RqlCursorEmpty exception on line 123. My current fix is checking the error instance type like this:\r\n\r\n```python\r\n    @asyncio.coroutine\r\n    def _get_next(self, timeout):\r\n        waiter = reusable_waiter(self.conn._io_loop, timeout)\r\n        while len(self.items) == 0:\r\n            self._maybe_fetch_batch()\r\n            if self.error is not None:\r\n                if isinstance(self.error, RqlCursorEmpty):\r\n                    return\r\n                else:\r\n                    raise self.error\r\n            with translate_timeout_errors():\r\n                yield from waiter(asyncio.shield(self.new_response))\r\n        return self.items.popleft()\r\n```\r\n\r\nHope this helps"
+  , issueCommentId = 229019720
+  }

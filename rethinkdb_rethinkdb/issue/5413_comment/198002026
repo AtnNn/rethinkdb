@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-17) 17 : 58 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/198002026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5413#issuecomment-198002026"
+  , issueCommentCreatedAt = 2016 (-03) (-17) 17 : 58 : 55 UTC
+  , issueCommentBody =
+      "@marshall007: I disagree with you on both of your previous posts:\r\n1. That `eachAsync` returns a promise even when there is a `final` function (callback style) already demonstrates that we are going to support \"mixed\" behavior. Since we have gone down that road we need to embrace it, not ignore things because they are not pure.\r\n2. I am strongly against sending an error both to the `final` handler and out the promise direction. In the case of people who are trying to use the callback style this would leave them with unhanded promise rejections if they did not also put in a `.catch` block, and render the whole `final` block necessarily redundant. So when people give a `final` handler, it should be the only one to deal with errors encounter during `row` handler processing. I see room for debate about whether errors thrown in the `final` handler should be thrown generally, or sent out through a Promise rejection.\r\n3. If we are going to wait for resolution on promises from the `row` hander, then we should also wait on promises from the `final` hander. Doing otherwise seems to me to be sacrificing both convince and predictability for the sake of purity. If we were not to accept/resolve a promise there, then we need to make it an error to prevent subtle bugs from creeping into people's code.\r\n4. And the tests should most definitely test the mixed cases (in addition to the straight-line ones). No matter what we decide the behavior should be, we need to maintain that behavior even in circumstances we don't intend for people to use. This is how we can guard against breaking people's code accidentally. Note that I am not advocating that we encourage people to use these mixed cases (I don't mind personally), but we need to be careful about maintaining our behavior."
+  , issueCommentId = 198002026
+  }

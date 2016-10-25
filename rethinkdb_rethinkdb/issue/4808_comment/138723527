@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-08) 22 : 39 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138723527"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4808#issuecomment-138723527"
+  , issueCommentCreatedAt = 2015 (-09) (-08) 22 : 39 : 29 UTC
+  , issueCommentBody =
+      "Thanks for all the info @bgardner87 !\r\n\r\nOk so it sounds like this is indeed a memory consumption issue of some sort.\r\n\r\nWere there any writes going on to the table or was it mostly inactive or read-only during the index construction?\r\n\r\nAssuming you left the replication factor at 2, the sharding might not actually have done anything for this, because each replica would still build the index over the full data set. Only with a replication factor of 1 and 2 shards, the amount of data per server would actually be reduced as far as the index construction is concerned.\r\n\r\nYou mention that some of the temporary indexes eventually finished constructing. As mentioned in the mailing list, you can make one of them the new main index by running the following query:\r\n```js\r\nr.db('production').table('equipment_point_records').indexRename(`<tmp name>_syrx_num`, `syrx_num`, {overwrite: true})\r\n```\r\nThis will complete the index migration.\r\n\r\n@bgardner87 I know it's probably going to be a pretty big data set, but is there a chance you could send us a copy of it? We're happy to sign an NDA if necessary. This would allow us to reproduce the issue locally and debug it further. We can give you access to an upload server."
+  , issueCommentId = 138723527
+  }

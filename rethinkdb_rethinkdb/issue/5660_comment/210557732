@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-15) 17 : 33 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/210557732"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5660#issuecomment-210557732"
+  , issueCommentCreatedAt = 2016 (-04) (-15) 17 : 33 : 31 UTC
+  , issueCommentBody =
+      "Maybe, try creating two threads: **Thread A** and **Thread B**. Have **Thread A** listen for changes and later have **Thread B** close the connection. **Thread A** *should* wake up exceptionally from blocking.\r\n\r\nSomething like:\r\n```\r\nConnection conn;\r\n\r\nMain(){\r\n   this.conn = RethinkDB.r.connection().....connect();\r\n   ThreadA.Start(Listener);\r\n   ThreadB.Start(Closer)\r\n}\r\n\r\nListener{\r\n   // the blocking change feed code in your sample code\r\n}\r\n\r\nCloser{\r\n   ThreadB.Sleep(2 minutes); //maybe add some changes\r\n   Log(\"closing connection manually\");\r\n   this.conn.close();\r\n   Log(\"closed.\");\r\n   ThreadB.Sleep(3 minutes);\r\n   Log(\"ThreadB closer done.\");\r\n}\r\n```\r\nQuick sanity check would make sure the basic plumbing is working."
+  , issueCommentId = 210557732
+  }

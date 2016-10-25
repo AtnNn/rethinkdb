@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-03) 23 : 52 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65514377"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2629#issuecomment-65514377"
+  , issueCommentCreatedAt = 2014 (-12) (-03) 23 : 52 : 53 UTC
+  , issueCommentBody =
+      "@marshall007 -- one of the reasons we removed the `base` argument is that it lead people to believe that `reduce` works like `fold`, which it doesn't.  `[1,2,3,4,5].fold(+)` is guaranteed to become `((((1+2)+3)+4)+5)`, but `[1,2,3,4,5].reduce(+)` is free to become `((1+2)+3)+(4+5)`.  We need to use the looser definition because when your reduce over a sharded table, we want to be able to process the shards in parallel and then combine the results at the end.\r\n\r\nAnyway, as a result, queries like `table.reduce(lambda sum,row: sum + row['a'], base=0)` will produce an error.  You have to write `table.map(lambda row: row['a']).reduce(lambda a,b: a+b)` instead.  We found that when we provided the `base` argument, people were very tempted to write the first sort of query, and had trouble understanding why it didn't work."
+  , issueCommentId = 65514377
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-12) 16 : 17 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1147703
+        , simpleUserLogin = N "DenisBY"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1147703?v=3"
+        , simpleUserUrl = "https://api.github.com/users/DenisBY"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/253261625"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5154#issuecomment-253261625"
+  , issueCommentCreatedAt = 2016 (-10) (-12) 16 : 17 : 33 UTC
+  , issueCommentBody =
+      "@danielcompton could you explain how you did it with try/catch?\r\nI'm trying to catch and then retry on ` ReqlOpFailedError: Cannot perform write: The primary replica is currently changing from one replica to another ` but with no success\r\nMy code:\r\n```\r\ndef retry_operation(operation, *args, **kwargs):\r\n    def func(*args, **kwargs):\r\n        attempts = 0\r\n        while True:\r\n            try:\r\n                return operation(*args, **kwargs)\r\n            except ReqlOpFailedError as req:\r\n                sleep_interval = random.random() * min(MAX_SLEEP, MIN_SLEEP * 2 ** attempts)\r\n                attempts = min(attempts + 1, ATTEMPTS_CAP)\r\n                log.warn(\"Error: %s. Retrying in %f seconds\", req, sleep_interval)\r\n                time.sleep(sleep_interval)\r\n\r\n    return func\r\n```"
+  , issueCommentId = 253261625
+  }

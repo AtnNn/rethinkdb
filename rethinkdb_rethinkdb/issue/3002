@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-05) 18 : 44 : 25 UTC
+  , issueUpdatedAt = 2014 (-09) (-05) 19 : 13 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3002/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3002"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3002
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 653497
+        , simpleUserLogin = N "vierja"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/653497?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vierja"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Strange behavior using `or`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3002"
+  , issueCreatedAt = 2014 (-09) (-04) 00 : 12 : 42 UTC
+  , issueBody =
+      Just
+        "I am trying to filter using the `or` operator while using RethinkDB 1.14.0. The query returns empty if the first condition is false using the `or` operator.\r\n\r\nTo replicate:\r\n\r\nUsing the Web UI\r\n```javascript\r\nr.dbCreate(\"or_test\")\r\nr.db(\"or_test\").tableCreate(\"test\")\r\nr.db(\"or_test\").table(\"test\").insert({optional_field1: \"one\"})\r\n```\r\n===\r\nThen If you do:\r\n\r\n```javascript\r\nr.db(\"or_test\").table(\"test\").filter(\r\n  r.row(\"optional_field1\").eq(\"one\").and(r.row(\"optional_field2\").eq(\"one\"))\r\n)\r\n```\r\n\r\nYou get:\r\n\r\n```json\r\n[\r\n  {\r\n    \"id\":  \"980b7596-a376-4ac7-9cd3-78bc872fc29e\" ,\r\n    \"optional_field1\":  \"one\"\r\n  }\r\n]\r\n```\r\n===\r\nBut if you change the order of the `or` bool values:\r\n\r\n```javascript\r\nr.db(\"or_test\").table(\"test\").filter(\r\n  r.row(\"optional_field2\").eq(\"one\").or(r.row(\"optional_field1\").eq(\"one\"))\r\n)\r\n```\r\n\r\nyou get an empty list: `[]`\r\n\r\nI tried the same using Python bindings and got the same behavior.\r\n\r\nThanks."
+  , issueState = "closed"
+  , issueId = Id 41882245
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

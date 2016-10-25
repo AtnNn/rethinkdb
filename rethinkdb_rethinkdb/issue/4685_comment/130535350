@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-13) 04 : 54 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/130535350"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4685#issuecomment-130535350"
+  , issueCommentCreatedAt = 2015 (-08) (-13) 04 : 54 : 29 UTC
+  , issueCommentBody =
+      "I'm afraid this is my bad, the fix should be as simple as\r\n```\r\ndiff --git a/src/clustering/administration/persist/table_interface.cc b/src/clustering/administration/persist/table_interface.cc\r\nindex 8e98493..9da74c4 100644\r\n--- a/src/clustering/administration/persist/table_interface.cc\r\n+++ b/src/clustering/administration/persist/table_interface.cc\r\n@@ -144,7 +144,7 @@ public:\r\n     }\r\n \r\n     serializer_t *get_serializer() {\r\n-        return serializer.get();\r\n+        return serializer.get_or_null();\r\n     }\r\n \r\n     store_view_t *get_cpu_sharded_store(size_t i) {\r\n```\r\n\r\nIt shouldn't explain the segfault though as I explicitly check for the `nullptr` in `is_gc_active`\r\n```\r\n            serializer_t *serializer =\r\n                real_multistore.second.first->get_serializer();\r\n            if (serializer == nullptr || ...\r\n```"
+  , issueCommentId = 130535350
+  }

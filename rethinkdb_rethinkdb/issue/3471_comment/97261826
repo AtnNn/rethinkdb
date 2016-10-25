@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 23 : 23 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97261826"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97261826"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 23 : 23 : 55 UTC
+  , issueCommentBody =
+      "I've re-phrased the problem in terms of use cases. Here's a proposed solution (much of which has been said before):\r\n\r\n1. In a real-time web app, most changefeeds will cover small data sets. These don't need resumability because the client can just re-run the changefeed with `return_initial=True`. I think this solution covers 95% of change feeds.\r\n\r\n2. `.table().changes()` is often too expensive to re-fetch from the beginning. My preferred solution for this case is attaching B-tree timestamp tokens to the changefeed and allowing resuming using the backfilling infrastructure. This also covers `.table().between().changes()` on the primary index. But it doesn't work for arbitrary changefeeds.\r\n\r\n3. When we eventually allow `.map().reduce().changes()`, instead of implementing resumable changefeeds we should implement stored reductions. Something like `r.reductionCreate(\"fooSum\", r.table(\"foo\").map(...).reduce(...)` and then `r.reduction(\"fooSum\").changes()`.\r\n\r\nWhich use cases aren't covered by the above three strategies? Here are a few non-covered use cases:\r\n\r\n* Clients that need to see every single change and cannot tolerate squashing.\r\n\r\n* Incremental map-reduce on the client side over an entire table. The B-tree backfilling approach doesn't work because it doesn't return old values, so the client can't compute differences.\r\n\r\n* `.filter().changes()` or `.orderBy().limit().changes()` with a result set that's too big to re-fetch. (`.between().changes()` on a secondary index or `.getAll().changes()` could be used with the B-tree backfilling approach, but it would take some implementation effort to add timestamps to secondary index B-trees.)\r\n\r\n@coffeemug, do you know how important these non-covered use cases are? Are there any more non-covered use cases I'm forgetting?\r\n\r\nThe three strategies I discussed above can tolerate client, server, and connection failures.\r\n\r\nAnother issue is user-friendliness. @mlucy has pointed out that it's tricky to implement the client side of the B-tree backfill correctly. Also, storing tokens might be inconvenient or impractical."
+  , issueCommentId = 97261826
+  }

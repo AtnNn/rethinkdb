@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-09) 00 : 37 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66215364"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2855#issuecomment-66215364"
+  , issueCommentCreatedAt = 2014 (-12) (-09) 00 : 36 : 38 UTC
+  , issueCommentBody =
+      "@jhstatewide thank you, this is very helpful. Yours is actually one of the cases where it is a little more tricky to build an efficient compound index the way we do geo indexing in RethinkDB now.\r\n\r\nOut of curiosity: Have you tried inverting the filter and get_nearest, using a (non-geo) index on the post timestamp?\r\nYour query could look something like this:\r\n```js\r\nr.table(...).between(oldest_ts, newest_ts, {index: 'post_ts'}).orderBy(r.row('location').distance(r.point(lon, lat)))\r\n```\r\n\r\nIf you have a highest possible radius within which you are searching, another thing you could try is using `getIntersecting` instead of `getNearest`. It has the same limitations when it comes to indexing, but it internally works a bit more efficiently with a subsequent `filter` than `getNearest` does.\r\nYou could write something like\r\n```js\r\nr.table(...).getIntersecting(r.circle(r.point(lon, lat), radius_m), {index: `location`}).filter(...filter on ts...)\r\n```\r\nSee the documentation of `r.circle` for more information http://rethinkdb.com/api/javascript/circle/"
+  , issueCommentId = 66215364
+  }

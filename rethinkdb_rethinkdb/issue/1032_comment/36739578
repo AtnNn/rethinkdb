@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-05) 13 : 01 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36739578"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-36739578"
+  , issueCommentCreatedAt = 2014 (-03) (-05) 13 : 01 : 16 UTC
+  , issueCommentBody =
+      "> [@mlucy's proposal]\r\n\r\nThere's no need to allow people to query for `r.error` results in the secondary index.  This complicates everything for no reason and creates interfaces specific to our implementation strategy.\r\n\r\nThe actual problem we're trying to solve here is that `order_by` queries and other things that might use an index optarg for optimization purposes (including `get_all`, perhaps, because it is a kind of optimized `filter`) suddenly change their behavior when that optarg is in place.  The result set should be identical.\r\n\r\nIn light of all this: Errors should not be allowed to be returned by secondary index functions.  Otherwise, any secondary index function that would \"hit\" an r.error must error.  (You might think: Maybe bounded `.between(...)` queries would be an example of a query that wouldn't have \"hit\" an r.error condition.  However, the equivalent translation to `r.filter` would.  It would be simpler to disallow r.error.)\r\n\r\n**Secondary indexes exist to optimize queries that would otherwise be slow.**  They do not exist for the sake of themselves, to have special features and semantics.  The user should have zero friction in converting a slow range filter to a fast secondary index `between` with no change in semantics.\r\n\r\nSo, `r.indexCreate('foo')` should be equivalent to `r.indexCreate('foo', function(x) { return x('foo').default(null); })`, making it match the behavior of the unoptimized `r.order_by('foo')`.\r\n\r\nNote that there are no implementation difficulties for this proposal.\r\n\r\n> Ordering by a non-multi index won't change the size of a stream, ever.\r\n\r\nUsing a multi index in `order_by` needs to be illegal.  Using `order_by` with or without an index must have identical behavior, because you can't see at the call site that the change is happening.  (A `multi_index` optarg or something might be appropriate.)"
+  , issueCommentId = 36739578
+  }

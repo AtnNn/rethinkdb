@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-12) (-09) 08 : 54 : 46 UTC
+  , issueUpdatedAt = 2013 (-12) (-09) 08 : 55 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1607/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1607"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      ]
+  , issueNumber = 1607
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 220134
+        , simpleUserLogin = N "orthecreedence"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/220134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/orthecreedence"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Crash while starting after trying to perform backup"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1607"
+  , issueCreatedAt = 2013 (-11) (-05) 04 : 27 : 27 UTC
+  , issueBody =
+      Just
+        "Hey guys. Been having some corruption lately when creating secondary indexes (v1.10.0) on my local box, so I thought it was a perfect time to start doing backups on my live box.\r\n\r\nRan a `rethinkdb dump` on my live box and the server crashed. Ok, restart it...nope:\r\n\r\n```\r\ninfo: Running rethinkdb 1.10.0 (GCC 4.5.2)...\r\ninfo: Running on Linux 3.9.3-x86_64-linode33 x86_64\r\ninfo: Loading data from directory /srv/rethinkdb\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\nVersion: rethinkdb 1.10.0 (GCC 4.5.2)\r\nerror: Error in src/btree/secondary_operations.cc at line 32:\r\nerror: Guarantee failed: [res == 0]  (errno 11 - Resource temporarily unavailable) corrupted secondary index.\r\nerror: Backtrace:\r\nerror: Mon Nov  4 20:00:29 2013\r\n\r\n       1: rethinkdb() [0x8d66f5]\r\n       2: rethinkdb() [0x8e32ba]\r\n       3: rethinkdb() [0x8e8bb6]\r\n       4: rethinkdb() [0x8fb5f4]\r\n       5: rethinkdb() [0x427a53]\r\n       6: rethinkdb() [0x6861db]\r\n       7: rethinkdb() [0x686340]\r\n       8: rethinkdb() [0x95ad9e]\r\nerror: Exiting.\r\nTrace/breakpoint trap\r\n```\r\nThis is happening repeatedly. It seemed to originate from this error (pulled from my logs directly after the `dump` command):\r\n\r\n```\r\nVersion: rethinkdb 1.10.0 (GCC 4.5.2)\r\nerror: Error in src/rdb_protocol/lazy_json.cc at line 19:\r\nerror: Guarantee failed: [res == 0]  (errno 11 - Resource temporarily unavailable) disk corruption (or programmer error) detected\r\n```\r\n\r\nUnfortunately, I don't have a hard copy of the data folder...so I'm left with a corrupted database. What I'm wondering is if there's a way to recover this data. Like I said, it's the only copy, besides a working dump I have from about a month ago.\r\n\r\nIf there isn't a way to \"fix\" the data, is there a way to trick RethinkDB into looking the other way for a second while I run another dump?\r\n\r\nAny ideas are appreciated!"
+  , issueState = "closed"
+  , issueId = Id 22099112
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

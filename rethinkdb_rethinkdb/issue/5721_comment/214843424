@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-26) 18 : 37 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/214843424"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5721#issuecomment-214843424"
+  , issueCommentCreatedAt = 2016 (-04) (-26) 18 : 37 : 51 UTC
+  , issueCommentBody =
+      "Hi @abovemike, this change was due to the previous behavior being wrong in certain cases. See https://github.com/rethinkdb/rethinkdb/issues/5325 .\r\n\r\nWe noted this for the case of `filter` in the 2.3.0 release notes under API-breaking changes https://github.com/rethinkdb/rethinkdb/releases/tag/v2.3.0 .\r\n\r\nHowever we missed that this would also affect non-filter queries, such as the `pluck` you are using. The error message is also misleading in that respect.\r\n\r\nPutting the `pluck` in front of the `limit` is fine in this case, and won't degrade performance because its evaluation is \"lazy\" and will only happen for results that are within the limit, so your rewrite should be fine.\r\n\r\nSorry for the confusion.\r\n\r\n@nighelles I think we should extend the error message to mention transformations on the data in general, rather than just filters.\r\nI'm also wondering if it was actually necessary to forbid non-filter transformations, though I vaguely remember that it was to guarantee correct `orderBy.limit` changefeed behavior?"
+  , issueCommentId = 214843424
+  }

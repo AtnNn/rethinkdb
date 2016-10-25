@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-10) 22 : 24 : 24 UTC
+  , issueUpdatedAt = 2014 (-06) (-10) 22 : 28 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2127/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2127"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2127
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Combine block writes better in the cache."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2127"
+  , issueCreatedAt = 2014 (-03) (-21) 00 : 48 : 14 UTC
+  , issueBody =
+      Just
+        "We have a bit of performance regression from 1.11, presumably one which could be handled by combining block writes better.  Right now we can combine index writes (once they hit the merger serializer) but we don't combine block writes very well.  A typical workload (where everything is in RAM) will result in every insert having its own write operation, with deduping of index writes, but no deduping of block writes.  This is bad because they touch the superblock and stats block.\r\n\r\nThe performance impact here might actually be caused by us forcing the data block GC to work harder."
+  , issueState = "closed"
+  , issueId = Id 29871491
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

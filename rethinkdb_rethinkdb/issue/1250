@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2014 (-07) (-04) 01 : 09 : 34 UTC
+  , issueUpdatedAt = 2014 (-07) (-04) 01 : 14 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1250/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1250"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1250
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Server sometimes overflows stack, crashes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1250"
+  , issueCreatedAt = 2013 (-08) (-08) 20 : 05 : 20 UTC
+  , issueBody =
+      Just
+        "You can see this behavior by sending an object nested 25-deep to the server in debug mode (we overflow very quickly in debug mode because lots of stuff isn't optimized off the stack).\r\n\r\nI'm unable to crash the server easily in release mode, since we hit the protobuf library's decoding limit first, but we should consider maybe trying to do something smarter than segfaulting and crashing the server when we blow off the stack.  Maybe we could install a signal handler that checks whether we got a stack overflow on a ReQL coroutine, and produces an `exc_t` if we did?  Maybe we could enforce a maximum runtime recursion depth ourselves?\r\n\r\n(Just because I can't easily hit the stack limit in release mode doesn't mean that there isn't any way to -- e.g., I would bet that if we programmatically constructed two enormous objects and merged them that we'd hit the limit.)"
+  , issueState = "closed"
+  , issueId = Id 17827904
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

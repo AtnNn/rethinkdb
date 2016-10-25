@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2013 (-07) (-24) 18 : 28 : 58 UTC
+  , issueUpdatedAt = 2013 (-07) (-24) 22 : 21 : 16 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1198/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1198"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1198
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 126674
+        , simpleUserLogin = N "altunyurt"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/126674?v=3"
+        , simpleUserUrl = "https://api.github.com/users/altunyurt"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Document not updated when r.row used "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1198"
+  , issueCreatedAt = 2013 (-07) (-24) 14 : 18 : 06 UTC
+  , issueBody =
+      Just
+        "I'm using 1.7.3. I was struggling with document updating, until Slava's reply @ http://stackoverflow.com/questions/17832931/rethinkdb-removing-data-from-documents\r\nsuggests using \r\n    \r\n    r.table.get.update(r.row.without(\"field_to_be_deleted\"))\r\n\r\nThis is my data structure \r\n\r\nr.table(\"cv\").get(\"e1a8b71f-ba52-4fd4-8c3a-e981df1e3108\")\r\n\r\n{\r\n    \"contact\": \"\" ,\r\n    \"id\": \"e1a8b71f-ba52-4fd4-8c3a-e981df1e3108\" ,\r\n    \"name\": \"deneme\" ,\r\n    \"personal\": {\r\n        \"info\": {\r\n            \"birthdate\": \"1980-01-01\" ,\r\n            \"gender\": \"male\" ,\r\n            \"name\": \"some guy\"\r\n        }\r\n    } ,\r\n    \"social\": [\r\n        {\r\n            \"type\": \"twitter\" ,\r\n            \"value\": http://twitter.com/..., \187\r\n        } ,\r\n        {\r\n            \"type\": \"facebook\" ,\r\n            \"value\": http://facebook.com/..., \187\r\n        }\r\n    ] ,\r\n    \"user\": \"007372e2-e4bf-472d-8d69-002fc48de54d\"\r\n}\r\n\r\nI try to remove contact field \r\n\r\nr.table(\"cv\").get(\"e1a8b71f-ba52-4fd4-8c3a-e981df1e3108\").update(r.row.without(\"contact\"))\r\n\r\nthis is the result \r\n\r\n{\r\n\r\n    \"deleted\": 0 ,\r\n    \"errors\": 0 ,\r\n    \"inserted\": 0 ,\r\n    \"replaced\": 0 ,\r\n    \"skipped\": 0 ,\r\n    \"unchanged\": 1\r\n\r\n}\r\n\r\nand contact field still is in the document. I also tried with \r\n\r\nr.table(\"cv\").get(\"e1a8b71f-ba52-4fd4-8c3a-e981df1e3108\").update(r.row.pluck(\"id\", \"contact\"))\r\n\r\nstill no change. But  \r\n\r\nr.table(\"cv\").get(\"e1a8b71f-ba52-4fd4-8c3a-e981df1e3108\").update({\"field_name\": \"val\"})\r\n\r\nworks."
+  , issueState = "closed"
+  , issueId = Id 17159407
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

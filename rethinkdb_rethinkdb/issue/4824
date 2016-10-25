@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 18 : 29 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4824/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4824"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4824
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "\"Guarantee failed: [committed == active_config.config]\" in Raft fuzzer test"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4824"
+  , issueCreatedAt = 2015 (-09) (-10) 17 : 55 : 18 UTC
+  , issueBody =
+      Just
+        "Got this in my branch `daniel_1951` (commit 850e1d261c8e4e4c29961562c8030d0e0e5223e4), which is branched from `next`.\r\nIt doesn't look related to my changes, at least not directly.\r\nI can also not reproduce it so far.\r\n\r\n```\r\nVersion: rethinkdb 2.1.0-0BETA2-233-gf6f352-dirty (debug) (CLANG 3.2 (tags/RELEASE_32/final))\r\nerror: Error in src/unittest/clustering_raft_fuzzer.cc at line 187:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Guarantee failed: [committed == active_config.config] \r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Backtrace:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Wed Sep  9 22:00:15 2015\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:100\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:203\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:283\r\n       4: format_backtrace(bool) at backtrace.cc:198\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       6: unittest::raft_fuzzer_t::fuzz_config(cond_t*, signal_t*)::{lambda(raft_member_t<unittest::dummy_raft_state_t>*, signal_t*)#1}::operator()(raft_member_t<unittest::dummy_raft_state_t>*, signal_t*) const at clustering_raft_fuzzer.cc:187\r\n       7: std::_Function_handler<void (raft_member_t<unittest::dummy_raft_state_t>*, signal_t*), unittest::raft_fuzzer_t::fuzz_config(cond_t*, signal_t*)::{lambda(raft_member_t<unittest::dummy_raft_state_t>*, signal_t*)#1}>::_M_invoke(std::_Any_data const&, raft_member_t<unittest::dummy_raft_state_t>*, signal_t*) at functional:1779\r\n       8: std::function<void (raft_member_t<unittest::dummy_raft_state_t>*, signal_t*)>::operator()(raft_member_t<unittest::dummy_raft_state_t>*, signal_t*) const at functional:2160\r\n       9: unittest::dummy_raft_cluster_t::run_on_member(raft_member_id_t const&, std::function<void (raft_member_t<unittest::dummy_raft_state_t>*, signal_t*)> const&) at clustering_utils_raft.cc:262\r\n       10: unittest::raft_fuzzer_t::fuzz_config(cond_t*, signal_t*) at clustering_raft_fuzzer.cc:174\r\n       11: std::_Mem_fn<void (unittest::raft_fuzzer_t::*)(cond_t*, signal_t*)>::operator()(unittest::raft_fuzzer_t*, cond_t*, signal_t*) const at functional:550\r\n       12: _ZNSt5_BindIFSt7_Mem_fnIMN8unittest13raft_fuzzer_tEFvP6cond_tP8signal_tEEPS2_S4_P14signal_timer_tEE6__callIvJEJLi0ELi1ELi2EEEET_OSt5tupleIJDpT0_EESt12_Index_tupleIJXspT1_EEE+0xd0 at functional:1145\r\n       13: _ZNSt5_BindIFSt7_Mem_fnIMN8unittest13raft_fuzzer_tEFvP6cond_tP8signal_tEEPS2_S4_P14signal_timer_tEEclIJEvEET0_DpOT_+0x26 at functional:1203\r\n       14: callable_action_instance_t<std::_Bind<std::_Mem_fn<void (unittest::raft_fuzzer_t::*)(cond_t*, signal_t*)> (unittest::raft_fuzzer_t*, cond_t*, signal_timer_t*)> >::run_action() at callable_action.hpp:31\r\n       15: callable_action_wrapper_t::run() at runtime_utils.cc:43\r\n       16: coro_t::run() at coroutines.cc:205\r\n       17: coro_t* coro_t::spawn_sometime<std::_Bind<std::_Mem_fn<void (unittest::raft_fuzzer_t::*)(cond_t*, signal_t*)> (unittest::raft_fuzzer_t*, cond_t*, signal_timer_t*)> >(std::_Bind<std::_Mem_fn<void (unittest::raft_fuzzer_t::*)(cond_t*, signal_t*)> (unittest::raft_fuzzer_t*, cond_t*, signal_timer_t*)>&&) at coroutines.hpp:59\r\n       18: unittest::raft_fuzzer_t::run(unsigned long) at clustering_raft_fuzzer.cc:57\r\n       19: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d50978] at 0x1d50978 ()\r\n       20: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d508e7] at 0x1d508e7 ()\r\n       21: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d50c2c] at 0x1d50c2c ()\r\n       22: callable_action_wrapper_t::run() at runtime_utils.cc:43\r\n       23: coro_t::run() at coroutines.cc:205\r\n       24: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d508ad] at 0x1d508ad ()\r\n       25: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d507ef] at 0x1d507ef ()\r\n       26: /home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest() [0x1d506ea] at 0x1d506ea ()\r\n       27: unittest::run_ClusteringRaft_Fuzzer() at clustering_raft_fuzzer.cc:258\r\n       28: std::_Function_handler<void (), void (*)()>::_M_invoke(std::_Any_data const&) at functional:1779\r\n       29: std::function<void ()>::operator()() const at functional:2160\r\n       30: starter_t::run_wrapper(std::function<void ()> const&) at runtime.cc:61\r\n       31: std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)>::operator()(starter_t*, std::function<void ()> const&) const at functional:550\r\n       32: _ZNSt5_BindIFSt7_Mem_fnIM9starter_tFvRKSt8functionIFvvEEEEPS1_S4_EE6__callIvJEJLi0ELi1EEEET_OSt5tupleIJDpT0_EESt12_Index_tupleIJXspT1_EEE+0x70 at functional:1145\r\n       33: _ZNSt5_BindIFSt7_Mem_fnIM9starter_tFvRKSt8functionIFvvEEEEPS1_S4_EEclIJEvEET0_DpOT_+0x26 at functional:1203\r\n       34: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)> >::_M_invoke(std::_Any_data const&) at functional:1779\r\n       35: std::function<void ()>::operator()() const at functional:2160\r\n       36: callable_action_instance_t<std::function<void ()>&>::run_action() at callable_action.hpp:31\r\n       37: callable_action_wrapper_t::run() at runtime_utils.cc:43\r\n       38: coro_t::run() at coroutines.cc:205\r\n       39: coro_t* coro_t::spawn_sometime<std::function<void ()>&>(std::function<void ()>&&&) at coroutines.hpp:59\r\n       40: starter_t::on_thread_switch() at runtime.cc:57\r\n       41: linux_message_hub_t::on_event(int) at message_hub.cc:154\r\n       42: epoll_event_queue_t::run() at epoll.cc:115\r\n       43: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:164\r\n       44: /lib/x86_64-linux-gnu/libpthread.so.0(+0x7e9a) [0x7fbf76701e9a] at 0x7fbf76701e9a (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       45: clone+0x6d at 0x7fbf7642e8bd (/lib/x86_64-linux-gnu/libc.so.6)\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Exiting.\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nCommand '['/home/ssd3/daniel/rethinkdb/build/debug_clang/rethinkdb-unittest', '--gtest_filter=ClusteringRaft.*']' returned non-zero exit status -5\r\n```\r\n\r\nPinging @Tryneus and @VeXocide "
+  , issueState = "open"
+  , issueId = Id 105862956
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

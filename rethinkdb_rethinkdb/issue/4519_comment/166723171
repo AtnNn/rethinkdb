@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-22) 20 : 32 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/166723171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-166723171"
+  , issueCommentCreatedAt = 2015 (-12) (-22) 20 : 32 : 40 UTC
+  , issueCommentBody =
+      "@encryptio -- the syntax in https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-155516220 has `$read` at the same levels as database and table names, which is why you need the `$`.  It lets you avoid two unnecessary nesting levels, which I think makes it much easier to read.  Even if we have separate user and permission tables, I like that syntax better.\r\n\r\n@danielmewes -- I think people will understand \"you can update your own password but nothing else\" just fine.  (We could even add a toplevel term for it if it's a common operation.)\r\n\r\n> I think consistency between the tables isn't really an issue. Keep in mind that this is just how we represent the data in the ReQL artificial table interface. It doesn't necessarily reflect how the data is stored internally. Basically deleting a user from users would remove the associated document in permissions as well. Creating a user by inserting info users would make a new (almost empty) document in permissions appear as well.\r\n\r\nSplitting into two tables still seems unnecessarily complicated to me.  Especially if inserting or deleting in one of the tables *automatically inserts and deletes in the other one*.  Those semantics really make it seem like you want a single table.\r\n\r\nAnother advantage of a single table is that it will let you create a new user with certain permissions and a certain password in a single ReQL command.\r\n\r\n---\r\n\r\nAs a total aside, we should make sure to censor the passwords people put in the `update` command from things like the jobs table."
+  , issueCommentId = 166723171
+  }

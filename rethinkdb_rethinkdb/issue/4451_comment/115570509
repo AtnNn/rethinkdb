@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-26) 08 : 27 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1083623
+        , simpleUserLogin = N "sebadiaz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1083623?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sebadiaz"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115570509"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4451#issuecomment-115570509"
+  , issueCommentCreatedAt = 2015 (-06) (-26) 08 : 18 : 37 UTC
+  , issueCommentBody =
+      "The reason appear more clear on a big document when an arry is not finished we extend the file reading to continue on the array parsing\r\ncode extracted \r\n\r\n            before_len = len(json_data) -> we take the size of the actual structure\r\n            to_read = max(json_read_chunk_size, before_len) -> we get this previous measure as max\r\n            json_data += file_in.read(min(to_read, json_max_buffer_size - before_len)) -> finally we use\r\n                  (json_max_buffer_size - before_len) because < to_read --> could be negative on non raising step(see next lines)\r\n\r\nafter reading we have\r\n            elif before_len == len(json_data) or len(json_data) >= json_max_buffer_size: --> this is the error , we can't raise on unfinished array \r\n                raise\r\n\r\n\r\nTwo solutions\r\n  - set a big json_max_buffer_size with two solutions : \r\n\t- fixed at starting\r\n\t- set to the file size\r\n  - continue to read unless size limit exceed my new patch proposition in removing json_max_buffer_size\r\n\r\n            before_len = len(json_data)\r\n            to_read = max(json_read_chunk_size, before_len)\r\n            json_data += file_in.read(to_read) <--- previously json_data += file_in.read(min(to_read, json_max_buffer_size - before_len))\r\n\r\n            elif before_len == len(json_data):  <---  previously  elif before_len == len(json_data) or len(json_data) >= json_max_buffer_size\r\n                raise\r\n\r\n\r\n\r\nI have tested this last correction,it works\r\n\r\nI propose too , to have a parameter for json_read_chunk_size as I have previously coded."
+  , issueCommentId = 115570509
+  }

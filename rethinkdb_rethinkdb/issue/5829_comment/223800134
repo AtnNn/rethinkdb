@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-05) 08 : 35 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223800134"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5829#issuecomment-223800134"
+  , issueCommentCreatedAt = 2016 (-06) (-05) 08 : 35 : 17 UTC
+  , issueCommentBody =
+      "That's pretty normal.\r\n\r\nThe cache is used to keep commonly used data in memory, so RethinkDB doesn't need to load it from disk.\r\n\r\nAs long as the cache size is larger than the total data size, all data will eventually be in cache which avoids disk reads during query execution completely (of course data still needs to be written to disk for durability reasons). If you restart RethinkDB, the cache starts out empty. You should actually see the worst performance right after restarting, since no data is in cache at all and every access requires reading from disk. As the cache gets \"warmed up\", performance should increase.\r\n\r\nOnce the data size is too large to fit into cache completely (i.e. when you reach 100% cache used), RethinkDB has to evict less recently used data from the cache. The next time that data is needed for any query, it will have to ask the operating system to fetch it. There's a second line of caching in the OS which can dampen the effect at first, though eventually the OS in turn will have to go all the way to disk. Just asking the operating system for the data is about an order of magnitude slower than when the data can be used from the cache directly. If the OS has to hit disk to read the data, you can multiply another one or two orders of magnitude.\r\n\r\nThis is expected behavior (and you will see this effect with any database), so I'm going to close this.\r\n\r\nIf you only do inserts, you can improve the efficiency of the cache somewhat by inserting new data with keys that are close to each other (rather than using the randomly generated UUIDs, which are all over the place). That will allow RethinkDB to evict parts of the index that are not currently used, and insert performance will be less affected by hitting the cache size.\r\nThe disadvantage is that this doesn't play too well with RethinkDB's range-based sharding, and all new documents will end up in the same shard (if your table is sharded).\r\nA compromise might be using multiple \"strands\" of primary keys, where you generate keys from a certain fixed number of sequences. For example you can generate them from the sequences `[\"0\", counter]`, `[\"1\", counter]`, `[\"2\", counter]`, ..., `[\"f\", counter]`, where `counter` is an incrementing value in each one. That will make sure that indexes still distribute properly over shards, while providing cache locality within each sequence."
+  , issueCommentId = 223800134
+  }

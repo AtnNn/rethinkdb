@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-23) 12 : 38 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/241716837"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5865#issuecomment-241716837"
+  , issueCommentCreatedAt = 2016 (-08) (-23) 12 : 38 : 02 UTC
+  , issueCommentBody =
+      "We're running 5x RethinkDB 2.3.4 nodes on Docker/Kubernetes, using the official 2.3.4~0jessie binary. Nodes have 64GB RAM, and `--cache-size=5120`. I've configured one of our services to connect to instance `rethinkdb3` - this service runs a financial report (more on that later).\r\n\r\nThe two graphs show the same period of over 4 days - the first graph shows memory usage of the 5 docker containers - 4 nodes have mostly constant and consistent memory usage, but the one running reports just bloats up.\r\n\r\nWhen a horizontal line changes color, it means we manually killed a rethinkdb pod. When the big blue line dropped down from ~55GB to ~10GB, it got OOM'd and automatically restarted by Kubernetes.\r\n\r\n![screenshot 2016-08-23 14 37 04](https://cloud.githubusercontent.com/assets/372365/17890708/52e489e4-6940-11e6-8c09-179af940cd05.png)\r\n\r\nThe next graph is network traffic - the lower blue lines is one of \"normal\" rethinkdb nodes, the orange one is `rethinkdb3`, which runs the report.\r\n\r\n![screenshot 2016-08-23 14 44 53](https://cloud.githubusercontent.com/assets/372365/17890717/5793db5c-6940-11e6-80d6-0910a10e70e0.png)\r\n\r\nHere's a close-up of the same thing. The spikes correspond to the report running - usually only one, sometimes two of them run at the same time. The time range selected for the report linearly affects the complexity.\r\n![screenshot 2016-08-23 14 58 27](https://cloud.githubusercontent.com/assets/372365/17891041/2fb1d6fa-6942-11e6-8157-c43030d6895f.png)\r\n\r\nAll tables have 5 shards, 5 replicas. Judging by the network graph, hundreds of megabytes of data are all joined on `rethinkdb3`, and the report returns only a kilobyte or so of data. We're working on completely changing how the report will work, but hopefully it will be useful in your bug hunting.\r\n\r\nI will send the query and sample data to @danielmewes by email, since it's verbose. Basically it's several tables joined and map-reduced."
+  , issueCommentId = 241716837
+  }

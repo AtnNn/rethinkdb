@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-15) 22 : 43 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70176950"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-70176950"
+  , issueCommentCreatedAt = 2015 (-01) (-15) 22 : 43 : 59 UTC
+  , issueCommentBody =
+      "For point changefeeds it's cheap to send users the initial value every time, so there's no need to make changefeeds resumable or persistent. The only exception I can think of is changefeeds on map-reduce. But then there's no backfill-like solution available, so we'd have to make the map-reduce trees persistent. At that point I'd want to make them explicit objects that the user can create and delete, like secondary indexes.\r\n\r\nIf the user runs `.changes(resumable=true, return_initial=true)` in a backfill-based implementation, then we can send tokens along with the initial \"backfill\", in order to make the backfill resumable. In other words, we can extend incremental backfilling all the way to the clients.\r\n\r\nThe `resume_token` and `return_initial` optargs are mutually exclusive. This is because `return_initial=true` is fundamentally the same as `resume_token=<zero timestamp>`. It would be nice if we could combine them into a single optarg, but I can't think of a good way to explain it to the user."
+  , issueCommentId = 70176950
+  }

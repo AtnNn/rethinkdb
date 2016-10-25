@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-03) 17 : 28 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4357/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4357"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 4357
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Non-transitive connectivity can prevent auto-failover from occurring"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4357"
+  , issueCreatedAt = 2015 (-06) (-09) 01 : 45 : 30 UTC
+  , issueBody =
+      Just
+        "RethinkDB 2.1 will occasionally fail to fail over if there is a non-transitive connectivity (i.e. server A can contact server B and server B can contact server C, but server A cannot contact server C).\r\n\r\nHere's an example scenario:\r\n* Consider a table with three shards (let's call them `A`, `B`, and `C`) of three replicas each (designated `P`, `R1`, `R2`), with no sharing, so nine machines total (`AP`, `AR1`, `AR2`, `BP`, etc.).\r\n* Suppose that `BP` is acting as Raft leader for the table as a whole.\r\n* `AP` fails, and the connection between `AR1` and `BP` is lost, but all other connections remain valid.\r\n* Because `BP` cannot contact a majority of the replicas for shard `A`, it does not attempt to elect a new primary for shard `A`.\r\n\r\nThis is not a very likely scenario; the conditions for it are convoluted, and non-transitive connectivity won't last very long under typical network topologies. Therefore, this is a low priority right now.\r\n\r\nThe long-term solution is to run a separate Raft instance for each shard in addition to the table-wide Raft instance. This way, `AR1` and `AR2` would be able to decide to fail over on their own without the help of `BP`."
+  , issueState = "open"
+  , issueId = Id 86403400
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

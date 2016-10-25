@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-03) 18 : 28 : 56 UTC
+  , issueUpdatedAt = 2015 (-08) (-03) 18 : 40 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4613/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4613"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4613
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 678848
+        , simpleUserLogin = N "gjuchault"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/678848?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gjuchault"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "r.literal can be used in update but not in a branch update"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4613"
+  , issueCreatedAt = 2015 (-08) (-01) 22 : 53 : 52 UTC
+  , issueBody =
+      Just
+        "Hi,\r\n\r\nThis sample works :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n    return {\160foo : r.literal({}) };\r\n});\r\n```\r\n\r\nNot that one :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n  return r.branch(\r\n    true,\r\n    { foo: r.literal({}) },\r\n    { foo: r.literal({}) }\r\n});\r\n```\r\n\r\nError : `Stray literal keyword found: literal is only legal inside of the object passed to merge or update and cannot nest inside other literals.`\r\nI think as literal parent node is branch; the error is thrown.\r\nCan be done with nested branch too :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n  return r.branch(\r\n    true,\r\n    r.branch(\r\n        true,\r\n        { foo: r.literal({}) },\r\n        { foo: r.literal({}) }\r\n    ),\r\n    { foo: r.literal({}) }\r\n});\r\n```\r\n\r\nWhich mean a recursive parent node check should be done to ensure the update function is called; before throwing because of a branch."
+  , issueState = "closed"
+  , issueId = Id 98566485
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

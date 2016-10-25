@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-19) 19 : 03 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/158158847"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5115#issuecomment-158158847"
+  , issueCommentCreatedAt = 2015 (-11) (-19) 19 : 02 : 37 UTC
+  , issueCommentBody =
+      "The trick I used only works if one side of the join is small and you can afford loading it into an array. It works regardless of the indexes used. For example:\r\n```js\r\nr.table(\"small\").eqJoin(\"joinKey\", r.table(\"other\"))\r\n```\r\ncan be turned into\r\n```js\r\nr.table(\"small\").coerceTo(\"array\").do(function (left) {\r\n    return r.table(\"other\").getAll(r.args(left(\"joinKey\")))\r\n        .map(function (right) {\"left\": left, \"right\": right});\r\n})\r\n```"
+  , issueCommentId = 158158847
+  }

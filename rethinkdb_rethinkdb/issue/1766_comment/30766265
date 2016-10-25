@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-17) 16 : 32 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 389543
+        , simpleUserLogin = N "wildattire"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/389543?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wildattire"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30766265"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1766#issuecomment-30766265"
+  , issueCommentCreatedAt = 2013 (-12) (-17) 16 : 32 : 52 UTC
+  , issueCommentBody =
+      "@coffeemug I don't know about mysql, but here is a real world example profile from our postgres db.  We're selecting the top 100 rows of the order table ( out of just over a million rows ). Each row is about 160 bytes. Total execution time is less than 1ms, which is the kind of performance I would *expect* for a basic selection statement like this from a production dbms. So yeah, even the coerced 40ms is outrageously slow.\r\n\r\nAnd if my observations about this being a cpu-bound issue are correct, then we can ignore throughput advantages from concurrency and call it a maximum request rate of 25 per second per core before you're pegged at 100% cpu - or 4 per second per core without the coerce_to()\r\n\r\nmainpdb=# explain analyze select * from orderbag limit 100;\r\n                                                     QUERY PLAN                                                      \r\n---------------------------------------------------------------------------------------------------------------------\r\n Limit  (cost=0.00..2.93 rows=100 width=142) (actual time=0.014..0.049 rows=100 loops=1)\r\n   ->  Seq Scan on orderbag  (cost=0.00..17979.02 rows=1413102 width=142) (actual time=0.011..0.031 rows=100 loops=1)\r\n Total runtime: 0.142 ms\r\n(3 rows)"
+  , issueCommentId = 30766265
+  }

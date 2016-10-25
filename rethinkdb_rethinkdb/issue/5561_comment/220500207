@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-20) 02 : 09 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 499401
+        , simpleUserLogin = N "dan335"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/499401?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dan335"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/220500207"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5561#issuecomment-220500207"
+  , issueCommentCreatedAt = 2016 (-05) (-20) 02 : 09 : 00 UTC
+  , issueCommentBody =
+      "Crashed again last night.  It's probably from one of these queries.\r\n\r\n    r.db(process.env.RETHINKDB)\r\n      .table('alerts')\r\n      .orderBy({index: r.desc('created_at')})\r\n      .filter(r.row('playerIds')\r\n        .contains(function(player) {\r\n          return player('playerId').eq(playerId);\r\n        })\r\n      )\r\n      .filter(function(doc) {\r\n        return r.not(r.expr(hideAlertTypes).contains(doc('type')));\r\n      })\r\n      .limit(numShow)\r\n      .changes({includeInitial:true, squash:true, includeTypes:true, includeOffsets:false, includeStates:false})\r\n\r\n\r\n      r.db(process.env.RETHINKDB)\r\n        .table('alerts')\r\n        .filter(r.row('playerIds')\r\n        .contains(function(player) {\r\n          return player('playerId').eq(playerId).and(player('read').eq(false));\r\n        }))\r\n        .withFields('id').default(null)\r\n        .changes({includeInitial:true, squash:true, includeTypes:true, includeOffsets:false, includeStates:false})"
+  , issueCommentId = 220500207
+  }

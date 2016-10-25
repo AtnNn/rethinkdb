@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-14) 18 : 16 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/102125259"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2975#issuecomment-102125259"
+  , issueCommentCreatedAt = 2015 (-05) (-14) 18 : 16 : 42 UTC
+  , issueCommentBody =
+      "@eliaslevy The difficulty comes from the fact that the set of existing tables is part of the cluster-wide state. If you want that to be consistent, that means that in the event of a netsplit or too many failing servers, you will become unable to administer your cluster, which might make it difficult to recover data or to bring it back into a working state. There are ways to deal with that (like a hard user override mode that drops consistency guarantees), but it doesn't come naturally.\r\nAt the same time, it doesn't give you additional guarantees for the consistency of your data itself, unless you perform table creation frequently.\r\n\r\nIn our raft-based clustering implementation, raft clusters are used to guarantee the consistency of individual tables and their configurations, but not across tables. This has the nice property that you can \"pin\" some tables to say data center A and some to data center B, and if one of the data center fails, you can still fully administer and access the set of tables in the data center that's available.\r\n\r\nThat being said, a cluster-wide consensus system for table metadata is something that has come up a couple of times and it is still on the table as an option in the long term."
+  , issueCommentId = 102125259
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-15) 09 : 06 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131319003"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4666#issuecomment-131319003"
+  , issueCommentCreatedAt = 2015 (-08) (-15) 09 : 06 : 50 UTC
+  , issueCommentBody =
+      "@danielmewes The high level idea is:\r\n\r\n1) The regular `run()` method would be a wrapper for `async_run().wait()`. (it's easy to make something async synchronous, but the opposite is not true). This way the driver does not carry both an async and sync implementations.\r\n\r\n2) To implement the asynchronous part, have backend-defined callbacks. They can call whatever is appropriate. (e.g. on_stream_val() would call an EventMachine callback, or would signal a cursor to  wakeup any callers).\r\n\r\n3) Synchronous blocking can happen at two levels: i) getting the initial response from the server by calling `wait()` on the result of `async_run()`. ii) getting the next batch of items when iterating on a cursor. How blocking should be done is left to the backend implementation. To simplify backend implementations, we can require the primitive of a blocking queue (that implements push and pop). This way we can implement both i) and ii) with it. For the Regular backend, we can use a regular ruby Queue. For eventmachine + fibers, we can use EventMachine::Queue. For Celluloid, we might want to use a regular actor and use its mailbox as a queue.\r\n\r\nI hope this clarifies."
+  , issueCommentId = 131319003
+  }

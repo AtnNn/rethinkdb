@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-27) 18 : 42 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 11546198
+        , simpleUserLogin = N "cumminsd"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/11546198?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cumminsd"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/249958541"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1639#issuecomment-249958541"
+  , issueCommentCreatedAt = 2016 (-09) (-27) 18 : 42 : 52 UTC
+  , issueCommentBody =
+      "It's not just a matter of storing and displaying. It get's more complex\nthan that.\n\nAssume I have an item stored in the database that has a value $10.45 stored\nin an integer as 1045.\nAlso assume that I have a percentage stored somewhere else that is 12.04%\nstored in an integer as 1204.\n\nIf I try to write a query that wants to return all values that, when\nincreased by the percent, is greater than another value I have to know how\nmuch to divide the result by to get the correct amount.\n\nThe math would look like this:\n\nvalue = 1045\npercent = 1204  // we will add 1 to the value so we are multiplying by\n1.1204 in the query\ntarget = 1300\n\nif (value * (percent + 10000)) / 10000 > target then add to list\n\nAnd that's a simple problem. It can get really ugly, and VERY buggy when\nthe queries get complex.\n\nI've done it this way in the past and the pain is far too great to bear\nagain. :-)\n\n--Darin\n\n\n\n\n\n\nOn Tue, Sep 27, 2016 at 8:58 AM, chrismcc <notifications@github.com> wrote:\n\n> For financial applications, you can simply store the amounts as an integer\n> in smallest common currency unit. For example, 100 cents = $1.00. Stripe\n> does this as well: https://support.stripe.com/\n> questions/which-zero-decimal-currencies-does-stripe-support\n>\n> Our API returns values in the smallest common currency unit and only\n> accepts values in the smallest common currency unit (like Stripe), which\n> alleviates a lot of the complexity here.\n>\n> At display time, you have to add the currency symbol, commas, etc., so\n> dividing by 100 is not onerous as an additional step. We store *a lot* of\n> financial information in RethinkDB and the above approach works just fine\n> for us.\n>\n> \8212\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/rethinkdb/rethinkdb/issues/1639#issuecomment-249887318>,\n> or mute the thread\n> <https://github.com/notifications/unsubscribe-auth/ALAuVkZxIlyEcsReu47HfK1Fly1sUwGgks5quS8IgaJpZM4BM3U_>\n> .\n>\n"
+  , issueCommentId = 249958541
+  }

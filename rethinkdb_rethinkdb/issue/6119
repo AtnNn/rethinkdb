@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-17) 15 : 41 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6119/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6119"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 6119
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 98593
+        , simpleUserLogin = N "ddombrow"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/98593?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ddombrow"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Seeing massive performance degredation on a replace operation."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6119"
+  , issueCreatedAt = 2016 (-09) (-22) 20 : 30 : 06 UTC
+  , issueBody =
+      Just
+        "Using rethink 2.3.2\r\n\r\nWe have a decent sized doc, 1.8 MB if you were to save it in a text file.  We have a replace operation that seems to take a stupidly long time, 30 sec.  Running the profiler results in this:\r\n\r\n```\r\n{ profile:\r\n   [ { description: 'Evaluating replace.',\r\n       'duration(ms)': 219069.106466,\r\n       sub_tasks:\r\n        [ { description: 'Evaluating get.',\r\n            'duration(ms)': 0.096492,\r\n            sub_tasks:\r\n             [ { description: 'Evaluating table.',\r\n                 'duration(ms)': 0.077913,\r\n                 sub_tasks:\r\n                  [ { description: 'Evaluating datum.',\r\n                      'duration(ms)': 0.005394,\r\n                      sub_tasks: [] },\r\n                    { description: 'Evaluating db.',\r\n                      'duration(ms)': 0.037758,\r\n                      sub_tasks:\r\n                       [ { description: 'Evaluating datum.',\r\n                           'duration(ms)': 0.003296,\r\n                           sub_tasks: [] } ] } ] },\r\n               { description: 'Evaluating datum.',\r\n                 'duration(ms)': 0.003097,\r\n                 sub_tasks: [] } ] },\r\n          { description: 'Evaluating datum.',\r\n            'duration(ms)': 0.003596,\r\n            sub_tasks: [] },\r\n          { description: 'Evaluating func.',\r\n            'duration(ms)': 0.005294,\r\n            sub_tasks: [] },\r\n          { description: 'Perform write',\r\n            'duration(ms)': 219068.916478,\r\n            sub_tasks:\r\n             [ { parallel_tasks:\r\n                  [ [ { description: 'Perform write on shard.',\r\n                        'mean_duration(ms)': 218847.808317,\r\n                        n_samples: 1 } ] ] } ] } ] } ],\r\n```\r\n\r\nThat \"write on shard\" number looks outrageously bad.  Seems like replacing a doc shouldn't possibly take that long."
+  , issueState = "open"
+  , issueId = Id 178712643
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

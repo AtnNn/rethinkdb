@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-09) 04 : 28 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/119813933"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4271#issuecomment-119813933"
+  , issueCommentCreatedAt = 2015 (-07) (-09) 04 : 28 : 55 UTC
+  , issueCommentBody =
+      "@danielmewes -- As far as I can tell it's the exceptions.  We don't store much data on our exceptions, and when I tried throwing an `std::runtime_error` instead it was still much slower (although it was a little faster, possibly because we weren't catching and rethrowing in the intermediate stages).\r\n\r\nI wrote a small test program, and it looks like throwing and then catching a `runtime_error` takes about 2.5 microseconds + .5 microsecond per stack frame between where the exception is thrown and where it's caught.  (Returning a value takes about 2 nanoseconds + 1 nanosecond per stack frame.)\r\n\r\nWe have a lot of stack frames when the exception is thrown (plus we catch and rethrow a lot).  In my tests, running a `filter` on 20k documents took about .3 seconds with exceptions and .03 seconds with returning values.  So in the exception case we're taking about 15 microseconds per row.  We have a lot of stack frames (on the order of 10 I think), which would get us up to 7.5 microseconds per row being spent on exception throwing (based on my crude numbers above) + 1.5 microseconds being spent on actual computation (based on the timing without exceptions), so that's only 6 microseconds per row to be explained away, and I think we can chalk that up to our exception types being a bit bigger than a `runtime_error`, the fact that we're catching and rethrowing, and the fact that our exception handlers are in more complicated functions (which might require more work to keep track of what needs to be destroyed).\r\n\r\n@Tryneus, I think you said you looked into this a little too?\r\n\r\n---\r\n\r\nMy test program:\r\n```cpp\r\n#include <stdexcept>\r\n#include <stdio.h>\r\n\r\nint f() {\r\n    return 1;\r\n}\r\nint g() {\r\n    throw std::runtime_error(\"\");\r\n}\r\nint h() {\r\n    g();\r\n}\r\nint k() {\r\n    h();\r\n}\r\n\r\nconst int rounds = 1000000;\r\nint main() {\r\n    int sum;\r\n    for (int i = 0; i < rounds; ++i) {\r\n        try {\r\n            sum += k();\r\n        } catch (const std::runtime_error &e) {\r\n            sum += 1;\r\n        }\r\n    }\r\n    printf(\"%d\\n\", sum);\r\n    return 0;\r\n}\r\n```"
+  , issueCommentId = 119813933
+  }

@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-11) (-26) 02 : 49 : 05 UTC
+  , issueUpdatedAt = 2014 (-11) (-26) 02 : 49 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2988/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2988"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2988
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 660139
+        , simpleUserLogin = N "victorquinn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/660139?v=3"
+        , simpleUserUrl = "https://api.github.com/users/victorquinn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Apparent memory leak"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2988"
+  , issueCreatedAt = 2014 (-08) (-29) 14 : 27 : 14 UTC
+  , issueBody =
+      Just
+        "We have seen what looks like a memory leak in RethinkDB that led to a major outage yesterday when the server's memory was filled and RethinkDB crashed.\r\n\r\nHere is a memory usage graph of a server running RethinkDB over the past week:\r\n\r\n![9zwof-0ypcdmp5y87rgvauhbcfb6tn0jupemilhzb4i](https://cloud.githubusercontent.com/assets/660139/4090966/9bdb408c-2f83-11e4-9f15-df679ccc5ea9.png)\r\n\r\nPertinent info:\r\n\r\n* This graph is from is the master RethinkDB instance in a cluster of 3 RethinkDB servers running on EC2\r\n* The other 2 (non-master) instances have similar memory usage graphs, but a bit less extreme (they constantly grow, but had only grown to ~1.5GB used by RethinkDB at the time when our master failed so were not near capacity)\r\n* Each server has 4GB of memory\r\n* Each server is running only RethinkDB, no other processes (aside from whatever is needed to keep the Linux system running of course). But this is a standalone RethinkDB database instance, no web stack or any other programs or processes running on it.\r\n* We have the RethinkDB cache-size set at 1024MB (specified in a `/etc/rethinkdb/instances.d/db.conf` file)\r\n* We upgraded from 1.13.4 to 1.14.0 on Wednesday, 8/27. (Not sure if that's the issue, we are rapidly changing our code as well so it could be some query issue, but it is an interesting data point as that coincided with a dramatic increase in memory consumption.)\r\n* We only have 8 tables total, but only 4 of them are being actively used (we are moving stuff to RethinkDB from MySQL so we have more tables than we are actively using yet)\r\n* The largest table has ~1.0M documents, the other 3 have far less.\r\n* Tried restarting RethinkDB itself (via `sudo /etc/init.d/rethinkdb restart`) and still almost all of the memory on the machine was being used by RethinkDB. Unfortunately I did not screen grab top or anything, I was in panic mode trying to get our DB back up so our app could resume activity. Had to reboot the whole machine to get memory usage to drop back to normal levels.\r\n* But from my quick scan, it appeared there were a bunch of RethinkDB ghost processes that were continuing to consume memory so when the main RethinkDB process tried to restart, it couldn't use the specified cache size of 1024MB, instead opting for 100MB based on the only available memory (and throwing a warning in the logs about cache being low)\r\n* Can't imagine this is relevant, but we connect to RethinkDB using the provided Node.js driver with some hand-rolled code to pool connections.\r\n* We do not typically have high load on our cluster at current. Here is a graph of our current usage now that things are back up and running: ![vquynzwlcxadcl1ryxz8ri11aqjiy5602la9znr97pc](https://cloud.githubusercontent.com/assets/660139/4091508/47a60bb8-2f89-11e4-8855-e0c144ccc5d5.png) This is roughly the same load we have had all week.\r\n* We have only simple insert, get, and getAll queries. No map reduce, grouping, r.js, r.http, r.binary, or anything else.\r\n\r\nThe outage started ~5:25am GMT on 8/29 and the restarts (first process, then machine) were at 11:39am GMT and 11:51 GMT on 8/29 respectively. Here are the RethinkDB logs from that machine:\r\n\r\n```\r\n2014-08-25T23:28:36.165652099 0.031987s info: Running rethinkdb 1.13.4-0ubuntu1~trusty (GCC 4.8.2)...\r\n2014-08-25T23:28:36.173668798 0.040004s info: Running on Linux 3.13.0-29-generic x86_64\r\n2014-08-25T23:28:36.173747756 0.040083s info: Using cache size of 1278 MB\r\n2014-08-25T23:28:36.174022022 0.040357s info: Loading data from directory /srv/rethinkdb/userdb/data\r\n2014-08-25T23:28:36.301926674 0.168262s info: Listening for intracluster connections on port 29015\r\n2014-08-25T23:28:36.302221810 0.168557s warn: Attempted to join self, peer ignored\r\n2014-08-25T23:28:36.302384367 0.168720s info: Attempting connection to 0 peers...\r\n2014-08-25T23:28:36.376177430 0.242513s info: Connected to server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-25T23:28:36.388123128 0.254458s info: Listening for client driver connections on port 28015\r\n2014-08-25T23:28:36.388616302 0.254952s info: Listening for administrative HTTP connections on port 27015\r\n2014-08-25T23:28:36.391786586 0.258122s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 10.0.1.209, ::1, fe80::cb5:5ff:fe12:dffa%2\r\n2014-08-25T23:28:36.391935906 0.258271s info: Server ready\r\n2014-08-25T23:28:37.029317212 0.895653s info: Connected to server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n2014-08-27T15:50:36.007292924 145319.365647s info: Disconnected from server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n2014-08-27T15:50:36.636174827 145319.994529s info: Server got SIGINT from pid 15545, uid 0; shutting down...\r\n2014-08-27T15:50:36.636440160 145319.994794s info: Shutting down client connections...\r\n2014-08-27T15:50:36.752870662 145320.111225s info: All client connections closed.\r\n2014-08-27T15:50:36.753025576 145320.111380s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\n2014-08-27T15:50:37.114570674 145320.472924s info: Disconnected from server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-27T15:50:37.173770673 145320.532125s info: Storage engine shut down.\r\n2014-08-27T15:50:40.981803321 0.019913s info: Running rethinkdb 1.14.0-0ubuntu1~trusty (GCC 4.8.2)...\r\n2014-08-27T15:50:40.989227666 0.027338s info: Running on Linux 3.13.0-29-generic x86_64\r\n2014-08-27T15:50:40.989302022 0.027412s info: Using cache size of 675 MB\r\n2014-08-27T15:50:40.994599998 0.032710s info: Loading data from directory /srv/rethinkdb/userdb/data\r\n2014-08-27T15:50:41.251548575 0.289658s info: Listening for intracluster connections on port 29015\r\n2014-08-27T15:50:41.251727985 0.289838s warn: Attempted to join self, peer ignored\r\n2014-08-27T15:50:41.251790279 0.289900s info: Attempting connection to 0 peers...\r\n2014-08-27T15:50:41.464975949 0.503086s info: Listening for client driver connections on port 28015\r\n2014-08-27T15:50:41.465224174 0.503334s info: Listening for administrative HTTP connections on port 27015\r\n2014-08-27T15:50:41.959116564 0.997226s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 10.0.1.209, ::1, fe80::cb5:5ff:fe12:dffa%2\r\n2014-08-27T15:50:41.959129063 0.997239s info: Server ready\r\n2014-08-27T15:50:42.111030830 1.149141s info: Connected to server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n2014-08-27T15:50:42.175675909 1.213786s info: Connected to server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-27T15:50:42.267170711 1.305281s warn: Namespace f7b34aa7-bc09-4be1-85b8-cbefeb3c259b contains these outdated indexes which should be recreated: 'geoHash'\r\n2014-08-27T15:50:42.601782939 1.639893s warn: Namespace a2cb7cff-d867-4495-9645-49ddb76b8605 contains these outdated indexes which should be recreated: 'geoHash', 'geoHashId', 'relevance'\r\n2014-08-29T11:39:59.745891679 0.033848s info: Running rethinkdb 1.14.0-0ubuntu1~trusty (GCC 4.8.2)...\r\n2014-08-29T11:39:59.750694950 0.038652s info: Running on Linux 3.13.0-29-generic x86_64\r\n2014-08-29T11:39:59.750763775 0.038720s info: Using cache size of 100 MB\r\n2014-08-29T11:39:59.750972172 0.038929s warn: Cache size does not leave much memory for server and query overhead (available memory: 300 MB).\r\n2014-08-29T11:39:59.751015289 0.038972s warn: Cache size is very low and may impact performance.\r\n2014-08-29T11:39:59.751051328 0.039008s info: Loading data from directory /srv/rethinkdb/userdb/data\r\n2014-08-29T11:39:59.848903976 0.136860s info: Listening for intracluster connections on port 29015\r\n2014-08-29T11:39:59.848973348 0.136930s warn: Attempted to join self, peer ignored\r\n2014-08-29T11:39:59.849016224 0.136973s info: Attempting connection to 0 peers...\r\n2014-08-29T11:40:00.054063628 0.342021s info: Listening for client driver connections on port 28015\r\n2014-08-29T11:40:00.054327592 0.342285s info: Listening for administrative HTTP connections on port 27015\r\n2014-08-29T11:40:00.056198391 0.344155s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 10.0.1.209, ::1, fe80::cb5:5ff:fe12:dffa%2\r\n2014-08-29T11:40:00.056252136 0.344209s info: Server ready\r\n2014-08-29T11:40:00.814761259 1.102718s info: Connected to server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n2014-08-29T11:40:00.827939914 1.115897s info: Connected to server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-29T11:51:00.256853919 660.544811s info: Disconnected from server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n2014-08-29T11:51:00.783369074 661.071326s info: Server got SIGINT from pid 5824, uid 0; shutting down...\r\n2014-08-29T11:51:00.783612400 661.071571s info: Shutting down client connections...\r\n2014-08-29T11:51:00.785097145 661.073054s info: All client connections closed.\r\n2014-08-29T11:51:00.785107271 661.073064s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\n2014-08-29T11:51:00.878640110 661.166597s info: Storage engine shut down.\r\n2014-08-29T11:51:00.897454564 661.185411s info: Disconnected from server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-29T11:51:40.080105814 0.062820s info: Running rethinkdb 1.14.0-0ubuntu1~trusty (GCC 4.8.2)...\r\n2014-08-29T11:51:40.087988978 0.070704s info: Running on Linux 3.13.0-29-generic x86_64\r\n2014-08-29T11:51:40.088064514 0.070779s info: Using cache size of 1278 MB\r\n2014-08-29T11:51:40.088329946 0.071045s info: Loading data from directory /srv/rethinkdb/userdb/data\r\n2014-08-29T11:51:40.235645167 0.218360s info: Listening for intracluster connections on port 29015\r\n2014-08-29T11:51:40.235802942 0.218517s warn: Attempted to join self, peer ignored\r\n2014-08-29T11:51:40.235856833 0.218571s info: Attempting connection to 0 peers...\r\n2014-08-29T11:51:40.456802523 0.439517s info: Listening for client driver connections on port 28015\r\n2014-08-29T11:51:40.459117858 0.441833s info: Listening for administrative HTTP connections on port 27015\r\n2014-08-29T11:51:40.501196988 0.483912s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 10.0.1.209, ::1, fe80::cb5:5ff:fe12:dffa%2\r\n2014-08-29T11:51:40.501288545 0.484003s info: Server ready\r\n2014-08-29T11:51:41.345524796 1.328240s info: Connected to server \"Enchantress\" fcff2e01-7c91-4bf9-84f8-03b0a7ffbe61\r\n2014-08-29T11:51:41.486218516 1.468934s info: Connected to server \"LeDirge\" ae8ee097-fe8d-4438-86b7-a36d21bfde97\r\n```\r\n\r\nAnything else I can provide or do to help track it down?"
+  , issueState = "closed"
+  , issueId = Id 41505686
+  , issueComments = 32
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

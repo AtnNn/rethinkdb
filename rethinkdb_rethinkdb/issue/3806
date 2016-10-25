@@ -1,0 +1,83 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-04) 00 : 01 : 53 UTC
+  , issueUpdatedAt = 2015 (-03) (-04) 00 : 01 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3806/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3806"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3806
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Batch size too large for batched writes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3806"
+  , issueCreatedAt = 2015 (-02) (-20) 01 : 30 : 03 UTC
+  , issueBody =
+      Just
+        "1. Run a write such as `r.table(...).update({a: \"A\"})` on a sufficiently large table, ideally with somewhat large documents and small primary keys.\r\n2. Watch the QPS plot in the web UI to wait until the write has read the first batch and started writing things\r\n3. Run any read query that needs to touch the table (even `r.db('rethinkdb').table('jobs')` works since it has to check the sindex status).\r\n4. The read can easily stall for minutes before it actually gets run.\r\n\r\nThe likely reason is that the default batchspec has a limit on the batch size (of 1 MB), but no limit on the number of elements. @mlucy has recently changed batched updates to only transfer the primary key and not the whole document, meaning that the max size allows for pretty huge batches in terms of number of documents (10s of thousands).\r\n\r\nWe should use a special default batchspec for writes that limits the number of documents. I think ~100 is a reasonable size.\r\n\r\nThis is pretty much a show-stopper for 2.0 so we need to fix that.\r\n\r\n@VeXocide want to grab this?"
+  , issueState = "closed"
+  , issueId = Id 58298765
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

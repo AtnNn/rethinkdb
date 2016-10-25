@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-02) 00 : 59 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223168572"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5815#issuecomment-223168572"
+  , issueCommentCreatedAt = 2016 (-06) (-02) 00 : 59 : 27 UTC
+  , issueCommentBody =
+      "It's entirely possible we aren't enforcing the array size limit correctly for large grouped batches on the shards.  If so, that shouldn't be too hard to fix; the `to_array_t` accumulator already checks the array size limit as it goes, we'd just have to change whatever accumulator is being used in this case to do the same thing if it accumulates a batch larger than the array size limit.\r\n\r\nChanging `accumulate_all` to issue multiple smaller reads might also work, as long as we make sure we actually fetch all data from the shards before doing anything else.  We should be careful *not* to change the meaning of `batchspec_t::all`, though -- there are a few places in the code that assume that means \"literally read everything\", and have broken in the past when its meaning has been changed."
+  , issueCommentId = 223168572
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-05) 00 : 54 : 43 UTC
+  , issueUpdatedAt = 2014 (-06) (-05) 00 : 54 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2491/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2491"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2491
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Segmentation fault in `counted_release(ls_block_token_pointee_t*)`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2491"
+  , issueCreatedAt = 2014 (-06) (-02) 19 : 37 : 06 UTC
+  , issueBody =
+      Just
+        "While working on https://github.com/rethinkdb/rethinkdb/issues/2457 I got the following crash when inserting data (1 client, noreply soft durability inserts, rotational disk):\r\n```\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 343:\r\nerror: Segmentation fault from reading the address 0xffffffff.\r\nerror: Backtrace:\r\nerror: Fri May 30 20:10:24 2014\r\n       \r\n       1: format_backtrace(bool) at backtrace.cc:213\r\n       2: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       3: linux_thread_pool_t::sigsegv_handler(int, siginfo*, void*) at thread_pool.cc:343\r\n       4: /lib/x86_64-linux-gnu/libpthread.so.0(+0xfcb0) [0x7f8f11cd2cb0] at 0x7f8f11cd2cb0 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       5: counted_release(ls_block_token_pointee_t*) at threading.hpp:47\r\n       6: alt::page_cache_t::do_flush_changes(alt::page_cache_t*, std::map<unsigned long, alt::page_cache_t::block_change_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, alt::page_cache_t::block_change_t> > > const&, fifo_enforcer_write_token_t) at stl_construct.h:103\r\n       7: alt::page_cache_t::do_flush_txn_set(alt::page_cache_t*, std::map<unsigned long, alt::page_cache_t::block_change_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, alt::page_cache_t::block_change_t> > >*, std::vector<alt::page_txn_t*, std::allocator<alt::page_txn_t*> > const&) at page_cache.cc:1364\r\n       8: coro_t::run() at coroutines.cc:206\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nI haven't seen it again since then.\r\n\r\nIt seems like this could have to do with my changes (concurrent garbage collection). However I'm not certain of that, and it could also be a bug in next."
+  , issueState = "closed"
+  , issueId = Id 34803798
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

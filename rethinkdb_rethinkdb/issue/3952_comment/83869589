@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-20) 03 : 32 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/83869589"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3952#issuecomment-83869589"
+  , issueCommentCreatedAt = 2015 (-03) (-20) 03 : 16 : 37 UTC
+  , issueCommentBody =
+      "The map in your query is actually unnecessary -- is this any faster, or does it evaluate the same behind the scenes? We use this pattern all the time and haven't run into performance issues (yet)\r\n\r\n```\r\nr.db('ijoin')\r\n  .table('plans')\r\n\r\n  // One-To-Many\r\n  .merge({\r\n      investmentVehicles: r.db('ijoin')\r\n          .table('investmentVehicles')\r\n          .getAll(r.row('id'), { index: 'planId' })\r\n          .coerceTo('array')\r\n  })\r\n```\r\n\r\nAlternatively you can try the following, we do this a lot too, it's called 'sideloading', slightly different data structure but may be faster, worth a shot!\r\n\r\n```\r\nr.db('ijoin')\r\n  .table('plans').coerceTo('array').do(function(plans) {\r\n  return {\r\n    plans: plans,\r\n    investmentVehicles: r.db('ijoin').table('investmentVehicles').getAll(plans.concatMap(function(plan) {\r\n  return plan('id')\r\n}), {index: 'planId'}).coerceTo('array')\r\n  };\r\n})\r\n```\r\n\r\nSecondarily, I've found `.count()`s to be extremely slow compared to actually returning the results... worth a shot removing the count entirely."
+  , issueCommentId = 83869589
+  }

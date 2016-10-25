@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-09) 19 : 09 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/146963556"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4935#issuecomment-146963556"
+  , issueCommentCreatedAt = 2015 (-10) (-09) 19 : 09 : 23 UTC
+  , issueCommentBody =
+      "@hamiltop -- odd as this may seem it is a valid state, allow me to explain.\r\n\r\nEvery range shard actually consists of eight hash shards under the hood, which is done as a performance improvement to spread load over multiple CPU cores. We consider it an implementation detail and as such try not to expose it to our users (though, unfortunately, we do here).\r\n\r\nWhen you issue a write the primary replica sends it to all the replicas of the concerned range shard, and indirectly the underlying hash shard. These apply the write and acknowledge it to the primary replica, which, by default, will acknowledge the write to you when a majority of the shards have acknowledged it. This means that at any point there may be a minor difference between the replicas' hash shards, one being marginally out of date until it acknowledges the write like the others.\r\n\r\nOur failover algorithm actually works at the hash shard level. Thus when the \"goal primary replica\" fails it will look at the other replicas their hash shards and select the most up to date to become the \"acting primary replica\". Usually these will all reside on the same replica, but that's not necessarily the case. Here server A may be the primary replica for three of the eight hash shards and a secondary replica for the others, and server D may be the primary replica for the other five hash shards, and a secondary replica for the three where A is the primary.\r\n\r\nOnce the \"goal primary replica\" comes back online it will backfill from the respective hash shards and order will become the primary replica again, thus order will be restored. Alternatively, if you configure a new primary replica this will similarly backfill and become the \"goal primary replica\".\r\n\r\nAs said we aim not to expose implementation details to you as the user. We've had quite a bit of discussion about this internally, and we understand the confusion. For the range shard status we show the \"worst\" status, thus if seven of the hash shards are ready and one is still backfilling we show the shard to be backfilling. This approach doesn't work for the primary replica though, as each of the servers really is the primary replica for part of the range it's configured to serve.\r\n\r\nI hope this is clear and answers your question. As this is not a bug I'll close the issue, but feel free to ask more about this here."
+  , issueCommentId = 146963556
+  }

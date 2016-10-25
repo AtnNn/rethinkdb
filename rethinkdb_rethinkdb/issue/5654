@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-02) 21 : 44 : 42 UTC
+  , issueUpdatedAt = 2016 (-06) (-02) 21 : 51 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5654/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5654"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5654
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 952451
+        , simpleUserLogin = N "nighelles"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/952451?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nighelles"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Crash while testing duplicate server names"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5654"
+  , issueCreatedAt = 2016 (-04) (-12) 19 : 26 : 51 UTC
+  , issueBody =
+      Just
+        "```\r\nShutting down client connections...\r\nAll client connections closed.\r\nShutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\nVersion: rethinkdb 2.3.0-13-g3e2b6e (debug) (CLANG 3.5.0 (tags/RELEASE_350/final))\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 367:\r\nerror: Segmentation fault from reading the address 0xfffffffffffffff8.\r\nerror: Backtrace:\r\nerror: Tue Apr 12 12:21:22 2016\r\n\r\n       1 [0x213942b]: rethinkdb_backtrace(void**, int) at typeinfo:100\r\n       2 [0x214da60]: backtrace_t::backtrace_t() at backtrace.cc:208\r\n       3 [0x214ee1c]: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:64 (discriminator 1)\r\n       4 [0x214d6e7]: format_backtrace(bool) at backtrace.cc:201\r\n       5 [0x2138bae]: report_fatal_error(char const*, int, char const*, ...) at errors.cc:78\r\n       6 [0x153029c]: linux_thread_pool_t::fatal_signal_handler(int, siginfo_t*, void*) at thread_pool.cc:367\r\n       7 [0x7f4dcc777340]: /lib/x86_64-linux-gnu/libpthread.so.0(+0x10340) [0x7f4dcc777340] at 0x7f4dcc777340 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       8 [0x179690c]: counted_t<ql::db_t const>::operator->() const at counted.hpp:60\r\n       9 [0x17912cf]: artificial_reql_cluster_interface_t::table_list(counted_t<ql::db_t const>, signal_t*, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >*, admin_err_t*) at artificial_reql_cluster_interface.cc:124\r\n       10 [0x16a4c1f]: scoped_ptr_t<jobs_artificial_table_backend_t>::reset() at scoped.hpp:73 (discriminator 2)\r\n       11 [0x16a4441]: scoped_ptr_t<jobs_artificial_table_backend_t>::~scoped_ptr_t() at pubsub.hpp:79 (discriminator 3)\r\n       12 [0x1686fa8]: admin_artificial_tables_t::~admin_artificial_tables_t() at artificial_reql_cluster_interface.hpp:252 (discriminator 3)\r\n       13 [0x1682b0c]: do_serve(io_backender_t*, bool, base_path_t const&, metadata_file_t*, serve_info_t const&, os_signal_cond_t*, std::string const&) at serve.cc:672\r\n       14 [0x1683336]: serve(io_backender_t*, base_path_t const&, metadata_file_t*, serve_info_t const&, os_signal_cond_t*) at serve.cc:691 (discriminator 1)\r\n       15 [0x16b3d39]: run_rethinkdb_serve(base_path_t const&, serve_info_t*, std::string const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, server_id_t const*, server_config_versioned_t const*, cluster_semilattice_metadata_t const*, directory_lock_t*, bool*) at command_line.cc:1201\r\n       16 [0x16b40f2]: run_rethinkdb_porcelain(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::string const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*) at command_line.cc:1229\r\n       17 [0x16c8057]: void std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, std::string, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::string const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)>::__call<void, , 0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul, 7ul, 8ul, 9ul, 10ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul, 7ul, 8ul, 9ul, 10ul>) at functional:1295\r\n       18 [0x16c7db6]: void std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, std::string, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::string const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)>::operator()<, void>() at ??:?\r\n       19 [0x16c73fd]: std::_Function_handler<void (), std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, std::string, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, std::string const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)> >::_M_invoke(std::_Any_data const&) at functional:1958\r\n       20 [0x15336ce]: std::function<void ()>::operator()() const at functional:2471\r\n       21 [0x1533791]: starter_t::run_wrapper(std::function<void ()> const&) at runtime.cc:61\r\n       22 [0x1533efa]: void std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)>::operator()<std::function<void ()>&, void>(starter_t*, std::function<void ()>&) const at functional:601\r\n       23 [0x1533e60]: void std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)>::__call<void, , 0ul, 1ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul>) at functional:1295\r\n       24 [0x1533de6]: void std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)>::operator()<, void>() at functional:1353\r\n       25 [0x153399d]: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)> >::_M_invoke(std::_Any_data const&) at functional:2073\r\n       26 [0x15336ce]: std::function<void ()>::operator()() const at functional:2471\r\n       27 [0x1533639]: callable_action_instance_t<std::function<void ()>&>::run_action() at callable_action.hpp:32\r\n       28 [0x15348c6]: callable_action_wrapper_t::run() at runtime_utils.cc:48\r\n       29 [0x152616d]: coro_t::run() at coroutines.cc:205 (discriminator 1)\r\n       30 [0x153342d]: coro_t* coro_t::spawn_sometime<std::function<void ()>&>(std::function<void ()>&) at coroutines.hpp:63\r\n       31 [0x15333c9]: starter_t::on_thread_switch() at runtime.cc:57\r\n       32 [0x152e726]: linux_message_hub_t::on_event(int) at message_hub.cc:154\r\n       33 [0x15208a7]: epoll_event_queue_t::run() at epoll.cc:115\r\n       34 [0x15300e7]: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:172\r\n       35 [0x7f4dcc76f182]: /lib/x86_64-linux-gnu/libpthread.so.0(+0x8182) [0x7f4dcc76f182] at 0x7f4dcc76f182 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       36 [0x7f4dcc49c47d]: clone+0x6d at 0x7f4dcc49c47d (/lib/x86_64-linux-gnu/libc.so.6)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 147849243
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

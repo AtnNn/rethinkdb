@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-05) 21 : 37 : 00 UTC
+  , issueUpdatedAt = 2016 (-02) (-05) 21 : 37 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5148/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5148"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5148
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3952168
+        , simpleUserLogin = N "tomhatzer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3952168?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tomhatzer"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Endless searching when using .get() with string that's not in the database followed by vm lock up/crash"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5148"
+  , issueCreatedAt = 2015 (-11) (-25) 08 : 06 : 27 UTC
+  , issueBody =
+      Just
+        "Hi everybody!\r\n\r\nI've got quite a strange problem that's driving me crazy lately.\r\n\r\nInformation about the database (running inside a virtual machine):\r\nrethinkdb 2.2.1 (updated just a few days ago)\r\n2 tables:\r\n   Table A with 1.1mio documents (each document has about 1-40kb)\r\n   Table B with 5.7mio documents (each document has about 1kb)\r\n\r\nInformation about the OS:\r\nOS Ubuntu 14.04.3\r\n8GB RAM\r\n256GB HDD\r\n\r\nSo, when I start a database query like\r\n```\r\nr.database(\"db1).table(\"tableA\").get(\"EXISTS\");\r\n```\r\nwith a string that exists, it returns the document instantly.\r\nBUT when I start a query like \r\n```\r\nr.database(\"db1).table(\"tableA\").get(\"DOES NOT EXIST\");\r\n```\r\nthen rethinkdb starts going crazy and searches in every single document for the string (1k-9k documents per second), and after a few hours it crashes and locks up the whole vm.\r\n\r\nAnother strange thing is, it doesn't write any logs to get to know what caused the hang and lock up.\r\n\r\nAlso .count() takes ages (15-30 minutes) to return a result for the simplest queries or stops in the middle of nowhere after a few minutes.\r\n\r\nIs there any way that I can stop this from happening?\r\n\r\nThank you very much!\r\n\r\nBest wishes\r\nTom"
+  , issueState = "closed"
+  , issueId = Id 118782407
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

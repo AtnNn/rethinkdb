@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 41 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4143/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4143"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4143
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Using `r.args` in `order_by` causes a protobuf error"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4143"
+  , issueCreatedAt = 2015 (-04) (-29) 06 : 09 : 13 UTC
+  , issueBody =
+      Just
+        "Example:\r\n\r\n```py\r\nr.expr(None).order_by(r.args(['a','b'])).run()\r\n```\r\n\r\nOn `v2.0.x`, this closes the connection, and the server prints some errors.\r\n```\r\nlibprotobuf FATAL /usr/local/include/google/protobuf/repeated_field.h:659] CHECK failed: (index) < (size()):\r\nerror: Unexpected exception in client handler: CHECK failed: (index) < (size()):\r\n```\r\n\r\nOn `next`, the same error occurs, but the connection survives.\r\n```py\r\nRqlRuntimeError: CHECK failed: (index) < (size()):  in:\r\nr.expr(None).order_by(r.args(['a', 'b']))\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```\r\n\r\nThis is caused because `order_by_term_t` breaks some rules by inspecting the original term tree for `r.asc` and `r.desc` instead of those terms being communicated through the arguments themselves.  I think this would be best solved by extending `val_t` to include wrappers like `r.asc` and `r.desc`."
+  , issueState = "open"
+  , issueId = Id 71788004
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

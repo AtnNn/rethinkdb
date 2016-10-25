@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-14) 03 : 30 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225770981"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3440#issuecomment-225770981"
+  , issueCommentCreatedAt = 2016 (-06) (-14) 03 : 30 : 51 UTC
+  , issueCommentBody =
+      "Sorry, should have clarified. The proposal that's up for discussion is as follows:\r\n\r\n* Add a new error type `ReqlWriteError` to our error hierarchy\r\n* Instances of `ReqlWriteError` will have a field `writeResult` (`write_result`) that is an object of the form `{inserted: ..., replaced: ..., errors: ..., etc.}`. It is the same as our current write result object, but without `first_error` which will end up in the error message of the exception itself.\r\n* By default, any write that generates an error will now throw a `ReqlWriteError` instead of returning a document. If a write succeeds, it returns the same document as currently, though we should consider removing the `errors` field as it will always be `0` and no longer needs to be checked.\r\n* Alternatively, an option can be specified to any of the write terms (or to `run`) that restores our current behavior in case of an error.\r\n* I'm not sure what the option should be called. Suggestion: `onError` with possible values `\"throw\"` (new default) and `\"return_result\"` (old behavior)."
+  , issueCommentId = 225770981
+  }

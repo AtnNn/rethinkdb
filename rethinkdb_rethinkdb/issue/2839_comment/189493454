@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-26) 21 : 46 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/189493454"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2839#issuecomment-189493454"
+  , issueCommentCreatedAt = 2016 (-02) (-26) 21 : 46 : 33 UTC
+  , issueCommentBody =
+      "The issue is that the `Array.apply(func, values)` takes the entries in the array and turns them into arguments to func. This all goes onto the stack and there's a relatively small stack limit to avoid accidental infinite recursion. Fortunately, what the function itself is doing is just taking all of its arguments and converting them back into an array, so there's no real reason to do this spread operation. Especially since the Ast constructors are internal, we don't need them to have a convenient way to call them, so we can dispense with the spread and `.apply` stuff.\r\n\r\nIt's not hard to fix, but a bit sloggish, since we have to go to every use of super(args...) in RdbOp subclasses and convert them to passing the array directly (as well as changing the RdbOp constructor to accept an array instead of arguments)."
+  , issueCommentId = 189493454
+  }

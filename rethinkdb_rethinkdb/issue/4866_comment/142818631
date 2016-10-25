@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-24) 05 : 54 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/142818631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4866#issuecomment-142818631"
+  , issueCommentCreatedAt = 2015 (-09) (-24) 05 : 54 : 12 UTC
+  , issueCommentBody =
+      "I think your proposed solution would work, but I worry that it would make it harder for us to catch bugs in the branch history GC. You could detect this scenario by making the `contract_t` record which replicas are known to have been streaming at some point since they have been added. If we've never seen a replica streaming since it was added, then we catch `missing_branch_exc_t` and act as though the voter's version was `version_t::zero()`.\r\n\r\nThere's another, completely different option: The branch history doesn't need to be complete unless the replica in question is a voter. In both `contract_ack_t::sanity_check()` and `break_ack_into_fragments()` the crash won't happen if the replica is not a voter. So we could fix it by not promoting new replicas to voter unless they are streaming. If the replica is streaming (or has been streaming at any point since it became a replica) then its branch history will be complete.\r\n\r\nThe current logic for promoting replicas is [here](https://github.com/rethinkdb/rethinkdb/blob/next/src/clustering/table_contract/coordinator/calculate_contracts.cc#L130-L153). Right now we demote all the old voters and promote all the new voters in a single step; it's definitely possible for it to promote a non-streaming replica to a voter. We could change it to promote the new voters one at a time as they become streaming, which I think would fix the bug.\r\n\r\nWe have to be a bit careful about demoting the old voters; we want to make sure that the number of voters never falls below the lower of the size of the old voter set and the size of the new voter set. So I guess we could demote them one at a time as well, or something. One quirk of that strategy is that if one of the new voters is unavailable, then one of the old voters would never get demoted.\r\n\r\n(On a side note: It seems like branch history GC is really bug-prone. Raft uses the term/log index system in place of a branch history, but it's not clear how that would work in the case of sharding. I wonder how the CockroachDB engineers are implenting sharded Raft...)"
+  , issueCommentId = 142818631
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-09) 02 : 05 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6095/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6095"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 6095
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 952451
+          , simpleUserLogin = N "nighelles"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/952451?v=3"
+          , simpleUserUrl = "https://api.github.com/users/nighelles"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Segmentation fault in RDBInterrupt unit test (related to write hooks?)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6095"
+  , issueCreatedAt = 2016 (-09) (-09) 01 : 45 : 20 UTC
+  , issueBody =
+      Just
+        "I'm getting this reliably on `next` using a debug-mode binary:\r\n\r\n```\r\nrethinkdb/build/debug_clang$ ./rethinkdb-unittest --gtest_filter=RDBInterrupt.InsertOp\r\nNote: Google Test filter = RDBInterrupt.InsertOp\r\n[==========] Running 1 test from 1 test case.\r\n[----------] Global test environment set-up.\r\n[----------] 1 test from RDBInterrupt\r\n[ RUN      ] RDBInterrupt.InsertOp\r\nVersion: rethinkdb 2.3.2-windows-beta-277-gccc952-dirty (debug) (CLANG 3.5.0 (tags/RELEASE_350/final))\r\nerror: Error in thread 1 in src/arch/runtime/thread_pool.cc at line 420:\r\nPrevious message may not have been written to the log file (logging module is not yet initialized).\r\nerror: Segmentation fault from reading the address (nil).\r\nPrevious message may not have been written to the log file (logging module is not yet initialized).\r\nerror: Backtrace:\r\nPrevious message may not have been written to the log file (logging module is not yet initialized).\r\nerror: Thu Sep  8 18:44:12 2016\r\n\r\n       1 [0x26cde2b]: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:123\r\n       2 [0x268cc40]: backtrace_t::backtrace_t() at backtrace.cc:213 (discriminator 1)\r\n       3 [0x268d7bc]: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:299\r\n       4 [0x268c8c7]: format_backtrace(bool) at backtrace.cc:208\r\n       5 [0x2690ecc]: report_fatal_error(char const*, int, char const*, ...) at errors.cc:86\r\n       6 [0x17f275c]: linux_thread_pool_t::fatal_signal_handler(int, siginfo_t*, void*) at thread_pool.cc:420\r\n       7 [0x7fad747d8330]: /lib/x86_64-linux-gnu/libpthread.so.0(+0x10330) [0x7fad747d8330] at 0x7fad747d8330 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       8 [0x17af4dc]: home_thread_mixin_t::home_thread() const at threading.hpp:54\r\n       9 [0x21b5f09]: table_meta_client_t::get_config(uuid_u const&, signal_t*, table_config_and_shards_t*) at table_meta_client.cc:98\r\n       10 [0x246a0b5]: real_table_t::get_write_hook(ql::env_t*, ignore_write_hook_t) at real_table.cc:223\r\n       11 [0x246b2c5]: real_table_t::write_batched_insert(ql::env_t*, std::vector<ql::datum_t, std::allocator<ql::datum_t> >&&, std::vector<bool, std::allocator<bool> >&&, conflict_behavior_t, boost::optional<counted_t<ql::func_t const> >, return_changes_t, durability_requirement_t, ignore_write_hook_t) at real_table.cc:302\r\n       12 [0x25cec18]: ql::table_t::batched_insert(ql::env_t*, std::vector<ql::datum_t, std::allocator<ql::datum_t> >&&, std::vector<bool, std::allocator<bool> >&&, conflict_behavior_t, boost::optional<counted_t<ql::func_t const> >, durability_requirement_t, return_changes_t, ignore_write_hook_t) at val.cc:376 (discriminator 2)\r\n       13 [0x24061ef]: ql::insert_term_t::eval_impl(ql::scope_env_t*, ql::args_t*, ql::eval_flags_t) const at writes.cc:194 (discriminator 2)\r\n       14 [0x25c387f]: ql::op_term_t::term_eval(ql::scope_env_t*, ql::eval_flags_t) const at op.cc:232\r\n       15 [0x2616947]: ql::runtime_term_t::eval_on_current_stack(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:277\r\n       16 [0x2616e0c]: ./rethinkdb-unittest() [0x2616e0c] at 0x2616e0c ()\r\n       17 [0x2616ba1]: ./rethinkdb-unittest() [0x2616ba1] at 0x2616ba1 ()\r\n       18 [0x2616b2b]: ql::runtime_term_t::eval(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:298\r\n       19 [0x1bbf004]: unittest::count_evals(unittest::test_rdb_env_t*, ql::raw_term_t const&, unsigned int*, unittest::verify_callback_t*) at rdb_interruptor.cc:83 (discriminator 1)\r\n       20 [0x1be5421]: void std::_Bind<void (*(unittest::test_rdb_env_t*, ql::raw_term_t, unsigned int*, unittest::exists_verify_callback_t*))(unittest::test_rdb_env_t*, ql::raw_term_t const&, unsigned int*, unittest::verify_callback_t*)>::__call<void, , 0ul, 1ul, 2ul, 3ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul, 2ul, 3ul>) at functional:1295\r\n       21 [0x1be5346]: void std::_Bind<void (*(unittest::test_rdb_env_t*, ql::raw_term_t, unsigned int*, unittest::exists_verify_callback_t*))(unittest::test_rdb_env_t*, ql::raw_term_t const&, unsigned int*, unittest::verify_callback_t*)>::operator()<, void>() at functional:1353\r\n       22 [0x1be4ffd]: std::_Function_handler<void (), std::_Bind<void (*(unittest::test_rdb_env_t*, ql::raw_term_t, unsigned int*, unittest::exists_verify_callback_t*))(unittest::test_rdb_env_t*, ql::raw_term_t const&, unsigned int*, unittest::verify_callback_t*)> >::_M_invoke(std::_Any_data const&) at functional:2073\r\n       23 [0x17b1b0e]: std::function<void ()>::operator()() const at functional:2471\r\n       24 [0x1802dc1]: starter_t::run_wrapper(std::function<void ()> const&) at runtime.cc:69\r\n       25 [0x180344a]: void std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)>::operator()<std::function<void ()>&, void>(starter_t*, std::function<void ()>&) const at functional:601\r\n       26 [0x18033b0]: void std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)>::__call<void, , 0ul, 1ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul>) at functional:1295\r\n       27 [0x1803336]: void std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)>::operator()<, void>() at functional:1353\r\n       28 [0x1802fcd]: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)> >::_M_invoke(std::_Any_data const&) at functional:2073\r\n       29 [0x17b1b0e]: std::function<void ()>::operator()() const at functional:2471\r\n       30 [0x1802cb9]: callable_action_instance_t<std::function<void ()>&>::run_action() at callable_action.hpp:32\r\n       31 [0x18008bb]: callable_action_wrapper_t::run() at runtime_utils.cc:48\r\n       32 [0x17f97f2]: coro_t::run() at coroutines.cc:278 (discriminator 1)\r\n       33 [0x1802a9d]: coro_t* coro_t::spawn_sometime<std::function<void ()>&>(std::function<void ()>&) at coroutines.hpp:68\r\n       34 [0x1802a3e]: starter_t::on_thread_switch() at runtime.cc:65\r\n       35 [0x18018b6]: linux_message_hub_t::on_event(int) at message_hub.cc:155\r\n       36 [0x17edc00]: epoll_event_queue_t::run() at epoll.cc:115\r\n       37 [0x17f25a2]: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:185\r\n       38 [0x7fad747d0184]: /lib/x86_64-linux-gnu/libpthread.so.0(+0x8184) [0x7fad747d0184] at 0x7fad747d0184 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       39 [0x7fad744fd37d]: clone+0x6d at 0x7fad744fd37d (/lib/x86_64-linux-gnu/libc.so.6)\r\nPrevious message may not have been written to the log file (logging module is not yet initialized).\r\nerror: Exiting.\r\nPrevious message may not have been written to the log file (logging module is not yet initialized).\r\nTrace/breakpoint trap\r\n```"
+  , issueState = "open"
+  , issueId = Id 175907003
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 11
+          , milestoneNumber = 120
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/120"
+          , milestoneCreatedAt = 2016 (-04) (-07) 18 : 34 : 44 UTC
+          , milestoneState = "open"
+          }
+  }

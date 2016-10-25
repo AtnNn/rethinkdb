@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-20) 22 : 04 : 13 UTC
+  , issueUpdatedAt = 2015 (-11) (-20) 22 : 07 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5119/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5119"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5119
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3078292
+        , simpleUserLogin = N "alash3al"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3078292?v=3"
+        , simpleUserUrl = "https://api.github.com/users/alash3al"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Any way to make `r.filter()` more efficient in this query ? "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5119"
+  , issueCreatedAt = 2015 (-11) (-19) 21 : 15 : 09 UTC
+  , issueBody =
+      Just
+        "i've asked a question on SO [Rethinkdb between with multiple keys](http://stackoverflow.com/questions/32922011/rethinkdb-between-with-multiple-keys), and i didn't find any way to that without using `r.filter()`, and now i need something like that, and to make use of `indexes`\r\nis there any trick to do that ?\r\n\r\n---\r\n\r\n**This is the question content**\r\n\r\nI've the following structrue :\r\n\r\n    Item {\r\n      id string,\r\n      title string\r\n      tags []string,\r\n      time int,\r\n      parent string\r\n    }\r\n\r\nWhat i want, `list all items with tags [tag1, tag2, ... etc] of parent \"parent-1\" and order by time`\r\n\r\nSo i did this\r\n\r\n    r.db(\"db\").table(\"tb\").indexCreate(\"allByTime\", function(row){\r\n      return row(\"tags\").map(function(tag){\r\n        return [row(\"parent\"), tag, row(\"time\")]\r\n      })\r\n    })\r\n\r\nIt worked with a query like this \r\n\r\n    r.db(\"db\").table(\"tb\").between([\"parent-1\", \"tag1\", 0], [\"parent-1\", \"tag1\", <some-bigger-timestamp>], {index: \"allByTime\"}).orderBy(...)\r\n\r\nBut also i want something like this \r\n\r\n    r.db(\"db\").table(\"tb\").between([\"parent-1\", [\"tag1\", \"tag2\"], 0], [\"parent-1\", [\"tag1\", \"tag2\"], <some-bigger-timestamp>], {index: \"allByTime\"}).orderBy(...)\r\n\r\n---\r\nAny suggestions ?  \r\n**NOTE ->** i don't want to use `r.filter(...)`\r\n---\r\nI've tried something like this\r\n\r\n    r.union(<between-query-1>, <between-query-2>, ...)\r\n\r\nis the above `r.union()` the only trick ?"
+  , issueState = "closed"
+  , issueId = Id 117909355
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

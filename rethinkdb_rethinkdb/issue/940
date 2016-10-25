@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-18) 00 : 37 : 29 UTC
+  , issueUpdatedAt = 2013 (-07) (-14) 05 : 42 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/940/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/940"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 940
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Document (or increase) database size limit"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/940"
+  , issueCreatedAt = 2013 (-06) (-03) 16 : 40 : 24 UTC
+  , issueBody =
+      Just
+        "From config/args.hpp:\r\n```\r\n// We assume there will never be more than this many blocks. The value\r\n// is computed by dividing 1 TB by the smallest reasonable block size.\r\n// This value currently fits in 32 bits, and so block_id_t is a uint32_t.\r\n#define MAX_BLOCK_ID                              (TERABYTE / KILOBYTE)\r\n```\r\n\r\nThis limits the size of one shard to 4 TB, if not even the size of all the data for the whole table residing on a single node. (are all shards of a certain table stored in the same file?)\r\n\r\nThis should be documented somewhere.\r\n\r\nAlso, the limit should be increased.\r\n\r\nThe maximal value that can be stored in a uint32_t = block_id_t is 4 * TERABYTE / KILOBYTE - 1, which would allow for 16 TB of data per shard. One more value has to be reserved for NULL_BLOCK_ID, so we would end up with MAX_BLOCK_ID = 4 * TERABYTE / KILOBYTE - 2 (assuming MAX_BLOCK_ID is inclusive, I have not checked).\r\n\r\nChanging this will have an effect on both the on-disk and in-memory LBA index structures in the serializer. I'll have to check the code to find out what kind of effect."
+  , issueState = "closed"
+  , issueId = Id 15076238
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

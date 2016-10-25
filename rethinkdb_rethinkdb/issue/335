@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2013 (-02) (-14) 00 : 22 : 09 UTC
+  , issueUpdatedAt = 2013 (-02) (-14) 00 : 22 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/335/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/335"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 335
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Guarantee failed: [nanos > 0]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/335"
+  , issueCreatedAt = 2013 (-02) (-14) 00 : 03 : 33 UTC
+  , issueBody =
+      Just
+        "The server crashed while I was creating many tables at the same time.\r\nI can reproduce it just by continuously creating tables with the data explorer (about 70 in 15 seconds)\r\n\r\n```\r\nerror: Error in arch/timer.cc at line 73:\r\nerror: Guarantee failed: [nanos > 0] \r\nerror: Backtrace:\r\nerror: Wed Feb 13 15:57:23 2013\r\n       \r\n       1: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:251\r\n       2: format_backtrace(bool) at backtrace.cc:198\r\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:71\r\n       4: timer_handler_t::add_timer_internal(long, timer_callback_t*, bool) at timer.cc:73\r\n       5: fire_timer_once(long, timer_callback_t*) at timer.cc:108\r\n       6: writeback_t::on_transaction_commit(mc_transaction_t*) at writeback.cc:152\r\n       7: mc_cache_t::on_transaction_commit(mc_transaction_t*) at mirrored.cc:1500\r\n       8: mc_transaction_t::~mc_transaction_t() at mirrored.cc:1190\r\n       9: scc_transaction_t<mc_cache_t>::~scc_transaction_t() at semantic_checking.tcc:136\r\n       10: btree_slice_t::create(scc_cache_t<mc_cache_t>*) at slice.cc:30\r\n       11: btree_store_t<rdb_protocol_t>::btree_store_t(serializer_t*, std::string const&, long, bool, perfmon_collection_t*, rdb_protocol_t::context_t*) at btree_store.cc:35\r\n       12: rdb_protocol_t::store_t::store_t(serializer_t*, std::string const&, long, bool, perfmon_collection_t*, rdb_protocol_t::context_t*) at protocol.cc:521\r\n       13: void do_create_new_store<rdb_protocol_t>(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**) at file_based_svs_by_namespace.cc:72\r\n       14: void boost::_bi::list6<boost::arg<1>, boost::_bi::value<store_args_t<rdb_protocol_t> >, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<int>, boost::_bi::value<stores_lifetimer_t<rdb_protocol_t>*>, boost::_bi::value<store_view_t<rdb_protocol_t>**> >::operator()<void (*)(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**), boost::_bi::list1<int&> >(boost::_bi::type<void>, void (* const&)(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**), boost::_bi::list1<int&>&, int) const at bind.hpp:602\r\n       15: void boost::_bi::bind_t<void, void (*)(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**), boost::_bi::list6<boost::arg<1>, boost::_bi::value<store_args_t<rdb_protocol_t> >, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<int>, boost::_bi::value<stores_lifetimer_t<rdb_protocol_t>*>, boost::_bi::value<store_view_t<rdb_protocol_t>**> > >::operator()<int>(int&) const at bind_template.hpp:39\r\n       16: pmap_runner_one_arg_t<boost::_bi::bind_t<void, void (*)(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**), boost::_bi::list6<boost::arg<1>, boost::_bi::value<store_args_t<rdb_protocol_t> >, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<int>, boost::_bi::value<stores_lifetimer_t<rdb_protocol_t>*>, boost::_bi::value<store_view_t<rdb_protocol_t>**> > >, int>::operator()() at pmap.hpp:20\r\n       17: callable_action_instance_t<pmap_runner_one_arg_t<boost::_bi::bind_t<void, void (*)(int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, int, stores_lifetimer_t<rdb_protocol_t>*, store_view_t<rdb_protocol_t>**), boost::_bi::list6<boost::arg<1>, boost::_bi::value<store_args_t<rdb_protocol_t> >, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<int>, boost::_bi::value<stores_lifetimer_t<rdb_protocol_t>*>, boost::_bi::value<store_view_t<rdb_protocol_t>**> > >, int> >::run_action() at runtime_utils.hpp:58\r\n       18: callable_action_wrapper_t::run() at runtime_utils.cc:67\r\n       19: coro_t::run() at coroutines.cc:178\r\nerror: Exiting.\r\n```\r\n\r\nI'm not sure the core file will be useful, but if you are looking for it, it's on newton:/home/michel/bugs/2013.02.13/ with the binary."
+  , issueState = "closed"
+  , issueId = Id 10978784
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

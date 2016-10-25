@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-25) 16 : 22 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/188853388"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5439#issuecomment-188853388"
+  , issueCommentCreatedAt = 2016 (-02) (-25) 16 : 01 : 35 UTC
+  , issueCommentBody =
+      "@pires, there's a subtle bug in the code when processing exceptions this way.\r\n\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L139\r\n\r\nAfter the pump is finished processing a response cleanly, suppose the connection drops outside of the `try{}catch{}` statement. The pump isn't around to catch it. `!isOpen` is `true`. The `while(true)` loop breaks in **Line 145**. `.close` is never called. Hence, leaving all awaiting queries hanging. The .NET driver does clean up outside of the `while(true)` loop."
+  , issueCommentId = 188853388
+  }

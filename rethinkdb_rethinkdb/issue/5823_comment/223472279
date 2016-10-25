@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-03) 01 : 57 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223472279"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-223472279"
+  , issueCommentCreatedAt = 2016 (-06) (-03) 01 : 57 : 50 UTC
+  , issueCommentBody =
+      "@mlucy \r\n\r\n> Is this going to be run in a single transaction? If so, that will be pretty high-latency. If not, I think this could get into an infinite loop if replaceFunction always moves things from the front of the range you're scanning to the end.\r\n\r\nIt should use the normal query API I think, so it will not be in a single transaction. In the end I think there will always be ways to write odd `replaceFunction`s that cause infinite loops in this code, but I don't think it's a huge problem as long as we catch the most common cases (which is probably not modifying the timestamp at all, moving the timestamp of a document would be a pretty odd thing to do).\r\n\r\n> Related to the above: it might be better to instead check the timestamp of the output of replaceFunction, and if it's still in the range then log an error and sleep indefinitely. (As written, I think this might also trigger spurious aborts if someone happens to insert a document with the same primary key as one which was just expired.)\r\n\r\nGood point, we can do that. So we would basically do the replace with `returnChanges` and compare the actual index values after the write?\r\n\r\n> How long do we sleep for if there are no documents in the index?\r\n\r\nInfinitely, until something gets inserted.\r\n\r\n> I think we need to hook into the sindex modification callback to reduce the sleep time when inserts/updates schedule a document that needs to be expired in the near future.\r\n\r\nYes, that was what I meant by \"In either case, the sleep gets interrupted if any write on the primary's shard range introduces an index value that's smaller than `nextTS`.\""
+  , issueCommentId = 223472279
+  }

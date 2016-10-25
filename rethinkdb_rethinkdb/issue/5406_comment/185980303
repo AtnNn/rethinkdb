@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-18) 23 : 34 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/185980303"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5406#issuecomment-185980303"
+  , issueCommentCreatedAt = 2016 (-02) (-18) 23 : 34 : 36 UTC
+  , issueCommentBody =
+      "Here's the updated proposal:\r\n\r\n\r\n## 1. C -> S\r\n`0xd27951cc`\r\nClient proceeds to step 3 to reduce latency.\r\n\r\n## 2. C <- S\r\nServer receives magic number from step 1.\r\n#### Failure:\r\n```\r\n{\r\n  \"success\": \"false\",\r\n  \"error\": \"wrong magic number\",\r\n  \"error_code\": n\r\n}\r\n```\r\nServer closes connection.\r\n#### Success:\r\n```\r\n{\r\n  server_version: \"2.3.2\",\r\n  min_protocol_version: 0,\r\n  max_protocol_version: 5,\r\n  # Maybe other stuff like available encryption options later.\r\n}\r\n```\r\nServer proceeds to step 4.\r\n\r\n## 3. C -> S\r\nClient sends this immediately without waiting for a message.\r\n```\r\n{\r\n  protocol_version: 4,\r\n  authentication: \"SCRAM-SHA-256\",\r\n  \"user\": \"mlucy\",\r\n  \"nonce\": XXX,\r\n  # Maybe a capabilities array in a future protocol version.\r\n}\r\n```\r\nClient proceeds to step 5.\r\n\r\n## 4. C <- S\r\nServer receives message from step 3.\r\n#### Failure:\r\n```\r\n{\r\n  \"success\": false,\r\n  \"error\": \"GTFO\"\r\n  \"error_code\": n\r\n}\r\n```\r\nServer repeats step 4.\r\n#### Success:\r\n```\r\n{\r\n  \"success\": true,\r\n  \"nonce\": XXX,\r\n  \"salt\": XXX,\r\n  \"iterations\": n,\r\n}\r\n```\r\nServer proceeds to step 6.\r\n\r\n## 5. C -> S\r\nIf this is the first time entering step 5, client receives message\r\nfrom step 2.  Regardless of how many times step 5 has been entered,\r\nclient receives message from step 4.\r\n#### Failure:\r\nIf the information from step 2 allows the client to pick a correct\r\nprotocol version that it hasn't tried yet, it returns to step 3 and\r\nretries.  Otherwise it closes the connection.\r\n#### Success:\r\n\r\n```\r\n{\r\n  \"nonce\": XXX,\r\n  \"proof\": XXX\r\n}\r\n```\r\nClient proceeds to step 7.\r\n## 6. C <- S\r\nServer receives message from step 5.\r\n#### Failure:\r\n```\r\n{\r\n  \"success\": \"false\",\r\n  \"error: \"GTFO\",\r\n  \"error_code\": n\r\n}\r\n```\r\nServer closes connection.\r\n#### Success:\r\n```\r\n{\r\n  \"success\": \"true\",\r\n  \"signature\": XXX\r\n}\r\n```\r\nServer begins accepting queries.\r\n## 7. C -> S\r\nClient receives message from step 6.\r\n#### Failure:\r\nClient failed to authenticate, show the user an error.\r\n#### Success:\r\nClient begins sending queries."
+  , issueCommentId = 185980303
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-26) 18 : 10 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143477039"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143477039"
+  , issueCommentCreatedAt = 2015 (-09) (-26) 18 : 10 : 33 UTC
+  , issueCommentBody =
+      "Hi @williamstein, thanks for reporting this!\r\n\r\nTheoretically, this is expected behavior -- it's very difficult to keep changefeeds running efficiently across machine failures, so we designed them in such a way that they need to be restarted in case of hardware failure.\r\n\r\nIn practice, I can definitely see how this makes building resilient applications very difficult (especially the part where your code can't just reconnect, but has to wait for failover to happen). Issue #3471 should partially address this problem (it doesn't deal with server failures, but network interrupts between client and server). As we work on it, we'll look into how to make this case more robust, or at least easier to deal with.\r\n\r\nIn the meantime, I'd suggest this -- your code can call `wait` on a table to ensure the table is ready (see http://rethinkdb.com/api/javascript/wait/). Before you set up your feeds in the client code, consider calling `wait` -- this way you won't get a cascading failure when you try to restart the clients immediately after a server failure.\r\n\r\nWe'll try hard to address this during the work on #3471 in some way; we'll either make it easier, or give better guidance/sample code in the docs, or both."
+  , issueCommentId = 143477039
+  }

@@ -1,0 +1,81 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-29) 01 : 11 : 34 UTC
+  , issueUpdatedAt = 2016 (-04) (-06) 18 : 08 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5566/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/5566"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5566
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1366
+          , simpleUserLogin = N "deontologician"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1366?v=3"
+          , simpleUserUrl = "https://api.github.com/users/deontologician"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "a trivial improve: limit unnecessary debug log string creation"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5566"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5566.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5566.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5566"
+  , issueCreatedAt = 2016 (-03) (-27) 15 : 46 : 12 UTC
+  , issueBody =
+      Just
+        "`rethinkdb/drivers/java/src/main/java/com/rethinkdb/net/Response.java` output debug log server response, it unconditionally convert ByteBuffer to String, even if debug log is disabled.\r\n\r\n```\r\n    public static Response parseFrom(long token, ByteBuffer buf) {\r\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\r\n```\r\n\r\nSo add a check is better.\r\n```\r\n        if (Response.logger.isDebugEnabled())\r\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 143822291
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

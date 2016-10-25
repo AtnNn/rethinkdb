@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-26) 00 : 59 : 27 UTC
+  , issueUpdatedAt = 2014 (-02) (-20) 21 : 30 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/604/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/604"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 604
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Never return an array in JavaScript"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/604"
+  , issueCreatedAt = 2013 (-04) (-04) 07 : 02 : 32 UTC
+  , issueBody =
+      Just
+        "So I talked about that with @al3xandru few days ago. At that time, he somehow convinced me that it was ok to get back an array and not a cursor.\r\n\r\n\r\nI still don't feel confortable getting an array back sometimes.\r\nIt's a pain because I have to write my callback in different ways and figure out what the good way to do it.\r\n\r\n```javascript\r\nquery.run( connection, function( err, results) {\r\n    if err\r\n        throw err\r\n    util.log(results);\r\n})\r\n```\r\nvs\r\n```javascript\r\nquery.run( connection, function( err, cursor) {\r\n    if err\r\n        throw err\r\n    cursor.toArray( function(err, results) {\r\n        if err\r\n            throw err\r\n        util.log(results);\r\n    }\r\n})\r\n```\r\n\r\n\r\nAn argument to have array was for a query like\r\n```javascript\r\nr.expr([1,2,3])\r\n```\r\n\r\nBut that means this query is going to return an array too.\r\n```javascript\r\nr.expr([1,2,3]).append( r.table(\"bar\").map(r.row(\"id\") )\r\n```\r\n\r\nIf possible, every time we send back an array or a stream, we should provide an cursor.everytime"
+  , issueState = "closed"
+  , issueId = Id 12787892
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

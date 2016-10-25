@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-06) (-26) 05 : 48 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4081/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4081"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 4081
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 321596
+        , simpleUserLogin = N "slezica"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/321596?v=3"
+        , simpleUserUrl = "https://api.github.com/users/slezica"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Suggestion: connection-bound query factories"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4081"
+  , issueCreatedAt = 2015 (-04) (-19) 17 : 49 : 37 UTC
+  , issueBody =
+      Just
+        "## Rationale\r\n\r\nWhile having to specify the connection to use for each query makes concurrency errors explicit, and thus easier to detect and correct, it has two drawbacks:\r\n\r\n1. It's verbose, from a syntactic standpoint\r\n2. It damages abstraction, forcing even small routines to be connection-aware\r\n3. It raises the initial understanding barrier for the inexpert developer\r\n\r\n## Implementation\r\n\r\nIt should be possible to explicitly create a bound query factory, using `rethinkdb.bind(conn)`, that:\r\n\r\n1. Forces queries to run on a given connection when `run()` is called with no arguments\r\n2. Raises an error if another connection is specified with `run(conn)`\r\n3. Raises an error if `bind(conn)` is called again\r\n\r\nUnlike `rethinkdb.repl()`, this does not set a global default, and does not automatically select a connection.\r\n\r\nThis bound object could be injected into handlers, callbacks, threads and greenlets; keeping connection management explicit but avoiding redundancy and allowing abstraction.\r\n\r\n## Example\r\n\r\n    def dispatch(event):\r\n        r = rethinkdb.bind(conn, db = 'test')\r\n    \r\n        for handler in handlers:\r\n           handler(r, event)\r\n\r\n    def handle(r, event):\r\n        r.table('people').run()\r\n\r\n## Further thoughts\r\n\r\nIf this still sounds like removing a safety measure, it should be possible to make connection objects detect possible abuse and emit warnings or errors in cases such as:\r\n\r\n1. The same connection is used concurrently (i.e. a query is attempted before a previous query finishes). I believe this is already an error sometimes, though socket-related\r\n2. I can't think of another misuse case, but there must be\r\n\r\nIf it's possible to effectively catch and warn about misuse of connections, it would be a short to step to automatic multiplexing in the future, if such a feature is desireable."
+  , issueState = "open"
+  , issueId = Id 69448268
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

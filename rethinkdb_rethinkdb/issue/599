@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-26) 02 : 37 : 36 UTC
+  , issueUpdatedAt = 2014 (-06) (-26) 17 : 40 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/599/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/599"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 599
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Handle memory allocation failures gracefully"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/599"
+  , issueCreatedAt = 2013 (-04) (-03) 21 : 33 : 15 UTC
+  , issueBody =
+      Just
+        "When a TCMalloc allocation fails (you can easily reproduce this by running a query that allocates more than the available memory on a machine with no swap) the server crashes with the following output:\r\n\r\n```\r\ninfo: Running rethinkdb 1.4.0-1ubuntu1~quantal (GCC 4.7.2)...\r\ninfo: Running on Linux 3.5.0-17-generic x86_64\r\ninfo: Loading data from directory rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, [redacted]\r\ninfo: Server ready\r\nasrc/central_freelist.cc:322] tcmalloc: allocation failed 8192\r\nVersion: rethinkdb 1.4.0-1ubuntu1~quantal (GCC 4.7.2)\r\nerror: Error in src/errors.cc at line 111:\r\nerror: Uncaught exception of type \"std::bad_alloc\"\r\n         what(): std::bad_alloc\r\nerror: Backtrace:\r\n   ...\r\n```\r\n\r\nWhile we shouldn't be allowing this situation to begin with we so need to handle this error more gracefully than with an uncaught exception crash.\r\n\r\nThe easiest thing to do would be to catch the error and exit with a more friendly error message.\r\n\r\nA more robust solution might be to ask the buffer cache to evict some blocks before trying the memory allocation again. Even then we will still have to deal with the case where there is no more memory to be freed in the buffer cache.\r\n\r\nA truly robust solution would deal with an out of memory condition with a response less drastic than killing the server, say by cancelling the offending query and freeing any memory associated with it.\r\n\r\nSee #505 for the source of this issue."
+  , issueState = "closed"
+  , issueId = Id 12775140
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

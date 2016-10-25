@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 18 : 02 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5503/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5503"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Ruby"
+          , labelName = "Ruby"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5503
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2230126
+        , simpleUserLogin = N "icesmurf"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2230126?v=3"
+        , simpleUserUrl = "https://api.github.com/users/icesmurf"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "ruby rethink driver does not seem to honour timeout flag"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5503"
+  , issueCreatedAt = 2016 (-03) (-11) 03 : 21 : 37 UTC
+  , issueBody =
+      Just
+        "```\r\n#!/usr/bin/env ruby\r\nrequire 'timeout'\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nhost = '192.168.40.10'\r\n\r\nbegin\r\n  Timeout::timeout(10) {\r\n    begin\r\n      puts \"attempting to connect to #{host}\"\r\n      r.connect(:host=> host, :port=>28015, :timeout => 5).repl\r\n    rescue Exception => e\r\n      pp e\r\n      puts \"Connection to #{host} not established, error at RQLDriver level\"\r\n      exit\r\n    end\r\n  }\r\nrescue Timeout::Error\r\n  puts \"Ruby Level Timeout\"\r\n  exit\r\nend\r\n```\r\nOutput: \r\n```\r\nattempting to connect to 192.168.40.10\r\nRuby Level Timeout\r\n```\r\n\r\nI firewalled 192.168.40.10 with iptables and --DROP"
+  , issueState = "open"
+  , issueId = Id 140074899
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

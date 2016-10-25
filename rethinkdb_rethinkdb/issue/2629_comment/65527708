@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-04) 02 : 18 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65527708"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2629#issuecomment-65527708"
+  , issueCommentCreatedAt = 2014 (-12) (-04) 02 : 18 : 42 UTC
+  , issueCommentBody =
+      "@mlucy that makes sense. The two biggest use cases I run into all the time are (1) aggregating multiple values (should be less painful after #2078) and (2) merging objects into a single dictionary. My biggest gripe is with (2) because most of the time it's faster to pull all the rows down and do the reduction in code. I assume this is because we have to map over every row before starting the reduction.\r\n\r\n```coffee\r\n## code: 183ms ##\r\nr.table 'standard_terms'\r\n.getAll 'disorders', index: 'field'\r\n.run().then (data) ->\r\n  dict = data.reduce (right, left) ->\r\n    right[left.term] = left\r\n    return right\r\n  , {}\r\n\r\n## db: 595ms ##\r\nr.table 'standard_terms'\r\n.getAll 'disorders', index: 'field'\r\n.map (row) -> r.object row('term'), row\r\n.reduce (l, r) -> l.merge r\r\n.run()\r\n```"
+  , issueCommentId = 65527708
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-25) 20 : 32 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115389188"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4453#issuecomment-115389188"
+  , issueCommentCreatedAt = 2015 (-06) (-25) 20 : 32 : 41 UTC
+  , issueCommentBody =
+      "Hi @behrad, can you give us a bit more information about your hardware and configuration?\r\n- How large are the documents?\r\n- What is the CPU on the server, and how much RAM does it have?\r\n- If you check the RethinkDB log for a line saying \"Automatically using cache size of ...\", what value does it show?\r\n- Do you use SSDs or rotational drives for storage?\r\n\r\nHow are you performing the inserts? Are you using batch inserts? How large are the batches? It might help to make the batches smaller.\r\n\r\nIt would also be interesting to know whether the server is bound by CPU while this happens. You can easily find that out through `htop` or `top`.\r\n\r\n\r\nIf the data doesn't fit into the cache, I think the slowness might come from the read queries competing with the writes for disk i/o. In that case - depending on the data size you're expecting - it might be enough to increase the cache size, or to switch to SSDs if you're not already using them.\r\n\r\nFor the specific case of `orderBy.limit`, I also recommend making sure that the `orderBy` is using an index or it will have to read the whole table before continuing."
+  , issueCommentId = 115389188
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-08) 22 : 44 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2243/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2243"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2243
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal: orderBy should always produce a repeatable total ordering."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2243"
+  , issueCreatedAt = 2014 (-04) (-11) 12 : 12 : 13 UTC
+  , issueBody =
+      Just
+        "order_by queries specify order by the user-supplied field name, index name, or function.  Because fields can have equal values, this defines a partial ordering on the result set.\r\n\r\nProposal: \r\n\r\norder_by queries should output a repeatable total ordering that can be reevaluated with different `.slice(a, b)` parameters with consistent results.\r\n\r\norder_by queries run on tables should use the primary key to break ties.\r\n\r\nOption A: order_by queries run on sequences with a pre-existing total or partial ordering should always use a stable sorting algorithm.  (See #2155 -- this is already happening.)\r\n\r\nOption B: order_by queries don't have to use stable sorting, and can sometimes resort to breaking ties by comparing full object values. \\[1]\r\n\r\nIn other situations and edge cases, they should create some kind of repeatable, sensible sequence.\r\n\r\nRationale:  Proposal #2242 about the behavior of limit, slice, and other indexing functions is not very useful if orderBy does not produce some kind of total ordering.  A sensible ordering in simple queries is to define is to break ties by primary key.  It's easy for secondary index implementations to break ties that way.  The implementation already does so.  In complicated queries, it's still important to produce repeatable behavior for users of limit, slice, and other indexing functions.\r\n\r\nSome queries and behaviors (we assume option A here):\r\n\r\n(q1) `r.table('foo').orderBy('a')` -- easy: elements are ordered by field `'a'`, with ties broken by the primary key ordering.\r\n(q2) `r.table('foo').orderBy('a').orderBy('b')` -- easy: (q1) defines a total ordering, so attaching `.orderBy('b')` on the end performs a stable sort.  Elements are ordered by field `'b'`, then by field `'a'`, then by the primary key.\r\n(q3) `r.expr([{a: 2, b: -3}, {a: 2, b: -4}, {a: 1, b: -5}]).orderBy('a')` -- easy: the array defines a total ordering, so we perform a stable sort, and the result is `[{a: 1, b: -5}, {a: 2, b: -3}, {a: 2, b: -4}]`.\r\n(q4) `r.table('foo').pluck('a', 'b').orderBy('a')` -- **not easy.**  What should the ordering be?  One option:  break ties by the primary key they had *before* the pluck.  Another option: Option B.\r\n(q5) `r.table('foo').union(r.table('bar')).orderBy('a')` -- **worse.**  The current implementation of `union` happens to concatenate.  The documentation says it concatenates, too, but that's ridiculous.  If it didn't generally concatenate, acceptable behavior here would be for the query to be equivalent to one of these (where .concat explicitly concatenates streams):\r\n- `r.table('foo').orderBy('id').concat(r.table('bar').orderBy('id')).orderBy('a')` \r\n- `r.table('foo').concat(r.table('bar')).orderBy('id').orderBy('a')` \r\n- `r.table('foo').concat(r.table('bar')).orderBy(r.row).orderBy('a')`  \\[1]\r\n(assuming stable sorting in the `orderBy`'s there) except that it might return a stream.  (A reasonable streaming implementation would be plausible.)\r\n\r\nIf `.union` does guarantee concatenation, let's call it `concat` here to avoid confusion with the previous paragraph.  The query `r.table('foo').concat(r.table('bar'))` has a partial ordering defined \\[2]: between any element in tables foo and bar, the element from table foo is earlier in the stream.\r\n\r\nThus, I'd hope we'd get this behavior when evaluating `r.table('foo').concat(r.table('bar')).orderBy('a')`:\r\n- `r.table('foo').orderBy('id').concat(r.table('bar').orderBy('id')).orderBy('a')`\r\n\r\nYou might say this proposal is to have several classes of \"sequence\" (I'm going to call them result-sets here, sorry), with respect to ordering:\r\n\r\n- totally ordered result-sets-- these have a total ordering.  You can attach .orderBy to them and get another totally ordered result-set.  If proposal #2242 is approved, then limit and other queries would only be allowed on these result-sets.  (This includes arrays.)\r\n- orderable result-sets -- these are unordered (or partially ordered? \\[2]), but when you attach .orderBy to them, you get a totally ordered result-set.\r\n- unorderable result-sets -- these are unordered, and attaching a .orderBy cannot *naturally* produce a total ordering.  (But it could produce a partial ordering, creating another unorderable result-set.  Or it could break ties by comparing the whole document.) \\[1]\r\n\r\n(I don't know of any ReQL queries that would produce unorderable result-sets, but I have not looked at all its dark corners of joins, grouping, and such.)\r\n\r\nOrderable result-sets might have different evaluation strategies when an orderBy is attached to them.  `table.orderBy({index: 'a'})` is one obvious example.  Also, `r.table('foo')` has the right to return datums in any order, and it could hypothetically avoid having to refetch rows that are dropped when unsharding rget_read_t operations.  `r.table('foo').orderBy('a')` would have to change its implementation to one such that we have defined behavior.  Similarly, a union query (ignoring the docs bleating about concatenation) might switch from a faster unordered stream-merging implementation to concatenation, when it has an orderBy attached.\r\n\r\nI do not know of any drastically new kinds of query evaluation that would need to be implemented to adopt this proposal.  One is #2155, the stable_sort bug.  Also, right now, the query `r.table('foo')` returns data in an order depending on the shards' ordering and batch size.  If we did something to make `r.table()` queries evaluate in a consistent manner (i.e. ordering by primary key) when they're in an expression contributing to the content of an `.orderBy` query, we might be set.  Other than that, stuff probably processes datum streams in a consistent way -- look out for behavior in functions that combine multiple datum streams, especially at batching boundaries.  The implementation complexity is low in comparison to the length of this proposal.\r\n\r\nThe end visible result for the user is that limit works the way they'd expect even if orderBy's key only provides a partial ordering.  There is nothing to add to user-facing documentation.\r\n\r\nEven if this proposal is not completely adopted, it is something to partly adopt.\r\n\r\n\\[1] I'd rather not resort to full object comparisons for tie-breaking.  We don't want to see it used when doing an unindexed order_by operation on a table -- we want that to use a primary key to break ties, the way secondary indices do, so that they behave the same way.  It would be bad with large documents. It would also break stable sorting with respect to other orderings.  That would be acceptable from the bugginess aspect of #2155, though, since it would be deterministic behavior.  I think it would be undesirable from a users' standpoint, though, because combining multiple order by's is something that people practically want -- without having to create an index.\r\n\r\n\\[2] Having `.union` as the name is nice because it doesn't imply an ordering.  I think the declarations in the docs is a bug.  However, a similar way to get a sequence with partially specified order is `r.table('foo').coerceTo('array').add(r.table('bar').coerceTo('array'))`"
+  , issueState = "open"
+  , issueId = Id 31322655
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-02) 02 : 49 : 54 UTC
+  , issueUpdatedAt = 2016 (-06) (-03) 20 : 11 : 28 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5816/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5816"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5816
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "recursion errors when running `connections/asyncio_connection`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5816"
+  , issueCreatedAt = 2016 (-06) (-01) 23 : 33 : 05 UTC
+  , issueBody =
+      Just
+        "When running the `asyncio` connection test I am getting an error that prints after (successful) testing: `Exception in default exception handler` ... `RecursionError: maximum recursion depth exceeded`. Between those two lines are a lot of repetitions of:\r\n```\r\n  File \"/usr/local/opt/python3.5/lib/python3.5/asyncio/tasks.py\", line 106, in _repr_info\r\n    info.insert(2, 'wait_for=%r' % self._fut_waiter)\r\n  File \"/usr/local/opt/python3.5/lib/python3.5/asyncio/futures.py\", line 194, in __repr__\r\n    info = self._repr_info()\r\n```\r\n\r\nMy guess is that we are doing something not-quite right somewhere. While looking for this I did run across the following, which implies that there are problem in some cases in using `yield from`: http://stackoverflow.com/a/28372548/4118575\r\n\r\nRun the test like: `/test/rql_test/test-runner -ipy3.5 connections/asyncio_connection -v`. This is on both `v2.3.x` and `next` at the moment, and was happening before the changes I made recently to get this test passing (for real this time)."
+  , issueState = "closed"
+  , issueId = Id 158030007
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-06) (-03) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 125
+          , milestoneClosedIssues = 6
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/125"
+          , milestoneCreatedAt = 2016 (-06) (-03) 20 : 10 : 23 UTC
+          , milestoneState = "closed"
+          }
+  }

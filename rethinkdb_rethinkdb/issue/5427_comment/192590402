@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-05) 06 : 31 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/192590402"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5427#issuecomment-192590402"
+  , issueCommentCreatedAt = 2016 (-03) (-05) 06 : 31 : 31 UTC
+  , issueCommentBody =
+      "Alright, it looks like third times the charm: everything finished backfilling and the table went green...\r\n\r\nAfter about 20 minutes of stability, I decided that since I was already in the cluster I'd do the most recent update from 2.2.4 to 2.2.5. After restarting one node, one replica of shard 3 went into backfilling, and then again right when all 5 replicas of shard 3 were about to go green, it switched primary, went into backfilling the other 4 and put the table in \"outdated reads\" mode. This strategy finished backfilling successfully.\r\n\r\nI couldn't find anything unexpected in the logs, but I didn't really want to be running multiple different versions in the same cluster so I decided to bite the bullet and continue to update the cluster. The next one went much better: 4 of the 5 shards came back to 100% almost immediately, and only the one replica of shard 3 required backfilling. This same scenario played out on the next several servers.\r\n\r\nOn the final server, the update got stuck on restart (#5211), and after force-killing the running instance, the same happened with only the one replica of shard 3 requiring backfilling.\r\n\r\nSo, it looks quite certain that shard 3 is particularly unhealthy, and is plaguing this cluster. I'm tempted to spin up a new cluster and use change feeds to river the entire cluster's contents over to the new one, but if there's anything I could pull off the existing one that might be helpful for the sake of this ticket, I'd be more than happy to do so."
+  , issueCommentId = 192590402
+  }

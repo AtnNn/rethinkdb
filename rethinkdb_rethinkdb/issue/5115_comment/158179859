@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-19) 20 : 02 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/158179859"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5115#issuecomment-158179859"
+  , issueCommentCreatedAt = 2015 (-11) (-19) 20 : 02 : 11 UTC
+  , issueCommentBody =
+      "@marshall007 This was just what I used for testing how big the expected performance benefits would be. The actual implementation wouldn't look like that.\r\n\r\nCurrently `eqJoin` is implemented roughly like this:\r\n`left.concatMap(other.getAll(r.row(joinKey)).map(...))`\r\nAs you can see, this does one `getAll` for each key that we want to join from the left table, and that is inefficient.\r\n\r\nI suggest that we batch together a bunch of keys from the left table, and then issue a single `getAll`-like query against the other table for the batch. We already have logic in place to split up a stream into batches of reasonable size, so we would probably just use that. We don't need to know which table is smaller. It would always use the left table. If it's too large to fit into a single batch, it will simply use multiple batches.\r\n\r\n"
+  , issueCommentId = 158179859
+  }

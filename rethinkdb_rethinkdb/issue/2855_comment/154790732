@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-08) 09 : 17 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 758447
+        , simpleUserLogin = N "adnaan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/758447?v=3"
+        , simpleUserUrl = "https://api.github.com/users/adnaan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/154790732"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2855#issuecomment-154790732"
+  , issueCommentCreatedAt = 2015 (-11) (-08) 09 : 17 : 53 UTC
+  , issueCommentBody =
+      "I have a similar problem. I have a list of posts which are geotagged and I need to show the recent ones. \r\nMy problem statement boils down to : 1) How do you fetch a set of a recent geotagged items in a polygon 2) How to do that efficiently?\r\n\r\nAs suggested by @danielmewes the following query fails: \r\n\r\n```\r\nr.db('mydb').table('post').between(r.minval, r.maxval, {leftBound: \"closed\",rightBound:\"open\", index: \"uid\"}).orderBy(r.row('point')).distance(r.point(77.630939, 12.953997),{unit:'km'})\r\n\r\nwhere uid is unix nano timestamp, an incrementing integer\r\n```\r\n\r\nwith \r\n\r\n```\r\nRqlRuntimeError: Expected type DATUM but found SELECTION:\r\nSELECTION ON table(post) in:\r\nr.db(\"mydb\").table(\"post\").between(r.minval, r.maxval, {leftBound: \"closed\", rightBound: \"open\", index: \"uid\"}).orderBy(r.row(\"point\")).distance(r.point(77.630939, 12.953997), {unit: \"km\"})\r\n```\r\n\r\nI also tried `eqjoin` by maintaining another table of location,uid pairs:\r\n\r\n```\r\nr.db('mydb').table('postLocation').getNearest(r.point(77.630939, 12.953997),{index:'point',maxDist:20,unit:'km'}).eqJoin(r.row(\"doc\")(\"uid\"), r.db('mydb').table(\"post\"))\r\n```\r\n\r\nfailed with \r\n\r\nNo results returned.\r\n\r\nMet with some success using `filter`\r\n\r\n```\r\nr.db('mydb').table('post').getNearest(r.point(77.630939, 12.953997),{index:'point',maxDist:20,unit:'km'}).filter(r.row('doc')('uid').lt(1446971060546369000)).limit(10)\r\n\r\nwhere 1446971060546369000 is uid\r\n```\r\n\r\nBut as you would expect the result is a set of posts ordered by `dist` not `uid` and hence it is not recent.\r\n\r\nI would have expected something like [Mongodb compound indexes](https://docs.mongodb.org/manual/tutorial/build-a-2dsphere-index/#create-a-compound-index-with-2dsphere-index-key). So the above query would be like:\r\n\r\n```\r\nr.db('mydb').table('post').getNearest(r.point(77.630939, 12.953997),{indexes:{'point','uid'},maxDist:20,unit:'km'}).filter(r.row('doc')('uid').lt(1446971060546369000)).limit(10) \r\n````\r\n\r\nor even better \r\n\r\n```\r\nr.db('mydb').table('post').getNearest(r.point(77.630939, 12.953997),{indexes:{'point','uid'},maxDist:20,unit:'km'}).between(r.minval, r.maxval, {leftBound: \"closed\",rightBound:\"open\", index: \"uid\"})orderBy({index:r.desc('uid')}).limit(10)\r\n```\r\n\r\nIn short, I am not sure how to move forward from here. Ideas?"
+  , issueCommentId = 154790732
+  }

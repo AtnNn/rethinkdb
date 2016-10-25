@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-01) 00 : 25 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243941759"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6040#issuecomment-243941759"
+  , issueCommentCreatedAt = 2016 (-09) (-01) 00 : 25 : 31 UTC
+  , issueCommentBody =
+      "> Use a reference over a pointer where possible.\r\n\r\nI'm not convinced that this is good for writeable references. The problem with references is that they are indistinguishable from copies at the place where you modify them. So you might modify them without realizing that this has side-effects outside the local scope.\r\n\r\nUsing pointers in such cases (`_out` parameters in functions are an obvious example) makes the fact explicit and obvious that a modification to the object can have effects on outside state.\r\n\r\nAnother way to achieve this, though in my opinion slightly less elegant, is to ensure that we name all modifiable references in a certain way. E.g. as `ref_*`:\r\n```C++\r\nvoid set_zero(int &ref_val_out) {\r\n    ref_val_out = 0;\r\n}\r\n```\r\nvs. our current\r\n```C++\r\nvoid set_zero(int *val_out) {\r\n    *val_out = 0;\r\n}\r\n```"
+  , issueCommentId = 243941759
+  }

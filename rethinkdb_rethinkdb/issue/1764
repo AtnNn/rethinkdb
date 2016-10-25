@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-04) (-26) 01 : 41 : 51 UTC
+  , issueUpdatedAt = 2014 (-04) (-26) 03 : 04 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1764/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1764"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1764
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 371348
+        , simpleUserLogin = N "jakcharlton"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/371348?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jakcharlton"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "When using eqJoin() a missing join key causes the query to fail rather than row to not be included"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1764"
+  , issueCreatedAt = 2013 (-12) (-12) 23 : 45 : 12 UTC
+  , issueBody =
+      Just
+        "If you have a record missing the Field for the left table join ID, then the query will fail \r\n\r\n```javascript\r\nr.db(\"user1\").table(\"others\").eqJoin(\"contact_id\",   r.db(\"user1\").table(\"contacts\"))\r\n```\r\n\r\nGives: \"RqlRuntimeError: No attribute `contact_id` in object\" when any document doesn't have a Field of `contact_id`\r\n\r\nThis can be avoided by doing the following:\r\n\r\n``` javascript\r\n r.db(\"user1\").table(\"others\").filter(function(user) {\r\n    return user.hasFields('contact_id')\r\n}).eqJoin(\"contact_id\",   r.db(\"user1\").table(\"contacts\"))\r\n```\r\n\r\nBut this seems wrong ... I shouldn't really have to guard all join queries like this \r\n\r\nIn SQL doing a JOIN with a NULL key would just not include that record, and for all intents and purposes in a document database, a missing field would be the equivalent of NULL (at least I would always treat it that way in my application rather than raise an exception when a field wasn't present (unless that field was absolutely critical to the application and it's exclusion would have indicated a data integrity was broken)\r\n\r\n\r\nCan I suggest that this be discussed and possibly changed to be more in line with principle of least surprise, by making Rethink exclude rows where there is no join key available?\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 24217729
+  , issueComments = 23
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

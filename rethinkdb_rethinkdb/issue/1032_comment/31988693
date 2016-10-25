@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-09) 23 : 29 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31988693"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-31988693"
+  , issueCommentCreatedAt = 2014 (-01) (-09) 23 : 29 : 42 UTC
+  , issueCommentBody =
+      "@nviennot -- I'm hesitant to introduce `r.undefined`, because people will expect that RethinkDB behave like JS, and we don't.  When you access a non-existent field in ReQL you don't get back `undefined`, it produces a non-existence error, which can be handled by `default`.  So this means, for example, that there's no value you can put in `filter{|doc| doc['non_existent_field'].eq(VALUE)}` that will return true.\r\n\r\nAn argument could be made for changing our semantics to use `undefined`, but I don't think we want to do that, for two reasons:\r\n* For people without JS backgrounds `undefined` can be a very confusing concept.  (This is especially true when you start comparing it to other values, or storing it in an array and trying to convert that array to JSON.)  Saying \"accessing a non-existent field gives an error\", like Python does, is pretty understandable.\r\n* `undefined` doesn't currently exist in our type system, and adding it in / changing the behavior of things that are currently errors would:\r\n  - Be a lot of work.\r\n  - Probably break existing code.\r\n\r\nHaving to do a lot of work and breaking existing code aren't necessarily insurmountable problems, but they're both problems I don't want to have to deal with before the LTS release.\r\n\r\nAnyway, to summarize, we don't have `undefined` semantics in ReQL right now, we probably aren't going to add those semantics before the LTS release, and I don't want to introduce the word `undefined` when we don't actually use those semantics.  In the meantime, I think we should patch things here so that they're less confusing, and maybe revisit our handling of NULL/non-existence/errors after the LTS release."
+  , issueCommentId = 31988693
+  }

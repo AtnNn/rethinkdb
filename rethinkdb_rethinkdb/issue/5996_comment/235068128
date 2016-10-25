@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-25) 20 : 05 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1824859
+        , simpleUserLogin = N "venantius"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1824859?v=3"
+        , simpleUserUrl = "https://api.github.com/users/venantius"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/235068128"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5996#issuecomment-235068128"
+  , issueCommentCreatedAt = 2016 (-07) (-25) 20 : 05 : 47 UTC
+  , issueCommentBody =
+      "I was assuming that I'd keep using the current mechanism, yes. If we wanted to get crazy and focus on implementing Clojure-specific future interfaces (e.g. `IDeref`, etc.) then we could move that logic down to the `SocketWrapper`, but I don't see that as a necessity personally. \r\n\r\nPerhaps OT, but I expect `SocketWrapper` to be pretty limited in scope and would probably feel twitchy about having too much going on down there. Of course, I can also see the argument for cleaning up `Connection`, so...\r\n\r\nUltimately, this is a question about where `Response` deserialization goes. The most Clojuresque interface I could imagine the Java driver providing would be one in which you allowed me to pass `Connection.run` a Clojure function [callback] that would be take a single argument, `res` (a `Response`), and could handle it however it wanted. My proposal for making `sendQuery` public is basically only so that I can implement that functionality anyways.\r\n\r\nI did in fact try to implement my own `CljConnection` first, but unfortunately there are a number of other classes that take and return `Connection` objects explicitly - if we modified those to take `IConnection` then that would work too. \r\n\r\nI'm mildly resistant to the idea of creating new Clojure-specific classes; I think it'd be cleaner to just open up the existing Java classes to be friendlier to access and extension by other JVM languages. "
+  , issueCommentId = 235068128
+  }

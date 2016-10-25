@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 04 : 12 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95795855"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95795855"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 04 : 12 : 33 UTC
+  , issueCommentBody =
+      "> I don't really like acking. It makes the clients more complicated, and puts us in Two Generals territory. \r\n\r\nI agree it makes the clients more complicated, but it doesn't suffer from the Two Generals' problem or require the client to implement 2PC. Let me explain the ack proposal more explicitly. The client has two options, depending on whether they can tolerate duplicate changes or not:\r\n\r\n1. If the client can tolerate duplicate changes: The server should attach a change ID to each change. As the client receives each change, it writes it to durable storage (without attaching a change ID) and then acks the change ID to the server only once it's sure that the change is on disk. When the client recovers from a crash, they ask the server to send all un-acked changes, which may contain some duplicates but will never be missing any changes.\r\n\r\n2. If the client cannot tolerate duplicate changes: Same as above, except that the client also attaches change IDs to the changes when writing them to durable storage. When the client recovers from a crash, they read the latest change ID from durable storage and ask the server to resume from that point. Equivalently, they can ack the change ID they read from durable storage and then ask the server to send all un-acked changes (it's just a matter of API).\r\n\r\nSo if the client can tolerate duplicate changes, acking saves them the trouble of storing the `since` argument. Either way, it increases the likelihood of the client being able to restart the changefeed successfully, since it prevents the server from throwing away changes the client still needs. I don't know if that's worth the trouble or not; we could get the same effect by letting them tune the changefeed buffer size."
+  , issueCommentId = 95795855
+  }

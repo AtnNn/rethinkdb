@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2013 (-12) (-14) 00 : 11 : 00 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1775/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1775"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 1775
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "`perfmon_collection_t::add()` / `perfmon_collection_t::remove()` are fishy"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1775"
+  , issueCreatedAt = 2013 (-12) (-14) 00 : 11 : 00 UTC
+  , issueBody =
+      Just
+        "These functions have the following lines:\r\n```\r\n    scoped_ptr_t<on_thread_t> thread_switcher;\r\n    if (coroutines_have_been_initialized() && coro_t::self() != NULL) {\r\n        thread_switcher.init(new on_thread_t(home_thread()));\r\n    }\r\n```\r\n\r\nThe `&& coro_t::self() != NULL` is something I just added in daniel_755 (code review 1074), in next that part is currently missing which makes this even more fishy (in fact I don't know how this could ever have worked).\r\n\r\nBasically what happens here is that we check if we can use on_thread_t to switch to the home thread, and if we cannot, we just do nothing and continue on whatever thread we are currently on.\r\nWe can of course add an `assert_thread()` right behind this, and that seems to work fine for `perfmon_collection_t::add()`. However `perfmon_collection_t::remove()` is called when destructing at least one static global perfmon_membership_t (in event_queue.cc), and at that point `assert_thread()` makes no sense. This might be ok in that specific case, because destruction of static globals might be single-threaded.\r\nWe should verify the correctness and find a cleaner solution eventually."
+  , issueState = "open"
+  , issueId = Id 24280952
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

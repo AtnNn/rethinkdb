@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-10) (-17) 14 : 47 : 52 UTC
+  , issueUpdatedAt = 2016 (-10) (-17) 14 : 48 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6147/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6147"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6147
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17934304
+        , simpleUserLogin = N "bselack"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17934304?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bselack"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improvement ideas for docs"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6147"
+  , issueCreatedAt = 2016 (-10) (-15) 19 : 16 : 35 UTC
+  , issueBody =
+      Just
+        "The docs for RethinkDb are great, but there are a few areas that I think would help. In particular where ReQL is being explained, often there is no sale doc provided where you can follow along. A case in point is secondary indexes (https://rethinkdb.com/docs/secondary-indexes/javascript/) where it shows a lot of samples, but no context to the document being operated on.\r\n\r\nFor example when I was having issues with a secondary index, I posted in Slack the document (like below)\r\n```\r\n{\r\n    \"first_name\": \"William\",\r\n    \"id\": \"00039f57-4744-4621-88a9-ccd93c36fd25\",\r\n    \"last_name\": \"Murphy\",\r\n    \"member_since\": \"2015-11-29\",\r\n    \"password\": \"password\",\r\n    \"products\": [{\r\n        \"product\": \"ABC Blocks\",\r\n        \"product_id\": \"e9b3605d-8fbd-40d4-ba6b-cf4acf08bced\",\r\n        \"product_type\": \"toy\",\r\n        \"status\": \"owned\"\r\n    }, {\r\n        \"product\": \"Reading Time\",\r\n        \"product_id\": \"48506714-3131-4f49-930c-c199567a2bb7\",\r\n        \"product_type\": \"book\",\r\n        \"status\": \"owned\"\r\n    }, {\r\n        \"product\": \"Reading Time\",\r\n        \"product_id\": \"0a0c4217-6705-4c78-828f-b46624eddcfb\",\r\n        \"product_type\": \"book\",\r\n        \"status\": \"wanted\"\r\n    }],\r\n    \"username\": \"WMurphy3792\"\r\n}\r\n```\r\nWhich helped get an answer (from Shaggydev) of\r\n\r\n```\r\nr.table(\"users\").indexCreate(\"status_product\", function(user) {\r\n    return user(\"products\").map(function(product) {\r\n        return [ product(\"status\"), product('product_id') ]\r\n    })\r\n}, {multi: true})\r\n```\r\nI also showed how I wanted to use the index\r\n```\r\nr.table('users').getAll(['wishlist', 'dbabe660-473f-471f-829e-039c451c6872'], {index:'status_product'})\r\n```\r\nAnd probably could have included a note about what it was I was trying to accomplish, like\r\n```\r\nI want to be able to get all users for a specific product based on the status (owned or wishlist)\r\n```\r\n\r\nSo maybe some format like that, where you get the doc, and explanation, the index creation nd the query to use the index would be nice.\r\n"
+  , issueState = "closed"
+  , issueId = Id 183227370
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

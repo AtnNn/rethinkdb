@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-28) 18 : 13 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135851320"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4732#issuecomment-135851320"
+  , issueCommentCreatedAt = 2015 (-08) (-28) 18 : 13 : 40 UTC
+  , issueCommentBody =
+      "> How many coroutines can RethinkDB handle while still being fairly responsive?\r\n\r\nThat depends on how many of them want to run. I think we can handle tens of thousands of changefeeds, probably more in a cluster. So we should probably allow that many to run on a single connection.\r\n\r\nOn the other hand if you spawn ten thousand write operations at the same time, that is probably going to cause some memory and certainly latency issues.\r\n\r\nThe problem specifically with changefeeds is that they wouldn't really be \"throttled\" in the usual sence, since they can just sit there for hours and keep running. So if your limit of n queries is saturated with changefeeds, you can't run anything on the connection until some of them receive a change.\r\n\r\nThat's why I thought it would be nice to exclude them from the limit. Could we maybe use a semaphore instead of a coro pool, and have CONTINUE requests to changefeed queries not acquire it? We should know which tokens/cursors are for changefeeds after their first response, which we still send pretty quickly, right?"
+  , issueCommentId = 135851320
+  }

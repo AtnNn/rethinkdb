@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-20) 20 : 34 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/133162819"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4722#issuecomment-133162819"
+  , issueCommentCreatedAt = 2015 (-08) (-20) 20 : 34 : 03 UTC
+  , issueCommentBody =
+      "The Data Explorer is really really slow when it comes to retrieving data compared to other clients.\r\n\r\nAlso keep in mind that since the query uses streaming, only the first batch of results will be computed and sent to the client, until more results are requested.\r\nOverall, the timings from the Data Explorer aren't super useful for assessing query performance unfortunately.\r\n\r\nYou mention that you're going to store millions of documents. Are you also going to retrieve that many documents in queries regularly? In that case, the client having to decode the data might become a bottleneck.\r\nOverall I think 1 second (or even a bit more) for retrieving 64,000 rows with this many fields from a single client is about expected. You can probably get more total throughput by using multiple concurrent clients.\r\n\r\nTo get an impression on the raw read speed of the cluster ignoring any transfers to a client, you could try a query like this:\r\n```js\r\nr.db('macd').table('daily_quotes').orderBy({ index: r.desc('date') }).map(r.row).count()\r\n```"
+  , issueCommentId = 133162819
+  }

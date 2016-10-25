@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-06) 01 : 24 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48100536"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-48100536"
+  , issueCommentCreatedAt = 2014 (-07) (-06) 01 : 24 : 02 UTC
+  , issueCommentBody =
+      "After thinking about this, one major problem with return a stream of plain objects is errors.  (We currently represent errors with `{error: ...}` in `changes`.)\r\n\r\nI can think of a few solutions:\r\n* We have a stream of objects **or strings**, and errors are just included in the stream as a string.\r\n* Errors in point streams throw an error in the client rather than being part of the stream.  (This isn't so bad, because they should really never happen -- it's easy to fall behind if you call `changes` on a table, but if you fall 100,000 elements behind a call to `changes` on a single object then you're probably doing something wrong.)\r\n* Use the `{old_val: ..., new_val: ...}` syntax like normal.  If we do this, there's the question of how to represent the initial value (which, like @neumino, is what I think most people want):\r\n  - Option one: have the first object be a plain object.\r\n  - Option two: have the first object be an object like `{initial_val: ...}`.\r\n  - **Option three**: have the first object be an object like `{new_val: ...}` (i.e. `old_val` is missing rather than `nil`).\r\n  - Option four: have the first object be an object like `{old_val: ..., new_val: ...}` where `old_val` and `new_val` are the same.\r\n\r\nI prefer option three, or failing that, option 4, because then you can write `r.table('test').get(0).changes()['new_val']` to get a stream of plain objects (except for errors, which will produce a runtime error in the client because you try to access a field that doesn't exist)."
+  , issueCommentId = 48100536
+  }

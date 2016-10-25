@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-02) (-21) 05 : 11 : 31 UTC
+  , issueUpdatedAt = 2014 (-02) (-21) 05 : 11 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1437/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1437"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1437
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rethinkdb instance crashed when adding secondary index"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1437"
+  , issueCreatedAt = 2013 (-09) (-13) 22 : 30 : 11 UTC
+  , issueBody =
+      Just
+        "configuration is: 1 box, 16 cores, 4 rethinkdb instances running each with its own numa node. table has about 1M docs with about 100 docs/sec being added. table is 2 shards 2 replicas (so each rethinkdb instance has either a primary or secondary). under load i added a secondary index. waited a few minutes (but i'm not sure the first was finished) and added another seconary index. then one of the instances failed. here's the log entry:\r\n\r\n    2013-09-13T15:15:06.508239577 5430.568671s error: Error in src/buffer_cache/mirrored/mirrored.cc at line 424:\r\n    2013-09-13T15:15:06.511106386 5430.571538s error: Unreachable code: No acceptable snapshotted version found for version 2\r\n    2013-09-13T15:15:06.511125241 5430.571557s error: Backtrace:\r\n    2013-09-13T15:15:06.588816215 5430.649248s error: Fri Sep 13 15:15:06 2013\\n\\n1: +0x6ade47 at 0x7f163540de47 (rethinkdb)\\n2: +0x133abb at 0x7f1634e93abb (rethinkdb)\\n3: +0x6ffdcf at 0x7f163545fdcf (rethinkdb)\\n4: +0x702fad at 0x7f1635462fad (rethinkdb)\\n5: +0x7031cc at 0x7f16354631cc (rethinkdb)\\n6: +0x6fb855 at 0x7f163545b855 (rethinkdb)\\n7: +0x6fe9f0 at 0x7f163545e9f0 (rethinkdb)\\n8: +0x6fecd7 at 0x7f163545ecd7 (rethinkdb)\\n9: +0x5f0593 at 0x7f1635350593 (rethinkdb)\\n10: +0x6a25f7 at 0x7f16354025f7 (rethinkdb)\\n11: +0x135d5a at 0x7f1634e95d5a (rethinkdb)\\n12: +0x13aaf1 at 0x7f1634e9aaf1 (rethinkdb)\\n13: +0x138564 at 0x7f1634e98564 (rethinkdb)\\n14: coro_pool_t<acquisition_waiter_callback_t*>::worker_run(acquisition_waiter_callback_t*, auto_drainer_t::lock_t) at 0x7f1634e983c8 (rethinkdb)\\n15: +0x138314 at 0x7f1634e98314 (rethinkdb)\\n16: +0x1819fe at 0x7f1634ee19fe (rethinkdb)\r\n    2013-09-13T15:15:06.588929099 5430.649360s error: Exiting.\r\n\r\ni tried restarting the instance but it died shortly after startup:\r\n\r\n    2013-09-13T15:16:39.366842538 0.002920s info: Running rethinkdb 1.9.0 (GCC 4.6.3)...\r\n    2013-09-13T15:16:39.369747336 0.005825s info: Running on Linux 3.7.10-gentoo-r1 x86_64\r\n    2013-09-13T15:16:39.369793170 0.005871s info: Loading data from directory /space/rethinkdb/data3\r\n    2013-09-13T15:16:39.384974621 0.021052s info: Listening for intracluster connections on port 29035\r\n    2013-09-13T15:16:39.385022859 0.021100s info: Attempting connection to 1 peer...\r\n    2013-09-13T15:16:39.386431723 0.022509s info: Connected to server \"dbeval1\" 01d80c73-d14d-46df-b537-f247cf4f2256\r\n    2013-09-13T15:16:39.387677149 0.023755s info: Listening for client driver connections on port 28035\r\n    2013-09-13T15:16:39.387694768 0.023772s info: Administrative HTTP connections are disabled.\r\n    2013-09-13T15:16:39.388087220 0.024165s info: Listening on addresses: 127.0.0.1, 10.3.6.215\r\n    2013-09-13T15:16:39.388087738 0.024165s info: Server ready\r\n    2013-09-13T15:16:39.390205919 0.026284s info: Connected to server \"dbeval2\" 9767576b-84ea-4e08-83d2-e987926d89a1\r\n    2013-09-13T15:16:39.390264854 0.026343s info: Connected to server \"dbeval4\" 12be7a1c-9180-408f-bdee-d97de152ac82\r\n    2013-09-13T15:16:50.356209677 10.992287s error: Error in src/arch/runtime/thread_pool.cc at line 319:\r\n    2013-09-13T15:16:50.356257650 10.992335s error: Segmentation fault from reading the address 0x4.\r\n    2013-09-13T15:16:50.356270741 10.992348s error: Backtrace:\r\n    2013-09-13T15:16:50.415482107 11.051561s error: Fri Sep 13 15:16:50 2013\\n\\n1: +0x6ade47 at 0x7fa538155e47 (rethinkdb)\\n2: +0x133abb at 0x7fa537bdbabb (rethinkdb)\\n3: +0x186710 at 0x7fa537c2e710 (rethinkdb)\\n4: +0x10bf0 at 0x7fa536188bf0 (/lib64/libpthread.so.0)\\n5: +0x12f0b5 at 0x7fa535ef70b5 (/lib64/libc.so.6)\\n6: +0x6fdeb2 at 0x7fa5381a5eb2 (rethinkdb)\\n7: +0x6fe424 at 0x7fa5381a6424 (rethinkdb)\\n8: +0x6969e6 at 0x7fa53813e9e6 (rethinkdb)\\n9: +0x1347d8 at 0x7fa537bdc7d8 (rethinkdb)\\n10: +0x135d5a at 0x7fa537bddd5a (rethinkdb)\\n11: +0x13aaf1 at 0x7fa537be2af1 (rethinkdb)\\n12: +0x138564 at 0x7fa537be0564 (rethinkdb)\\n13: coro_pool_t<acquisition_waiter_callback_t*>::worker_run(acquisition_waiter_callback_t*, auto_drainer_t::lock_t) at 0x7fa537be03c8 (rethinkdb)\\n14: +0x138314 at 0x7fa537be0314 (rethinkdb)\\n15: +0x1819fe at 0x7fa537c299fe (rethinkdb)\r\n    2013-09-13T15:16:50.415581366 11.051659s error: Exiting.\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 19479748
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

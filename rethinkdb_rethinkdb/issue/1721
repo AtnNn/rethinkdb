@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-10) (-29) 18 : 12 : 55 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1721/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1721"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      ]
+  , issueNumber = 1721
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Make `filter` less bad"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1721"
+  , issueCreatedAt = 2013 (-11) (-27) 23 : 50 : 23 UTC
+  , issueBody =
+      Just
+        "We've been talking about the problems with the implicit default in `filter` for a while now (see e.g. https://github.com/rethinkdb/rethinkdb/issues/1580).  I think it would be really great to improve this.\r\n\r\nThree ideas, from least to most radical:\r\n\r\n#### 1. Patch it: make filter variadic to solve the `r.any` problem, ignore everything else.\r\n\r\nWe can make filter variadic, so that people can write `table.filter({a:1}, {b:2})` to mean `table.filter{|row| row[:a].eq(1).default(false).or(row[:b].eq(2).default(false))}`.\r\n\r\n#### 2. Get rid of the implicit default on filter.\r\n\r\nWe originally added it because it is incredibly annoying to write a simple `filter` query and have it not work because some documents are missing a field.  @coffeemug, I realize that you don't want to re-visit this, but I think the problems have turned out to be larger than we thought.\r\n\r\nAnother point in favor of this: part of why it was so annoying is that there was no easy way to fix it.  Now that we have `default`, people can get the current behavior by writing:\r\n```ruby\r\nr.table('test').filter(default:true) {|row| ...}\r\n```\r\n\r\nwhich, while irritating, is much better than their previous option.\r\n\r\nBasically, I think the cost of the implicit default is higher than we thought, and the suckiness of not having it is lower than it used to be, so this decision could really use a second look.\r\n\r\n#### 3. Adopt falsey error semantics.\r\n\r\nBasically, we would switch to treating errors like values instead of exceptions, and we would consider them to be falsey.  So if you wrote `r.any(r.error(\"a\"), 1)`, you would get back `1`.\r\n\r\nThis might seem weird at first, but it actually works pretty well.  This fixes the problem with `r.any` and `r.not` in filter, removes the need for an implicit default, and actually makes a lot of sense in a parallel context.\r\n\r\n---\r\n\r\nWhat do other people think?  Tentatively scheduling this for 1.12, but @coffeemug feel free to prioritize."
+  , issueState = "open"
+  , issueId = Id 23422711
+  , issueComments = 80
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

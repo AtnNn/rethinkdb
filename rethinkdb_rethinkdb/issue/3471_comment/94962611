@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 22 : 35 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94962611"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94962611"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 22 : 35 : 35 UTC
+  , issueCommentBody =
+      "We need to do more to make sure that users don't miss any changes. For example, what if a change is sitting in the server's outgoing TCP buffer when the client crashes?\r\n* One solution is to have the server retransmit its entire buffer of changes, including changes it already wrote to the socket; so we guarantee that the client gets each change at least once. Then the client needs to either process the changes idempotently, or take care of filtering out the duplicate changes itself.\r\n* Another solution is for the server to attach a token to each change, and for the client to send back the token when it resumes the changefeed. The advantage is that the server takes care of filtering; the disadvantage is that the client has to persist the token. But for non-idempotent applications, the client would need to persist something anyway in order to filter duplicates correctly.\r\n\r\nThe ability to resume a changefeed from a different database server might be more trouble than it's worth.\r\n\r\nWe should give the administrator a way to see all stored changefeeds, and cancel them. Perhaps through the `jobs` table?"
+  , issueCommentId = 94962611
+  }

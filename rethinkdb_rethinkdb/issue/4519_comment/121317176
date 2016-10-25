@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-14) 17 : 32 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/121317176"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-121317176"
+  , issueCommentCreatedAt = 2015 (-07) (-14) 17 : 32 : 49 UTC
+  , issueCommentBody =
+      "__Authentication__\r\nIntegrating into existing authentication systems such as LDAP and PAM is going to be important to enterprise clients and something we should support in my opinion. As @deontologician rightly the authentication should either be challenge-based or over a secure connection, with SSL being the obvious route.\r\n\r\nWe should also consider security the connections between the database instances if we're going to propagate the configuration via those.\r\n\r\n__Permissions__\r\nThe listed scopes of `cluster`, `database <uuid>`, and `table <uuid>` make perfect sense but we should support more fine-grained `<access>` levels, and I'd like to propose the following.\r\n\r\n* `get` allows reading of documents from `<scope>`\r\n* `insert` allows documents to be inserted into `<scope>` but not modified\r\n* `update` allows existing documents in `<scope>` to be modified\r\n* `delete` allows documents in `<scope>` to be deleted\r\n* `create` allows the creation of tables and / or databases depending on `<scope>`, this could essentially be an `admin` that allows rebalancing and reconfiguration\r\n* `connect` allows connections to the outside to be made, currently enabling `r.http`, as only enabling this on `(all, admin)` will lead to those access level to be granted unnecessarily to enable `r.http`\r\n* `execute` allows the execution of code, currently enabling `r.js`\r\n\r\nMost importantly this allows `get`, `insert`, `update`, and `delete` to be distinguished as you may commonly want to allow someone to insert documents but not modify or delete them. Secondly it adds an access level for `r.js` which I think is required due to the impact of a simple query such as `r.js(\"while(true) {}\")`.\r\n\r\nLast of all the question of how to deal with the `rethinkdb` database is an important one, and I'm not quite sure how we should go about this."
+  , issueCommentId = 121317176
+  }

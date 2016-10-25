@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-25) 02 : 55 : 33 UTC
+  , issueUpdatedAt = 2014 (-11) (-05) 18 : 01 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3038/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3038"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3038
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Server crashing on exit if joined server crashes with an open changefeed"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3038"
+  , issueCreatedAt = 2014 (-09) (-11) 23 : 24 : 43 UTC
+  , issueBody =
+      Just
+        "On `next` I am seeing a crash on exit with `Guarantee failed: [mailboxes.empty()]` if a joined server with an open changefeed has crashed. This is fully repeatable:\r\n\r\n1. Start two servers, with the second joining to the first. \r\n2. Create a table (e.g.: `test.data`), add arbitrary data to it: `r.table('data').insert(r.expr([{}]).mul(100))`\r\n3. Shard the data across the two servers\r\n4. Open a changefeed from python: `[x for x in rethinkdb.table('data').changes().run(conn)]`\r\n5. `kill -KILL` the second server\r\n6. Gracefully kill the first server (cntl-c) and watch it crash\r\n\r\nThe log from the first server:\r\n```\r\ninfo: Our machine ID: 11e40ea6-c975-4003-b6ae-fe4ed30dad84\r\ninfo: Created directory '/var/folders/nt/lgyltlr140ndr1r9gy9ygh000000gn/T/tmpwajPC6/0' and a metadata file inside it.\r\ninfo: Running rethinkdb 1.14.0-509-g7ffaaa (debug) (CLANG 5.1 (clang-503.0.40))...\r\ninfo: Running on Darwin 13.3.0 x86_64\r\ninfo: Using cache size of 512 MB\r\nwarn: Requested cache size is larger than available memory.\r\ninfo: Loading data from directory /private/var/folders/nt/lgyltlr140ndr1r9gy9ygh000000gn/T/tmpwajPC6/0\r\ninfo: Our machine ID is 11e40ea6-c975-4003-b6ae-fe4ed30dad84\r\ninfo: Listening for intracluster connections on port 49335\r\ninfo: Listening for client driver connections on port 49336\r\ninfo: Listening for administrative HTTP connections on port 49337\r\ninfo: Listening on addresses: 127.0.0.1, 192.168.0.185, ::1, fe80::1%1, fe80::6a5b:35ff:febb:bb47%4\r\ninfo: Server ready\r\ninfo: Connected to server \"node_1\" 0f8037ee-3592-4d62-8046-7849e45f3596\r\ninfo: Applying data {\"rdb_namespaces\":{\"f8779309-200f-45ed-9a1c-7369a9c97fdb\":{\"shards\":[\"[\\\"\\\", \\\"Nc0a4640000000000%232610\\\"]\",\"[\\\"Nc0a4640000000000%232610\\\", null]\"]}}}\r\ninfo: Disconnected from server \"node_1\" 0f8037ee-3592-4d62-8046-7849e45f3596\r\ninfo: Server got SIGINT from pid 69464, uid 501; shutting down...\r\ninfo: Shutting down client connections...\r\ninfo: All client connections closed.\r\ninfo: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\ninfo: Storage engine shut down.\r\nVersion: rethinkdb 1.14.0-509-g7ffaaa (debug) (CLANG 5.1 (clang-503.0.40))\r\nerror: Error in src/rpc/mailbox/mailbox.cc at line 129:\r\nerror: Guarantee failed: [mailboxes.empty()] Please destroy all mailboxes before destroying the cluster\r\nerror: Backtrace:\r\nerror: Thu Sep 11 16:11:04 2014\r\n       \r\n       1: 0   rethinkdb                           0x0000000108a64ed0 _Z19rethinkdb_backtracePPvi + 272 at 0x108a64ed0 ()\r\n       2: 0   rethinkdb                           0x0000000107bc8aa0 _ZN11backtrace_tC2Ev + 304 at 0x107bc8aa0 ()\r\n       3: 0   rethinkdb                           0x0000000107bca99b _ZN26lazy_backtrace_formatter_tC2Ev + 43 at 0x107bca99b ()\r\n       4: 0   rethinkdb                           0x0000000107bc78e5 _ZN26lazy_backtrace_formatter_tC1Ev + 21 at 0x107bc78e5 ()\r\n       5: 0   rethinkdb                           0x0000000107bc7850 _Z16format_backtraceb + 48 at 0x107bc7850 ()\r\n       6: 0   rethinkdb                           0x0000000108506815 _Z18report_fatal_errorPKciS0_z + 757 at 0x108506815 ()\r\n       7: 0   rethinkdb                           0x0000000108ad14a4 _ZN17mailbox_manager_t15mailbox_table_tD2Ev + 116 at 0x108ad14a4 ()\r\n       8: 0   rethinkdb                           0x0000000108ad1425 _ZN17mailbox_manager_t15mailbox_table_tD1Ev + 21 at 0x108ad1425 ()\r\n       9: 0   rethinkdb                           0x0000000107e5e371 _ZN15object_buffer_tIN17mailbox_manager_t15mailbox_table_tEE5resetEv + 49 at 0x107e5e371 ()\r\n       10: 0   rethinkdb                           0x0000000107e5e6e1 _ZNK16one_per_thread_tIN17mailbox_manager_t15mailbox_table_tEE10destruct_tclEi + 81 at 0x107e5e6e1 ()\r\n       11: 0   rethinkdb                           0x0000000107e5e652 _ZN21pmap_runner_one_arg_tIN16one_per_thread_tIN17mailbox_manager_t15mailbox_table_tEE10destruct_tEiEclEv + 34 at 0x107e5e652 ()\r\n       12: 0   rethinkdb                           0x0000000107e5ea4c _ZN26callable_action_instance_tI21pmap_runner_one_arg_tIN16one_per_thread_tIN17mailbox_manager_t15mailbox_table_tEE10destruct_tEiEE10run_actionEv + 28 at 0x107e5ea4c ()\r\n       13: 0   rethinkdb                           0x0000000107bb921c _ZN25callable_action_wrapper_t3runEv + 108 at 0x107bb921c ()\r\n       14: 0   rethinkdb                           0x0000000107ba0739 _ZN6coro_t3runEv + 937 at 0x107ba0739 ()\r\nerror: Exiting.\r\n```\r\n\r\nI have a test written for this, but it requires some things that will be added with the server component of #2694"
+  , issueState = "closed"
+  , issueId = Id 42582008
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 87
+          , milestoneClosedIssues = 13
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.15.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/87"
+          , milestoneCreatedAt = 2014 (-11) (-05) 18 : 01 : 13 UTC
+          , milestoneState = "closed"
+          }
+  }

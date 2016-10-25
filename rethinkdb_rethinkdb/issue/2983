@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-05) 19 : 43 : 06 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2983/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2983"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2983
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Structure of rethinkdb.table_status system table"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2983"
+  , issueCreatedAt = 2014 (-08) (-28) 21 : 30 : 42 UTC
+  , issueBody =
+      Just
+        "The purpose of this issue is to discuss the format of the `rethinkdb.table_status` system table. In the current prototype, the structure is:\r\n\r\n```python\r\n>>> r.db('rethinkdb').table('table_status').run()\r\n[ { u'name': u'test.foo',\r\n    u'shards': [ { u'batgirl_local_h4v': { u'role': u'director',\r\n                                           u'state': u'ready'},\r\n                   u'batgirl_local_q47': { u'role': u'replica',\r\n                                           u'state': u'ready'}}],\r\n    u'uuid': u'4e8c0328-44f9-40c7-b5b7-51e987c9bcf6'}]\r\n```\r\n\r\nIn #2957 we decided that this format was bad. There were several proposals to replace it:\r\n\r\n* @coffeemug suggested\r\n    ```\r\n    shards: [ { replicas: [{ batgirl_local_h4v: 'ready' },\r\n                           { batgirl_local_q47: 'ready' }],\r\n                master: 'batgirl_local_h4v' }]\r\n    ```\r\n    He emphasizes that the format of `table_status` should mirror the format of `table_config`.\r\n\r\n* @mlucy suggested that we change the format of the `replicas` field in Slava's suggestion to `{ready: ['batgirl_local_h4v', 'batgirl_local_g47'], down: []}` or `{batgirl_local_h4v: 'ready', batgirl_local_g47: 'ready'}`.\r\n\r\n* @neumino suggested `shards: [{ 'name': <server_name>, 'role': <role>, 'state': <state> }, ...]`. He also requested a simple way to get the overall status of the table, such as a toplevel field with values `\"ready\"`, `\"read_only\"`, and `\"down\"`.\r\n\r\nI have a couple of other comments about these:\r\n\r\n* We eventually want to expose backfill information and the number of documents per shard via `table_status`. The format should accommodate that. (My original plan was that we would have an additional `backfill_progress` field alongside `role` and `state`.)\r\n\r\n* Do we want to show the user per-shard status information, or is overall status information enough? @neumino's suggestion doesn't seem to include per-shard status information."
+  , issueState = "closed"
+  , issueId = Id 41446360
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

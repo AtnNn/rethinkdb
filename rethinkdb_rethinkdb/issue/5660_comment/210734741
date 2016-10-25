@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-16) 04 : 48 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/210734741"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5660#issuecomment-210734741"
+  , issueCommentCreatedAt = 2016 (-04) (-16) 04 : 48 : 08 UTC
+  , issueCommentBody =
+      "Hey @mschurr , thanks for that. That helps a lot.\r\n\r\nI'm gonna take a shot in the dark on this one. Java skills are rusty, so I need help on this one.\r\n\r\nThe exception handler in the response pump looks like:\r\n\r\n[`Connection.java`:**Line 115**](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Connection.java#L115)\r\n```\r\ntry {\r\n    final Response response = this.socket.orElseThrow(() -> new ReqlDriverError(\"No socket available.\")).read();\r\n    final CompletableFuture<Response> awaiter = awaiters.remove(response.token);\r\n    if (awaiter != null) {\r\n        awaiter.complete(response);\r\n    }\r\n} catch (IOException e) {\r\n    awaiterException = e;\r\n    this.close();\r\n    break;\r\n}\r\n```\r\nThe handler only handles `IOException e`, but following the call chain for `this.socket.read()` down to [`SocketWrapper.java`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/SocketWrapper.java#L142)\r\n```\r\nResponse read() throws IOException {\r\n    final ByteBuffer header = readBytesToBuffer(12);\r\n    final long token = header.getLong();\r\n    final int responseLength = header.getInt();\r\n    return Response.parseFrom(token, readBytesToBuffer(responseLength).order(ByteOrder.LITTLE_ENDIAN));\r\n}\r\n\r\nprivate ByteBuffer readBytesToBuffer(int bufsize) throws IOException {\r\n    byte[] buf = new byte[bufsize];\r\n    int bytesRead = 0;\r\n    while (bytesRead < bufsize) {\r\n        final int res = this.readStream.read(buf, bytesRead, bufsize - bytesRead);\r\n        if (res == -1) {\r\n            throw new ReqlDriverError(\"Reached the end of the read stream.\");\r\n        } else {\r\n            bytesRead += res;\r\n        }\r\n    }\r\n    return ByteBuffer.wrap(buf).order(ByteOrder.LITTLE_ENDIAN);\r\n}\r\n```\r\n\r\n`read()` calls `readBytesToBuffer()`. Seems like `readBytesToBuffer()` can also `throw new ReqlDriverError()` exceptions, not just `IOException`s. Hm...\r\n\r\nIf something other than a `IOException` was thrown what would happen to the unchecked exception in the top level handler? Would the executor response pump just bail out and never `.close()` for clean up? Maybe make the exception handler handle a more general `Exception e` instead of `IOException e`? \r\n\r\nSorry if this makes no sense in Java land it's hard to test without my work computer. :crying_cat_face:  @mschurr, if you have the ability to rebuild the driver try making the change and see what happens?\r\n\r\nBrian"
+  , issueCommentId = 210734741
+  }

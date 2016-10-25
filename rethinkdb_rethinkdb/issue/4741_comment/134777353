@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-26) 00 : 22 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134777353"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4741#issuecomment-134777353"
+  , issueCommentCreatedAt = 2015 (-08) (-26) 00 : 22 : 09 UTC
+  , issueCommentBody =
+      "When you write `table.limit(10)`, RethinkDB picks a batch size for the shards that tries to load as few documents as possible from each shard while giving us a very high chance of successfully loading 10 documents in one batch if the shards are roughly balanced.  I would guess that for `table.skip(0).limit(10)` the `skip` is discarding this batch optimization for some reason and using its own batch configuration, which causes all the shards to send back more data (some of which is then discarded because we only need 10 elements).\r\n\r\nProbably writing `table.slice(a, a+b)` instead of `table.skip(a).limit(b)` would work as a workaround until we fix the batch sizing."
+  , issueCommentId = 134777353
+  }

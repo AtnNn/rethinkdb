@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-05) 18 : 14 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/230558057"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5885#issuecomment-230558057"
+  , issueCommentCreatedAt = 2016 (-07) (-05) 18 : 14 : 12 UTC
+  , issueCommentBody =
+      "The change makes sense for consistency with `getAll`.\r\n\r\nI don't think there will be any performance benefit from it though. When you do `r.table(...).getIntersecting` that doesn't actually traverse the whole table. It uses the geospatial index to only traverse the parts that intersect with the given geometry. A variant of `getIntersecting` that takes multiple geometries would still have to do the same thing.\r\n\r\nI think a `.limit` after `concatMap` should also work as expected as long as the thing inside the `concatMap` returns a stream and not an array. Though I could be wrong about this (@mlucy should that work?).\r\nAlternatively, if the `boundaries` are known in the client, you could construct an equivalent query using `union` which will definitely obey a subsequent `limit`. Note that you'll need to extend the `boundaries` into arguments on the client-side for this to work:\r\n```js\r\nr.union(\r\n  r.table('SomeCoolData').getIntersecting(b[0], { index: 'location' }),\r\n  r.table('SomeCoolData').getIntersecting(b[1], { index: 'location' }),\r\n  ...\r\n  r.table('SomeCoolData').getIntersecting(b[b.length], { index: 'location' })\r\n).limit(n)\r\n```\r\n\r\nThe performance bottleneck in your case is likely with something else. If I remember correctly from the last time we talked about this, the `getIntersecting` on your data set was actually matching pretty much all data in the table. Could it be bound by I/O for reading all of the documents?"
+  , issueCommentId = 230558057
+  }

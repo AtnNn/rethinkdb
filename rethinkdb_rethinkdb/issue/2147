@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Just 2014 (-03) (-24) 23 : 53 : 59 UTC
+  , issueUpdatedAt = 2014 (-06) (-27) 18 : 51 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2147/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/2147"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2147
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 77907
+        , simpleUserLogin = N "Aleaxander"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/77907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Aleaxander"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rql_test: remove previous tested database dir before reusing it"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2147"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2147.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/2147.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2147"
+  , issueCreatedAt = 2014 (-03) (-23) 16 : 44 : 31 UTC
+  , issueBody =
+      Just
+        "We will assign a random port to each server, and then use it to\r\nconstruct a database dir in form of \"run/server_${port}\".\r\n\r\nAs we don't use same port number in one run, we met no issues. However,\r\nwe never delete those databases, thus we are, of course, in a high\r\nchance that we will use a same dir we used before, which results to a\r\nfollowing error:\r\n\r\n    ======================================================================\r\n    ERROR: test_repl (__main__.TestConnection)\r\n    ----------------------------------------------------------------------\r\n    Traceback (most recent call last):\r\n      File \"connections/connection.py\", line 180, in setUp\r\n        r.db_create('test').run(conn)\r\n      File \"../../drivers/python/rethinkdb/ast.py\", line 108, in run\r\n        return c._start(self, **global_opt_args)\r\n      File \"../../drivers/python/rethinkdb/net.py\", line 193, in _start\r\n        return self._send_query(query, term, global_opt_args)\r\n      File \"../../drivers/python/rethinkdb/net.py\", line 300, in _send_query\r\n        self._check_error_response(response, term)\r\n      File \"../../drivers/python/rethinkdb/net.py\", line 268, in _check_error_response\r\n        raise RqlRuntimeError(message, term, frames)\r\n    RqlRuntimeError: Database `test` already exists. in:\r\n    r.db_create('test')\r\n    ^^^^^^^^^^^^^^^^^^^\r\n\r\nIt happens because we *did* already create \"test\" database before.\r\n\r\nUnconditionally removing a database directory if we are going to use\r\nit again will fix it.\r\n\r\nBTW, why it is worth to keep them? Can we just remove them after test?\r\nOr, if you are considering for later check, I guess it's better to\r\nstore them at test_result dir, then it will keep the database director\r\nbeing uniq?\r\n\r\nSigned-off-by: Liu Aleaxander <Aleaxander@gmail.com>"
+  , issueState = "closed"
+  , issueId = Id 29991140
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

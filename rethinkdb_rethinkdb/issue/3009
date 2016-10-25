@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-09) (-18) 23 : 03 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3009/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3009"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3009
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Data divergence from floating point math"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3009"
+  , issueCreatedAt = 2014 (-09) (-04) 23 : 20 : 59 UTC
+  , issueBody =
+      Just
+        "After talking with @gchpaco and @larkost about #2912 , it came out that it's almost certainly possible to get different results from floating point calculations on different replicas, leading to data divergence.\r\n\r\nHere are the sources that came to mind:\r\n* Differences in the standard library.\r\n* Differences in the code produced by different compilers.\r\n* The same compiler producing per-processor code that produces different results on different CPUs.\r\n* Different CPUs having different floating point environments set (http://en.cppreference.com/w/cpp/numeric/fenv).\r\n* Different CPUs using different precision for intermediate results of long calculations (this is apparently allowed).\r\n\r\nIt looks like there are compiler options to help mitigate some of these, but the general consensus was that we aren't going to be able to get it perfect.  So, we have a few options:\r\n\r\n* Fiddle with compiler options and try to get things as good as possible.\r\n* Change the guarantees we offer people, and say that floating point values on replicas may diverge.\r\n* Change our replication model to do value-replication rather than function-replication.\r\n\r\n@srh, @timmaxw, @danielmewes -- do you have opinions on this?\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 41997146
+  , issueComments = 37
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

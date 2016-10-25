@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-20) 00 : 29 : 09 UTC
+  , issueUpdatedAt = 2016 (-07) (-28) 21 : 38 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5825/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/5825"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Ruby"
+          , labelName = "Ruby"
+          }
+      ]
+  , issueNumber = 5825
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7917
+        , simpleUserLogin = N "bsharpe"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7917?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bsharpe"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "fix for rounding error with ruby times"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5825"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5825.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/5825.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5825"
+  , issueCreatedAt = 2016 (-06) (-03) 14 : 29 : 27 UTC
+  , issueBody =
+      Just
+        "- [X ] I have read and agreed to the RethinkDB Contributor License Agreement http://rethinkdb.com/community/cla/\r\n\r\n### Description\r\nIn ruby/rails -- storing a `Time.now.end_of_day` in rethink, always returns the next day\r\n```\r\n> d = Date.today\r\n> d.to_time\r\n=> 2016-06-03 00:00 +0000\r\n> d.to_time.end_of_day\r\n=> 2016-06-03 23:59 +0000\r\n> d.to_time.end_of_day.to_i\r\n=> 1464998399\r\n> d.to_time.end_of_day.to_r\r\n=> (1464998399999999999/1000000000)\r\n\r\n> d.to_time.end_of_day.to_f\r\n=> 1464998400.0     <--- The Problem\r\n> ((d.to_time.end_of_day.to_r  * 1000).to_i / 1000.0)  <--- The Fix\r\n=> 1464998399.999\r\n```\r\nDue to a rounding error with `.to_f`  \r\n\r\nThe fix ensures that the Time is truncated to milliseconds with no rounding error."
+  , issueState = "closed"
+  , issueId = Id 158380147
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

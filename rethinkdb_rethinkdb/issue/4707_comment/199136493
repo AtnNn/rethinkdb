@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-25) 22 : 14 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 630490
+        , simpleUserLogin = N "episodeyang"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/630490?v=3"
+        , simpleUserUrl = "https://api.github.com/users/episodeyang"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/199136493"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4707#issuecomment-199136493"
+  , issueCommentCreatedAt = 2016 (-03) (-21) 05 : 47 : 12 UTC
+  , issueCommentBody =
+      "+1 to json-diff-patch.\r\n\r\nI recently implemented a diff patch API for a collaborative editor I was building. In the end, requiring large documents in the megabyte range to be transmitted between mongoDB and the application server becomes the bottleneck. If this can be done by the database instance it would be a major win since only very small diffs need to be transmitted.\r\n\r\nHowever this algorithm also requires reading from both the document record itself, as well as a shadow collection that we use to keep track of versions for various clients. Would these be accessible in the plugin API?\r\n\r\n----------------------------------- details ----------------------------------------\r\n\r\nFrom the application engineering's perspective, the key here with `jsondiffpatch` is that the algorithm need to be very strict w.r.t. the exactness of the base version that it patches to. Aka the patch can only be applied with the base version is exactly the same as the base version on the client. \r\n\r\nIn a collaborative environment, if such exactness is not enforced, shadow copies on individual clients diverge quickly. \r\n\r\nTo prevent these from happening, the plugin has to keep track of the object hash of the smallest diff unit, be it a field of the entire document (assures consistency between fields). It also keeps a collection of recent shadow copies with a version number and a pre-computed hash for each.\r\n\r\nIn my implementation, this required five round trips between the server and mongoDB. I can imagine if this is implemented as a plugin with tight hooks, colocation of such operation and in-memory access to data without network IO  are going to be huge wins. It does, however require reading from both the document record itself, as well as a shadow collection that we use to keep track of versions."
+  , issueCommentId = 199136493
+  }

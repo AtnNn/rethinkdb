@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-21) 01 : 26 : 31 UTC
+  , issueUpdatedAt = 2015 (-01) (-21) 04 : 07 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1547/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1547"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1547
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "RethinkDB shuts down slowly on rotational drive"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1547"
+  , issueCreatedAt = 2013 (-10) (-16) 00 : 26 : 34 UTC
+  , issueBody =
+      Just
+        "Just something I've noticed which might be worth investigating:\r\n\r\nAfter inserting a lot of data (~100 GB) into a single RethinkDB instance on rotational drives, I shut down the server. There was only one table, with a cache size of just 1 GB. After about 15 minutes, it is still shutting down.\r\n\r\nWhat's weird is the output of `iostat -m`:\r\n```\r\nDevice:            tps    MB_read/s    MB_wrtn/s    MB_read    MB_wrtn\r\nsda             305.50         2.86         0.75          5          1\r\ndm-0            201.50         0.74         0.75          1          1\r\ndm-1            542.00         2.12         0.00          4          0\r\n```\r\nFirst of all the write throughput is extremely low at less than a MB per second. Interestingly, RethinkDB is reading more data than writing. I assume this is the garbage collector at work.\r\nAt the same time, the relatively high number of transactions (305 on sda) could indicate that it is bound by disk seeks but that's just speculation. \r\n\r\nThe server uses only very little CPU at this point."
+  , issueState = "closed"
+  , issueId = Id 21053483
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

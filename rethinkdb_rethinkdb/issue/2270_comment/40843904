@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-18) 20 : 58 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40843904"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2270#issuecomment-40843904"
+  , issueCommentCreatedAt = 2014 (-04) (-18) 20 : 58 : 38 UTC
+  , issueCommentBody =
+      "I think `x.merge(null)` should return x, for three reasons:\r\n* We use `null` to mean non-existence in a lot of places, especially for objects.  Merging with something that doesn't exist should be a no-op.\r\n  - `get` returns `null` if there's no object.\r\n  - `return_vals` returns `null` on an insert or delete to indicate that there was no object there prior to the insert or after the delete.\r\n  - `outer_join` just omits the field `right` rather than putting in `null`, but maybe it should put in `null`?\r\n* It's consistent with the behavior of `update` as a rewrite of `replace` -- `r.table('test').get(id).update(nil)` is a no-op, so `r.table('test').get(id).replace{|x| x.merge(nil)}` should be a no-op.\r\n* It seems to be the behavior that people expect / want.\r\n\r\nThe best argument I can think of for not making `x.mege(null)` be `x` is if there are situations where you write `x.merge(y)` and `y` is sometimes `null` in a case you didn't consider and that you want to error on.  In basically every case I can think of where you'd write a query that you expect to return an object and it instead returns `null`, you'd want to do a no-op, though.\r\n\r\nIn general, I feel like our problems is that we treat `null` too much like a normal user value, when people expect it to be a special non-existence thing."
+  , issueCommentId = 40843904
+  }

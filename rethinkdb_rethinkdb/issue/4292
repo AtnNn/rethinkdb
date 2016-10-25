@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-18) 21 : 03 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4292/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4292"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4292
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "add Configured/elected primary information in table_status"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4292"
+  , issueCreatedAt = 2015 (-05) (-27) 00 : 54 : 02 UTC
+  , issueBody =
+      Just
+        "Currently in the raft branch, `table_status` may look like this in the middle of a primary hand off (in some very inconvenient circumstances):\r\n\r\n```json\r\n{\r\n  \"shards\" : [\r\n    {\r\n      \"primary_replicas\": [\"foo\", \"bar\"],\r\n      \"replicas\": [\r\n        {\r\n          \"server\": \"foo\",\r\n          \"state\": \"backfilling\"\r\n        },\r\n        {\r\n          \"server\": \"bar\",\r\n          \"state\": \"backfilling\"\r\n         }\r\n      ]\r\n    }\r\n  ]\r\n}\r\n```\r\n\r\nIdeally, it would be nice to be able to tell easily which replica is becoming the primary either through election or configuration. For configuration, technically we can get this from table_config, but that's kind of annoying. For election, apparently we can dig through `_debug_table_status`, but it's really buried\r\n\r\nWhat I'd like to have is the primary replicas array contain some objects that give more info on how a server became a primary for the current table:\r\n\r\n**primary_replicas array objects**\r\n* `server`: server id or name based on the usual optarg\r\n* `primary_because`: <\"was_configured\" | \"is_configured\" | \"elected\">\r\n* `progress`: [int, int] hash shards it is the primary for, vs. hash shards it should be the primary for\r\n\r\nExample:\r\n\r\n```json\r\n{\r\n  \"shards\" : [\r\n    {\r\n      \"primary_replicas\": [\r\n        {\r\n          \"server\": \"foo\",\r\n          \"primary_because\": \"elected\",\r\n          \"progress\": [4/8]\r\n         },\r\n         {\r\n           \"server\": \"bar\",\r\n           \"primary_because\": \"is_configured\",\r\n           \"progress\": [4/0],\r\n          },\r\n      ],\r\n      \"replicas\": [\r\n        {\r\n          \"server\": \"foo\",\r\n          \"state\": \"backfilling\"\r\n        },\r\n        {\r\n          \"server\": \"bar\",\r\n          \"state\": \"backfilling\"\r\n         }\r\n      ]\r\n    }\r\n  ]\r\n}\r\n```\r\n\r\nI'm imagining the possible combinations in the \"primary_because\" field would be:\r\n\r\n* `was_configured`, `is_configued` user changed configuration\r\n* `is_configured`, `elected` failover\r\n\r\nThis is pretty rough, and I realize that some of this is overlapping with the jobs table and table_config, but it'd be nice to have this info at a glance in table status"
+  , issueState = "open"
+  , issueId = Id 81206474
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

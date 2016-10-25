@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-16) 22 : 53 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49238623"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49238623"
+  , issueCommentCreatedAt = 2014 (-07) (-16) 22 : 53 : 28 UTC
+  , issueCommentBody =
+      "> The above API does not seem to guarantee that a read will see previous writes\r\n\r\nWe currently guarantee this:\r\nIf you send a write, then a read on the same connection, the read is going to see the write (even if the read was sent before the write is acknowledged).\r\n\r\nThis guarantee has two issues:\r\n- It generates unexpected behavior like https://github.com/rethinkdb/rethinkdb/issues/2485\r\n- In case the write fails, it's tricky to properly error\r\n\r\nOne more thing is that I believe it's currently impossible with the python or ruby driver to safely do that (sending a read before a write is acknowledged on the same connection) without non-negligible changes in the driver.\r\n\r\nIf people want to make sure that a read is going to see a write, they should wait for the acknowledgement. And in Python it means:\r\n\r\n```py\r\nresults = r.table(\"test\").insert({\"id\": 1}).run()\r\nif results.errors == 0:\r\n    r.table(\"test\").get(1).run()\r\n```\r\n\r\nIn JavaScript, you have to write synchronous code\r\n```js\r\nr.table(\"test\").insert({\"id\": 1}).run().then(function(results) {\r\n    if (results.errors === 0) {\r\n        r.table(\"test\").get(1).run()\r\n    })\r\n})\r\n```\r\n\r\n\r\nWe can also automatically return a connection in the pool by looking at the response. In `rethinkdbdash`, a connection will be emit an event \"release\" when it get back a datum, an error, or a end query (basically anything that is not a cursor or a feed). As soon as everything is fetch from a cursor or if the cursor is close (and that the driver got confirmation), the connection will be released.\r\n\r\n\r\nWhile it's possible for the user to manually get/retrieve a connection, I don't see any benefit from it, however it still requires them to understand how connections are used by the driver."
+  , issueCommentId = 49238623
+  }

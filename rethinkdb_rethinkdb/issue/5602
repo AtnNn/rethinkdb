@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-05) (-11) 18 : 43 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5602/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5602"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:web-ui"
+          , labelName = "cp:web-ui"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 5602
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "As a beginner, I want to see WebUI warnings about misunderstanding ReQL concepts"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5602"
+  , issueCreatedAt = 2016 (-04) (-05) 08 : 09 : 42 UTC
+  , issueBody =
+      Just
+        "From my observations (and own mistakes), there are several common errors for people beginning with ReQL in JavaScript:\r\n\r\n- Using math, logic and comparison operators, which cannot be overloaded: \r\n  - `.update({field: doc('other_field') + 2})` instead of `r.add()`\r\n  - `!r.hasFields('field')` instead of `r.hasFields('field').not()`\r\n  - `doc[4]` vs `doc.nth(4)`\r\n- Using if/then/else, which cannot be overloaded: `if (cond) { ReqlWhichAlwaysPasses() }` instead of `r.branch`.\r\n- Forgetting to use `r.expr()`, and misunderstanding how local variables are passed to the server.\r\n- Accessing fields as dictionaries, which is made more confusing because it's correct in Python notation: `doc['field']` instead of `doc('field')`.\r\n  - Not knowing about things like `r.expr(['data']).contains(doc('field'))`.\r\n- Misunderstanding in which cases we're working with streams and arrays.\r\n- Forgetting that filter() doesn't use an index.\r\n\r\nA lot of them, of course, would be solved if everyone attentively read documentation - which already is doing a good job. However, the ages when \"RTFM\" was acceptable are long gone, and people naturally expect to be able to learn new, powerful technologies quickly, without taking the time to gain deeper knowledge, at least in the beginning of the development. Stack Overflow has become a part of developer mentality more than just a mere tool.\r\n\r\nSome of the mistakes listed above throw errors - this is mildly irritating, but if the error message is clear, this can solve their problems quickly. If the message is more cryptic, they're likely to search Google / GitHub / SO, or ask on Slack. Still, relatively simple.\r\n\r\nHowever, some of the errors might not be actually errors - like `r.table().filter()` - but can lead to bad experience nevertheless, or learning bad practices and then encountering problems weeks later.\r\n\r\nThe most annoying mistakes might be the ones that lead to wrong query results, but don't show any errors, the code is valid JavaScript, and ReQL returns _almost_ correct results.\r\n\r\nTherefore, I think the Web UI might benefit from a \"training wheels\" mode - separate from \"automatic suggestions\" option, this mode would ideally:\r\n\r\n- Try to detect common mistakes, e.g. `doc['field'] + 2` and display hints in a human voice. (Possibly also a small exclamation mark next to the line where potential problem is detected.)\r\n  - Would offer a short examples for these, contrasting wrong and correct approach, e.g. `2+2` vs `r.expr(2).add(2)`\r\n- These warnings should contain a link to a documentation page or maybe roll out an extended explanation on click (or maybe a Stack Overflow link) - preferably brief, FAQ-style explanations, which themselves would contain links to in-depth articles.\r\n- Should offer to permanently hide individual classes of warnings, e.g. I might want to permanently dismiss notices about r.filter() not using indexes, but I want to receive other warnings.\r\n- In addition to above warnings, it could give regular (daily?) hints about powerful, but easy to understand features that many people overlook (r.now(), r.concatMap()).\r\n\r\nOf course all of the would be a lot of work, but could probably be done incrementally, and make the process of learning easier - the Web UI would turn into a mini-tutorial itself. One of the compliments I've heard from beginners is that the Web UI allows to write and test an query, and then just copy-paste it to a Node.js service. (As opposed or SQL with ORMs.)\r\n\r\nOf course, one would want to not go too far to babysit new developers, see the whole \"tutorials are ruining games and making players less creative\" discussion."
+  , issueState = "open"
+  , issueId = Id 145922955
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

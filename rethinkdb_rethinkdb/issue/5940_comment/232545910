@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-14) 03 : 12 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/232545910"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5940#issuecomment-232545910"
+  , issueCommentCreatedAt = 2016 (-07) (-14) 03 : 12 : 20 UTC
+  , issueCommentBody =
+      "Regarding the test in `table.yaml`: The limit is not in the Python driver, but is set for the changefeed a few lines above: https://github.com/rethinkdb/rethinkdb/blob/next/test/rql_test/src/changefeeds/table.yaml#L61\r\n\r\nI'm not sure why we're only fetching 90 values though, and why that's correct. The limit is 100, so it seems to me as if we could get 100 valid results first, and only then see the error.\r\n\r\nAdditionally, this test again seems timing-sensitive, because all of our drivers prefetch batches on cursors (including changefeeds).\r\nSo if the prefetch request is processed by the server before the changefeed exceeds the limit, it will send back up to 100 valid results. We're inserting 200 rows, so the next batch is still going to overflow, but it seems like we'll actually need to fetch up to 200 rows (and not just 90) to guarantee that we see the error."
+  , issueCommentId = 232545910
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-08) 00 : 39 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5919/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5919"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 5919
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3468298
+        , simpleUserLogin = N "mick-h"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3468298?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mick-h"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Outer join renders base table unusable"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5919"
+  , issueCreatedAt = 2016 (-07) (-06) 04 : 31 : 34 UTC
+  , issueBody =
+      Just
+        "I have repeated this on a couple of different clusters.  The following query\r\n```\r\nr.db(\"db1\").table(\"table1\").outerJoin(\r\n  r.db(\"db1\").table(\"table2\"), \r\n  function(t1, t2) {return t1(\"id\").eq(t2(\"t1_id\"))}\r\n).filter(\r\n  function(jr) {return jr.keys().contains(\"right\").not()}\r\n).count()\r\n```\r\nrenders table1 inaccessible.  Table1 contains thousands of rows, table2 hundreds of thousands.  The query in the web console times out after 5 minutes, and the cluster shows heavy reads on table2 continuing long after the time out.  At this stage I can no longer get a record count of table1, I can't see the query running in the jobs table, and have to resort to restarting a node or two to get the cluster back to a usable condition.\r\n\r\nThe cluster nodes (on AWS) show heavy network traffic but are not stressed as far as CPU and memory are concerned.\r\n\r\nI know there are other ways that this query can be expressed, but find it concerning that this query takes a table out of action and requires restarts to clear."
+  , issueState = "open"
+  , issueId = Id 163996435
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

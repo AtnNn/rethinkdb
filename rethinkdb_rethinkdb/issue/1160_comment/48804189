@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-12) 06 : 47 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 104305
+        , simpleUserLogin = N "hardkrash"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/104305?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hardkrash"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48804189"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1160#issuecomment-48804189"
+  , issueCommentCreatedAt = 2014 (-07) (-12) 06 : 47 : 32 UTC
+  , issueCommentBody =
+      "TLDR \r\n- Most of data logging is done at fixed sampling rates, but often there are better ways depending on signal type.\r\n- Storing data is where you pull out the tricks to save space and bring out details.\r\n- Getting data out of the database is different then how the data is stored and manipulated internally during queries.\r\n- Interpolation should be optional and configurable.\r\n- Interpolation should make queries more effective.\r\n- Advanced stuff should be left to the client.\r\n\r\n/TLDR\r\n\r\nI think your asking me about varying sample rates.  Where some data may be collected with varying time between samples.\r\n\r\nThere are some techniques where this method works great.  Imagine a slowly varying signal you could in the data collection phase monitor it once a second.  It might not move more that one value quanta per few seconds/minutes/hours.  You are better off recording that it took t amount of time to move to a new value.\r\n\r\nThere are other techniques that solve a different problem, sporadic events.  Save a low data rate signal for most of the time from a high speed data converter.  Then when an interesting event comes around save it in full resolution for the duration of the interesting event.  you have the background trend, but also that interesting tidbit of time when there was a spike.\r\n\r\n\r\nA desirable time series interpolation performed in a query would be like the following scenario.\r\n\r\nI'm collecting the temperature of my pool every hour on the hour, but I want to know what temperature it was at when I was swimming.  So my application queries for when I was swimming over the past month.  We have data samples that are before and after a swim time.  So, what was the temperature for my swim.  A linear interpolation would say average the before and after data point.   Then that linear interpolated data point is joined with the swim event data  Then it returns what it expects the swimming pool temperature to be and date time of when I was swimming over the last month.\r\n\r\nOther interpolations exist to make a better guess.  A curve fit of a few data points before and after would be another option.\r\n\r\nThere are various ways to cope with the swimming pool temperature time series data log,  both in a lossy and non lossy methods.\r\n\r\nLets look at this from how we could make it better.  First remove the once an hour sampling rate, I bet that it is not recording interesting data.  Let's make some rules for storage.  Run length encoding can help but recording the time and new value after some delta change in temperature.  My thermometer has a resolution of 0.5\176C and a accuracy of 2\176C.\r\n\r\nStore it with a value resolution of 1\176C we might be able to get away with a 2\176C resolution later. (old data could be downgraded.)  Then record the time when the value would change to a new value.  Be sure to keep a hysteresis in play to prevent storing many irrelevant perturbations around the change point.  then look at the effective resolution of time.  It might be that having 1 second resolution vs 1 minute resolution is no true concern.  i.e. The pool can't raise a single degree in less than that one minute.\r\n\r\n\r\n\r\n"
+  , issueCommentId = 48804189
+  }

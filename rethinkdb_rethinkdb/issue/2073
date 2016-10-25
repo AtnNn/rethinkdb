@@ -1,0 +1,80 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-06) 02 : 39 : 07 UTC
+  , issueUpdatedAt = 2014 (-05) (-06) 02 : 47 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2073/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2073"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2073
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Deserialization of rdb value failed with error archive_result_t::SOCK_EOF."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2073"
+  , issueCreatedAt = 2014 (-03) (-07) 01 : 44 : 37 UTC
+  , issueBody =
+      Just
+        "I was running the scenario originally described in the first comment here https://github.com/rethinkdb/rethinkdb/issues/1389#issue-18770546 , when I got the following crash on two of the nodes:\r\n```\r\nerror: Error in src/rdb_protocol/lazy_json.cc at line 19:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of rdb value failed with error archive_result_t::SOCK_EOF.\r\nerror: Backtrace:\r\nerror: Thu Mar  6 17:30:29 2014\r\n       \r\n       1: .persist/rethinkdb() [0x9fb6c3] at 0x9fb6c3 ()\r\n       2: .persist/rethinkdb() [0x9f34c4] at 0x9f34c4 ()\r\n       3: .persist/rethinkdb() [0x90c200] at 0x90c200 ()\r\n       4: .persist/rethinkdb() [0x918fc7] at 0x918fc7 ()\r\n       5: .persist/rethinkdb() [0x459c98] at 0x459c98 ()\r\n       6: .persist/rethinkdb() [0x457e52] at 0x457e52 ()\r\n       7: .persist/rethinkdb() [0x457d28] at 0x457d28 ()\r\n       8: .persist/rethinkdb() [0x457c94] at 0x457c94 ()\r\n       9: .persist/rethinkdb() [0x43168e] at 0x43168e ()\r\nerror: Exiting.\r\n```\r\n\r\nThe code that it refers to looks like this:\r\n```\r\nbuffer_group_t buffer_group;\r\nblob.expose_all(parent, access_t::read, &buffer_group, &acq_group);\r\nbuffer_group_read_stream_t read_stream(const_view(&buffer_group));\r\narchive_result_t res = deserialize(&read_stream, &data);\r\nguarantee_deserialization(res, \"rdb value\");\r\n```\r\n\r\nThere must be wrong data in the blob, or a bug in the blob code."
+  , issueState = "closed"
+  , issueId = Id 28932107
+  , issueComments = 17
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-16) 03 : 48 : 00 UTC
+  , issueUpdatedAt = 2016 (-02) (-16) 19 : 07 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5403/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5403"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5403
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 969456
+        , simpleUserLogin = N "webmasterkai"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/969456?v=3"
+        , simpleUserUrl = "https://api.github.com/users/webmasterkai"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Bug? 2nd compound index containing date doesn't sort"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5403"
+  , issueCreatedAt = 2016 (-02) (-16) 03 : 04 : 54 UTC
+  , issueBody =
+      Just
+        "I have a table with two compound indexes. Each index ends with a date field. The first index will sort correctly. The 2nd index does not.\r\n\r\nSteps to reproduce:\r\n\r\n```javascript\r\n// Create new table.\r\nr.db('foo').tableCreate('test')\r\n// Insert 2000 new records each with a date about one min apart.\r\nr.db('foo').table('test')\r\n  .insert(r.range(2000).map({\r\n    date: r.now().sub(r.row.mul(60)),\r\n    foo: 'mar',\r\n    me: 'too',\r\n  }))\r\n// Create first compound index with a date field.\r\nr.db('foo').table('test')\r\n  .indexCreate('normal', [ r.row('foo'), r.row('date') ])\r\n// Sort the list based on our compound index.\r\nr.db('foo').table('test')\r\n  .orderBy({ index: r.desc('normal') })\r\n  .map(r.now().toEpochTime().sub(r.row('date').toEpochTime()).round())\r\n// Everything looks normal...\r\n\r\n// Create a 2nd index with a date field.\r\nr.db('foo').table('test')\r\n  .indexCreate('strange', [ r.row('me'), r.now('date') ])\r\n// Run query like above with a sort.\r\nr.db('foo').table('test')\r\n  .orderBy({ index: r.desc('strange') })\r\n  .map(r.now().toEpochTime().sub(r.row('date').toEpochTime()).round())\r\n// WTF?\r\n```\r\n\r\nMaybe I'm not thinking of something obvious?\r\n```\r\nRunning rethinkdb 2.2.2 (CLANG 4.2 (clang-425.0.28))...\r\nRunning on Darwin 15.3.0 x86_64\r\n```\r\nThanks!\r\n\r\n[edit] The first index can be *any* kind of index."
+  , issueState = "closed"
+  , issueId = Id 133871772
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

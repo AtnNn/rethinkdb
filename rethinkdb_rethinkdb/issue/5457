@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-01) 03 : 58 : 29 UTC
+  , issueUpdatedAt = 2016 (-03) (-02) 05 : 27 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5457/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5457"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5457
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1978065
+        , simpleUserLogin = N "vinaysshenoy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1978065?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vinaysshenoy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JAVA: Queries work when debugging, but NOT while running"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5457"
+  , issueCreatedAt = 2016 (-02) (-29) 16 : 16 : 16 UTC
+  , issueBody =
+      Just
+        "I'm using [Spark Java](http://sparkjava.com/) to build my web app. There's a very weird problem I'm facing when trying to query my data.\r\n\r\nMy database is running locally(Mac OS X). I'm using rethinkdb version `2.2.5` and JAVA driver version `2.2-beta-5`.\r\n\r\nI have a table called **categories** and I'm making the call to fetch the categories as follows - \r\n```java\r\n        RethinkDB r = RethinkDB.r;\r\n        final Cursor categoriesCursor = r.table(\"categories\").run(conn);\r\n        final List<Category> categoryList = new ArrayList<>(categoriesCursor.bufferedSize());\r\n        while (categoriesCursor.hasNext()) {\r\n            categoryList.add(fromMap((Map<String, Object>) categoriesCursor.next()));\r\n        }\r\n        return categoryList;\r\n```\r\n\r\nWhen I **DEBUG** the app, it works fine and I get the list of documents. It works even if I don't have any breakpoints enabled. However, if I run it normally without debugging, the query fails with the following exception - \r\n```java\r\n    com.rethinkdb.gen.exc.ReqlDriverError: Can't write query because response pump is not running.\r\n\tat com.rethinkdb.net.Connection.sendQuery(Connection.java:243)\r\n\tat com.rethinkdb.net.Connection.runQuery(Connection.java:275)\r\n\tat com.rethinkdb.net.Connection.run(Connection.java:338)\r\n\tat com.rethinkdb.net.Connection.run(Connection.java:327)\r\n\tat com.rethinkdb.ast.ReqlAst.run(ReqlAst.java:65)\r\n\tat in.momowala.backend.db.models.Category.fetchAll(Category.java:31)\r\n\tat in.momowala.backend.api.v1.ApiBinderV1.lambda$bind$0(ApiBinderV1.java:27)\r\n\tat spark.ResponseTransformerRouteImpl$1.handle(ResponseTransformerRouteImpl.java:47)\r\n\tat spark.webserver.MatcherFilter.doFilter(MatcherFilter.java:162)\r\n\tat spark.webserver.JettyHandler.doHandle(JettyHandler.java:61)\r\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:189)\r\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\r\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:119)\r\n\tat org.eclipse.jetty.server.Server.handle(Server.java:517)\r\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:302)\r\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:242)\r\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:245)\r\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:95)\r\n\tat org.eclipse.jetty.io.SelectChannelEndPoint$2.run(SelectChannelEndPoint.java:75)\r\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:654)\r\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:572)\r\n\tat java.lang.Thread.run(Thread.java:745)\r\n```\r\n\r\nAny idea what the problem is and how I can fix it?"
+  , issueState = "closed"
+  , issueId = Id 137298255
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

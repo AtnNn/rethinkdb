@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-07) 22 : 45 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48251311"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2657#issuecomment-48251311"
+  , issueCommentCreatedAt = 2014 (-07) (-07) 22 : 45 : 40 UTC
+  , issueCommentBody =
+      "> If the disconnected instance is now running a different RethinkDB version, a relevant message could be displayed instead of \"Server Down\"\r\n\r\nA server with a wrong version cannot connect to the cluster, so the other nodes in the cluster have no way of knowing that a given machine is running a wrong version.\r\n\r\nThe reason for that is that the version number is exchanged as early as possible while establishing a connection between two nodes, to account for any future changes in the remaining handshake protocol. Specifically, nodes don't know at that point what the peer id of the other node is, because it hasn't been transmitted yet.\r\n\r\nWe could change this into a two-stage thing:\r\nFirst, nodes exchange \"handshake protocol version\" numbers. If those don't match, there's nothing we can do. We have to abort the connection like we do now.\r\nIf the handshake protocol version matches, we exchange additional information (such as the peer ids of the nodes) and then send the \"real\" versions. If that version doesn't match, we can either still abort the connection (but at least now we know which peer it was that tried to connect with a wrong version), or we could let the node become a part of the cluster but somehow make sure that it just sits there but doesn't participate in any type of further communication. We could then show an issue in the web UI for as long as that node is connected in this \"sleeping\" state.\r\n\r\nThe assumption would be that the handshake protocol version changes very rarely compared to the \"real\" cluster version."
+  , issueCommentId = 48251311
+  }

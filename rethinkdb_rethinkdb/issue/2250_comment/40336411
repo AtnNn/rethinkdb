@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-14) 06 : 32 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40336411"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2250#issuecomment-40336411"
+  , issueCommentCreatedAt = 2014 (-04) (-14) 06 : 27 : 52 UTC
+  , issueCommentBody =
+      "This thing was on my TODO list last week, but I was kind of busy and forgot about it. I just spun a CentOS VM, and tested this problem.\r\nI'm pretty sure we have the same thing across any systems (at least we have the same on Ubuntu and Arch).\r\n\r\nThe init script can create the directory even if it's specified in the config file.\r\nThe problem is that `/var/data/rethinkdb` is probably owned by root. And that the init script tries to create the data directory as `rethinkdb` and not `root` and therefore fails.\r\n\r\nIf I set the owner of `var/data/rethinkdb` to `rethinkdb:rethinkdb`, where only the owner can write inside, the init scripts starts rethinkdb without any problem (and rethinkdb creates its own data directory).\r\n\r\nWe can have the init scripts run `rethinkdb create` as root, then change the owner/group later.\r\nOr fix #1722 and just run `rethinkdb create` with the `--user` and `--group` flags."
+  , issueCommentId = 40336411
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-16) 23 : 30 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49241521"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49241521"
+  , issueCommentCreatedAt = 2014 (-07) (-16) 23 : 30 : 00 UTC
+  , issueCommentBody =
+      "> This guarantee has two issues\r\n\r\n@neumino are you proposing that reads should not wait for writes on the same connection? You should open a separate issue about it.\r\n\r\n> We can also automatically return a connection in the pool by looking at the response\r\n\r\nLooking at your proposal, I had assumed that connections were returned to the pool before the callback to run gets called.\r\n\r\nOne problem with your proposal is that it can create deadlocks when the pool is exhausted:\r\n\r\n```\r\npool = r.connectionPool({max: 1});\r\nquery.run(pool, function(err, res){\r\n  query2.run(pool);\r\n});\r\n```\r\n\r\nAnd it will be easy to leak connections if close isn't called:\r\n\r\n```\r\nquery.run(pool, function(err, array){\r\n  array.each(function(item){ ... });\r\n});\r\n```\r\n\r\nThe cause of these issues and the reason why I prefer explicitly getting connections from the pool is that your proposal uses the exact same API for pools as for connections, but the behaviour in each case is very different. If we were to implement your proposal, the semantics of using a pool should be the same as when using a connection, especially if the pool only has a single connection."
+  , issueCommentId = 49241521
+  }

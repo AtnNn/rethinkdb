@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-04) 01 : 05 : 16 UTC
+  , issueUpdatedAt = 2015 (-03) (-04) 01 : 10 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3871/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3871"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3871
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 11303823
+        , simpleUserLogin = N "ftKnox"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/11303823?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ftKnox"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "python driver dict subclass problem"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3871"
+  , issueCreatedAt = 2015 (-03) (-03) 23 : 41 : 19 UTC
+  , issueBody =
+      Just
+        "I am subclassing dict that contains a `__call__` function and then passing that as an object to insert. The insert fails due to it matching collections.Callable. In ast.py function expr() simply moving the collections.Callable check after the collections.Mapping check fixes the issue for me. I don't know how common this use case is but it's an issue none the less. Below is a test case.\r\n\r\n```python\r\n    class u(dict):\r\n      model = {\r\n        'id':'test'\r\n      }\r\n      def __init__(self,*args,**kwargs):\r\n        for k,v in self.model.iteritems():\r\n          self[k] = v\r\n\r\n      def __call__(self):\r\n        return self\r\n\r\n    user = u()\r\n    print 'Result: %s' % r.table(\"users\").insert(user).run(dbh)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 59726260
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 22 : 57 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128174992"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128174992"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 22 : 57 : 10 UTC
+  , issueCommentBody =
+      "> A given changefeed client only received changes for one table.\r\n\r\nNote that this won't be true for `eq_join` feeds, and possibly other feeds in the future.\r\n\r\n> Suppose a client performs the following writes:\r\n    `[\"client_X\", 1]` to table \"a\", `[\"client_X\", 2]` to table \"b\", `[\"client_X\", 3]` to table \"a\"\r\nNow the changefeed client that listens for changes on table \"a\" will receive a notification with ID `[\"client_X\", 1]` first, followed by `[\"client_X\", 3]`. When it receives that second notification, it has no way of knowing whether it has to hold back that notification because it needs to wait on `[\"client_X\", 2]`, or not.\r\n\r\nI think it's ok for the client that listens on table `a` to receive `[\"client_X\", 1]` first, followed by `[\"client_X\", 3]`. I think we shouldn't make any guarantees about the timestamp other than the fact that it's increasing, and that it can be correlated back to the write. I think it's ok to skip ids; we may even want to use actual unix time since epoch. The idea is that when you receive a notification with a timestamp `X`, you know that all writes with a timestamp less than or equal to `X` have been reflected in the feed; giving more information seems limiting and unnecessary IMO. "
+  , issueCommentId = 128174992
+  }

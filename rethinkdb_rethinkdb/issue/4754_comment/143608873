@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-28) 00 : 53 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1276278
+        , simpleUserLogin = N "williamstein"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1276278?v=3"
+        , simpleUserUrl = "https://api.github.com/users/williamstein"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143608873"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143608873"
+  , issueCommentCreatedAt = 2015 (-09) (-28) 00 : 53 : 51 UTC
+  , issueCommentBody =
+      "> Also, if all_replicas_ready doesn't guarantee successful feed creation, that is a bug and we will fix it.\r\n\r\nThen there might be a bug:  Below I call wait with all_replicas_ready on my 3-node test cluster and it says `{ ready: 1 }`.  Then I try to create a changefeed, and get `Unable to retrieve the start stamps.  Did you just reshard?`.   I waited 5 minutes, with some other clients running, probably also periodically trying to create changefeeds and with connections open, and the situation doesn't improve.  I then restarted my other clients and everything works fine.  So somehow existing open connections seem to be problematic/relevant (?). \r\n\r\n```\r\ncoffee> db.table('projects').wait(waitFor:'all_replicas_ready', timeout:3).run(console.log)\r\n2015-09-28T00:48:17.585Z - debug: rethink: query -- (1 concurrent) -- 'r.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).wait({waitFor: \"all_replicas_ready\", timeout: 3})'\r\n{ _bitField: 1,\r\n  _fulfillmentHandler0:\r\n   { [Function: runBound]\r\n     domain:\r\n      { domain: null,\r\n        _events: [Object],\r\n        _maxListeners: undefined,\r\n        members: [] } },\r\n  _rejectionHandler0:\r\n   { [Function: runBound]\r\n     domain:\r\n      { domain: null,\r\n        _events: [Object],\r\n        _maxListeners: undefined,\r\n        members: [] } },\r\n  _progressHandler0: undefined,\r\n  _promise0: [Function],\r\n  _receiver0: [Circular],\r\n  _settledValue: undefined }\r\ncoffee> 2015-09-28T00:48:17.603Z - debug: rethink: query time using (ddd4d90a-fe87-406f-b656-2c8c12fd2046) took 18ms; average=16ms; 0 concurrent -- 'r.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).wait({waitFor: \"all_replicas_ready\", timeout: 3})'\r\nundefined { ready: 1 }\r\n \r\nundefined\r\ncoffee> db.table('projects').changes().run(console.log)\r\n2015-09-28T00:48:19.502Z - debug: rethink: query -- (1 concurrent) -- 'r.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).changes()'\r\n{ _bitField: 1,\r\n  _fulfillmentHandler0:\r\n   { [Function: runBound]\r\n     domain:\r\n      { domain: null,\r\n        _events: [Object],\r\n        _maxListeners: undefined,\r\n        members: [] } },\r\n  _rejectionHandler0:\r\n   { [Function: runBound]\r\n     domain:\r\n      { domain: null,\r\n        _events: [Object],\r\n        _maxListeners: undefined,\r\n        members: [] } },\r\n  _progressHandler0: undefined,\r\n  _promise0: [Function],\r\n  _receiver0: [Circular],\r\n  _settledValue: undefined }\r\ncoffee> 2015-09-28T00:48:19.507Z - debug: rethink: query time using (ddd4d90a-fe87-406f-b656-2c8c12fd2046) took 6ms; average=15ms; 0 concurrent -- 'r.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).changes()'\r\n{ [ReqlOpFailedError: Unable to retrieve the start stamps.  Did you just reshard? in:\r\nr.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).changes()\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^]\r\n  name: 'ReqlOpFailedError',\r\n  msg: 'Unable to retrieve the start stamps.  Did you just reshard?',\r\n  frames: [],\r\n  message: 'Unable to retrieve the start stamps.  Did you just reshard? in:\\nr.db(\"smc\").table(\"projects\", {readMode: \"outdated\"}).changes()\\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^' } undefined\r\n```"
+  , issueCommentId = 143608873
+  }

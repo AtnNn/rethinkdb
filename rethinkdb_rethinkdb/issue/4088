@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-22) 20 : 44 : 35 UTC
+  , issueUpdatedAt = 2015 (-04) (-23) 19 : 32 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4088/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4088"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4088
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 314564
+        , simpleUserLogin = N "RaitoBezarius"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/314564?v=3"
+        , simpleUserUrl = "https://api.github.com/users/RaitoBezarius"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "RethinkDB process crash when started"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4088"
+  , issueCreatedAt = 2015 (-04) (-21) 16 : 06 : 38 UTC
+  , issueBody =
+      Just
+        "I've compiled RethinkDB from the source (from Git).\r\nThe compilation is successful (no errors).\r\n\r\nBut whenever I start RethinkDB by calling : \"./rethinkdb\" in the build/release/ folder. I get this : \r\n```console\r\nRunning rethinkdb 2.0.0-1-197-g8fd810 (GCC 4.7.2)...\r\nRunning on Linux 3.16.0-0.bpo.4-amd64 x86_64\r\nLoading data from directory /home/raitobezarius/rethinkdb/build/release/rethinkdb_data\r\nVersion: rethinkdb 2.0.0-1-197-g8fd810 (GCC 4.7.2)\r\nerror: Error in src/arch/io/blocker_pool.cc at line 103:\r\nerror: Guarantee failed: [res == 0]  (errno 11 - Resource temporarily unavailable) Could not create blocker-pool thread.\r\n```\r\n\r\nWith a long backtrace : \r\n```console\r\nerror: Backtrace:\r\nerror: Tue Apr 21 17:57:28 2015\r\n\r\n       1: backtrace_t::backtrace_t() at 0x890715 (./rethinkdb)\r\n       2: format_backtrace(bool) at 0x890d80 (./rethinkdb)\r\n       3: report_fatal_error(char const*, int, char const*, ...) at 0xa8b7ad (./rethinkdb)\r\n       4: blocker_pool_t::blocker_pool_t(int, epoll_event_queue_t*) at 0x86b67c (./rethinkdb)\r\n       5: pool_diskmgr_t::pool_diskmgr_t(epoll_event_queue_t*, passive_producer_t<pool_diskmgr_action_t*>*, int) at 0x87849c (./rethinkdb)\r\n       6: linux_disk_manager_t::linux_disk_manager_t(epoll_event_queue_t*, int, int, perfmon_collection_t*) at 0x87017a (./rethinkdb)\r\n       7: io_backender_t::io_backender_t(file_direct_io_mode_t, int) at 0x86d934 (./rethinkdb)\r\n       8: run_rethinkdb_serve(base_path_t const&, serve_info_t*, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, uuid_u const*, cluster_semilattice_metadata_t const*, directory_lock_t*, bool*) at 0x9329f1 (./rethinkdb)\r\n       9: run_rethinkdb_porcelain(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*) at 0x9332cb (./rethinkdb)\r\n       10: void std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)>::__call<void, , 0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul, 7ul, 8ul, 9ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul, 7ul, 8ul, 9ul>) at 0x937837 (./rethinkdb)\r\n       11: std::_Function_handler<void (), std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)> >::_M_invoke(std::_Any_data const&) at 0x937855 (./rethinkdb)\r\n       12: starter_t::run_wrapper(std::function<void ()> const&) at 0x889b91 (./rethinkdb)\r\n       13: coro_t::run() at 0x885a9e (./rethinkdb)\r\nerror: Exiting.\r\nfish: Job 1, \8220./rethinkdb\8221 terminated by signal SIGTRAP (Trace or breakpoint trap)\r\n```\r\n\r\nAccording to #1422, the issue should have been fixed, but a workaround seems to run rethinkdb with `--io-threads 1` or `--io-threads 5`, where I get : \r\n```console\r\nRunning rethinkdb 2.0.0-1-197-g8fd810 (GCC 4.7.2)...\r\nRunning on Linux 3.16.0-0.bpo.4-amd64 x86_64\r\nLoading data from directory /home/raitobezarius/rethinkdb/build/release/rethinkdb_data\r\nVersion: rethinkdb 2.0.0-1-197-g8fd810 (GCC 4.7.2)\r\nerror: Inaccessible database file: \"/home/raitobezarius/rethinkdb/build/release/rethinkdb_data/metadata\": No such file or directory\r\n       Some possible reasons:\r\n       - the database file couldn't be created or opened for reading and writing\r\n       - the user which was used to start the database is not an owner of the file\r\nfish: Job 1, \8220./rethinkdb --io-threads 5\8221 terminated by signal SIGTRAP (Trace or breakpoint trap)\r\n```\r\n\r\nMy `ulimit -a` displays:\r\n```console\r\nMaximum size of core files created                           (kB, -c) 0\r\nMaximum size of a process\8217s data segment                     (kB, -d) unlimited\r\nMaximum size of files created by the shell                   (kB, -f) unlimited\r\nMaximum size that may be locked into memory                  (kB, -l) 2000000\r\nMaximum resident set size                                    (kB, -m) unlimited\r\nMaximum number of open file descriptors                          (-n) 1024\r\nMaximum stack size                                           (kB, -s) 8192\r\nMaximum amount of cpu time in seconds                   (seconds, -t) unlimited\r\nMaximum number of processes available to a single user           (-u) 40\r\nMaximum amount of virtual memory available to the shell      (kB, -v) 1000000\r\n```\r\n\r\nWhat should I do ?"
+  , issueState = "closed"
+  , issueId = Id 69885834
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

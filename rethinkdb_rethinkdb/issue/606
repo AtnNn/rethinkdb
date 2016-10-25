@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-24) 20 : 09 : 41 UTC
+  , issueUpdatedAt = 2013 (-05) (-01) 08 : 30 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/606/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/606"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 606
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 43867
+          , simpleUserLogin = N "jdoliner"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/43867?v=3"
+          , simpleUserUrl = "https://api.github.com/users/jdoliner"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Oversharded tables return double sindex results."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/606"
+  , issueCreatedAt = 2013 (-04) (-04) 17 : 39 : 35 UTC
+  , issueBody =
+      Just
+        "When a table is oversharded. That is a single physical machine is used to host more than one logical shard of a table. Then all the sindex entries it stores will be returned twice. This is an unfortunate side effect of the fact that we optimize this case by storing both shards in the same BTree. Other operations don't hit this problem because when you use the main BTree you can easily limit yourself to the shard you care about.\r\n\r\nI think the simplest fix for this is just to record the region (in primary key space) that a sindex read is going to, which I'm pretty sure we already do. And then cull out the results that fall outside of it.\r\n\r\nThis isn't ideal and we should see if it's a performance bottle neck."
+  , issueState = "closed"
+  , issueId = Id 12811291
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

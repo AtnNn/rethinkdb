@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-13) 03 : 53 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69691970"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-69691970"
+  , issueCommentCreatedAt = 2015 (-01) (-13) 03 : 53 : 27 UTC
+  , issueCommentBody =
+      "> If any encounters a non-existence exception while evaluating one of its arguments, it keeps on evaluating its other arguments. If one of them ends up being true, it returns true. If all other arguments end up throwing a non-existence error as well (i.e. are unknown) or are false, then any rethrows the first non-existence error it has encountered.\r\n\r\nI'm 100% on board with this and think we should do it for 1.16 if possible (except for the minor adjustment that it will return the first truthy value, rather than `true`, which is the current behavior).  In particular, I think `r.any(nonexistence, false)` should rethrow the non-existence error, `r.any(false, nonexistence)` should return false, and `r.any(X, Y, 5)` should return 5.\r\n\r\n> For all, we just do the opposite. We rethrow the first encountered error if all other arguments evaluate to either unknown or true, but as soon as at least one other argument evaluates to false, we return false.\r\n\r\nThis I'm less sure about.  The current behavior of `all` is that if it encounters a non-existence error, it rethrows it immediately rather than evaluating the rest of the arguments to see if it can find a `false`.  I think the current behavior might be the behavior we want.\r\n\r\n---\r\n\r\n@kofalt -- there's a bid of ambiguity in the above posts, but when people are talking about errors in this thread they're usually talking about non-existence errors, which are handled specially by `filter`.  User errors produced by `r.error` would never be automatically caught be `all` or `any`."
+  , issueCommentId = 69691970
+  }

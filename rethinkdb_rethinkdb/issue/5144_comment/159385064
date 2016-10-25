@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-24) 19 : 46 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159385064"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5144#issuecomment-159385064"
+  , issueCommentCreatedAt = 2015 (-11) (-24) 19 : 46 : 11 UTC
+  , issueCommentBody =
+      "Thanks for the amazing write-up @elifarley .\r\n\r\nThe one thing that's a bit unclear to me is how the transaction-commit step recovers from a machine failure.\r\n\r\n> If the command tranCommit is called, a cluster-wide transaction-commit-mutex is acquired, the pending_transactions documents for the current transaction are grouped by target_table and each group is processed by at least one thread. Then, the document at table_sizes is updated to reflect the new table sizes and counts. Then, the mutex is released and all processed records from pending_transactions are deleted.\r\n\r\nI can see how we can recover from a partially inserted document set. We can delete all documents that are mentioned in `pending_transactions` from the respective tables on startup, to clean up partially committed transactions.\r\nHowever I'm not sure how we keep the counts in `table_sizes` consistent.\r\n\r\nYou mention:\r\n> When the cluster is started, it must trim all AO tables so that their sizes match what's recorded in table_sizes, thus discarding any transactions that weren't fully committed.\r\n\r\nBut how do we know *which* documents we need to discard if the size is smaller than the actual number of documents (I assume it can never be larger)?\r\n\r\n\r\nAs a minor detail, we don't currently have a notion of which servers are members of the cluster. However I think we can substitute \"cluster-wise\" by \"table-wide\", by which I mean all servers that are currently replicas for any of the involved tables. We would probably lock the tables against membership configuration changes while transactions are being processed to not get into race conditions.\r\n\r\n\r\nAnother interesting question is how to implement the table-wide / cluster-wide mutex, and how to deal with single-server failures. Do we disallow commits as soon as a single server is not available?\r\n\r\nWhat if a single server drops out in the middle of a commit? Probably we should roll back the transaction and abort the commit. However which server decides at which point that needs to happen? Probably this would be coordinated by the server that the client is connecting to? But what if that server fails? Now the other servers will have a partially committed transaction and would never be told to roll it back, and can also not complete the commit and release the mutex. It sounds like in that case we have a deadlock until the missing server comes back, or we reset the cluster somehow to go through a cleanup phase.\r\n\r\nIn general I'm not sure how easily we can maintain availability under server failures in this model. \r\n\r\nApart from that, the idea of AO tables indeed makes things much easier to reason about.\r\nDo you think AO tables would be practical for a lot of applications?"
+  , issueCommentId = 159385064
+  }

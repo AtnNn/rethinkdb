@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2013 (-06) (-11) 05 : 03 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/981/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/981"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 981
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: `r.unroll`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/981"
+  , issueCreatedAt = 2013 (-06) (-11) 05 : 03 : 23 UTC
+  , issueBody =
+      Just
+        "The rationale for this is that dealing with any kind of nested arrays quickly becomes challenging when the operations are anything other than trivial because of nested lambdas. Here's what I propose:\r\n\r\n```ruby\r\n> r([{:a => 1, :b => [2, 3]}, {:a => 4, :b => [5, 6]}, ]).unroll(:b)\r\n[{:a => 1, :b => 2},\r\n {:a => 1, :b => 3},\r\n {:a => 4, :b => 5},\r\n {:a => 4, :b => 6}]\r\n```\r\n\r\nThis is sugar over `concatMap` and is essentially an equivalent of a SQL cross-product between tables, but for arrays. It's especially nice because people would be able to \"unroll\" an array, write their processing queries on a flat table, and then \"roll it back up\", possible via the proposal for `distinct` (#876#issuecomment-19242517).\r\n\r\nI see two problems with this proposal:\r\n\r\n* Rolling things back up with `distinct` is clunky because it takes the attributes to do distinct groups by, not the arguments *not* to group by. An alternative would be to introduce `seq.rollup(:a)` which would be an equivalent to `seq.distinct(everything_but_:a_goes_here)`. Alternatively, `distinct` could take a flag: `seq.distinct(:a, :rollup => true)`\r\n* In SQL, a cross-product operation like this allows for efficient implementation, whereas RethinkDB does not (e.g. when someone says `seq.unroll().filter().rollup()`, we'd end up doing a lot more work than we have to because we don't have an optimizer). We might find a different way to do this, or we might bite the performance cost until we can do an optimizer (or we can try and optimize it).\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 15382932
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

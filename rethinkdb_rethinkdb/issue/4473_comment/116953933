@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-30) 04 : 35 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/116953933"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4473#issuecomment-116953933"
+  , issueCommentCreatedAt = 2015 (-06) (-30) 04 : 35 : 37 UTC
+  , issueCommentBody =
+      "It looks like my memory was wrong; currently we allow global optargs to reference other global optargs without any special limits.  This is obviously incorrect in the case where a global optarg references itself, but it might make sense in other contexts (even `r.table`, which references the `db` global optarg, might make sense in another global optarg).\r\n\r\nThe overflow detector from #2639 started working when I bumped the `MIN_EVAL_STACK_SPACE` up to 8k; I think 4k just wasn't large enough for this particular code path (we go through a lot of function calls before wrapping around and arriving back in `eval`).\r\n\r\n@danielmewes -- do you think it's worth special-casing it to make sure global optargs can't reference themselves (this is a bit of a pain and would probably require adding more information to the `env_t`), or should we just fix the overflow detector and rely on it for cases like this?"
+  , issueCommentId = 116953933
+  }

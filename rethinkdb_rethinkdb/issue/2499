@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-07) 00 : 54 : 25 UTC
+  , issueUpdatedAt = 2014 (-06) (-07) 00 : 54 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2499/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2499"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2499
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Segfault when running rethinkdb-restore on next"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2499"
+  , issueCreatedAt = 2014 (-06) (-03) 17 : 09 : 25 UTC
+  , issueBody =
+      Just
+        "Sorry folks... I'm back. This may very well be related to #2489 -- though different arch this time, and different segfault.\r\n\r\nOn Ubuntu 14.04, when running `rethinkdb-restore`, with a server compiled from next@6c7de6dcc6 :\r\n\r\n```\r\n2014-06-03T13:04:31.109889852 0.042557s info: Our machine ID: adbc98b6-abbe-472f-bd8b-06fc82c07423\r\n2014-06-03T13:04:31.110381104 0.043048s info: Created directory '/usr/local/var/lib/rethinkdb/default' and a metadata file inside it.\r\n2014-06-03T13:04:53.786193920 0.023986s info: Running rethinkdb 1.12.5-fallback (GCC 4.8.2)...\r\n2014-06-03T13:04:53.789009453 0.026802s info: Running on Linux 3.13.0-24-generic x86_64\r\n2014-06-03T13:04:53.789098466 0.026891s info: Using cache size of 1248 MB\r\n2014-06-03T13:04:53.789335726 0.027128s info: Loading data from directory /usr/local/var/lib/rethinkdb/default\r\n2014-06-03T13:04:53.817981348 0.055774s info: Listening for intracluster connections on port 29015\r\n2014-06-03T13:04:53.818522508 0.056315s info: Listening for client driver connections on port 28015\r\n2014-06-03T13:04:53.818639016 0.056432s info: Administrative HTTP connections are disabled.\r\n2014-06-03T13:04:53.833824396 0.071617s info: Listening on addresses: 127.0.0.1, 127.0.1.1, 107.170.179.198, ::1, fe80::601:1bff:fe0a:9401%2\r\n2014-06-03T13:04:53.833846606 0.071639s info: Server ready\r\n2014-06-03T13:05:01.900862581 8.138657s error: Error in src/arch/runtime/thread_pool.cc at line 343:\r\n2014-06-03T13:05:01.901089265 8.138884s error: Segmentation fault from reading the address (nil).\r\n2014-06-03T13:05:01.901224785 8.139019s error: Backtrace:\r\n2014-06-03T13:05:02.286889371 8.524684s error: Tue Jun  3 13:05:01 2014\r\n\r\n1: backtrace_t::backtrace_t() at backtrace.cc:213 (discriminator 1)\r\n2: format_backtrace(bool) at backtrace.cc:281\r\n3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n4: linux_thread_pool_t::sigsegv_handler(int, siginfo_t*, void*) at thread_pool.cc:343\r\n5: /lib/x86_64-linux-gnu/libpthread.so.0(+0x10340) [0x7fd4731ed340] at 0x7fd4731ed340 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n6: operator<(key_range_t const&, key_range_t const&) at keys.hpp:67\r\n7: std::_Rb_tree<key_range_t, std::pair<key_range_t const, uuid_u>, std::_Select1st<std::pair<key_range_t const, uuid_u> >, std::less<key_range_t>, std::allocator<std::pair<key_range_t const, uuid_u> > >::find(key_range_t const&) const at stl_tree.h:1157\r\n8: void cluster_namespace_interface_t::dispatch_immediate_op<read_t, fifo_enforcer_sink_t::exit_read_t, read_response_t>(void (master_access_t::*)(fifo_enforcer_sink_t::exit_read_t*), void (master_access_t::*)(read_t const&, read_response_t*, order_token_t, fifo_enforcer_sink_t::exit_read_t*, signal_t*), read_t const&, read_response_t*, order_token_t, signal_t*) at namespace_interface.cc:119\r\n9: cluster_namespace_interface_t::read(read_t const&, read_response_t*, order_token_t, signal_t*) at namespace_interface.cc:44\r\n10: wait_for_rdb_table_readiness(base_namespace_repo_t*, uuid_u, signal_t*, boost::shared_ptr<semilattice_readwrite_view_t<cluster_semilattice_metadata_t> >) at protocol.hpp:296\r\n11: ql::table_create_term_t::write_eval_impl(ql::scope_env_t*, ql::eval_flags_t) at shared_count.hpp:371\r\n12: ql::meta_write_op_t::eval_impl(ql::scope_env_t*, ql::eval_flags_t) at scoped.hpp:116\r\n13: ql::op_term_t::term_eval(ql::scope_env_t*, ql::eval_flags_t) at op.cc:235\r\n14: ql::term_t::eval(ql::scope_env_t*, ql::eval_flags_t) at counted.hpp:37\r\n15: ql::run(ql::protob_t<Query>, rdb_context_t*, signal_t*, ql::stream_cache_t*, Response*) at term.cc:239\r\n16: rdb_query_server_t::run_query(ql::protob_t<Query> const&, Response*, client_context_t*) at counted.hpp:54\r\n17: void query_server_t::connection_loop<protobuf_protocol_t>(linux_tcp_conn_t*, client_context_t*) at protob.cc:314\r\n18: query_server_t::handle_conn(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t) at protob.cc:280\r\n19: boost::detail::function::void_function_obj_invoker1<boost::_bi::bind_t<void, boost::_mfi::mf2<void, query_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>, boost::_bi::list3<boost::_bi::value<query_server_t*>, boost::arg<1>, boost::_bi::value<auto_drainer_t::lock_t> > >, void, scoped_ptr_t<linux_tcp_conn_descriptor_t>&>::invoke(boost::detail::function::function_buffer&, scoped_ptr_t<linux_tcp_conn_descriptor_t>&) at mem_fn_template.hpp:280\r\n20: linux_nonthrowing_tcp_listener_t::handle(int) at scoped.hpp:68\r\n21: coro_t::run() at coroutines.cc:206\r\n2014-06-03T13:05:02.287109682 8.524902s error: Exiting.\r\n```\r\n\r\nCan reproduce 100% of the time simply by running `rethinkdb-restore xx.tar.gz`\r\n\r\nHappy to send the dump to someone over email, it is semi-sensitive but tiny."
+  , issueState = "closed"
+  , issueId = Id 34883772
+  , issueComments = 21
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

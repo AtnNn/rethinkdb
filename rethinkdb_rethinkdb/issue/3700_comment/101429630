@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-12) 21 : 41 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/101429630"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3700#issuecomment-101429630"
+  , issueCommentCreatedAt = 2015 (-05) (-12) 21 : 40 : 39 UTC
+  , issueCommentBody =
+      "I'm not sure if this is such a big problem.\r\n\r\nIf a user isn't aware that `r.row` turns a value into a function and they see that `for_each` takes a function as its argument, they would probably just use a proper function and not `r.row`. There is little reason for a user to get confused by the fact that `r.row` is also allowed, unless they're already using it (in which case it will just keep working as before, they wouldn't even see the proposed error message).\r\n\r\nIf I had got an error saying `for_each` requires a function when I ran this\r\n```\r\nr.expr([1, 2, 3]).forEach(r.table('t1').insert({b: 'foo'}))\r\n```\r\nI would have changed it into \r\n```\r\nr.expr([1, 2, 3]).forEach(function() { return r.table('t1').insert({b: 'foo'}); })\r\n```\r\nand all would have been good. I suspect that most users will do the same. There is probably no need there to even mention `r.row` (especially since if you run into this, that means that you in fact were *not* using data from the current row, and hence suggesting `r.row` will make little sense).\r\n\r\nI don't like the idea of having magic in how we evaluate arguments, since it makes the language as a whole less predictable.\r\n\r\nIf we didn't have `r.row`, I think saying that a term takes a function as its argument would be pretty clear and straight forward. `r.row` I think is the part that's difficult to understand in this context, but that is independent of `for_each` and other terms. We should probably note in the `r.row` documentation that it changes the type of the argument it appears in to a function."
+  , issueCommentId = 101429630
+  }

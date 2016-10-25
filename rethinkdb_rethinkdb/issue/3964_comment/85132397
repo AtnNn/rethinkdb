@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-23) 18 : 24 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/85132397"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3964#issuecomment-85132397"
+  , issueCommentCreatedAt = 2015 (-03) (-23) 18 : 21 : 31 UTC
+  , issueCommentBody =
+      "Maybe the table created by 'into' should only be writable by the command that created it.\r\n\r\nPlease note that an *inner changefeed* query will automatically write more items to the table (even after a cluster is restarted) until it is cancelled by a separate command some day.\r\n\r\nSee how it works in InfluxDB:\r\n>**[Downsampling Continuous Queries] (http://influxdb.com/docs/v0.8/api/continuous_queries.html#downsampling-continuous-queries)**\r\nThis is expected to be the primary use case for continuous queries. When a continuous query is created from a select query that contains a group by time() clause, InfluxDB will write the aggregate into the target time series when each time interval elapses. **On creation, the cluster will backfill old data asynchronously in the background**.\r\nEach hour, this query will count the number of points written into the time series called clicks and write a single point into the target time series called clicks.count.1h. It\8217s important to note that **this happens as soon as the hour has elapsed**\r\n\r\nAnd the *into* syntax wouldn't rely on #3740.\r\n\r\nSo I'm not totally sure the current issue is really a duplicate of #3171.\r\n\r\nBut I could be misinterpreting something, so feel free to close the current issue as a duplicate :)\r\n"
+  , issueCommentId = 85132397
+  }

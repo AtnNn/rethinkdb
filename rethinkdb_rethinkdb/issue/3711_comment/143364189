@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-25) 22 : 06 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 50130
+        , simpleUserLogin = N "leebyron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/50130?v=3"
+        , simpleUserUrl = "https://api.github.com/users/leebyron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143364189"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3711#issuecomment-143364189"
+  , issueCommentCreatedAt = 2015 (-09) (-25) 22 : 04 : 16 UTC
+  , issueCommentBody =
+      "Hello, I'm one of the primary authors of GraphQL.\r\n\r\nThe intuiting done so far on this thread is really good. I feel like I don't need to add much to this discussion.\r\n\r\n@mike-marcacci's ASCII diagram above is a very accurate representation of how we view GraphQL and how GraphQL is used at Facebook: Client applications send requests to application servers using GraphQL, and those application servers are on their own to fulfill them, often using a combination of database queries (like ReQL), cache hits, and unhindered business logic (e.g. privacy/access rules or derived data).\r\n\r\nHowever, I would like to toss into this discussion that Perfect should not be the enemy of Good here. I think there is huge value in @coffeemug's \"Option 1\" above.\r\n\r\nI believe there is a continuum of needs and costs between \"RethinkDB should fulfill GraphQL directly\" to \"RethinkDB should not know anything about GraphQL\" along which lies a trade-off threshold. An ideal set of solutions pick a few points along this threshold and should be easy to move between as your needs evolve:\r\n\r\nWhen people first get started building something new, the only criteria that matters is speed. Product criteria is often unknown because the product is unknown. Removing any overhead costs is critical to the ability to explore and prototype quickly. It's at this point where RethinkDB serving GraphQL directly is extremely high value. This will allow you to immediately take advantage of the client-side developer efficiency wins that GraphQL promises while avoiding the upfront cost of designing a schema.\r\n\r\nOf course, directly serving GraphQL has limitations. As already mentioned in this issue: privacy/access rules are not something RethinkDB does directly, nor could it as many products (incl Facebook) require arbitrary logic and sometimes the fetching of additional information to determine these visibility rules. There's also no way (nor should there be) for RethinkDB to \"fall through\" to other systems in the case where your system evolves to the point that multiple backend services are necessary. None of these restrict the immediate value of being able to use GraphQL when your application is still simple.\r\n\r\nThe critical difficult issue to solve is how to build GraphQL integration into RethinkDB in such a way that as your product needs evolve and become more complicated, you can iteratively move the responsibility for fulfilling GraphQL from RethinkDB into your application server logic without some massive migration effort - effectively leaving your client applications sending GraphQL unchanged, but opening these possibilities.\r\n\r\n\r\n\r\n"
+  , issueCommentId = 143364189
+  }

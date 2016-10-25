@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-22) 03 : 06 : 44 UTC
+  , issueUpdatedAt = 2014 (-05) (-22) 03 : 06 : 44 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/997/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/997"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 997
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: triggers"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/997"
+  , issueCreatedAt = 2013 (-06) (-13) 03 : 39 : 59 UTC
+  , issueBody =
+      Just
+        "```javascript\r\n// r.createTrigger(name, table, type, condition, action)\r\n// r.dropTrigger(name)\r\n\r\n// Every time someone inserts a new user older than 20, beep\r\nr.createTrigger('test', 'users', r.insert,\r\n  function(new_user) {\r\n    return new_user('age').gt(20);\r\n  },\r\n  r.js('npm.beep()'))\r\n\r\n// Every time someone turns 18, beep\r\nr.createTrigger('test2', 'users', r.update,\r\n  function(old_row, new_row) {\r\n    return r.and(old_row('age').ne(18),\r\n                 new_row('age').eq(18));\r\n  },\r\n  r.js('npm.beep()'))\r\n\r\n// Stop beeping for twenty year olds\r\nr.dropTrigger('test');\r\n```\r\n\r\nA couple of things:\r\n\r\n1. While the action could be any ReQL expression, to be really useful we have to run nodejs on the server. Then people can use things like RabbitMQ to communicate with other applications, which is immensely useful.\r\n2. The triggers are defined with respect to a single table, and can be run on a predefined set of operations (presumably inserts, updates/replaces, and deletes). Defining triggers with arbitrary conditions would be way too slow (since we'd have to evaluate potentially expensive conditions on every single mutation operation, it's questionable how to do that cross cluster, etc.)\r\n3. I think this functionality would be *awesome*. Obviously it's a bit away."
+  , issueState = "closed"
+  , issueId = Id 15487186
+  , issueComments = 150
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

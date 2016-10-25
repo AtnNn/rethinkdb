@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-22) 21 : 11 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 147592
+        , simpleUserLogin = N "mez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/147592?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234485776"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4921#issuecomment-234485776"
+  , issueCommentCreatedAt = 2016 (-07) (-22) 08 : 32 : 49 UTC
+  , issueCommentBody =
+      "Hey @coffeemug and @danielmewes,\r\nI was curious and tried importing a csv file (crimes in SF since 2003) that translates to ~1.9 million documents. You can find the csv [here](https://data.sfgov.org/Public-Safety/SFPD-Incidents-from-1-January-2003/tmnf-yvry).\r\n\r\nAs a baseline, I used mongo 3.2.8 and ran the import command below:\r\n`mongoimport Downloads/SFPD_Incidents_-_from_1_January_2003.csv --type csv --headerline --collection crimes`\r\n\r\nTime to import into mongo: ~1.13 mins\r\n\r\nI then imported the same file into rethinkdb 2.3.4 using the command below:\r\n`rethinkdb import -f Downloads/SFPD_Incidents_-_from_1_January_2003.csv --format csv --table test.crimes --force`\r\n\r\nTime to import into rethinkdb: ~20.50 mins\r\n\r\nWhen the imported started it jumped to ~4k writes/sec towards 25% completion it dropped to ~2k writes/sec and finally towards 80% it dropped to about 200-800 writes/sec.\r\n\r\nMy machine has two cores (2GHz) and 8gb ram; also I believe by default rethinkdb import does NOT use hard durability writes, but I could be mistaken. I also messed around with the `--clients` flag and tried different numbers nothing much changed. \r\n\r\nCould I have improved the import time in anyway? Is this expect from rethinkdb for the number of documents I am importing? Does rethinkdb prefer json format? I ask because I believe in mongo, csv is faster to import than json format.\r\n\r\nHope this info is helpful to you guys!\r\nThanks,\r\n\r\n-Mez"
+  , issueCommentId = 234485776
+  }

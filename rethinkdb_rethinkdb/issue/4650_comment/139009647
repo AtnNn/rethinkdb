@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-09) 19 : 00 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139009647"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4650#issuecomment-139009647"
+  , issueCommentCreatedAt = 2015 (-09) (-09) 19 : 00 : 36 UTC
+  , issueCommentBody =
+      "I looked into this on a mac we have at the office; it's a bit faster on this box, about 100 writes per second, but even that's not great.\r\n\r\nTracing this with `fs_usage`, one query doing one write with hard durability looks like this, typically:\r\n\r\n```\r\n17:33:24.959678  pwrite            F=95   B=0x200      O=0x01aee400                                                                                                                                                           0.000004   rethinkdb.6908644\r\n17:33:24.959682  pwrite            F=95   B=0x200      O=0x01aee600                                                                                                                                                           0.000002   rethinkdb.6908644\r\n17:33:24.959975  pwrite            F=95   B=0x1000     O=0x01aee800                                                                                                                                                           0.000252 W rethinkdb.6908644\r\n17:33:24.964884  fcntl             F=95  <FULLFSYNC>                                                                                                                                                                          0.004811 W rethinkdb.6908679\r\n17:33:24.964891  pwrite            F=95   B=0x1000     O=0x00003000                                                                                                                                                           0.000004   rethinkdb.6908679\r\n17:33:24.969308  fcntl             F=95  <FULLFSYNC>                                                                                                                                                                          0.004416 W rethinkdb.6908679\r\n```\r\n\r\nAlmost all of the time is spent in the two `fsync` calls (actually `fcntl(fd, F_FULLFSYNC)` on osx.) We're disk bound. My guess is that HFS+ is doing some extraneous writes on the call to FULLFSYNC which is slowing them down, but I'd need to do some deep digging to actually figure out if that's true or not.\r\n\r\nIn either case, these writes are pretty minimal. Three writes for the data, an fsync of about 5ms, one write for the metadata block, then another fsync of about 5ms. We might be able to cut this down to only one fsync using a checksummed log, but that'd require some serious work on the low level code."
+  , issueCommentId = 139009647
+  }

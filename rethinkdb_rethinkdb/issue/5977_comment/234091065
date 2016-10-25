@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-20) 21 : 36 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234091065"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5977#issuecomment-234091065"
+  , issueCommentCreatedAt = 2016 (-07) (-20) 21 : 36 : 28 UTC
+  , issueCommentBody =
+      "This is probably caused by `merge` only recursing until it sees the first new field, and then adding everything under that field.  The easiest way to fix this would be to make `merge` recurse down all the way through the thing it's merging, but that would make `merge` much less efficient in some cases in order to address a fairly rare edge case.\r\n\r\nTwo other options:\r\n1. Do the merge the way we do it now, and change the code so that a `LITERAL` outside the righthand side of a merge is just ignored and treated the same as a missing field.\r\n2. Tag objects to indicate whether any of their children contain a `LITERAL`.\r\n  - This will stop us from having to traverse the whole object at merge-time, but will slightly increase overhead for most other operations on objects.\r\n\r\nI think `1` would perform the best (and would also solve any similar related bugs in the future), but it's also hardest to implement."
+  , issueCommentId = 234091065
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-20) 21 : 12 : 12 UTC
+  , issueUpdatedAt = 2014 (-06) (-11) 23 : 46 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2353/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2353"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      ]
+  , issueNumber = 2353
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Undo per-type versioning, have per-cluster-message versioning and a few specific instances of on-disk versioning."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2353"
+  , issueCreatedAt = 2014 (-05) (-05) 19 : 36 : 19 UTC
+  , issueBody =
+      Just
+        "Right now we have changed our serialization macros pre-1.13 to put a version number on every single type for which a serialization macro is defined.  This is bad for some reasons:\r\n\r\n- Performance:  It puts version numbers on all these types that don't need them!  We'll do a lot of conditionals checking version numbers when we really want some fast serialization and deserialization code.\r\n- Insufficiency:  It doesn't put version numbers on all types, like std::string and primitive types, and we need them in some places.  We often have things like `mailbox_t<void (bool)>`.\r\n- Insufficiency:  Intracluster message formats are described as a list of types (see all the code that says `mailbox_t<void (type1_t, ..., typeN_t)>`) and putting version numbers on the individual types doesn't solve the problem where we want to add or remove fields in a given intracluster message.  We also often have things like `mailbox_t<void ()>`.\r\n- Uselessness: It does all this work of versioning on a per-type basis, when there is no benefit.  There's no need for heterogeneous versioning in the same deserialization call.\r\n\r\nInstead we should only have one version number per cluster message.  Functions of the form `template <int version> void deserialize(...)` should exist for any type that becomes versioned.  You'd have to specify a version number when calling such deserialize functions.  That gives us all the benefits of per-type versioning.  There is absolutely no benefit to having versioning information anywhere outside the outermost deserialization call.\r\n\r\nFor the sake of future compatibility, for this issue, I'm going to make the mailbox code add the versioning byte instead of any serialization function.  I'm going to write version bytes in the appropriate places where we serialize stuff on-disk.\r\n\r\nMarking high priority because we should avoid locking ourselves into the current scheme that's in next in the 1.13 release.\r\n\r\nPinging @danielmewes since he might disagree, though I hope he enjoys his time off.\r\n"
+  , issueState = "closed"
+  , issueId = Id 32837960
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-26) 14 : 18 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 804919
+        , simpleUserLogin = N "1lann"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/804919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/1lann"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135035241"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4769#issuecomment-135035241"
+  , issueCommentCreatedAt = 2015 (-08) (-26) 14 : 12 : 17 UTC
+  , issueCommentBody =
+      "I would like to mention that this same error happened to me a few days ago, I was running `rethinkdb 2.1.1 (CLANG 4.2 (clang-425.0.28))` on OS X. However, this only happened when I ran `rethinkdb dump` and the server would crash with this error:\r\n```\r\nerror: Error in src/rdb_protocol/lazy_json.cc at line 22:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of rdb value failed with error archive_result_t::RANGE_ERROR.\r\nerror: Backtrace:\r\nerror: Sun Aug 23 21:36:35 2015\r\n       1: 0   rethinkdb                           0x0000000105d1dd2b _Z11deserializeIL17cluster_version_t6EE16archive_result_tP13read_stream_tP17repli_timestamp_t + 539 at 0x105d1dd2b ()\r\n       2: 0   rethinkdb                           0x000000010588192c _ZN26callable_action_instance_tINSt3__16__bindIRFvNS0_8functionIFvvEEEEJRS4_EEEED0Ev + 3724 at 0x10588192c ()\r\n       3: 0   rethinkdb                           0x0000000105882167 _ZN26callable_action_instance_tINSt3__16__bindIRFvNS0_8functionIFvvEEEEJRS4_EEEED0Ev + 5831 at 0x105882167 ()\r\n       4: 0   rethinkdb                           0x000000010588154a _ZN26callable_action_instance_tINSt3__16__bindIRFvNS0_8functionIFvvEEEEJRS4_EEEED0Ev + 2730 at 0x10588154a ()\r\n       5: 0   rethinkdb                           0x0000000105ae67ec _Z11deserializeIL17cluster_version_t6EE16archive_result_tP13read_stream_tP13name_string_t + 8204 at 0x105ae67ec ()\r\n       6: 0   rethinkdb                           0x0000000105c17107 _ZNSt3__16vectorINS0_I15lon_lat_point_tNS_9allocatorIS1_EEEENS2_IS4_EEE21__push_back_slow_pathIS4_EEvOT_ + 1047 at 0x105c17107 ()\r\n       7: 0   rethinkdb                           0x0000000105c17267 _ZNSt3__16vectorINS0_I15lon_lat_point_tNS_9allocatorIS1_EEEENS2_IS4_EEE21__push_back_slow_pathIS4_EEvOT_ + 1399 at 0x105c17267 ()\r\n       8: 0   rethinkdb                           0x0000000105b4325b _ZN2ql11deserializeIL17cluster_version_t6EEE16archive_result_tP13read_stream_tPNS_11batchspec_tE + 16523 at 0x105b4325b ()\r\n       9: 0   rethinkdb                           0x0000000105891e84 _ZN30concurrent_traversal_adapter_t16handle_pair_coroEP18scoped_key_value_tP15semaphore_acq_t27fifo_enforcer_write_token_tN14auto_drainer_t6lock_tE + 116 at 0x105891e84 ()\r\n       10: 0   rethinkdb                           0x0000000105891faa _ZN26callable_action_instance_tINSt3__16__bindIM30concurrent_traversal_adapter_tFvP18scoped_key_value_tP15semaphore_acq_t27fifo_enforcer_write_token_tN14auto_drainer_t6lock_tEEJPS2_S4_S6_RS7_S9_EEEE10run_actionEv + 106 at 0x105891faa ()\r\n       11: 0   rethinkdb                           0x0000000105877c68 _ZN22threaded_context_ref_tC2Ev + 1304 at 0x105877c68 ()\r\nerror: Exiting.\r\nTrace/BPT trap: 5\r\n```\r\nwhen the dumping reached 14%, and the same result occurred as I tried again 3 times.\r\n\r\nI decided to try to increase the `--cache-size` manually to 4 GB, and close any memory intensive applications, which seemed to have fixed the problem as `rethinkdb dump` executed successfully. Interestingly, when I removed the `--cache-size` flag and tried dumping again, the error didn't occur, and hasn't occurred since."
+  , issueCommentId = 135035241
+  }

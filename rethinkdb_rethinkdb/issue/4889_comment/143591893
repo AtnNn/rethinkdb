@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-27) 20 : 19 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 3852894
+        , simpleUserLogin = N "igorlukanin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3852894?v=3"
+        , simpleUserUrl = "https://api.github.com/users/igorlukanin"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143591893"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4889#issuecomment-143591893"
+  , issueCommentCreatedAt = 2015 (-09) (-27) 20 : 19 : 03 UTC
+  , issueCommentBody =
+      "Before last commit, this code wasn't supposed to work:\r\n```java\r\npublic class Pojo  {\r\n    private Integer integerProperty;\r\n    public Pojo(Integer integerProperty) { this.integerProperty = integerProperty; }\r\n}\r\nPojo pojo = r.db(\"db\").table(\"table\").get(\"reql-expr\").run(conn, Pojo.class);\r\n```\r\n\r\nA public parameterless constrcutor and a setter were required:\r\n```java\r\npublic class Pojo  {\r\n    private Integer integerProperty;\r\n    public Pojo() {}\r\n    public Pojo(Integer integerProperty) { this.integerProperty = integerProperty; }\r\n    public void setIntegerProperty(Integer integerProperty) { this.integerProperty = integerProperty; }\r\n}\r\nPojo pojo = r.db(\"db\").table(\"table\").get(\"reql-expr\").run(conn, Pojo.class);\r\n```\r\n\r\nLast commit adds support for beans with no parameterless constructors. Now if a bean has a constructor with several parameters matching both by names and types with the map of values retrieved from RethinkDB, it can still be instantiated and populated with values.\r\n\r\nNames of parameters are only available in Java 8 for code compiled with ```javac -parameters``` (see https://docs.oracle.com/javase/tutorial/reflect/member/methodparameterreflection.html), but that should be acceptable for lots of cases.\r\n\r\nSo, in Java we may stick to this short POJO definitions:\r\n```java\r\npublic class Pojo  {\r\n    private Integer integerProperty;\r\n    public Pojo(Integer integerProperty) { this.integerProperty = integerProperty; }\r\n}\r\n```\r\n\r\nAnd in other JVM languages, like Kotlin (see http://kotlinlang.org/docs/reference/data-classes.html), we may use even more concise version:\r\n```kotlin\r\ndata class Pojo(val integerProperty: Integer)\r\n```"
+  , issueCommentId = 143591893
+  }

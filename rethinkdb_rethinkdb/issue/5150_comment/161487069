@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-03) 01 : 29 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161487069"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5150#issuecomment-161487069"
+  , issueCommentCreatedAt = 2015 (-12) (-03) 01 : 28 : 41 UTC
+  , issueCommentBody =
+      "> Could this be enabled in version 5 per query by sending a magic value for length? Or could a new set of flags in the handshake negotiate format on a per connection basis?\r\n\r\nThat's a good option I think.\r\n\r\nI'm not really sure if we even want to support the new length-less format for responses from the server. It might be hard to support efficiently in some drivers, but on the other hand it would make the protocol more symmetric.\r\nOn the server, it could save some memory, and could potentially lead to a small reduction in latency as we can start sending the query result over the socket while we're still serializing the JSON response. It's also worth noting that we currently parallelize JSON encoding on the server for large responses, and I'm not sure how that part would interact with streaming the response directly onto a (buffered) socket.\r\n\r\nIf we implement this direction, the new encoding could be turned on or off for the sending and receiving direction independently through the new handshake you propose.\r\nWe would like to enhance the protocol handshake anyway, in order to support future protocol extensions more easily. We might end up doing that as part of https://github.com/rethinkdb/rethinkdb/issues/4519 .\r\n\r\n> Also my understanding of the JSON standard is that there could be white space before or after the query representation. That would cause problems if a poorly written encoder gets used and whitespace gets treated as the next token.\r\n\r\nThat's a good point. I don't think this will usually happen, and we could explicitly forbid it in the protocol specification though."
+  , issueCommentId = 161487069
+  }

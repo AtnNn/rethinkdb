@@ -1,0 +1,83 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-08) (-26) 22 : 26 : 33 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5823/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5823"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbca04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:in%20progress"
+          , labelName = "st:in progress"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5823
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 952451
+          , simpleUserLogin = N "nighelles"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/952451?v=3"
+          , simpleUserUrl = "https://api.github.com/users/nighelles"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: Document expiration"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5823"
+  , issueCreatedAt = 2016 (-06) (-03) 01 : 16 : 32 UTC
+  , issueBody =
+      Just
+        "This proposal provides an implementation of TTL (https://github.com/rethinkdb/rethinkdb/issues/746) assuming the application code inserts documents with timestamps. It can be combined with https://github.com/rethinkdb/rethinkdb/issues/5813 to avoid that requirement on the application code.\r\n\r\nThe idea is to trigger deletions whenever the index value of a document passes the current time.\r\n\r\n__Configuration API__\r\n\r\nProposal for an API for configuring expiration on a given table:\r\n* `tbl.setExpiration(indexName[, replaceFunction])` sets expiration based on the given index `indexName`. Optionally, a custom function can be provided that allows writes other than deletion when a document expires (e.g. setting a flag on the document). The default is `replaceFunction = function(oldVal) { return null; }`.\r\n* `tbl.setExpiration(null)` disables expiration\r\n* `tbl.getExpiration()` retrieves the current expiration configuration\r\n\r\nThe `setExpiration` term requires `\"config\"` permissions on `tbl`.\r\n\r\n__Notes__\r\n\r\nCare must be taken when specifying a non-default `replaceFunction`. If the function fails to lower or remove the value of the index `indexName` for the document, expiration will not work (though we will catch this case, see below).\r\n\r\n__Implementation__\r\n\r\nRuns on each primary replica of the table:\r\n\r\n1. Run `tbl.between(r.minval, r.now, {index: indexName}).replace(replaceFunction)` limited to the shard's range\r\n2. Fetch `next = tbl.min({index: indexName})`, evaluate `nextTS = indexFunc(next)`, limited to the shard's range\r\n3. If `nextTS` is not a datetime, log an error, sleep indefinitely.\r\n  (Detail to detect bad `replaceFunction`: if `next` has the same primary key as the `next` from the previous iteration, print an error and sleep indefinitely as well.)\r\n  Otherwise, sleep for `nextTS - r.now`.\r\n  In either case, the sleep gets interrupted if any write on the primary's shard range\r\n  introduces an index value that's smaller than `nextTS`.\r\n4. Go to step 1"
+  , issueState = "open"
+  , issueId = Id 158272687
+  , issueComments = 45
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 11
+          , milestoneNumber = 120
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/120"
+          , milestoneCreatedAt = 2016 (-04) (-07) 18 : 34 : 44 UTC
+          , milestoneState = "open"
+          }
+  }

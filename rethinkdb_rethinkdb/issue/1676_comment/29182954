@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-25) 07 : 55 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29182954"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1676#issuecomment-29182954"
+  , issueCommentCreatedAt = 2013 (-11) (-25) 07 : 55 : 07 UTC
+  , issueCommentBody =
+      "Now that the profiler is in the data explorer, I've been playing with it quite a bit and here are some changes I would really like to see.\r\n\r\n* Cursor awareness. Currently if the query returns a cursor, we can only get the profile for the first batch. The profiler should work with cursor iteration (i.e. when I get the next batch, I want to see the profile for that batch). That requires an API change (we can't just return a profile and a cursor as a value).\r\n* Infix vs. prefix. The result should be laid out in an infix mode instead of prefix mode. I want to see `db...table...map...reduce` instead of `reduce...map..table...db`. The latter is far, far harder to read.\r\n* Whenever the profiler returns `evaluating datum` I'd like it to actually include the value of the datum. It's very hard to tell what's up without knowing what's being evaluated.\r\n* Ditto for `evaluating make_array` (though it should cap the printout to may be first K values, where K < 10)\r\n* Also, `make_array` currently hides the profile of what's in it. Consider `r.expr([r.table('foo').map(function(x) {return 1;}).reduce(function(x,y) {return x.add(y);})])`. This gives no useful information because it completely hides the profile of map/reduce.\r\n* The profiler should return information about exactly what's happening on the shards. For instance, when I run `r.table('foo').map(function(x) {return 1;}).reduce(function(x,y) {return x.add(y);})`, I'd like to know that the map/reduce part actually gets pushed to each shard.\r\n* Each task should include a backtrace and a machine name/ID where it is being executed.\r\n\r\nThere are more things (like including memory allocations, disk accesses, etc.) but these are additional features, so we can look at those later. I think the issues above would go a long way towards polish, once they make it in we can look at adding more information."
+  , issueCommentId = 29182954
+  }

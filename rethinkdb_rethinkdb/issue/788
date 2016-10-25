@@ -1,0 +1,75 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-14) 03 : 28 : 16 UTC
+  , issueUpdatedAt = 2014 (-07) (-24) 16 : 14 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/788/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/788"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 788
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 75613
+        , simpleUserLogin = N "presidentbeef"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/75613?v=3"
+        , simpleUserUrl = "https://api.github.com/users/presidentbeef"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proof-of-concept `r.json` method using Oj gem"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/788"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/788.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/788.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/788"
+  , issueCreatedAt = 2013 (-05) (-12) 13 : 44 : 36 UTC
+  , issueBody =
+      Just
+        "As discussed in #252, it sure is convenient to pass JSON strings directly to RethinkDB, or at least not have to instantiate all the objects just to convert them to RQL.\r\n\r\nSo I threw together a slightly different approach to the `r.json` method using the [Oj](http://www.ohler.com/oj/) JSON parser. Sorry, no tests because I can't get RethinkDB to build on my current machine. But some manual testing showed that the basic functionality works, at least.\r\n\r\nHere is a quick benchmark using a 660KB JSON file ([code](https://gist.github.com/presidentbeef/724743fd7a11b57cfbf0#file-r_json_bm-rb)):\r\n\r\n```\r\nRehearsal -------------------------------------------------------\r\nJSON.parse + r.expr   8.600000   0.030000   8.630000 (  8.635941)\r\nOj.load + r.expr      8.440000   0.010000   8.450000 (  8.440146)\r\nr.json                0.620000   0.000000   0.620000 (  0.617726)\r\nr.json stream         0.560000   0.000000   0.560000 (  0.562764)\r\n--------------------------------------------- total: 18.260000sec\r\n\r\n                          user     system      total        real\r\nJSON.parse + r.expr   7.950000   0.000000   7.950000 (  7.955163)\r\nOj.load + r.expr      7.960000   0.000000   7.960000 (  7.969099)\r\nr.json                0.540000   0.000000   0.540000 (  0.538718)\r\nr.json stream         0.540000   0.000000   0.540000 (  0.537156)\r\n```\r\n\r\nMy conclusion: it's the conversion to RQL that is slow, not the JSON parsing.\r\n\r\nI was a little surprised that streaming the file didn't perform better, but it may be that Oj is not actually streaming the data efficiently like I thought it would."
+  , issueState = "closed"
+  , issueId = Id 14234916
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-22) 23 : 27 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49815035"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49815035"
+  , issueCommentCreatedAt = 2014 (-07) (-22) 23 : 27 : 08 UTC
+  , issueCommentBody =
+      "I'm basically on board with this proposal, but there are a few things I don't like.\r\n\r\nI don't like the fact that you have to create multiple connection pools to connect to multiple machines.  One of the primary use cases for connection pools is being able to distribute load over a cluster.  I think you should be able to create a connection pool with a set of machines to connect to (or one machine), and have it try to distribute the load over those machines.\r\n\r\nI'm a little skeptical about the number of ways we're creating to run a query.  After this proposal, we'll have:\r\n* c = r.connect(...); query.run(c)\r\n* p = r.pool(...); query.run(p)\r\n* p = r.pool(...); pool.with_conn{|c| query.run(c)}\r\n* p = r.pool(...); p2 = r.pool(...); query.run() # use any pool\r\n\r\nThat seems like a lot.\r\n\r\n---\r\n\r\nI think there's actually an argument to be made that `r.connect` should always return a pool.  By default it would return a pool with minimum and maximum connections set to `1`.\r\n\r\nThis would have different behavior than the old connections in some edge cases, but in most of those edge cases the old connections are already really confusing.  For example, currently:\r\n```rb\r\nr.table('test').run(c).each{|x| r.table('test2').get('foreign_key').run(c)}\r\n```\r\nwill have huge random latency spikes every time we need to get another batch for `test`.  If `r.connect` returned a pool with `min` and `max` size set to 1, people would instead get an error telling them to to increase the maximum number of connections, and after they did so they wouldn't get the random latency spikes any more.\r\n\r\nThere *are* use-cases for getting a single connection out of a pool (noreply writes that you want to be ordered, for example), but they're rare.  I think we should offer that but not push it too hard.  It's almost always better to use multiple connections.\r\n\r\n---\r\n\r\nThere's also the question of names, but I think we should split the discussion for this into two parts: we should settle on the behavior and then argue about the names (we've been derailed in the past by arguing about names too early)."
+  , issueCommentId = 49815035
+  }

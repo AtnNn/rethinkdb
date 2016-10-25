@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-21) 18 : 19 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/199411234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5548#issuecomment-199411234"
+  , issueCommentCreatedAt = 2016 (-03) (-21) 18 : 19 : 18 UTC
+  , issueCommentBody =
+      "Thanks for the bug report @eden .\r\n\r\nI think we didn't consider the scenario of having a non-deterministic function to sort on when implementing `orderBy`. We make use of the standard library's `std::stable_sort`, and I think that gets into trouble when the comparison isn't behaving consistently, depending on its implementation (which explains why it crashes on Linux and not on Mac).\r\n\r\nAs a work-around, you can do something like this:\r\n```py\r\nr.db('test').table('random').map(r.row.merge({\"rand_ind\": r.random()})).order_by(\"rand_ind\").limit(1).without(\"rand_ind\").run(conn)\r\n```"
+  , issueCommentId = 199411234
+  }

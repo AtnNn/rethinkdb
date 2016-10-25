@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-03) 19 : 10 : 37 UTC
+  , issueUpdatedAt = 2015 (-11) (-03) 19 : 10 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1951/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1951"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 1951
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Our main memory increases relatively fast with the database size"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1951"
+  , issueCreatedAt = 2014 (-02) (-17) 01 : 38 : 42 UTC
+  , issueBody =
+      Just
+        "(The title should be: \"Our main memory *overhead* increases relatively fast with the database size\")\r\n\r\nFor each block of a table (no matter whether it is on disk or in the cache), we keep an LBA entry in main memory. That entry is defined in `src/serializer/log/lba/in_memory_index.hpp`. It contains\r\n```\r\nflagged_off64_t offset;\r\nrepli_timestamp_t recency;\r\nuint32_t ser_block_size;\r\n```\r\nand has a size of 20 bytes.\r\n\r\nIn addition, the alt cache duplicates the recency (which is a 64 bit value) of every block, leading to an overhead of 28 bytes per block.\r\n\r\n\r\nAssuming an average value size of between 250 and 512 bytes (which is the worst case, but probably not untypical), we use at least 1 block per 512 bytes of data.\r\nThe overhead then is as follows: `28 bytes / 512 bytes = 0.05...`.\r\n\r\nFor storing a quite realistic 1 TB of data, this meta-data alone requires 50 GB of main memory (and that doesn't allow for any cache yet, it's just \"lost\" space). 10 TB of mass storage on a single node are becoming common, but 500+ GB of main memory are not.\r\n\r\nI think we will sooner or later have to come up with a way to reduce this overhead.\r\n\r\nOne very easy option would be to put these memory structures into a memory-mapped file if the database is over a certain size. Then the operating system could swap out parts of the index.\r\n\r\nHere's another (probably much faster) idea, but it isn't quite worked-out yet:\r\nIn the absence of garbage collection, we could have blobs store physical file offsets rather than logical block ids to reference blocks. So blobs (large values > 250 bytes specifically) would not generate any entries in the LBA. This would work well, because whenever we modify a blob, we just rewrite it completely anyway. Thus we don't win anything from having the additional indirection of translating logical to physical block offsets through the LBA in the first place.\r\nA problem is garbage collection though, because it changes the physical location of a block in the file without going through the btree. I'm not quite sure about how that could be integrated yet."
+  , issueState = "closed"
+  , issueId = Id 27687767
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-11) (-25) 03 : 45 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2136/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2136"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2136
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Data structure memory usage optimization in the cache."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2136"
+  , issueCreatedAt = 2014 (-03) (-21) 03 : 21 : 26 UTC
+  , issueBody =
+      Just
+        "We'd like our cache's data structures to use less memory.  We'd also like the serializer's data structures to do the same thing, yes.\r\n\r\nFor example, suppose we have an 8-byte pointer for every block in a 1 TB database, and the average block size is 512 bytes.  Then we'd need 16 GB of memory for just the _pointers_ to the other data structures about the block.\r\n\r\n1. There are some simple improvements we could make that would give us headroom.  Some places where we have intrusive lists with a head and tail pointer, we could have an intrusive list with just a head pointer. The `page_ptr_t` does not need its own `page_cache_t *`.  Maybe a uint32_t could be used in place of some uint64_t's.  Some fields only used when loading the page could be temporarily allocated on the heap.\r\n\r\n2. `current_page_t`'s that have evicted pages and no acquirers could be freed.  Tracked in #2137.\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 29877065
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

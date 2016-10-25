@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-11) 04 : 15 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55217480"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/117#issuecomment-55217480"
+  , issueCommentCreatedAt = 2014 (-09) (-11) 04 : 15 : 09 UTC
+  , issueCommentBody =
+      "I had a slightly different proposal that I think would be better. `r.uuid` would take an optarg with the generation scheme. I think there should be two -- the current one (random), and a semi-monotonically-increasing one (essentially `time.now()` plus a random value tacked on at the end):\r\n\r\n```py\r\n> r.uuid(scheme='random').run()\r\n'e0f75d10-d770-4434-ae3e-23194ffbe581'\r\n\r\n> r.uuid(scheme='ordered').run()\r\n'2014-09-17;05:15:59.123;e0f7'\r\n```\r\n\r\nThe users could specify the uuid generation scheme on table creation:\r\n\r\n```py\r\nr.table_create('foo', id_scheme='ordered')\r\n```\r\n\r\n@mlucy pointed out in person that this would work way better after we have hash sharding (because if we don't and the user picks `'ordered'`, all the writes will be routed to one shard), so I think we should wait until hash sharding is in to do this (see #364).\r\n\r\nMoving this out of the discussion period until we start working on hash sharding; please complain if you want this back in now."
+  , issueCommentId = 55217480
+  }

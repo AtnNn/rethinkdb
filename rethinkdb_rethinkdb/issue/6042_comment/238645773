@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-09) 18 : 27 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/238645773"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6042#issuecomment-238645773"
+  , issueCommentCreatedAt = 2016 (-08) (-09) 18 : 27 : 36 UTC
+  , issueCommentBody =
+      "Thanks for reporting this @Shengli-Lu . This seems to be essentially the same issue as https://github.com/rethinkdb/rethinkdb/issues/5923 .\r\n\r\nIn a nutshell, the reason for this is that doing many small updates to secondary indexes creates more \"garbage\" in the files, compared to creating the index afterwards which uses more efficient mechanisms to batch index updates together.\r\nRethinkDB uses an incremental garbage collector to reclaim the garbage space, but it looks like the GC is too inefficient to keep up for certain loads in the current release of RethinkDB, which in turn causes the file to grow in size more quickly during the data load.\r\nWe've done a couple of improvements, which will ship soon with RethinkDB 2.3.5. We'll have to see if those are enough to avoid this issue, or if there's more we need to do.\r\n\r\nClosing as a duplicate of #5923 ."
+  , issueCommentId = 238645773
+  }

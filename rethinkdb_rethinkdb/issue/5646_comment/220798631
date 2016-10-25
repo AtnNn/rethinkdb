@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-21) 23 : 12 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2600966
+        , simpleUserLogin = N "thomasmodeneis"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2600966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thomasmodeneis"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/220798631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5646#issuecomment-220798631"
+  , issueCommentCreatedAt = 2016 (-05) (-21) 20 : 27 : 34 UTC
+  , issueCommentBody =
+      "Hi,\r\n\r\nI'm facing the same problems, in my case is 2.3.2 export -> import on 2.3.2 (another server), job details: *I've run same job multiple times and it always fails.\r\n```\r\nUnzipping archive file...\r\n  Done (35 seconds)\r\nImporting from directory...\r\n[========================                ]  60%\r\n3721973 rows imported in 7 tables\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nReQL error during 'import': Connection is closed.\r\nErrors occurred during import\r\nError: rethinkdb-import failed\r\n```\r\n\r\nEDIT:\r\nI've inspected this further and is due to:\r\n```\r\n2016-05-21T22:59:43.117083594 861.280693s error: Ran out of disk space. (offset = 6094719488, count = 58368)\r\n```\r\n \r\nI changed cfgs and the restore went ok.\r\n\r\nI have few points from this experience\r\nI've executed the restore with two different machines one running centos72 and another ubuntu14, both configured to run latest 2.3.2.\r\nThe instance using centos restored the db faster  `Done (1192 seconds)` \r\nThe instance using ubuntu restore the db in Done `(1806 seconds)`\r\n\r\nAfter the restore is completed, the instance centos72 had to re-build the indexes and is doing it for about 1h and ongoing, but the instance using ubuntu14 never re-build the indexes.\r\nAnother factor I see is that the Ubutu box says disk used is about 55G, but the centos says that is 10GB.\r\nI see as well that the ubuntu disk size is reducing from time to time, so I'm not sure if this extra disk was used to process the restore and then will be gradually removed OR this extra disk usage is due to the fact that the ubuntu instance don't require index rebuild.\r\n\r\nQuestions:\r\nWhy Centos instance required index rebuild ? Why Ubuntu instance has 40GB extra disk usage ?\r\n\r\nCheers"
+  , issueCommentId = 220798631
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-17) 04 : 47 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49258056"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49258056"
+  , issueCommentCreatedAt = 2014 (-07) (-17) 04 : 47 : 16 UTC
+  , issueCommentBody =
+      "In my example where a query is executed inside the callback for another query, using a connection pool with a single connection introduces a deadlock, but using a single connection does not. Not only is it counter-intuitive, but it is also a symptom of a larger problem that your proposed connection pools do not behave like connections, but they use the same API.\r\n\r\n> I am not strongly opposed of giving users access to `getConnection` and `putConnection`\r\n\r\nI disagree here as well. We should give the users an API that does not allow putting arbitrary connections into the pool. In my previous comment, I proposed using `with` in Python and `.withConnection(function(conn, putBack)` in JavaScript.\r\n\r\n> I also really don't see what they would gain from manually using these methods.\r\n\r\nIf an app switches from using connections to using a connection pool, with your proposal they don't have to modify much code, but the semantics of their program will change. It might introduce deadlocks or corrupt data. Some people would prefer writing more code to avoiding those pitfalls.\r\n\r\nI can also imagine other cases where it might be useful. In a threaded web application, it might be desirable to use a single connection from the pool for each request rather than to have the request handlers passing the connections between themselves multiple times during each request."
+  , issueCommentId = 49258056
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-13) 22 : 45 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 22532
+        , simpleUserLogin = N "tinco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/22532?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tinco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/246849879"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5973#issuecomment-246849879"
+  , issueCommentCreatedAt = 2016 (-09) (-13) 22 : 45 : 03 UTC
+  , issueCommentBody =
+      "Alright, just for the record I am very much ok with someone taking over. I just reviewed the code to find out why I thought the PR had become so ugly, and it's because of the QueryHandle class I had to extract. This makes it necessary for a new async handler to define an extra class that inherits from QueryHandle class, and subsequently inject that class into the options hash which is an awful interface. You can see one example of this in my implementation of the em_run in this PR, and below I've got the class I used in my Rails 5 spreadsheets tutorial:\r\n\r\n```ruby\r\n  class ConcurrentAsyncHandler < RethinkDB::AsyncHandler\r\n    def run(&action)\r\n      options[:query_handle_class] = AsyncQueryHandler\r\n      yield\r\n    end\r\n\r\n    def handler\r\n      callback\r\n    end\r\n\r\n    class AsyncQueryHandler < RethinkDB::QueryHandle\r\n      def guarded_async_run(&b)\r\n        Concurrent.global_io_executor.post(&b)\r\n      end\r\n    end\r\n  end\r\n```\r\n\r\nFixing this API requires a deeper refactoring, I did not there attempt it for this PR, as it would make it more opaque.\r\n\r\nI think if this API is going to be public it has to be nicer, so I think you should not release it like this. If you have someone who could spend a few hours on this that would be great. I could have a go at refactoring the query handle, but it might take a while as work is keeping me busy, it would also make this PR significantly larger so it would be more difficult to review for you guys."
+  , issueCommentId = 246849879
+  }

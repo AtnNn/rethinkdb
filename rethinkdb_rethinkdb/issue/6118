@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-17) 15 : 42 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6118/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6118"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 6118
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 2128182
+        , simpleUserLogin = N "ivan-kleshnin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2128182?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ivan-kleshnin"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add reject command [proposal]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6118"
+  , issueCreatedAt = 2016 (-09) (-21) 17 : 28 : 49 UTC
+  , issueBody =
+      Just
+        "The `filter` command keeps every item which satisfies predicate.\r\nSometimes it's easier to reason from the other side and choose predicate\r\ndescribing which item(s) we want to drop (rather than keep).\r\n\r\nIn Ramda library such operation is called `reject`\r\nhttp://ramdajs.com/docs/#filter\r\nhttp://ramdajs.com/docs/#reject\r\n\r\nLet's see an example of removing a comment from a project by id \r\nif comments are kept in embedded array.\r\n\r\n```js\r\n// 1)\r\nr.db('test').table('projects').get(\"1\")\r\n  .update((project) {\r\n    return {\r\n      comments: project(\"comments\").filter((comment) => {\r\n        return project(\"id\").eq(\"123\").not()\r\n      }) \r\n    }\r\n  }\r\n  \r\n\r\n// 2)\r\nr.db('test').table('projects').get(\"1\")\r\n  .update((project) {\r\n    return {\r\n      comments: project(\"comments\").filter((comment) => {\r\n        return project(\"id\").ne(\"123\")\r\n      }) \r\n    }\r\n  }\r\n```\r\n\r\nIn both versions reading and reasoning is obscured by mental negation.\r\n\r\n*\8211 Keep all comments except the one with id=123 in selected project* \r\nvs\r\n*\8211 Drop comment with id=123 in selected project*\r\n\r\n```js\r\n// 3)\r\nr.db('test').table('projects').get(\"1\")\r\n  .update((project) {\r\n    return {\r\n      comments: project(\"comments\").reject((comment) => {\r\n        return project(\"id\").eq(\"123\")\r\n      }) \r\n    }\r\n  }\r\n```"
+  , issueState = "open"
+  , issueId = Id 178412215
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

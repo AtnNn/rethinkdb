@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Just 2015 (-10) (-14) 19 : 13 : 56 UTC
+  , issueUpdatedAt = 2015 (-11) (-03) 21 : 43 : 33 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4942/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/4942"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4942
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "feat(raft_leader): display raft leader for table in table_status"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4942"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4942.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4942.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4942"
+  , issueCreatedAt = 2015 (-10) (-11) 02 : 58 : 25 UTC
+  , issueBody =
+      Just
+        "This adds support for tracking the raft leader for each table and\r\ndisplaying that information per-table in the table_status\r\nartificial table.\r\n\r\nrelates to issue https://github.com/rethinkdb/rethinkdb/issues/4902\r\n\r\nI know there probably is a lot to review here, as I'm clearly not very familiar with your code base. Off the top of my head I have the following comments/concerns:\r\n\r\n  * The serialized form of `table_status_response_t` has changed, making it incompatible with older versions of the database. I had considered packing this information into `table_raft_state_t` but wasn't sure if that would even make a difference, so it would be helpful if someone could advise here (I tacked it on to the end of the serialization in case order mattered here).\r\n\r\n  * The location of the data itself is just set as `raft_leader` on the top level of the `table_status` documents, this is easily changeable and I think it's just a matter of consensus on your side of where it belongs (`raft_leader` or `raft.leader` etc)\r\n\r\n  * Currently the raft_leader information piggybacks a request for `want_raft_state` which may be misleading, but let's me get away with not having to change the request format.\r\n\r\n  * The way I'm currently getting the server name seems a bit unorthodox, there are comments in your code describing its flakey nature in production\r\n\r\n  * In order to determine if a table is a raft leader I'm statically casting the `leader` member of a table manager, and before that process I use the leader rw locker. In other parts of the codebase where you something similar you allow for the possibility of it already being locked (sort of looks like a try_lock) due to leadership changes - this might be trouble if I don't do it here\r\n\r\n\r\nAnyway, I'm sure there's more but it's a start."
+  , issueState = "closed"
+  , issueId = Id 110830259
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-16) 01 : 17 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/226364163"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-226364163"
+  , issueCommentCreatedAt = 2016 (-06) (-16) 01 : 17 : 09 UTC
+  , issueCommentBody =
+      "@danielmewes -- the way I was imagining table-size-based expiration would work is that it's still attached to an index, and if the table goes over the current size limit it calls the replacer function on the smallest row in the index, then the next smallest row, etc. until it reaches the end or the table is below the size limit + some threshold (so that it isn't called on every insert).\r\n\r\nSo if the index is a timestamp, the default replacer function would delete the oldest rows until the table was under a certain size.\r\n\r\nI can think of a few examples of useful replacer functions with those semantics:\r\n```rb\r\nlambda {|row|\r\n  return r.branch(row['can_evict'], nil, row);\r\n}\r\n```\r\n\r\n```rb\r\nlambda {|row|\r\n  # You'd probably want setting `cache_invalidated` to `true` to remove the row from the index.\r\n  return row.merge({data: nil, cache_invalidated: true})\r\n}\r\n```"
+  , issueCommentId = 226364163
+  }

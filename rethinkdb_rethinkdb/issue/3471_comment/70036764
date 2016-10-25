@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-15) 03 : 58 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70036764"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-70036764"
+  , issueCommentCreatedAt = 2015 (-01) (-15) 03 : 58 : 44 UTC
+  , issueCommentBody =
+      "Here's an alternate proposal that would take a lot less work to implement:\r\n```rb\r\n1> r.table('test').changes() => non-restartable changefeed\r\n1> r.table('test').changes(persist: 'my_changefeed') => restartable changefeed\r\n1> CRASHES\r\n2> r.table('test').changefeed('my_changefeed') => steal the restartable changefeed from (1)\r\n2> r.table('test').changefeed('my_changefeed').delete => safely close the changefeed so it doesn't hang around taking up memory\r\n```\r\n\r\nWe'd basically give people a way to create a named changefeed that exists above the connection level, so another client can steal that changefeed and keep reading changes from it in case the first client goes down.  This wouldn't let people requests all the changes starting at an arbitrary point in time, but it's way way easier to implement.  (We could also keep the last batch sent around in memory, and have an optarg to indicate whether or not (2) receives the last sent batch a second time, which I think is usually what you'd want in the case where (1) dies.)"
+  , issueCommentId = 70036764
+  }

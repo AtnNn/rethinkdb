@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-06) 05 : 16 : 36 UTC
+  , issueUpdatedAt = 2016 (-04) (-06) 05 : 16 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5349/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5349"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "bfe5bf"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/windows"
+          , labelName = "windows"
+          }
+      ]
+  , issueNumber = 5349
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Protocol Discrepancies Between Linux and Windows"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5349"
+  , issueCreatedAt = 2016 (-02) (-03) 04 : 46 : 39 UTC
+  , issueBody =
+      Just
+        "Hi @AtnNn , first off: ***beautifu*l** work on the windows **alpha2** build. I'm finally able to stop shipping the C# unit tests over to **CircleCI** to have them run.\r\n\r\nSo, I gave `alpha2` a try and I noticed some protocol discrepancies between **Linux** servers and **Windows** servers running **RethinkDB**.\r\n\r\nThe C# driver [has the full battery of auto generated YAML tests](https://github.com/bchavez/RethinkDb.Driver/tree/master/Source/RethinkDb.Driver.Tests/Generated) just like the **Java** driver.\r\n\r\nAll unit tests are **green** against a **Linux** server. When the YAML tests are thrown against `alpha2` some unit tests are failing. Here's a particular example:\r\n```\r\nTest:\r\n\tdatum/number.yaml, LineNum: 95\r\nExpected ReQL:\r\n\tfloat(1234567890123456789012345678901234567890)\r\nExpected C#/Java:\r\n\tfloat_(1234567890123456789012345678901234567890.0)\r\nRun ReQL:\r\n\tr.expr(1234567890123456789012345678901234567890)\r\nRun C#/Java:\r\n\tr.expr(1234567890123456789012345678901234567890.0)\r\nRunOpts: []\r\n\r\nProtocol In Context:\r\n\tJSON Send: Token: 12, JSON: [1,1.2345678901234568E+39,{}]\r\n\tJSON Recv: Token: 12, JSON: {\"t\":1,\"r\":[1.2345678901234567e39]}\r\n\r\nPROBLEM:\r\n\r\nExpected value to be between 1.23456789012346E+39 and 1.23456789012346E+39, but found 1.23456789012346E+39.\r\n```\r\n\r\nLooks more interesting when we pop up **Wireshark** protocol analyzer to see the actual wire-line transfer:\r\n\r\n#### RethinkDB LINUX (PASSING)\r\n![linux](https://cloud.githubusercontent.com/assets/478118/12772877/c3ad2230-c9ea-11e5-9c5d-1b43ba1ff21d.png)\r\n\r\n\r\n#### RethinkDB Windows (FAILING)\r\n![windows](https://cloud.githubusercontent.com/assets/478118/12772879/c744f6a2-c9ea-11e5-9a98-acfc776bb241.png)\r\n\r\nThis one is tricky. But... do you see it? :mag: **6 bytes** from the end of each the response: \r\n\r\n* **Linux**: `0x39`\r\n* **WIndows**: `0x37`\r\n\r\nThe full list of failing tests and their protocol outputs are here:\r\nhttps://ci.appveyor.com/project/bchavez/rethinkdb-driver/build/365/tests\r\n\r\nAlso, if you want to run these tests while I'm away from the computer, you can send a PR with the new `serverDownload` URL in the build script [`build.fsx`](https://github.com/bchavez/RethinkDb.Driver/blob/master/Builder/build.fsx). Then your PR/newURL will get built and tested at https://ci.appveyor.com/project/bchavez/rethinkdb-driver/build/tests\r\n\r\nAgain, as always, awesome work with windows! :+1: \r\n\r\nThanks,\r\nBrian\r\n\r\nTest Setup\r\n**Windows**: Windows Server 2012 R2\r\n**Linux**: Ubuntu 14.04"
+  , issueState = "closed"
+  , issueId = Id 130910891
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

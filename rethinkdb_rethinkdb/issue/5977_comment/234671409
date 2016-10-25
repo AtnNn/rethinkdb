@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-22) 22 : 22 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234671409"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5977#issuecomment-234671409"
+  , issueCommentCreatedAt = 2016 (-07) (-22) 22 : 22 : 51 UTC
+  , issueCommentBody =
+      "When I say \"A literal outside the righthand side of a merge is just ignored\", I mean that `{a: foo}` and `{a: r.literal(foo)}` are identical, and also that `{a: 1, b: r.literal()}` and `{a: 1}` are identical.\r\n\r\n@danielmewes -- I think treating `r.literal()` fields as `NULL` would be really bad.  Unless I'm misunderstanding the proposal, `merge` as it's currently implemented would cause `r({}).merge({foo: {bar: r.literal()}})` to return `{foo: {bar: r.literal()}}` which would be `{foo: {bar: NULL}}`, while `r({foo: {}}).merge({foo: {bar: r.literal()}})` would return `{foo: {})`.\r\n\r\n---\r\n\r\nI don't think it would be a huge hassle to change the object interface so that you use an iterator to access the fields instead, and you can pass in an option indicating whether you want the iterator to see empty `r.literal()`s or not (which only `merge` and maybe like one other thing would).\r\n\r\nAfter thinking about it, though, I think the cleanest option would actually be to tag objects with whether or not they contain a nested literal.  I think we currently have (or should have) the rule that objects returned by executing ReQL never contain `r.literal()`, so we'd only have to tag literal objects provided by the query, which means it won't slow things down much (if at all) and won't be that much new code."
+  , issueCommentId = 234671409
+  }

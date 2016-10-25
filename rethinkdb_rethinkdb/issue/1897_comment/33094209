@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-23) 03 : 36 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 762554
+        , simpleUserLogin = N "ckmaresca"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/762554?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ckmaresca"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33094209"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1897#issuecomment-33094209"
+  , issueCommentCreatedAt = 2014 (-01) (-23) 03 : 29 : 21 UTC
+  , issueCommentBody =
+      "hmm, just did `rethink --bind all` (note sanitized addresses are public IPs).\r\n```\r\nroot@idb:~# rethinkdb --bind all\r\ninfo: Creating directory /root/rethinkdb_data\r\ninfo: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/root/rethinkdb_data' did not already exist.)\r\ninfo: Running rethinkdb 1.11.3-1ubuntu1~saucy (GCC 4.8.1)...\r\ninfo: Running on Linux 3.11.0-12-generic x86_64\r\ninfo: Loading data from directory /root/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 1xx.xxx.xxx.xxx, 55x.xxx.xxx.xxx, ::1, fexxxxxxxxx\r\ninfo: Server ready\r\n```\r\nBut --- `netstat -antp` shows\r\n```\r\ntcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      6015/redis-server\r\ntcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      31344/sshd      \r\ntcp        0      0 1xx.xxx.xxx.xxx:22        5xx.xxx.xxx.xxx:61238      ESTABLISHED 1006/0          \r\ntcp        0      0 1xx.xxx.xxx.xxx:39986     5xx.xxx.xxx.xxx:443      TIME_WAIT   -               \r\ntcp        0    384 1xx.xxx.xxx.xxx:22        5xx.xxx.xxx.xxx:54441      ESTABLISHED 14936/sshd: [] [pr\r\ntcp        0      0 1xx.xxx.xxx.xxx:39988     5xx.xxx.xxx.xxx:443      TIME_WAIT   -               \r\ntcp6       0      0 :::28015                :::*                    LISTEN      14860/rethinkdb \r\ntcp6       0      0 :::8080                 :::*                    LISTEN      14860/rethinkdb \r\ntcp6       0      0 :::80                   :::*                    LISTEN      14729/apache2   \r\ntcp6       0      0 :::22                   :::*                    LISTEN      31344/sshd      \r\ntcp6       0      0 :::29015                :::*                    LISTEN      14860/rethinkdb \r\ntcp6       0      0 1xx.xxx.xxx.xxx:8080      5xx.xxx.xxx.xxx:54467      TIME_WAIT   -               \r\ntcp6       0      0 1xx.xxx.xxx.xxx:8080      5xx.xxx.xxx.xxx:54463      TIME_WAIT   -               \r\ntcp6       0      0 1xx.xxx.xxx.xxx:8080      5xx.xxx.xxx.xxx:54458      TIME_WAIT   -    \r\n```\r\nI've got a browser window open with the admin window that's constantly refreshing (you can see it at the end of the `netstat` and that's truncated).  I'm thinking that maybe that's blocking startup of the rest of the IPv4 code?  \r\n\r\nAnd, oddly enough, I'm not using IPv6 from my machine (which is 5xx), IPv4...  ?? (no idea) ?? (actually, I think this may be some `iptables` magic redirection because there was no IPv4 service...)"
+  , issueCommentId = 33094209
+  }

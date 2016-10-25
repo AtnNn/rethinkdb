@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 07 : 47 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21236132"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1190#issuecomment-21236132"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 07 : 47 : 15 UTC
+  , issueCommentBody =
+      "`r._` and associates aren't anaphora. They don't refer to any value which came before, They're ways of specifying where arguments go. Free your mind from the mentality of \"whenever Joe writes code he's secretly just writing Common Lisp he just doesn't know it.\" I actually never wrote `r.mul(r._, r_)` I wrote `r.mul(r._0, r._0)` which is equivalent to `lambda x: r.mul(x, x)`. `r.mul(r._, r._)` would be equivalent to `lambda x,y: r.mul(x,y)` which isn't a valid argument to map.\r\n\r\n> It's of limited usefulness, because for many functions (like contains), you want to curry the second argument, not the first.\r\n\r\nThat's what `r._` is for and why it's not anaphora. You can curry to either side by writing:\r\n\r\n```\r\ntable.filter({\"articles\" : r.contains(1)})\r\ntable.filter({\"articles\" : r.contains(r._, 1)})\r\n```\r\n\r\nAlso this want be a problem because in most cases where you want both orders we normally ending adding the other ordering as a different function. For example we're planning to add `in` which is really just equivalent to `r.contains(r._1, r_0)`\r\n\r\n> I don't think people will be familiar with this behavior\r\n\r\nMongo has a syntax that people *love* that looks like this:\r\n```\r\ndb.things.find(id: {$gt: oid});\r\n```\r\nours would be:\r\n```\r\ntable.filter({\"id\" : r.gt(\"id\")})\r\n```\r\nso I think this will be very familiar to mongo users. However this this syntax wasn't familiar to mongo users before mongo implemented it. They did it because it's just so readable that they knew people would like it even if it was new. I really think the niceness of this syntax justifies itself even if it's not present in the existing driver languages.\r\n\r\n> It saves very little typing over the much more explicit `seq.filter(r([1, 2, 3]).contains(r.row))`\r\n\r\nThe bad thing about this is that `r.row` only works one layer deep. Using currying you get a shorter syntax that works *everywhere* and is consistent. This is because it *isn't* anaphora."
+  , issueCommentId = 21236132
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-10) 02 : 11 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/252527114"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6125#issuecomment-252527114"
+  , issueCommentCreatedAt = 2016 (-10) (-10) 01 : 44 : 12 UTC
+  , issueCommentBody =
+      "Hmm.  Well, running `r.random` atomically doesn't work for me in `v2.3.5` or `next`.\r\n\r\nI think the cause of this bug is 47fe12a5fdeb27370b1079cb42b518e097b485f2.  See the changes to `src/rdb_protocol/time.cc`.  Previously, `r.now()` terms were turned into constant terms by replacing them in the AST (iirc). Now, they aren't.  The consequence is that `is_deterministic()`, called on such an expression, now produces a different result.\r\n\r\nI think we can't change the `is_deterministic()` behavior, because `r.now()` terms *didn't* get replaced in secondary index functions, and we call `is_deterministic()` to determine what is a valid secondary index function.  I'll have to look.  Edit:  Looked.  It does get called for that purpose."
+  , issueCommentId = 252527114
+  }

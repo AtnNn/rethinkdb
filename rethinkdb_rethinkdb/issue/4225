@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-06) (-03) 15 : 58 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4225/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4225"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 4225
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8921895
+        , simpleUserLogin = N "ha1331"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8921895?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ha1331"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Configs updating automaticly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4225"
+  , issueCreatedAt = 2015 (-05) (-13) 08 : 25 : 56 UTC
+  , issueBody =
+      Just
+        "Had a talk with Daniel Mewes yesterday and he suggested I open an issue about this.\r\n\r\nMy issue is actually not an issue, just a taught. currently you join cluster by editing /etc/rethinkdb/instances/instance.conf\r\n\r\njoin=some.ip.add.ress:port\r\n\r\nWhat ended up happening to me, was I configured one server, then another then another. But since I'm like really really lazy and not the best example of great admin, I didn't think about the join thing in advance. End result was node A didn't join into enything, since it was the first node going up, node B and node C both joined node A. All good, cluster up and running. If node A went down, not a biggie, nodes B and C functioned and cluster is still up. Then I ended up rebooting all the nodes for a reason or another. Nodes B and C came up, node A didn't. So, no cluster, because B and C only knew about A, that wasn't coming up. \r\n\r\nThis isn't a problem that would affect majority of users and affects none of the responsible ones. But it's still bit counter intuitive. More so if you grow your cluster later on. You would need to go over the existing nodes and add join=... to them if you wanted to make sure every node knows about all the other nodes. Tho you probably don't even need to have all the nodes knowing about all the other nodes.\r\n\r\nMy issue isn't actually what happened to me, since the current impelementation is good enough, if you actually use it like it should be used. My \"issue\"  would be kind of improvement, that could possibly be usefull in other ways also. It's not orginal idea, and actually not even mine. I just liked how foundationDB was/is doing this. You have:\r\n\r\n/etc/foundationdb/fdb.cluster file and it looks somethink like this:\r\nCnY5q4pj:QFLmMruAgIuFtTlJgx9JxuFISmATCIBP@1.1.1.1:4500,1.1.1.2:4500,1.1.1.3:4500\r\n \r\nThe idea is, when you start the first server of the cluster, this file gets created by running 'sudo /usr/lib/foundationdb/make-public.py'. Then you start the next, and copy this file to the new node (you didn't need to add the ip of the joining server manully, just copy the file) and it would just join the cluster and then the fdb process updated the cluster file in every node of that cluster with the new info.\r\n\r\nAlso I liked how you needed to have that CnY5q4pj:QFLmMruAgIuFtTlJgx9JxuFISmATCIBP in the begining to make sure joining nodes are \"authenticated\".  If i remember correctly \"CnY5q4pj\" is id of the cluster and \"QFLmMruAgIuFtTlJgx9JxuFISmATCIBP\" is \"password\".\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 75898735
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

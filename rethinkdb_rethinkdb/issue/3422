@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2014 (-12) (-16) 00 : 30 : 05 UTC
+  , issueUpdatedAt = 2014 (-12) (-16) 05 : 04 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3422/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3422"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3422
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 622337
+        , simpleUserLogin = N "joaojeronimo"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/622337?v=3"
+        , simpleUserUrl = "https://api.github.com/users/joaojeronimo"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Write performance drops from ~10k to ~1k writes per second after some time"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3422"
+  , issueCreatedAt = 2014 (-12) (-07) 01 : 24 : 25 UTC
+  , issueBody =
+      Just
+        "Hi, not sure if this is worth worrying about but I think it's pretty bad. I left a script writing batches of 1k documents to rethinkdb all day (3 shards, every object is `{\"n\": <int>, \"rand\": <Math.random()>, \"now\": <Date.now()>}`, one secondary index on `rand`) and last time I checked it was at about 37M documents, writting at about 10k documents per second on average, now it's been about 10 hours and it's writing at about 1k documents per second. I just got a 10x speedup before (it went from ~1k/s to ~10k/s) when I switched the buffered io (`no-direct-io`).\r\n\r\nSo far it filled 57650708480 bytes in a table (54GB). Because it's so slow I'll leave it running for another day and see if the performance degrades even more. I cannot know how many documents it has now because a .count() yields a timeout that is reported like `RqlRuntimeError: Query interrupted.  Did you shut down the server?` (the administration page for that table says \"about 110 million documents\").\r\n\r\nHas someone performed any kind of a similar benchmark (leaving inserts happening for as long as possible) to see what happens ? Is there something I could optimize ? 54GB seems like a tiny dataset for this to be happening."
+  , issueState = "closed"
+  , issueId = Id 51203429
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

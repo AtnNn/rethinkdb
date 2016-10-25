@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-22) 01 : 19 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 201442
+        , simpleUserLogin = N "Wardrop"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/201442?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Wardrop"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/142154437"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4869#issuecomment-142154437"
+  , issueCommentCreatedAt = 2015 (-09) (-22) 01 : 19 : 11 UTC
+  , issueCommentBody =
+      "I thought about that, and although 99% of the time that would work fine, it would fundamentally break if any other library or code attempted to exploit the same means of managing their connection. Being able to associate a connection with an RQL instance seems an obvious solution and I was surprised not to find such functionality in the driver. I originally thought RethinkDB::RQL#connect did what I'm proposing here, but alas, it just creates a Connection object completely disassociated from the RQL instance, which is really surprising behaviour. Why does a RQL *instance* have a method that creates a connection that has no association to that *instance*?\r\n\r\nUnfortunately, even though RQL#connect is the obvious choice to implement this functionality, it can't be changed without breaking backwards compatibility. You'd only be able to make such a change in a new major version. The next obvious choice would be adding an option to the RQL#initialise, but that would be kind of awkward, though it would work, e.g. ``RQL.new(nil, nil, conn)``. \r\n\r\nAnyway, I feel this functionality is desperately needed, but I'll leave the API choice and implementation details up to you guys."
+  , issueCommentId = 142154437
+  }

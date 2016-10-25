@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-13) 22 : 47 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/171461799"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5280#issuecomment-171461799"
+  , issueCommentCreatedAt = 2016 (-01) (-13) 22 : 47 : 55 UTC
+  , issueCommentBody =
+      "@r-marques That is very interesting. In the version of RethinkDB you're running (2.2.0), an `include_initial=True` changefeed indeed used different logic to read the initial data. Note that this changed with RethinkDB 2.2.2, where it became more similar to a normal read. So you should be careful when upgrading about a possible performance regression (though in general I would still recommend upgrading, since there also were some bugs in the old `include_initial` implementation).\r\n\r\nI'm don't understand why exactly the issue would go away with `include_initial=True` though. So this is still a bit of a mystery. At the moment we think that it might have to do with the comparably long keys in the secondary index. It's usually a good idea to keep the total key length of a secondary index below 128 bytes.\r\nNote that you could even use `r.uuid` inside the index function, instead of changing the fields you're storing in the documents:\r\n```js\r\nr.table('backlog')\\\r\n        .index_create(\"assigneeU__transaction_timestamp\", [r.uuid(r.row[\"assignee\"]), r.row[\"transaction\"][\"timestamp\"]])\\\r\n        .run()\r\n```\r\n\r\nThen when querying, you'll need to apply `r.uuid` to the `between` boundaries as well."
+  , issueCommentId = 171461799
+  }

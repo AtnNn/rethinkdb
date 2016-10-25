@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-06) 18 : 28 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5893/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5893"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5893
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "mysterious connection latency when building deb package of PR #5720"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5893"
+  , issueCreatedAt = 2016 (-06) (-28) 21 : 41 : 10 UTC
+  , issueBody =
+      Just
+        "Hey guys, I'm running out of ideas for how to fix this issue so I figured I'd post the question up as an issue here. Here's the rundown:\r\n\r\nI'm building local debian packages of two branches of rethinkdb: v2.3.4 (vanilla) and a branch of v2.3.4 with a single squashed commit on it comprising all the changes in #5720. Both debian files are build as follows:\r\n```\r\n$ ./configure --allow-fetch --fetch protobuf --fetch v8 --fetch re2 --fetch z --fetch crypto --fetch ssl --fetch boost_system --fetch boost --fetch jemalloc --fetch curl\r\n\r\n$ UBUNTU_RELEASE=trusty SIGN_PACKAGE=0 make build-deb\r\n```\r\n\r\nThe test system is a single ubuntu 14.04 x86_64 system, not joined to any cluster. That last bit is incredibly important because if you take a look at #5720 again, you'll note that it only touches code that related to joining a cluster (either directly, or through the `auto_reconnector_t`). \r\n\r\nI run two test cases against the built debian packages with the following code:\r\n```\r\nconst r = require('rethinkdbdash')();\r\nsetInterval(() => {\r\n  r.db('rethinkdb').table('table_config')\r\n    .then(data => console.log('worked: ', data.length))\r\n    .catch(err => console.log('[interval]: ', err));\r\n}, 3000);\r\n\r\n// log uncaught exceptions and bail\r\nfunction globalErrorHandler(err) {\r\n  console.log('[global]: ', err);\r\n  process.exit(1);\r\n}\r\n\r\nprocess.on('uncaughtException', globalErrorHandler);\r\nprocess.on('unhandledRejection', globalErrorHandler);\r\n```\r\n\r\nThis is using `rethinkdbdash` version `2.3.12`. (**NOTE:** Internally in its default configuration `rethinkdbdash` creates 50 connections in a pool to rethinkdb).\r\n\r\nI'm finding some incredibly strange results, given the previous information:\r\n* When run against v2.3.4, all is as expected, every 3s I get a message `worked: <some number>`\r\n* When run against v2.3.4+PR changes, however, I get a few `worked: <some number>` messages before ~45 of these errors: `Fail to create a new connection for the connection pool. Error:{\"msg\":\"Failed to connect to localhost:28015 in less than 20s\",\"message\":\"Failed to connect to localhost:28015 in less than 20s.\",\"isOperational\":true}`\r\n* MOST strange: when I manually build the PR code (read: _not_ the debian package), strip the executable and copy it over to the machine that has the PR debian package _or_ the vanilla package installed, it works perfectly as expected (including the added functionality of the PR)\r\n\r\nIt smells like the problem is in the debian packaging, but I've almost completely lost perspective on this issue having tried to figure out what's going on over the past few days. I've conducted this experiment on three different systems at this point, and can reproduce it on every one. \r\n\r\nI really hope one of you guys has an idea what's going on, because I'm pretty stumped.\r\n"
+  , issueState = "open"
+  , issueId = Id 162794337
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

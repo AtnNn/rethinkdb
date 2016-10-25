@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 01 : 16 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107764772"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4315#issuecomment-107764772"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 01 : 14 : 39 UTC
+  , issueCommentBody =
+      ">> It's not obvious which code will run first, or if everything will be run before close is called, or what.\r\n\r\n> Sure, but that's the same problem you already have in the case of two async calls \r\n\r\nThe issue I have with it is that it seems like the connection is resolved synchronously (since it isn't involving a callback or a promise). Since this isn't a standard kind of pattern, it means there's a bigger learning curve as to what operations are ok and what happens when you launch two queries in a row off of it.\r\n\r\nIt also seems strange that we treat just the connection like this, and don't return futures from queries that were invoked with a future for a connection.\r\n\r\nFrom your use case, it seems like a nice solution might be just storing the promise returned by `r.connect` somewhere, and then chaining your logic on it in your request handlers. Calling `.then` on an already resolved promise works as you'd expect."
+  , issueCommentId = 107764772
+  }

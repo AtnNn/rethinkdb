@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-15) 06 : 10 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164653047"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5188#issuecomment-164653047"
+  , issueCommentCreatedAt = 2015 (-12) (-15) 06 : 10 : 09 UTC
+  , issueCommentBody =
+      "That seems bad, because then you've written code that only works as long as the change doesn't modify the field you're ordering by.  If you always follow the same code path for a change as for a delete/add, though, it will work fine and handle the case where the change modifies the ordering correctly:\r\n\r\n```rb\r\ndef order_by_field(x)\r\n  class << x\r\n    def <=>(other)\r\n      x['field'] <=> other['field']\r\n    end\r\n  end\r\n  x\r\nend\r\nlst = SortedSet.new\r\nr.table('test').order_by(index: 'field').changes.run.each {|change|\r\n  lst.delete(order_by_field(change['old_val'])) if change['old_val']\r\n  lst.add(order_by_field(change['new_val'])) if change['new_val']\r\n}\r\n```\r\n\r\n(If Ruby were less crazy, you'd be able to define the ordering as an argument to `SortedSet.new` instead of having to put it on the objects being passed in, but the general point is the same.)"
+  , issueCommentId = 164653047
+  }

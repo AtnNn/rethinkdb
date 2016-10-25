@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-03) (-20) 20 : 21 : 43 UTC
+  , issueUpdatedAt = 2014 (-03) (-24) 11 : 23 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2112/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2112"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2112
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1461947
+          , simpleUserLogin = N "neumino"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1461947?v=3"
+          , simpleUserUrl = "https://api.github.com/users/neumino"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Do not extend Array.prototype"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2112"
+  , issueCreatedAt = 2014 (-03) (-18) 17 : 26 : 30 UTC
+  , issueBody =
+      Just
+        "Instead of saving things in `this.__proto__` when we send back an array, I'm changing the internal prototype after the objects are created.\r\nThat way, we keep all the usual checks valid for Arrays.\r\n\r\nReview 1326 assigned to @atnnn \r\nBranch `michel_arrayresult`\r\n\r\n```js\r\nmichel@T520:~$ node\r\n> a = [1,2,3]\r\n[ 1, 2, 3 ]\r\n> a.__proto__ = {}\r\n{}\r\n> a.__proto__[\"toArray\"] = function() { return this.slice(0, this.length) }\r\n[Function]\r\n> a.__proto__.__proto__ = [].__proto__\r\n[]\r\n> a\r\n[ 1, 2, 3 ]\r\n> a.toArray()\r\n[ 1, 2, 3 ]\r\n> a instanceof Array\r\ntrue\r\n> Object.prototype.toString.call(a)\r\n'[object Array]'\r\n> a.constructor\r\n[Function: Array]\r\n```"
+  , issueState = "closed"
+  , issueId = Id 29665908
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-25) 05 : 58 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134489237"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-134489237"
+  , issueCommentCreatedAt = 2015 (-08) (-25) 05 : 56 : 43 UTC
+  , issueCommentBody =
+      "@danielmewes Does that scale out linearly?  Whats it at for 50,000 and 500,000?  I think 0.8 seconds would be acceptable as long as the python driver overhead wasn't adding much on top of that.  Another thing we could look at is building out an async query model like:\r\n\r\n```python\r\nimport rethinkdb as r\r\nconn = r.connect()\r\n\r\nfutures = []\r\n\r\nfor i in range(0, 2):\r\n    future = r.table('boom').filter(\r\n        lambda row: row['id'] % 2 == i\r\n     ).run_async(conn)\r\n    futures.append(future)\r\n\r\nfor f in futures:\r\n    f.join()\r\n```\r\n\r\nSo if we know the queries scale linearly we can asynchronously spawn the queries off to get the desired query speed.  So if there are 200k results set, in that example I would still expect to wait no more than 0.8 seconds to get the data."
+  , issueCommentId = 134489237
+  }

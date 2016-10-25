@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-21) 17 : 43 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/199397117"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4143#issuecomment-199397117"
+  , issueCommentCreatedAt = 2016 (-03) (-21) 17 : 43 : 09 UTC
+  , issueCommentBody =
+      "@sjmueller We should probably support `r.args` with `between`, but you can also get the described behavior as follows without `r.args` (since the number of arguments is constant):\r\n\r\n```js\r\nr.table('author_books')\r\n .getAll('4822572b-2f9c-41fe-a023-d126623dd28d', { index: 'author_id' })('author_id')\r\n .do(ids => [[ids.min(), r.minval], [ids.max(), r.maxval]])\r\n .do(betweenArgs =>\r\n   r.table('books')\r\n    .orderBy({ index: 'compound_author_created' })\r\n    .between(\r\n      betweenArgs(0),\r\n      betweenArgs(1),\r\n      { index: 'compound_author_created' }\r\n    )\r\n  );\r\n```"
+  , issueCommentId = 199397117
+  }

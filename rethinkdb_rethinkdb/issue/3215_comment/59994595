@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-21) 20 : 37 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59994595"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3215#issuecomment-59994595"
+  , issueCommentCreatedAt = 2014 (-10) (-21) 20 : 37 : 59 UTC
+  , issueCommentBody =
+      "I think it would be fine to rework our `initial_joiner_t` to handle this sort of situation better, and we wouldn't have to modify any existing command-line options.\r\n\r\n#### Existing Behavior\r\n* Evaluate each `--join` directive separately and resolve it to one or many IP addresses - store it as a `peer_address_t`\r\n* Drop any `peer_address_t` that we determine to be ourself\r\n* Attempt connections to all of the resolved IP addresses for each peer\r\n* Wait until we are connected to at least one peer, then wait up to 5 more seconds for connections to other peers\r\n* Log a warning about any `--join` directives that did not succeed\r\n* Continue with initialization\r\n\r\n#### Proposed Behavior\r\n* Construct a set of IP addresses from all of the `--join` directives\r\n* Attempt connections to each IP address in the set\r\n* Drop any IP addresses for which the connection fails because:\r\n  * We are already connected to that peer\r\n  * The connection looped back to ourself\r\n* Wait until we are connected to at least one peer, then wait up to 5 more seconds for connections to other peers\r\n* Log a warning about any IP addresses we could not reach (and the associated `--join` directive, if it was a hostname)\r\n* Continue with initialization\r\n\r\nThis should allow for more network shenanigans than we currently support, as well as simplifying our existing `initial_joiner_t`.  We may need to do some work on the clustering interface to communicate specific errors, though.  Also, we should reword the existing log statement on startup `Attempting connections to %zu peer%s...`."
+  , issueCommentId = 59994595
+  }

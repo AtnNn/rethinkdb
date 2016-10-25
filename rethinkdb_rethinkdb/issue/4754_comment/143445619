@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-26) 13 : 59 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1276278
+        , simpleUserLogin = N "williamstein"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1276278?v=3"
+        , simpleUserUrl = "https://api.github.com/users/williamstein"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143445619"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143445619"
+  , issueCommentCreatedAt = 2015 (-09) (-26) 13 : 59 : 04 UTC
+  , issueCommentBody =
+      "(Sorry for sticking basically a support question into the middle of an issue -- but maybe this is relevant since it illustrates a case where I -- as a user -- see the error message this thread is about.)\r\n\r\nMy current SageMathCloud production setup involves 6 client node.js servers and 6 rethinkdb nodes.  (See attached screenshots below.)  As a \"drill\", with very low load (it's saturday morning), I just tried typing \"sudo reboot\" on db5 (one of the rethinkdb nodes).   The result was that in about 1-2 minutes I had thousands of  `{\"name\":\"ReqlOpFailedError\",\"msg\":\"Unable to retrieve the start stamps.  Did you just reshard?\",...` in the log files for all of my clients.   Waiting a few more minutes didn't help at all.     Due to every changefeed failing, my clients (I guess stupidly) created too many new connections before the old ones terminated -- that's my fault, and I should improve my connection pool.     \r\n\r\nTo fix the problem I manually restarted all the rethinkdb nodes and clients.   This worked. \r\n\r\nIn any case, right now if even a single one of my rethinkdb nodes goes down for any reason (even intentional), it's a total disaster due to \"Unable to retrieve the start stamps\".   Running things this way is very bad.      If this is not a bug in RethinkDB, do you have any suggestions about how I should change my application?   E.g., do you think it would have if whenever the application sees   ``{\"name\":\"ReqlOpFailedError\",\"msg\":\"Unable to retrieve the start stamps. ` it maybe just waits k seconds (?) before attempting to create any more changefeeds?       \r\n\r\nOf course this whole problem arises because my application code has to deal with automatically recreating changefeeds when the feed fails, since that's not builtin to RethinkDB yet.   If that's what you guys are actively working on right now, maybe my best strategy would be to just wait until you're done with that.\r\n\r\n<img width=\"560\" alt=\"screen shot 2015-09-26 at 6 43 03 am\" src=\"https://cloud.githubusercontent.com/assets/1276278/10117829/de1331c8-6419-11e5-8131-831fa6a5aab8.png\">\r\n<img width=\"890\" alt=\"screen shot 2015-09-26 at 6 42 53 am\" src=\"https://cloud.githubusercontent.com/assets/1276278/10117830/de16ff42-6419-11e5-85b8-4f39250ec49e.png\">\r\n"
+  , issueCommentId = 143445619
+  }

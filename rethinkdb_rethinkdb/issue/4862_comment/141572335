@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-18) 21 : 24 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/141572335"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4862#issuecomment-141572335"
+  , issueCommentCreatedAt = 2015 (-09) (-18) 21 : 24 : 43 UTC
+  , issueCommentBody =
+      "The slowdown appears to come from us checking that the secondary index key is in the range on every document:\r\n```c++\r\n         // Check whether we're out of sindex range.\r\n         ql::datum_t sindex_val; // NULL if no sindex.\r\n         if (sindex) {\r\n            // Secondary index functions are deterministic (so no need for an\r\n            // rdb_context_t) and evaluated in a pristine environment (without global\r\n            // optargs).\r\n            ql::env_t sindex_env(job.env->interruptor,\r\n                                 ql::return_empty_normal_batches_t::NO,\r\n                                 sindex->func_reql_version);\r\n            sindex_val = sindex->func->call(&sindex_env, val)->as_datum();\r\n            if (sindex->multi == sindex_multi_bool_t::MULTI\r\n                && sindex_val.get_type() == ql::datum_t::R_ARRAY) {\r\n                boost::optional<uint64_t> tag = *ql::datum_t::extract_tag(key);\r\n                guarantee(tag);\r\n                sindex_val = sindex_val.get(*tag, ql::NOTHROW);\r\n                guarantee(sindex_val.has());\r\n            }\r\n            if (!sindex->range.contains(sindex_val)) {\r\n                return continue_bool_t::CONTINUE;\r\n            }\r\n         }\r\n```\r\n\r\nI don't think we actually need to do that, unless the current secondary index key is truncated.\r\n@mlucy Does it sound correct to you to skip that check for non-truncated keys?"
+  , issueCommentId = 141572335
+  }

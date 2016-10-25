@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-08) 10 : 15 : 31 UTC
+  , issueUpdatedAt = 2016 (-08) (-08) 17 : 59 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6039/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6039"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6039
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 11323591
+        , simpleUserLogin = N "hyperh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/11323591?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hyperh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Branch executes both the true and false"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6039"
+  , issueCreatedAt = 2016 (-08) (-08) 04 : 17 : 55 UTC
+  , issueBody =
+      Just
+        "I'm a little confused about `r.branch`. Here's an example\r\n\r\n```\r\nconst collNameExists = false;\r\n\r\n  const groupFunc = row => {\r\n    const receivedAt = row('receivedAt');\r\n    const baseGroup = {\r\n      year: receivedAt.year(),\r\n      month: receivedAt.month(),\r\n      day: receivedAt.day(),\r\n      dayOfWeek: receivedAt.dayOfWeek(),\r\n    };\r\n    const group = collName ?\r\n      baseGroup :\r\n      Object.assign(baseGroup, { collectionName: row('data')('collectionName') });\r\n    return group;\r\n  };\r\n\r\nr.table('mytable')\r\n    .coerceTo('array')\r\n    .do(\r\n      result => r.branch(\r\n        collNameExists,\r\n        result.filter(doc => doc('data')('collectionName').eq(collName))\r\n          .group(groupFunc)\r\n          .count(),\r\n        result.group(groupFunc)\r\n          .count(),\r\n      )\r\n```\r\n\r\nSo in the branch statement, even though the condition is hard set to `false`, branch complains that \r\n\r\n```\r\nW20160808-12:14:27.166(8)? (STDERR) #####################\r\nW20160808-12:14:27.326(8)? (STDERR) [Error] ReqlDriverCompileError : Argument 1 to eq may not be `undefined`.\r\nW20160808-12:14:27.326(8)? (STDERR) Argument 1 to eq may not be `undefined`.\r\nW20160808-12:14:27.326(8)? (STDERR) #####################\r\n```\r\n\r\nIf I change \r\n```\r\n result.filter(doc => doc('data')('collectionName').eq(collName))\r\n```\r\n\r\nto\r\n```\r\nresult.filter(doc => doc('data')('collectionName').eq(collName ? collName : ''))\r\n```\r\n\r\nor even just change it to \r\n```\r\n[]\r\n```\r\n\r\nIt will give me the proper `false` results that I was expecting.\r\n\r\nShouldn't Rethink not even execute the `true` path, since I hard coded the condition to be `false`? "
+  , issueState = "closed"
+  , issueId = Id 169840568
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

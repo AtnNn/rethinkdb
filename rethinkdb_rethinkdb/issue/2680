@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-16) 00 : 41 : 24 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2680/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2680"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2680
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: low-level cluster config"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2680"
+  , issueCreatedAt = 2014 (-07) (-10) 23 : 48 : 28 UTC
+  , issueBody =
+      Just
+        "Splitting #2663 into multiple issues. This issue covers the low-level cluster config API.\r\n\r\nServer status:\r\n\r\n```py\r\n# Documents in this table are readable but not writeable by the user;\r\n# table gets updated by the system as servers enter and leave\r\n# the cluster\r\n> r.db('rethinkdb').table('server_status').run()\r\n[{\r\n  # Field `server` stores the user-defined name of the server, which\r\n  # is the primary key you can use to .get() the document\r\n  \"server\": \"server_1\",\r\n\r\n  # TODO: once Tim gives me additional information that might go here,\r\n  # I'll prettify the document and improve its usability\r\n}]\r\n```\r\n\r\nCluster configuration:\r\n\r\n```py\r\n# Documents in this table are readable and writeable by the user;\r\n# documents don't change unless the user writes to them or issues\r\n# a higher level command explicitly\r\n> r.db('rethinkdb').table('cluster_config').run()\r\n[{\r\n  # primary key, a db_name/table_name pair; named \"table\"\r\n  \"table\": \"db_name.table_name_1\",\r\n\r\n  # list of shards for the table\r\n  \"shards\": [{\r\n      # list of replicas; must be the same length across all shards;\r\n      # servers are specified by name\r\n      \"replicas\": [\"m1\", \"m2\"],\r\n\r\n      # priority list of directors; must be a non-empty subset of replicas;\r\n      # this field may be omitted, in which case the system just uses the\r\n      # replica list above\r\n      \"director_candidates\": [\"m2\"]\r\n  }]\r\n}]\r\n\r\n# Note, for the initial implementation, if there is a conflict, the server will\r\n# throw an error if the user tries to read the offending document. In range reads,\r\n# we'll send an `errors` field like we normally do in range writes.\r\n```\r\n\r\nCluster status:\r\n\r\n```py\r\n# Documents in this table are readable but not writeable by the user;\r\n# table gets updated by the system as the cluster status changes\r\n> r.db('rethinkdb').table('cluster_status').run()\r\n[{\r\n  # primary key, a db_name/table_name pair; named \"table\"\r\n  \"table\": \"db_name.table_name_1\",\r\n\r\n  # TODO: once Tim gives me information we might want to include,\r\n  # I'll prettify the document and improve its usability\r\n}]\r\n```\r\n\r\nCommands:\r\n\r\n```py\r\n# Elect a new set of directors for the shards. The command will\r\n# pick available directors from the `possible_directors` list,\r\n# and will try to get one as close to the beginning of each list as possible\r\nr.table('foo').elect_directors()\r\n```\r\n\r\nNote, I've only specified commands that are necessary for the system to operate. We'll specify porcelain commands in a separate proposal for a higher level API.\r\n\r\nAdditional notes:\r\n\r\n- ReQL commands, including `changes` and the new `t.get(x).changes()` API should work on the system tables.\r\n\r\nOpen questions:\r\n\r\n- Is there a better phrase than `possible_directors`?\r\n- Is `elect_directors` too high level?  Do we want to allow director election on a per-shard basis?\r\n- Should `elect_directors` be in a different namespace because it's an admin command? E.g. `r.elect_directors('db.table')` or some such?\r\n- We don't have a good spec for tables. We can use a tuple (e.g. `['db', 'table']`), a string (e.g. `'db.table'), or an object (e.g. `{db: 'db', table: 'table'}`), but the latter would only work if we had support for primary keys on multiple fields.\r\n\r\nAlso:\r\n\r\n- I checked with @mglukhovsky, and he finds everything to be very nice and clear, which is a very good sign.\r\n\r\n/cc @timmaxw\r\n"
+  , issueState = "closed"
+  , issueId = Id 37616107
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

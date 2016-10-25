@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-29) 01 : 23 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/176510345"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5334#issuecomment-176510345"
+  , issueCommentCreatedAt = 2016 (-01) (-29) 01 : 23 : 48 UTC
+  , issueCommentBody =
+      "I think most people will not care about the linear costs of updating the array.\r\nThe cost is also not actually that high, since most interpreted languages use references and won't actually copy the stored data in the array, and since `orderBy.limit` is meant for smallish result sets.\r\n\r\nI think what most users will do at the moment is not implement an efficient tree structure, but instead just use an array anyway and iterate over it to find the position of the `old_val` to remove it, and then iterating over it again to insert `new_val` in the right spot (or something similar to this).\r\nThat is almost strictly worse than us just giving them the positions.\r\n\r\nOn your other comments:\r\n* `includeOffsets` sounds good to me.\r\n* using the flag on other types of changefeeds should fail I think\r\n* I have a slight preference for coupling the existence and `null`-ness of `new_val` and `new_offset` as well as `old_val` and `old_offset`. Though I wouldn't be strongly opposed to having them always be `null` or always be non-existent if there's no old/new value, regardless of whether we have initial values or actual changes."
+  , issueCommentId = 176510345
+  }

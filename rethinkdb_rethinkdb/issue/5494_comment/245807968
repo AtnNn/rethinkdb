@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-09) 03 : 18 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245807968"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5494#issuecomment-245807968"
+  , issueCommentCreatedAt = 2016 (-09) (-09) 03 : 18 : 54 UTC
+  , issueCommentBody =
+      "- for table-level validation I prefer (1) with a possible future addition of (3). I think adding the convenience specialization for the write hook doesn't actually provide that much convenience (users are at most doing this once-per-table), and makes the write hook implementation less \"pure\". Is there any added benefit I'm missing from going with option (2) here? \r\n\r\n- totally agree that type coercion should not be enabled by default, but definitely should be an opt-arg, and the ajv coercion rules are a very good place to start.\r\n\r\n- In fact, there are a number of options that ajv supports that could be beneficial opt-args here: `useDefaults` (fills in default values => maps to `default` reql term), `removeAdditional` (remove properties not defined in the schema, I _think_ this satisfies @segphault 's request above?), etc. \r\n\r\n- also totally agree with `r.schema` vs `r.model`, signals intent better.\r\n\r\n- I also think `format` is definitely the best option for informing the RethinkDB side of the validation equation. As @marshall007 pointed out earlier, ajv does not presently support `format` on non-strings, but that is being discussed over [here](https://github.com/epoberezkin/ajv/issues/291) and I think this could be an interesting use-case for pushing that support forward. In this regard `format` could be used to give type info to RethinkDB for coercion purposes (as well as internal representation), and would otherwise gracefully reduce in the case that libraries that don't support the given format.  \r\n  - Another consideration I would like to bring up would be the possibility of using custom keywords. We could support reql types using such a keyword instead of `format`, e.g.`reql_type: 'date'`. This could lead to some flexibility considering that the `any` type for json-schema v4 is simply the \"empty schema\" (`{}`). For example, s schema defined as `{ reql_type: 'date' }` would not technically cause a validation failure in the event that another implementation hasn't defined the custom keyword, as it would gracefully degrade into the empty schema. Not suggesting this is the way to go, but just pointing out the feature. \r\n  - Additionally, I think that adding custom `type` values is an absolute non-starter, as it will break spec. \r\n\r\n- @segphault and @mike-marcacci, I think you guys are sort of half-correct here. `$ref` should indeed be used for pseudo-types (we can rip them right from `thinkagain` tbh), however I believe `format` (or `reql_type`?) should still be used for additional contextual type information. Figuring out how the user wants to send/receive a `Date` is a very good case: it can be a Number (epoch time), Object (pseudotype with internal Number), strings in various formats (rfc3339 etc). RethinkDB is going to need help figuring out exactly what they want to accept in this case and I think `format` can help here given it's flexibility. \r\n\r\n- Another thing I would like to track is that I believe the validation should support either a \"bail on first error\" or \"return all errors\" mode. The former is generally implemented by people writing parsers, while the latter is incredibly useful for client side purposes. \r\n\r\n- I agree that migration is something that should be a possibility in the future, but perhaps is out-of-scope for an initial implementation. To that end I would prefer option (1) here. \r\n\r\n"
+  , issueCommentId = 245807968
+  }

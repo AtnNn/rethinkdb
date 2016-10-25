@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-13) 18 : 32 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/232446054"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5923#issuecomment-232446054"
+  , issueCommentCreatedAt = 2016 (-07) (-13) 18 : 32 : 39 UTC
+  , issueCommentBody =
+      "Another report that is very likely describing the same effect by @Calavoow from #5942:\r\n\r\n--\r\n\r\nWhen creating a database we usually create indices when setting up the database. But this resulted in some unusually large index sizes for multi-indexes. After playing around a bit it seems that first importing the data and then adding the indices results in a 10x smaller database file size compared to first creating indices and then inserting the data.\r\n\r\nI have uploaded files with which I can reproduce this behaviour here: https://gist.github.com/Calavoow/c6d6b2d58635e003ffcc8ea7da1795fa\r\nFirst generate items for the db with the generate script. Then set up the database without the index. Import the json with the command from the generate script. Then create an index with\r\n```js\r\n        r.db('multibloat').table(\"multibloat\").indexCreate(\"byTagTitle\", function( row ){\r\n            return row('full_tags').map( function( tag ){\r\n                return [row('view_id'), tag, row('title').downcase()];\r\n            });\r\n        }, {multi: true})\r\n```\r\nCompare the resulting database size to the one with the index created at setup time (remove the comment slashes from setup.js) and then the data imported.\r\n\r\nI get the following difference. Index created before inserting data:\r\n```\r\n3.3G Jul 13 14:15 d2f699c2-fffd-4a7c-ade3-488d76ec9935\r\n```\r\nAfter:\r\n```\r\n646M Jul 13 14:14 71e0a88b-888f-4bad-a89f-5e2e46878d3f\r\n```\r\n"
+  , issueCommentId = 232446054
+  }

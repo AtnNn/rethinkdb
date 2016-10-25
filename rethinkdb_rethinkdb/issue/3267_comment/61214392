@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-31) 04 : 07 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61214392"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3267#issuecomment-61214392"
+  , issueCommentCreatedAt = 2014 (-10) (-31) 04 : 07 : 07 UTC
+  , issueCommentBody =
+      "I like your proposal. To be consistent with the rest of ReQL, I think it should use selectors, which correspond to what you call pointers, but are nested instead of being a list.\r\n\r\nThese selectors currently work with operations such as `hasFields` and `pluck`:\r\n\r\n```\r\n>>> r.expr({\"a\": {\"b\": 1}}).hasFields({\"a\": {\"b\": true}})\r\ntrue\r\n```\r\n\r\nThere are a few advantages of these selectors over lists. If you define your selectors like this:\r\n\r\n```\r\nfirst_name = function(x){ return {\"name\": {\"first\": x}} };\r\ndad = function(x){ return {\"dad\": x} };\r\n```\r\n\r\nThey can be composed easily:\r\n\r\n```\r\nhas_grandfather = function(x){ return x.hasFields(dad(dad(true))) };\r\nfathers_first_name = function(x){ return first_name(dad(x)) };\r\n```\r\n\r\nAnd can be used to build objects and update nested fields:\r\n\r\n```\r\nbob = first_name(\"bob\").merge(fathers_first_name(\"jim\"));\r\n```\r\n\r\nThe big disadvantage is, as you point out, that they don't work with the `BRACKET` term:\r\n\r\n```\r\n>>> r.expr(bob)(first_name(true))\r\nRuntime error: Expected NUMBER or STRING as second argument to `bracket` but found OBJECT.\r\n```"
+  , issueCommentId = 61214392
+  }

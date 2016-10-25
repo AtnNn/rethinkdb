@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-29) 21 : 02 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/190390355"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5454#issuecomment-190390355"
+  , issueCommentCreatedAt = 2016 (-02) (-29) 21 : 02 : 51 UTC
+  , issueCommentBody =
+      "I think I see the problem: we are not inside a `.then()` block when we error. I simplified slightly on the `mocha` code we have for testing. The `r.db('foo').table('bar').run()` part is inside a `beforeEach` block, and the cursor gets put into a variable. Then we start our chain on that, so essentially we are doing:\r\n\r\n```\r\nr.db('foo').table('bar').run()\r\nthen(function(cur) {\r\n    try {\r\n        cur.then(function(cur) { return cur.eachAsync(); })\r\n        .catch(function(err) { console.log('I should get here'); });\r\n    } catch(err) {\r\n        console.log('Rather I get here');\r\n    }\r\n})\r\n```\r\nI suspect that larger setups are going to wind up using frameworks that may well expose us that way as well."
+  , issueCommentId = 190390355
+  }

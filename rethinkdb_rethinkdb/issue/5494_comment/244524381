@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-06) 17 : 11 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/244524381"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5494#issuecomment-244524381"
+  , issueCommentCreatedAt = 2016 (-09) (-03) 03 : 42 : 38 UTC
+  , issueCommentBody =
+      "@mike-marcacci I wrote the beginnings of a json-schema -> reql translator here:\r\n\r\nhttps://github.com/deontologician/schema2reql\r\n\r\nOf course, it's just for fun, since it's insanely inefficient. Any moderately complicated schema would have a good chance of hitting the query size limit.\r\n\r\nAs an example, currently it converts this example schema:\r\n\r\n```json\r\n{\r\n  \"title\": \"Example Schema\",\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"firstName\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"lastName\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"age\": {\r\n      \"description\": \"Age in years\",\r\n      \"type\": \"integer\",\r\n      \"minimum\": 0\r\n    }\r\n  },\r\n  \"required\": [\"firstName\", \"lastName\"]\r\n}\r\n```\r\nInto this monstrosity:\r\n\r\n```\r\nlambda var_1: lambda var_2: ((r.branch(var_2.has_fields(['firstName', 'lastName']), \r\nTrue,r.error('Example Schema must have the required fields: firstName,lastName')) & \r\nr.branch((var_2.type_of() == r.expr('OBJECT')), True, r.error('Example Schema must be of type \r\nobject'))) & r.branch(((r.branch(var_2.has_fields('age'), lambda var_3: (r.branch((var_3 > r.expr(0)), \r\nTrue, r.error('Example Schema age must be greater than 0')) & r.branch(((var_3.type_of() == \r\nr.expr('NUMBER')) & (var_3.coerce_to('string').split('.').count() == r.expr(1))), True, r.error('Example Schema age must be an integer'))), \r\nTrue) & r.branch(var_2.has_fields('firstName'), lambda var_4: r.branch((var_4.type_of() == \r\nr.expr('STRING')), True, r.error('Example Schema firstName must be of type string')), True)) & \r\nr.branch(var_2.has_fields('lastName'), lambda var_5: r.branch((var_5.type_of() == r.expr('STRING')), \r\nTrue, r.error('Example Schema lastName must be of type string')), True)), True, \r\nr.error('Example Schema properties must validate')))\r\n```"
+  , issueCommentId = 244524381
+  }

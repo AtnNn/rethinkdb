@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-19) 21 : 52 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212145007"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5688#issuecomment-212145007"
+  , issueCommentCreatedAt = 2016 (-04) (-19) 21 : 52 : 31 UTC
+  , issueCommentBody =
+      "To expand a bit, it is hard to compare our replication directly to what MySQL has but in general what we do is better for almost all cases. I encourage reading the document that @felixis-1 linked to, but here is a short summary:\r\n\r\nWe allow you to split any table into multiple shards, each of these shards needs to have a `primary` server (they can all be on one, or any combination of servers that makes sense for your workload). Additionally you can tell the system that you also want additional copies of those shards (`replica`s), that typically will placed so that each replica exists on a different server (our tools will automatically do this for you). Doing this makes sure that if any one server goes down that the data is still saved, and still available for queries (after a short outage). The more servers you add to the system, the safer it can be.\r\n\r\nAssuming you have at least 3 servers designated for the shards this will work automatically, meaning you don't have to ever \"promote\" a server as you would in MySQL replication.\r\n\r\nSince this is not really a bug I am going to close this issue, but feel free to ask further questions here if you wish. Otherwise we usually recommend a few other routes to ask questions like this: http://rethinkdb.com/community/"
+  , issueCommentId = 212145007
+  }

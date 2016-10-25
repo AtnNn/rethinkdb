@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-30) 18 : 59 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144507457"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4602#issuecomment-144507457"
+  , issueCommentCreatedAt = 2015 (-09) (-30) 18 : 59 : 34 UTC
+  , issueCommentBody =
+      "The `rpath` method does not look like it is a viable one, at least not with out understanding the two nested build systems that `v8` uses than I managed to get. The naive solution of just adding `path` to the `LDFLAGS` fails because the `gyp` build layer tries to use use the `LD_FLAGS` during compilation as well, so `clang` complains that that is not a valid build flag.\r\n\r\nI was also stymied in an attempt to only add the `rpath` to just the part that builds the `mksnapshot` binary that `v8` uses to make the pre-assemembed version of `icu` that it uses internally, since that is the only part of this that is actually problematic. The main problem is that I can't find any documentation on how the `gn` toolset (google's replacement for their own `gyp` system, that they are moving to on a rolling basis) is not well documented, and I have been unable to tap my way though to getting it to either use a `rpath` or build statically.\r\n\r\nBut topping all of this off is that I don't think that any of this route would actually save us any real space or time. Even when using the \"system\" version of `icu` the `v8` build system is still pre-compiling all of this. So we do save on the initial compile, but a copy of this still winds up linked statically into our binary.\r\n\r\nGiven that we are not saving much, my proposal is to cut the corner and just let `v8` build its own `icu`, and like to that one. I already have a version of this done and it is working. I will clean this up and submit it shortly. Other than #4895 this allows us to build successfully on MacOS X ElCapitan (10.11)."
+  , issueCommentId = 144507457
+  }

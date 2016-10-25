@@ -1,0 +1,79 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-31) 22 : 45 : 15 UTC
+  , issueUpdatedAt = 2015 (-07) (-31) 23 : 06 : 57 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4526/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4526"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4526
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1366
+          , simpleUserLogin = N "deontologician"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1366?v=3"
+          , simpleUserUrl = "https://api.github.com/users/deontologician"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JavaScript `noReplyWait` connection test timing out on select computers"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4526"
+  , issueCreatedAt = 2015 (-07) (-10) 01 : 05 : 02 UTC
+  , issueBody =
+      Just
+        "On two computers, on current `next` I am getting a failure one two of the subtests in `connections/connection.js`, specifically:\r\n- `connection close does not wait if we want it not to`\r\n- `connection reconnect does not wait if we want it not to`\r\n\r\nThe subtests time out, indicating that the post-call function is not being called. I disabled the setting of `BLUEBIRD_DEBUG` so this is probably not a repeat of #4496, but it could well be related to the recent update to `bluebird`.\r\n\r\nI have a [smaller test](https://gist.github.com/larkost/99c526c1d171caa4096e) that demonstrates this, as well as an improved version of the test that adds more stable versions of these tests as well as new versions that demonstrate this:\r\n- `connection close noreplyWait works even with outstanding noreplyWait calls`\r\n- `connection reconnect noreplyWait works even with outstanding noreplyWait calls`\r\n\r\nSo far this only reproduces on my two computers (home and work), and only on `next` (so not `2.0.4`). Isolating the problem I found that it only occurs in `mocha` tests where the tests is inside (at least) two levels of `describe`. This leads me to believe that this is a very narrow timing issue, and is probably going to be really nasty to debug. I do think that this is a valid problem and could reach out and bite someone."
+  , issueState = "closed"
+  , issueId = Id 94186755
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

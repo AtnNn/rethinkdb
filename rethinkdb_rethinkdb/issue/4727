@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-19) 22 : 44 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4727/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4727"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4727
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Creating a table in a database that is being deleted leaves an orphaned table"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4727"
+  , issueCreatedAt = 2015 (-08) (-19) 22 : 10 : 16 UTC
+  , issueBody =
+      Just
+        "I wrote a script that created many tables in a database, then deleted the database while other processes were still creating tables in the database.  There is a relatively large window during database deletion for new tables to be successfully created.\r\n\r\nThese tables will show up in the web UI's stats, but will not be visible in the `Tables` tab, and the only way to see them is through the ReQL admin interface (i.e. `rethinkdb.table_config` and `rethinkdb.table_status`).  The tables can still be dropped or moved to a live database by writing to their rows in the `rethinkdb.table_config` table.\r\n\r\nExample rows for such an orphaned table:\r\n`rethinkdb.table_config`:\r\n```json\r\n{\r\n  \"db\":  \"__deleted_database__\",\r\n  \"durability\":  \"hard\",\r\n  \"id\":  \"1c3df91b-9676-4feb-9c61-f2afaa8a3e1e\",\r\n  \"indexes\": [ ],\r\n  \"name\":  \"99\",\r\n  \"primary_key\":  \"id\",\r\n  \"shards\": [ {\r\n    \"nonvoting_replicas\": [ ],\r\n    \"primary_replica\":  \"newton_jcf\",\r\n    \"replicas\": [ \"newton_jcf\" ]\r\n  } ],\r\n  \"write_acks\":  \"majority\"\r\n}\r\n```\r\n\r\n`rethinkdb.table_status`:\r\n```json\r\n{\r\n  \"db\":  \"__deleted_database__\",\r\n  \"id\":  \"1c3df91b-9676-4feb-9c61-f2afaa8a3e1e\",\r\n  \"name\":  \"99\",\r\n  \"shards\": [ {\r\n    \"primary_replicas\": [ \"newton_jcf\" ],\r\n    \"replicas\": [ {\r\n      \"server\":  \"newton_jcf\",\r\n      \"state\":  \"ready\"\r\n    } ]\r\n  } ],\r\n  \"status\": {\r\n    \"all_replicas_ready\": true,\r\n    \"ready_for_outdated_reads\": true,\r\n    \"ready_for_reads\": true,\r\n    \"ready_for_writes\": true\r\n  }\r\n}\r\n```"
+  , issueState = "open"
+  , issueId = Id 102010407
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

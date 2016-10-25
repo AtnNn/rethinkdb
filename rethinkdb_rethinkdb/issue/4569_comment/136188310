@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-30) 21 : 13 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/136188310"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-136188310"
+  , issueCommentCreatedAt = 2015 (-08) (-30) 20 : 51 : 30 UTC
+  , issueCommentBody =
+      "To help you with more data, I produced the same script using postgres to compare against:\r\n\r\n```\r\npython foo.py \r\ncount is 100000\r\nint query took 283ms\r\n```\r\n\r\nSo you can see on average it takes 283ms to query out 100k records from postgres:\r\n\r\n```python\r\nimport random\r\nimport pytz\r\nimport time\r\nimport yappi\r\nimport psycopg2\r\nfrom datetime import datetime\r\nconn = psycopg2.connect(\"dbname=sontek user=sontek\")\r\n\r\nUTC = pytz.utc\r\n\r\nYAPPI = False\r\nDO_CREATE = False\r\nDO_INSERTS = False\r\n\r\ncur = conn.cursor()\r\n\r\nif DO_CREATE:\r\n    cur.execute(\"\"\"\r\n    CREATE TABLE test (respondent_id bigint, row_id bigint, column_id bigint, value_id bigint,\r\n                       rid1 bigint, rid2 bigint, rid3 bigint, now timestamp);\r\n    \"\"\")\r\n\r\nSTART_BIGINT = 100000000000000000\r\nEND_BIGINT = 999999999999999999\r\n\r\n\r\ndef utc_now():\r\n    now = datetime.utcnow()\r\n    tz_now = now.replace(tzinfo=UTC)\r\n    return tz_now\r\n\r\n\r\ndef get_rint(start=1000000, end=9999999):\r\n    \"\"\"\r\n    Generate a very large integer\r\n    :return:\r\n    \"\"\"\r\n    return random.randint(start, end)\r\n\r\n\r\ndef get_bigint():\r\n    \"\"\"\r\n    Generate a random BIGINT\r\n    :return:\r\n    \"\"\"\r\n    return get_rint(start=START_BIGINT, end=END_BIGINT)\r\n\r\n\r\nif DO_INSERTS:\r\n    for i in range(0, 100000):\r\n        cur.execute(\"\"\"\r\n        INSERT INTO test(respondent_id, row_id, column_id, value_id, rid1, rid2, rid3, now)\r\n        VALUES(%s, %s, %s, %s, %s, %s, %s, %s)\r\n        \"\"\", (get_bigint(), get_bigint(), get_bigint(), get_bigint(), get_bigint(),\r\n              get_bigint(), get_bigint(), utc_now())\r\n        )\r\n\r\nstart = time.time()\r\n\r\nif YAPPI:\r\n    yappi.set_clock_type('cpu')\r\n    yappi.start(builtins=True)\r\n\r\ncur.execute(\"\"\"\r\nSELECT * FROM test;\r\n\"\"\")\r\nresult = cur.fetchall()\r\ndata = []\r\nfor row in result:\r\n    data.append(row)\r\n\r\ncount = len(data)\r\nend = time.time()\r\nconn.commit()\r\ncur.close()\r\nconn.close()\r\n\r\nif YAPPI:\r\n    stats = yappi.get_func_stats()\r\n    stats.save('callgrind.out', type='callgrind')\r\n    print('checkout callgrind.out')\r\n\r\nprint(\"count is %s\" % count)\r\nduration = int(1000 * (end - start))\r\nprint(\"int query took %sms\" % duration)\r\n```\r\n\r\n@coffeemug Is there anymore information on what might be done on the rethinkdb side?"
+  , issueCommentId = 136188310
+  }

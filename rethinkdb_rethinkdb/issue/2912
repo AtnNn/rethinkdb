@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-08) 17 : 21 : 12 UTC
+  , issueUpdatedAt = 2014 (-10) (-08) 17 : 21 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2912/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2912"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2912
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Float rounding issues on polyglot/geo/primitives"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2912"
+  , issueCreatedAt = 2014 (-08) (-14) 16 : 49 : 34 UTC
+  , issueBody =
+      Just
+        "The `polyglot/geo/primitives` test is showing errors on Python and JavaScript in one subtest, specifically failing because the floating point numbers are slightly different than expected:\r\n```\r\nTEST FAILURE: polyglot/geo/primitives.py2.6/6\r\nTEST BODY:    r.circle([0,0], 0.1, num_vertices=3, geo_system='unit_sphere')\r\nCPP result is not equal to expected result:\r\n\tVALUE: {u'$reql_type$': u'GEOMETRY', u'type': u'Polygon', u'coordinates': [[[0, -5.7295779513082321], [-4.9660929474448583, 2.8612057544957015], [4.9660929474448583, 2.8612057544957015], [0, -5.7295779513082321]]]}\r\n\tEXPECTED: {'$reql_type$': 'GEOMETRY', 'type': 'Polygon', 'coordinates': [[[0, -5.7295779513082321], [-4.9660929474448574, 2.861205754495701], [4.9660929474448574, 2.861205754495701], [0, -5.7295779513082321]]]}\r\n```\r\nThe python test comes back with slightly different numbers, but the same idea:\r\n```\r\nTEST FAILURE: polyglot/geo/primitives.rb2.0/6\r\n\tBODY: r.circle([0,0], 0.1, :num_vertices=>3, :geo_system=>'unit_sphere')\r\n\tVALUE: {\"$reql_type$\"=>\"GEOMETRY\",\r\n \"coordinates\"=>\r\n  [[[0, -5.729577951308232],\r\n    [-4.966092947444858, 2.8612057544957015],\r\n    [4.966092947444858, 2.8612057544957015],\r\n    [0, -5.729577951308232]]],\r\n \"type\"=>\"Polygon\"}\r\n\tEXPECTED: {:\"$reql_type$\"=>\"GEOMETRY\",\r\n :coordinates=>\r\n  [[[0, -5.729577951308232],\r\n    [-4.966092947444857, 2.861205754495701],\r\n    [4.966092947444857, 2.861205754495701],\r\n    [0, -5.729577951308232]]],\r\n :type=>\"Polygon\"}\r\n```\r\nIf you pick it apart is looks like float rounding issues (e.g.: 2.861205754495701**5** vs 2.861205754495701), and at present our testing system does a simple `==`/`===` comparison on floats, which is unlikely to be portable. So, we need to determine what our criteria is going to be on floats the options are:\r\n1. compare a fixed number of (decimal) significant figures. From these cases 14 digits would do (of 16).\r\n2. +/- a percentage of the sum of the absolute values of both values\r\n\r\nThe latter is the better one, but is tricky to get the right value to use without knowing the sorts of values you expect. So I would rather go with the former because it is easy."
+  , issueState = "closed"
+  , issueId = Id 40274567
+  , issueComments = 26
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

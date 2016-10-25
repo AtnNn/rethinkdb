@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-29) 17 : 13 : 14 UTC
+  , issueUpdatedAt = 2014 (-10) (-29) 17 : 13 : 14 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2533/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2533"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2533
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Create testing method to wait for table shard"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2533"
+  , issueCreatedAt = 2014 (-06) (-11) 18 : 40 : 50 UTC
+  , issueBody =
+      Just
+        "It is common for tests to need to wait for a sharding process to compete (e.g. the test for #1774) before continuing. At present the solution for this is to loop trying to read from the table in question. This is sub-optimal, and in many cases overlaps the actual test.\r\n\r\nSo baring a real way of monitoring a shard process, we need a better way of checking when a table is ready. A quick talk with @neumino, and it looks like the current best way of doing this is through the ajax calls, specifically looking at the path:\r\n```\r\nhttp://localhost:8080/ajax/directory/<SERVER_UUID>/rdb_namespaces/reactor_bcards/<TABLE_UUID>/activity_map\r\n```\r\n\r\nIf all of the \"type\" attributes of the items there are \"primary\", then the table should be completely available (TODO: confirm this for replicated tables).\r\n\r\nThis should probably be implemented for the testing suite so we have a better tool to use in testing.\r\n"
+  , issueState = "closed"
+  , issueId = Id 35513431
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

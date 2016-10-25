@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-29) 17 : 09 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/106873314"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4309#issuecomment-106873314"
+  , issueCommentCreatedAt = 2015 (-05) (-29) 17 : 09 : 02 UTC
+  , issueCommentBody =
+      "Hi @jperkin,\r\n\r\nThanks for your work in porting RethinkDB to SmartOS. The changes look great, except for some minor nit-picks:\r\n\r\n* I think the only reason why `system_mutex_t::lock_t` is conflicting with the system-defined `lock_t` is because of the `friend class lock_t;` declaration in `arch/io/concurrency.hpp`. That declaration is redundant anyway, so I'd rather you removed the declaration than rename `lock_t`.\r\n\r\n* I don't really like the name `myfile_t`. Perhaps `rdb_file_t` would be better? I'm happy to hear other ideas.\r\n\r\n* I suggest defining the `std::to_string()` workaround only once (perhaps in `stl_utils.hpp`) instead of in five different places.\r\n\r\n* In the existing `epoll_event_queue_t`, when `epoll_wait()` fails with `EINTR` we retry rather than aborting the program. The man page indicates that `port_getn()` can also fail with `EINTR`, so that should probably be handled in the same way.\r\n\r\n* `evport_event_queue_t::forget_resource()` should probably check the return value of `port_disassociate()`.\r\n\r\n(@atnnn - What cosmetic changes were you thinking of?)"
+  , issueCommentId = 106873314
+  }

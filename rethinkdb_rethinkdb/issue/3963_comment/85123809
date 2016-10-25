@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-23) 17 : 57 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/85123809"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3963#issuecomment-85123809"
+  , issueCommentCreatedAt = 2015 (-03) (-23) 17 : 57 : 28 UTC
+  , issueCommentBody =
+      "I can see this being useful, but it doesn't look very NoSQLish to me (it basically adds a schema to the table). I'm not sure if that's a bad thing or not.\r\n\r\n\r\nIf we had https://github.com/rethinkdb/rethinkdb/issues/3636 and https://github.com/rethinkdb/rethinkdb/issues/3740 , we could make `r.eval` recurse into a document. \r\n\r\nThen you could insert such functions on a per-document basis:\r\n```js\r\n\r\nr.table(\"test\").insert({\r\n    \"id\": 1,\r\n    \"title\": \"Lorem ipsum\",\r\n    \"age\": 4,\r\n    \"content\": \"Dolor sit amet\",\r\n    \"computed-attr-1\": r.reql(lambda doc: r.branch(doc.age.gt(40), '40+', '40 or less')),\r\n    \"computed-attr-2\": r.reql(r.branch(r.row['age'].gt(40), '40+', '40 or less')),\r\n    \"computed-attr-3\": r.reql(lambda doc: doc.age.div(doc.another_cattr))\r\n}).run()\r\n\r\nr.table('posts').pluck('id', 'computed-attr-1').eval().run()\r\n```\r\n\r\nI realize that this is pretty inefficient though, since the functions has to be stored separately into each document."
+  , issueCommentId = 85123809
+  }

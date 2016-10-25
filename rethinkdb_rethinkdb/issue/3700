@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-10) (-07) 00 : 05 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3700/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3700"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3700
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider forcing `for_each` argument to be a function"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3700"
+  , issueCreatedAt = 2015 (-01) (-30) 04 : 11 : 46 UTC
+  , issueBody =
+      Just
+        "This was pretty surprising to me:\r\n```js\r\n> r.expr([1, 2, 3]).forEach(r.table('t1').insert({b: 'foo'}))\r\n\r\n{\r\n    \"deleted\": 0 ,\r\n    \"errors\": 0 ,\r\n    \"generated_keys\": [\r\n        \"41c50ebd-37c4-4f29-bb3a-90c9a7747761\" ,\r\n        \"41c50ebd-37c4-4f29-bb3a-90c9a7747761\" ,\r\n        \"41c50ebd-37c4-4f29-bb3a-90c9a7747761\"\r\n    ] ,\r\n    \"inserted\": 3 ,\r\n    \"replaced\": 0 ,\r\n    \"skipped\": 0 ,\r\n    \"unchanged\": 0\r\n}\r\n```\r\n\r\nSee how it's saying `inserted: 3` but uses the same primary key thee times? It actually inserted the document once, and then passed the result of the insert into `forEach` which aggregated over the same result object three times.\r\n\r\nIt works if I use `r.row` in the insert or wrap it into a function.\r\n\r\nI think we should consider always treating the argument to `for_each` as a function. Since `for_each` is for operations with side effects, I think it's rather unexpected to have the argument evaluated only once."
+  , issueState = "open"
+  , issueId = Id 55992748
+  , issueComments = 21
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

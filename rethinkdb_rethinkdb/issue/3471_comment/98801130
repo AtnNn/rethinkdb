@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-04) 18 : 09 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/98801130"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-98801130"
+  , issueCommentCreatedAt = 2015 (-05) (-04) 18 : 09 : 49 UTC
+  , issueCommentBody =
+      "I like `feed_buffer_rows` as well. @mlucy said that the entries are not necessarily rows, but I think that's ok. The elements in the buffer will still be {old_val: ..., new_val: ...}, which is like a row of the changefeed.\r\nA small potential issue is that `feed_buffer_rows` could be read as \"feed: buffer rows?\" which makes it sound like a boolean option rather than a size limit. `feed_size_limit` (which I still don't really like), `feed_buffer_size` or `feed_buffer_limit` would avoid that issue.\r\n\r\n\r\nThe naming question aside, it looks like we agree on the following:\r\nImplement @mlucy's proposal from https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-96811351 with\r\n* a `{resumable: \"auto\" | \"manual\" | false}` (default `false`) optarg to `run`\r\n* a `cursor.resume()` method without arguments that tries to reconnect once\r\n* having `cursor.next()` and similar automatically reconnect, if `resumable` is `\"auto\"`. They should use some back-off scheme to increase waiting times (e.g. a Fibonacci sequence)\r\n* additional optargs `resume_limit_seconds` (how long to keep trying and keep buffers on the server), `resume_retry_seconds` (how long until first retry) and one more optarg like `feed_buffer_size` to control the maximum number of elements in a feed buffer (whether resumable or not)"
+  , issueCommentId = 98801130
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 21 : 03 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47984305"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2630#issuecomment-47984305"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 21 : 00 : 58 UTC
+  , issueCommentBody =
+      "`master_access_t` and `multi_throttling_client_t` have no way to pass interruption on to the sharded operation, so we would need to implement interruption at this level.\r\n\r\n---\r\n\r\n#### Option 1:\r\nWhen we send the `read_t` or `write_t`, include a `mailbox_t<mailbox_t>` so that the shard may send us back a `mailbox_t` that we can notify of interruption to cancel the query.\r\n\r\nThere is the concern of what to do if the shard never sends us back a mailbox (due to connection loss, for example), or if interruption happens before we receive the mailbox.  I'm not sure there is a good answer to this.\r\n\r\n#### Option 2:\r\nWe leave the `read_t` and `write_t` the same, but add a new type of message (similar to `read_t` and `write_t`, calling it `abort_t`).  This would include the order token of the request to be interrupted, and we would send it to the shard as soon as we are interrupted.  At that point, it would be up to the shard to identify the operation and cancel it.\r\n\r\nThis would mean that each shard needs to associate all running queries with a `cond_t` in a map, so we can find the relevant operation and kill it.\r\n\r\n---\r\n\r\nOn top of both of these, it appears that `master_t::client_t::perform_request` gives a few caveats about interrupting writes, so some more work would probably need to be done there."
+  , issueCommentId = 47984305
+  }

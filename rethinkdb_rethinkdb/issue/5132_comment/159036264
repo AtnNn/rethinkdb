@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-23) 19 : 28 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5043
+        , simpleUserLogin = N "thelinuxlich"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5043?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thelinuxlich"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159036264"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5132#issuecomment-159036264"
+  , issueCommentCreatedAt = 2015 (-11) (-23) 19 : 25 : 28 UTC
+  , issueCommentBody =
+      "Yeah, for simple counters like this:\r\n\r\n```javascript\r\nr.table(\"visitor_sessions_count\").getAll(r.args(array_of_client_ids_and_visitor_ids),{index: \"client_id_visitor_id\"}).replace(function(row, current_id) {\r\n    return r.branch(row.eq(null),{\r\n                     id: current_id.nth(0).add(current_id.nth(1)),\r\n                     client_id: current_id.nth(0),\r\n                     visitor_id: current_id.nth(1),\r\n                     count: 1\r\n              },\r\n             row.merge({count: row(\"count\").add(1)})\r\n    );\r\n});\r\n```\r\n\r\nThese counters are very common and without this feature, to achieve the same result I would need to do a batch insert:\r\n\r\n```javascript\r\nvar counter_id = client_id + visitor_id;\r\nr.table(\"visitor_sessions_count\").insert([{\r\n  id: counter_id,\r\n  client_id: \"foo\",\r\n  visitor_id: \"bar\",\r\n  count: r.table(\"visitor_sessions_count\").get(counter_id)(\"count\").add(1).default(1)\r\n}],{ conflict: \"replace\"});\r\n```\r\n\r\nWhich I believe, performance-wise, is worse."
+  , issueCommentId = 159036264
+  }

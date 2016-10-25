@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-23) 14 : 33 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/150590065"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4990#issuecomment-150590065"
+  , issueCommentCreatedAt = 2015 (-10) (-23) 14 : 28 : 52 UTC
+  , issueCommentBody =
+      "In general, if you need to defer calling a method on something because you don't have it yet, you just need to turn it into a function (lambdas are a quick way to do this). Since reql queries aren't strings, you can't use them like you're trying to. Here I've also changed `match` to `==` since you probably don't want to do a regex match for ids\r\n\r\n```py\r\npre_query_a = lambda q: q.filter(r.row['vehicleId'] == request.args['vehicleId'])\r\npre_query_b = lambda q: q.filter(r.row['vehicleName'] == request.args['vehicleName'])\r\n\r\nquery = lambda q: pre_query_b(pre_query_a(q))\r\n\r\ntable = r.db(PROJECT_DB).table(PROJECT_TABLE)\r\nresult = query(table).run(db_connection)\r\n```\r\n\r\nI'm going to close this issue since it isn't a bug, but feel free to ask more questions in this thread."
+  , issueCommentId = 150590065
+  }

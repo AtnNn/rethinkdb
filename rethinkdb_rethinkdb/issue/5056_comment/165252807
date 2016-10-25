@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-16) 21 : 23 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165252807"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5056#issuecomment-165252807"
+  , issueCommentCreatedAt = 2015 (-12) (-16) 21 : 23 : 46 UTC
+  , issueCommentBody =
+      "> I always forget how this works in JavaScript. Is there a way we can find out the arity of the functions that are passed into `each`?\r\n\r\n@danielmewes yea, you can do `callback.length` which will give you the number of arguments declared in the function signature. This is sketchy at best though because people might reference the `arguments` object directly in the function body and not have anything specified in the signature. Some transpilers do this to support rest parameters and stuff like that, so it might break for people in unexpected ways.\r\n\r\nEven if we went that route, I don't see how you would disambiguate between these two styles (since I think people would expect handling `err` to be optional in the second case):\r\n\r\n```js\r\n.each(function(err, row), function()) // current with onFinishedCallback\r\n.each(function(row, done), function(err)) // callback-style w/ async handler\r\n```\r\n\r\nSo I agree, assuming we can get away with the breaking change, I think the original proposal is more consistent and easier to understand."
+  , issueCommentId = 165252807
+  }

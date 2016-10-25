@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-22) 03 : 58 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/142173422"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4866#issuecomment-142173422"
+  , issueCommentCreatedAt = 2015 (-09) (-22) 03 : 58 : 57 UTC
+  , issueCommentBody =
+      "After some more investigation, the problem appears to be a different one.\r\n\r\nImagine the following sequence of events:\r\n1. A replica is removed for a given region\r\n2. The server that used to host the replica starts erasing the data for the region. It does this in small chunks, setting the version to zero for a given region whenever it has erased it.\r\n3. Before the server has completely erased the region, it is added back as a replica for an overlapping region.\r\n\r\nDuring step 2, the contract coordinator of the table receives no information about the progress of the erase operation, since \"be nothing\" replicas don't appear in the contracts and don't report `contract_ack_t`s back to the coordinator. As a consequence, it might garbage collect the branch that the removed replica used to be on, and any branches that have since been added between that branch and the current branch(es).\r\n\r\nNow in step 3, part of the region that gets added back as a replica will have a version with a branch that has been garbage collected from the Raft state. When the coordinator gets the first `contract_ack_t` from the newly added replica, it will be unable to compute the common ancestor with the current version of that region.\r\n\r\nA possible solution to this is to ignore the missing branch history and to report the root branch as the common ancestor. This should always be correct, but might hide other bugs that could exist in the branch history garbage collection.\r\nIt would be nice if we could detect this specific scenario and ignore the branch only when it applies."
+  , issueCommentId = 142173422
+  }

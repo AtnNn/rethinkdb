@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-01) 21 : 25 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144854731"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4902#issuecomment-144854731"
+  , issueCommentCreatedAt = 2015 (-10) (-01) 21 : 25 : 05 UTC
+  , issueCommentBody =
+      "In the meantime, I've ended up with this reql to watch for leadership changes on a given table (`r.db('test').table('changing_thing')` in this case). The query currently takes ~350ms on my localhost, can you think of a way to speed it up? Unfortunately it doesn't seem that the logs provide any relevant index for me to key on, and the table id is a string I need to match for.\r\n\r\n```\r\nr.db('test').table('changing_thing').config()\r\n  .do(function(config) {\r\n    return r.db('rethinkdb').table('logs')\r\n      .filter(function(log) {\r\n        return log('message').match(config('id')).and(log('message').match('Raft leader'));\r\n      });\r\n  })\r\n  .changes();\r\n```\r\n\r\nP.S. what penalty do I incur by attaching a change feed to such a slow query?"
+  , issueCommentId = 144854731
+  }

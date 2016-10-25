@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-28) 19 : 24 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/176355455"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5323#issuecomment-176355455"
+  , issueCommentCreatedAt = 2016 (-01) (-28) 19 : 24 : 17 UTC
+  , issueCommentBody =
+      "Backing up `rethinkdb_data` will only get you a copy of the data currently written to that disk. There are many problems with this:\r\n- Using a non-atomic snapshot (`tar`, `rsync`, etc) does not guarantee that the writes rethinkdb does are ordered properly, and would probably result in a corrupted backup most of the time.\r\n- Taking an atomic snapshot usually involves a deliberate pause of all filesystem activity (see e.g. `fsfreeze`), which may cause issues with availability if it takes longer than expected.\r\n- You can only do this on a single node database; once you get to a cluster, it no longer works. (The raft implementation depends on the nodes' storage not going backwards in time; restoring from a backup would effectively run the nodes backwards, and would violate some consistency guarantees.)\r\n- You have to run the snapshot on the same physical hardware as the database.\r\n\r\nNone of these restrictions apply to `rethinkdb dump`.\r\n\r\nAlso note that `rethinkdb dump` just uses the python client library, and you can run it from anywhere, not just inside the same container the DB is running in; that's probably your best bet.\r\n\r\nClosing because this is not a bug, but feel free to continue to ask questions here if you like."
+  , issueCommentId = 176355455
+  }

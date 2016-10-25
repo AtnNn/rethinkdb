@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-07) (-06) 22 : 56 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3569/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3569"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      , IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 3569
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "ReQL Test JavaScript \"driver\" does not actually run atexit cleanup"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3569"
+  , issueCreatedAt = 2015 (-01) (-15) 01 : 43 : 21 UTC
+  , issueBody =
+      Just
+        "The Test \"drivers\" (in `test/rql/drivers`) all have attempts to clean up after themselves in the form of atexit handlers. However, it seems that the JavaScript version does not work, and in fact seems doomed to not ever work.\r\n\r\nThere are two problems:\r\n1) We are currently handling `process.on` for `SIGINT` and `unexpectedException`, but not `exit`, so we don't catch normal exists at all.\r\n2) Per Node.js's [documentation on the subject](http://nodejs.org/api/process.html#process_event_exit) all calls within the `exit` handler have to be synchronous. Async calls never will be called. I have done some testing that proves this point.\r\n\r\nSimilarly there are two options for fixing this:\r\n1) Use a testing framework that handles a lot of this complexity for us and gives us a pre-exit handler. This is what we are doing in the connection.js tests.\r\n2) Remove this code from the JavaScript \"driver\" and just rely on the code in our testing harness that makes sure that things are clean between tests (this is relatively new)."
+  , issueState = "open"
+  , issueId = Id 54402485
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

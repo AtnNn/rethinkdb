@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-02) 23 : 13 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223449949"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5821#issuecomment-223449949"
+  , issueCommentCreatedAt = 2016 (-06) (-02) 23 : 13 : 31 UTC
+  , issueCommentBody =
+      "Ohhh I finally understand what's happening here. Using `r.args` breaks the lazyness / short-circuit property of `r.and`. I'm not sure if this is necessarily a bug, but definitely something we need to document (if it isn't easy to change).\r\n\r\nMore specifically, for the first sub_doc\r\n```js\r\n{\r\n    \"sub_field_id\": 1\r\n}\r\n```\r\nthe `firstCond` evaluates to `false`. So `r.and` will not even evaluate `secondCond` for this document. However if we use `r.args`, both `firstCond` and `secondCond` will be evaluated immediately. Evaluating `secondCond` throws a missing attribute exception, because the `text` field does not exist in the document. This breaks out of the `contains`, and causes the `filter` to skip the whole input."
+  , issueCommentId = 223449949
+  }

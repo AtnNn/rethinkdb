@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-21) 20 : 58 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70920280"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3293#issuecomment-70920280"
+  , issueCommentCreatedAt = 2015 (-01) (-21) 20 : 58 : 57 UTC
+  , issueCommentBody =
+      "@timmaxw, I looked at the performance during the test, and there was zero disk read (all the data should have been in-memory), but there was significant disk write (maybe average 15 MB/s, peaking at 30 MB/s).  By the end of a 5 minute test, the metadata files were about 25MB in size.\r\n\r\nI added some log statements to look at the size of the branch history over time (just looking at a rough in-memory size) - and after 5 minutes, the branch history for any given reactor was between 50KB and 150KB in size.  Given that the branch history is persisted through the directory for each shard, and that every change in the branch history requires a complete reserialization of the metadata, this would certainly explain the slowness.  Granted, I'm not very familiar with the branch history, so I may be missing something.\r\n\r\nI'm fairly sure if we could prune the branch history (#3470), a lot of these problems would go away."
+  , issueCommentId = 70920280
+  }

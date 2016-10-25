@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-31) 18 : 31 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/126777822"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4597#issuecomment-126777822"
+  , issueCommentCreatedAt = 2015 (-07) (-31) 18 : 31 : 47 UTC
+  , issueCommentBody =
+      "@mcadam Thanks for trying that out. I'm currently out of good ideas. My only guesses are that either one of the instances gets really slow occasionally or completely pauses execution (maybe something is happening on the hosts?), or that there is some firewall / router weirdness going on that doesn't affect ICMP packages. A third option could be a problem with our timer code, so that heartbeat timeouts are triggered either too early, or heartbeats are not sent from the other side quickly enough.\r\n\r\nIt's particularly odd that this happens even without any queries running. I don't think I've seen anything like that before.\r\nI know this is some work, but the best way to debug this at this point might be taking a network sniffer (e.g. ettercap or wireshark), and checking what's going on with the connections. In an otherwise completely idle cluster (make sure you don't have the web UI open either, since that would cause additional traffic), you should see a short message exchanged on the cluster connections (port 29015) every 2 seconds. If the interval sometimes gets significantly longer than 2 seconds, we might need to take a closer look at our timing code.\r\n\r\nRethinkDB 2.1 will also introduce a configuration option to increase the heartbeat timeout. However I doubt that this will help much in this case, given that the fact that it's currently being hit indicates a ~10 second stall in communication and/or processing. Even if a longer heartbeat timeout can help to avoid the disconnects (which I'm not sure it will), there will still be ~10 second stalls in query processing."
+  , issueCommentId = 126777822
+  }

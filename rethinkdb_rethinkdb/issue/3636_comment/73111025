@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 19 : 34 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73111025"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3636#issuecomment-73111025"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 19 : 34 : 42 UTC
+  , issueCommentBody =
+      "After sleeping over this I agree with @mlucy and @coffeemug that we should just send a string in 2.0.\r\n\r\nHaving the full pseudo-type probably doesn't add that much extra work, but it's still going to be a couple hours of development and testing time. At the same time I really really doubt that third-party drivers are going to write their own pretty printers any time soon, at least not as long as we're only using the pseudo-type for the `jobs` table.\r\n\r\nOne thing we *should* do though is to strip large arrays, strings and binary values in the pretty-printed queries. If a user has a batched insert query running that inserts 10,000 documents each with a handful of fields, we don't want to pretty print all that data (at least not for the `jobs` table). Instead we should cut those off after a certain length, and insert a special marking (e.g. \"...\") into the pretty-printed query instead. (This by the way is another thing that would require a bit of extra thought and work for the full pseudo type, since we would probably need to represent the fact that a datum has been cut off somehow.)"
+  , issueCommentId = 73111025
+  }

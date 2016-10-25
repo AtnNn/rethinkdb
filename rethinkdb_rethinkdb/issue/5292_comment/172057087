@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-16) 16 : 03 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/172057087"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5292#issuecomment-172057087"
+  , issueCommentCreatedAt = 2016 (-01) (-15) 19 : 13 : 18 UTC
+  , issueCommentBody =
+      "***Disclaimer***: I haven't written Java in years but I'll use my experience from porting the Java driver to .NET and some issues I ran into that *may* be worth checking out. Also, I have practically zero knowledge of how the Java VM schedules threads. So, on this bit of review, I'm assuming a conceptual threading model similar to .NET threading and how Microsoft Windows OS schedules threads. I apologize in advance if none of this applies to Java.\r\n\r\nPer your request, here is my eval: Assuming we have two `Cursors` each \"owned\" by a Java thread, name these: **Thread A / Cursor 1** and **Thread B / Cursor 2**. Each thread consumes their initial batch of results. Next, each thread fires off a `Cursor` `CONTINUE`. The server takes some time processing the `CONTINUE`s and both threads enter the `while(ture){...}` loop awaiting their response below:\r\n\r\n#### `ConnectionInstance.java`\r\n![screen560](https://cloud.githubusercontent.com/assets/478118/12362159/b9d64d2c-bb76-11e5-817e-337e8054cac2.png)\r\n\r\n\r\n**Line 69**: The server hasn't responded yet, so both threads don't see any `headerInProgress`. Both enter `sock.recvall(12,deadline)` with the expectation of reading **12 bytes**.\r\n\r\n#### `SocketWrapper.java`\r\n![screen564](https://cloud.githubusercontent.com/assets/478118/12362516/9a931470-bb78-11e5-9509-488559dbf0f1.png)\r\n\r\nBoth threads `mu.Lock()` but only one lucky thread gets a ticket to pass through the turnstyle. For the sake of simplicity, let's keep things in order, say **Thread A** is the lucky one. A response arrives on the socket and data is waiting to be read. **Thread A** acquires the lock, reads **12 bytes** from the socket successfully. Which response is it? Not sure, but I don't think it matters yet.\r\n\r\n**Thread A** is done reading the **12 byte** header, `finally{ mu.unlock() }` on **Line 136** and returns.\r\n\r\n**Thread A** sets `headerInProgress` in `ConnectionInstance.java` when it returns on **Line 70**. **Thread A** reads `resToken`, but wait, **Thread A**'s quantum runs out. **Thread B** is now scheduled to run. **Thread B** is free to enter the `mu.Lock()` in `recvall()` since it was released by **Thread A**. **Thread B** now reads **12 bytes** *into* the response *json body* of **Thread A**'s response. Hmmm. Did **Thread B** just consume **12 bytes** of the *json* response body thinking it was a header of `resToken+resLen`? Is part of **Thread A**'s response *json body* partly in the buffer of **Thread B**? Additionally, **Thread B** returns and overwrites the `headerInProgress` reference and the errors cascade on....\r\n\r\nIn the .NET world this is a real scenario that could happen. This issue was just one of the issues I ran into in the .NET driver with the original Java architecture. In the end, I decided to deviate slightly in this area from the original Java architecture because threading got way too complex and out of hand. A small architecture change worked out a lot better for the .NET driver and everything got less complex and easier to understand.\r\n\r\nAlso, I could be completely wrong here maybe this doesn't happen in the Java VM.\r\n"
+  , issueCommentId = 172057087
+  }

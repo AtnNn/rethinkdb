@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 27 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4893/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4893"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4893
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "The `changes` command should wait `ready_for_reads`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4893"
+  , issueCreatedAt = 2015 (-09) (-28) 20 : 37 : 52 UTC
+  , issueBody =
+      Just
+        "This came out of the discussion in https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143445619.\r\n\r\nI think the `changes` command should internally wait for `ready_for_reads` when it's first called (as opposed to throwing).\r\n\r\nWe don't typically wait on the cluster in other queries, because if the cluster isn't ready and the query fails, the end user can just \"rerun\" it by refreshing the page, clicking a button again, etc. This way the developer can pretty much ignore the issue in the code (other than handling the exception and propagating the error message to the end user).\r\n\r\nHowever, this isn't the case with changefeeds. If a node fails, the developer has to recreate the feed, and therefore any time anybody uses the `changes()` command, the proper way to write the code is to prepend it with a `wait`. This sounds unnecessarily painful and complicated -- the user shouldn't have to do that. Which is why I think `changes()` should block at the beginning to make sure the cluster is ready. Opinions?\r\n\r\n/cc @mlucy @danielmewes "
+  , issueState = "open"
+  , issueId = Id 108741445
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

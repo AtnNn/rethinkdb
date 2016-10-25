@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-18) 18 : 32 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19631103"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-19631103"
+  , issueCommentCreatedAt = 2013 (-06) (-18) 18 : 32 : 10 UTC
+  , issueCommentBody =
+      "I just talked to @coffeemug and we end up agreeing that having null in the secondary indexes are better.\r\n\r\nI think what lead to the conclusions are the following reasons:\r\n- `null` is different than `undefined` (in RQL), doing `selection.update( { field: null } )` doesn't remove the field, but set the value `null`\r\n- `table.filter( r.row(\"field\").eq(null) )` would be the same as `table.getAll(null, { index: \"field\" } )`\r\n- When creating a secondary index that is the result of a regex matching, people may still want to retrieve results that didn't match\r\n- A common use case of using `null` is to store a boolean about our users (like \"is_adult\"), and use true/false/null/undefined: null when the user doesn't want to answer and undefined when he hasn't been asked yet. So null is a valid value in this case\r\n- In the case of `filter( r.row(\"age\").gt(5) )`, if the field age to null, we should drop the field not because the field is missing but because we try to compare `null` to a number."
+  , issueCommentId = 19631103
+  }

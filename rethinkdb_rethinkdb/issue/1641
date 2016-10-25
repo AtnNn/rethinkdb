@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-07) (-16) 22 : 52 : 32 UTC
+  , issueUpdatedAt = 2014 (-07) (-16) 22 : 53 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1641/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1641"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1641
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Get rid of evaluated optargs"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1641"
+  , issueCreatedAt = 2013 (-11) (-13) 18 : 46 : 33 UTC
+  , issueBody =
+      Just
+        "Right now every optarg is a way to crash the server. Consider the following query:\r\n\r\n```Python\r\nr.js(\"1\").run(timeout=r.js(\"1\"))\r\n```\r\n\r\nThe problem here is that when the query language tries to evaluate the term `r.js(\"1\")` it looks for an optarg called `timeout` in the global optargs and finds the term `r.js(\"1\")` it then tries to evaluate this term to get a value for the optarg. But of course before it can evaluate a `js` term it needs to have a look at the global optargs to see if there's a timeout. This eventually crashes the server with a stack overflow.\r\n\r\nI think we should just make optargs be statically evaluated (like `profile` and `noreply`) already are. I don't really think anyone has a need to pass complicated expressions as their optargs. And allowing them to do so would require something ugly like a flag to disable optargs during execution or something. It really doesn't seem worth it to have this ugliness."
+  , issueState = "closed"
+  , issueId = Id 22612577
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-08) (-01) 23 : 01 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2505/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2505"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2505
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Support using different files for recent/older parts of a table"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2505"
+  , issueCreatedAt = 2014 (-06) (-04) 19 : 32 : 17 UTC
+  , issueBody =
+      Just
+        "This is a suggestion by @wojons.\r\n\r\nWhen inserting data very quickly, our current garbage collector typically doesn't keep up with the amount of new blocks. (https://github.com/rethinkdb/rethinkdb/issues/2457)\r\nWhile we are going to improve that, more aggressive garbage collection comes at the cost of a certain performance hit, especially on rotational disks.\r\n\r\nLet's say we have two drives, a fast but small SSD, and a larger but slow rotational drive.\r\nWe could make use of that by having new data always being written to the rotational drive. Having a high garbage ratio on that disk is not a huge problem, since disk space on rotational drives is relatively cheap. Once the GC compacts a set of blocks for the first time, we could have it rewrite the blocks onto the SSD instead.\r\nWhen GC processes an extent, it usually picks an old extent. The blocks that are still live on that extent tend to be those blocks of the table that change rarely. Thereby the SSD would typically end up having well compacted data that rarely changes. We would waste less space on the SSD while access to that data would be fast.\r\n\r\nThere are other variations of this schema that makes sense. (e.g. GC could divide blocks between the SSD and rotational drive based on when they were last accessed etc.)."
+  , issueState = "open"
+  , issueId = Id 34994717
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

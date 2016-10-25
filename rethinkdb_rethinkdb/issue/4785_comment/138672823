@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-08) 19 : 09 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138672823"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4785#issuecomment-138672823"
+  , issueCommentCreatedAt = 2015 (-09) (-08) 19 : 09 : 38 UTC
+  , issueCommentBody =
+      "> The nice thing about having all state in a database is that this allows admins to configure\r\nreplication, and to change the plugin configuration and state directly through ReQL (things like\r\nwhich port a plugin should bind to etc.).\r\n\r\nI'm not 100% sure plugin state should live in a table.  You can get into weird situations that way.  Say, for example, you add a plugin while your cluster is one node, then later you grow it to a 16 node cluster.  Unless we automatically reconfigure the plugin tables when we add nodes, which we probably shouldn't because of availability loss, the plugin is now dependent on one of your 16 servers being up, and if that server goes down then the plugin stops working even if the rest of the cluster is healthy.  The only way around this is to make users responsible for reconfiguring their plugin tables when they change their cluster, which is kind of a pain.\r\n\r\nI guess it depends on what sort of data plugins are storing.  If they're storing gigabytes of user data, a table is clearly the appropriate place for that, but if they're storing a few kilobytes of configuration data then maybe something else is appropriate.\r\n\r\nAlso, some plugins (like the web UI) might want purely local data storage so they keep working even if disconnected from the rest of the cluster.\r\n\r\nMaybe this is too complicated for the first version, though, and we should only support storing plugin data in tables at first?\r\n\r\n> I suggest we provide plugins with a Unix domain socket instead\r\n\r\nThis seems unnecessarily complicated to me.  I think that if we just pass the plugins the port to connect on and the auth key that would be easier (we wouldn't have to add anything new to the server besides the ability to launch the plugin).  That would also making porting to windows easier (unless they have an equivalent of Unix domain sockets, in which case ignore this point).\r\n\r\n---\r\n\r\nSome of the intended plugins (document expiration, triggers) seem like they would run on only one machine rather than on every machine in the cluster.  Should we just leave it up to users to pick which machines plugins are launched on by editing their command-line options, or are we going to be starting and stopping plugins in a centralized way?"
+  , issueCommentId = 138672823
+  }

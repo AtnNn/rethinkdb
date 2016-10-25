@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-11) 00 : 56 : 48 UTC
+  , issueUpdatedAt = 2015 (-04) (-11) 00 : 58 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4046/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4046"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4046
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 419606
+        , simpleUserLogin = N "v3ss0n"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/419606?v=3"
+        , simpleUserUrl = "https://api.github.com/users/v3ss0n"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "In tornado , .repl() do not work "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4046"
+  , issueCreatedAt = 2015 (-04) (-10) 13 : 54 : 41 UTC
+  , issueBody =
+      Just
+        "```python\r\ndb = (yield r.connect(\"localhost\", db=db_name)).repl() \r\nclass EventsUpdateHander(EventBaseHandler):\r\n\r\n    @gen.coroutine\r\n    def get(self):\r\n        curs = yield db.table('evt').changes()\r\n\r\n        while (yield curs.fetch_next()):\r\n            feed = yield curs.next()\r\n            message = {\r\n                'id': feed['new_val']['id'], 'html': tornado.escape.to_basestring(\r\n                    self.render_string(\"message.html\", message=feed['new_val']))}\r\n            self.write_events(name=\"message\", evt_id=feed['new_val']['id'],msg=[message])\r\n```\r\n\r\n``` python\r\nTraceback (most recent call last):\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/web.py\", line 1348, in _execute\r\n    result = yield result\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/gen.py\", line 807, in run\r\n    value = future.result()\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/concurrent.py\", line 209, in result\r\n    raise_exc_info(self._exc_info)\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/gen.py\", line 810, in run\r\n    yielded = self.gen.throw(*sys.exc_info())\r\n  File \"event_rechat.py\", line 146, in get\r\n    curs = yield self.evt.changes()\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/gen.py\", line 807, in run\r\n    value = future.result()\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/concurrent.py\", line 209, in result\r\n    raise_exc_info(self._exc_info)\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/gen.py\", line 886, in handle_yield\r\n    self.future = convert_yielded(yielded)\r\n  File \"/home/v3ss/pypy/site-packages/tornado-4.1-py2.7.egg/tornado/gen.py\", line 956, in convert_yielded\r\n    raise BadYieldError(\"yielded unknown object %r\" % (yielded,))\r\nBadYieldError: yielded unknown object <RqlQuery instance: r.table('events').changes() >\r\n```"
+  , issueState = "closed"
+  , issueId = Id 67600942
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

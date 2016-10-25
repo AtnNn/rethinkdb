@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-08) 20 : 27 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/119719425"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1520#issuecomment-119719425"
+  , issueCommentCreatedAt = 2015 (-07) (-08) 20 : 21 : 25 UTC
+  , issueCommentBody =
+      "It looks like `sample` is especially slow compared to other linear time operations on tables.\r\n\r\nHere are some times reported by @ha1331:\r\n```\r\nr.table('t').sample(2) 2.51s server time\r\nr.table('t').sum('someField') 82ms server time\r\nr.table('t').count() (result is 70387 rows) 17ms server time\r\n```\r\n\r\nThis was on a table with 4 shards.\r\nI think `sample` currently pulls all data onto a single server/thread first? My suspicion is that that's the reason for the slowness.\r\n\r\nHere's a possible algorithm for pushing most of the work down to the shards:\r\nAssume a query `table.sample(n)`. Most likely `n` is going to be small compared to the table size.\r\nWe can now first uniformly sample `n` elements on each shard. As a side effect we can also get the exact number of scanned documents on the shard for free. Finally on the parsing node, we receive the n elements from each shard, and then sample n out of them with a probability distribution adjusted to the total number of scanned documents from each shard.\r\n\r\nAs an additional optimization we could avoid loading the data for rejected documents like @jdoliner mentioned, similar to what `count` does."
+  , issueCommentId = 119719425
+  }

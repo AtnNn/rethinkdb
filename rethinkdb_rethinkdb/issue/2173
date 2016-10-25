@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-03) (-26) 15 : 17 : 04 UTC
+  , issueUpdatedAt = 2014 (-03) (-26) 15 : 47 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2173/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2173"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2173
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 77907
+        , simpleUserLogin = N "Aleaxander"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/77907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Aleaxander"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "branch sam_803 caused 6 testcase regressions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2173"
+  , issueCreatedAt = 2014 (-03) (-26) 14 : 08 : 48 UTC
+  , issueBody =
+      Just
+        "Hi @srh,\r\n\r\nHere my test system noticed 6 regression on your branch sam_803, and they are\r\n```\r\nd661c97ec44      d48bc5031a7      testcase\r\n---------------- ---------------- ----------------\r\n[1, 1, 1]        [0, 0, 0]        regression-649\r\n[1, 1, 1]        [0, 0, 0]        interface-unsatisfiable_goals_issue\r\n[1, 1, 1]        [0, 0, 0]        interface-large_branch_history\r\n[1, 1, 1]        [0, 0, 0]        interface-log\r\n[1, 1, 1]        [0, 0, 0]        interface-resources\r\n[1, 1, 1]        [0, 0, 0]        interface-dead_machine_issues\r\n\r\nWhere, [1, 1, 1] means I run it 3 times, and all get return code: 1\r\n```\r\n\r\nAnd bisect finds that following testcases are introduced by commit c46046c4(\"Removed a lot more memcached stuff in the clustering layer\")\r\n```\r\nregression-649\r\ninterface-resources\r\ninterface-log \r\ninterface-dead_machine_issues\r\n```\r\n\r\nAnd interface-unsatisfiable_goals_issue was introduced by commit 908dd51(\"Removed memcache instantiation code from serve.cc\").\r\n\r\nI didn't bisect out the bisect caused interface-large_branch_history failure, as I often met Timeout error while bisecting, it's an issue happens sometimes on side. Sometimes, Timeout error will just disappear when I reboot my machine.\r\n\r\nLast, here is the fail log:\r\n```\r\nFail interface-dead_machine_issues (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.12user 0.14system 0:05.14elapsed 5%CPU (0avgtext+0avgdata 12924maxresident)k\r\n  | 488inputs+1032outputs (0major+16568minor)pagefaults 0swaps\r\nFail interface-large_branch_history (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.17user 0.13system 0:05.15elapsed 6%CPU (0avgtext+0avgdata 13304maxresident)k\r\n  | 488inputs+864outputs (0major+16614minor)pagefaults 0swaps\r\nFail interface-log (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.08user 0.06system 0:03.10elapsed 4%CPU (0avgtext+0avgdata 10624maxresident)k\r\n  | 244inputs+408outputs (0major+10138minor)pagefaults 0swaps\r\nFail interface-resources (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.09user 0.05system 0:03.10elapsed 4%CPU (0avgtext+0avgdata 12700maxresident)k\r\n  | 244inputs+408outputs (0major+10161minor)pagefaults 0swaps\r\nFail interface-unsatisfiable_goals_issue (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.07user 0.07system 0:03.10elapsed 4%CPU (0avgtext+0avgdata 16612maxresident)k\r\n  | 244inputs+408outputs (0major+9753minor)pagefaults 0swaps\r\nFail regression-649 (1)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 779, in update_cluster_data\r\n  | data = self._verify_consistent_cluster(timeout)\r\n  |   File \"$RETHINKDB/test/common/http_admin.py\", line 745, in _verify_consistent_cluster\r\n  | remove_nones(expected[u\"memcached_namespaces\"])\r\n  | KeyError: u'memcached_namespaces'\r\n  | 0.23user 0.28system 0:15.15elapsed 3%CPU (0avgtext+0avgdata 13296maxresident)k\r\n  | 488inputs+864outputs (0major+16398minor)pagefaults 0swaps\r\n```"
+  , issueState = "closed"
+  , issueId = Id 30214026
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

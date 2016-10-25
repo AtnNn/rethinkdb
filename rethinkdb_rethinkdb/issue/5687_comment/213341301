@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-22) 09 : 14 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 159819
+        , simpleUserLogin = N "cefn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/159819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cefn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/213341301"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5687#issuecomment-213341301"
+  , issueCommentCreatedAt = 2016 (-04) (-22) 09 : 04 : 22 UTC
+  , issueCommentBody =
+      "Your pseudo-code example looks like quality code which actually guards from passing booleans directly into filter. \r\n\r\nI don't see any point in this where a javascript ```value``` is passed to filter where ```value===true``` or ```value===false```, meaning that this code can still run even if guard behaviours are added to filter() and similar to throw an exception when passed a primitive value directly (which I claim is always a mistake).\r\n\r\nSorry if I've missed something.\r\n\r\nPerhaps you mean that r.expr(...) needs to accept locally evaluated javascript primitives. However, you could still throw an exception when someone passes an unguarded item which evaluates to a primitive without wrapping it in an expr, e.g. writing...\r\n```javascript\r\nr.table('users').filter(r.row('embedded_doc')('child') > 5).run(conn, callback)\r\n```\r\n...when they mean... \r\n```javascript\r\n r.table('users').filter(function(){\r\nreturn r.row('embedded_doc')('child') > 5\r\n}).run(conn, callback)\r\n```\r\n...actually as I write this, I'm asking myself if that's a valid filter function, or whether it re-introduces the same bug. As a newbie, having it die explicitly to tell me it's broken would be useful.\r\n\r\nHowever, I'm now wondering when, if ever, r.expr() should accept a true or false, given r.true() and r.false() could substitute more efficiently. Perhaps even an r.const() indicating explicitly you don't expect this to be late-bound could be a catch-all for preventing any primitives being passed to r.expr() by mistake.\r\n\r\nI am really new to rethinkdb, and haven't got a lot of time today for testing, but can't your example be written as follows with all the goodness of returning a constant filter...\r\n```javascript\r\n// user input: conditions: {field1: value1, field2: value2:, ...}\r\nquery = r.table(\"t\");\r\nfor each (field, value) in conditions:\r\n  query = query.filter(r.row(field).eq(value));\r\nresult = query.run(conn);\r\n```\r\n\r\nMy instinct is that a non-complex rewrite like this is _always_ available, which makes the query more explicit and permits guard clauses for primitives to be added to RethinkDb with no cost other than to make people write better code. \r\n\r\nHowever, adding something like r.const() and throwing exceptions on primitives passed to r.expr() might buy something for your r.expr() case."
+  , issueCommentId = 213341301
+  }

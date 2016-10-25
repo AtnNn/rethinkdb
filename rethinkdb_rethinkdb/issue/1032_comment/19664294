@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 05 : 48 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19664294"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-19664294"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 05 : 48 : 45 UTC
+  , issueCommentBody =
+      "I talked to @neumino today and I changed my mind on this -- I agree with him, I think we should actually index nulls, and I think I came up with a somewhat consistent attempt at formalizing this.\r\n\r\nWhen we talk about null equivalency with non-existence, I think we need to differentiate between two cases -- storing data, and querying data. When storing data I think we *shouldn't* treat null as equivalent to non-existence, and when querying data I think we should.\r\n\r\nWe already do this to some degree -- when we save a document, `{}` isn't equivalent to `{a: null}`, but when we query it mostly is (for instance, if I try to add a number to `a`). I think that doing it this way is actually the most useful, and we should continue moving our treatment of nulls and non-existence in this direction. In this context, if an index expression evaluates to null on a row, I think we should still index it and make it available via `getAll(null)`. This is useful because, as @neumino pointed out, if I index on people's age, I expect to be able to say \"give me all the users that didn't fill out the form\", and the easiest way to express that is with nulls.\r\n\r\n> As an aside, we don't currently throw or anything when people compare `null` to a number\r\n\r\nI think that in case of `filter` this is an oversight and we should skip the row, but perhaps we should wait and see what users say when they (inevitably) run into this edge case."
+  , issueCommentId = 19664294
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-12) 17 : 55 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/239514829"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6048#issuecomment-239514829"
+  , issueCommentCreatedAt = 2016 (-08) (-12) 17 : 51 : 55 UTC
+  , issueCommentBody =
+      "Note that 0.1, 0.2, and 0.3 cannot be represented as binary floating point numbers exactly. No matter what you do, you will have inexact math if you use these fractions. In other words, even the \"correctly\" rounded 0.3 you give is still inexact. What RethinkDB is doing is giving you the shortest ascii representation of the number which, when converted back to a float, still gives you bit-for-bit the same number. (Again, even the \"0.3\" is inexact, but it so happens that the rounding that happens when converting it back to a floating point number is the same as what's already there.)\r\n\r\nWhat it seems like you want is number formatting (a la `printf(\"%.2f\")`). Is there a reason why you think this should be done at the database layer, and not on the system processing the query results?\r\n\r\n-----\r\n\r\n_As an aside, the general recommendation is that you not use floating point fractional numbers for financial math in ANY language and on ANY database, specifically because of these issues. Instead, you should represent everything as integers (say, cents) or base-10 fixed point numbers. RethinkDB does not currently support fixed point numbers, see [issue 1639](https://github.com/rethinkdb/rethinkdb/issues/1639), but you can still use integers directly; double-precision floating point math on integers is exact for a wide range (-2^52 to 2^52).)_"
+  , issueCommentId = 239514829
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-25) 23 : 28 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143375242"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3711#issuecomment-143375242"
+  , issueCommentCreatedAt = 2015 (-09) (-25) 23 : 28 : 26 UTC
+  , issueCommentBody =
+      "@mike-marcacci I agree 100%. ReQL is going to remain the primary query language. With our current plan for the plugin infrastructure, what you say is actually enforced. The GraphQL plugin simply has no other choice but to use ReQL queries to communicate with the database.\r\nIf it turns out that we need to add additional functionality to the core server itself, we'll make sure that that functionality is exposed through ReQL, and we'll try to make it as generic as possible (i.e. not limited to the specific use case that we need it for in GraphQL).\r\n\r\nAbout extensibility and being able to replace the \"default\" endpoints in GraphQL as the demands of an application increase:\r\nThese are very valid points, and I hope we can provide something to easily \"overwrite\" a GraphQL endpoint.\r\nWhat I mean by that is that by default, we're essentially going to map each GraphQL endpoint in the schema to a document or table in RethinkDB. That way you can store and retrieve data through GraphQL out of the box, without writing custom backend code. I think we could provide an API that allows you to inject custom callbacks for a certain endpoint. In the simplest case, you can just put another ReQL query there. In more complex cases, you can perform any type of additional authorization, or query out to other databases or backends.\r\n\r\nOne thing that's really nice about putting GraphQL support into a plugin, is that all of that logic is going to be plain JavaScript. The code of the plugin itself will be very easy to access and to modify. Even if we forget to provide a specific API for customization, you can simply make a copy of the default GraphQL plugin, and change the relevant pieces in the code.\r\nNone of this requires special knowledge about RethinkDB internals."
+  , issueCommentId = 143375242
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-16) 19 : 17 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 281303
+        , simpleUserLogin = N "aknuds1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/281303?v=3"
+        , simpleUserUrl = "https://api.github.com/users/aknuds1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/219518680"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5766#issuecomment-219518680"
+  , issueCommentCreatedAt = 2016 (-05) (-16) 19 : 15 : 21 UTC
+  , issueCommentBody =
+      "@danielmewes Turns out there are two RethinkDB servers running, one of which is for serving the admin UI. It's a Kubernetes setup I just copied, so not sure what the intention is behind it. The normal RethinkDB server is using a persistent volume, whereas the admin server is just using ephemeral storage. Not sure how they are able to work with each other.\r\n\r\n## The admin Kubernetes pod definition:\r\n    apiVersion: v1\r\n    kind: Pod\r\n    metadata:\r\n      labels:\r\n        db: rethinkdb\r\n        role: admin\r\n      name: rethinkdb-admin\r\n    spec:\r\n      containers:\r\n      - image: aknudsen/docker-kubernetes-rethinkdb:2.3\r\n        imagePullPolicy: Always\r\n        name: rethinkdb\r\n        env:\r\n        - name: POD_NAMESPACE\r\n          valueFrom:\r\n            fieldRef:\r\n              fieldPath: metadata.namespace\r\n        ports:\r\n        - containerPort: 8080\r\n          name: admin-port\r\n        - containerPort: 28015\r\n          name: driver-port\r\n        - containerPort: 29015\r\n          name: cluster-port\r\n        volumeMounts:\r\n        - mountPath: /data/rethinkdb_data\r\n          name: rethinkdb-storage\r\n      volumes:\r\n      - name: rethinkdb-storage\r\n        emptyDir: {}\r\n\r\n## The admin Kubernetes service definition:\r\n    apiVersion: v1\r\n    kind: Service\r\n    metadata:\r\n      labels:\r\n        db: rethinkdb\r\n      name: rethinkdb-admin\r\n    spec:\r\n      ports:\r\n       - port: 8080\r\n         targetPort: 8080\r\n      type: LoadBalancer\r\n      selector:\r\n        db: rethinkdb\r\n        role: admin\r\n\r\n## The non-admin Kubernetes deployment definition:\r\n    apiVersion: extensions/v1beta1\r\n    kind: Deployment\r\n    metadata:\r\n      labels:\r\n        db: rethinkdb\r\n      name: rethinkdb\r\n    spec:\r\n      replicas: 1\r\n      template:\r\n        metadata:\r\n          labels:\r\n            db: rethinkdb\r\n            role: replicas\r\n        spec:\r\n          containers:\r\n          - image: aknudsen/docker-kubernetes-rethinkdb:2.3\r\n            name: rethinkdb\r\n            imagePullPolicy: Always\r\n            env:\r\n            - name: POD_NAMESPACE\r\n              valueFrom:\r\n                fieldRef:\r\n                  fieldPath: metadata.namespace\r\n            ports:\r\n            - containerPort: 8080\r\n              name: admin-port\r\n            - containerPort: 28015\r\n              name: driver-port\r\n            - containerPort: 29015\r\n              name: cluster-port\r\n            volumeMounts:\r\n            - mountPath: /data\r\n              name: rethinkdb-storage\r\n          volumes:\r\n          - name: rethinkdb-storage\r\n            gcePersistentDisk:\r\n              pdName: staging-disk\r\n              fsType: ext4\r\n\r\n## The non-admin Kubernetes service definition\r\n    apiVersion: v1\r\n    kind: Service\r\n    metadata:\r\n      labels:\r\n        db: rethinkdb\r\n      name: rethinkdb-driver\r\n    spec:\r\n      ports:\r\n        - port: 28015\r\n          targetPort: 28015\r\n      selector:\r\n        db: rethinkdb"
+  , issueCommentId = 219518680
+  }

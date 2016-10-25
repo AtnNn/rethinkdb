@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-18) 22 : 35 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56113237"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3009#issuecomment-56113237"
+  , issueCommentCreatedAt = 2014 (-09) (-18) 22 : 35 : 18 UTC
+  , issueCommentBody =
+      "As long as we move floating point values into and out of datums, we will never experience > 64 bit precision operations.  The precision required by the IEEE standard is \189 ulp for \"simple\" operations, which is a term I just made up (the spec is more precise).  In particular, \189 ulp for addition, subtraction, division, multiplication and modulo, which are the operations defined in src/rdb_protocol/terms/arith.cc.  Statistics addition does floating point addition of what are supposed to be integers, but not unsafely.  We also define ==, <, >, <=. >=.  We define != incorrectly (doesn't behave right with `NaN`s for example).\r\n\r\nAmong the things that are *not* guaranteed to have \189 ulp are transcendental functions, like `sin` and `cos`, which are used extensively in geo code.  Depending on the version of the standard you pay attention to these have either no guarantee at all or guarantee within 1 ulp (which is what we actually observe).  If we ever added a `sin` or `cos` function to ReQL it would exhibit the same problems.\r\n\r\nWhat I consider to be a separate issue is that by virtue of the fact that we use floating point numbers instead of integers, it is possible for very strange things to happen on large numbers.  I would prefer to have a true integer type, but that's a separate issue.\r\n\r\nWe probably should check the floating point environment at startup, but this is low priority as processes start with it in the default condition and so the worst concern is that something (like S2) meddles with it underneath us.\r\n\r\nOf the compilers in common use on the platforms we support, CLANG will never generate x87 op codes and gcc does not generate them except in 32-bit mode.  Since the result was identical even in geo for our  work (because we wrap floating point values in datums constantly), I did not consider it worth putting into 1.15.  The issue we were seeing is divergence in `-lm`; I cannot overemphasize that both answers are \"correct\" approximations to the true transcendental result.  Math libraries are only invoked for transcendental functions for our purposes (the x87 `fcos` and cousin opcodes are not quite right for values outside of [-\960/4, \960/4] due to nobody understanding how to do it properly when the x87 codes were designed, and Backwards Compatibility \220ber Alles of course has retained that defect to the present day).  These are, again, only used for geo.\r\n\r\nIn the event of floating point divergence, overly naive tests such as the ones we have in the RQL tests will of course fail.  Since the divergence exists in the last bit of a double result, I believe I worked out that the difference amounts to +/- 0.5 nanometers in longitude and latitude terms.  The errors due to modeling the Earth as an ellipsoid exceed this error by many orders of magnitude.\r\n\r\nI do not believe we have tests for data divergence because no one has yet demonstrated it outside of this single case, which we have resolved by marking geo terms as nondet."
+  , issueCommentId = 56113237
+  }

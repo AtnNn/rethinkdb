@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-11) 18 : 07 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4605/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4605"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4605
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Primary replica incorrectly status as `\"ready\"` when disconnected from majority"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4605"
+  , issueCreatedAt = 2015 (-07) (-31) 18 : 51 : 22 UTC
+  , issueBody =
+      Just
+        "As mentioned in #4587 the primary server currently reports itself as `\"ready\"` when it is disconnect from the majority instead of `\"waiting_for_quorum\"`. This is purely superficial as we no longer accept up-to-date reads when in that situation.\r\n\r\nTo quote @timmaxw:\r\n> To fix the problem with table.status() reporting that the primary is \"ready\", you can change how contract_executor_t::get_shard_status() computes the primary status. The one annoying thing is that it's currently computing the status using only the contract acks from the local executors, so it doesn't have enough information to determine if the primary can see a majority of replicas or not. To fix that, I suggest you make contract_executor_t::get_shard_status() directly ask the execution_t for its status instead of looking at the contract ack. So you would add a new virtual method execution_t::get_status(), returning a table_shard_status_t. Watch out for the fact that execution_t::get_status() will sometimes have to block, which you can't do from inside raft_state->apply_read(). So it would be a little annoying to implement, but I think it's the best solution. (Also, making a execution_t::get_status() method is probably a good thing anyway; the idea of computing status from contract acks was kind of hacky in the first place.)"
+  , issueState = "open"
+  , issueId = Id 98450043
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

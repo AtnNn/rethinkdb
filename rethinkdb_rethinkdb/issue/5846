@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-13) 18 : 15 : 16 UTC
+  , issueUpdatedAt = 2016 (-07) (-28) 21 : 38 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5846/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5846"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5846
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 4810521
+        , simpleUserLogin = N "arve0"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4810521?v=3"
+        , simpleUserUrl = "https://api.github.com/users/arve0"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JS client: r.connect([host]) \8594 promise, argument not optional"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5846"
+  , issueCreatedAt = 2016 (-06) (-11) 16 : 07 : 13 UTC
+  , issueBody =
+      Just
+        "`r.connect` is [documented](http://www.rethinkdb.com/api/javascript/connect/) as `r.connect([host])`, but `host` is not optional and `connect` must be called with an object. If not TypeError is thrown: `TypeError: Cannot read property 'authKey' of undefined`.\r\n\r\nTo reproduce:\r\n```js\r\nconst r = require('rethinkdb');\r\nr.connect().then((connection) => {\r\n  console.log('connected');\r\n}).catch((e) => {\r\n  console.error('ERROR:' + e);\r\n});\r\n```\r\n\r\n[Line responsible](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/net.coffee#L1632) is\r\n```js\r\n        host = hostOrCallback\r\n```\r\n\r\nbut should be\r\n```js\r\n        host = hostOrCallback || {}\r\n```\r\n\r\nFull error message:\r\n```\r\nTypeError: Cannot read property 'authKey' of undefined\r\n    at /Users/arve/git/commentsdb/node_modules/rethinkdb/net.js:941:14\r\n    at tryCatcher (/Users/arve/git/commentsdb/node_modules/bluebird/js/main/util.js:26:23)\r\n    at Promise._resolveFromResolver (/Users/arve/git/commentsdb/node_modules/bluebird/js/main/promise.js:480:31)\r\n    at new Promise (/Users/arve/git/commentsdb/node_modules/bluebird/js/main/promise.js:70:37)\r\n    at Function.<anonymous> (/Users/arve/git/commentsdb/node_modules/rethinkdb/net.js:939:10)\r\n    at Function.connect (/Users/arve/git/commentsdb/node_modules/rethinkdb/util.js:43:16)\r\n    at Object.<anonymous> (/Users/arve/git/commentsdb/index.js:5:3)\r\n    at Module._compile (module.js:541:32)\r\n    at Object.Module._extensions..js (module.js:550:10)\r\n    at Module.load (module.js:456:32)\r\n    at tryModuleLoad (module.js:415:12)\r\n    at Function.Module._load (module.js:407:3)\r\n    at Function.Module.runMain (module.js:575:10)\r\n    at startup (node.js:160:18)\r\n    at node.js:445:3\r\n```"
+  , issueState = "closed"
+  , issueId = Id 159780324
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

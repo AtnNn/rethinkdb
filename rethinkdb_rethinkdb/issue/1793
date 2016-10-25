@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-10) 02 : 24 : 53 UTC
+  , issueUpdatedAt = 2014 (-01) (-12) 20 : 47 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1793/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1793"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1793
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Chaining multiple joins returns wrong results"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1793"
+  , issueCreatedAt = 2013 (-12) (-20) 19 : 25 : 29 UTC
+  , issueBody =
+      Just
+        "Chaining two `eqJoin` commands, returns the wrong output:\r\n\r\n```javascript\r\nr.tableCreate('senders');\r\nr.tableCreate('receivers');\r\nr.tableCreate('messages');\r\n \r\nr.table('senders').insert({id: 1, sender: 'Sender One'});\r\nr.table('receivers').insert({id: 1, receiver: 'Receiver One'});\r\nr.table('messages').insert([{\r\n    senderId: 1,\r\n    receiverId: 1,\r\n    msg: 'Message One'\r\n}, {\r\n    senderId: 1,\r\n    receiverId: 1,\r\n    msg: 'Message Two'\r\n}, {\r\n    senderId: 1,\r\n    receiverId: 1,\r\n    msg: 'Message Three'\r\n}]);\r\n \r\n \r\n// returns tree rows, as expected\r\nr.table('messages')\r\n    .eqJoin('senderId', r.table('senders'))\r\n    .without({right: {id: true}})\r\n    .zip()\r\n \r\n// returns only one row\r\nr.table('messages')\r\n    .eqJoin('senderId', r.table('senders'))\r\n    .without({right: {id: true}})\r\n    .zip()\r\n    .eqJoin('receiverId', r.table('receivers'))\r\n    .without({right: {id: true}})\r\n    .zip()\r\n```\r\n\r\nInterestingly, coercing to an array in the middle, returns the right output:\r\n\r\n```javascript\r\n// returns three rows as expected\r\nr.table('messages')\r\n    .eqJoin('senderId', r.table('senders'))\r\n    .without({right: {id: true}})\r\n    .zip()\r\n    .coerceTo('array')\r\n    .eqJoin('receiverId', r.table('receivers'))\r\n    .without({right: {id: true}})\r\n    .zip()\r\n```"
+  , issueState = "closed"
+  , issueId = Id 24642794
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 57
+          , milestoneClosedIssues = 16
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.11.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/57"
+          , milestoneCreatedAt = 2014 (-01) (-12) 20 : 47 : 15 UTC
+          , milestoneState = "closed"
+          }
+  }

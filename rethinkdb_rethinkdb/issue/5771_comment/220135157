@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-18) 19 : 38 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/220135157"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5771#issuecomment-220135157"
+  , issueCommentCreatedAt = 2016 (-05) (-18) 19 : 38 : 44 UTC
+  , issueCommentBody =
+      "As @larkost said, (1) is intentional based on what we discussed in #5413 though I think it's still debatable whether or not that's desirable behavior. For example, given that you can return a Promise from `final`, where are you supposed to handle that promise? You'd expect to be able to throw a `.catch(...)` on the outer promise, but we don't return the promise when `final` is specified.\r\n\r\n(2) is just a documentation issue. We decided to only allow returning `undefined` or a `Promise` and providing a good error message so users couldn't accidentally abort iteration early by returning some \"special value\" (previously `false`).\r\n\r\nAs a general note, most examples still push users towards the old callback style for everything. The docs also don't really illustrate an example of the Promise-based API as it was intended to be used:\r\n\r\n```js\r\ncursor.eachAsync(row => {\r\n  return processRowAsync(row) // returns a Promise\r\n})\r\n.then(() => {\r\n  console.log('done processing')\r\n})\r\n.catch(err => {\r\n  console.error('Error:', err.message)\r\n});\r\n```"
+  , issueCommentId = 220135157
+  }

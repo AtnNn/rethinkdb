@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-29) 15 : 08 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/190250967"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5438#issuecomment-190250967"
+  , issueCommentCreatedAt = 2016 (-02) (-29) 15 : 08 : 31 UTC
+  , issueCommentBody =
+      "With version 2.2.5 it's very easy to reproduce using these scripts:\r\n**test-modify-5438.py:**\r\n```\r\n#! /usr/bin/env python3\r\n\r\nimport rethinkdb as r\r\nimport random\r\nimport time\r\n\r\nr.connect().repl()\r\n\r\ndb_name = 'test_db'\r\ntable_name = 'test_table'\r\n\r\nif db_name not in r.db_list().run():\r\n\tr.db_create(db_name).run()\r\n\r\nif table_name not in r.db(db_name).table_list().run():\r\n\tr.db(db_name).table_create(table_name).run()\r\n\r\ntable = r.db(db_name).table(table_name)\r\ntable.config().update({ 'durability': 'soft' }).run()\r\n\r\nprint('cleaning table...')\r\ntable.delete().run(noreply=True)\r\n\r\nindexes = [\t'index' ]\r\nexisting_indexes = table.index_list().run()\r\nfor index in [index for index in indexes if index not in existing_indexes]:\r\n\ttable.index_create(idx).run()\r\n\r\nmax_id = 5000\r\nprint('inserting...', max_id)\r\nfor doc_id in range(1, max_id + 1):\r\n\ttable.insert({\r\n\t\t'id': doc_id,\r\n\t\t'index': random.randint(1, 10),\r\n\t\t'value1': random.randint(1, 10),\r\n\t}).run(noreply=True)\r\n\r\n\r\nwhile True:\r\n\ttime.sleep(0.05)\r\n\r\n\tdoc_id = random.randint(1, max_id)\r\n\r\n\texisting = table.get(doc_id).run()\r\n\tif existing:\r\n\t\tif random.random() > 0.2:\r\n\t\t\ttable.get(doc_id).update({\r\n\t\t\t\t'index': random.randint(1, 10)\r\n\t\t\t}).run(noreply=True)\r\n\t\t\tprint('   up   :', doc_id)\r\n\r\n\t\telse:\r\n\t\t\ttable.get(doc_id).delete().run(noreply=True)\r\n\t\t\tprint('     del:', doc_id)\r\n\r\n\telse:\r\n\t\ttable.insert({\r\n\t\t\t'id': doc_id,\r\n\t\t\t'index': random.randint(1, 10),\r\n\t\t\t'value1': random.randint(1, 10),\r\n\t\t}).run(noreply=True)\r\n\t\tprint('ins     :', doc_id)\r\n```\r\nStart that and leave running.\r\n\r\nThen start the following using nodejs:\r\n**test-5438.js:**\r\n```\r\n\r\nvar r = require('rethinkdb');\r\n\r\nvar query = r.db('test_db').table('test_table')\r\n\t.getAll(1, 2, 3, 4, 5, { index: 'index' })\r\n\t.filter(r.row('value1').gt(2));\r\n\r\nr.connect(function(err, conn) {\r\n\tvar first = true;\r\n\tconsole.time('first message');\r\n\tquery.changes().run(conn, function(err, cursor) {\r\n\t\tcursor.on('data', function(item) {\r\n\t\t\tif(first)\r\n\t\t\t{\r\n\t\t\t\tconsole.timeEnd('first message');\r\n\t\t\t\tfirst = false;\r\n\t\t\t}\r\n\t\t\telse\r\n\t\t\t\tprocess.stdout.write('.');\r\n\t\t});\r\n\t\tcursor.on('error', function(err) {\r\n\t\t\tconsole.log('ERROR: ' + err.message);\r\n\t\t});\r\n\t});\r\n});\r\n```\r\nAlmost the instant the nodejs script is started the rethinkdb server crashes. Both the `getAll()` and `filter()` parts of the query are required.\r\n\r\nHowever, so far I've only seen the crash happen with v2.2.5.\r\nRunning v2.2.3 (the version we currently use in production) or v2.2.4 does not crash using this test."
+  , issueCommentId = 190250967
+  }

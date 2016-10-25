@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-03) 04 : 56 : 00 UTC
+  , issueUpdatedAt = 2015 (-08) (-03) 05 : 12 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4616/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4616"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4616
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 811954
+        , simpleUserLogin = N "danielcompton"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/811954?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielcompton"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Possible race condition using `get-all`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4616"
+  , issueCreatedAt = 2015 (-08) (-03) 04 : 41 : 24 UTC
+  , issueBody =
+      Just
+        "## Intro\r\n\r\nhttps://github.com/apa512/clj-rethinkdb/issues/69 was opened with some interesting behaviour when using `get-all`. After tracing this, it seems that RethinkDB is returning different results for the same query. I'm unsure whether this is a race condition, or a standard condition that drivers should expect and handle transparently.\r\n\r\n## Problem\r\n\r\nRunning `(r/get-all table [\"id\" \"cake\"] {:index \"by-race-id\"})` returns the same result (\"r\") but with either  `SUCCESS_SEQUENCE` (2) type or `SUCCESS_PARTIAL` (3) as the type (\"t\").\r\n\r\nTwo example lines from log output:\r\n\r\n```\r\nWriting: [4 [1,[78,[[15,[[14,[\"clj_rethinkdb_test\"]],\"example\"]],\"id\",\"cake\"],{\"index\":\"by-race-id\"}]]]\r\nReading: [4 {\"t\":3,\"r\":[{\"id\":\"6ec8d72a-9d35-405d-92a8-fe10af537016\",\"race-id\":\"id\",\"test\":\"document\"}],\"n\":[]}]\r\n              ^^^^\r\n\r\nWriting: [5 [1,[78,[[15,[[14,[\"clj_rethinkdb_test\"]],\"example\"]],\"id\",\"cake\"],{\"index\":\"by-race-id\"}]]]\r\nReading: [5 {\"t\":2,\"r\":[{\"id\":\"6ec8d72a-9d35-405d-92a8-fe10af537016\",\"race-id\":\"id\",\"test\":\"document\"}],\"n\":[]}]\r\n              ^^^^\r\n```\r\n\r\n## Questions\r\n\r\n* Is it expected that the same query can return either SUCCESS_SEQUENCE or SUCCESS_PARTIAL? If so then we'll handle this better in the driver.\r\n* Alternatively, is this a race condition?\r\n\r\n## Reproduction\r\n\r\nA reproduction repo is available at https://github.com/danielcompton/clj-rethinkdb-test. You can run it by running `lein run` (after installing [Leiningen](http://leiningen.org))"
+  , issueState = "closed"
+  , issueId = Id 98670365
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-14) 23 : 59 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/171821708"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5284#issuecomment-171821708"
+  , issueCommentCreatedAt = 2016 (-01) (-14) 23 : 59 : 44 UTC
+  , issueCommentBody =
+      "Alright, I ran the tests successfully on a compose cluster, and verified the test didn't work if I messed up any of the config (that's a nice way of saying I messed up the config a lot).\r\n\r\nSo, I was talking with @danielmewes about this, and we'd like to reduce the trouble needed to use a cert in the simple case (you have one cert file). Sometimes you'll want the flexibility to provide an SSLContext, but other times it would be nice to just pass an InputStream containing your cert file.\r\n\r\nI found this SO answer that indicates you can create an in-memory KeyStore: http://stackoverflow.com/questions/18513792/using-sslcontext-with-just-a-ca-certificate-and-no-keystore . With that, we should be able to provide an option to the builder that does the boilerplate of creating a mini-keystore with the InputStream from the user, and generate the SSLContext from that.\r\n\r\nSo the concrete request is adding a `certFile` method to `Connection.Builder` that accepts an `InputStream` with the contents of the cacert file, and which builds an SSLContext that it passes to the Connection. The builder should error if the user passes both an SSLContext and a direct InputStream"
+  , issueCommentId = 171821708
+  }

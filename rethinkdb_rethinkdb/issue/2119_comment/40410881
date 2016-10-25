@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-14) 20 : 00 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40410881"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2119#issuecomment-40410881"
+  , issueCommentCreatedAt = 2014 (-04) (-14) 19 : 59 : 59 UTC
+  , issueCommentBody =
+      "Ok, I thought about this proposal a bit more. It has the advantage that we'd be able to distribute up-to-date reads without going through master. That's pretty neat.\r\n\r\nHowever, it has a very strong disadvantage -- if one of the copy machines is slow or temporarily unavailable, all writes on that shard stall until the problem is resolved. In the current system, if one of the replicas is slower than others, writes still proceed as long as `acks < replicas` (because some other replica responds quicker). Under the new proposal, *any* slow copy machine is a point of failure.\r\n\r\nWe could get around it by instead picking a backup machine when we detect slowness, but that would get quite complicated. I don't think we want to do that for now.\r\n\r\nFor the moment, I'd just route everything to master (this is proposed by @danielmewes here -- https://github.com/rethinkdb/rethinkdb/issues/2083#issuecomment-40406148). We can revisit this issue if that proves to be insufficient.\r\n\r\nI still think we should consider renaming `replicas` and `acks` to `copies` and `backups` (or better names). I'm ambivalent about that change, though. I'd like to see what @mglukhovsky thinks (I'll talk to him about it in person and report here)."
+  , issueCommentId = 40410881
+  }

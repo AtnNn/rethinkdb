@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-12) 22 : 37 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/209131946"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3755#issuecomment-209131946"
+  , issueCommentCreatedAt = 2016 (-04) (-12) 22 : 37 : 04 UTC
+  , issueCommentBody =
+      "For the `dump` portion we could do three things to drastically reduce/eliminate our on-disk footprint:\r\n1. Rather than writing all of the output files to disk, then packing them into a `tar.gz` file, we could write each one into the archive when it is done, rather than waiting for them all. This would do almost nothing for `dump`s dominated by a single big table, but would improve all other cases.\r\n2. Instead of a `tar.gz` we make the it a `tar` of `gz` files. This means we can stream the `JSON` data straight though the `gzip` module. Then at the end of each file it could be included into the outer `tar` file and the buffer file dropped.\r\n3. If we are willing to only work on a single table/file at a time, it would be easy to implement a `tar` producer that we could stream data into without knowing the size of the file beforehand. We would write out the leading file header for each file and remember the offset for the `size` member in that structure. Then when we finish writing the data for that file `seek` back to that location and write the actual length in before `seek`ing back to the end of the file to continue with the next data file. This would not work as well for streaming to `stdout`, as you would have to buffer each file until it was done, but it would still work."
+  , issueCommentId = 209131946
+  }

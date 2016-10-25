@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-15) 16 : 28 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2058304
+        , simpleUserLogin = N "grandquista"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2058304?v=3"
+        , simpleUserUrl = "https://api.github.com/users/grandquista"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67021015"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3438#issuecomment-67021015"
+  , issueCommentCreatedAt = 2014 (-12) (-15) 16 : 28 : 49 UTC
+  , issueCommentBody =
+      "The default drivers and my Lua driver convert from a language class based representation of the query to the wire spec by calling a `build` method on all nested parts of the query.\r\n\r\nAs long as JSON cannot contain function representations it would be impossible for it to describe a class in Ruby, JavaScript, and Lua. Those three treat everything as an object and could have classes built from objects. Python has singleton types that form the base of the class system. It would not be vulnerable to a modified JSON representation that included functions.\r\n\r\nTo correctly change the shape of a query in ReQL the attacker would need control of both the JSON input and the JSON parser. In Python I know it is possible to construct a JSON parser that recognizes certain forms and creates real Python classes from the object description. I expect the same attack would be possible in most languages.\r\n\r\nIn short an attacker needs three arbitrary inputs to modify the query from an application. Run an arbitrary function with arbitrary arguments and send that class arbitrary JSON.\r\n\r\nI feel it is worth noting that `r.json` would not protect against this attack if the application unmarshals and then marshals the input before handing it to the driver. Adding a modified timestamp should be possible with server side commands."
+  , issueCommentId = 67021015
+  }

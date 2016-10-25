@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-20) 07 : 23 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 8279246
+        , simpleUserLogin = N "jazoom"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8279246?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jazoom"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212296856"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4676#issuecomment-212296856"
+  , issueCommentCreatedAt = 2016 (-04) (-20) 07 : 23 : 15 UTC
+  , issueCommentBody =
+      "This is the meat of the code:\r\n\r\n````\r\nvar lastId = r.minval;\r\nvar LIMIT = 500;\r\n\r\nfunction doBatch() {\r\n r.db(database).table(objects).between(lastId, r.maxval, { leftBound: 'open', index: 'id' }).orderBy({ index: 'id' }).limit(LIMIT).run(connection, function(error, cursor) {\r\n\r\n    if (error) {\r\n      // be sad\r\n      return;\r\n    }\r\n\r\n    cursor.toArray(function(error, objects) {\r\n      if (error) {\r\n        // be sad\r\n        return;\r\n      }\r\n\r\n      // check if some objects were returned, because an empty array is returned if the total number of objects is a multiple of LIMIT\r\n      if (objects.length > 0) {\r\n        lastId = objects[objects.length- 1].id;\r\n        doSomethingWithObjects(objects);\r\n      }\r\n\r\n      if (objects.length < LIMIT) {\r\n        // we're all done\r\n        return;\r\n      }\r\n\r\n      doBatch(); // go on to next iteration\r\n    });\r\n  });\r\n}\r\n````"
+  , issueCommentId = 212296856
+  }

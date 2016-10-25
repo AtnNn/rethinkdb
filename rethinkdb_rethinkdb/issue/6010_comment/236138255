@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-29) 09 : 43 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/236138255"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/6010#issuecomment-236138255"
+  , issueCommentCreatedAt = 2016 (-07) (-29) 09 : 39 : 40 UTC
+  , issueCommentBody =
+      "BTW, i found the Cursor.java has a weird `outstandingRequests` field, this value maybe cause potential leak problem.\r\n\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/net/Cursor.java#L55\r\n```\r\nprotected int outstandingRequests = 0;\r\n```\r\n\r\nI can not understand the logic about it because \r\n* it actually set to 1 after run query.   Seems it does not follow common sense.\r\n```\r\n    protected void maybeSendContinue() {\r\n        if(!error.isPresent()\r\n                && items.size() < threshold\r\n                && outstandingRequests == 0 ) {\r\n            outstandingRequests += 1;\r\n            this.awaitingContinue = connection.continue_(this);\r\n        }\r\n    }\r\n```\r\n* it does not get reset to 0 after cursor.close, in ChangeFeeds case, it will be 2 after close! \r\n```\r\n    public void close() {\r\n        connection.removeFromCache(this.token);\r\n        if (!error.isPresent()) {\r\n            error = Optional.of(new NoSuchElementException());\r\n            if (connection.isOpen()) {\r\n                outstandingRequests += 1;\r\n                connection.stop(this);\r\n            }\r\n        }\r\n    }\r\n```\r\n* it did not check against minus value  (over subtract reference).\r\n```\r\n    void extend(Response response) {\r\n        outstandingRequests -= 1;    ########### i am worried, it takes reader too much time to check it ########\r\n        maybeSendContinue();\r\n        extendInternal(response);\r\n    }\r\n```\r\n\r\nAfter all, the `outstandingRequests` is not a clear paring reference counter, it's better be replaced by some more strict way."
+  , issueCommentId = 236138255
+  }

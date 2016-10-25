@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-08) 20 : 31 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91028259"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4031#issuecomment-91028259"
+  , issueCommentCreatedAt = 2015 (-04) (-08) 20 : 30 : 05 UTC
+  , issueCommentBody =
+      "I see, thank you. That's what I meant by doing multiple `contains` with the same array (in this case `MY_ARRAY_OF_VALS`.\r\n\r\nI think we will get to optimizations like this eventually, but it might take us a bit of time (there are some other things we want to optimize first).\r\n\r\nAre the values in MY_ARRAY_OF_VALS strings by any chance?\r\nIn that case you could optimize this manually by using an object instead of an array:\r\n```python\r\nr.expr(MY_ARRAY_OF_VALS).map([r.row, True]).coerce_to(\"OBJECT\")\r\n```\r\nthis creates an object with the values in MY_ARRAY_OF_VALS as its keys, and `True` as the associated values. Note that this doesn't work if MY_ARRAY_OF_VALS has non-string values, since only strings can be object keys at the moment.\r\n\r\nNow you can rewrite your query as follows:\r\n```python\r\nr.expr(MY_ARRAY_OF_VALS).map([r.row, True]).coerce_to(\"OBJECT\").do(lambda check_obj: \r\n   r.table(MY_TABLE).map(lambda x: {\r\n      'NEW_ARR_OF_DOCS': x['ARR_OF_DOCS'].filter(lambda y:\r\n         check_obj[y['VAL_FIELD']].default(False)\r\n      )\r\n   })\r\n)\r\n```\r\n\r\nThe `.default(false)` is optional inside of `filter`, but I added it for clarity here. `check_obj[y['VAL_FIELD']].default(False)` will be equivalent to `r.expr(MY_ARRAY_OF_VALS).contains(y['VAL_FIELD'])`, but has complexity O(log L) rather than O(L)."
+  , issueCommentId = 91028259
+  }

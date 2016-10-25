@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-11) 21 : 40 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48786281"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2692#issuecomment-48786281"
+  , issueCommentCreatedAt = 2014 (-07) (-11) 21 : 40 : 48 UTC
+  , issueCommentBody =
+      "> a replace on the whole array, or just the whole document\r\n\r\n@srh The motivation behind the proposal is to avoid such updates because they are very hard to do in ReQL currently. Compare my protoype above with the following query that works in 1.13:\r\n\r\n```\r\nr.table('foo')\r\n  .get(doc_id)\r\n  .update({\r\n    'shards': lambda shards:\r\n      shards[0].merge(\r\n        { 'replicas': ['m3', 'm4', shards[0]['replicas'].slice(2)] })})\r\n```\r\n\r\nThere is nothing elegant about this query. I'm used to helping users write such queries, but it is unreasonable to expect users to write and maintain queries like this.\r\n\r\nMy suggestion of using arrays however is just a shortcut. Perhaps it is sufficient to just chain `modify`, as in `sequence.replace(r.row.modify(...).modify(...))`"
+  , issueCommentId = 48786281
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-02) 20 : 07 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/145142417"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4902#issuecomment-145142417"
+  , issueCommentCreatedAt = 2015 (-10) (-02) 20 : 07 : 27 UTC
+  , issueCommentBody =
+      "Ah yes, that's true for changefeeds. You can just register a changefeed without the `orderBy` and `limit` though, and that should give you the updates whenever a new message matching the filter appears in the logs.\r\n\r\nWhat I recommend doing is something like this:\r\n1. Register a changefeed with the correct filter on the `logs` table (without any `orderBy` or `limit`).\r\n2. Run the query with the `orderBy` and `limit(1)` to get the current raft leader\r\n3. If you have seen any notifications on the changefeed, use the raft leader from the changefeed. If not, use the one from the manual one-time query.\r\n\r\nRethinkDB 2.2 will have an `include_initial` option that allows you to get both the initial value and a changefeed together. We might be able to simplify this a bit once that option is available."
+  , issueCommentId = 145142417
+  }

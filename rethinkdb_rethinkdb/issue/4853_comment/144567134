@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-30) 22 : 45 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/144567134"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4853#issuecomment-144567134"
+  , issueCommentCreatedAt = 2015 (-09) (-30) 22 : 45 : 41 UTC
+  , issueCommentBody =
+      "I like the idea of supporting functions instead of just table/ID pairs.\r\n\r\nOne complication is that Slava's original proposal included the ability to call `delete` with `follow_refs: true` and have it delete the referenced documents.  I'm not sure that this is a good idea because you might have multiple references to a document, some of which would be invalidated.  But if we did go with this, then we'd have to restrict the set of functions that can be in references to the set of functions that return selections.  (Alternatively, we could only make `delete` follow selections, but that sounds like it might be too subtle for people.)\r\n\r\nIf references were functions that took no arguments, then people could store functions without getting the ability to recurse by building a combinator, which would limit the set of problems we have to worry about.  (On the other hand, we could just bite the bullet and make functions first-class objects, and then have a recursion limit.)\r\n\r\nI also like the idea of references automatically resolving to thing they reference whenever you operate on them.\r\n\r\n---\r\n\r\nOn the technical side, enforcing existence of these foreign keys would be hard.  We probably shouldn't do that for the first version, which maybe means we shouldn't call them foreign keys because people expect that behavior from foreign keys.\r\n\r\nAlso, letting people use these foreign keys in sindex functions probably won't be possible since most of the time they'll be non-deterministic.\r\n\r\nWe should probably make these references cache their value the first time they're dereferenced after being loading off disk, because otherwise a lot of our assumptions (like that you can compare two objects and always get the same result) would be violated.  In general we'll have to think a bit about what it means that `datum_t`s can contain nondeterministic chunks of code that are lazily evaluated."
+  , issueCommentId = 144567134
+  }

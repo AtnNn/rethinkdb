@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-18) 20 : 37 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/132343316"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4709#issuecomment-132343316"
+  , issueCommentCreatedAt = 2015 (-08) (-18) 20 : 37 : 06 UTC
+  , issueCommentBody =
+      "What you're trying to do is possible but the solution isn't that obvious [from the docs](http://rethinkdb.com/docs/secondary-indexes/javascript/#compound-indexes). You just need to create a compound secondary index on `[ residentId, timestamp ]` and use that index in your `.between()`. Here's your example rewritten this way:\r\n\r\n```js\r\nr.table('events').indexCreate('resident_timestamp', [ r.row('residentId'), r.row('timestamp') ])\r\n\r\nr.table('events')\r\n  .between(\r\n    [ '4', r.now().sub(25600) ],\r\n    [ '4', r.now() ],\r\n    { index: 'resident_timestamp' }\r\n  )\r\n```"
+  , issueCommentId = 132343316
+  }

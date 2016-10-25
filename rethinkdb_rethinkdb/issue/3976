@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-26) 02 : 35 : 00 UTC
+  , issueUpdatedAt = 2015 (-03) (-30) 09 : 50 : 44 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3976/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3976"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3976
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1878
+        , simpleUserLogin = N "pilt"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1878?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pilt"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error in src/rdb_protocol/protocol.cc at line 737: Guarantee failed: [out->skey_version == resp->skey_version]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3976"
+  , issueCreatedAt = 2015 (-03) (-25) 08 : 41 : 58 UTC
+  , issueBody =
+      Just
+        "This happened after an upgrade from 1.15 to 1.16 (1.16.2+1~0trusty). We rebuilt indexes long before this happened if that's relevant.\r\n\r\nLog file:\r\n```\r\n2015-03-25T07:52:24.411662551 149301.999695s error: Error in src/rdb_protocol/protocol.cc at line 737:\r\n2015-03-25T07:52:24.412349102 149302.000382s error: Guarantee failed: [out->skey_version == resp->skey_version]\r\n2015-03-25T07:52:24.412362049 149302.000394s error: Backtrace:\r\n2015-03-25T07:52:25.139231533 149302.727268s error: Wed Mar 25 07:52:24 2015\\n\\n1: backtrace_t::backtrace_t() at 0xb9d9f0 (/usr/bin/rethinkdb)\\n2: format_backtrace(bool) at 0xb9dd83 (/usr/bin/rethinkdb)\\n3: report_fatal_error(char const*, int, char const*, ...) at 0xd49fe5 (/usr/bin/rethinkdb)\\n4: void rdb_r_unshard_visitor_t::unshard_range_batch<rget_read_response_t, rget_read_t>(rget_read_t const&, sorting_t) at 0xa85240 (/usr/bin/rethinkdb)\\n5: read_t::unshard(read_response_t*, unsigned long, read_response_t*, rdb_context_t*, signal_t*) const at 0xa658cf (/usr/bin/rethinkdb)\\n6: void cluster_namespace_interface_t::dispatch_immediate_op<read_t, fifo_enforcer_sink_t::exit_read_t, read_response_t>(void (master_access_t::*)(fifo_enforcer_sink_t::exit_read_t*), void (master_access_t::*)(read_t const&, read_response_t*, order_token_t, fifo_enforcer_sink_t::exit_read_t*, signal_t*), read_t const&, read_response_t*, order_token_t, signal_t*) at 0xd26121 (/usr/bin/rethinkdb)\\n7: cluster_namespace_interface_t::read(read_t const&, read_response_t*, order_token_t, signal_t*) at 0xd1f7f9 (/usr/bin/rethinkdb)\\n8: real_table_t::read_with_profile(ql::env_t*, read_t const&, read_response_t*, bool) at 0x98664c (/usr/bin/rethinkdb)\\n9: ql::rget_response_reader_t::do_read(ql::env_t*, read_t const&) at 0x9a4cbb (/usr/bin/rethinkdb)\\n10: ql::rget_reader_t::do_range_read(ql::env_t*, read_t const&) at 0x9a6208 (/usr/bin/rethinkdb)\\n11: ql::rget_reader_t::load_items(ql::env_t*, ql::batchspec_t const&) at 0x9a6b7b (/usr/bin/rethinkdb)\\n12: ql::rget_response_reader_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99fbf7 (/usr/bin/rethinkdb)\\n13: ql::lazy_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99be9b (/usr/bin/rethinkdb)\\n14: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\\n15: ql::slice_datum_stream_t::next_raw_batch(ql::env_t*, ql::batchspec_t const&) at 0x9a1570 (/usr/bin/rethinkdb)\\n16: ql::eager_datum_stream_t::next_grouped_batch(ql::env_t*, ql::batchspec_t const&, std::map<ql::datum_t, std::vector<ql::datum_t, std::allocator<ql::datum_t> >, optional_datum_less_t, std::allocator<std::pair<ql::datum_t const, std::vector<ql::datum_t, std::allocator<ql::datum_t> > > > >*) at 0x99ed08 (/usr/bin/rethinkdb)\\n17: ql::eager_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99f2ce (/usr/bin/rethinkdb)\\n18: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\\n19: ql::slice_datum_stream_t::next_raw_batch(ql::env_t*, ql::batchspec_t const&) at 0x9a1570 (/usr/bin/rethinkdb)\\n20: ql::eager_datum_stream_t::next_grouped_batch(ql::env_t*, ql::batchspec_t const&, std::map<ql::datum_t, std::vector<ql::datum_t, std::allocator<ql::datum_t> >, optional_datum_less_t, std::allocator<std::pair<ql::datum_t const, std::vector<ql::datum_t, std::allocator<ql::datum_t> > > > >*) at 0x99ed08 (/usr/bin/rethinkdb)\\n21: ql::eager_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99f2ce (/usr/bin/rethinkdb)\\n22: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\\n23: ql::stream_cache_t::serve(long, Response*, signal_t*) at 0x8f71c8 (/usr/bin/rethinkdb)\\n24: ql::run(ql::protob_t<Query>, rdb_context_t*, signal_t*, ql::stream_cache_t*, ip_and_port_t const&, Response*) at 0xa499d2 (/usr/bin/rethinkdb)\\n25: rdb_query_server_t::run_query(ql::protob_t<Query> const&, Response*, client_context_t*, ip_and_port_t const&) at 0x98021d (/usr/bin/rethinkdb)\\n26: void query_server_t::connection_loop<json_protocol_t>(linux_tcp_conn_t*, client_context_t*) at 0xb993e6 (/usr/bin/rethinkdb)\\n27: query_server_t::handle_conn(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t) at 0xb95f8d (/usr/bin/rethinkdb)\\n28: std::_Function_handler<void (scoped_ptr_t<linux_tcp_conn_descriptor_t>&), std::_Bind<std::_Mem_fn<void (query_server_t::*)(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t)> (query_server_t*, std::_Placeholder<1>, auto_drainer_t::lock_t)> >::_M_invoke(std::_Any_data const&, scoped_ptr_t<linux_tcp_conn_descriptor_t>&) at 0xb97775 (/usr/bin/rethinkdb)\\n29: linux_nonthrowing_tcp_listener_t::handle(int) at 0xab7c1c (/usr/bin/rethinkdb)\\n30: coro_t::run() at 0xacfa68 (/usr/bin/rethinkdb)\r\n```\r\n\r\nBacktrace with newlines:\r\n\r\n```\r\n1: backtrace_t::backtrace_t() at 0xb9d9f0 (/usr/bin/rethinkdb)\r\n2: format_backtrace(bool) at 0xb9dd83 (/usr/bin/rethinkdb)\r\n3: report_fatal_error(char const*, int, char const*, ...) at 0xd49fe5 (/usr/bin/rethinkdb)\r\n4: void rdb_r_unshard_visitor_t::unshard_range_batch<rget_read_response_t, rget_read_t>(rget_read_t const&, sorting_t) at 0xa85240 (/usr/bin/rethinkdb)\r\n5: read_t::unshard(read_response_t*, unsigned long, read_response_t*, rdb_context_t*, signal_t*) const at 0xa658cf (/usr/bin/rethinkdb)\r\n6: void cluster_namespace_interface_t::dispatch_immediate_op<read_t, fifo_enforcer_sink_t::exit_read_t, read_response_t>(void (master_access_t::*)(fifo_enforcer_sink_t::exit_read_t*), void (master_access_t::*)(read_t const&, read_response_t*, order_token_t, fifo_enforcer_sink_t::exit_read_t*, signal_t*), read_t const&, read_response_t*, order_token_t, signal_t*) at 0xd26121 (/usr/bin/rethinkdb)\r\n7: cluster_namespace_interface_t::read(read_t const&, read_response_t*, order_token_t, signal_t*) at 0xd1f7f9 (/usr/bin/rethinkdb)\r\n8: real_table_t::read_with_profile(ql::env_t*, read_t const&, read_response_t*, bool) at 0x98664c (/usr/bin/rethinkdb)\r\n9: ql::rget_response_reader_t::do_read(ql::env_t*, read_t const&) at 0x9a4cbb (/usr/bin/rethinkdb)\r\n10: ql::rget_reader_t::do_range_read(ql::env_t*, read_t const&) at 0x9a6208 (/usr/bin/rethinkdb)\r\n11: ql::rget_reader_t::load_items(ql::env_t*, ql::batchspec_t const&) at 0x9a6b7b (/usr/bin/rethinkdb)\r\n12: ql::rget_response_reader_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99fbf7 (/usr/bin/rethinkdb)\r\n13: ql::lazy_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99be9b (/usr/bin/rethinkdb)\r\n14: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\r\n15: ql::slice_datum_stream_t::next_raw_batch(ql::env_t*, ql::batchspec_t const&) at 0x9a1570 (/usr/bin/rethinkdb)\r\n16: ql::eager_datum_stream_t::next_grouped_batch(ql::env_t*, ql::batchspec_t const&, std::map<ql::datum_t, std::vector<ql::datum_t, std::allocator<ql::datum_t> >, optional_datum_less_t, std::allocator<std::pair<ql::datum_t const, std::vector<ql::datum_t, std::allocator<ql::datum_t> > > > >*) at 0x99ed08 (/usr/bin/rethinkdb)\r\n17: ql::eager_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99f2ce (/usr/bin/rethinkdb)\r\n18: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\r\n19: ql::slice_datum_stream_t::next_raw_batch(ql::env_t*, ql::batchspec_t const&) at 0x9a1570 (/usr/bin/rethinkdb)\r\n20: ql::eager_datum_stream_t::next_grouped_batch(ql::env_t*, ql::batchspec_t const&, std::map<ql::datum_t, std::vector<ql::datum_t, std::allocator<ql::datum_t> >, optional_datum_less_t, std::allocator<std::pair<ql::datum_t const, std::vector<ql::datum_t, std::allocator<ql::datum_t> > > > >*) at 0x99ed08 (/usr/bin/rethinkdb)\r\n21: ql::eager_datum_stream_t::next_batch_impl(ql::env_t*, ql::batchspec_t const&) at 0x99f2ce (/usr/bin/rethinkdb)\r\n22: ql::datum_stream_t::next_batch(ql::env_t*, ql::batchspec_t const&) at 0x99d182 (/usr/bin/rethinkdb)\r\n23: ql::stream_cache_t::serve(long, Response*, signal_t*) at 0x8f71c8 (/usr/bin/rethinkdb)\r\n24: ql::run(ql::protob_t<Query>, rdb_context_t*, signal_t*, ql::stream_cache_t*, ip_and_port_t const&, Response*) at 0xa499d2 (/usr/bin/rethinkdb)\r\n25: rdb_query_server_t::run_query(ql::protob_t<Query> const&, Response*, client_context_t*, ip_and_port_t const&) at 0x98021d (/usr/bin/rethinkdb)\r\n26: void query_server_t::connection_loop<json_protocol_t>(linux_tcp_conn_t*, client_context_t*) at 0xb993e6 (/usr/bin/rethinkdb)\r\n27: query_server_t::handle_conn(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t) at 0xb95f8d (/usr/bin/rethinkdb)\r\n28: std::_Function_handler<void (scoped_ptr_t<linux_tcp_conn_descriptor_t>&), std::_Bind<std::_Mem_fn<void (query_server_t::*)(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t)> (query_server_t*, std::_Placeholder<1>, auto_drainer_t::lock_t)> >::_M_invoke(std::_Any_data const&, scoped_ptr_t<linux_tcp_conn_descriptor_t>&) at 0xb97775 (/usr/bin/rethinkdb)\r\n29: linux_nonthrowing_tcp_listener_t::handle(int) at 0xab7c1c (/usr/bin/rethinkdb)\r\n30: coro_t::run() at 0xacfa68 (/usr/bin/rethinkdb)\r\n```\r\n\r\nLet me know if I can provide more information."
+  , issueState = "closed"
+  , issueId = Id 64215529
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 97
+          , milestoneClosedIssues = 11
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/97"
+          , milestoneCreatedAt = 2015 (-03) (-26) 04 : 44 : 14 UTC
+          , milestoneState = "closed"
+          }
+  }

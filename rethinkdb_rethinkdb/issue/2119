@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 03 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2119/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2119"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 2119
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal for clustering - Avoid routing all queries to the master"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2119"
+  , issueCreatedAt = 2014 (-03) (-19) 22 : 33 : 44 UTC
+  , issueBody =
+      Just
+        "I'm writing this with my current understanding of how the cluster works. So forgive me if some things are wrong :)\r\n\r\nThe definition of an up to date read that I will use, is: a read that returns all the writes that have been acknowledged by the master.\r\n\r\n\r\nNow if a client sends an up to date read to a server, the read is going to be sent to the master first, which create this kind of problem:\r\nhttps://github.com/rethinkdb/rethinkdb/issues/2115\r\n\r\n\r\nFrom my point of view, there are two reasons why a user would like a secondary:\r\n- for backup\r\n- to relieve the workload on the master\r\n\r\nNow with our system, we can have two situations\r\n\r\n- number of acks = number of replicas\r\nIn this case, all the read that I do with the `outdatedRead` flag set to `true`, is going to return an up to date read, since if a write is acknowledged, it means that all the replicas wrote it to disk and in particular the one who's going to serve the outdated read\r\nSo all my replicas can be used to relieve the master and serve as backup.\r\n\r\n- number of acks < number of replicas\r\nIn this case, if I want an up to date read, the read must go to the master. So all my replicas are just for backup.\r\n\r\n\r\nSo most people now should probably use the first case, `acks = replicas` with `outdatedRead = true`. The thing in this case is that writes are slower.\r\n\r\nI also think that the concept of `ack` is a low level thing that should not be exposed to the user.\r\n\r\n\r\nSo here's my proposal:\r\n\r\nLet people set\r\n- the number of copies -- I'll call it copy to make the distinction with what we now call replica.\r\nA write must be written in all copies to be acknowledged (this condition is necessary and sufficient).  \r\nA client can connect to any copy and run queries. The read queries don't have to go the master. A write still goes to the master first.\r\n\r\n- the number of backups (where they can run only outdated reads -- or nothing at all?)\r\n\r\nThe copies are going to be the same for all the tables and our driver can open a first connection a server, then retrieve the ips of all copies, and populate a pool of connections to all the copies.\r\n\r\nOne thing that we guarantee too is: if I do a write then a read on the same connection (without waiting the write to be acknowledged), the read is still going to see the write.\r\nI don't really see what use case this solve, so I would be okay just to remove this guarantee. If someone has a use case for that I would be interested to know about it though.\r\nIf we want to keep this guarantee, I'm pretty sure we can manage it by keeping the writes not yet acknowledged by connection.\r\n\r\n\r\n-------------------------------\r\n\r\nIn case of failure\r\n- If a backup dies -- we can just create a new backup and in this case we don't loose availability\r\n- If a copy dies -- we make a backup up to date and create a new backup -- so we almost don't lose availability (if there is a backup)\r\n\r\n-------------------------------\r\nHow to present it to the user\r\n\r\n- Having more copies relieve the load on the master for reads\r\n- Having more copies means that a write may be a little slower because it needs to be written to disk on more machines\r\n- A backup will be used to replace a copy in case one dies\r\n\r\n\r\n\r\nPS: We should probably find a better name for `copies`.\r\n"
+  , issueState = "open"
+  , issueId = Id 29779015
+  , issueComments = 16
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

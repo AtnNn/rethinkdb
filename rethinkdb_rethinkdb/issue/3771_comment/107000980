@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-30) 07 : 14 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107000980"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3771#issuecomment-107000980"
+  , issueCommentCreatedAt = 2015 (-05) (-30) 07 : 14 : 00 UTC
+  , issueCommentBody =
+      "I'd be okay with this, so long as the paradigm of constructing abstract queries and running them against separate connections/pools is still possible:\r\n\r\n```\r\nvar appconn, infoconn;\r\n\r\n// two separate clusters/connections\r\nr.connect({host: appRdbAddress}).then(conn => appconn = conn);\r\nr.connect({host: infoRdbAddress}).then(conn => infoconn = conn);\r\n\r\n// one common complex query\r\nvar activeAuthors = r.table('authors')\r\n  .between(r.now().sub(archiveLimit),r.now(),{index:'last_login'})\r\n  .orderBy(r.desc(function(subject){\r\n    var staleness = subject('last_checked').sub(r.now());\r\n    var age = subject('last_login').sub(r.now());\r\n    return staleness.div(age);\r\n  }))\r\n  .limit(1)(0);\r\n\r\n// query can be reused across connections\r\nactiveAuthors.run(appcon).then(notifyActiveAppAuthors);\r\nactiveAuthors.run(infocon).then(announceActiveInfoAuthors);\r\n```"
+  , issueCommentId = 107000980
+  }

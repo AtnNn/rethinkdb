@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 19 : 32 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3326/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3326"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3326
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "AddressSanitizer: heap-buffer-overflow in coroutines.cc:91 TLS_get_cglobals"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3326"
+  , issueCreatedAt = 2014 (-11) (-14) 22 : 43 : 35 UTC
+  , issueBody =
+      Just
+        "With clang address sanitizing and `THREADED_COROUTINES=1` (see #3294), about half the unit tests fail with an error such to this one:\r\n\r\n```\r\n[----------] 2 tests from BTreeSindex (22504 ms total)\r\n ==15269==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62500001e0c0 at pc 0x00000191b997 bp 0x7fff4345e270 sp 0x7fff4345e268\r\n READ of size 8 at 0x62500001e0c0 thread T0\r\n     #0 0x191b996 in TLS_get_cglobals() /home/atnnn/code/rethinkdb/src/arch/runtime/coroutines.cc:91:1\r\n     #1 0x19215f8 in coroutines_have_been_initialized() /home/atnnn/code/rethinkdb/src/arch/runtime/coroutines.cc:373:12\r\n     #2 0x41062a8 in perfmon_collection_t::remove(perfmon_membership_t*) /home/atnnn/code/rethinkdb/src/perfmon/core.cc:88:9\r\n     #3 0x4107a15 in perfmon_membership_t::~perfmon_membership_t() /home/atnnn/code/rethinkdb/src/perfmon/core.cc:109:5\r\n     #4 0x7fde8ba5f5b0 in __run_exit_handlers /build/buildd/eglibc-2.15/stdlib/exit.c:78\r\n     #5 0x7fde8ba5f634 in exit /build/buildd/eglibc-2.15/stdlib/exit.c:100\r\n     #6 0x7fde8ba45773 in __libc_start_main /build/buildd/eglibc-2.15/csu/libc-start.c:258\r\n     #7 0x1671dac in _start (/home/ssd1/atnnn/code/rethinkdb/build/debug_clang_threaded_notcmalloc/rethinkdb-unittest+0x1671dac)\r\n \r\n 0x62500001e0c0 is located 64 bytes to the left of 8192-byte region [0x62500001e100,0x625000020100)\r\n allocated by thread T0 here:\r\n     #0 0x15ece1b in operator new(unsigned long) /home/ssd1/atnnn/src/llvm-3.5.0.src/projects/compiler-rt/lib/asan/asan_new_delete.cc:62:35\r\n     #1 0x195830a in __gnu_cxx::new_allocator<cache_line_padded_t<coro_globals_t*> >::allocate(unsigned long, void const*) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/ext/new_allocator.h:104:27\r\n     #2 0x1958078 in std::allocator_traits<std::allocator<cache_line_padded_t<coro_globals_t*> > >::allocate(std::allocator<cache_line_padded_t<coro_globals_t*> >&, unsigned long) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/bits/alloc_traits.h:357:16\r\n     #3 0x1957e5a in std::_Vector_base<cache_line_padded_t<coro_globals_t*>, std::allocator<cache_line_padded_t<coro_globals_t*> > >::_M_allocate(unsigned long) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/bits/stl_vector.h:170:20\r\n     #4 0x1957b01 in std::_Vector_base<cache_line_padded_t<coro_globals_t*>, std::allocator<cache_line_padded_t<coro_globals_t*> > >::_M_create_storage(unsigned long) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/bits/stl_vector.h:185:27\r\n     #5 0x1956077 in std::_Vector_base<cache_line_padded_t<coro_globals_t*>, std::allocator<cache_line_padded_t<coro_globals_t*> > >::_Vector_base(unsigned long, std::allocator<cache_line_padded_t<coro_globals_t*> > const&) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/bits/stl_vector.h:136:9\r\n     #6 0x1924a77 in std::vector<cache_line_padded_t<coro_globals_t*>, std::allocator<cache_line_padded_t<coro_globals_t*> > >::vector(unsigned long, cache_line_padded_t<coro_globals_t*> const&, std::allocator<cache_line_padded_t<coro_globals_t*> > const&) /opt/gcc-4.9.2/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/../../../../include/c++/4.9.2/bits/stl_vector.h:292:7\r\n     #7 0x1923dac in __cxx_global_var_init /home/atnnn/code/rethinkdb/src/arch/runtime/coroutines.cc:91:1\r\n     #8 0x19243e7 in _GLOBAL__sub_I_coroutines.cc /home/atnnn/code/rethinkdb/./src/arch/io/concurrency.hpp\r\n     #9 0x6c4aafc in __libc_csu_init (/home/ssd1/atnnn/code/rethinkdb/build/debug_clang_threaded_notcmalloc/rethinkdb-unittest+0x6c4aafc)\r\n```"
+  , issueState = "open"
+  , issueId = Id 48849450
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

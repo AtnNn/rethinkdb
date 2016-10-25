@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-12) 14 : 00 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/231917342"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5494#issuecomment-231917342"
+  , issueCommentCreatedAt = 2016 (-07) (-12) 01 : 58 : 47 UTC
+  , issueCommentBody =
+      "Hey everybody, just wanted to chime in with an update from my side. I've implemented incredibly rudimentary support for json-schema in this commit over here: https://github.com/mbroadst/rethinkdb/commit/cf59ca58d690d3e088aa6040ec7a6bc824246800. I'm hoping this can serve as a platform for discussion around the proposed feature.\r\n\r\nPresently json-schema support is implemented through a `r.schema` pseudo-type, as well as a `r.validate` operation (which operates on datum). This looks like:\r\n```\r\nr.expr({ first: 'matt', last: 'broadstone' })\r\n  .validate(r.schema({\r\n    type: 'object', \r\n    required: [ 'first', 'last' ],\r\n    properties: { first: { type: 'string' }, last: { type: 'string' } }\r\n  }))\r\n```\r\n\r\nSchema validation is provided through rapidjson presently (rapidjson was updated to v1.0.2 in the previous two commits on that branch), though the implementation details I think are less important for this discussion. Suffice to say it's highly desirable in the future that the validation occurs explicitly on `datum_t` rather than a need to convert to and from rapidjson's `Value` type.\r\n\r\nAs previously mentioned, I think targeting the simplest use cases first is a great first step in this effort. To that end I'm not sure that discussion of references, and shared definitions is particularly in scope at this point. Beyond that, I'm quite eager to hear your opinions on the topic!\r\n\r\n**UPDATE:** I guess I should mention one other thing: For support for ReQL-specific types, I have a few existing validation schemas written up for `thinkagain` already over here: https://github.com/mbroadst/thinkagain/tree/master/lib/types. These could be baked in to the server to provide validation support for them out of the box. Unfortunately since the spec strictly uses json types, these need to be referred to using `$ref` - so that might be a starting place for the ref discussion.\r\n\r\n**UPDATE:** Added support for `r.validate(r.schema, datum)`, as well as `r.schema().validate(datum)`\r\n"
+  , issueCommentId = 231917342
+  }

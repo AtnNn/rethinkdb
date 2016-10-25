@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-13) 15 : 36 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 770655
+        , simpleUserLogin = N "Morgul"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/770655?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Morgul"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/130731908"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4529#issuecomment-130731908"
+  , issueCommentCreatedAt = 2015 (-08) (-13) 15 : 35 : 38 UTC
+  , issueCommentBody =
+      "Just to hop in here; I've only just run into this issue myself. The lack of error message is, I think, the worst problem here. Unlike @llambda, I have never gotten an error message back. Here's my test case:\r\n\r\n```javascript\r\n\r\nvar fs = require('fs');\r\nvar r = require('rethinkdb');\r\n\r\n//----------------------------------------------------------------------------------------------------------------------\r\n\r\nvar filename = \"test.pdf\";\r\nvar meta = {\r\n    reinYear: 2015,\r\n    policy: 555555,\r\n    form: 1101\r\n};\r\n\r\n//----------------------------------------------------------------------------------------------------------------------\r\n\r\nr.connect({ db: 'document_store' })\r\n    .then(function(conn)\r\n    {\r\n        fs.readFile('./' + filename, function(error, fileData)\r\n        {\r\n            if(error)\r\n            {\r\n                console.error('Error reading file:', error.stack || error.message);\r\n            }\r\n            else\r\n            {\r\n                meta.filename = filename;\r\n                meta.data = fileData;\r\n\r\n                return r.table('documents').insert(meta).run(conn)\r\n                    .then(function(results)\r\n                    {\r\n                        // Return the newly created document id\r\n                        return results.generated_keys[0];\r\n                    })\r\n                    .then(function(id)\r\n                    {\r\n                        console.log(\"File stored as '%s'.\", id);\r\n                    })\r\n                    .catch(function(error)\r\n                    {\r\n                        console.error(\"Failed to store file:\", error.stack || error.message);\r\n                    })\r\n                    .finally(function()\r\n                    {\r\n                        process.exit();\r\n                    });\r\n            } // end if\r\n        });\r\n    });\r\n```\r\n\r\nAs long as `test.pdf`is larger than ~50mb, then I get the following printed out to the console:\r\n\r\n```bash\r\n[ccase:dt-ccase-lnx] ~/d/r/examples > node fileUpload.js\r\nevents.js:85\r\n      throw er; // Unhandled 'error' event\r\n            ^\r\nError: write EPIPE\r\n    at exports._errnoException (util.js:746:11)\r\n    at WriteWrap.afterWrite (net.js:775:14)\r\n```\r\n\r\nIt would be nice if what was wrong was a little more clear.\r\n\r\n(Obviously, I'm also looking to try and store 'large' binaries in RethinkDB, so I'll probably be chiming in on #2647.)"
+  , issueCommentId = 130731908
+  }

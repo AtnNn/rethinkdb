@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-28) 20 : 24 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143864017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143864017"
+  , issueCommentCreatedAt = 2015 (-09) (-28) 20 : 24 : 02 UTC
+  , issueCommentBody =
+      "@danielmewes @mlucy -- I think the `changes` command should internally wait for `ready_for_reads` when it's first called (as opposed to throwing).\r\n\r\nWe don't typically wait on the cluster in other queries, because if the cluster isn't ready and the query fails, the end user can just \"rerun\" it by refreshing the page, clicking a button again, etc. This way the developer can pretty much ignore the issue in the code (other than handling the exception and propagating the error message to the end user).\r\n\r\nHowever, this isn't the case with changefeeds. If a node fails, the developer has to recreate the feed, and therefore any time anybody uses the `changes()` command, the proper way to write the code is to prepend it with a `wait`. This sounds unnecessarily painful and complicated -- the user shouldn't have to do that. Which is why I think `changes()` should block at the beginning to make sure the cluster is ready. Opinions?"
+  , issueCommentId = 143864017
+  }

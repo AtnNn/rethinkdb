@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-02) (-17) 23 : 40 : 07 UTC
+  , issueUpdatedAt = 2014 (-02) (-18) 00 : 04 : 55 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/945/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/945"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 945
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "groupedMapReduce and optional base"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/945"
+  , issueCreatedAt = 2013 (-06) (-04) 23 : 05 : 52 UTC
+  , issueBody =
+      Just
+        "One table \"posts\" in the database \"blog\" with a single document\r\n```json\r\n[\r\n    {\r\n        \"num_comments\":92,\r\n        \"id\":\"bb1b6983-0f40-451e-b0e7-7f52dc4d3aa1\",\r\n        \"category\":\"category3\"\r\n    }\r\n]\r\n```\r\n\r\nQuery that fails\r\n```javascript\r\nr.db(\"blog\").table(\"posts\").groupedMapReduce(\r\n  function(post) { return post(\"category\") },\r\n  function(post) { return post(\"num_comments\") },\r\n  function(left, right) { return left.add(right)},\r\n  {category:\"none\", num_comments:0}\r\n  )\r\n```\r\nWith the backtrace\r\n```\r\nRqlRuntimeError: Expected type NUMBER but found OBJECT. in:\r\nr.db(\"blog\").table(\"posts\").groupedMapReduce(function(var_112) { return var_112(\"category\"); }, function(var_113) { return var_113(\"num_comments\"); }, function(var_114) { return var_114.add(var_115); }, {base: {category: \"none\", num_comments: 2}})\r\n                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^    \r\n```\r\n\r\nRemoving the optional base works fine, replacing with 0 works fine too, replacing it with 1 provides a driver error\r\n\r\n```\r\nRqlDriverError: Expected 3 argument(s) but found 4.\r\n```\r\n\r\nNot sure how important it is since we are going to get rid of the base.\r\n@mlucy could you comment on this?\r\n"
+  , issueState = "closed"
+  , issueId = Id 15146131
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-09) 22 : 56 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31986224"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1032#issuecomment-31986224"
+  , issueCommentCreatedAt = 2014 (-01) (-09) 22 : 56 : 53 UTC
+  , issueCommentBody =
+      "I think one could make a solid argument for rethinking our `null` semantics, but I really don't want to get into that before the LTS release.\r\n\r\nTrying to access a field that doesn't exist is a actually a subcase of the larger \"an error occured while computing the secondary index function\" case.  I think we should treat all instances of that larger case the same way.\r\n\r\nHere's what I think we should do:\r\n* Allow `null` as a legal secondary index value.\r\n* For all rows where the secondary index function produces an error, we insert those rows into the secondary index with a special value whose ordering matches the ordering of rows lacking a field in `order_by`.  We return these rows in all range queries on that secondary index.\r\n* We support the syntax `r.table(...).get_all(r.error, index:...)` for getting rows where an error occurred in the computation of the secondary index function.  `r.error` with no arguments is already special-cased in the syntax for `default` to mean \"the current error\", so extending it here isn't so unreasonable.\r\n\r\nThis has several nice properties:\r\n* `table.order_by('field')` and `table.index_create('field'); table.order_by(index:'field')` always return the same result.\r\n* Ordering by a non-multi index won't change the size of a stream, ever.\r\n* `null` is treated more like people expect, i.e. `table.filter{|row| row['field'].eq(nil)}` is always the same as `table.index_create('field'); table.get_all(nil, index:'field')`.\r\n* There's a way to see what rows produced an error when calculating the secondary index function."
+  , issueCommentId = 31986224
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-24) 00 : 30 : 58 UTC
+  , issueUpdatedAt = 2015 (-07) (-24) 00 : 30 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4230/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4230"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4230
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Raft crash during backfilling in apply_multi_key_item"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4230"
+  , issueCreatedAt = 2015 (-05) (-14) 19 : 30 : 59 UTC
+  , issueBody =
+      Just
+        "I had two servers.\r\nI created a table on server 1 with a few 100k documents, some small (~50 bytes) and some larger (few KB). Then I added a second server and replicated the table to it.\r\nWhile backfilling was still running, I started inserting a few more of the documents.\r\n\r\nThis crash happened after a few minutes on the server that was receiving the backfills:\r\n```\r\nerror: Error in src/rdb_protocol/store_receive_backfill.cc at line 196:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] \r\nerror: Backtrace:\r\nerror: Thu May 14 12:24:17 2015\r\n       \r\n       1: format_backtrace(bool) at backtrace.cc:214\r\n       2: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       3: ./rethinkdb() [0x82a6be] at 0x82a6be ()\r\n       4: apply_multi_key_item(receive_backfill_tokens_t const&, backfill_item_t&) at signal.hpp:41\r\n       5: coro_t::run() at coroutines.cc:214\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nUnfortunately this was in release mode, so I don't have a better backtrace.\r\n\r\nInterestingly after this happened, I was unable to shut down the first server. It just stalled after pressing CTRL+C after printing `Server got SIGINT from pid 0, uid 0; shutting down...`. It didn't do any i/o nor did it use CPU. Could be completely unrelated of course.\r\n\r\nGit revision: c05d40aaf69478c29a497d30bc2919054942d016"
+  , issueState = "closed"
+  , issueId = Id 76465401
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

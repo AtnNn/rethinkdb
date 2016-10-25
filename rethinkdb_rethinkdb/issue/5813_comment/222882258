@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-01) 03 : 18 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/222882258"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5813#issuecomment-222882258"
+  , issueCommentCreatedAt = 2016 (-06) (-01) 03 : 18 : 22 UTC
+  , issueCommentBody =
+      "@mlucy We need full determinism because these functions will be executed on each replica while holding the lock on the leaf node. They have the same constraints as update functions.\r\n\r\n> The modifiers should presumably also live in an artificial table somewhere, so that people can e.g. subscribe to changes on them. Maybe on table_config alongside the indexes?\r\n\r\nYea, that sounds good to me.\r\n\r\n> Also, do we want to back up and restore modifiers when doing import/export the way we do with indexes?\r\n\r\nGood point, I think yes. We just need to make sure that we only set them after we're done with the data insert.\r\n\r\n> The signature should maybe be `(id, oldVal, newVal)` for consistency with insert conflict functions.\r\n\r\nMakes sense.\r\n\r\nAbout `r.now`: I think it's consistent, but with the one subtlety that the modifier function will be executed with the \"`r.now` environment\" of the query that causes the write, not the environment that existed when setting the modifier.\r\nThe only other place where we currently can store functions and where this is an issue is in secondary indexes. Our current behavior for secondary index functions is inconsistent to this, but our it also doesn't make sense and doesn't seem to be what people are expecting. We should probably just disallow `r.now` in secondary index functions as part of this, and the behavior would be consistent again afaikt.\r\nYou could describe it as: `r.now` in a query is evaluated based on an `r.now` value in a hidden query environment. The `r.now` value in the environment is set once when the query gets compiled.\r\nWith the exception of secondary index functions, I believe this is equivalent to our current behavior, even if this is not how it is implemented."
+  , issueCommentId = 222882258
+  }

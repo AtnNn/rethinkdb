@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-17) 01 : 27 : 31 UTC
+  , issueUpdatedAt = 2016 (-03) (-17) 01 : 27 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5519/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5519"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5519
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "std::out_of_range exception in caching_machinery_t"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5519"
+  , issueCreatedAt = 2016 (-03) (-14) 22 : 12 : 25 UTC
+  , issueBody =
+      Just
+        "While running `table_fuzzer.py --servers 5 --changefeeds --kill` against `next`, I encountered the following crash:\r\n\r\n```\r\n2016-03-14T14:46:52.566106091 20.309534s error: Error in ../src/errors.cc at line 161:\r\n2016-03-14T14:46:52.566639698 20.310067s error: Uncaught exception of type \"std::out_of_range\"\r\n  what(): map::at\r\n2016-03-14T14:46:52.567553585 20.310981s error: Backtrace:\r\n2016-03-14T14:46:53.627323902 21.370754s error: Mon Mar 14 14:46:52 2016\r\n\r\n1 [0x16e373b]: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:108\r\n2 [0x1ba5f40]: backtrace_t::backtrace_t() at backtrace.cc:210 (discriminator 1)\r\n3 [0x1ba72fc]: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:331\r\n4 [0x1ba5bc7]: format_backtrace(bool) at backtrace.cc:205\r\n5 [0x1ba9e7e]: report_fatal_error(char const*, int, char const*, ...) at errors.cc:85\r\n6 [0x1baa199]: rdb_terminate_handler() at errors.cc:161 (discriminator 1)\r\n7 [0x7efd80ba6d46]: /opt/gcc-4.9.2/lib64/libstdc++.so.6(+0x63d46) [0x7efd80ba6d46] at 0x7efd80ba6d46 (/opt/gcc-4.9.2/lib64/libstdc++.so.6)\r\n8 [0x7efd80ba6d91]: /opt/gcc-4.9.2/lib64/libstdc++.so.6(+0x63d91) [0x7efd80ba6d91] at 0x7efd80ba6d91 (/opt/gcc-4.9.2/lib64/libstdc++.so.6)\r\n9 [0x7efd80ba6da6]: /opt/gcc-4.9.2/lib64/libstdc++.so.6(+0x63da6) [0x7efd80ba6da6] at 0x7efd80ba6da6 (/opt/gcc-4.9.2/lib64/libstdc++.so.6)\r\n10 [0x7efd80ba6a02]: __cxa_call_unexpected+0x32 at 0x7efd80ba6a02 (/opt/gcc-4.9.2/lib64/libstdc++.so.6)\r\n11 [0x1a3e2a3]: caching_cfeed_artificial_table_backend_t::caching_machinery_t::run(auto_drainer_t::lock_t) at caching_cfeed_backend.cc:124\r\n12 [0x1a426ab]: void std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)>::operator()<auto_drainer_t::lock_t&, void>(caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t&) const at functional:601\r\n13 [0x1a42600]: void std::_Bind<std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)> (caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t)>::__call<void, , 0ul, 1ul>(std::tuple<>&&, std::_Index_tuple<0ul, 1ul>) at functional:1295\r\n14 [0x1a42586]: void std::_Bind<std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)> (caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t)>::operator()<, void>() at functional:1353\r\n15 [0x1a424cc]: callable_action_instance_t<std::_Bind<std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)> (caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t)> >::run_action() at callable_action.hpp:32\r\n16 [0x1453296]: callable_action_wrapper_t::run() at runtime_utils.cc:48\r\n17 [0x144c55d]: coro_t::run() at coroutines.cc:205 (discriminator 1)\r\n18 [0x1a404fd]: coro_t* coro_t::spawn_sometime<std::_Bind<std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)> (caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t)> >(std::_Bind<std::_Mem_fn<void (caching_cfeed_artificial_table_backend_t::caching_machinery_t::*)(auto_drainer_t::lock_t)> (caching_cfeed_artificial_table_backend_t::caching_machinery_t*, auto_drainer_t::lock_t)>&&) at coroutines.hpp:63\r\n19 [0x1a3df7b]: caching_cfeed_artificial_table_backend_t::caching_machinery_t::caching_machinery_t(caching_cfeed_artificial_table_backend_t*) at caching_cfeed_backend.cc:62 (discriminator 2)\r\n20 [0x1a3fe1f]: caching_cfeed_artificial_table_backend_t::construct_changefeed_machinery(signal_t*) at caching_cfeed_backend.cc:266\r\n21 [0x1a4785a]: cfeed_artificial_table_backend_t::read_changes(ql::env_t*, ql::changefeed::streamspec_t const&, ql::backtrace_id_t, signal_t*, counted_t<ql::datum_stream_t>*, admin_err_t*) at cfeed_backend.cc:87\r\n22 [0x1a43a0c]: artificial_table_t::read_changes(ql::env_t*, ql::changefeed::streamspec_t const&, ql::backtrace_id_t) at artificial_table.cc:88\r\n23 [0x197a42f]: ql::changes_term_t::eval_impl(ql::scope_env_t*, ql::args_t*, ql::eval_flags_t) const at seq.cc:544\r\n24 [0x18bc3cf]: ql::op_term_t::term_eval(ql::scope_env_t*, ql::eval_flags_t) const at op.cc:220\r\n25 [0x177ea97]: ql::runtime_term_t::eval_on_current_stack(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:274\r\n26 [0x177ef3c]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x177ef3c] at 0x177ef3c ()\r\n27 [0x177ecf1]: /home/ssd2/grey/rethinkdb/build/debug_clang/rethinkdb() [0x177ecf1] at 0x177ecf1 ()\r\n28 [0x177ec7b]: ql::runtime_term_t::eval(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:295\r\n29 [0x19c86c5]: ql::query_cache_t::ref_t::run(ql::env_t*, ql::response_t*) at query_cache.cc:263 (discriminator 1)\r\n```\r\n..."
+  , issueState = "closed"
+  , issueId = Id 140811698
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

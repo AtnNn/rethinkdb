@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-21) 07 : 09 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1780375
+        , simpleUserLogin = N "drejc"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1780375?v=3"
+        , simpleUserUrl = "https://api.github.com/users/drejc"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/227357471"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5866#issuecomment-227357471"
+  , issueCommentCreatedAt = 2016 (-06) (-21) 07 : 05 : 09 UTC
+  , issueCommentBody =
+      "We are using Java ... \r\nAll three machine call the same insert statement ... at the same exact moment ... as the cursor kicks in at the same millisecond.\r\n\r\nThe code looks something like this ... \r\n(PS: we have our own rdb ORM wrapper which makes it easier to work with RDB, but nevertheless in the end it is a insert() call to the database).\r\n\r\nSo on a table we have a cursor listening for changes:\r\n\r\n```java\r\n  String executorId = generateRandomId();\r\n  for (Object change : cursor) {\r\n\r\n     HashMap map = (HashMap) change;\r\n     Object newValue = map.get(\"new_val\");\r\n \r\n    String taskId = // get id from newValue\r\n     lock(taskId, executorId);\r\n  }\r\n```\r\n\r\n// the lock method inserts a new record into the table the taskId being the key\r\n```java\r\nprotected boolean lock(String executorId, String taskId) {\r\n\r\n  QueueTaskLock lock = rdb.get(QueueTaskLock.class, taskId);\r\n\r\n\t\t// we can lock task\r\n\t\tif (lock == null) {\r\n\r\n\t\t\tlock = new QueueTaskLock(taskId, executorId);\r\n\t\t\ttry {\r\n\t\t\t\trdb.create(lock);\r\n\t\t\t}\r\n\t\t\tcatch (RdbException e) {\r\n\t\t\t\t// lock already in place ...\r\n\t\t\t\tif (RdbException.Error.DuplicatePrimaryKey.equals(e.error)) {\r\n\t\t\t\t\tlog.debug(\"Executor: \" + executorId + \" denied lock of: \" + taskId);\r\n\t\t\t\t\treturn false;\r\n\t\t\t\t}\r\n\r\n\t\t\t\tlog.debug(\"Exception thrown but not duplicate key: \" + e.getMessage());\r\n\t\t\t\treturn false;\r\n                       }\r\n\t\t}\r\n\r\n\t\t// check if this task is locked by same executor\r\n\t\treturn lock.isLockedBy(executorId);\r\n```\r\n\r\nAs I have mentioned ... I could not replicate this locally ... was running 3-4 nodes and 10 threads in a unit test ... all worked fine.\r\nIn production however we have 3 machines / 3 nodes ... there it happens.\r\n"
+  , issueCommentId = 227357471
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-12) 22 : 16 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/147536032"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4686#issuecomment-147536032"
+  , issueCommentCreatedAt = 2015 (-10) (-12) 22 : 16 : 41 UTC
+  , issueCommentBody =
+      "Unfortunately an index like this is extremely tricky to implement, especially in a distributed system. The difficulty comes from the fact that we would need to update the index whenever the table `data` changes, not just when `location` changes.\r\nThere are all sorts of complicated edge cases in a distributed system with this. What if the server hosting `location` is currently down, and someone changes `data`? We could maybe require some sort of \"co-location\" of replicas for `location` and `data`, so that there's always a local copy of both.\r\n\r\nThe way we currently implement indexes is tightly bound to a specific table though. Making it work across two tables would be a really major architectural change. I don't think we'll be able to get to that any time soon.\r\n\r\nWith changefeeds on joins (https://github.com/rethinkdb/rethinkdb/issues/3997) it will become possible to maintain an index manually with help from your application. Though you'd need to deal with getting it back in sync after a server crash manually.\r\n#3997 might also not cover changefeeds on geospatial joins for the first iteration, though that shouldn't be too difficult to add.\r\n\r\nSorry I don't have any better solution at the moment.\r\n\r\nMaybe there's a way you could adapt your schema to have a count of data point directly stored with each location and maintain that count?"
+  , issueCommentId = 147536032
+  }

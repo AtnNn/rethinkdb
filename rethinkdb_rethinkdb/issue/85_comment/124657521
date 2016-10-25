@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 19 : 28 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124657521"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/85#issuecomment-124657521"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 19 : 28 : 12 UTC
+  , issueCommentBody =
+      "Hi @myth17, I'd suggest a slightly simpler implementation. First of all, you might want to take a look at `directory_lock_t::directory_lock_t()` in this file https://github.com/rethinkdb/rethinkdb/blob/next/src/clustering/administration/main/directory_lock.cc#L46 .\r\nThe relevant line for the type of error that we're talking about here is this:\r\n```\r\nif (flock(directory_fd.get(), LOCK_EX | LOCK_NB) != 0) {\r\n    throw directory_locked_exc_t(directory_path);\r\n}\r\n```\r\n\r\nYou can see that we're using the `flock` library function. I think this is a good idea and we should keep that. Among others, it handles the case where you kill the process automatically and releases the lock with the termination of the process.\r\n\r\nSo the only thing we really need to do is improve the message to mention the PID of the process that is holding the lock (the message is currently defined in directory_locked_exc_t in directory_lock.hpp). The following is a simple solution to this, and I think it's good enough:\r\n1. As soon as a RethinkDB instance has acquired the lock, it gets its own PID (like you describe) and writes it into a special file in the directory, for example `last_locked_by.pid` or something.\r\n2. If the `flock` fails (in a second RethinkDB process), it reads that file and incorporates that PID into the error message, for example it could say:\r\n\"Directory '%s' is already in use by process %d. Is another instance of rethinkdb using it?\"\r\n\r\nDoes that sound reasonable to you?\r\n\r\nYou could check `/proc/PID/stat` in addition to this to make sure that the process is actually still running, and possibly retrieve some additional information about it. I think that's strictly optional though and probably not worth the hassle."
+  , issueCommentId = 124657521
+  }

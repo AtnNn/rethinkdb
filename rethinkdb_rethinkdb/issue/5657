@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-19) 21 : 31 : 34 UTC
+  , issueUpdatedAt = 2016 (-04) (-19) 23 : 17 : 14 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5657/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5657"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5657
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "2.3.0 r.array(Object val0, Object...vals) cause unexpected problem"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5657"
+  , issueCreatedAt = 2016 (-04) (-13) 02 : 06 : 03 UTC
+  , issueBody =
+      Just
+        "hi, java driver 2.3.0 modified  `r.array` definition, but caused problem when passing var args, i want to know why do the modification( sorry, i am not accusing, just need to know if there is any merit, i think this modification is unnecessary).\r\n\r\n<a href=\"https://github.com/rethinkdb/rethinkdb/blob/95dfdb28a268f7fe68ab357596e6751baea99c27/drivers/java/src/main/java/com/rethinkdb/gen/model/TopLevel.java#L39\">TopLevel.java#L39</a>\r\n\r\n``\r\nOld:\r\n```\r\n    public List array(Object... vals){\r\n        return Arrays.asList(vals);\r\n    }\r\n```\r\nNew:\r\n```\r\n    public List array(Object val0, Object... vals){\r\n        List res = new ArrayList();\r\n        res.add(val0);\r\n        res.addAll(Arrays.asList(vals));\r\n        return res;\r\n    }\r\n```\r\n\r\nThe new definition has problem:\r\n```\r\nList SomeMethod(Object...objs) {\r\n   return r.array(objs)\r\n}\r\n```\r\nCalling SomeMethod(\"a\",\"b\") results an ArrayList which **always contains only 1 element** which is an Object[2], no matter how many arguments you passed to SomeMethod!\r\n\r\nThis will not works like previous version which will get ArrayList with 2 elements \"a\" and \"b\".\r\n\r\nSo,\r\n\r\nAssume I have table(id, firstName, surName) which has a compoundIndex consists of [firstName, surName], and make a function `MyGetAllByCompoundIndex`, \r\n```\r\n    GetAll MyGetAllByCompoundIndex(Object...compoundConditions) {\r\n        return tbl.getAll(r.array(compoundConditions)).optArg(\"index\", \"someCompoundIndex\");\r\n    }\r\n``` \r\nI know it's better to define two fixed parameters:\r\n```\r\n    GetAll MyGetAllByCompoundIndex(Object firstName, Object surName) { \r\n```\r\nBut for some reason it's already designed as variable arguments and it works fine before 2.3.0.\r\n\r\nAssume i use the function like this:\r\n```\r\n   someReql.map(row -> r.hashMap(\"ary\", MyGetAllByCompoundIndex( row.g(\"firstName\"), row.g(\"surName\")).coerceTo(\"array\"))).run(con)`\r\n```\r\n\r\nThen this will not works.\r\n\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 147925993
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

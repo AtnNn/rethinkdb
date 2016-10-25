@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-15) 23 : 00 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32425128"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1855#issuecomment-32425128"
+  , issueCommentCreatedAt = 2014 (-01) (-15) 23 : 00 : 12 UTC
+  , issueCommentBody =
+      "I realize we're complicating the design a bit, but I think it would be nice to have another optarg `clobber`, which defaults to true, but when set to `false` has this behavior:\r\n```ruby\r\nr({foo: {a: 1, b: 2}, bar: {b: 3, c: 4}}).collapse(clobber:'false')\r\n{a: 1, foo: {b: 2}, bar: {b: 3}, c: 4}\r\n```\r\n\r\ni.e. it collapses down everything that doesn't produce a conflict, and leaves everything that does produce a conflict in the original field.\r\n\r\nThis works really well for `eq_join`, because you write something like:\r\n```ruby\r\nr.table('users').eq_join('profile_id', r.table('profiles')).collapse.filter {|row|\r\n  PREDICATE(row['name'], row['data'], row['left']['id'], row['right']['id'])\r\n}\r\n```\r\n\r\ni.e. you can refer to non-colliding data naturally, and use `left` and `right` to distinguish between data that collides."
+  , issueCommentId = 32425128
+  }

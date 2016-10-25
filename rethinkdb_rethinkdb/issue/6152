@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-10) (-24) 18 : 40 : 28 UTC
+  , issueUpdatedAt = 2016 (-10) (-25) 18 : 14 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6152/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6152"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6152
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 11666216
+        , simpleUserLogin = N "nthhtn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/11666216?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nthhtn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "RethinkDB Java driver \"Expected type DATUM but found SELECTION\" error"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6152"
+  , issueCreatedAt = 2016 (-10) (-23) 19 : 01 : 22 UTC
+  , issueBody =
+      Just
+        "I'm using RethinkDB driver for Java. I want to filter the rows without field `endedAt` in table `jam` like this:\r\n\r\n    public List<Jam> getCurrent(){\r\n    \t\tCursor cursor = r.table(\"jam\")\r\n    \t\t\t\t.filter(row -> row.hasFields(\"endedAt\")).not()\r\n    \t\t\t\t.run(conn);\r\n    \t\tList<Map<String,Object>> list=cursor.toList();\r\n    \t\treturn list.stream().map(item->JamRepository.toJam(item)).collect(Collectors.toList());\r\n    \t}\r\n\r\nAnd I've got this error `Expected type DATUM but found SELECTION Java`\r\n\r\nI have another filter function in another class:\r\n\r\n    public List<Speedlog> getByTime(long time){\r\n    \t\tCursor cursor = r.table(\"speedlog\")\r\n    \t\t\t\t.filter(row -> row.g(\"createdAt\").eq(time))\r\n    \t\t\t\t.run(conn);\r\n    \t\tList<Map<String,Object>> list=cursor.toList();\r\n    \t\treturn list.stream().map(item->SpeedlogRepository.toSpeedlog(item)).collect(Collectors.toList());\r\n    \t}\r\n\r\nThis function works properly\r\n\r\nCould anyone please explain what makes the difference between these two? Why does `getCurrent` function get that error? What is its meaning and how to fix? Thank you"
+  , issueState = "closed"
+  , issueId = Id 184708190
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

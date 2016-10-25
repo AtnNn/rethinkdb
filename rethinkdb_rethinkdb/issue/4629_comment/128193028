@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-06) 00 : 28 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128193028"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128193028"
+  , issueCommentCreatedAt = 2015 (-08) (-06) 00 : 28 : 54 UTC
+  , issueCommentBody =
+      "@mlucy Assuming we can make that work, I think that doesn't sound too bad. Especially if we implement the comparison function in the clients (I think the write ID / timestamp sets should probably be an opaque type in that case, with only a comparison function).\r\n\r\nI have a few technical concerns thought. I'm not sure how easy it is to solve these:\r\n\r\n- we still need to make sure that all previous writes from a given machine have reached the changefeed before we send the `state` message. That will require knowledge on each machine about which timestamps have been assigned on the machine, and it will need a way to tell the changefeed::client_t when all writes previous to a given timestamp have been transmitted to it. One way I can think of for this is using a single fifo source per machine, and sending the resulting tokens with each change. This isn't ideal because it involves cross-thread communication.\r\n- wall time can generate duplicates, so that's insufficient. If we introduce a per-machine fifo source to solve the previous problem, we could just use the IDs it generates instead.\r\n\r\nI wonder if it could work to replace `[machine, wall time]` by `[branch_id, counter]` in your proposal. So during unsharding, we would merge multiple counters for the same `branch_id` into `[branch_id, max(counter)]`. With each state message, we would send one counter per branch which isn't really compact, but might be ok.\r\n\r\n@mlucy: Do changefeeds already guarantee the ordering of events per shard, even across different primary keys within the shard?"
+  , issueCommentId = 128193028
+  }

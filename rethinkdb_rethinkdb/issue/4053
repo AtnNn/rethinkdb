@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-30) 22 : 52 : 20 UTC
+  , issueUpdatedAt = 2015 (-04) (-30) 22 : 52 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4053/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4053"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4053
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Python driver changefeeds hangs on `list`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4053"
+  , issueCreatedAt = 2015 (-04) (-12) 18 : 21 : 26 UTC
+  , issueBody =
+      Just
+        "The following code will hang forever waiting for a `StopIteration` that the driver is never going to produce:\r\n```python\r\nimport rethinkdb as r\r\nr.connect().repl()\r\nr.table_create('bob').run()\r\nfeed = r.table('bob').changes().run()\r\nlist(feed)\r\n```\r\nThe underlying problem is that `list` is using `next`, and by default we have no timeout on `next`. So regardless of how many items `list` winds up pulling out of the changefeed, it will always try for one more. I see four options of how we could go on this:\r\n\r\n1. Leave it alone. This actually works as expected for unbounded generators. For example the following code will also hang:\r\n```python\r\ndef endless():\r\n    while True:\r\n            yield 1\r\nlist(endless())\r\n```\r\n2. Mention this in the documentation. While most people would probably miss this until it bit them, we would at least have made the token gesture.\r\n3. Inspect the call stack every time `next` is called and bail out if our caller is `list`. This feels hackey to me, and is probably going to impact performance.\r\n4. Have a timeout by default on `next`, and make that timeout inherit from `StopIteration`. This has a few downsides: it would break existing code that depends on `next` waiting forever for the next change, it would break the Python guidance that generators/iterator never return data after a `StopIteration`, and it would be difficult to choose a timeout.\r\n\r\nWhile I like #4, I think we should just do #2."
+  , issueState = "closed"
+  , issueId = Id 67941140
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

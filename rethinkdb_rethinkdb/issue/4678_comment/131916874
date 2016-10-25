@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-17) 18 : 23 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131916874"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4678#issuecomment-131916874"
+  , issueCommentCreatedAt = 2015 (-08) (-17) 18 : 23 : 13 UTC
+  , issueCommentBody =
+      "Arr this is embarrassing. We have implemented an extension of changefeeds that allows them to return initial values before starting to stream changes. As part of the change, we also enabled that behavior by default for `getAll`, which is the changed behavior that you've observed in those queries.\r\n\r\nHowever this feature was not supposed to ship with 2.1, because it is largely untested (and as it turns out indeed buggy, assuming the errors actually stem from this).\r\nWe disabled it in https://github.com/rethinkdb/rethinkdb/issues/4355 , but for some reason (I think this was probably my mistake), the feature ended up being enabled again in 2.1.0 and 2.1.1.\r\n\r\n@williamstein You can explicitly disable the new (buggy) behavior in 2.1 by supplying the optarg `include_initial_vals=False` (Python) / `includeInitialVals: false` (JavaScript) to the `changes` term, or as a global optarg to `run`.\r\nI understand you've already gone through a lot of trouble because of this, so I inderstand if you're not up for further experiments at the moment. If you have a second testing setup somewhere, it would be interesting to know though if supplying that argument with 2.1 actually avoids the issue.\r\n\r\nWe will also revert this for the upcoming 2.1.2 point release, and `getAll` changefeeds will be back to their previous behavior after that."
+  , issueCommentId = 131916874
+  }

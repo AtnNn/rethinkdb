@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-07) 22 : 25 : 49 UTC
+  , issueUpdatedAt = 2016 (-02) (-08) 06 : 01 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5372/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5372"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5372
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 399535
+        , simpleUserLogin = N "nh2"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/399535?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nh2"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Bit-flips and other problems with the RethinkDB 2.2.4 download"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5372"
+  , issueCreatedAt = 2016 (-02) (-07) 21 : 13 : 21 UTC
+  , issueBody =
+      Just
+        "I am in Switzerland.\r\n\r\nWhen I download the two files\r\n\r\n```\r\nhttp://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nhttps://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\n```\r\n\r\nthey arrive with different hashes:\r\n\r\n```\r\n\10148 md5sum rethinkdb_2.2.4~0trusty_amd64.deb*\r\ne16b78836c20a9921ff98b55ffabb999  rethinkdb_2.2.4~0trusty_amd64.deb\r\n5b26a00afc3872a04feb9bb36759766d  rethinkdb_2.2.4~0trusty_amd64.deb.1\r\n```\r\n\r\nAccording to `http://download.rethinkdb.com/apt/dists/trusty/main/binary-amd64/Packages`, `MD5sum: 5b26a00afc3872a04feb9bb36759766d` for this file, so the HTTPS version is correct.\r\n\r\nI noticed this in an `apt-get dist-upgrade`, which said:\r\n\r\n```\r\nE: Failed to fetch http://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb  Hash Sum mismatch\r\n```\r\n\r\n--\r\n\r\nInspecting the difference between them, it looks like the server, or whatever CDN or intermediate machine (note that my connection is directly connected to my ISP without intermediate server) that serves the HTTP version seems to have 5 bit flips:\r\n\r\n```\r\ndiff -u <(xxd rethinkdb_2.2.4~0trusty_amd64.deb) <(xxd rethinkdb_2.2.4~0trusty_amd64.deb-bad-hash)                                                             \r\n% diff -U 1 <(xxd rethinkdb_2.2.4\\~0trusty_amd64.deb) <(xxd rethinkdb_2.2.4\\~0trusty_amd64.deb.1)                     \r\n--- /proc/self/fd/11\t2016-02-07 21:40:51.276018247 +0100\r\n+++ /proc/self/fd/13\t2016-02-07 21:40:51.276018247 +0100\r\n@@ -90516,4 +90516,4 @@\r\n 0161930: 17c7 38dd a8ea 4aa0 be89 39bc 8cbc 1d67  ..8...J...9....g\r\n-0161940: c3b3 9c70 c80b d7f5 5b5a 3b77 aa72 c9fe  ...p....[Z;w.r..\r\n-0161950: a930 18c8 5f8a 2636 92c4 7ea3 ccf8 6ced  .0.._.&6..~...l.\r\n+0161940: c3b3 9c70 c80b d7f5 5b5a 3b77 aa73 c9fe  ...p....[Z;w.s..\r\n+0161950: a9b0 18c8 5b8a 2636 92c4 7ea3 ccf8 6ced  ....[.&6..~...l.\r\n 0161960: f3a7 bb56 1b0e 29bd eef8 8195 4ece 6144  ...V..).....N.aD\r\n@@ -262414,3 +262414,3 @@\r\n 04010d0: da71 cf4b 99e4 cce9 3d47 6392 fec8 ba5b  .q.K....=Gc....[\r\n-04010e0: 248a 38b8 da9b 2750 fd99 b946 e66e b75c  $.8...'P...F.n.\\\r\n+04010e0: 248a 38b8 da93 2750 fd99 bd46 c66e b75c  $.8...'P...F.n.\\\r\n 04010f0: 64a0 548b ecfa 6b29 0566 1da9 aa8b 8063  d.T...k).f.....c\r\n@@ -389158,3 +389158,3 @@\r\n 05f0250: 78bf 756b 17ae a6ad 9498 b253 e691 77a1  x.uk.......S..w.\r\n-05f0260: dc06 7816 9a4c 76e2 e7a2 e463 6cdb f677  ..x..Lv....cl..w\r\n+05f0260: dc06 7896 9a4c 76e2 a7a2 e461 6cdb f677  ..x..Lv....al..w\r\n 05f0270: 1725 6691 d23b 6d3a 184d 526b 769d b08f  .%f..;m:.MRkv...\r\n@@ -506498,3 +506498,3 @@\r\n 07ba810: 125a d945 0556 e79a 6989 aa8c 015b 49ae  .Z.E.V..i....[I.\r\n-07ba820: ba96 dae1 7fca 2ce9 4fbd 812f 876c 6b3e  ......,.O../.lk>\r\n+07ba820: ba96 dae1 7fca 2ce9 4dbd 812f 876d 6b36  ......,.M../.mk6\r\n 07ba830: 1884 d651 cdcf 0292 b204 73e8 0553 175c  ...Q......s..S.\\\r\n```\r\n\r\n--\r\n\r\nFurther, the HTTPs download makes some problems, see below:\r\n\r\n```\r\n\10148 wget http://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\n--2016-02-07 21:30:11--  http://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nResolving download.rethinkdb.com (download.rethinkdb.com)... 72.14.189.19\r\nConnecting to download.rethinkdb.com (download.rethinkdb.com)|72.14.189.19|:80... connected.\r\nHTTP request sent, awaiting response... 200 OK\r\nLength: 10375488 (9.9M) [application/octet-stream]\r\nSaving to: \8216rethinkdb_2.2.4~0trusty_amd64.deb\8217\r\n\r\n100%[===================================================================>] 10,375,488   246KB/s   in 26s    \r\n\r\n2016-02-07 21:30:38 (383 KB/s) - \8216rethinkdb_2.2.4~0trusty_amd64.deb\8217 saved [10375488/10375488]\r\n```\r\n```\r\n\10148 md5sum rethinkdb_2.2.4~0trusty_amd64.deb\r\ne16b78836c20a9921ff98b55ffabb999  rethinkdb_2.2.4~0trusty_amd64.deb\r\n```\r\n```\r\n\10148 wget https://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\n--2016-02-07 21:30:53--  https://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nResolving download.rethinkdb.com (download.rethinkdb.com)... 72.14.189.19\r\nConnecting to download.rethinkdb.com (download.rethinkdb.com)|72.14.189.19|:443... connected.\r\nHTTP request sent, awaiting response... 200 OK\r\nLength: 10375488 (9.9M) [application/octet-stream]\r\nSaving to: \8216rethinkdb_2.2.4~0trusty_amd64.deb.1\8217\r\n\r\n 5% [==>                                                                 ] 589,589      186KB/s   in 3.1s   \r\n\r\n2016-02-07 21:30:57 (186 KB/s) - Read error at byte 589589/10375488 (error:1408F119:SSL routines:SSL3_GET_RECORD:decryption failed or bad record mac). Retrying.\r\n\r\n--2016-02-07 21:30:58--  (try: 2)  https://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nConnecting to download.rethinkdb.com (download.rethinkdb.com)|72.14.189.19|:443... connected.\r\nHTTP request sent, awaiting response... 206 Partial Content\r\nLength: 10375488 (9.9M), 9785899 (9.3M) remaining [application/octet-stream]\r\nSaving to: \8216rethinkdb_2.2.4~0trusty_amd64.deb.1\8217\r\n\r\n42% [+++========================>                                        ] 4,423,173    317KB/s   in 12s    \r\n\r\n2016-02-07 21:31:10 (313 KB/s) - Read error at byte 4423173/10375488 (error:1408F119:SSL routines:SSL3_GET_RECORD:decryption failed or bad record mac). Retrying.\r\n\r\n--2016-02-07 21:31:12--  (try: 3)  https://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nConnecting to download.rethinkdb.com (download.rethinkdb.com)|72.14.189.19|:443... connected.\r\nHTTP request sent, awaiting response... 206 Partial Content\r\nLength: 10375488 (9.9M), 5952315 (5.7M) remaining [application/octet-stream]\r\nSaving to: \8216rethinkdb_2.2.4~0trusty_amd64.deb.1\8217\r\n\r\n65% [++++++++++++++++++++++++++++===============>                        ] 6,765,812    196KB/s   in 12s    \r\n\r\n2016-02-07 21:31:26 (184 KB/s) - Read error at byte 6765812/10375488 (error:1408F119:SSL routines:SSL3_GET_RECORD:decryption failed or bad record mac). Retrying.\r\n\r\n--2016-02-07 21:31:29--  (try: 4)  https://download.rethinkdb.com/apt/pool/trusty/main/r/rethinkdb/rethinkdb_2.2.4~0trusty_amd64.deb\r\nConnecting to download.rethinkdb.com (download.rethinkdb.com)|72.14.189.19|:443... connected.\r\nHTTP request sent, awaiting response... 206 Partial Content\r\nLength: 10375488 (9.9M), 3609676 (3.4M) remaining [application/octet-stream]\r\nSaving to: \8216rethinkdb_2.2.4~0trusty_amd64.deb.1\8217\r\n\r\n100%[++++++++++++++++++++++++++++++++++++++++++++=======================>] 10,375,488   190KB/s   in 17s    \r\n\r\n2016-02-07 21:31:47 (203 KB/s) - \8216rethinkdb_2.2.4~0trusty_amd64.deb.1\8217 saved [10375488/10375488]\r\n```\r\n```\r\n\10148 md5sum rethinkdb_2.2.4~0trusty_amd64.deb.1\r\n5b26a00afc3872a04feb9bb36759766d  rethinkdb_2.2.4~0trusty_amd64.deb.1\r\n```\r\n\r\nWhen downloading the same files from Germany, both are identical.\r\n\r\nHow does rethinkdb distribute files? Do you have control over the servers that serve me enventually?"
+  , issueState = "closed"
+  , issueId = Id 132013064
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

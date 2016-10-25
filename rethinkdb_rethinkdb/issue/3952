@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-05) (-02) 18 : 47 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3952/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3952"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3952
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1434049
+        , simpleUserLogin = N "ericrini"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1434049?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ericrini"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Slow counting."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3952"
+  , issueCreatedAt = 2015 (-03) (-20) 02 : 08 : 17 UTC
+  , issueBody =
+      Just
+        "Hi guys, looking for some help. Can anyone explain why this query doesn't seem to use an index and can take 10-20 seconds to run.\r\n\r\n```javascript\r\nr.db('ijoin')\r\n  .table('plans')\r\n   \r\n  // One-To-Many\r\n  .map(function (parent) {\r\n    \r\n    return parent.merge({\r\n      investmentVehicles: r.db('ijoin')\r\n          .table('investmentVehicles')\r\n          .getAll(parent('id'), { index: 'planId' })\r\n          .coerceTo('array')\r\n    });\r\n  })\r\n\r\n  .count()\r\n```\r\n\r\n...but this one appears to work fine and easily counts 20,000+ records in 50ms?\r\n\r\n```javascript\r\nr.db('ijoin')\r\n  .table('plans')\r\n   \r\n  // One-To-Many\r\n  .map(function (parent) {\r\n    \r\n    return parent.merge({\r\n      investmentVehicles: []\r\n    });\r\n  })\r\n\r\n  .count()\r\n```"
+  , issueState = "open"
+  , issueId = Id 63138312
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

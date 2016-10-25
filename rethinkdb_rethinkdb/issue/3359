@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-05) (-06) 20 : 12 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3359/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3359"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3359
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "os_signal_cond_t has use-after-free bug."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3359"
+  , issueCreatedAt = 2014 (-11) (-20) 19 : 44 : 01 UTC
+  , issueBody =
+      Just
+        "See the code:\r\n\r\n```\r\nvoid os_signal_cond_t::on_thread_switch() {\r\n    // KSI: There's probably an outside chance of a use-after-free bug here.\r\n    do_on_thread(home_thread(), std::bind(&os_signal_cond_t::pulse, this));\r\n}\r\n```\r\n\r\nThere's nothing that guarantees the os_signal_cond_t will continue to exist when it gets pulsed.\r\n\r\nThis could be triggered if the server is sent a SIGINT while it's shutting down (or if it's sent two SIGINTs almost at the same time?)."
+  , issueState = "open"
+  , issueId = Id 49609280
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

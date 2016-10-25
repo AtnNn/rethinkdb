@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 18 : 00 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47963720"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2637#issuecomment-47963720"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 18 : 00 : 29 UTC
+  , issueCommentBody =
+      "@wojons: You're right, for point gets through an index there is no significant difference in performance.  It's mostly queries like `table().filter()` or `table().group().map().reduce()` that suffer from non-inline data if the data set is too big for main memory and on a rotational drive.\r\n\r\nGenerally, I don't think it would be technically difficult to make the threshold configurable. Balancing operations on the tree (merge, level, split) shouldn't be affected by that change. Only if we want the maximum inline size to be *higher* than 250 bytes, we would have to do major changes in the btree code. Allowing a configuration option to go into out-of-tree storage at smaller values than that should work fine without any significant changes.\r\n\r\nAt the same time I'm not a big fan of making this configurable though. It's a very technical parameter which impact is difficult to understand.\r\nOnce we get efficient `count()`, the main advantage in storing everything outside the main btree will go away. The remaining advantage would be less data duplication with secondary indexes. But as things are now, you would need *at least* two secondary indexes to see an improvement considering the 512 byte size rounding of out-of-tree storage.\r\n\r\n@srh once mentioned the idea of making multiple blobs share a block, which would avoid the space overhead problem in the absence of many indexes. Though i/o efficiency issues for table scans would still remain."
+  , issueCommentId = 47963720
+  }

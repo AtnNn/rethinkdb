@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-01) 22 : 29 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 678848
+        , simpleUserLogin = N "gjuchault"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/678848?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gjuchault"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/126958542"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4604#issuecomment-126958542"
+  , issueCommentCreatedAt = 2015 (-08) (-01) 22 : 29 : 14 UTC
+  , issueCommentBody =
+      "Note :\r\n```js\r\nr.db('test')\r\n .table('Session')\r\n .get('c5ce22e2-3587-4841-b9a5-bd4520de8deb')\r\n .update(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      { flash: {} },\r\n      { flash: { emptyFlash: true } }\r\n    ),\r\n    { flash: {} }\r\n  );\r\n})\r\n```\r\n\r\nIs not working but this is :\r\n```js\r\nr.db('test')\r\n .table('Session')\r\n .get('c5ce22e2-3587-4841-b9a5-bd4520de8deb')\r\n .update(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      { flash: r.literal({}) },\r\n      { flash: { emptyFlash: true } }\r\n    ),\r\n    { flash: r.literal({}) }\r\n  );\r\n})\r\n```\r\n\r\nSee http://www.rethinkdb.com/api/javascript/literal/\r\n\r\nThanks @danielmewes "
+  , issueCommentId = 126958542
+  }

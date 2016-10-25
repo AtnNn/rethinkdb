@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-25) 18 : 02 : 12 UTC
+  , issueUpdatedAt = 2016 (-08) (-25) 18 : 02 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6072/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6072"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 6072
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Avoid going through unsaved data limit throttler for reads"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6072"
+  , issueCreatedAt = 2016 (-08) (-24) 22 : 29 : 06 UTC
+  , issueBody =
+      Just
+        "At the moment both read and write transactions go through the throttle in the cache that limits the amount of unsaved data. If the unsaved data limit is exhausted, this means that even reads will queue up on the throttle and need to get in line with writes.\r\n\r\nThis was originally necessary to ensure ordering of writes and reads, but we have since changed the mechanism by which the ordering of transaction is ensured (it now happens in the cluster layer rather than the cache). In fact we have special code elsewhere that allows reads to skip ahead of writes when acquiring the superblock.\r\n\r\nI need to double-check, but I believe that we can just ignore the throttler for read transactions. That would avoid potentially extremely high latencies for read transactions during heavy write load.\r\n\r\nIf this turns out to be safe, I'd like to try getting this into 2.3.5 actually. (@larkost that means that we will have to run the tests again on at least one platform)."
+  , issueState = "closed"
+  , issueId = Id 173073156
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-08) (-04) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 126
+          , milestoneClosedIssues = 39
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/126"
+          , milestoneCreatedAt = 2016 (-07) (-28) 21 : 38 : 16 UTC
+          , milestoneState = "closed"
+          }
+  }

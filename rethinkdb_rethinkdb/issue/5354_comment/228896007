@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-27) 23 : 06 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 863286
+        , simpleUserLogin = N "dalanmiller"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/863286?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dalanmiller"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/228896007"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5354#issuecomment-228896007"
+  , issueCommentCreatedAt = 2016 (-06) (-27) 22 : 32 : 48 UTC
+  , issueCommentBody =
+      "Hey @wwoods from what I understand, is this sufficient to fix it for Python 3.5.2? I've just removed the `@asyncio.coroutine` decorator from `__aiter__` as shown in the [0492 async iterators example](https://www.python.org/dev/peps/pep-0492/#asynchronous-iterators-and-async-for) you linked and added `await` to the `self._get_next(None)` line in `anext`.\r\n\r\n> PEP 492 was accepted in CPython 3.5.0 with __aiter__ defined as a method, that was expected to return an awaitable resolving to an asynchronous iterator.\r\n\r\n> In 3.5.2 (as PEP 492 was accepted on a provisional basis) the __aiter__ protocol was updated to return asynchronous iterators directly.\r\n\r\nThen the requirements listed here - https://www.python.org/dev/peps/pep-0492/#asynchronous-iterators-and-async-for - I think are also met: \r\n\r\n* `AsyncioCursor.__aiter__` returns itself directly, not an awaitable\r\n* `AsyncioCursor` has a `__anext__` async function which returns an awaitable\r\n* `AsyncioCursor.__anext__` returns `asyncio.StopAsyncIteration` upon falsyness of `data`\r\n\r\n```py\r\ndef __aiter__(self):\r\n    return self\r\n```\r\n\r\n```py\r\n@asyncio.coroutine\r\ndef __anext__(self):\r\n    data = await self._get_next(None)\r\n    if data:\r\n        return data\r\n    else:\r\n        raise asyncio.StopAsyncIteration\r\n```\r\n\r\n\r\n```py\r\n@asyncio.coroutine\r\n    def _get_next(self, timeout):\r\n        waiter = reusable_waiter(self.conn._io_loop, timeout)\r\n        while len(self.items) == 0:\r\n            self._maybe_fetch_batch()\r\n            if self.error is not None:\r\n                raise self.error\r\n            with translate_timeout_errors():\r\n                yield from waiter(asyncio.shield(self.new_response))\r\n        return self.items.popleft()\r\n```\r\n\r\nAs soon as I can work it out with tests, I'll push up to this branch.\r\n\r\np.s. \r\n@ultrabug this branch is now merge-able again. "
+  , issueCommentId = 228896007
+  }

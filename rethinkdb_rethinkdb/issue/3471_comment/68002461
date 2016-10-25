@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-23) 21 : 50 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68002461"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-68002461"
+  , issueCommentCreatedAt = 2014 (-12) (-23) 21 : 50 : 36 UTC
+  , issueCommentBody =
+      "Actually thinking more about it we can probably avoid implementing pageable snapshots in the cache.\r\n\r\nInstead we could use a similar technique to what is suggested in https://github.com/rethinkdb/rethinkdb/issues/1944. We would stream the initial results in batches of small primary key ranges. After every range, we would send the user a new opaque timestamp that reflects the fact that we have backfilled up to a given replication timestamp for that small range.\r\n\r\nIf we implement this, we can either start streaming changes for a given key range to the user as soon as we have \"backfilled\" all initial results for that small range, or keep accumulating them in a disk backed queue until the initial results for the whole table have been sent.\r\nI think both would be fine. The former is nicer because we can keep the disk backed queues really small (or maybe avoid them in the first place), the latter has the property that all initial results are sent over the changefeed before any update is received which might make it minimally easier for the user to parse.\r\n"
+  , issueCommentId = 68002461
+  }

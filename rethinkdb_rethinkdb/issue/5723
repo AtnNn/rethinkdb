@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-27) 00 : 48 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5723/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5723"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5723
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: db and table config templates"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5723"
+  , issueCreatedAt = 2016 (-04) (-26) 20 : 55 : 30 UTC
+  , issueBody =
+      Just
+        "Elasticsearch has the concept of [index templates](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/indices-templates.html) which allow you to automatically apply configuration when new indices are created. I think it would be really nice to have something similar in RethinkDB.\r\n\r\nThe templates could be stored in a new system table, perhaps `config_templates`. This example would probably be the most common use-case. Ensuring all tables in your cluster are created with the same number of shards and replicas by default:\r\n\r\n```js\r\n{\r\n  \"db\": \"*\",\r\n  \"table\": \"*\",\r\n  \"settings\": {\r\n    \"shards\": 3,\r\n    \"replicas\": 3\r\n  }\r\n}\r\n```\r\n\r\nThe next example illustrates how this could be useful for dynamically created tables. In this case, we have tables acting as queues. Each time we create a new table in `job_queues`, it will automatically have a standard configuration applied:\r\n\r\n```js\r\n{\r\n  \"db\": \"job_queues\",\r\n  \"table\": \"*\",\r\n  \"settings\": {\r\n    \"primary_key\": \"job_id\"\r\n  },\r\n  \"indexes\": [{\r\n    \"index\": \"status\"\r\n    \"function\": r.row('status'),\r\n    \"multi\": false,\r\n    \"geo\": false\r\n  }],\r\n  \"grant\": [{\r\n    \"username\": \"job_handler\",\r\n    \"read\": true,\r\n    \"write\": true\r\n  }]\r\n}\r\n```\r\n\r\nNote that it's possible for multiple config templates to be applied when a table is created. Order should be deterministic, probably based on the specificity of `db/table` names in the template. Options passed directly into `dbCreate` and `tableCreate` would have the highest priority."
+  , issueState = "open"
+  , issueId = Id 151236916
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

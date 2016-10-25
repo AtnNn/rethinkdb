@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-28) 20 : 21 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 159819
+        , simpleUserLogin = N "cefn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/159819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cefn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/215549871"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5732#issuecomment-215549871"
+  , issueCommentCreatedAt = 2016 (-04) (-28) 20 : 19 : 45 UTC
+  , issueCommentBody =
+      "Essentially, yes it's the same as run(conn), but I think it would have a significant impact. If this syntax were canonical for new learners...\r\n\r\n* You can't get a reference to the 'db' at all, to start your query chain, without calling promiseResult and passing in a function, so you can't fail to do this step - it's how you get a closure with a suitable reference\r\n* You therefore can't fail to call run.conn(...) as performing this operation is automatic on return from your function\r\n* It's not hard for the function wrap to be remembered, you begin every query with it, your query chain can then be written as long and complex as you like, but you don't have to remember to terminate it - it's automatic in the nature of the closure. Javascript will tell you if you don't terminate properly.\r\n\r\nImplied in the suggestion is deprecating the direct use of r. to create a query chain without a db binding, and deprecating the use of run(conn), and avoiding its use in documentation. It doesn't mean these things are removed, just that they are flagged as undesirable and not promoted. Power users could still employ them.\r\n\r\nI don't know how promise-oriented you are willing for the library to be, or if there's a callback equivalent with the same goodness. "
+  , issueCommentId = 215549871
+  }

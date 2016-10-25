@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2013 (-07) (-11) 00 : 34 : 40 UTC
+  , issueUpdatedAt = 2013 (-07) (-11) 00 : 45 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1159/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1159"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1159
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 13176
+        , simpleUserLogin = N "donpdonp"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/13176?v=3"
+        , simpleUserUrl = "https://api.github.com/users/donpdonp"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Javascript driver run() calls are lost/frozen when called quickly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1159"
+  , issueCreatedAt = 2013 (-07) (-11) 00 : 20 : 21 UTC
+  , issueBody =
+      Just
+        "a daemon takes http requests and makes a get(id) call to rethink. Inevitably, the calls to get(id).run() would begin to never call the callback function. I have a simple case here:\r\n\r\n```\r\nvar r = require('rethinkdb');\r\n\r\nr.connect({host:'localhost', port:28015, db:'cointhink', timeout: 1},\r\n  function(err, conn) {\r\n\r\n  var get_count = 0\r\n  var id = 'donpdonp/buynext'\r\n\r\n  for(var i=0; i < 1000; i++) { load_fast() }\r\n\r\n  function load_fast(){\r\n    get_count += 1\r\n    console.log((new Date().toISOString())+' rethink load '+id+' get_count '+get_count)\r\n    r.table('scripts').get(id).run(conn, function(err, doc){\r\n      get_count -= 1\r\n      console.log('rethink loaded '+id+'. get_count remaining '+get_count)\r\n    })\r\n  }\r\n})\r\n```\r\nInstead of seeing 1000 load messages followed by 1000 'loaded' messages, The output is 1000 load messages followed by one 'loaded' message, and the script never finishes.\r\n\r\nnode v0.10.10\r\nrethinkdb@1.7.0-1\r\nrethinkdb 1.7.1-0ubuntu1~raring (GCC 4.7.3)"
+  , issueState = "closed"
+  , issueId = Id 16608221
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

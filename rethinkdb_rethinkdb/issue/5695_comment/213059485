@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-21) 18 : 44 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/213059485"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5695#issuecomment-213059485"
+  , issueCommentCreatedAt = 2016 (-04) (-21) 18 : 44 : 22 UTC
+  , issueCommentBody =
+      "@ntquyen First of all please note that there are other things apart from the cache that will use memory when processing a query.\r\nEspecially a `group` result will be loaded into memory completely, unless you apply a reduction after it. If some of the grouped data is huge, that can use a lot of memory just for keeping the (intermediate) query result around. For some `group` queries,` `fold` can now be used to implement them in a streaming fashion, which requires less RAM on the server. If you want to share the group query, I can take a look and see if it can be rewritten.\r\n\r\nRunning out of RAM and going into swap is one of the most common causes for heartbeat timeouts (though there can be other reasons too; and RethinkDB 2.3 also improved certain cases). Do your servers have swap configured (either on the host or guest system) that might have been used?\r\n\r\nTo answer your questions:\r\n> Is rethinkdb using LRU cache strategy?\r\n\r\nYes\r\n\r\n> How much portion of memory is reserved for indexes?\r\n\r\nIndexes use the same cache as data. The cache treats index blocks like any other disk block, and they are subject to the same LRU replacement strategy. In practice index blocks will often be accessed more frequently than data blocks, so they are less likely to be evicted.\r\n\r\n> Does the size of the whole record (may be up to 7GM) affect the size of index, given that the index fields are very small (some boolean fields)? In general, how to calculate the size of an index of a table?\r\n\r\nNo, for documents above 250 bytes, the index size only depends on the indexed keys, not on the size of the whole records.\r\n\r\n> Will all indexes be loaded in memory when the cluster start? What happen if the memory is not enough to fit all the cache?\r\n\r\nNo, individual blocks of the index will be loaded into the cache when they are first accessed (though until the cache gets full, RethinkDB uses a read-ahead optimization to read additional blocks into the cache as well and warm up the cache more quickly. Those can be either index or data blocks.) If the indexes don't all fit into cache, the least recently used parts of the indexes will be evicted when other parts get accessed."
+  , issueCommentId = 213059485
+  }

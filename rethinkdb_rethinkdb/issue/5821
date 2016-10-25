@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-03) 00 : 32 : 15 UTC
+  , issueUpdatedAt = 2016 (-06) (-03) 00 : 32 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5821/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5821"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5821
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1126819
+        , simpleUserLogin = N "meenie"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1126819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/meenie"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "r.and(r.args()) inconsistencies in 2.3"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5821"
+  , issueCreatedAt = 2016 (-06) (-02) 21 : 36 : 09 UTC
+  , issueBody =
+      Just
+        "I'm getting some inconsistencies when using `r.args()` with `r.and()`.  Here is some reproducible code:\r\n```javascript\r\nconst data = [\r\n  {\r\n    \"sub_doc\":[\r\n      {\r\n        \"sub_field_id\": 1\r\n      },\r\n      {\r\n        \"sub_field_id\":2,\r\n        \"text\":\"some text\"\r\n      }\r\n    ],\r\n  }\r\n];\r\n\r\nr.expr(data)\r\n  .filter(row =>\r\n    row('sub_doc').contains(doc => {\r\n      const firstCond = doc('sub_field_id').eq(2);\r\n      const secondCond = doc('text').match(`(?i)TEXT`);\r\n\r\n      return r.and(r.args([firstCond, secondCond]));\r\n      //return r.and(firstCond, secondCond)\r\n      // This does work, though.  Which I assumed was analogous to r.args()\r\n      //return r.and.apply(null, [firstCond, secondCond])\r\n    })\r\n  )\r\n```\r\n\r\nThis should return the supplied data, but does not.  If you uncomment the second return and comment out the first, it will work.\r\n\r\nIf you add something like `\"text\": \"whatever\"` as a sibling to `\"sub_field_id\": 1`, both statements will work.  Also, note that if you change both conditions to the constant `true`, it will work in either form of the data."
+  , issueState = "closed"
+  , issueId = Id 158245393
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

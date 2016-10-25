@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-07) 00 : 55 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73340682"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73340682"
+  , issueCommentCreatedAt = 2015 (-02) (-07) 00 : 55 : 31 UTC
+  , issueCommentBody =
+      "In lieu of rehashing everything again, I'd like to make a meta argument:\r\n\r\nI think we should just adopt the policy of handling `undefined` the way JS does, except maybe for particular edge cases that are unique to ReQL and the assumptions we've made elsewhere in the language.  I think this for three reasons:\r\n\r\n* All of the methods proposed here have upsides, downsides, and confusing edge cases, but our users probably have the most exposure to JS's undefined edge cases, so those edge cases will be less confusing to them.\r\n* It's an easy thing to point to and say \"we should do that\" to avoid hashing out every edge case amongst ourselves.  (What should `undefined < 1` do?  Should we special-case `r([1, 2, undefined]).min` or `r([1, 2, undefined]).max`, which by @danielmewes's definition both have to return `undefined`?)\r\n* It preserves several important properties that different people want.\r\n  - It preserves @AtnNn's desire to have `.filter(r.not(foo))` return all the rows that aren't in `.filter(foo)`.\r\n  - It preserves @coffeemug's desire to have `.filter(r.row['a'] < 5)` skip rows missing `a`, without having to special-case `filter` (since JS considers undefined to be falsey).\r\n  - It preserves a reasonable chunk of what @danielmewes wants for `and` and `or`.\r\n\r\nI think that our first implementation of this should still rely on throwing exceptions, because it would be a pain in the ass to move to passing around `undefined` values right now.  This will prevent us from mimicking the JS decisions perfectly, but I think we can still do a pretty good job.\r\n\r\n(Also, from a personal perspective, the decisions JS made matched my original intuitions of how undefined should behave better than @danielmewes' proposal, although now that I understand it I agree that the latter has a simpler and more consistent explanation of its decisions.)"
+  , issueCommentId = 73340682
+  }

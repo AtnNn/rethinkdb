@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-23) 19 : 35 : 56 UTC
+  , issueUpdatedAt = 2015 (-11) (-23) 19 : 37 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5133/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5133"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5133
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 13759603
+        , simpleUserLogin = N "grantwork"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/13759603?v=3"
+        , simpleUserUrl = "https://api.github.com/users/grantwork"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Servers with minor version discrepancies can't connect together."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5133"
+  , issueCreatedAt = 2015 (-11) (-23) 00 : 33 : 39 UTC
+  , issueBody =
+      Just
+        "I run 12 Rethink servers on Debian Wheezy using the apt package manager. I have one master no shards with 11 other replicating servers. I also have a script that apt auto updates packages every night. \r\n\r\nI had some small issues a few months back where 5 of the 11 replica servers did a minor version update from 2.1.2 to 2.1.5, but the rest of the servers didn't do the update at the same time, so all the upgraded servers failed to connect. \r\n\r\nThen last week we had an issue where only the primary/master server upgraded but the 11 replicas didn't upgrade at the same time, so not only couldn't the replicas connect but all writes to the master failed with this message `Cannot perform write: primary replica for shard [\"\", +inf) not available`. This seems strange that the single master would fail on writes just because no replicas are currently connected. \r\n\r\nMy suggestions are:\r\n* Allow servers with minor version changes to still connect\r\n* Allow writes to a single master server regardless if replicas are connected.\r\n\r\nOur solution was to keep back the RethinkDB package from upgrades and we will now have to manually upgrade some of the replicas first before doing the master.\r\n\r\nAs we do use this in a production environment, it's just for cacheing so it's not a critical part of the system. I would be worried to use this in a critical production environment though as it would be difficult to upgrade all the servers without interruption."
+  , issueState = "closed"
+  , issueId = Id 118301406
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-12) (-09) 00 : 28 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3663/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3663"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      ]
+  , issueNumber = 3663
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Figure out index_status / index_wait interface"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3663"
+  , issueCreatedAt = 2015 (-01) (-26) 23 : 18 : 10 UTC
+  , issueBody =
+      Just
+        "We have changed the interface for what used to be `table_config`, `table_status`, `table_wait` to `table.config()`, `table.status()` and `table.wait()` in 1.16 (https://github.com/rethinkdb/rethinkdb/issues/3365).\r\n\r\nHowever we didn't have time to agree on a consistent interface for indexes, which as of now still use `index_status`, `index_wait` etc.\r\nWe should make this consistent. \r\n\r\nSome ideas from the other thread:\r\n@mlucy \r\n> * Introduce `table.index()`.\r\n  - If nothing is chained after it, `table.index('a')` returns the opaque representation of `a`.\r\n    * This lets us duplicate indexes by writing `r.table('test').index_create('a_dup', r.table('test').index('a'))` rather than having to pull the information out of `index_status`.\r\n  - Add `table.index('a').status()`, `table.index('a').wait` by analogy to the `table.X` commands.\r\n[...]\r\nIf people don't like that, another possibility would be `r.table('test').status(index:'a')` rather than `index_status`.\r\n\r\n@larkost \r\n> I like the idea of \"embedding\" the index data in with the table since I feel that indexes are conceptually a part of their tables. I was a little surprised that `.table_wait()` did not wait for indexes to be ready (makes sense if you think about indexes as part of the table, but not if you see them as separate). So changing this would agree with my intuitive understanding of it.\r\n>    \r\n> Adding an `indexes` opt-arg to the `.wait()` command to specify what you are waiting for would be a solution, e.g.:\r\n>    \r\n>  ```python\r\nr.db('test').table('a').wait().run() # wait for everything, including all indexes on the table\r\nr.db('test').table('a').wait(indexes=False).run() # wait for the table to be read/write available, but not the indexes\r\nr.db('test').table('a').wait(indexes=['b']).run() # wait for the table to be read/write available, and the index 'b' to be available\r\n```\r\n>\r\n>  I don't think it makes sense to wait for indexes but not some form of read or write availability, and I am not sure about a multi-table form that makes sense in this case."
+  , issueState = "open"
+  , issueId = Id 55552182
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

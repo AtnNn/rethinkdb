@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-07) (-04) 01 : 02 : 58 UTC
+  , issueUpdatedAt = 2014 (-07) (-04) 01 : 03 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2638/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2638"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2638
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "grouped_acc_t::operator() is broken."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2638"
+  , issueCreatedAt = 2014 (-07) (-02) 17 : 50 : 26 UTC
+  , issueBody =
+      Just
+        "First  of all I have no idea why a virtual method that is generally accessed via a pointer in our codebase would be named `operator()` instead of some sensible name.  It certainly isn't for the sake of working nicely with any generic code.\r\n\r\nThe function itself also does this:\r\n\r\n```\r\n   virtual done_traversing_t operator()(env_t *env,\r\n                                         groups_t *groups,\r\n                                         store_key_t &&key,\r\n                                         counted_t<const datum_t> &&sindex_val) {\r\n        for (auto it = groups->begin(); it != groups->end(); ++it) {\r\n            // ...\r\n            for (auto el = it->second.begin(); el != it->second.end(); ++el) {\r\n                keep |= accumulate(env,\r\n                                   *el,\r\n                                   &t_it->second,\r\n                                   std::move(key),\r\n                                   std::move(sindex_val));\r\n            }\r\n```\r\n\r\nThat's right, it tries using std::move on the same objects over and over again in a for loop.  With a `counted_t<const datum_t>`, that makes a big difference.  I have no idea what the std::move is supposed to accomplish for a `store_key_t`."
+  , issueState = "closed"
+  , issueId = Id 37006830
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 74
+          , milestoneClosedIssues = 7
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.13.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/74"
+          , milestoneCreatedAt = 2014 (-07) (-03) 21 : 42 : 41 UTC
+          , milestoneState = "closed"
+          }
+  }

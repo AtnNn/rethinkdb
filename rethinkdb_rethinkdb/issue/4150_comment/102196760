@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-14) 23 : 14 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/102196760"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-102196760"
+  , issueCommentCreatedAt = 2015 (-05) (-14) 23 : 14 : 29 UTC
+  , issueCommentBody =
+      "@kofalt -- thanks for your detailed thoughts.  If allowing non-indexed terms in the optimize block would make your use case a lot easier, I don't see any reason why we couldn't do that (we'll have to support reordering anyway).  Likewise for adding a global optarg.  Adding a way to return the optimized query to the user sounds really useful, but might be outside the scope of this issue.\r\n\r\nI think we should consider using a name aside from \"optimize\" for this.  When I see the word \"optimize\", I assume that we're going to take non-indexed operations and turn them into indexed operations, while this proposal (in its current form) does the opposite: it lets you provide lots of indexed operations, then chooses some of them to turn into non-indexed operations and reorder.  I think we could avoid a lot of confusion if we called it `allow_unused_indexes` or something.  This would also fix the problem of people skimming the docs, seeing that there's a global \"optimize\" optarg to `run`, and then setting it to `true` and being confused that their queries don't get faster.  (`allow_unused_indexes` may be a bad name, but I'd bet we can come up with a good one.)\r\n\r\n---\r\n\r\nAs for the question of giving people the option to have ReQL rewrite their queries to use indexes (like @internalfx proposes), I'm not necessarily 100% opposed to that, but it's a much larger project than this because it involves writing a static analyzer that can e.g. go into `filter` queries and figure out how to rewrite them to use the available indexes in the most efficient way.  (I would probably be opposed to turning it on by default, but this may just be a situation where what I would want is genuinely out of sync with what most users would want, so I could be convinced that we should turn it on by default if everyone else thinks it's a good idea.)"
+  , issueCommentId = 102196760
+  }

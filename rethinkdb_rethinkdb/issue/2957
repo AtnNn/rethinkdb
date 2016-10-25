@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2014 (-10) (-22) 21 : 20 : 43 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2957/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2957"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2957
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "New ReQL admin API feedback"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2957"
+  , issueCreatedAt = 2014 (-08) (-26) 07 : 55 : 01 UTC
+  , issueBody =
+      Just
+        "Just played with the API. My first overall impression is that it's excellent, intuitive, and delightful. I can't help but be proud of how far we've come as I compare it to the old `rethinkdb admin` API. (Now that I've dispensed with the self-congratulatory drivel, I can move on to its actual flaws :grinning:)\r\n\r\nI have a cluster of two machines. I first did this:\r\n\r\n```py\r\n>>> r.table('foo').reconfigure(2, 1).run()\r\nRqlRuntimeError: There isn't enough data in the table to create 2 balanced shards. Try creating fewer shards; if you don't increase the number of shards, it won't be necessary to calculate new balanced shards.\r\n```\r\n\r\nThe error message is frustrating and confusing (it always has been since we had the same thing in the Web UI). We should drop it entirely -- if there isn't enough information to balance the shards, we should create the keys lexicographically. This is especially relevant since we'll be dropping range shards, so in the long run there is no risk of hurting the user. In the short term, I think the benefit of using lexicographic sharding in absence of data outweighs the disadvantages.\r\n\r\nThen I ran this:\r\n\r\n```py\r\n>>> r.table('foo').reconfigure(1, 2).run()\r\n{ u'shards': [ { u'directors': [u'batgirl_local_h4v', u'batgirl_local_q47'],\r\n                 u'replicas': [u'batgirl_local_h4v', u'batgirl_local_q47']}]}\r\n```\r\n\r\nIgnoring the format of the config itself (I'll get to it in a second), there are a couple of problems with the command:\r\n\r\n1. I got the config back, but I have no idea what happened. Did the reconfiguration kick into gear? Do I have to do something else? (I happen to know what happened, but the user won't). The `reconfigure` command should return a more detailed object, e.g.:\r\n\r\n ```\r\n{\r\n  old_config: ...,\r\n  new_config: ...,\r\n  tables_reconfigured: X\r\n}\r\n```\r\nwhere `X` is zero if the user passed `dry_run=True`, `1` if the user called `t.reconfigure` and `>= 0` if the user called `db.reconfigure`. This would result in a much more intuitive UI.\r\n2. I should be able to just call `reconfigure()` with no arguments and have the system reassign shards to machines if it makes sense. At least in the Python driver I get a \"not enough args\" error.\r\n3. We should consider again making `shards` and `replicas` named arguments and allowing passing one at a time. I know there were problems with this approach, but from the UI perspective it would be such a huge boost, I think we should at least revisit it now that we have more information. Let's talk about this in person.\r\n4. Calling `r.db('test').reconfigure(...)` results in an error in the Python driver. This should work and should be equivalent to `r.db('test').table_list().map(r.table(r.row).reconfigure(...))`. I assume this just isn't implemented yet (unless there is some problem with this I haven't considered).\r\n\r\nOk. Now let's talk about the actual configuration:\r\n\r\n```py\r\n>>> r.db('rethinkdb').table('table_config').run()\r\n[ { u'name': u'test.foo',\r\n    u'shards': [ { u'directors': [ u'batgirl_local_h4v',\r\n                                   u'batgirl_local_q47'],\r\n                   u'replicas': [ u'batgirl_local_h4v',\r\n                                  u'batgirl_local_q47']}],\r\n    u'uuid': u'4e8c0328-44f9-40c7-b5b7-51e987c9bcf6'}]\r\n```\r\n\r\nAh, what a beauty! \"Delightful. - IGN\" \"Simply stunning. - CBS Interactive\" you get the idea :smile: However... (assuming we switch the UUID scheme as agreed)\r\n\r\n1. I get two replicas and two directors (we should switch back to the term \"master\", but let's ignore that for now). But I asked for one shard. Why do I have two directors? (In this case I happen to know what's going on, but the user won't. The document is confusing). We should rename the field to `director` (singular, or really \"master\"), and just have one machine that's the actual master for the shard. Alternatively we should make it clearer that it's a potential list by picking a better name if we want to be future/autofailover proof, but now that I played with the system, I'm kind of dubious of that. We should get together and talk about it in person.\r\n2. There is no 2. This is awesome!\r\n\r\nBut then...\r\n\r\n```py\r\n>>> r.db('rethinkdb').table('table_status').run()\r\n[ { u'name': u'test.foo',\r\n    u'shards': [ { u'batgirl_local_h4v': { u'role': u'director',\r\n                                           u'state': u'ready'},\r\n                   u'batgirl_local_q47': { u'role': u'replica',\r\n                                           u'state': u'ready'}}],\r\n    u'uuid': u'4e8c0328-44f9-40c7-b5b7-51e987c9bcf6'}]\r\n```\r\n\r\n\"Ultimately, the moving story and the breathtaking performance of the all star cast doesn't rescue this motion picture from its confusing sets and dull cinematography. Two thumbs down. -- LA Times\"\r\n\r\n1. Why do I have one director, and one replica? I asked for two replicas! What's going on? (again, I happen to know what's going on, but the user won't)\r\n2. Why doesn't the structure here mirror the structure of the config? I'm confused! (well, I'm not, but the user will be).\r\n\r\nI think we can fix both of these problems by restructuring the document as follows (again, ignoring the UUID issue, and renaming to master):\r\n\r\n```js\r\n[ { name: test.foo,\r\n    shards: [ { replicas: [{ batgirl_local_h4v: 'ready' },\r\n                           { batgirl_local_q47: 'ready' }],\r\n                master: 'batgirl_local_h4v' }]\r\n    uuid: '4e8c0328-44f9-40c7-b5b7-51e987c9bcf6'}]\r\n```\r\n\r\nNote: if we structure documents this way, naming things \"master\" isn't confusing because the user will intuitively know one of the replicas is a master (since the name of the machine repeats). So \"master\" is a better term IMO, because it's clear, familiar, and if the document is structure properly, isn't confusing.\r\n\r\nA few caveats:\r\n\r\n- We should talk about the changes proposed here in person, in case I suggested something stupid.\r\n- I didn't play with tags yet. I will.\r\n- Did I say \"Simply stunning. -CBS Interactive\" yet?\r\n\r\n/cc @timmaxw "
+  , issueState = "closed"
+  , issueId = Id 41145995
+  , issueComments = 31
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

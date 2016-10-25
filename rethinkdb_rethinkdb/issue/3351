@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-30) 22 : 06 : 21 UTC
+  , issueUpdatedAt = 2016 (-03) (-30) 22 : 06 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3351/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3351"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      ]
+  , issueNumber = 3351
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Should operations on multi geo indexes emit duplicates?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3351"
+  , issueCreatedAt = 2014 (-11) (-18) 23 : 35 : 53 UTC
+  , issueBody =
+      Just
+        "This came up in https://github.com/rethinkdb/docs/issues/580\r\n\r\nAssume you have a multi geo index on the field `geo` and insert the following document:\r\n```js\r\n{\r\n  id: \"abc\",\r\n  geo: [r.point(1, 1), r.point(1, 1)]\r\n}\r\n```\r\nand then run `getIntersecting(r.circle([1, 1], 10), {index: \"geo\"})` or `getNearest(r.point(1, 1), {index: \"geo\"})` on that table.\r\n\r\nRight now you would get only one result from those queries. We could possibly change this to return the document twice. This would be more consistent with how non-geo multi indexes behave when you use `getAll` or `between` on them.\r\n\r\nEmitting suplicated will require some additional code to implement though. This is because geospatial indexes generally have to filter duplicates, because a single document might appear in multiple places of the index (even without a multi index). We would have to tweak this duplicate filtering to let duplicates that are due to multiple multi index keys through, while still filtering the ones that are due to how the index itself works. We already attach a \"tag\" to every secondary index key, which is different for each multi index key. We could use this \"tag\" to distinguish the different types of duplicates.\r\n\r\nThis is fairly low priority."
+  , issueState = "closed"
+  , issueId = Id 49308997
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-06) 07 : 56 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 4147061
+        , simpleUserLogin = N "let4be"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4147061?v=3"
+        , simpleUserUrl = "https://api.github.com/users/let4be"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128276971"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4634#issuecomment-128276971"
+  , issueCommentCreatedAt = 2015 (-08) (-06) 07 : 29 : 26 UTC
+  , issueCommentBody =
+      "Had to slightly modify your query @danielmewes but thanks for getting me to the right direction\r\n\r\nsimplified version without `.changes()` call\r\n```\r\nr.table('batches')\r\n.filter(r.row.hasFields('counters'))\r\n.map(r.row('counters'))\r\n.map(function(e){\r\n    return e.coerceTo('array').map(function(keyValue) {\r\n        return [\r\n            keyValue(0),\r\n            keyValue(1).coerceTo('array').map(function(stringNum) { return stringNum(1).coerceTo('number'); } )\r\n                .sum() ]\r\n    }).coerceTo('object');\r\n})\r\n```\r\n\r\nupdated with converted to gorethink version:\r\n```\r\nr.Table(\"batches\").\r\nMap(r.Row.Field(\"counters\")).\r\nMap(func (e r.Term) r.Term {\r\n\treturn e.CoerceTo(\"array\").Map(func (keyValue r.Term) []r.Term {\r\n\t\treturn []r.Term{\r\n\t\t\tkeyValue.AtIndex(0),\r\n\t\t\tkeyValue.AtIndex(1).CoerceTo(\"array\").Map(func (stringNum r.Term) r.Term {\r\n\t\t\t\treturn stringNum.AtIndex(1).CoerceTo(\"number\")\r\n\t\t\t}).Sum(),\r\n\t\t}\r\n\t}).CoerceTo(\"object\")\r\n})\r\n```\r\n\r\nworks perfectly fine :)"
+  , issueCommentId = 128276971
+  }

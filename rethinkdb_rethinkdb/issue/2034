@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2014 (-12) (-16) 01 : 08 : 06 UTC
+  , issueUpdatedAt = 2015 (-01) (-23) 21 : 51 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2034/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2034"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 2034
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Fix/replace `rdb_erase_range()`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2034"
+  , issueCreatedAt = 2014 (-02) (-27) 02 : 13 : 50 UTC
+  , issueBody =
+      Just
+        "__What it is__\r\n`rdb_erase_range()` is a function that erases a certain range of keys from a btree. erasing is different from a regular `delete()` here in the sense that it doesn't generate delete entries which backfilling would otherwise pick up.\r\n\r\nIt's used in the following two cases (as far as I know):\r\n- backfilling, to erase key ranges for which we are not sure if they might contain deleted keys (so we erase everything in that range on the backfillee and resend it completely)\r\n- a node used to be a replica for a given shard, but becomes a \"be_nothing\". This causes the shard's data to be erased on that node.\r\n\r\n\r\n__Why it's broken__\r\n`rdb_erase_range()` is based on `btree_erase_range_generic()`. `btree_erase_range_generic()` uses a parallel traversal to walk over the specified range. When it encounters a leaf node, it erases all keys in that range from the leaf node.\r\n\r\nHowever it doesn't modify the inner nodes of the btree at all! It doesn't maintain the btree invariants, and the tree becomes broken. We end up with a lot of underfull or even empty leaf nodes, and a bunch of internal nodes full of keys above them.\r\nNo levelling or merging is done.\r\n\r\nFuture \"proper\" btree operations can stumble over this and probably corrupt the tree even more. For example they might decide to perform levelling somewhere based on the information they have. But then they fail to pick a key to level around, because the leaf nodes are empty. All kinds of horrible things can happen.\r\nIt *could* be that we handle most of these cases correctly. But I highly doubt that (and #2015 could be an indication that we don't).\r\n\r\n\r\n__How to fix it?__\r\nI'm not sure yet.\r\nWe could only collect a set of keys to be deleted in the parallel traversal, and then erase one of them at a time through the usual process that takes care of re-balancing the tree. It would be slower, but then again this happens only in backfilling and when a node looses its role as a replica."
+  , issueState = "closed"
+  , issueId = Id 28388539
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

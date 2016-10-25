@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-12) 17 : 09 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/147463431"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4931#issuecomment-147463431"
+  , issueCommentCreatedAt = 2015 (-10) (-12) 17 : 09 : 48 UTC
+  , issueCommentBody =
+      "@danielmewes well it's not a persistent issue so no I haven't tried removing the log files. As it stands we can set in the unit file to respawn on crash, however I've been able to reproduce the follow scenario at least twice:\r\n \r\n  - 3 nodes are joined together in a cluster with a primary replica/raft leader\r\n  - data is inserted into a few tables on the first node\r\n  - all tables are reconfigured to have 3 replicas as soon as the third node joins\r\n  - first node goes down (the only one with actual data presently) because of this crash\r\n  - nodes 2 and 3 seem to have received information about the tables but maybe not all the data, so they elect a new leader but no replicas are available for operations\r\n  - node 1 comes back online after a restart, joins the cluster but is in some sort of completely inconsistent state including the fact that it just keeps timing out on a raft election and starting new ones (ad infinitum)\r\n\r\n  TL;DR - once this crash happens in roughly those terms, the entire cluster must be brought down because nothing works\r\n"
+  , issueCommentId = 147463431
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-06) 07 : 05 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 106287
+        , simpleUserLogin = N "fkollmann"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/106287?v=3"
+        , simpleUserUrl = "https://api.github.com/users/fkollmann"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/192818193"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5485#issuecomment-192818193"
+  , issueCommentCreatedAt = 2016 (-03) (-06) 07 : 05 : 34 UTC
+  , issueCommentBody =
+      "Here is our actual implementation we use in typescript:\r\n\r\n```\r\n    export async function connect(): Promise<rethinkdb.Connection> {\r\n        // try to connect to localhost proxy\r\n        if (env.mainDb.checkForLocalProxy) {\r\n            try {\r\n                let conn = await connectLocalProxy();\r\n\r\n                if (conn) return conn;\r\n            } catch (x) {\r\n                // connection failed\r\n                debug(`Connecting local proxy failed: ${x.message}`);\r\n            }\r\n        }\r\n\r\n        // try to connect to regular host\r\n        debug(`Trying to connect to ${env.mainDb.hostname}...`);\r\n\r\n        try {\r\n            let conn = await rethinkdb.connect({ host: env.mainDb.hostname, port: 28015, db: env.mainDb.database });\r\n\r\n            debug(`Successfully connected to db server ${env.mainDb.hostname}`);\r\n\r\n            return conn;\r\n        } catch (x) {\r\n            debug(`Connecting db server failed: ${x.message}`);\r\n\r\n            throw x;\r\n        }\r\n    }\r\n\r\n    async function connectLocalProxy(): Promise<rethinkdb.Connection> {\r\n        let conn = await rethinkdb.connect({ host: 'localhost', port: 28015, db: env.mainDb.database });\r\n\r\n        let notFound = await rethinkdb.db('rethinkdb').table('server_config').getAll(env.mainDb.hostId).isEmpty().run(conn);\r\n\r\n        if (notFound) {\r\n            debug(`Expected server ${env.mainDb.hostname} is not part of the localhost cluster; Aborting...`);\r\n\r\n            conn.close({ noreplyWait: true });  // do not wait at all\r\n\r\n            return null;\r\n        } else {\r\n            debug('Successfully connected to localhost proxy');\r\n\r\n            return conn;\r\n        }\r\n    }\r\n```\r\n"
+  , issueCommentId = 192818193
+  }

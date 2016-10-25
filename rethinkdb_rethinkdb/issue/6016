@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-29) 23 : 20 : 06 UTC
+  , issueUpdatedAt = 2016 (-07) (-29) 23 : 23 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6016/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6016"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6016
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 563469
+        , simpleUserLogin = N "niieani"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/563469?v=3"
+        , simpleUserUrl = "https://api.github.com/users/niieani"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Ordering while selecting with indexes does not seem possible"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6016"
+  , issueCreatedAt = 2016 (-07) (-29) 22 : 54 : 21 UTC
+  , issueBody =
+      Just
+        "The structure of a row in my table is similar to this:\r\n\r\n```js\r\n{\r\n  id: \"...\",\r\n  access: [\r\n    { user: \"danielmewes\", readOnly: false, grantedOn: Date },\r\n    { user: \"mlucy\", readOnly: true, grantedOn: Date }\r\n  ],\r\n  data: \"...\"\r\n}\r\n```\r\n\r\nWhat I'm after is: listing all the rows to which a given user has access to, ordered by `grantedOn` date in a performant way.\r\nWhile I can create an expression-based multi-index to get all the documents which I can then query, say, whether `\"danielmewes\"` is listed as having access in the access object array:\r\n\r\n```js\r\nr.table('documents')\r\n  .createIndex('user-with-access', doc => doc('access').map(acc => acc('user')))\r\n```\r\n\r\nIt seems impossible to then order those documents in a performant way (with another index), because indexed `orderBy` must be done on a `Table` or a `TableSlice`.\r\n\r\nFinding out which documents a person has access to is the easy (and fast) part:\r\n\r\n```js\r\nr.table('documents')\r\n  .getAll(['danielmewes'], { index: 'user-with-access' })\r\n```\r\n\r\nWith just 15000 documents in the database, passing a function that finds and returns the relevant record to an `orderBy` right after the above `getAll` takes a whole 8 seconds! (because it gets evaluated on every single record, because its not possible to use one index for ordering, while filtering out the irrelevant records with another)\r\n\r\nAm I simply blindly missing a simple solution here, or is this really a current limitation of RethinkDB?"
+  , issueState = "closed"
+  , issueId = Id 168429794
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

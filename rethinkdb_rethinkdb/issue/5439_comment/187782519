@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-23) 16 : 43 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/187782519"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5439#issuecomment-187782519"
+  , issueCommentCreatedAt = 2016 (-02) (-23) 16 : 41 : 42 UTC
+  , issueCommentBody =
+      "Hi @gyim , this is unfortunately the expected behavior at the moment. Changefeed data structures aren't persisted to disk currently, so there's no ability to restart them after the database goes down. We have an issue for restarting feeds after a client crash (#3471) but this doesn't currently track surviving a database restart. (@danielmewes I don't think we have an issue for surviving db restarts right?)\r\n\r\nOne thing that's possible now, is to use [include_initial](http://rethinkdb.com/api/java/changes/) when you reconnect, to catch back up. This would involve probably throwing out any state you had before and rebuilding it, so you wouldn't want to do this if you have a changefeed on something large, like a table.\r\n\r\nThis may be a good issue for tracking changefeeds that survive database restarts."
+  , issueCommentId = 187782519
+  }

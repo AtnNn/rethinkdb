@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-23) 03 : 51 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33095019"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1897#issuecomment-33095019"
+  , issueCommentCreatedAt = 2014 (-01) (-23) 03 : 51 : 43 UTC
+  , issueCommentBody =
+      "Wait, actually I can reproduce on newton (our dev machine):\r\n\r\n```\r\n$ rethinkdb --bind 192.168.0.7 --port-offset 9\r\nListening on addresses: 127.0.0.1, 127.0.1.1, 192.168.0.7, ::1\r\n\r\n$ netstat -antp | grep 8089\r\ntcp        0      0 192.168.0.7:8089        0.0.0.0:*               LISTEN      27947/rethinkdb\r\ntcp        0      0 127.0.1.1:8089          0.0.0.0:*               LISTEN      27947/rethinkdb\r\ntcp        0      0 127.0.0.1:8089          0.0.0.0:*               LISTEN      27947/rethinkdb\r\ntcp6       0      0 ::1:8089                :::*                    LISTEN      27947/rethinkdb\r\n\r\n$ rethinkdb --bind all --port-offset 9\r\nListening on addresses: 127.0.0.1, 127.0.1.1, 10.0.3.1, 192.168.122.1, 192.168.0.7, 192.168.1.7, ::1, fe80::225:90ff:fe0d:8e8a%2, fe80::225:90ff:fe0d:8e8b%3, fe80::f8ed:85ff:fe7c:bc1e%4\r\n\r\n$ netstat -antp | grep 8089\r\ntcp6       0      0 :::8089                 :::*                    LISTEN      28669/rethinkdb\r\n```\r\n\r\nPinging @Tryneus -- does the behavior make sense? Also, when we specify an explicit network interface, rethink still binds on localhost. Is this expected behavior?"
+  , issueCommentId = 33095019
+  }

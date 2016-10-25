@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-09) 07 : 19 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/180865461"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4008#issuecomment-180865461"
+  , issueCommentCreatedAt = 2016 (-02) (-06) 21 : 17 : 23 UTC
+  , issueCommentBody =
+      "Because I really wish some kind of TTL feature be implemented in RethinkDB, I thought I'd take a stab at an API proposal as well :)\r\n\r\nAkin to another popular nosql db, my variant is index-based.\r\n\r\n#### Shared/general expiration time\r\n```\r\ntable.index_create('field', expiration=30.0)\r\n...\r\ntable.get(...).update({ 'field': 'anything' })\r\n```\r\nAfter 30 seconds, the document will be deleted (emitting the usual changefeed event).\r\n\r\n#### Document-specific expiration time\r\n```\r\ntable.index_create('field', expiration=True)    # value must be a time stamp\r\n...\r\ntable.get(...).update({ 'field': r.now() + 60 })\r\n```\r\nAfter 60 seconds, the document will be deleted (emitting the usual changefeed event).\r\n\r\n#### Extra features\r\nThese could be added later, but I'd really like to see them; I already have many use cases where it will make things really neat, as opposed to clumsy and ugly. :)\r\n\r\nAn `expiration_action` argument to `index_create`. It may specify what the server should do when the index has expired:\r\n```\r\ntable.index_create('field',\r\n\t\t\t\t\texpiration=True,\r\n\t\t\t\t\texpiration_action='delete')    # the default\r\n```\r\nWhich will delete the document as usual.\r\n\r\nOr - and this is where it gets interesting - even more flexible, a custom action.\r\n```\r\ntable.index_create('field',\r\n\t\t\t\t\texpiration=True,\r\n\t\t\t\t\texpiration_action={ 'do_something': 'yes' })\r\n```\r\nWhich would then update the document with the expired index using the supplied data, which in this case would set a field, `do_something = 'yes'`. (again emitting the appropriate changefeed message)\r\n\r\nOverriding the `expiration_action` per document might be useful as well, but I couldn't figure out an appropriate way to do that, except as an extra argument to `update` & friends:\r\n```\r\ntable.update({ 'field': r.now() + 60 }, expiration_action={ 'crap': 'example' })\r\n```\r\nBut it feels hacky :-/\r\n\r\nI suppose other values for `expiration_action` could also be added later.\r\n\r\nFinally, as a bonus, the expiration could be explicitly specified in the changefeed messages, e.g.:\r\n```\r\n{ 'new_val': ..., 'old_val': ..., 'expired': [ 'field' ] }\r\n```\r\n\r\nOk, I think that was all...\r\n"
+  , issueCommentId = 180865461
+  }

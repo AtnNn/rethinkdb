@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-19) 00 : 35 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/185993021"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5423#issuecomment-185993021"
+  , issueCommentCreatedAt = 2016 (-02) (-19) 00 : 30 : 46 UTC
+  , issueCommentBody =
+      "There's actually a way for doing this, though it's a bit cumbersome:\r\n```js\r\nr.expr(id_blacklist).orderBy(r.row).do(function(sortedBlacklist) {\r\n    var lowerBounds = r.expr([r.minval]).add(sortedBlacklist);\r\n    var upperBounds = sortedBlacklist.append(r.maxval);\r\n    var unionArgs = lowerBounds.map(upperBounds, function(lo, up) {\r\n        return r.table('users').between(lo, up, {leftBound: \"open\", rightBound: \"open\"});\r\n    });\r\n    return r.union(r.args(unionArgs));\r\n})\r\n```\r\n\r\nI haven't tried it yet. But I hope you get the idea. Basically you construct a bunch of open ranges *around* the blacklist IDs and combine them into in a union."
+  , issueCommentId = 185993021
+  }

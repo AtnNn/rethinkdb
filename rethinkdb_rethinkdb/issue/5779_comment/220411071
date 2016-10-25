@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-19) 18 : 25 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/220411071"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5779#issuecomment-220411071"
+  , issueCommentCreatedAt = 2016 (-05) (-19) 18 : 25 : 35 UTC
+  , issueCommentBody =
+      "Ok that is the easier case luckily :-)\r\n\r\nYou can try the following:\r\n\r\n1. Create a multi index on the right table:\r\n  ```js\r\nr.db('other_db').table('right_table').indexCreate(\"fk_multi\", r.row('fk'), {multi: true})\r\n```\r\n2. Use the following query:\r\n  ```js\r\nr.db('my_db').table('left_table')\r\n.filter(function (left) {\r\nreturn r.db('other_db').table('right_table')\r\n.getAll(left('pk'), {index: \"fk_multi\"}).isEmpty()\r\n})\r\n```\r\n\r\nThis should be pretty efficient. Let me know if it works.\r\n\r\n(I'm going to close the issue because it's not a bug, but feel free to add more comments if the solution doesn't work)"
+  , issueCommentId = 220411071
+  }

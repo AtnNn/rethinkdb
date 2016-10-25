@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-18) 19 : 03 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/254600558"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5665#issuecomment-254600558"
+  , issueCommentCreatedAt = 2016 (-10) (-18) 18 : 41 : 42 UTC
+  , issueCommentBody =
+      "JM2C, I would probably look into going in a different direction by changing the default Java serializer to Jackson/Gson going forward. See: https://github.com/rethinkdb/rethinkdb/issues/5128\r\n\r\nIt appears there is a lot of special case type handling in this PR. I think, all this special-case code could be better handled by a more convenient JSON serializer for Java. Having a look at [`net/Util.java`](https://github.com/sjitech/rethinkdb/blob/ad253bc42a9799e4f7f821e36902d04ac2015684/drivers/java/src/main/java/com/rethinkdb/net/Util.java) there's a lot of code just for trying to select the right constructor for a POJO and plucking off special casts to/from Java native types.\r\n\r\nIMHO, the problem, as I see it, with handling explicit special-case type conversion inside the driver like this is that it leads to a very rigid design. Someone will always have some reason to change the way the driver is handling a specific type, for whatever reason, and then we've gifted ourselves a maintenance headache trying to handle everyone's special case.\r\n\r\nI think, the better approach toward maintainability is to push all this special-case type conversion outside the purvue of the driver. But how does one achieve such greatness? Well... if Jackson/Gson work anything like `Newtonsoft` in C# land there are serialization/deserialization extension APIs that can be implemented to output/read low-level wire JSON. A proper JSON implementation using *something* like [Gson's `TypeAdapter`s](http://static.javadoc.io/com.google.code.gson/gson/2.7/com/google/gson/TypeAdapter.html) could enable native Java type to `$reql_type$` pseudo type conversions without having to go crazy with `if-else` checks everywhere inside the driver. And, developer issues that require special case-conversions, for whatever reason, now become issues of customizing the Jackson/Gson serializer and not issues at odds with the **RethinkDB Java** driver itself.\r\n\r\nAt least, this was the approach I took with POCOs in the `bchavez/C#` driver and it's been working out pretty well. Relatively low bug count and pretty much breeze to maintain (*alright, probably jinxed it now*). Type conversions, enums and all that get handled by `Newtonsoft`; so storing enums as `string` or `int` representations wit annotation/attributes, it don't matter, err'body doing their own thing with da JSON and types. Whatever people want.\r\n\r\n:fallen_leaf: :leaves: [**Distance - Falling (ft Alys Be)**](https://www.youtube.com/watch?v=WIfwIv4wNCE)"
+  , issueCommentId = 254600558
+  }

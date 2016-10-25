@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 01 : 39 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127814836"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-127814836"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 01 : 39 : 33 UTC
+  , issueCommentBody =
+      "The advantage of `[branch_id, counter]` would be that for squashing changefeeds where 5 changes to the same document are squashed together we could just take the latest stamp and count that as the stamp for the squashed change.  The disadvantage of that is that the client would have to know how the branches relate to each other in order to figure out whether `[A, 1]` is before or after `[B, 1]` (e.g. they issue a write on a document and get back a stamp `[A, 1]`, then they receive a change for that document with stamp `[B, 1]`, and they don't know whether that squashed change includes their write or not unless they know how branch `A` relates to branch `B`).\r\n\r\nI think maybe the way we should do this is a map from machine IDs to timestamps.  The stamp for a single unsquashed change would just be the machine ID and the timestamp, the stamp for a squashed change that includes two changes from the same machine would be that machine's ID and the latest timestamp, and the stamp for a squashed change that includes two changes from two different machines would be a map with two entries.  (I think machine IDs are probably better than connection IDs.)"
+  , issueCommentId = 127814836
+  }

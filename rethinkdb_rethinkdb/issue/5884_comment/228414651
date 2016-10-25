@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-24) 17 : 52 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/228414651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5884#issuecomment-228414651"
+  , issueCommentCreatedAt = 2016 (-06) (-24) 17 : 52 : 51 UTC
+  , issueCommentBody =
+      "Hi @Calavoow , the first version doesn't work because the object syntax that you are relying on for specifying the options only exists on the JavaScript client.\r\nInternally (server-side), each optional argument is its own independent argument, and there is no single object to specify all the options. The JavaScript client is what \"unpacks\" the option object, and hence this doesn't work for server-side functions.\r\n\r\nYour second attempt of specifying the primaryKey as a separate option works in principle, but I think our driver isn't smart enough to handle `r.row` inside an optional argument.\r\n\r\nThis should work:\r\n```js\r\nr.expr([\r\n  {name:'test1', primarykey: 'id'},\r\n  {name: 'test2', primarykey: 'id'}\r\n]).forEach(function(x) {\r\n  return r.db('test').tableCreate(x('name'), {primaryKey: x('primarykey')});\r\n})\r\n```\r\n"
+  , issueCommentId = 228414651
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-24) 01 : 29 : 56 UTC
+  , issueUpdatedAt = 2014 (-06) (-30) 23 : 25 : 32 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2585/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2585"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2585
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6069898
+        , simpleUserLogin = N "jjonescs"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6069898?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jjonescs"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Inserting a 4MB document takes 40-60s"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2585"
+  , issueCreatedAt = 2014 (-06) (-22) 00 : 37 : 43 UTC
+  , issueBody =
+      Just
+        "I've been following RethinkDB for several months and finally got around to testing it with some data from a project I'm working on. To my surprise, inserts consistently take between 40-60s (min: 14ms for new doc, max 1m+ for 5MB doc) for documents larger than 3MB.\r\n\r\nMichael Lucy requested that I test this with another DB and open an issue if there was a major difference. MongoDB consistently takes between 200-300ms (min: 66ms with new doc, max: 1.2s with 4MB doc) to insert equivalent documents on the same hardware.\r\n\r\nServer:\r\nVirtualBox Ubuntu Server x64\r\nIntel i7 2.6GHz (full 8 \"cores\" granted to VM)\r\n7GB RAM\r\n20GB preallocated disk image backed by an SSD\r\n\r\nDriver:\r\nhttps://github.com/dancannon/gorethink\r\n\r\nCode:\r\n```go\r\nfunc saveGame(game *rdbs.Game) {\r\n\tresp, err := r.Table(\"games\").Insert(game).RunWrite(conn)\r\n\tif err != nil {\r\n\t\tfmt.Println(err)\r\n\t}\r\n\r\n\tfmt.Printf(\"%+v\\n\", resp)\r\n}\r\n```\r\n\r\nRethinkDB Versions:\r\nTested on both 1.12 and 1.13 (same results).\r\n\r\nRethinkDB Indexes:\r\nOnly primary key \"key\". No secondary indexes.\r\n\r\nCharacteristic Document (~5MB):\r\nhttps://github.com/jjonescs/example-documents/blob/master/game.txt\r\n\r\nThanks,\r\nJosh\r\n"
+  , issueState = "closed"
+  , issueId = Id 36234946
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 73
+          , milestoneClosedIssues = 21
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.13.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/73"
+          , milestoneCreatedAt = 2014 (-06) (-25) 21 : 49 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

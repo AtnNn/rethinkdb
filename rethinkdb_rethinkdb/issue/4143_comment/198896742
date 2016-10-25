@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-20) 10 : 58 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 29085
+        , simpleUserLogin = N "sjmueller"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/29085?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sjmueller"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/198896742"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4143#issuecomment-198896742"
+  , issueCommentCreatedAt = 2016 (-03) (-20) 10 : 58 : 51 UTC
+  , issueCommentBody =
+      "@danielmewes @thelinuxlich here's a scenario for using `r.args` with `between`:\r\n```\r\nr.table('books')\r\n  .orderBy({ index: 'compound_author_created' })\r\n  .between(\r\n    r.args(\r\n      r.table('author_books')\r\n        .getAll('4822572b-2f9c-41fe-a023-d126623dd28d', { index: 'author_id' })('author_id')\r\n        .do(ids => [[ids.min(), r.minval], [ids.max(), r.maxval]])\r\n    ),\r\n    { index: 'compound_author_created' }\r\n  );\r\n```\r\nThere are certain complex queries can only be accomplished in rethink using orderBy+between with a compound index.  What if you don't know the min/max of your ids, and need to calculate left and right args for `between`?  Currently an exception is thrown:\r\n```\r\nExpected 3 arguments but found 4\r\n```"
+  , issueCommentId = 198896742
+  }

@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-24) 06 : 17 : 16 UTC
+  , issueUpdatedAt = 2013 (-05) (-24) 12 : 50 : 38 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/898/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/898"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 898
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Guarantee failed: [!_point_replaces.empty()]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/898"
+  , issueCreatedAt = 2013 (-05) (-23) 16 : 59 : 43 UTC
+  , issueBody =
+      Just
+        "I feel like I've seen this bug in one of the issues, but I cannot find it at the moment:\r\n\r\n```\r\ninfo: Running rethinkdb 1.5.1-0ubuntu1~lucid (GCC 4.4.3)...\r\ninfo: Running on Linux 2.6.32-46-generic x86_64\r\ninfo: Loading data from directory /tmp/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all' command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.5.1-0ubuntu1~lucid (GCC 4.4.3)\r\nerror: Error in ./src/rdb_protocol/protocol.hpp at line 511:\r\nerror: Guarantee failed: [!_point_replaces.empty()] \r\nerror: Backtrace:\r\nerror: Thu May 23 18:56:00 2013\r\n       \r\n       1: rethinkdb() [0x5803af]\r\n       2: rethinkdb() [0x581714]\r\n       3: rethinkdb() [0x62b11f]\r\n       4: rethinkdb() [0x4a8252]\r\n       5: rethinkdb() [0x4aa3a2]\r\n       6: rethinkdb() [0x572709]\r\n       7: rethinkdb() [0x519975]\r\n       8: rethinkdb() [0x51b412]\r\n       9: rethinkdb() [0x51cd3e]\r\n       10: rethinkdb() [0x51e205]\r\n       11: rethinkdb() [0x51f1e5]\r\n       12: rethinkdb() [0x520599]\r\n       13: rethinkdb() [0x51de4d]\r\n       14: rethinkdb() [0x60bdfa]\r\n       15: rethinkdb() [0x61eafc]\r\nerror: Exiting.\r\nTrace/breakpoint trap\r\n```\r\n\r\nThis happens when I insert a document with 70 fields of 1KB each:\r\n```\r\n$doc = array();\r\nfor ($i = 0; $i < 70; ++$i) $doc[$i] = str_repeat(\"f\", 1024);\r\nr\\table('t1')->insert($doc)->run($conn);\r\n```\r\n\r\nTable t1 is just an empty table."
+  , issueState = "closed"
+  , issueId = Id 14684677
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

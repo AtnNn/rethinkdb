@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 31 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5079/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5079"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      ]
+  , issueNumber = 5079
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 64992
+        , simpleUserLogin = N "jab"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/64992?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jab"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rethinkdb.ast.RqlQuery in (nonempty container) is always True"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5079"
+  , issueCreatedAt = 2015 (-11) (-12) 14 : 34 : 42 UTC
+  , issueBody =
+      Just
+        "```\r\nPython 3.5.0 (default, Sep 14 2015, 00:19:46)\r\n[GCC 4.2.1 Compatible Apple LLVM 6.1.0 (clang-602.0.53)] on darwin\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import rethinkdb as r\r\n>>> r.uuid() in ('foo', 'bar', 'baz')\r\nTrue\r\n>>> r.now() in [False]\r\nTrue\r\n```\r\nWithout looking at the code I'm guessing this is because RqlQuery overrides `__eq__` to return some ast syntax. Python calls `__eq__` against the first member of the container, and when it gets a truthy value, it considers them equivalent and so the containment check returns True.\r\n\r\nIdeally we could get this to behave as expected without messing up the ast magic."
+  , issueState = "open"
+  , issueId = Id 116559674
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

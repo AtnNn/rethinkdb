@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-15) 23 : 30 : 26 UTC
+  , issueUpdatedAt = 2013 (-08) (-26) 20 : 51 : 19 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/153/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/153"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 153
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Crash in nightly tests, coroutine switch in exception handler"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/153"
+  , issueCreatedAt = 2012 (-12) (-12) 05 : 18 : 39 UTC
+  , issueBody =
+      Just
+        "There is a call to `pipeliner_acq_t::begin_write()` in an exception handler in `memcached/parser.cc:693`, which may wait and trigger the assert at `arch/runtime/context_switching.cc:161`:\r\n\r\n```c\r\nrassert(!abi::__cxa_current_exception_type(), \"It's not safe to switch \"\r\n        \"coroutine stacks in the catch-clause of an exception handler.\");\r\n```\r\n\r\nThis is in the memcached stuff, so it's not _as_ important, but I think we should still audit all places we catch to make sure this isn't done elsewhere.  There's only about 250 catch statements, so it should be just a day's work or so."
+  , issueState = "closed"
+  , issueId = Id 9206241
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 49
+          , milestoneClosedIssues = 17
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.9"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/49"
+          , milestoneCreatedAt = 2013 (-08) (-26) 20 : 51 : 19 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-05) 00 : 42 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1222375
+        , simpleUserLogin = N "nickcarenza"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1222375?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nickcarenza"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/153916888"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5038#issuecomment-153916888"
+  , issueCommentCreatedAt = 2015 (-11) (-05) 00 : 42 : 43 UTC
+  , issueCommentBody =
+      "Sure thing and thanks for the quick response!\r\n\r\nFirst of all, my reasons for using rethink are ReQL, the admin ui and easy clustering.\r\n\r\nI have a distributed group of workers processing messages coming from another pub sub system and I am storing the messages i was unable to process for whatever reason in rethink.\r\n\r\n```\r\n{\r\n    \"Created\": Wed Nov 04 2015 11:18:45 GMT+00:00 ,\r\n    \"Errors\": [\r\n        \"Type: required, Description: brand_slug is required, Field: brand_slug\"\r\n    ] ,\r\n    \"Message\": \"{...}\" ,\r\n    \"Process\":  \"event-writer\" ,\r\n    \"Reason\":  \"Invalid event\" ,\r\n    \"Subject\":  \"session:worker\" ,\r\n    \"id\":  \"010a2b20-a7d9-490a-938d-d63effa7764d\"\r\n}\r\n```\r\n\r\nI manually determine what's wrong with them and use the data explorer to manipulate the Message and write it to a new table with `r.json`.\r\n\r\n```\r\n# Move objectified json message to staging -- with added field\r\nr.db('deadletter').table('messages').filter({\r\n    Subject:\"session:worker\",\r\n    Process:\"event-writer\",\r\n    Errors:[\"Type: required, Description: brand_slug is required, Field: brand_slug\"]\r\n}).forEach(function(row){\r\n  return r.db('deadletter').table('staging').insert(\r\n    r.json(row('Message'))\r\n      .merge({brand_slug:'BrandSlug'})\r\n    );\r\n})\r\n```\r\n\r\nAt first I was going to make a script to process them from there but then I thought I would try the changes api. I just need each cleaned message to be processed only once. To accomplish this, I am attempting to update the document with some meta data and checking for that in the other worker processes. With squash, some processes shouldn't even have to attempt the update so that is nice."
+  , issueCommentId = 153916888
+  }

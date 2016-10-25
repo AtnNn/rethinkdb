@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-01) 03 : 00 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/222880176"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5813#issuecomment-222880176"
+  , issueCommentCreatedAt = 2016 (-06) (-01) 03 : 00 : 34 UTC
+  , issueCommentBody =
+      "> A modifier function has to be deterministic.\r\n\r\nTruly deterministic or per-node deterministic?  (I.e. can you use geo functions?)\r\n\r\nAlso, are we making an explicit exception for the current time?  If we're OK making an exception for the current time, why do we need the determinism constraint at all?\r\n\r\n> `setModifier` and `getModifier`\r\n\r\nThe modifiers should presumably also live in an artificial table somewhere, so that people can e.g. subscribe to changes on them.  Maybe on `table_config` alongside the indexes?\r\n\r\nAlso, do we want to back up and restore modifiers when doing import/export the way we do with indexes?\r\n\r\n> `tbl.setModifier(function(oldVal, newVal)`\r\n\r\nThe signature should maybe be `(id, oldVal, newVal)` for consistency with insert conflict functions.\r\n\r\n> Note that r.now is the deterministic r.now that's filled in when the write query triggering this is compiled, not when the modifier is set. This might require some extra plumbing to work.\r\n\r\nHow are the semantics of `r.now` going to change exactly?  Are we going to move to `r.now` being a non-deterministic term that always evaluates to the current time?  Or is the proposal to special-case it inside of modifier functions?\r\n\r\nI think it would be better if we could keep a consistent meaning for `r.now` everywhere -- it would be extremely confusing if it meant something different in normal functions vs. modifier functions vs. conflict resolution functions vs. secondary index functions vs. etc."
+  , issueCommentId = 222880176
+  }

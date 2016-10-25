@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 19 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4892/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4892"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4892
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 72027
+        , simpleUserLogin = N "jergason"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/72027?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jergason"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "`duration_sec` of queries in jobs table are not accurate"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4892"
+  , issueCreatedAt = 2015 (-09) (-28) 19 : 51 : 02 UTC
+  , issueBody =
+      Just
+        "I'm trying to build a slow query logger by listening to the `jobs` table. Here is my query:\r\n\r\n```javascript\r\nr.db(\"rethinkdb\").table(\"jobs\").filter(function(job) {\r\n  return job('info')('query').match('r\\\\.db\\\\(\"rethinkdb\"\\\\)\\\\n \\\\.table\\\\(\"jobs\"\\\\)').not()\r\n    .and(job('duration_sec').gt(0.3))\r\n    .and(job('type').eq('query'))\r\n}).changes()\r\n```\r\n\r\nI have this open in the data explorer in one tab.\r\n\r\nI then run this query in another tab on a table with 1 million documents (just need a query that takes long enough to show up in the jobs table for a bit, the actual query isn't important).\r\n\r\n```JavaScript\r\nr.db(\"benchmark\").table(\"people\").filter({department: 'Books'}).count()\r\n```\r\n\r\nThis query produces the following output:\r\n\r\n![screen shot 2015-09-28 at 12 57 18 pm](https://cloud.githubusercontent.com/assets/72027/10145460/79fd6a0a-65e0-11e5-8c12-d2cc99c409ba.png)\r\n\r\nNotice how the query duration is 2.14 seconds.\r\n\r\nHowever, the `jobs` table shows the wrong duration for the query. Here is the output of the changefeed:\r\n\r\n![screen shot 2015-09-28 at 12 59 25 pm](https://cloud.githubusercontent.com/assets/72027/10145513/c82a678c-65e0-11e5-884d-1a732223aa79.png)\r\n\r\nNotice how the `duration_sec` field is around 0.6 seconds, and is not updated before the job is removed from the table.\r\n\r\nI would expect the duration to be updated at least once before the job completes. This would make it easier to determine how long the query actually took, which is important for building admin tools on top of this table.\r\n\r\nI'm running RethinkDB 2.1.4 on OS X 10.10.5.\r\n\r\nThis is less of an issue the longer the query runs, since it seems like it is only ever a second or two behind, but still it would be great if the `duration_sec` field were more accurate."
+  , issueState = "open"
+  , issueId = Id 108733635
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

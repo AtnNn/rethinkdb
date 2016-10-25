@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-04) (-21) 20 : 21 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3427/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3427"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3427
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Add sync_progress field to table_status for overall backfill status"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3427"
+  , issueCreatedAt = 2014 (-12) (-09) 23 : 50 : 54 UTC
+  , issueBody =
+      Just
+        "@VeXocide is adding backfills with a `progress` property to the `jobs` table. The way they will be represented there is that we will have one document per triplet of backfill sender / backfill receiver / table. The `progress` will accordingly be per such triplet.\r\n\r\nFor the web UI on the other hand we want to know how far the table overall (as in all of its replicas) are synced up. Outside the web UI this information can be interesting for users as well.\r\n\r\nThis is the proposal:\r\n* Add a `sync_progress` field to the entries in `table_status`\r\n* Its value is as follows:\r\n  * `null` if there is no current backfill (see below)\r\n  * a number between `0` and `1`. We assign a weight of `1/n` to each replica, where `n` is the total number of replicas (in the sense of replication factor times sharding factor). A replica that is up to date contributes `1/n` to the total vale. A replica that is backfilling (from one or possibly multiple sources) contributes `backfill_progress / n`.\r\n  * replicas that are down should either be counted towards `n` with 0 progress assigned, or not (see below)\r\n\r\nAn alternative to the first property \"`null` if there is no current backfill\" is \"`null` if all replicas are up and up to date\". This makes a difference if some servers are down.\r\nFrom the web UI perspective I think it would be nicer if we only showed a status bar if backfills were actually happening, not generally if any replica is down. We could of course get that information from the `jobs` table too if necessary.\r\nThis also influences what we should do about property 3.\r\n\r\nNote that in any case the progress would not generally start at 0. If some replicas have never gone out of sync, it will start somewhere in the middle. I think this is fine, though we might be able to come up with a name for the field that better conveys that property.\r\n\r\nImplementation-wise `sync_progress` would presumably piggy-back on the `jobs` table infrastructure for collecting backfill progresses.\r\n\r\nRelated discussion: https://github.com/rethinkdb/rethinkdb/issues/3115#issuecomment-66348355"
+  , issueState = "open"
+  , issueId = Id 51499434
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

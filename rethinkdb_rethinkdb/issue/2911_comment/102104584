@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-14) 17 : 08 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 725218
+        , simpleUserLogin = N "eliaslevy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/725218?v=3"
+        , simpleUserUrl = "https://api.github.com/users/eliaslevy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/102104584"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2911#issuecomment-102104584"
+  , issueCommentCreatedAt = 2015 (-05) (-14) 17 : 07 : 53 UTC
+  , issueCommentBody =
+      "The Connection class in the latest Ruby driver, 2.0.0.1, appears largely thread-safe.  The driver spawns a thread to read from the socket, callers a blocked to wait on responses using conditional variables, and token allocation is protected by a monitor.  The latest protocol supports multiple in-flight queries, so this should be feasible.\r\n\r\nThe only problem I find is that  [`#send`](https://github.com/rethinkdb/rethinkdb/blob/v2.0.0-1/drivers/ruby/lib/net.rb#L559) is not thread-safe.  Its not protected by a monitor, and since multiple calls to `syswrites` may be required to send a packet, you can end up with the data of multiple packets interleaved.\r\n\r\nA test script using multiple threads and a single connection to insert into a table quickly crashes because `#send` is not thread-safe.  Wrapping `#send` on a monitor fixes the problem and I can insert into a table without any problems.  See the test program at https://gist.github.com/eliaslevy/fad450e91d7d5e769f52.\r\n\r\n"
+  , issueCommentId = 102104584
+  }

@@ -1,0 +1,41 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-19) 00 : 20 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5962/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5962"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5962
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 16073282
+        , simpleUserLogin = N "jlove-nz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/16073282?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jlove-nz"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Expected type DATUM but found DATABASE after use of conn.use(\"database_name\")"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5962"
+  , issueCreatedAt = 2016 (-07) (-16) 11 : 26 : 50 UTC
+  , issueBody =
+      Just
+        "Using Groovy, I have a function that performs the following steps (pseudocode):\r\n\r\ndef conn = r.connection().connect()\r\ndef validate (Connection conn) {\r\n  1 check rethink database list\r\n  2 if <my database> isn't on the list, create it.\r\n  3 conn.use (\"my database\")\r\n  4 check table list\r\n  5 if \"table a\" isn't on the list, create it.\r\n}\r\n\r\nHowever, at step 4, where it uses:\r\n\r\nr.tableList().run (conn)\r\n\r\nI get in my logs:\r\n\r\n23:19:16.939 [vert.x-eventloop-thread-1] DEBUG com.rethinkdb.ast.Query - JSON Send: Token: 4 [1,[62,[]],{\"db\":[14,[[14,[\"mydb\"]]]],\"read_mode\":\"majority\",\"durability\":\"hard\"}]\r\n23:19:16.940 [pool-1-thread-1] DEBUG com.rethinkdb.ast.Query - JSON Recv: Token: 4 {\"t\":18,\"e\":3000000,\"r\":[\"Expected type DATUM but found DATABASE:\\ndb(\\\"mydb\\\")\"],\"b\":[]}\r\n\r\nIt would appear that somehow the 'use' command is causing the database buffer to be set incorrectly.\r\nWithout the conn.use(\"my database\"), the table creation works, however it creates the table against the test database instead of \"my database\" (which is expected behavour).\r\n"
+  , issueState = "open"
+  , issueId = Id 165925288
+  , issueComments = 5
+  , issueMilestone = Nothing
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-09) 21 : 26 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139050498"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4808#issuecomment-139050498"
+  , issueCommentCreatedAt = 2015 (-09) (-09) 21 : 26 : 07 UTC
+  , issueCommentBody =
+      "Thanks for the screenshots @bgardner87, that's a great documentation of what's going on throughout the process. :-)\r\n\r\nSo it seems like my write theory doesn't apply here, since the writes were only those that came from the secondary index construction itself.\r\n\r\nThe maximum memory usage appears to be 13.0 GB on each server, which is 3 GB above the 10 GB array size limit. This is certainly more than I would expect, and it's also concerning that it appears to grow further when the table is not sharded.\r\n\r\nI wonder if there might be a problem due to which the snapshot used by the secondary index construction somehow keeps snapshot metadata for the very index that's being constructed around. So it would basically snapshot the very data it's writing (except that since the (temporary) index didn't exist before, it would only keep some metadata and no actual data blocks).\r\nI'll check if that could be the case.\r\nIf it is, there's probably an easy fix in that we could snapshot only the primary branch of the btree, and not the secondary index trees.\r\n\r\n@bgardner87 I'm going to see if I can reproduce this with an artificial test data set first. If I'm not successful, I might email you later about the NDA + data upload. Thanks for your help so far in tracking this down!"
+  , issueCommentId = 139050498
+  }

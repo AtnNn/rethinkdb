@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-17) 20 : 41 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 19826619
+        , simpleUserLogin = N "ember-graab"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/19826619?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ember-graab"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/226876403"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5840#issuecomment-226876403"
+  , issueCommentCreatedAt = 2016 (-06) (-17) 20 : 41 : 53 UTC
+  , issueCommentBody =
+      "Hey Daniel, apologies in the delay in getting back to you on this issue. I wound up finally getting a restored cluster from a backup. It required a specific series of steps. I had to ensure that the backfill volume/server doesn't get removed from the cluster prior to terminating the instance for one to make sure that when the volume is restored it sees the data as simply out of date (as opposed to being completely unworkable due to primary replicas being missing). That was the biggest error I was making. On restore, I do the emergency repair to get the data from outdated read-only to current read/write. I then reconfigure the tables to make the backup the primary and dictate replicas out of the backup and the intended future primary replica (currently secondary until restore is complete). I then wait for all replicas to ready. Then reconfigure the backup out of the cluster and then everything's golden.\r\n\r\nI'm going to do some more tests with backfilling in the near future to ensure that I'm able to repeatedly reattach the backfill backup volume/server to get the latest changes and perform a snapshot at regular intervals.\r\n\r\nFrom what you were saying, it sounds like for the restore step, we won't be able to work with an existing/active cluster to essentially rollback in a sense. So we'll just need to restore from scratch. We don't intend to ever need to restore, never have in history, and hopefully if we ever do need to it's rare. So the re-up time for a restore could bite us with server downtime with large data sets, but it shouldn't be frequent.\r\n\r\nThanks for the help!"
+  , issueCommentId = 226876403
+  }

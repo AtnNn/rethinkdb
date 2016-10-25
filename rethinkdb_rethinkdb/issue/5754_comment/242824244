@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-26) 19 : 06 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/242824244"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5754#issuecomment-242824244"
+  , issueCommentCreatedAt = 2016 (-08) (-26) 19 : 06 : 23 UTC
+  , issueCommentBody =
+      "After thinking about this a bit more I think that I was on the wrong track to solve this specific issue, but that they are related. I think that this is what is happening in this case:\r\n\r\n1. In this case there are two versions of OpenSSL installed on the system: Apple's at `/usr/lib/libssl.0.9.dylib` (0.9.8zh) and a user-installed version probably in `/usr/local/lib` (1.0.2h).\r\n2. As of El Capitan Apple's version no longer installs headers, so the only headers on the system belong to the user-installed version.\r\n3. When we go to compile the compiler is checking its normal paths, and so finds the only headers available (1.0.2h)\r\n4. But the system dylib (0.9.8.zh) is on the path before the user-installed version, so it will use that one.\r\n\r\nSo the solution is to add `-L /usr/local/lib/openssl` (or something like that) to `LDFLAGS`. That should cause the linker to do the right thing. Unfortunately, I don't think that there is any way that we can automate that because without real magic (read: heavy, and fragile scripting) there is no way of associating specific headers with a specific library.\r\n\r\nWe can however improve our error detection on this by enhancing the [testing dummy program](https://github.com/rethinkdb/rethinkdb/blob/dbbef604536324d789e4903ecb0f1be68e361f56/configure#L920-L925) in `./configure` to make sure we can both compile and link against the specific things we need from later versions of OpenSSL.\r\n\r\nOver to @VeXocide who has agreed to do that."
+  , issueCommentId = 242824244
+  }

@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Just 2013 (-01) (-10) 01 : 32 : 32 UTC
+  , issueUpdatedAt = 2013 (-12) (-11) 15 : 49 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/209/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/209"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 209
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Use case: conditional upsert"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/209"
+  , issueCreatedAt = 2013 (-01) (-10) 01 : 14 : 44 UTC
+  , issueBody =
+      Just
+        "Here's a question from IRC:\r\n\r\n```\r\npresidentbeef: I want to either insert or update a document...insert if there is no document with the same primary key, update if there is one and the new one is...newer (or some arbitrary value comparison with existing document)\r\npresidentbeef: but I want this to be atomic\r\n```\r\n\r\nSo, we essentially want an atomic conditional upsert here, which should be possible architecturally, but I don't think the language as is supports it. In fact, I'm not sure how to do a simple conditional update. One way is this:\r\n\r\n```\r\ntable.filter(r.row('id').eq(id).and(cond)).update(new_doc)\r\n```\r\n\r\nBut that doesn't allow getting the doc by primary key. We could do `.get` followed by a `.filter`, but I don't think this is currently supported. Finally, a conditional upsert could be done by first inserting a dummy document, and then doing a conditional insert.\r\n\r\nCould people that understand ReQL better chime in (@jdoliner, @mlucy)?"
+  , issueState = "closed"
+  , issueId = Id 9828083
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 08 : 25 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21237542"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1190#issuecomment-21237542"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 08 : 25 : 36 UTC
+  , issueCommentBody =
+      "@jdoliner -- whoops, I guess I didn't quite parse your original comment on `r._` correctly.  Sorry if it felt like I was trying to pigeonhole it as something you weren't suggesting.\r\n\r\nJust to make sure I understand, `r._` would be like `r.row`, except that it always binds to the tightest enclosing term rather than the tightest enclosing term that expects a 1-argument function, and it can bind to any argument of that term depending on its placement?  E.g. if I wrote:\r\n```ruby\r\nr([2]).map(r([true]).contains(r.gt(r._, 1)))\r\n# `r.gt(r._, 1)` returns a function, so `r([true]).contains(r.gt(r._, 1))` returns `false` because `contains` can accept a function and BOOL < NUM, so we have `r([2]).map(false)` which gives `[false]`.\r\nr([2]).map(r([true]).contains(r.gt(r.row, 1)))\r\n# `r.gt(r.row, 1)` returns `true`, so `r([true]).contains(r.gt(r._, 1))` returns `true`, so we get `[true]`.\r\n```\r\n\r\nIs that the semantics you were imagining?\r\n\r\nI'm a little bit confused by `r._0`.  Specifically, let's say you write `seq.map(r.mul(r._0, r._0))`.  That works.  What if you wanted to do `seq.map(r.add(r.mul(r._0, r._0), r._0))` instead?  My current understanding is that that would fail, because `r.mul(r._0, r._0)` returns a function, and add doesn't accept a function.  `seq.map(r.add(r.mul(r.row, r.row), r.row))` would work, though, because the `r.row` binds to the `map`.  Is this correct?\r\n\r\nCould you give me an example use case or two (aside from the filter/update syntax, which I talk about below) where you use `r._` or `r._0` (not `r._1`) somewhere where `r.row` doesn't work?\r\n\r\n---\r\n\r\nI feel like the shortcut syntax for filter/update is sort of a different issue -- the biggest problem there is that we don't  let people store functions in objects.  E.g., even now it might be nice to be able to write `table.update({'counter': lambda x: x+5})`.  If we do let people store functions in objects, then we have to worry about nontermination, because you can pass functions to other functions now.\r\n\r\nIf we do let people store functions in objects, I still like the explicit functions with `r._` in them better than the implicit currying: `table.update({'counter': r._ + 5})`.\r\n\r\n(Also, what's `oid` in the mongo syntax?  A variable?)\r\n\r\n---\r\n\r\n(Also, as an aside, I think I would refer to `r._` as anaphora, since anaphora is just any expression whose reference depends upon another referential element, but the analogy is sort of stretched to begin with.  Arguably both `r.row` and `r._` are actually exaphora, since they refer to something that exists outside the query's text.  But I'm cool if you want to call it something else; what's your preferred language to describe `r._`?)"
+  , issueCommentId = 21237542
+  }

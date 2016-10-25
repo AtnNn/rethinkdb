@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-24) 23 : 04 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/214060362"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5673#issuecomment-214060362"
+  , issueCommentCreatedAt = 2016 (-04) (-24) 23 : 04 : 07 UTC
+  , issueCommentBody =
+      "I think it's obviously good to support queries of the form `table.reduce(r.add)`.  It looks like this patch is special-casing things just in the JS driver, though, which comes with a few problems:\r\n\r\n* We'd have to re-implement this logic in every driver.\r\n* We have to update this logic every time we add a new term that can take functions.\r\n* The driver has to know a lot more about the semantics of various queries -- that `reduce` takes a two-argument function, for example.  This makes the driver less dumb, and requires more coordination when we change the semantics of things on the server.\r\n\r\n---\r\n\r\nI think maybe what we should do instead is make the server responsible for this.\r\n\r\nWe can add a new optarg `variadic` to the `FUNC` term to support variadic functions (with the semantics that if it's set to `true`, the last argument of the function is bound to an array of the remaining arguments rather than to a single argument).  Then the drivers can just have a generic rule that they rewrite `r.add` to `[FUNC, [[gensym], [ADD, [[ARGS, [gensym]]]]], {variadic: true}]` (and the same for any other ReQL command they encounter that isn't called on anything)."
+  , issueCommentId = 214060362
+  }

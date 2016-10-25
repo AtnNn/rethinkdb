@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-30) 22 : 32 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1686193
+        , simpleUserLogin = N "daveisfera"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1686193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/daveisfera"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243602743"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6069#issuecomment-243602743"
+  , issueCommentCreatedAt = 2016 (-08) (-30) 22 : 32 : 13 UTC
+  , issueCommentBody =
+      "I did some digging in the Python driver after creating this issue and the actual culprit is the `ISO8601()` function. Python datetime is converted by passing the output of `.isoformat()` into `ISO8601()` and that's where the truncation happens.\r\nHere's an example show the issue without the Python driver:\r\n`r.expr(r.ISO8601('2016-01-01T00:00:00.000999+00'))`\r\n`ISO8601()` should be fixed, but it would likely be more efficient to have the Python driver call `r.time()` so that the conversion to/from a string representation doesn't need to happen."
+  , issueCommentId = 243602743
+  }

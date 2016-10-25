@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-16) 23 : 19 : 00 UTC
+  , issueUpdatedAt = 2013 (-04) (-16) 23 : 19 : 00 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/645/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/645"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 645
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 43867
+          , simpleUserLogin = N "jdoliner"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/43867?v=3"
+          , simpleUserUrl = "https://api.github.com/users/jdoliner"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Server crash when updating replicas / acks."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/645"
+  , issueCreatedAt = 2013 (-04) (-11) 01 : 16 : 21 UTC
+  , issueBody =
+      Just
+        "We get a server crash when updating replicas / acks.\r\n\r\nSee this comment the issue was reported in: https://github.com/rethinkdb/rethinkdb/issues/207#issuecomment-16210853\r\n\r\nIt can be reproduced likewise in branch next, for example, producing this error:\r\n\r\n```\r\ninfo: Server ready\r\nVersion: rethinkdb 1.4.3-519-gca473c (debug) (CLANG 4.0 ((tags/Apple/clang-421.0.57)))\r\nerror: Error in src/perfmon/core.cc at line 265:\r\nerror: Assertion failed: [map->count(name) == 0] Duplicate perfmons for: cache\r\nerror: Backtrace:\r\nerror: Wed Apr 10 18:09:18 2013\r\nerror: Exiting.\r\nTrace/BPT trap: 5\r\n```\r\n\r\nI achieved this after changing acks and replication back and forth on a table on a two-machine cluster.  I also decided to do 10000 inserts at the same time, and I don't know if that affected things.   Here's the console log of the surviving machine:\r\n\r\n```\r\ninfo: Server ready\r\ninfo: Applying data {\"rdb_namespaces\":{\"new\":{\"name\":\"foo\",\"primary_uuid\":\"00000000-0000-0000-0000-000000000000\",\"database\":\"5c4ed97d-9167-4cea-8707-06efe743987e\",\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Connected to server \"Faceless\" 701fdf87-0397-40e2-94ac-0d9014be0d7b\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":0}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":0},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Disconnected from server \"Faceless\" 701fdf87-0397-40e2-94ac-0d9014be0d7b\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":2}}}}\r\ninfo: Applying data {\"rdb_namespaces\":{\"a1e48059-b955-4f85-99f9-ec695aa803bb\":{\"replica_affinities\":{\"00000000-0000-0000-0000-000000000000\":1},\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":1}}}}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 13048458
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

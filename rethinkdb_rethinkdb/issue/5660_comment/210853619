@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-16) 16 : 48 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 3498024
+        , simpleUserLogin = N "mschurr"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3498024?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mschurr"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/210853619"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5660#issuecomment-210853619"
+  , issueCommentCreatedAt = 2016 (-04) (-16) 16 : 42 : 59 UTC
+  , issueCommentBody =
+      "Hmm. I think you're right. It seems possible for a RuntimeException to be thrown there that doesn't get caught by the catch block (since ReqlError <: RuntimeException), and that is what it looks like gets thrown when the socket reaches EOF. \r\n\r\nI believe in this case the error will get swallowed; the `ExecutorService::submit` returns a future. The swallowed exception, in this case, will be re-thrown as a `ConcurrentExecutionException` with a `getCause()` of `ReqlError` when the future is waited upon - but your code isn't waiting on the future anywhere, so the error is essentially silent.\r\n\r\nThe simplest fix, then, would be to change that catch block to catch `Exception e` like you said.\r\n\r\nI don't have everything set up to build the driver right now, but I think we've isolated the problem. It may also be worth taking a second look through the Java driver code to make sure this isn't happening anywhere else that you use `ExecutorService`, either.\r\n\r\n"
+  , issueCommentId = 210853619
+  }

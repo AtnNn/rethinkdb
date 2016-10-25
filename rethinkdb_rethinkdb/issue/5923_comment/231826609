@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-11) 18 : 43 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/231826609"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5923#issuecomment-231826609"
+  , issueCommentCreatedAt = 2016 (-07) (-11) 18 : 43 : 33 UTC
+  , issueCommentBody =
+      "We'll need to investigate this.\r\n\r\nI suspect that it's some interaction with the garbage collector and the particular write load that is generated when adding an additional replica for a table with an index.\r\n@bsharpe If you experience this again, could you take a look at the entry for the table+server pair in `r.db('rethinkdb').table('stats')`? It should have a `storage_engine` field, with details on the current amount of garbage in the file among some other numbers. I wonder what those numbers are when seeing the disk size bloat.\r\n\r\nThis *could* have to do with https://github.com/rethinkdb/rethinkdb/issues/4730. Normally there are provisions in place that make sure that index construction and backfilling data from another node don't run at the same time, because that can reduce the efficiency of both. However there has been some indication that this doesn't currently work as expected."
+  , issueCommentId = 231826609
+  }

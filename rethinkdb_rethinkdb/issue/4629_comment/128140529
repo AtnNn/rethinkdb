@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 20 : 35 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128140529"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128140529"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 20 : 35 : 58 UTC
+  , issueCommentBody =
+      "@Slava What I meant by that was that the assigned \"write IDs\" are monotonically increasing gor any given document in the table, but not necessarily across documents.\r\nSay for example we have a squashing changefeed on the `test` table: `r.table('test').changes({squash: true})`, and the table has two documents `{id: \"a\", val: 1}, {id: \"b\", val: 2}`. Now the application does two writes that update document `\"a\"`. Let's say those get the write IDs `a100` and `a105` respectively. Now once you see a change with ID `a105`, you will know that all writes to `\"a\"` with smaller write IDs will be reflected in that, in this example `a100` will be in there as well.\r\nHowever if you see a change `b200`, that does not mean that `a100` and `a105` have already been reflected on the changefeed. (However the writes `b100`, ..., `b199` would all be guaranteed to be reflected.)\r\nI hope that makes sense. Basically the ordering of IDs would only be guaranteed for an individual document, but not across the whole table.\r\n\r\n\r\nThat being said, the primary key criteria might not work too well with squashing `orderBy.limit` changefeeds, because I believe those can squash changes involving multiple different primary keys. So in that case the ID for a squashed change wouldn't be in a total ordering with respect to a set of writes. It might be necessary to not use squashing in that case."
+  , issueCommentId = 128140529
+  }

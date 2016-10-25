@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-28) 17 : 58 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4531/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4531"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4531
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5355453
+        , simpleUserLogin = N "huttj"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5355453?v=3"
+        , simpleUserUrl = "https://api.github.com/users/huttj"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Dramatically slower union performance with map vs merge (queries and changefeeds)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4531"
+  , issueCreatedAt = 2015 (-07) (-13) 16 : 18 : 54 UTC
+  , issueBody =
+      Just
+        "I wanted to combine the result of querying three tables into one stream, so I used a union and mapped each result (to add a type field). I had a function to generate the query; here is what it looked like:\r\n\r\n\tfunction userQuery(userId, limit) {\r\n\t\t\r\n\t\tvar predictionQuery    = r.db('demomodel').table('prediction').getAll(userId, {index: 'uid'});\r\n\t\tvar featuresQuery      = r.db('demomodel').table('features').getAll(userId, {index: 'uid'});\r\n\t\tvar rawDataSensorQuery = r.db('demomodel').table('rawdata_sensor').getAll(userId, {index: 'uid'});\r\n\r\n\t\tif (limit) {\r\n\t\t\tlog(\"beginning userQuery for user \" + userId + \" with limit of \" + limit);\r\n\t\t\tpredictionQuery = predictionQuery.limit(limit);\r\n\t\t\tfeaturesQuery = featuresQuery.limit(limit);\r\n\t\t\trawDataSensorQuery = rawDataSensorQuery.limit(limit);\r\n\t\t} else {\r\n\t\t\tlog(\"no limit userQuery for user \" + userId);\r\n\t\t}\r\n\r\n\t\treturn predictionQuery.map(as('prediction'))\r\n\t\t\t.union(featuresQuery.map(as('features')))\r\n\t\t\t.union(rawDataSensorQuery.map(as('rawdata_sensor')));\r\n\r\n\t\tfunction as(s) {\r\n\t\t\treturn function(n) {\r\n\t\t\t\treturn {\r\n\t\t\t\t\ttype: s,\r\n\t\t\t\t\tdata: n\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n\r\nThis would work fine as an individual query, even when I had multiple clients triggering it. The second I created a changefeed with it, though, the queries would slow down dramatically.\r\n\r\nWhen I changed the query to use `merge()` instead, the performance became much, much better:\r\n\r\n    function userQuery(userId, limit) {\r\n\r\n        var predictionQuery    = r.db('demomodel').table('prediction').filter({uid: userId});\r\n        var featuresQuery      = r.db('demomodel').table('features').filter({uid: userId});\r\n        var rawDataSensorQuery = r.db('demomodel').table('rawdata_sensor').filter({uid: userId});\r\n\r\n        if (limit) {\r\n            console.log(\"beginning userQuery for user \" + userId + \" with limit of \" + limit);\r\n            predictionQuery = predictionQuery.limit(limit);\r\n            featuresQuery = featuresQuery.limit(limit);\r\n            rawDataSensorQuery = rawDataSensorQuery.limit(limit);\r\n        } else {\r\n            console.log(\"no limit userQuery for user \" + userId);\r\n        }\r\n\r\n        predictionQuery = predictionQuery.merge({ type: 'prediction' });\r\n        featuresQuery = featuresQuery.merge({ type: 'features' });\r\n        rawDataSensorQuery = rawDataSensorQuery.merge({ type: 'rawdata_sensor'});\r\n\r\n        return predictionQuery\r\n            .union(featuresQuery)\r\n            .union(rawDataSensorQuery);\r\n    }\r\n\r\nThat runs as expected: multiple clients, changefeeds, queries -- the whole lot.\r\n\r\nAny ideas why `map()` would handle so much worse than `merge()` in this case? Is it a bug, or just an underlying limitation based on the way `map()` works?"
+  , issueState = "open"
+  , issueId = Id 94758704
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

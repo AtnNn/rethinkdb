@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2013 (-03) (-29) 19 : 55 : 10 UTC
+  , issueUpdatedAt = 2013 (-03) (-29) 20 : 24 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/557/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/557"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 557
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91093
+        , simpleUserLogin = N "mfenniak"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91093?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mfenniak"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Segmentation fault in RethinkDB 1.4.1 w/ .orderBy(\"id\").skip(1)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/557"
+  , issueCreatedAt = 2013 (-03) (-29) 19 : 47 : 40 UTC
+  , issueBody =
+      Just
+        "I've encountered a segfault in RethinkDB 1.4.1 (Linux/x86-64) when combining orderBy and skip operations.  Here are the steps to reproduce using the Data Explorer UI:\r\n\r\n```\r\nr.dbCreate(\"test\")\r\n```\r\n```\r\nr.db(\"test\").tableCreate(\"table\")\r\n```\r\n```\r\nr.db(\"test\").table(\"table\").insert([\r\n{\"name\": \"Jack Black\"},\r\n{\"name\": \"Jim Brown\"}\r\n])\r\n```\r\n\r\nAfter this setup, the following query causes the application crash:\r\n\r\n`r.db(\"test\").table(\"table\").orderBy(\"id\").skip(1)`\r\n\r\nHere's the output of the rethinkdb process:\r\n\r\n```\r\ninfo: Running rethinkdb 1.4.1-0ubuntu1~quantal (GCC 4.7.2)...\r\ninfo: Running on Linux 3.7.0-7-generic x86_64\r\ninfo: Loading data from directory rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all' command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.4.1-0ubuntu1~quantal (GCC 4.7.2)\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 319:\r\nerror: Segmentation fault from reading the address 0x64bcff0.\r\nerror: Backtrace:\r\nerror: Fri Mar 29 13:34:55 2013\r\n\r\n       1: rethinkdb() [0x888a01]\r\n       2: rethinkdb() [0x7b6a0e]\r\n       3: rethinkdb() [0x846b14]\r\n       4: +0xfcb0 at 0x7fbfa2009cb0 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       5: +0x149a51 at 0x7fbfa1d84a51 (/lib/x86_64-linux-gnu/libc.so.6)\r\n       6: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned long) at 0x7fbfa27e6172 (/usr/lib/x86_64-linux-gnu/libstdc++.so.6)\r\n       7: std::string::assign(std::string const&) at 0x7fbfa27e68f4 (/usr/lib/x86_64-linux-gnu/libstdc++.so.6)\r\n       8: rethinkdb() [0x7f665d]\r\n       9: rethinkdb() [0x8239ae]\r\n       10: rethinkdb() [0x809910]\r\n       11: rethinkdb() [0x8215a6]\r\n       12: rethinkdb() [0x82305b]\r\n       13: rethinkdb() [0x823073]\r\n       14: rethinkdb() [0x78c85b]\r\n       15: rethinkdb() [0x8229bc]\r\n       16: rethinkdb() [0x823200]\r\n       17: rethinkdb() [0x823272]\r\n       18: rethinkdb() [0x8362a2]\r\n       19: rethinkdb() [0x847d2e]\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nObviously the stacktrace here isn't very useful because I don't have debugging symbols available; if you have any trouble reproducing this issue, please let me know and I can provide a core dump or other analysis.\r\n"
+  , issueState = "closed"
+  , issueId = Id 12616608
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

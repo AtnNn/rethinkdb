@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-15) 20 : 00 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/172070038"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5292#issuecomment-172070038"
+  , issueCommentCreatedAt = 2016 (-01) (-15) 20 : 00 : 50 UTC
+  , issueCommentBody =
+      "Something else we might need to be careful about: The way I read `readResponse`, it only returns once it has received a response the the given token.\r\nSay *cursor A*'s `CONTINUE` request calls `readResponse` first, followed by *cursor B*.\r\nAssume that the server first replies to *cursor B*'s request though. The `readResponse` call of *cursor A* is going to get that response and call `extend()` on *cursor B*. Later it will receive the response for *cursor A* that it was waiting for and return.\r\nHowever *cursor B* is still stuck in the `readResponse` call. It will never return, since *cursor A*'s call to `readResponse` had already consumed the response for *cursor B* from the connection.\r\n\r\nI haven't checked where exactly `readResponse` is called, and this might not actually be an issue."
+  , issueCommentId = 172070038
+  }

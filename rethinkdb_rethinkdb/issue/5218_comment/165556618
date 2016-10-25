@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-17) 19 : 29 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165556618"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5218#issuecomment-165556618"
+  , issueCommentCreatedAt = 2015 (-12) (-17) 19 : 29 : 25 UTC
+  , issueCommentBody =
+      "@r-marques -- the `r.filter` is essentially a sequential table scan, and there may be a more efficient way of writing this query, assuming I understand what you're trying to achieve.\r\n\r\nIt's using a compound index as follows.\r\n```\r\nr.table(\"backlog\")\r\n .indexCreate(\r\n    \"assignee__transaction_timestamp\",\r\n    [r.row(\"assignee\"), r.row(\"transaction\")(\"timestamp\")])\r\n```\r\n\r\nIf `b.me` is indeed a constant this allows you to replace the filter with the following.\r\n```\r\nr.table(\"backlog\", {readMode: \"outdated\"})\r\n .between(\r\n    [b.me, r.minval],\r\n    [b.me, r.maxval],\r\n    {index: \"assignee__transaction_timestamp\"})\r\n```\r\nThis uses the index we created to select the assignee with transaction timestamps between the smallest and largest possible value.\r\n\r\nWe're using this compound index because the `r.between` and `r.orderBy` must use the same index, thus this allows the following.\r\n```\r\nr.table(\"backlog\", {readMode: \"outdated\"})\r\n .between(\r\n    [b.me, r.minval],\r\n    [b.me, r.maxval],\r\n    {index: \"assignee__transaction_timestamp\"})\r\n .orderBy({index: r.asc(\"assignee__transaction_timestamp\")})\r\n .limit(1000)\r\n```\r\nNote that the assignee will have no influence on the sorting as it's constant for all record.\r\n\r\nHope this helps."
+  , issueCommentId = 165556618
+  }

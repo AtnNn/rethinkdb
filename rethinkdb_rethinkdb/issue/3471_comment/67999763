@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-23) 21 : 20 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67999763"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-67999763"
+  , issueCommentCreatedAt = 2014 (-12) (-23) 21 : 20 : 42 UTC
+  , issueCommentBody =
+      "1. We shouldn't expose shards to users in the changefeed API. If at all possible, they should have to think about it in terms of deleting obsolete ranges, getting documents from those ranges one at a time, and increasing timestamps.\r\n2. I'd do nothing about surviving rebalancing for now (until we get high availability). If possible, I'd prefer to think of that problem as out-of-scope for restartable feeds.\r\n3. I'd do nothing until we do failover (though we should probably think about that more).\r\n\r\nWRT to snapshot memory issues, I'd also ignore that for now. We already run into that in case of backfills, so I wouldn't worry about it too much until later. If we really wanted to be careful here, we could just terminate the feed if the snapshot gets too big (i.e. the user is too far behind), and they could restart the feed.\r\n\r\nI think it'll be really important to do this quickly after 2.0 since it's a huge limitations to the current system, so I'd try to cut scope in every way possible. I suspect we can get away with doing very little with respect to many of the operational issues like these."
+  , issueCommentId = 67999763
+  }

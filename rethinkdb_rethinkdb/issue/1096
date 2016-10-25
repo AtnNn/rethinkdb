@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2014 (-02) (-21) 00 : 27 : 06 UTC
+  , issueUpdatedAt = 2014 (-03) (-04) 04 : 04 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1096/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1096"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1096
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: `r.group.map.reduce`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1096"
+  , issueCreatedAt = 2013 (-06) (-30) 00 : 15 : 29 UTC
+  , issueBody =
+      Just
+        "This proposal includes a number of changes.\r\n\r\n* Introduce the `group` command\r\n\r\n```javascript\r\nr.table('foo').group('a', 'b').typeOf()\r\n// GROUPEDSTREAM\r\n\r\nr.table('foo').group('a', 'b')\r\n// Errors: `GROUPEDSTREAM is an opaque type`\r\n\r\nr.table('foo').group('a', 'b').map(...).typeOf()\r\n// GROUPEDSTREAM\r\n\r\n// Finally, google/hadoop-style map reduce is accessible to regular people:\r\nr.table('foo').group('a', 'b').map(...).reduce(...).typeOf()\r\n// STREAM\r\n```\r\n\r\n* Get rid of base in reduce, and make reduce variadic. Have reduce accept either reduction functions, or aggregators:\r\n\r\n```javascript\r\nr.table('users').group('location').reduce(r.sum('age'),\r\n                                          r.avg('age'),\r\n                                          function(i, j) { return ...; })\r\n// returns [{group: ..., reduction1: ..., reduction2: ..., reduction3: ...}]\r\n```\r\n\r\n* Allow naming groups and reductions because calling them `group` and `reduction1`, `reduction2` isn't extremely useful.\r\n\r\n```javascript\r\nr.table('users').group('location', {'name': location}).\r\n  reduce(r.sum('age', {name: 'age_sum'}),\r\n         r.avg('age', {name: 'age_avg'}),\r\n         function(i, j) { return ...; } // TODO: not sure how to name this. Ideas?\r\n         )\r\n// returns [{location: ..., age_sum: ..., age_avg: ..., ???: ...}]\r\n```\r\n\r\n* Consider dropping `groupBy`. We might want to consider leaving it as sugar for `.group.reduce`, because people are used to things like `groupBy`. I'm not 100% sure what to do here."
+  , issueState = "closed"
+  , issueId = Id 16181994
+  , issueComments = 122
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

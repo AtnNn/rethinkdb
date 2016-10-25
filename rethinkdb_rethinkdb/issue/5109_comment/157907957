@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-19) 00 : 25 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157907957"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5109#issuecomment-157907957"
+  , issueCommentCreatedAt = 2015 (-11) (-19) 00 : 25 : 48 UTC
+  , issueCommentBody =
+      "Thanks for your data @Agamennon . I'm getting in the range of 80ms for this query on our local server, which isn't great, but also not super slow. You can slightly optimize it by moving the `orderBy` after the `group`:\r\n```js\r\nr.db('planner').table(\"matriz\")\r\n        .getAll('295d33b2-0c24-405e-8bb7-481d8a2c53bd',{index:\"id_curso\"})\r\n        .eqJoin('id_curso',r.db('planner').table('cursos'))\r\n        .without({right:['id','id_coordenator','id_instituicao','id_coordenador']}).zip()\r\n        .eqJoin('id_disciplina',r.db('planner').table('disciplinas'))\r\n        .without({right:['id','id_instituicao']}).zip()\r\n        .group('ano','semestre')\r\n        .orderBy('serie')\r\n```\r\n\r\nThis works because `group` already implicitly orders by its arguments, so previously it was ordering by those twice.\r\n\r\nI think the `eqJoin`s might be responsible for most of the slowness. Wonder if we can optimize them."
+  , issueCommentId = 157907957
+  }

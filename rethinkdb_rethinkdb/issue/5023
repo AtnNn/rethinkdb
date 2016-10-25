@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-20) 06 : 43 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5023/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5023"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 5023
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 891566
+        , simpleUserLogin = N "kwando"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/891566?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kwando"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Slow querying on large documents."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5023"
+  , issueCreatedAt = 2015 (-10) (-29) 08 : 09 : 09 UTC
+  , issueBody =
+      Just
+        "I'm trying out storing binary data in rethinkdb, while it works performance is less than stellar. In table with 218 docs and a combined filesize of ~610MB.\r\n\r\nAvg size: 2.8MB\r\nStd size: 3.1\r\nMax size: 24.0MB\r\n\r\nSample doc\r\n```ruby\r\n{\r\n  \"id\"=>\"bad172fe-3340-4cbe-94be-572413f7e07a\", \r\n  \"name\"=>\"HHEvkhEsQLaNDRkui4fg_fullsize.jpg\", \r\n  \"size\"=>9852159,\r\n  \"data\"=><Binary data>\r\n}\r\n```\r\n# 1 shard && 1 replica\r\n```\r\nr.db(\"merciless\").table(\"uploads\").order_by({\"index\" => r.desc(\"size\")}).without(\"data\").limit(10)\r\n456.9ms\r\n```\r\n\r\n```\r\nr.db(\"merciless\").table(\"uploads\").count\r\n21.9ms\r\n```\r\n\r\n```\r\nr.db(\"merciless\").table(\"uploads\").sum(\"size\")\r\n427.1ms\r\n```\r\n\r\n# 2 shards && 2replicas (same machine)\r\n```\r\nr.db(\"merciless\").table(\"uploads\").order_by({\"index\" => r.desc(\"size\")}\r\n).without(\"data\").limit(10)\r\n4578.8ms\r\n```\r\n```\r\nr.db(\"merciless\").table(\"uploads\").count\r\n2.6ms\r\n```\r\n```\r\nr.db(\"merciless\").table(\"uploads\").sum(\"size\")\r\n640622041\r\n3143.1ms\r\n```\r\n\r\nIf I drop the data field ```table.update({data: r.literal()})``` all queries return in ~5ms.\r\n\r\n```\r\n$ rethinkdb --version\r\nrethinkdb 2.1.5-2 (CLANG 7.0.0 (clang-700.0.\r\n```\r\n```\r\nruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-darwin14] with driver version 2.1.0.2\r\n```"
+  , issueState = "open"
+  , issueId = Id 113999592
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 17 : 36 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5427/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5427"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5427
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Replicas enter \"backfilling\" state unnecessarily"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5427"
+  , issueCreatedAt = 2016 (-02) (-19) 21 : 08 : 47 UTC
+  , issueBody =
+      Just
+        "I first described this in #5211, where I killed a rethinkdb process with `kill -9` after letting it hang on SIGTERM for a few minutes. While I wouldn't have been surprised if that node had to be backfilled to be trusted, what happened was a bit unexpected (and probably unnecessary):\r\n\r\nOn our larger table, shard 2 retained all 5 of its replicas in \"green\" state. However, shards 1 and 3 had 4 of their 5 replicas go into \"backfilling\" state for over an hour (at the time of writing, shard 3 _still_ only has 1 replica green). Our smaller table behaved similarly.\r\n\r\nThere were no recent table reconfigurations, but I had just upgraded the cluster to 2.2.4. Following what I had learned previously, I restarted rethinkdb on a couple nodes to try and jostle the system and make it realize that it didn't need to do so much backfilling.\r\n\r\n### My setup on this cluster includes:\r\n- 6 servers\r\n- 2 tables:\r\n  - Table 1: ~7K records\r\n    - 3 shards\r\n    - 5 replicas\r\n  - Table 2: ~16M records\r\n    - 3 shards\r\n    - 5 replicas\r\n\r\n\r\n@danielmewes helped me track down some good debug information:\r\n\r\n\r\n### r.db('rethinkdb').table('_debug_table_status')\r\nhttps://gist.github.com/mike-marcacci/add75a36debbca2b3a1f#file-_debug_table_status-json\r\n\r\n\r\n### r.db('rethinkdb').table('jobs')\r\nI grabbed these a minute or so apart, to make sure the backfilling was proceeding, which it was:\r\nhttps://gist.github.com/mike-marcacci/add75a36debbca2b3a1f#file-jobs1-json\r\nhttps://gist.github.com/mike-marcacci/add75a36debbca2b3a1f#file-jobs2-json\r\n\r\n\r\n### Logs\r\nThe logs only appear to have the following types of messages, corresponding to when I upgraded or restarted servers, and no mention of \"incomplete branch history.\"\r\n```\r\n2016-02-19T19:42:30.861817104 615.784807s notice: Connected to server \"w01obfwx_rethinkdb_usage_service_iad_681\" ba19c18c-f44d-43b5-b85a-206859892604\r\n2016-02-19T19:43:06.139275685 651.062265s notice: Disconnected from server \"w01obfwx_rethinkdb_usage_service_iad_681\" ba19c18c-f44d-43b5-b85a-206859892604\r\n2016-02-19T19:43:06.141281089 651.064270s info: Rejected a connection from server 85476b22-f789-4479-ad4b-fb7944eeb833 since one is open already.\r\n```\r\n\r\n\r\n### App Logs\r\nThe app continuously logged `ReqlOpFailedError: Cannot perform write: The primary replica isn't connected to a quorum of replicas. The write was not performed in:`, which isn't perfectly clear to me, as each server was totally able to connect to all others.\r\n\r\nIn a brash attempt to restore availability (at the cost of consistency, which is somewhat OK in the case of this particular cluster), I changed the tables' `write_acks` settings to `\"single\"`, but continued to have write issues."
+  , issueState = "open"
+  , issueId = Id 134975457
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

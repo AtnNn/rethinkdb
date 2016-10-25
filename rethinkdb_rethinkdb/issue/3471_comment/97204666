@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 21 : 02 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97204666"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97204666"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 20 : 56 : 43 UTC
+  , issueCommentBody =
+      "So the problem I see now with having cursors not automatically reconnect is code like this:\r\n```\r\ncur = ...changes().run(resumable=true);\r\nforeach x in cur:\r\n   print(x)\r\n```\r\n\r\nHow and where would you handle the disconnect in there? You couldn't handle it inside the loop, since the error will be generated/thrown during the iteration. So resuming would require something like this:\r\n```\r\ncur = ...changes().run(resumable=true);\r\ntry:\r\n  label loopMore\r\n  foreach x in cur:\r\n     print(x)\r\ncatch RqlConnectionError:\r\n  cur.resume()\r\n  goto loopMore\r\n```\r\n\r\nBut that's not a pattern we want to encourage. It also requires that the cursor can be iterated multiple times, and iteration resumes where it left off."
+  , issueCommentId = 97204666
+  }

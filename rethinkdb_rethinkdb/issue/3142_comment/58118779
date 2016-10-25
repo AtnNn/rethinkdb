@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-07) 00 : 02 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58118779"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3142#issuecomment-58118779"
+  , issueCommentCreatedAt = 2014 (-10) (-07) 00 : 02 : 42 UTC
+  , issueCommentBody =
+      "@pengux You can currently model this in RethinkDB using a multi index.\r\n```js\r\nr.tableCreate(\"nodes\");\r\nr.table(\"nodes\").indexCreate(\"out\", {multi: true});\r\n\r\n// Insert an unconnected node\r\nr.table(\"nodes\").insert({out: []});\r\n\r\n// Add an edge from node a to node b (where `a` and `b` are the primary keys of those nodes in the table)\r\nr.table(\"nodes\").get(a).update({out: r.row(\"out\").append(b)});\r\n\r\n// Get all nodes directly reachable from a\r\nr.table(\"nodes\").get(a)(\"out\");\r\n\r\n// Get all nodes that lead to a (the \"incoming\" edges of a)\r\nr.table(\"nodes\").getAll(a, {index: \"out\"});\r\n\r\n// All nodes that lead to a but are not directly reachable from a (your friends of user A example)\r\nr.table(\"nodes\").getAll(a, {index: \"out\"}).setDifference(r.table(\"nodes\").get(a)(\"out\"));\r\n```\r\n\r\nI this more or less what you were thinking of?\r\n\r\nThis is not as efficient as it would be in a specialized graph database, but should do the trick for small to medium-scale graph queries."
+  , issueCommentId = 58118779
+  }

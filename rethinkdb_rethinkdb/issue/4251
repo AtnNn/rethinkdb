@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-05) (-21) 01 : 18 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4251/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4251"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4251
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Reusing table infrastructure across multiple tables to reduce overhead"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4251"
+  , issueCreatedAt = 2015 (-05) (-20) 23 : 13 : 15 UTC
+  , issueBody =
+      Just
+        "Currently there is a lot of per-table overhead. Issue #2498 discusses the overhead of creating and keeping a file for each table on disk. The clustering mechanism also adds overhead. This overhead will make it difficult to scale to 100k tables as mentioned in #1861. There are some things we can do to reduce the overhead, but I think a stronger solution will be needed eventually.\r\n\r\nI propose that we allow multiple tables to share a single set of files, serializers, clustering infrastructure, etc. Let's call such a set of tables a \"bundle\". A user would begin by creating a bundle, which would initially contain no tables. Then they could add tables to the bundle with `r.table_create(\"user_foo\", bundle=\"bundle_of_users\")`. Tables in bundles can be accessed using the existing `r.table(\"user_foo\")` syntax. The tables in the bundle cannot be reconfigured individually; only the bundle as a whole can be reconfigured. Tables cannot be moved into or out of bundles.\r\n\r\nAn interesting side effect of this is that creating a table within a bundle could have CP consistency semantics. Unlike with standalone tables, we could make absolutely certain that no one bundle ever contained two tables with the same name. This would partially solve #2975."
+  , issueState = "open"
+  , issueId = Id 78737755
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

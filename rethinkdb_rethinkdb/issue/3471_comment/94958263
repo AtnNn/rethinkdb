@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 22 : 13 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94958263"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94958263"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 22 : 13 : 03 UTC
+  , issueCommentBody =
+      "It's pretty clear at this point that there are two different scenarios that we want to deal with.\r\n* application servers going down, or losing the connection to the DB\r\n* a database server going down (or table reconfiguration)\r\n\r\nI'm pretty sure we should address these use cases separately and with separate interfaces. We will address the first one in RethinkDB 2.1, and deal with the second one (handling DB server failures) later.\r\n\r\nFor case 1, we currently have the API proposal by mlucy https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-70036764 : \r\n> ```ruby\r\n1> r.table('test').changes() => non-restartable changefeed\r\n1> r.table('test').changes(persist: 'my_changefeed') => restartable changefeed\r\n1> CRASHES\r\n2> r.table('test').changefeed('my_changefeed') => steal the restartable changefeed from (1)\r\n2> r.table('test').changefeed('my_changefeed').delete => safely close the changefeed so it doesn't hang around taking up memory\r\n```\r\n\r\nI think this looks pretty good. We would basically introduce the concept of a \"named changefeed\".\r\n\r\nThe implementation would use either an in-memory list, or possibly a `disk_backed_queue_t` (that's an in-memory list that seamlessly spills over into a temporary disk file if it grows too large) of a limited maximal size (100k changes by default?).\r\n\r\nFor the first implementation, a named changefeed would *not* survive a restart of any of the table's primaries, nor would it survive a table reconfiguration.\r\n\r\nIf a client connects to a changefeed that already has a reader, I propose that for the first release we always error on the existing reader as soon as it requests the next batch.\r\nWe can later look into alternative schemes such as \"deliver to at most one\" or \"deliver to all\". Those should be pretty easy to add on top of it, and will allow for some interesting use cases (@wojons will have some great ideas when we get to it I think :) ).\r\n\r\nThe named changefeeds would have a few very interesting usage scenarios, even in the basic version.\r\nFor example: Imagine you have a fleet of application servers and you have a load balancer in front of them. You could store the changefeed name in a session cookie in the user's browser. If one of the application servers goes down (or you take some down intentionally during less busy hours), or the user's browser loses connection temporarily (e.g. because they're on a mobile data connection), the browser could reconnect to *any* of the remaining application servers and just pick up the feed were it left off.\r\n\r\nWe should deal with the separate problem of recovering from database server failures and reconfiguration separately later. This is most relevant for synchronizing data into other data stores I think, and the requirements are somewhat different. Until we get to that, synchronization utilities can use `returnInitial` to re-sync from the beginning if the database server should die."
+  , issueCommentId = 94958263
+  }

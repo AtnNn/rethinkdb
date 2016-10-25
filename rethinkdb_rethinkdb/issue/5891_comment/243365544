@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-30) 08 : 12 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243365544"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5891#issuecomment-243365544"
+  , issueCommentCreatedAt = 2016 (-08) (-30) 08 : 12 : 20 UTC
+  , issueCommentBody =
+      "Oh, I forgot to reply here. For us, this issue got resolved when we forced rethinkdb proxies to use unique `canonical-address` (using a Kubernetes PetSet). Thanks for the clarification Daniel!\r\n\r\nIn case it helps anyone, we created a custom startup script, put these things in the PetSet definition yaml:\r\n```\r\nkind: PetSet\r\n...\r\nspec:\r\n  template:\r\n    metadata:\r\n      annotations:\r\n        pod.alpha.kubernetes.io/initialized: \"true\"\r\n...\r\n    spec:\r\n      containers:\r\n        command:\r\n        - /run_proxy.sh\r\n        env:\r\n        - name: MY_POD_NAME\r\n          valueFrom:\r\n            fieldRef:\r\n              fieldPath: metadata.name\r\n        - name: MY_POD_IP\r\n          valueFrom:\r\n            fieldRef:\r\n              fieldPath: status.podIP\r\n...\r\n```\r\n\r\nAnd the startup script is something like this:\r\n```\r\n#!/usr/bin/env bash\r\necho \"$(date) Starting RethinkDB proxy $MY_POD_NAME on $MY_POD_IP ($(hostname))\"\r\n\r\necho \"$MY_POD_IP $(hostname).rethinkdbproxy\" >> /etc/hosts\r\n/usr/bin/rethinkdb proxy \\\r\n  --bind all \\\r\n  --join rethinkdb1 \\\r\n  --canonical-address $(hostname).rethinkdbproxy \\\r\n  --cluster-reconnect-timeout 300\r\n```\r\n\r\nModifying `/etc/hosts` is done because once in a blue moon, DNS for its own hostname doesn't get resolved. And `--join rethinkdb1` is done only because this way we can use the same script also for dev env with only 1 db node, but of course in production you'd probably want to join all db nodes there.\r\n\r\nThis creates host pods like `rethinkdbproxy-0`, resolved with `rethinkdbproxy-0.rethinkdbproxy`. If you still need a round robin to connect to any available proxy, you cannot use `rethinkdbproxy` directly, but that's easily solved by creating another kubernetes service with `selector: name: rethinkdbproxy`. (And you don't create any RC/RS for that service.)"
+  , issueCommentId = 243365544
+  }

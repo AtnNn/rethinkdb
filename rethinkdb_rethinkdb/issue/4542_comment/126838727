@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-01) 00 : 09 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/126838727"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4542#issuecomment-126838727"
+  , issueCommentCreatedAt = 2015 (-08) (-01) 00 : 08 : 37 UTC
+  , issueCommentBody =
+      "This might be a bit tricky, because we have to do this on the store. We can't do it on the primary dispatcher, because we have to make sure that we can actually reach a majority of replicas before acknowledging the sync.\r\n\r\nIf we do it on the store and don't acquire the superblock if nothing has changed, we might get into problems because we miss updating the metainfo to the sync's version.\r\n\r\nThere might be a way of turning the sync into a dummy_write on the dispatcher under certain circumstances, which avoids the versioning problem and doesn't cause any actual writes on the store.\r\nWe already keep track on the primary dispatcher which version was last acked by a given replica. We could have a second value keeping track of which version was last acked *at hard durabilty* by a given replica.\r\nIf the last acked hard durability version is at least the version that we are currently on for *all* connected replicas, we could turn the sync into a dummy write I think. Otherwise we would still send a sync.\r\nWe should also ignore syncs in the requirement of what the necessary last acked hard durability version needs to be."
+  , issueCommentId = 126838727
+  }

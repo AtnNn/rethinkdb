@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-22) 02 : 53 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/158703530"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5127#issuecomment-158703530"
+  , issueCommentCreatedAt = 2015 (-11) (-22) 02 : 53 : 48 UTC
+  , issueCommentBody =
+      "Essentially that's the idea, there's a tad more to an actual implementation though, let me explain. I'm going to use Python here as that's what I'm familiar with but this will obviously work with any language that has basic string manipulation and a SHA-1 implementation. The following is what we're going to replicate.\r\n\r\n```py\r\n>>> import uuid\r\n>>> uuid.uuid5(uuid.UUID('91461c99-f89d-49d2-af96-d8e2e14e9b58'), 'foo')\r\nUUID('aa32a020-8c2d-5ff1-823b-ad3fa5d067eb')\r\n```\r\n\r\nFirst off we must convert our namespace UUID to bytes, that gives us the following.\r\n```py\r\n>>> import uuid\r\n>>> uuid.UUID(\"91461c99-f89d-49d2-af96-d8e2e14e9b58\").bytes\r\n'\\x91F\\x1c\\x99\\xf8\\x9dI\\xd2\\xaf\\x96\\xd8\\xe2\\xe1N\\x9bX'\r\n```\r\nNote that from a UUID perspective they're equivalent, just a different representation, and going forward you could simply use this series of bytes.\r\n\r\nNext we use our SHA-1 implementation, in Python this is `hashlib.sha1`, and string essentially as you mentioned.\r\n```py\r\n>>> import hashlib\r\n>>> hashlib.sha1('\\x91F\\x1c\\x99\\xf8\\x9dI\\xd2\\xaf\\x96\\xd8\\xe2\\xe1N\\x9bX' + 'foo').digest()\r\n'\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb\\xac\\r\\xab\\xb5'\r\n```\r\n\r\nThis gives us the basis of our new UUID, but note that it's too long, so we simply take the first 16 bytes.\r\n```py\r\n>>> len('\\x91F\\x1c\\x99\\xf8\\x9dI\\xd2\\xaf\\x96\\xd8\\xe2\\xe1N\\x9bX')\r\n16\r\n>>> len('\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb\\xac\\r\\xab\\xb5')\r\n20\r\n>>> '\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb\\xac\\r\\xab\\xb5'[:16]\r\n'\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb'\r\n>>> len('\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb')\r\n16\r\n```\r\n\r\nNext we must incorporate the variant and version of the UUID into this series of bytes, https://en.wikipedia.org/wiki/Universally_unique_identifier#Variants_and_versions nicely explains this. Note that since Python won't allow me to do bitwise operations on the series of bytes I convert it to a list of integers, this might not be necessary in other languages.\r\n```py\r\n>>> bytes = map(ord, '\\xaa2\\xa0 \\x8c-/\\xf1\\xc2;\\xad?\\xa5\\xd0g\\xeb')\r\n>>> bytes[6] = (bytes[6] & 0x0f) | 0x50\r\n>>> bytes[8] = (bytes[8] & 0x3f) | 0x80\r\n>>> ''.join(map(chr, bytes))\r\n'\\xaa2\\xa0 \\x8c-_\\xf1\\x82;\\xad?\\xa5\\xd0g\\xeb'\r\n```\r\n\r\nAwesome, now we're basically there, all we must do is convert this to the canonical representation.\r\n```py\r\n>>> uuid.UUID(bytes='\\xaa2\\xa0 \\x8c-_\\xf1\\x82;\\xad?\\xa5\\xd0g\\xeb')\r\nUUID('aa32a020-8c2d-5ff1-823b-ad3fa5d067eb')\r\n```\r\n\r\nThe functions that convert between the canonical and byte representations of a UUID are left as an exercise for the user, but you can peek in https://github.com/rethinkdb/rethinkdb/blob/next/src/containers/uuid.cc for hints. Last but not least, this is all described in https://tools.ietf.org/html/rfc4122."
+  , issueCommentId = 158703530
+  }

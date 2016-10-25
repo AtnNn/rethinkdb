@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-09) 21 : 13 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/120145926"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4517#issuecomment-120145926"
+  , issueCommentCreatedAt = 2015 (-07) (-09) 21 : 13 : 53 UTC
+  , issueCommentBody =
+      "To expand on @mlucy's answer, we discussed this before and this turns out to be a surprisingly tricky issue.\r\n\r\nIt's not possible to add simple `hasNext` and `isEmpty` methods to the cursor, because the client doesn't always know if there is more data to be fetched from the database server. So these functions would need to take a callback and return results asynchronously, which means two things: you couldn't write a simple loop with `hasNext` as a check (you'd have to deal with a callback), and since each call to `hasNext` would have to go to the server, the performance of a naive loop you might expect the user to write would be suboptimal.\r\n\r\nSo we decided to keep these methods out, and instead give different guidance on how to use cursors. It is a little bit inconvenient at the beginning (sorry about that!), but unfortunately it's the best way to do it because of the above technical limitations.\r\n\r\nHope this helps @andyburke! (We'd love to send you a t-shirt to compensate if you fill out http://rethinkdb.com/community/shirts-for-stories/ :smile:)"
+  , issueCommentId = 120145926
+  }

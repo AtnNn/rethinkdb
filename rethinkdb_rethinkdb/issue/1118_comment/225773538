@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-14) 03 : 54 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225773538"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-225773538"
+  , issueCommentCreatedAt = 2016 (-06) (-14) 03 : 54 : 32 UTC
+  , issueCommentBody =
+      "@mlucy Thanks for the summary of the current proposal. That matches what I had in mind for 2.4.\r\n\r\nI'd like to add `coerce_to(...).changes()` from your suggestions to this as it seems trivial to do.\r\n\r\n--\r\n\r\nThe three extensions that you're suggesting\r\n\r\n1. `.coerce_to(...).changes()`\r\n2. `.group(...).reduce(...).changes()`\r\n3. more efficient implementation for the initial result\r\n\r\nall sound really cool to me.\r\n\r\nAs far as I can tell, 1 would be easy to implement even as a pure `fold`-based rewrite at least to `coerceTo('array')`. We can just keep the current array in the accumulator. I'm not sure if there are any other types that we allow coercing to from a stream? `'string'` maybe? Most likely those would also be easy to support, and we would still maintain the array but then just call a final `.coerceTo(...)` on the accumulator array before emitting a value. In any case doing this will be `O(n)` in the number of results, but that's expected since the output per change is already of that size.\r\n\r\nMy impression is that 2 (`group.reduce.changes`) is a bit more involved in terms of having to figure out how to represent added and removed groups in the output stream.\r\n\r\nSince we have limited remaining development resources for 2.4 considering the other things we are working on, my suggestion would be that we agree on a minimal proposal, and keep extensions 2 and 3 out of the proposal for now. If we end up having extra time, we can still implement the more efficient algorithm (3) or discuss grouped changefeeds separately.\r\n\r\n--\r\n\r\n> How should we handle reductions over nothing?\r\n\r\nGreat question.\r\nMy opinion is that we should emit them as the value `null` for `avg` and `reduce` (and `0` for `sum` and `count`). Our current changefeeds already use `null` to indicate the absence of a value. I think this would fit pretty nicely.\r\nReporting them as errors sounds nice on paper, but I think in practice it will be a much bigger pain for our users to handle."
+  , issueCommentId = 225773538
+  }

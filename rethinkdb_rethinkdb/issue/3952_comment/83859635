@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-20) 02 : 34 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/83859635"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3952#issuecomment-83859635"
+  , issueCommentCreatedAt = 2015 (-03) (-20) 02 : 34 : 20 UTC
+  , issueCommentBody =
+      "Hi @ericrini !\r\n\r\nThe first one is doing a range get for every document, while the second one is just doing a bit of processing (it probably isn't even loading the row off disk if your 20k records fit in cache).  50ms -> 10s is a factor of 200, which sounds about right to me for a sub-query that needs to go across the network vs. a sub-query that executes a small amount of code, especially if you're moving a lot of data around.  (I think the sub-query *is* using the index.  If you replaced the `get_all` with a `filter`, I would guess this query would get much, much slower.)\r\n\r\nWe could probably improve the performance of this case by either batching up the cross-network requests, but it's always going to be much slower than the second case.  (@danielmewes, do you think that performance improvement is worth doing right now?)\r\n\r\nIf you need to do this sort of query frequently, I'd recommend moving the `investmentVehicles` table into the `plans` table as a sub-document (or vice-versa depending on how your data is structured)."
+  , issueCommentId = 83859635
+  }

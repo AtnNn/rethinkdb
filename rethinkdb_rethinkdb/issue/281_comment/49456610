@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-27) 17 : 39 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49456610"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-49456610"
+  , issueCommentCreatedAt = 2014 (-07) (-18) 17 : 18 : 33 UTC
+  , issueCommentBody =
+      "Yeah @neumino, I haven't looked at the JS/coffee driver in a while, but from what I remember, it should be easy enough to accommodate the callback-style interface. There is, after all, [Bluebird#nodeify](https://github.com/petkaantonov/bluebird/blob/master/API.md#nodeifyfunction-callback--object-options---promise).\r\n\r\nRegarding: \r\n\r\n> What I'm a little more worried about is how it behaves if at some point in your then chain, your return a promise that is not a Bluebird one (the resource may be disposed of when you still need it).\r\n\r\nI don't think that's an issue with how `.using()`/`.disposer()` works. The context managed inside of `.using()` is limited to that single function passed to `.using()` and is disposed after the function returns or resolves. Maybe I'm not understanding what you mean?\r\n\r\nMy bigger picture two-cents though, and why I really wanted to hop onto this thread, is that I think `putBack` is a bad idea. \r\n\r\nOne of the many great things about RethinkDB are the three officially supported drivers. They're fantastic, and no other database has anything like this. These drivers effuse the RethinkDB design principle of prioritizing developer happiness. So, while adding a connection pool facility to these drivers would make things simpler for developers in some respect, that simplification should not be at the expense of existing friendliness. And asking the developer to \"put something back\" is no small matter.\r\n\r\nAlso, \"connection pools\" are mighty scary to newcomers. If there's discussion about [renaming `concatMap` to something less scary](https://github.com/rethinkdb/rethinkdb/issues/334), there should definitely be a similar mindfulness about connection pools. Thus, I believe that if a connection pool is provided in the drivers, that it should be a secondary facility to bare connection usage. Or completely invisible. \r\n\r\nFinally, I really like the fact that the drivers do not provide connection pools. For anyone who wants pooling, it's really easy to set up, right? http://mongodb.github.io/node-mongodb-native/ is a filthy backwater, and the fact that it provides a connection pool as the primary facility only makes it worse."
+  , issueCommentId = 49456610
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-13) 06 : 31 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74211279"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3771#issuecomment-74211279"
+  , issueCommentCreatedAt = 2015 (-02) (-13) 06 : 31 : 46 UTC
+  , issueCommentBody =
+      "A few thoughts:\r\n- You can easily replace the official driver with rethinkdbdash:\r\nhttps://github.com/neumino/rethinkdbdash#drop-in\r\nIn the end by setting the appropriate default, things will work out of the box like the official driver.\r\nThe differences after that are almost none. The only one I can think of is that fields that map to `undefined` are just drop in rethinkdbdash and that there is no option for that -- The official driver should probably do it too, see https://github.com/rethinkdb/rethinkdb/issues/2233\r\n\r\nThen `rethinkdbdash` has more features like streams, writable streams, connection pool etc, but it still strictly implement all the ReQL methods like the official driver (`filter`, `update` etc.)\r\n\r\nHowever, it does not support HTTP connections, which is probably a blocking point now. Nothing prevents HTTP connections to be supported as far as I know.\r\n\r\n- I think it's still interesting to have a bleeding edge driver. I took me a few tries to implement writable/transform streams (this time 1.16.10 should be good), so it's still nice to have a playground for new stuff. For example, having `run({stream: true})` doesn't make that much sense, but I still did it because I didn't think enough. The official driver doesn't have to fall in this pitfall.\r\n\r\n- @deontologician -- It's a decent effort to implement the connection pool. While I would love to say that I did it right on the first try, there were still a few bugs. If you add multiple servers on top of that, this gets tricky. The devil is in the detail :(\r\n\r\n- @chrisvariety -- rethinkdbdash is still maintained, and I think I'm still doing a decent job. If I'm not mistaken 1.16 was released on the same day as the server :)\r\n\r\n- It's probably a decent amount of work for @AtnNn and @larkost to switch driver. Backtraces are typically different in rethinkdbdash. Arity errors are returned by the driver if possible too.\r\n\r\n- @marshall007 -- yes cursors still exist for two reasons:\r\n  - support `null` values like @danielmewes mentionned\r\n  - stay relatively close to the official driver\r\n\r\n- Also on a side note, the python driver is going to nicer/more Python-ish way to consume feeds. I think it's fine to have drivers \"drift\" a bit when it comes to cursors, feeds etc. as long as the ReQL method themselves stay the same."
+  , issueCommentId = 74211279
+  }

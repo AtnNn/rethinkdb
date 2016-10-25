@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-18) 02 : 01 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/132031389"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4694#issuecomment-132031389"
+  , issueCommentCreatedAt = 2015 (-08) (-18) 02 : 01 : 44 UTC
+  , issueCommentBody =
+      "This is next, after talking with @danielmewes we're positive that we've found a solution.\r\n\r\nHe mentioned above that changing the secondary indexes consists of fetching the committed `table_config_and_shards_t`, applying the change, and subsequently setting the new config by calling `contract_coordinator_t::change_config` which in turn proposes it to raft. It may take some time for this proposed raft change to be committed, which is why you end up with only the last index.\r\n\r\nThe solution is twofold, first of all we don't want to manipulate the committed state, but the latest state which is already possible using `contract_coordinator_t::change_config`. Secondly we don't want to change the whole configuration but only a single aspect, changing the table name or adding an index for example."
+  , issueCommentId = 132031389
+  }

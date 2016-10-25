@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 05 : 41 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127867969"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4625#issuecomment-127867969"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 05 : 41 : 51 UTC
+  , issueCommentBody =
+      "@nviennot -- the two lines you changed are in `Connection::close` and `Connection::remove_em_waiters`.  `Connection::close` stops listening on the socket, and `remove_em_waiters` is only called when EventMachine is shutting down, so in both cases I think the result of the change is that instead of throwing an exception you just silently start a query whose result you will never receive.\r\n\r\nI think the root problem here is that there's no way to know in `on_close` whether or not the handler is being closed because the connection is going away or for some other reason, so there's no way to know whether or not it's safe to run another query.  (Of course there's also the separate problem that we run into a random Ruby error rather than producing our own error telling the user what's wrong.)\r\n\r\nWhat do you think of changing the API and having `close` take an argument indicating whether or not the entire connection is closed?  (Or, alternately, having another overloaded function you can define `on_connection_close` or `on_force_close` that will handle those cases?)"
+  , issueCommentId = 127867969
+  }

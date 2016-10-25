@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-25) 19 : 58 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115377045"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4449#issuecomment-115377045"
+  , issueCommentCreatedAt = 2015 (-06) (-25) 19 : 58 : 06 UTC
+  , issueCommentBody =
+      "At one point we had a hard-coded timeout between when the table detected connection loss and when it began failover. The implementation was a bit of a mess and also buggy, so I took it out and made the system just use connection loss for failover purposes. So the thing you're proposing would be kind of a pain to implement, although possible.\r\n\r\nThe way we were doing it before was that when the executor sent a `secondary_need_primary` contract ack to the coordinator, it would include a flag indicating whether it had been looking for the primary for longer than the failover timeout. The advantage of this scheme is that it doesn't rely on clock synchronization over the network and it isn't affected by the coordinator moving to a different server. But the logic we had for updating the flag was kind of annoying and bug-prone. If we wanted to implement a configurable post-connection-loss failover timeout, I think we'd want to keep that same implementation strategy."
+  , issueCommentId = 115377045
+  }

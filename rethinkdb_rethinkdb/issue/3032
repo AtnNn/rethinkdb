@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-01) (-29) 22 : 46 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3032/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3032"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3032
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "ReQL proposal: sensible `r.zip`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3032"
+  , issueCreatedAt = 2014 (-09) (-11) 04 : 29 : 27 UTC
+  , issueBody =
+      Just
+        "#2720 (modernized joins) will allow us to drop `r.zip`. We should redefine `zip` to do what you'd expect. Along with #875 (`r.range`) that would take care of #2574 (array iteration):\r\n\r\n```py\r\n# The simple case\r\n> r.expr([0, 1, 2, 3]).zip(['a', 'b', 'c', 'd'])\r\n[[0, 'a'], [1, 'b'], [2, 'c'], [3, 'd']]\r\n\r\n# Also, postfix notation\r\n> r.zip([0, 1, 2, 3], ['a', 'b', 'c', 'd'])\r\n[[0, 'a'], [1, 'b'], [2, 'c'], [3, 'd']]\r\n\r\n# Different length should behave same way as Python's `zip` does\r\n> r.expr([0, 1, 2]).zip(['a', 'b', 'c', 'd'])\r\n[[0, 'a'], [1, 'b'], [2, 'c']]\r\n\r\n> r.expr([0, 1, 2, 3]).zip(['a', 'b', 'c'])\r\n[[0, 'a'], [1, 'b'], [2, 'c']]\r\n\r\n# If anything's empty, we get an empty array\r\n> r.expr([0, 1, 2, 3]).zip([])\r\n[]\r\n\r\n> r.expr([]).zip(['a', 'b', 'c'])\r\n[]\r\n```\r\n\r\nThen I could do:\r\n\r\n```py\r\n> r.zip(r.range(), ['a', 'b', 'c', 'd'])\r\n[[0, 'a'], [1, 'b'], [2, 'c'], [3, 'd']]\r\n```\r\n\r\n/cc @mlucy "
+  , issueState = "open"
+  , issueId = Id 42487859
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

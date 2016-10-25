@@ -1,0 +1,95 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-04) 17 : 56 : 34 UTC
+  , issueUpdatedAt = 2016 (-04) (-04) 17 : 56 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4519/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4519"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4519
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: User accounts + access permissions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4519"
+  , issueCreatedAt = 2015 (-07) (-09) 03 : 59 : 17 UTC
+  , issueBody =
+      Just
+        "__Scope__\r\nThis is a concrete proposal to address https://github.com/rethinkdb/rethinkdb/issues/1805 and https://github.com/rethinkdb/rethinkdb/issues/218 .\r\n\r\nIt does *not* address resource quotas, DoS attacks, and assumes generally benign users. It is hence not suitable for things like direct DB access from the browser, which I think is a separate problem with very different requirements that we should address separately.\r\nThis proposal addresses restricting access to data in settings where you're either concerned about access to sensitive data, or where you want to provide some extra protection against user mistakes that could otherwise damage important data.\r\n\r\n__Authentication__\r\nInstead of our current auth key, I propose that we have a list of user name+auth key pairs.\r\nThere is always one default user (let's call it \"admin\"). You cannot delete that user.\r\nWe should also add a command line option that resets the \"admin\" auth key to a new value in case you lose it.\r\n\r\nThe drivers are going to send a user name + auth key combination instead of just an auth key during the connection setup. Existing clients will have their auth key mapped to the \"admin\" user name implicitly.\r\n\r\n__Permissions__\r\nEach user with the exception of \"admin\" has a white list of permissions assigned to it.\r\nAn entry in the list is of the following form: `(<scope>, <access>)`.\r\n\r\n`<scope>` is one of:\r\n* `database <uuid>` Grants access to all tables in the given database\r\n* `table <uuid>` Grants access to the given table\r\n* `all` Grants access to all tables\r\n\r\n`<access>` is one of:\r\n* `read` allows reading documents from the tables\r\n* `write` allows modifying documents in the tables. There is one exception: tables in the `rethinkdb` database do not become writeable through this, even if they're part of the `<scope>`.\r\n* `admin` allows creating/dropping indexes, and running `reconfigure`, `rebalance` and writing to the result of `table.config()`. If they are part of `<scope>`, this also grants write access to the `rethinkdb` system tables. If the `<scope>` is `all` or `database <uuid>`, it also allows creating and dropping tables. If it is `all`, it also allows creating and dropping databases.\r\n\r\nEach access level includes the lower ones.\r\n\r\nThe \"admin\" user always has the single permission `(all, admin)`.\r\n\r\n__Enforcement__\r\nThe following terms check permissions upon evaluation and throw an error if the required permissions are not met:\r\n* `r.db` (including implicit database terms through the default database)\r\n* `table`\r\n* `insert`, `update`, `replace`, `delete`\r\n* `reconfigure`, `rebalance` (and `config` if it doesn't work automatically due to the checks on the write terms)\r\n* `r.http` This is special, and is *only* allowed if the permissions are `(all, admin)`. Otherwise firewall boundaries could be circumvented, and web UI access could be misused to escalate privileges.\r\n\r\n__Updating permissions__\r\nPermissions can be configured cluster-wide through the `r.db('rethinkdb').table('cluster_config')` table. This replaces the current auth key document. Alternatively we could introduce a new system table for this `r.db('rethinkdb').table('users')`?\r\n\r\nWhen updating permissions, the new permissions will propagate to all servers in the cluster and apply to all existing connections eventually. However we don't guarantee *when* this takes place. In particular withdrawing permissions or changing an auth key is not guaranteed to take effect immediately, and if there is a network partition, the propagation might take an arbitrarily long time.\r\n\r\n__Implementation suggestion__\r\nWe can use a semilattice to propagate the user and permission information (there are different options to how we resolve conflicts in it, I think this is of secondary concern).\r\n\r\nThe authentication data itself could get stored in the environment I guess, so that it can be accessed by ReQL terms.\r\n\r\nFor the write operations `insert`, `update`, `replace` and `delete`, we might need to add a way for them to identify the db+table that they are applied on if we don't have that yet.\r\n\r\n__Optional improvements__\r\nWhile we're at it, it would be nice if we could make the web UI require an authentication key as well. For simplicity, I think it should always use the \"admin\" user. To make that happen we would need to add auth key support to the HTTP protocol implementation, and add a modal or special page to the web UI itself to allow entering the password.\r\nThis would avoid the problem that you need to use a firewall to restrict web UI access even in a generally trusted network, if you want to make sure that the access permissions are met.\r\n\r\nIt would also be great if we could make the auth key exchange more secure on the protocol level. Here's one proposal:\r\n1. When connecting, the server generates a cryptographic random string and sends it to the client (the challenge).\r\n2. The client concatenates the string with the auth key and hashes it using a secure hash function\r\n3. The client transmits the hash to the server, which verifies it\r\n\r\nThis removes the problem that we're transmitting the auth key in plain text over the network.\r\n\r\n\r\n\r\n--\r\nI think it would be really amazing if we could get this into 2.2 since it would make RethinkDB more suitable for many large scale enterprise deployments out of the box."
+  , issueState = "closed"
+  , issueId = Id 93947732
+  , issueComments = 66
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

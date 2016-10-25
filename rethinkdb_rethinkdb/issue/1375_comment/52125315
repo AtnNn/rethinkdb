@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-13) 23 : 23 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52125315"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1375#issuecomment-52125315"
+  , issueCommentCreatedAt = 2014 (-08) (-13) 23 : 23 : 10 UTC
+  , issueCommentBody =
+      "I think this is a good idea, but I think we should think carefully about the implementation or else it will end up being unmaintainable. This proposal would require making each `datum_t` be \"owned\" by a specific query. This is a big change; I suspect it's bigger than the `configured_limits_t` changes. We have to deal with all the same awkward cases, plus some new ones. For example, when we deserialize a datum through a `mailbox_t`, we want to apply the cost of that datum to the per-query memory limit for the query that initiated the request. It has the potential to get complicated quickly.\r\n\r\nHere are some thoughts:\r\n1. We should look at how other projects have implemented memory limits, and see if there are good ideas that we can copy.\r\n2. We should consider making the memory limit system generic instead of tying it to the concept of a ReQL queries. For example, we arguably want per-backfill memory limits. The other advantage of making the memory limit system generic is that we might want to thread it through weird places (such as mailboxes), and threading a ReQL-specific memory limit system through mailboxes is way uglier than threading a generic memory limit system through mailboxes.\r\n3. We should see if we can get away with implementing a `datum_t` size limit first. I'm pretty sure we'll want a per-query memory limit eventually, but implementing a `datum_t` size limit might buy us some time before it becomes critical, and we can use that time to do a better job.\r\n\r\nI also have some vague ideas for how a per-query memory limit system could work. I suggest that we create a base class for objects subject to the memory limit; this way, we can apply the memory limit gradually to one data type at a time in a controlled fashion. Subclasses of this base class would be constructed with a \"memory account\" object that they would use for allocations, and they would remember this object. We would overload \"placement `operator new`\" to use the special allocator. It would be possible to transfer ownership of a memory-managed object between two different accounts, or to construct it with no owner. (For example, mailboxes might construct objects received over with no owner, but then the query would take ownership once it received the object.) We would also provide a `std` allocator implementation that allocates from a memory account.\r\n\r\nObviously this deserves a lot more thought than this brief paragraph, but these are just some ideas to get the juices flowing. Also, we shouldn't forget to check how other projects do it and see if there are existing best practices."
+  , issueCommentId = 52125315
+  }

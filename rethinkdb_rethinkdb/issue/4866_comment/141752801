@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-20) 06 : 31 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/141752801"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4866#issuecomment-141752801"
+  , issueCommentCreatedAt = 2015 (-09) (-20) 06 : 31 : 02 UTC
+  , issueCommentBody =
+      "I'm wondering if this might be an issue with `version_find_common` not considering the fact that branches might get garbage collected. A comment from its implementation in `history.cc`:\r\n```C++\r\n                /* One of two things are true (we don't know which):\r\n                1. `b2` is not descended from `b1`. In this case, recursing into `b1`'s\r\n                    parents will get us closer to the common ancestor without taking us past\r\n                    it.\r\n                2. The common ancestor is `b1`'s start point. (Or, if `v1` is `b1`'s start\r\n                    point, the common ancestor might be in `v1_equiv`.) In this case,\r\n                    recursing from `b1` to its parents will take `v1` past the common\r\n                    ancestor. But this is OK, because the common ancestor will still be\r\n                    recorded in `v1_equiv`. */\r\n```\r\n\r\nNote the part in case 2 about \"will take `v1` past the common ancestor\". If `b1` is actually the common ancestor and the parent of `b1` has been garbage collected, then I think we might try to recurse into that GCed parent of `b1`, which would cause the crash.\r\nStill need to test this, I might be completely off here."
+  , issueCommentId = 141752801
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-08) 20 : 41 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25925382"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1514#issuecomment-25925382"
+  , issueCommentCreatedAt = 2013 (-10) (-08) 20 : 38 : 17 UTC
+  , issueCommentBody =
+      "@jdoliner: Look at which code exactly? Are those levels of abstraction specified somewhere? I would like to learn about them.\r\n\r\nThe point that ReQL semantics has no notion of a connection is a good one. Defining the semantics of `r.wait()` in any but simple cases seems impossible. On the other hand there are places where ReQL semantics already is defined in terms of a connection. Reads as far as I understand are guaranteed to see any previous write on the same connection. This implies that there already is a fixed ordering in which terms are evaluated. It seems that `r.wait()` isn't any different from `r.table().get()` in that sense. `r.table().get()` sees any previous write made on the same connection. `r.wait()` waits for any previous write on the same connection. `r.table().get()` appears to already implement `r.write()`. It is sufficient though for `r.table().get()` to wait only for writes to the specific table, which might really make all the difference in terms of implementation (even though you could have a foreach over all tables of course, but we might not want to do that for `r.write()`). Does that make sense?\r\nIs this also the reason why `r.table().sync()` is ok as a term, while `r.wait()` is not?\r\nOr in other words, is what makes the \"semantics unlike anything else we currently have in ReQL\" the fact that `r.wait()` is a global term with write semantics instead of one defined on top of a table like all the other ones (including the otherwise extremely similar `sync`)?"
+  , issueCommentId = 25925382
+  }

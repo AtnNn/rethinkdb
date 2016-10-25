@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-05) 23 : 32 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/230632903"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4650#issuecomment-230632903"
+  , issueCommentCreatedAt = 2016 (-07) (-05) 23 : 31 : 07 UTC
+  , issueCommentBody =
+      "Just to get this into this record a little more clearly: On linux we can use the `fdatasync` command to make sure that the data we just wrote is flushed (through the disk cache) onto the actual media. That provides all the guarantees we need, while letting some other things (`stat` information) be done more lazily. On MacOS we don't have that option, so have to resort to using `fcntl(fd, F_FULLFSYNC)` which not only makes sure that all of the metadata is complete, but also asks the disk to flush all of its cache (not just the file we are working on). That is potentially a lot more work, so we are hampered on MacOS by the lack of a faster path for what we need done.\r\n\r\nHere are the relevant bits from the `man` pages:\r\n```\r\nfdatasync() is similar to fsync(), but does not flush modified metadata unless that  meta\8208\r\ndata is needed in order to allow a subsequent data retrieval to be correctly handled.  For\r\nexample, changes to st_atime or st_mtime (respectively, time of last access  and  time  of\r\nlast modification; see stat(2)) do not require flushing because they are not necessary for\r\na subsequent data read to be handled correctly.  On the other hand, a change to  the  file\r\nsize (st_size, as made by say ftruncate(2)), would require a metadata flush.\r\n\r\nThe aim of fdatasync() is to reduce disk activity for applications that do not require all\r\nmetadata to be synchronized with the disk.\r\n```\r\n\r\n```\r\nF_FULLFSYNC     Does the same thing as fsync(2) then asks the drive to flush all buffered data\r\n                to the permanent storage device (arg is ignored).  This is currently imple-\r\n                mented on HFS, MS-DOS (FAT), and Universal Disk Format (UDF) file systems.\r\n                The operation may take quite a while to complete.  Certain FireWire drives\r\n                have also been known to ignore the request to flush their buffered data.\r\n```\r\n\r\nI am filing another issue (#5918) to both create a bit of code to provide a minimum reproducible case for this issue (to aid in reporting it better to Apple), and to investigate Apple's new APFS, to see if it has addressed this issue (and file new bugs if it has not)."
+  , issueCommentId = 230632903
+  }

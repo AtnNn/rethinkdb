@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-29) 23 : 11 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61021304"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3255#issuecomment-61021304"
+  , issueCommentCreatedAt = 2014 (-10) (-29) 23 : 11 : 48 UTC
+  , issueCommentBody =
+      "We size batches differently for operations that complete as soon as some data is available (like running `r.http(...)` and getting back a cursor) and operations that complete as soon as all the data is available (like `r.table('gazers').insert(r.http(...))`).  In the first case we stop after a certain latency regardless of how much data has been loaded.  In the latter case, the latency is irrelevant (since the user won't see the query return until all the documents have been inserted), so we size batches based only on the number of documents in them and the total document size.\r\n\r\nMy guess would be that the documents you're retrieving are small, so even after 200 pages we don't have a large enough batch for it to be worth inserting yet.  (I.e. my guess would be that batching and laziness is working, it's just that 200 pages isn't enough to fill a batch.  You could test this by setting the maximum batch size really small with the optarg we added.)\r\n\r\n(Note that we do things this way for a reason: because of the way we do unsharding, ignoring latency makes operations like `r.table('test').insert(r.table('test2').filter{...})` much more efficient if the `filter` is sparse, because we don't have to discard as many rows during the unsharding step.)"
+  , issueCommentId = 61021304
+  }

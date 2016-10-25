@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-29) 19 : 40 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41722344"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2272#issuecomment-41722344"
+  , issueCommentCreatedAt = 2014 (-04) (-29) 19 : 40 : 21 UTC
+  , issueCommentBody =
+      "I yet have to test this scenario myself, but generally what happens is this fyi:\r\n\r\nWrites and up-to-date reads for a given table are ordered based on when they arrive at the primary. The writes exclusively lock the secondary index block, and hold the lock essentially until they are done modifying all data (not including writing it back to disk, but including loading it from disk if necessary). So no read that uses a secondary index can get through while the write is going on.\r\n\r\nThe other effect that plays into this is that the read will be split up into batches of 1 MB each. Each batch has to get in line with the writes before it can be processed.\r\n\r\nAssuming a single client that issues one write query at a time, and a single long secondary index read, the sequence of processed queries is essentially like this, with virtually no parallelism happening:\r\nwrite, read batch, write, read batch, write, read batch, write, read batch, ...\r\n\r\nBy the time the read is done, it will have waited for a lot of writes to finish on the way.\r\n\r\nI'm not quite sure what we can do about this."
+  , issueCommentId = 41722344
+  }

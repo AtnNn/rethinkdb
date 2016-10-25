@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-26) 15 : 22 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159924548"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5153#issuecomment-159924548"
+  , issueCommentCreatedAt = 2015 (-11) (-26) 14 : 11 : 30 UTC
+  , issueCommentBody =
+      "I've made a self-contained test that reproduces the problem:\r\n*test-modify.py*\r\n```\r\n#! /usr/bin/env python3\r\n\r\nimport rethinkdb as r\r\nimport random\r\nimport time\r\n\r\nr.connect().repl()\r\n\r\ndb_name = 'test_db'\r\ntable_name = 'test_table'\r\n\r\nif db_name not in r.db_list().run():\r\n\tr.db_create(db_name).run()\r\n\r\nif table_name not in r.db(db_name).table_list().run():\r\n\tr.db(db_name).table_create(table_name).run()\r\n\t\r\ntable = r.db(db_name).table(table_name)\r\ntable.delete().run()\r\n\t\r\nindexes = ['_modified']\r\nexisting_indexes = table.index_list().run()\r\nfor idx in indexes:\r\n\tif idx not in existing_indexes:\r\n\t\ttable.index_create(idx).run()\r\n\r\nmax_id = 5000\r\nprint('inserting...', max_id)\r\nfor doc_id in range(1, max_id + 1):\r\n\ttable.insert({\r\n\t\t'id': doc_id,\r\n\t\t'_modified': r.now(),\r\n\t\t'value': random.randint(1, 10)\r\n\t}).run(durability='soft', noreply=True)\r\n\r\n\r\nprint('deleting...')\r\nwhile True:\r\n\ttime.sleep(0.05)\r\n\r\n\tdoc_id = random.randint(1, max_id)\r\n\r\n\texisting = table.get(doc_id).run()\r\n\tif existing:\r\n\t\ttable.get(doc_id).delete().run()\r\n\t\tprint('   del:', doc_id)\r\n\telse:\r\n\t\ttable.insert({\r\n\t\t\t'id': doc_id,\r\n\t\t\t'_modified': r.now(),\r\n\t\t\t'value': random.randint(1, 10)\r\n\t\t}).run()\r\n\t\tprint('ins   :', doc_id)\r\n```\r\nStart that and leave it running.\r\nThen run this, *test-listen.py*:\r\n```\r\n#! /usr/bin/env python3\r\n\r\nimport rethinkdb as r\r\n\r\nr.connect().repl()\r\n\r\ndb_name = 'test_db'\r\ntable_name = 'test_table'\r\n\r\ntable = r.db(db_name).table(table_name)\r\n\t\r\nprint('receiving changes...')\r\nmissing = object()\r\nfor change in table.order_by(index=r.asc('_modified')).changes(include_initial=True, include_states=True).run():\r\n\tstate = change.get('state')\r\n\tif state:\r\n\t\tif state == 'ready':\r\n\t\t\tprint('initial batch end')\r\n\t\t\tbreak\r\n\t\tcontinue\r\n\r\n\tnew = change.get('new_val', missing)\r\n\told = change.get('old_val', missing)\r\n\r\n\tif len(change) == 1 and (old is None or new is None):\r\n\t\tprint('got None event:', change)\r\n\t\tcontinue\r\n\r\n\tif new is missing:\r\n\t\tprint('got \"uninitial\":', change)\r\n```\r\nIt will receive events until `state='ready'`. It will print 'got None event' when the \"trouble\" arises.\r\nIt might not happen always - as it depends on what modifications are done at that time - so multiple runs might be required.\r\n"
+  , issueCommentId = 159924548
+  }

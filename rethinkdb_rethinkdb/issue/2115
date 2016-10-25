@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-20) 01 : 03 : 04 UTC
+  , issueUpdatedAt = 2014 (-06) (-20) 01 : 09 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2115/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2115"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 2115
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1456118
+        , simpleUserLogin = N "jamescostian"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1456118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jamescostian"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "High latency environment: horrible execution times"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2115"
+  , issueCreatedAt = 2014 (-03) (-19) 04 : 08 : 25 UTC
+  , issueBody =
+      Just
+        "# Basic setup\r\n\r\n1. Created a droplet (which I shall refer to as server 1) from Digital Ocean with 2GB of RAM in New York 1 with `Ubuntu 13.10 x64`. Also, I left VirtIO enabled (which is supposed to help somehow)\r\n2. Created a droplet (which I shall refer to as server 2) from Digital Ocean with 2GB of RAM in Amsterdam 2 with `Ubuntu 13.10 x64`. Again, I left VirtIO enabled\r\n3. SSH'd into the root account of both servers, and ran the following on both: `add-apt-repository ppa:rethinkdb/ppa && apt-get update && apt-get upgrade && apt-get install rethinkdb`\r\n4. On server 1, I ran `rethinkdb --bind all -c 2`\r\n5. On server 2, I ran `rethinkdb --bind all -c 2 -j ip_of_server1`\r\n6. [probably unimportant] I put each server in a different datacenter from the admin interface\r\n7. I created a new table on server 1 from the admin interface called `ex`, left it in the default `test` database with all of the defaults except I set \"Acknowledge writes only when written to disk\" to \"No\" (I think that this helps performance - right?)\r\n8. I opened that table in the admin interface and under \"Replication settings\" I clicked the \"Edit\" button and changed \"Replicas\" to 2\r\n9. On server 1's administration interface I went to the data explorer and ran `r.db('test').table('ex').insert({key1: 'data', key2: 'moar data', key3: 'even moar data, but still not that much'})`\r\n\r\n# Results from admin interface\r\nI enabled the query profiler and ran `r.db('test').table('ex')` - a very simple query, which only returns 1 document (which is less than 130 characters long), and therefore should take almost no time at all. But according to the query profiler, the \"server time\" was always between 357ms and 112ms (and I ran this query numerous times, varying the duration of pauses between runs).\r\n\r\nBut that doesn't really matter IMO; I don't care that much if queries on the admin interface take time, I care if actual queries that run by actual code due to actions from actual users will take time. So I set up an example with the Node driver to show that it is also affected.\r\n\r\n# Node setup\r\nIn addition to the steps from the basic setup, I also ran the following on server 1 to install Node on it and the RethinkDB driver:\r\n```bash\r\napt-get install -y python-software-properties python g++ make && add-apt-repository ppa:chris-lea/node.js && apt-get update && apt-get install nodejs && npm install rethinkdb\r\n```\r\n\r\nI then made [a script](https://gist.github.com/jamescostian/9635261) which basically just runs `r.db('test').table('ex')` and logs the time it took to receive an answer from RethinkDB. I ran the script several times, and my results ranged from ~101.8 milliseconds to ~521.1 milliseconds. But, I have a thing in the script where if you run the script and pass it an argument (e.g. `node script.js hi` assuming that the script is named `script.js`), it will run the query with `useOutdated`. When I ran it like that, I got times between ~13.2 milliseconds and ~173 milliseconds.\r\n\r\nAlso, I wanted to cc the people who were on IRC when all of this happened: @danielmewes and @atnnn"
+  , issueState = "closed"
+  , issueId = Id 29705897
+  , issueComments = 19
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 22 : 03 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97239361"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97239361"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 22 : 03 : 03 UTC
+  , issueCommentBody =
+      "I think making every cursor resumable by default would be a really bad idea.\r\nMany users don't close their cursors before closing their connection (I wouldn't do it at least). In a lot of cases, this would lead to loads of up to 100,000 element queues accumulating on the servers for all the changefeeds that have ever been opened during the past hour.\r\n\r\nBesides that, another disadvantage of having it automatic would be the missing visibility of the feature.\r\n\r\n> What scenarios will you want to be able to resume a cursor, but not more than one hour later, and you don't want to rely on the underlying TCP mechanisms for timeout and reconnection attempts etc.\r\n\r\nIt seems to be a frequently requested feature to protect against intermittent client connectivity issues. TCP as usually implemented/configured doesn't do a very good job for those, since most OS terminate TCP connections pretty quickly if no packages can be exchanged, or if they note that the underlying link is down.\r\nThis proposal clearly only solves a limited set of use cases, but it seems relevant and provides us with a path that's doable for 2.1 and doesn't interfere with another interface in the future (like we don't end up with two interfaces that look very similar, but have slightly different semantics. A timestamp-based interface would be clearly distinguishable from the semi-transparent resume interface)."
+  , issueCommentId = 97239361
+  }

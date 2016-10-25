@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-06) 20 : 04 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 67937
+        , simpleUserLogin = N "encryptio"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/67937?v=3"
+        , simpleUserUrl = "https://api.github.com/users/encryptio"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/169424548"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5177#issuecomment-169424548"
+  , issueCommentCreatedAt = 2016 (-01) (-06) 19 : 13 : 39 UTC
+  , issueCommentBody =
+      "**tl;dr: I'm now of the opinion that this cure is worse than the disease, we should NOT do this, and stay with the slightly more painful but safer `-Wswitch-enum -Wswitch-default`.**\r\n\r\nI worked on this a bit and partway through discussed some things with @mlucy;\r\n\r\nThe goals I had in mind for this were:\r\n- Decrease the pain of partial `switch` statements\r\n- Maintain compile-time errors on missing enumerations\r\n\r\nBut, while implementing this, I needed to remove a HUGE number of `default: unreachable()` cases because they'd conflict with the second goal under the new `-Wswitch` flag.\r\n\r\nThere are so many of these `default: unreachable()` cases that removing their runtime safety (to memory reuse, corruption, etc) to retain the same level of compile time safety under the new compiler flags seems far, far worse than doing the `switch (static_cast<int>(...))` hack in the cases where partial `switch`es are helpful.\r\n\r\nIn fact, @mlucy made a good point in person that a non-erroring `default` case (not `unreachable()`, `throw protocol_error`, etc) that doesn't raise compile time errors on missing enumerations is generally a scary thought in a codebase as large as ours is, since any person is unlikely to remember all the places an enumeration is `switch`ed on and if the `default` case is actually correct or not for the new value. Explicitly mentioning each case that has been thought about and having the compiler tell you about new ones is immensely valuable, if annoying at times."
+  , issueCommentId = 169424548
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-05) 21 : 44 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 856748
+        , simpleUserLogin = N "Cherry"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/856748?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Cherry"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/145676636"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4823#issuecomment-145676636"
+  , issueCommentCreatedAt = 2015 (-10) (-05) 21 : 42 : 06 UTC
+  , issueCommentBody =
+      "Unfortunately not (at least for reporting sake). The only change we've made internally is disabling a script that had a couple of constant running change-feeds, for monitoring purposes.\r\n\r\nFor reference, the disabled script was performing the following queries:\r\n\r\n```javascript\r\nr.connect(config.rethinkdb).then(function(c){\r\n\tr.table(\"stats\").filter(r.row(\"id\")(0).eq(\"cluster\")).changes().run(c)\r\n\t.then(function(cursor){\r\n\t\tcursor.each(function(err, item){\r\n\t\t\tio.to('stats').emit(\"rethink_stats\", item);\r\n\t\t});\r\n\t});\r\n\r\n\tr.table(\"server_status\").changes().run(c)\r\n\t.then(function(cursor){\r\n\t\tcursor.each(function(err, item){\r\n\t\t\tio.to('stats').emit(\"rethink_servers\", item);\r\n\t\t});\r\n\t});\r\n});\r\n```\r\nwhere `io` is a socket.io server. We highly doubt this was causing any issues, but it hasn't been enabled since reporting this issue, and is the only real thing we've changed internally.\r\n\r\nSorry I don't have any further information, but we're glad the issue has stopped occurring!"
+  , issueCommentId = 145676636
+  }

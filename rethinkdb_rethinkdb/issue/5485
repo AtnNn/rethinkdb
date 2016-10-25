@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-09) 01 : 07 : 30 UTC
+  , issueUpdatedAt = 2016 (-03) (-17) 20 : 36 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5485/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5485"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e0e5a0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/quick_to_fix"
+          , labelName = "quick_to_fix"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5485
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 67937
+          , simpleUserLogin = N "encryptio"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/67937?v=3"
+          , simpleUserUrl = "https://api.github.com/users/encryptio"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 106287
+        , simpleUserLogin = N "fkollmann"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/106287?v=3"
+        , simpleUserUrl = "https://api.github.com/users/fkollmann"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Check if the connected server is a proxy"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5485"
+  , issueCreatedAt = 2016 (-03) (-06) 07 : 04 : 44 UTC
+  , issueBody =
+      Just
+        "**Description**\r\n\r\nCurrently, there is no direct way to determine, whether or not the connected server is a proxy. This is important, because when using configuration in production environments, setting the server name to localhost is a no-go. Instead, we dynamically check if there is a proxy available on localhost.\r\n\r\nHowever, the downside of this is, that if the local server is not a proxy, but a serving rethink server our software will not work as expected (obviously, since it's use the wrong server).\r\n\r\n**Feature Request**\r\n\r\nAn easy solution for us would be to have a simple check, like _server()_ providing an _isProxy_ field:\r\n\r\n`conn.server()` returning `{ \"id\": \"404bef53-4b2c-433f-9184-bc3f7bda4a15\", \"name\": \"amadeus\", \"isProxy\": \"true\" }`\r\n\r\nsee [api docs](https://www.rethinkdb.com/api/javascript/server/).\r\n\r\n**Workaround**\r\n\r\nWhat we're currently doing is simply trying to connect to _localhost_ and check whether or not the expected server is part of the cluster. We do this by having both the _server name_ and the _server id_ in our configuration (pseudo code):\r\n\r\n```\r\nvar conn = r.connect({ host: 'localhost', port: 28015, db: env.mainDb.database });\r\n\r\nif (conn) {\r\n  if (r.db('rethinkdb').table('server_config').getAll(env.mainDb.hostId).isEmpty()) {\r\n    conn.close({ noreplyWait: true });\r\n    conn = null;\r\n  }\r\n}\r\n\r\nif (!conn) {\r\n  conn = rethinkdb.connect({ host: env.mainDb.hostname, port: 28015, db: env.mainDb.database });\r\n}\r\n```\r\n\r\nThis trick allows us to automatically check for a local rethinkdb proxy and ensure that it belongs to the correct cluster. If not, it will connect to the server directly, the old way.\r\n"
+  , issueState = "closed"
+  , issueId = Id 138761694
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 118
+          , milestoneClosedIssues = 15
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.2.6"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/118"
+          , milestoneCreatedAt = 2016 (-03) (-17) 20 : 36 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

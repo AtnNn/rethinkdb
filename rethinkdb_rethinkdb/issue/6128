@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-17) 15 : 35 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6128/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6128"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 6128
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3372410
+        , simpleUserLogin = N "arekkas"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3372410?v=3"
+        , simpleUserUrl = "https://api.github.com/users/arekkas"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "How to guarantee delivery with changefeeds"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6128"
+  , issueCreatedAt = 2016 (-09) (-29) 21 : 12 : 33 UTC
+  , issueBody =
+      Just
+        "Upon reading through the docs, I stumbled upon the *Scaling considerations* section on [the changefeed page](https://www.rethinkdb.com/docs/changefeeds/javascript/):\r\n\r\n> Since changefeeds are unidirectional with no acknowledgement returned from clients, they cannot guarantee delivery. If you need real-time updating with delivery guarantees, consider using a model that distributes to the clients through a message broker such as [RabbitMQ](https://www.rethinkdb.com/docs/rabbitmq/javascript/).\r\n\r\nThe RabbitMQ link forwarded me to the [RabbitMQ integration page](https://www.rethinkdb.com/docs/rabbitmq/javascript/). There I noticed, that this example script (let's call it adapter script) is also using changefeeds:\r\n\r\n> RethinkDB supports changefeeds, which allow you to subscribe to changes on a table. The database pushes these changes to you as they happen. This opens up the possibility of notifying client applications immediately when a change occurs in a table. For real-time applications, this push behavior is essential. RabbitMQ is a natural choice for distributing notifications of change events. [...]\r\n\r\nAnd the concrete example taken from the docs:\r\n\r\n```js\r\nvar tableChanges = r.db('change_example').table('mytable').changes();\r\npromise = promise.then(function(){\r\n    return tableChanges.run(rethinkConn);\r\n}).then(function(changeCursor){\r\n    changeCursor.each(function(err, change){\r\n        var routingKey = 'mytable.' + typeOfChange(change);\r\n        var payload = new Buffer(JSON.stringify(change));\r\n        channel.publish('rethinkdb', routingKey, payload);\r\n    })\r\n})\r\n```\r\n\r\nHowever, this will only guarantee delivery of messages that actually arrived at the adapter script. I might have reduced the amount of errors that can occur by reducing the amount of listeners on rethinkdb, but [the network is still not reliable](https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing) and there will still be messages that will not get delivered, despite of RabbitMQ.\r\n\r\nSo, how is it possible to have a guarantee of delivery with rethinkdb?"
+  , issueState = "open"
+  , issueId = Id 180164423
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

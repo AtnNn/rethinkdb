@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-15) 22 : 22 : 24 UTC
+  , issueUpdatedAt = 2016 (-02) (-16) 03 : 29 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5402/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5402"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:packaging"
+          , labelName = "cp:packaging"
+          }
+      , IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      ]
+  , issueNumber = 5402
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 134680
+        , simpleUserLogin = N "vrde"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/134680?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vrde"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Some python driver versions don't work properly on Ubuntu 14.04 (throws a VersionConflict)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5402"
+  , issueCreatedAt = 2016 (-02) (-15) 21 : 25 : 37 UTC
+  , issueBody =
+      Just
+        "I noticed this behavior installing our package [BigchainDB](https://github.com/bigchaindb/bigchaindb) an AWS instance with Ubuntu 14.04. Our package installs a couple of shell scripts, and they both fail to run because of a `VersionConflict` exception. If you need, our [`setup.py` is available in our repo](https://github.com/bigchaindb/bigchaindb/blob/develop/setup.py) as well as the issue https://github.com/bigchaindb/bigchaindb/issues/41.\r\n\r\nThis issue affects all the packages where:\r\n - the value of [`rethinkdb.version.version`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/python/rethinkdb/version.py) is different than the value of `Version` in `PKG-INFO` in the [source distribution](https://pypi.python.org/packages/source/r/rethinkdb/rethinkdb-2.2.0.post3.tar.gz), and\r\n - the system is using the default version of `setuptools` shipped with Ubuntu 14.04 (that is, `setuptools==3.3`). The last version of `setuptools` works properly, but I think the problem is on how the driver is packaged on your side.\r\n\r\n## Steps to reproduce the exception (with docker)\r\n### Get a shell in ubuntu 14.04\r\n\r\n```sh\r\ndocker run --rm -it ubuntu:14.04\r\n```\r\n### Once you are inside the container\r\n```sh\r\napt-get install python3-setuptools -y\r\neasy_install3 pip\r\npip install rethinkdb==2.2.0.post3\r\npython3\r\n```\r\n\r\n### Once you are in the interpreter\r\n```python\r\n>>> import pkg_resources as p\r\n>>> ws = p.WorkingSet()\r\n>>> ws.resolve([p.Requirement.parse('rethinkdb==2.2.0.post3')])\r\n\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/lib/python3/dist-packages/pkg_resources.py\", line 632, in resolve\r\n    raise VersionConflict(dist,req) # XXX put more info here\r\npkg_resources.VersionConflict: (rethinkdb 2.2.0-3 (/usr/local/lib/python3.4/dist-packages), Requirement.parse('rethinkdb==2.2.0.post3'))\r\n```\r\n\r\n## But, it works in this case\r\nIn the container, try to install an alternative version of the driver\r\n\r\n```sh\r\npip install rethinkdb==2.1.0\r\n```\r\n\r\n### Once you are in the interpreter\r\n```python\r\n>>> import pkg_resources as r\r\n>>> \r\n>>> ws = r.WorkingSet()\r\n>>> \r\n>>> ws.resolve([r.Requirement.parse('rethinkdb==2.1.0')])\r\n[rethinkdb 2.1.0 (/usr/local/lib/python3.4/dist-packages)]    # <-- yee, no exception!\r\n```\r\n\r\n## Conclusion\r\nI think that the problem is when the package name ends with `postX`, like `rethinkdb 2.2.0.post3`, `rethinkdb 2.2.0.post2`, `rethinkdb 2.2.0.post1` and on. I inspected the packages in [pypi](https://pypi.python.org/pypi/rethinkdb) and there is a discrepancy between the version in the `rethinkdb.version` package and the version contained in `PKG-INFO`."
+  , issueState = "closed"
+  , issueId = Id 133820930
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2016 (-02) (-19) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 117
+          , milestoneClosedIssues = 18
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/117"
+          , milestoneCreatedAt = 2016 (-02) (-16) 03 : 29 : 45 UTC
+          , milestoneState = "closed"
+          }
+  }

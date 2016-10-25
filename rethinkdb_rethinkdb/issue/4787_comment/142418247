@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-22) 21 : 38 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/142418247"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4787#issuecomment-142418247"
+  , issueCommentCreatedAt = 2015 (-09) (-22) 20 : 54 : 16 UTC
+  , issueCommentBody =
+      "This is up for internal review with CR 4784 from branch `larkost/4787-yaml-parser`.\r\n\r\nThis completely does away with the `PyYAML` dependency, but there are some things to know about the \"new\" format:\r\n- For the vast majority of cases there is nothing to change.\r\n- The main change is that the new parser is does not try to interpret the \"value\" section of a line. Mostly this means we don't have to work so hard to work around the format. For instance:\r\n  - Don't double-quote string values: `'\"STRING\"'` -> `\"STRING\"`\r\n  - No need to put parens around values to prevent Yaml from trying to translate them: `([])` -> `[]` (side note: in all of our current languages these two still evaluate to the same thing)\r\n  - Dictionaries are now only translated by our string-manipulation code, so you don't have to worry about spaces after colons.\r\n- in-line comments should be avoided since they will not be stripped or translated. For Python and Ruby this is probably not an issue, but for JavaScript it will cause errors (different in-line comment marker). Full-line comments work as expected: they are stripped out in processing.\r\n- Having multiple tests on one line using an array no longer works, this is now interpreted as one test with an array (probably will not do the right thing). You can still have multiple commands inside a single test (i.e.: sharing the same output goal), but now have to list each one on a separate line.\r\n- Line numbers from the Yaml file are now used as the sub-test \"names\". This makes it much easier to find problems.\r\n- Yaml allows for an `array` inside a `dict` item to be at the same indent level. That over-complicated the code and looked wrong to me so I removed it. We only had one instance of this in the whole codebase.\r\n\r\nI have also filed #4874 to document the Polyglot format."
+  , issueCommentId = 142418247
+  }

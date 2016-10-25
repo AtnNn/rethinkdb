@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2015 (-09) (-26) 21 : 22 : 42 UTC
+  , issueUpdatedAt = 2015 (-09) (-26) 21 : 22 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4636/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/pull/4636"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4636
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8237
+        , simpleUserLogin = N "captainpete"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8237?v=3"
+        , simpleUserUrl = "https://api.github.com/users/captainpete"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Name-based UUID from RQL"
+  , issuePullRequest =
+      Just
+        PullRequestReference
+          { pullRequestReferenceHtmlUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4636"
+          , pullRequestReferencePatchUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4636.patch"
+          , pullRequestReferenceDiffUrl =
+              Just "https://github.com/rethinkdb/rethinkdb/pull/4636.diff"
+          }
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4636"
+  , issueCreatedAt = 2015 (-08) (-06) 04 : 49 : 54 UTC
+  , issueBody =
+      Just
+        "### Motivation\r\n\r\nIn RethinkDB one of the modelling constraints is that primary keys are limited to single attributes.\r\nIn [DV](https://en.wikipedia.org/wiki/Data_Vault_Modeling) modelling a similar constraint is present, and it's common practice to generate surrogate keys with hashing algorithms using one or more natural keys.\r\n\r\nHashed keys are useful for knowing the id of a record (that may not exist yet) if we have the natural key values (useful for parallel/partial loading). Primary surrogate keys derived from hashed natural keys are also useful in the situation when replacing or updating documents matching multiple values (a kind of soft uniqueness constraint for atomic updates by key vector).\r\n\r\nAll this hashing can be handled client-side, but ETL style insert-from-select queries are a lot faster and will run in parallel. Having a deterministic hashing function (something like `r.sha1`) in RQL allows for some pretty cool relational modelling based on existing natural keys.\r\n\r\n### The patch\r\n\r\nInstead of introducing new hashing terms into RQL, existing UUID code allows for generation of name-based UUIDs (RFC4122 4.3) using SHA1. I've modified the `r.uuid` term allowing an optional value to be passed in. This also matches the existing default primary key convention of a UUID.\r\n\r\n### Possible improvements\r\n\r\n- I've used a global base UUID, allow specifying the base (for example, a table name).\r\n- Don't overload `r.uuid`, call it something else that produces a UUID.\r\n- `is_deterministic` should return true if we're using a name.\r\n\r\nHaven't written anything in C++ for many years but the patch is pretty straight-forward.\r\n"
+  , issueState = "closed"
+  , issueId = Id 99353149
+  , issueComments = 31
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

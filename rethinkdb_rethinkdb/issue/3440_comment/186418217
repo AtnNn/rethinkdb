@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-19) 21 : 38 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/186418217"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3440#issuecomment-186418217"
+  , issueCommentCreatedAt = 2016 (-02) (-19) 21 : 38 : 56 UTC
+  , issueCommentBody =
+      "@Prinzhorn -- \r\n\r\n> Errors are not the common case and shouldn't be treated as such. The 0.01% (or whatever) of requests which result in an error shouldn't be treated as data the way they currently are.\r\n\r\nI don't necessarily disagree with you, but I think you're underestimating the number of write queries that produce errors.  Some people use databases like RethinkDB with an implicit schema, and for them write errors are rare and almost always indicate a serious problem.  But other people store extremely unstructured data and seem perfectly comfortable issuing write queries and having them only update the documents that match the implicit schema the query is operating on.  I think the second approach to development is a little scary, but it's a real thing people do.\r\n\r\nThat said, it might be better to force people operating under the second model to catch exceptions every time they issue a write rather than forcing people operating under the first model to check the write summary object for errors.\r\n\r\n> If 5 of 10 documents resulted in an error and the other 5 in a successful insert, what now?\r\n\r\nIn that case it isn't very useful, but it's useful to be able to distinguish between write operations that failed on all (or almost all) documents and write queries that failed on a small number of malformed documents but were generally successful.  This is especially true when you have multiple developers, because any one of them can insert a malformed document by accident when you aren't expecting it, and you want to distinguish that from the write operation being broken."
+  , issueCommentId = 186418217
+  }

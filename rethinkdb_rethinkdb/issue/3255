@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 34 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3255/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3255"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3255
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "`r.insert(r.http)` breaks batching/lazyness"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3255"
+  , issueCreatedAt = 2014 (-10) (-29) 22 : 01 : 13 UTC
+  , issueBody =
+      Just
+        "If I run `t1.insert(t2)`, RethinkDB lazily grabs data from `t2` in batches and writes it to `t1`. I know that because when `t2` has more than 100k elements, the operation still succeeds (we don't trip the array limit), and because looking at read/write graph, I see occasional spikes in reads followed by occasional overlapping spikes in writes.\r\n\r\nHowever, when I do the following:\r\n\r\n```js\r\nr.table('gazers').insert(\r\nr.http('https://api.github.com/repos/rethinkdb/rethinkdb/stargazers', {\r\n       page: 'link-next',\r\n       pageLimit: -1,\r\n       auth: {\r\n           user: GITHUB_TOKEN_HERE,\r\n           pass: 'x-oauth-basic'\r\n       }\r\n})  \r\n)\r\n```\r\n\r\nRethink tries to load everything before it writes it to the table -- it doesn't write one page at a time. I know that because I see no writes on the dashboard, and if I interrupt the query at roughly page 200, there is nothing in the database. Running `t.count` also returns zero elements until the query is done.\r\n\r\nThis isn't a problem with `r.http` because if I just call that, I get the first batch almost instantaneously. I can also call `r.http().map()`, and batching appears to work there as well. It seems to only be broken when coupled with inserts.\r\n\r\nWe should fix that, as it makes `r.http` unusable with large datasets if I want to store them in a table without doing a roundtrip through the client.\r\n\r\n/cc @mlucy @gchpaco "
+  , issueState = "open"
+  , issueId = Id 47209560
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

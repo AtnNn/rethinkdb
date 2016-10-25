@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-01) 06 : 18 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/88365722"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3997#issuecomment-88365722"
+  , issueCommentCreatedAt = 2015 (-04) (-01) 06 : 18 : 21 UTC
+  , issueCommentBody =
+      "It is possible to simulate changefeeds on eqJoins:\r\n\r\n```\r\nr.table('bar').eqJoin('foo', r.table('foo')).changes()\r\n```\r\n\r\nUsing an extra index and the newly available support for changefeeds on unions:\r\n\r\n```\r\nr.table('bar').indexCreate('foo');\r\n\r\nr.table('bar').map({left:r.row}).union(r.table('foo').map({right:r.row}))\r\n  .changes().concatMap(function(change){\r\n  var side = change('old_val').default(change('new_val')).keys()(0);\r\n  return r.branch(side.eq('left'),\r\n      [change.merge({\r\n        new_val: r.branch(change('new_val'),\r\n          {right: r.table('foo').get(change('new_val')('left')('foo'))}, null),\r\n        old_val: r.branch(change('old_val'),\r\n          {right: r.table('foo').get(change('old_val')('left')('foo'))}, null)})],\r\n    r.table('bar').getAll(change('new_val')('right')('id').default(\r\n                          change('old_val')('right')('id')), {index: 'foo'})\r\n      .map(function(left){\r\n        return change.merge({new_val: {left: left}, old_val: {left: left}})}))})\r\n```"
+  , issueCommentId = 88365722
+  }

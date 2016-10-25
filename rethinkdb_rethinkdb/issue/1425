@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-09) (-13) 19 : 31 : 50 UTC
+  , issueUpdatedAt = 2013 (-09) (-26) 04 : 11 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1425/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1425"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1425
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Configure I/O pool threads' stack size to a smaller value instead of using the default."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1425"
+  , issueCreatedAt = 2013 (-09) (-13) 02 : 33 : 57 UTC
+  , issueBody =
+      Just
+        "In issue #1422, user @nu11gravity ran out of memory because his system had a 10 MB default stack size and 256MB of memory, resulting in hitting a resource allocation limit in a pthread_create call since the default I/O pool size is 32.\r\n\r\nA workaround is to use `--io-threads` to specify a smaller I/O pool size.\r\n\r\nOur blocker pool threads do not need much stack space.  They don't recurse, the deepest we go is when printing a backtrace when a guarantee fails.\r\n\r\nThe default stack size on the system I'm using right now is 2 MB.  There's no need for use to spend 64 MB of memory on these I/O pool threads.  We could set a pthread attribute to make their stacks much smaller.  128 KB would be fine, that's what our coroutine stack size is.\r\n\r\nedit: working on this in branch sam_1425 off v1.9.x."
+  , issueState = "closed"
+  , issueId = Id 19427368
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 50
+          , milestoneClosedIssues = 52
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.10.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/50"
+          , milestoneCreatedAt = 2013 (-09) (-26) 04 : 11 : 33 UTC
+          , milestoneState = "closed"
+          }
+  }

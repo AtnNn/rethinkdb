@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-09) 17 : 27 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/138983723"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-138983723"
+  , issueCommentCreatedAt = 2015 (-09) (-09) 17 : 27 : 50 UTC
+  , issueCommentBody =
+      "In preparation for this we sat down and had one our devs write a C wrapper around `rapidjson` a fast C based json serialization library that is equivalent to `ujson` but without all the craziness:\r\n\r\nhttps://github.com/kenrobbins/python-rapidjson\r\n\r\nYou can see the performance differences here:\r\n\r\n```\r\nEncoding Test (15000 loops)\r\nPackage                 Seconds\r\n--------------------  ---------\r\nrapidjson              0.16386\r\nujson-1.33             0.239329\r\nyajl 0.3.5             0.498792\r\njson                   0.50118\r\nmsgpack-python-0.3.0   0.508963\r\nsimplejson-3.3.1       0.650035\r\npickle (ascii)         0.79195\r\n\r\nDecoding Test (15000 loops)\r\nPackage                 Seconds\r\n--------------------  ---------\r\nmsgpack-python-0.3.0   0.191611\r\npickle (ascii)         0.250633\r\nujson-1.33             0.273823\r\nrapidjson              0.285783\r\njson                   0.45713\r\nyajl 0.3.5             0.471374\r\nsimplejson-3.3.1       0.672706\r\n```\r\n\r\nand it supports object_hook:\r\n\r\n```python\r\nimport rapidjson\r\n\r\nDATA = \"\"\"\r\n{\r\n  \"attr1\": \"foo\",\r\n  \"attr2\": \"bar\",\r\n  \"_class\": \"Foo\",\r\n  \"attr3\": {\r\n    \"attr3_1\": \"spam\",\r\n    \"attr3_2\": \"egg\",\r\n    \"_class\": \"Bar\"\r\n  }\r\n}\r\n\"\"\"\r\n\r\nclass Base(object):\r\n    def __init__(self, **kwargs):\r\n        for key, value in kwargs.items():\r\n            setattr(self, key, value)\r\n\r\n    def __repr__(self):\r\n        s = \"<%s: %s>\" % (\r\n            self.__class__.__name__,\r\n            \", \".join(\"%s=%s\" %\r\n            (key, value) for key, value in self.__dict__.items()))\r\n        return s\r\n\r\n\r\nclass Foo(Base):\r\n    pass\r\n\r\nclass Bar(Base):\r\n    pass\r\n\r\ndef hook(dct):\r\n    class_name = dct.get('_class')\r\n    if class_name == 'Foo':\r\n        return Foo(**dct)\r\n    elif class_name == 'Bar':\r\n        return Bar(**dct)\r\n    return dct\r\n\r\n\r\ndef main():\r\n    \"\"\"\r\n    >>> main()\r\n    <Foo: _class=Foo, attr2=bar, attr3=<Bar: attr3_2=egg, attr3_1=spam, _class=Bar>, attr1=foo>\r\n    \"\"\"\r\n    result = rapidjson.loads(DATA, object_hook=hook)\r\n    print(result)\r\n\r\n\r\nif __name__ == '__main__':\r\n    main()\r\n```\r\n\r\nThe one caveat is it only supports python3."
+  , issueCommentId = 138983723
+  }

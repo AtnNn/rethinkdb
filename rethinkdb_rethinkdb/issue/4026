@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 24 : 51 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4026/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4026"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 4026
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "return connection along with value in JavaScript promises"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4026"
+  , issueCreatedAt = 2015 (-04) (-08) 00 : 43 : 10 UTC
+  , issueBody =
+      Just
+        "The promises returned by the JavaScript driver currently returns only the value explicitly called for, i.e. `get()` returns the record specified. But if you are trying to include a `connect()` call in the promise chain this means you have to stash the connection in a global (or at least outer scoped) variable in order to use it in links other than the one immediately following the `connect()` one. For example:\r\n\r\n```javascript\r\nvar globalConn = null;\r\nr.connect().then(function(conn) {\r\n    globalConn = conn; // required to use in subsequent links\r\n    return r.get(1).run(conn);\r\n}).then(function(value, conn) {\r\n    // conn is undefined, so globalConn is is the only way of getting the connection\r\n})\r\n```\r\n\r\nHowever, the BlueBird module that we use for Promises does allow for multiple values using the [`spread`](https://github.com/petkaantonov/bluebird/blob/master/API.md#option-spread) option. This would allow for promise chains with multiple ReQL queries in it without requiring a (semi) global variable."
+  , issueState = "open"
+  , issueId = Id 67021488
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

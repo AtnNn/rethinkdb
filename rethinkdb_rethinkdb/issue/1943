@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-02) (-05) 23 : 39 : 19 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1943/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1943"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1943
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 29508
+        , simpleUserLogin = N "aschmitz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/29508?v=3"
+        , simpleUserUrl = "https://api.github.com/users/aschmitz"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Slow secondary index queries for common prefixes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1943"
+  , issueCreatedAt = 2014 (-02) (-12) 02 : 21 : 54 UTC
+  , issueBody =
+      Just
+        "I have a table with a secondary index on \"foo\", and a bunch of documents with values for foo like \"aaaNbbb\", where N is an integer. Queries for table.getAll(\"ccc\", {index: \"foo\"}) return almost instantly, as do queries for \"aaa123456bbb\" (for example). However, queries for prefixes take an increasing amount of time:\r\n\r\nquery | time\r\n----- | ----\r\n\"aaa297524\" | 18ms\r\n\"aaa29752\" | 43ms\r\n\"aaa2975\" | 917ms\r\n\"aaa297\" | 3.08s\r\n\"aaa29\" | 37.93s\r\n\"aaa2zzz\" | 75ms\r\n\"ccc\" | 18ms\r\n\r\n(The table has ~2.3 million documents, which takes up ~13 GB on disk, and does not fit in RAM. Garbage collection was occurring at the time of these measurements, but no other queries. All times are the server time from the Data Explorer view's query profile. 99%+ of time spent in the longer queries was in \"Do range scan on secondary index.\", according to the query profile. To simplify, the index name, prefixes, and suffixes here are made up. The actual prefix is 47 characters long.)\r\n\r\nNote that all of the queries timed above correctly returned no results. The increasing timings occurred for other numbers and their prefixes as well.\r\n\r\nQueries that are not common prefixes (such as \"aaa2zzz\") return quickly. It would be great if queries that are common prefixes would also return quickly."
+  , issueState = "open"
+  , issueId = Id 27405099
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

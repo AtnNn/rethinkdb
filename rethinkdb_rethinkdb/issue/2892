@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-12) 18 : 49 : 05 UTC
+  , issueUpdatedAt = 2014 (-08) (-12) 23 : 16 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2892/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2892"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2892
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 563469
+        , simpleUserLogin = N "niieani"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/563469?v=3"
+        , simpleUserUrl = "https://api.github.com/users/niieani"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Overload getAll with single array as parameter to fetch multiple documents"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2892"
+  , issueCreatedAt = 2014 (-08) (-12) 12 : 04 : 20 UTC
+  , issueBody =
+      Just
+        "Hi there,\r\n\r\nHere's a useful and simple feature that could be added to the clients - that is - to overload getAll command so that it could also take in ID's as a single array, not only as multiple params.\r\n\r\nAn example use would be:\r\n```javascript\r\nr.table('dc').getAll(['superman', 'ant man']).run(conn, callback)\r\n```\r\nAs an addition to the currently available:\r\n```javascript\r\nr.table('dc').getAll('superman', 'ant man').run(conn, callback)\r\n```\r\n\r\nWhy?\r\nA use case would be to simplify certain queries. \r\nRight now, I have to write a query with 2nd-level lambda nesting to get the desired effect:\r\n```javascript\r\nr.table('data').merge(function(obj){ \r\n                            var retVal = obj('projects').map(function(row) {\r\n                                return r.table('data-1234').get(row)('name')\r\n                            });\r\n                            return r.object('projects', retVal );\r\n});\r\n```\r\n(this serves to simply replace the array of project ID's with an array of their respective names from another table)\r\n\r\nIf this were implemented, I could simply write:\r\n```javascript\r\nr.table('data').merge(function(obj){ \r\n   return r.object('projects', r.table('data-1234')).getAll(obj('projects')).pluck('name').coerceTo('array'));\r\n});\r\n```\r\n\r\nCheers!"
+  , issueState = "closed"
+  , issueId = Id 40048312
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

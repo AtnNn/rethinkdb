@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-06) 08 : 27 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5901/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5901"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      ]
+  , issueNumber = 5901
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6277212
+        , simpleUserLogin = N "tatsujin1"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6277212?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tatsujin1"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Python: print(query) outputs invalid query"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5901"
+  , issueCreatedAt = 2016 (-07) (-01) 08 : 35 : 11 UTC
+  , issueBody =
+      Just
+        "It's sometimes very useful to log the (dynamically) built query. However, the output query string is not syntactically correct.\r\n\r\nExample:\r\n```\r\n>>> query = r.db('test').table('test').filter(r.row.has_fields('test'))\r\n>>> print(query)\r\nr.db('test').table('test').filter(lambda var_1: r.row.has_fields('test'))\r\n\r\n(copy and run this query):\r\n>>> r.db('test').table('test').filter(lambda var_1: r.row.has_fields('test')).run()\r\nReqlServerCompileError: Cannot use r.row in nested queries.  Use functions instead in:\r\nr.db('test').table('test').filter(lambda var_1: r.row.has_fields('test'))\r\n                                                ^^^^^                    \r\n```\r\nThe correct query should probably be:\r\n`r.db('test').table('test').filter(lambda var_1: var_1.has_fields('test'))`\r\n\r\nI think it always happens when a `.filter()` does not use lambda."
+  , issueState = "open"
+  , issueId = Id 163346006
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-02) 18 : 41 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1325507
+        , simpleUserLogin = N "mshi"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1325507?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mshi"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161393527"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5039#issuecomment-161393527"
+  , issueCommentCreatedAt = 2015 (-12) (-02) 18 : 41 : 12 UTC
+  , issueCommentBody =
+      "It might be worth mentioning that I found the cause of this, albeit strange that it would lock up the entire database. In my case it was a bunch of queries that was backed up and each of them took a very long time to complete.\r\n```javascript\r\nr.table('users').filter(function(doc){\r\n\t\t\treturn doc('userid').match(\"(?i)\"+req.params.user_name).or(doc('name').match(\"(?i)\"+req.params.user_name))\r\n\t\t}).limit(5)\r\n```\r\nThe above snippet was being called from an autocomplete box and the entire database locks up when there are 5-10 of those requests queued, and stalled at a very low read rate. After optimizing and improving that I have not experienced the above mentioned behavior.\r\n\r\nIt's also worth mentioning that I am on the latest version, and it seems to have many performance improvements that might have contributed to this fix as well. In the older version, the memory will just continue to grow until the Google daemon kills the process to free up memory. The current version does not exhibit that behavior.\r\n"
+  , issueCommentId = 161393527
+  }

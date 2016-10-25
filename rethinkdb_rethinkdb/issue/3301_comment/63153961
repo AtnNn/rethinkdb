@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-15) 01 : 28 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63153961"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3301#issuecomment-63153961"
+  , issueCommentCreatedAt = 2014 (-11) (-15) 01 : 28 : 07 UTC
+  , issueCommentBody =
+      "I had a discussion with @danielmewes the other night that amounted to the following.\r\n\r\n1. Now that we have an `r.binary` type we really shouldn't go around accepting bizarre strings; we should accept that we must do at least some processing of Unicode strings to make UTF-8 work.  We should trigger an error if you pass non-UTF-8 data (and yes this will probably break somebody's stuff, so we'll need to think about what we want to do if there's terrible data *already in the database* that someone wants to read out).  This will require at minimum rebuilding people's sindexes, and possibly altering the main btree index in the event that somebody managed to store a denormalized key.  This is a headache, but we are demonstrably doing the wrong thing here.\r\n2. We should never emit denormalized strings and we should always normalize strings on input.  Unicode normalization is an algorithm defined by the Unicode committee that is semantically lossless.  We should absolutely not write our own normalization algorithm; we should use the one from [ICU](http://site.icu-project.org).  ICU is capable of using UTF-8.  There are four different normalization algorithms depending on what you want; we should use NFC, as NFKC is not appropriate for our application.\r\n3. We should absolutely not support any form of input other than UTF-8 (possibly we should accept CESU-8 for cross compatibility, but certainly we should never emit it).  If we use ICU as I advocate, this is a non-issue.\r\n4. Folks who want to store text encoded in Shift JIS or for that matter in EBCDIC are welcome to use `r.binary` as normal, which will roundtrip the text unmolested.\r\n\r\nFor those unfamiliar with what normalization does, consider `\233`.  There are two ways of encoding that character in Unicode; either as the single code point U+00E9 or as the character sequence U+0065, U+0301.  These exist because not every combination of letters and diacritical marks used in human languages exists as a discrete code point in Unicode.  Multiple diacritical marks are also possible, which raises an ordering problem; consider for example the Vietnamese name \"B\7857ng\", with two diacritics on the \"a\".\r\n\r\nOne potential headache with adopting UTF-8; UTF-8 can contain NULL characters (that is, U+0000); this is a particular nuisance with cJSON and perhaps a good reason to abandon it.  Our other strings use Pascal style by and large but somebody should probably go through and verify that we are null byte safe.  There are \"alternate UTF-8 encodings\" that do not have this issue (for example Java's \"modified UTF-8\" through the serialization process, which encodes U+0000 as 0xC0,0x80, or CESU-8 which is a bizarre thing that Oracle and MySQL think are UTF-8) but our wire protocol absolutely should be UTF-8 with null bytes intact. "
+  , issueCommentId = 63153961
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-09) 18 : 30 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/217948678"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5757#issuecomment-217948678"
+  , issueCommentCreatedAt = 2016 (-05) (-09) 18 : 30 : 43 UTC
+  , issueCommentBody =
+      "Thanks for the report @anatol .\r\n\r\nThe warning about `./src/rdb_protocol/lazy_btree_val.hpp:10:19` seems valid. I think this should be `char contents[1];`.\r\n\r\nThe other warnings about the `callable_action_wrapper_t` instantiation look like a false positive. The code that GCC complains about is in the `else` branch of a check `if (sizeof(callable_action_instance_t<Callable>) > CALLABLE_CUTOFF_SIZE)` which should make sure that the code is never executed in the case that the warning is complaining about.\r\n\r\nWe might need to just disable this warning class in the `callable_action.hpp` file.\r\n\r\nAs a work-around, you can compile with `ALLOW_WARNINGS=1` (as usual)."
+  , issueCommentId = 217948678
+  }

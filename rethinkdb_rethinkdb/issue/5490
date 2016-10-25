@@ -1,0 +1,83 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-04) 17 : 44 : 04 UTC
+  , issueUpdatedAt = 2016 (-04) (-04) 17 : 44 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5490/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5490"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      ]
+  , issueNumber = 5490
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Bootstrapping of password-protected clusters"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5490"
+  , issueCreatedAt = 2016 (-03) (-07) 21 : 49 : 55 UTC
+  , issueBody =
+      Just
+        "___Status quo___\r\n* We want to keep bootstrapping a cluster for development and local deployments simple. Especially in the case where user accounts / password protection is not needed.\r\n* Our current solution is that a new server starts out with a default `admin` account that doesn't have a password. If you don't need password protection, you can just start your cluster and connect. Once you set a password, it will propagate via a semilattice structure to all nodes that later join the cluster.\r\n\r\n___The problem___\r\nThe problem arises when you add a new node to a live cluster. In that scenario there is going to be a brief moment where the node starts listening to client connections, but doesn't have the admin password yet. If an attacker gets lucky and connects to the new node at the right time, they could exploit this race condition to run arbitrary queries as admin.\r\n\r\nWe can delay accepting queries until we have synced the admin password with at least one other node. However this doesn't fully solve the issue. If you start up two new nodes at the same time, they might connect to each other and would still start serving queries without a password.\r\n\r\n___Proposal 1___\r\n\r\n* A command line argument: `--initial-pw` that takes one out of two values:\r\n      `auto` generates a random initial password\r\n      `<pw>` sets the specified initial password\r\n* The initial password is printed to the console if `auto` is used.\r\n* If `--initial-pw` is not given, the password-less admin account will be created just like now.\r\n* If there already is a password, the command line argument is ignored.\r\n* A server without an initial or configured admin password cannot connect to a\r\n      server that has an admin password.\r\n* Initial passwords internally get versions `-<current time>` (that is minus current timestamp). That way the oldest initial password always wins when joining other nodes, but any manually configured password wins over any initial password.\r\n\r\nTODO: Think about also printing an auto-generated initial password to the log file. We might also want to print newer initial passwords if we receive them after connecting to a different node.\r\n\r\n__Typical scenarios with this proposal:__\r\n\r\n_Scenario 1: Setting up a cluster without password protection_\r\n    1. Start and join all nodes without a password (just like now)\r\n\r\n_Scenario 2: Setting up a new cluster in a trustworthy environment with password protection_\r\n    1. Start and join all nodes without a password\r\n    2. Configure the admin password through the `users` table\r\n\r\n_Scenario 3: Setting up a new cluster in an untrustworthy environment_\r\n    1. Reconsider if you actually want to do this. You should probably use TLS instead.\r\n    2. Configure servers with an explicit `--initial-pw`\r\n    3. Start and join all nodes\r\n    4. Change the admin password through the `users` table\r\n\r\n_Scenario 4: Joining a new server into an existing password-protected cluster_\r\n    1. Start and join the new server with the `--initial-pw auto` option\r\n     (if you forget to specify that option, we'll print a helpful error message both\r\n     in the log of the new server, and in the log(s) of the existing server(s))\r\n\r\n\r\n___Proposal 2 including cluster IDs___\r\n\r\nThis proposal is the result of a discussion with @larkost and @VeXocide. It also solves https://github.com/rethinkdb/rethinkdb/issues/1905 by introducing a cluster ID.\r\n\r\n* We provide a script to generate a file containing a \"cluster ID\" and a salted + hashed admin password (`rethinkdb createpw` or something like that, though it should also work as a standalone script).\r\n* The administrator distributes the generated cluster ID + password file to all nodes of the cluster. Alternatively, they could pass the contents of the files in as a command-line argument.\r\n* On connection, nodes compare their cluster ID. If it doesn't match, they refuse the connection.\r\n* Passwordless clusters can be set up by not passing in any ID+password file when creating the cluster. In that case RethinkDB assumes a default cluster ID with an empty admin password.\r\n* In the simplest version, the admin password cannot be changed through ReQL (up for debate, there are different possible variations). To change the password, the admin will need to generate a new id+pw file using the existing cluster ID, and copy it onto all servers.\r\n\r\n__Typical scenarios with this proposal:__\r\n\r\n_Scenario 1: Setting up a cluster without password protection_\r\n    1. Start and join all nodes without an ID+password file (just like now)\r\n\r\n_Scenario 2: Setting up a new cluster in a trustworthy environment with password protection_\r\n    1. Create the ID+password file\r\n    2. Distribute the file to all nodes\r\n    3. Start and join all nodes\r\n\r\n_Scenario 3: Setting up a new cluster in an untrustworthy environment_\r\n    1. Reconsider if you actually want to do this. You should probably use TLS instead.\r\n    2. Create the ID+password file\r\n    2. Distribute the file to all nodes\r\n    3. Start and join all nodes\r\n\r\n_Scenario 4: Joining a new server into an existing password-protected cluster_\r\n    1. Copy the ID+password file onto the new node\r\n    2. Start and join the new node"
+  , issueState = "closed"
+  , issueId = Id 139105311
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

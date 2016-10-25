@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 03 : 33 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29681001"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1725#issuecomment-29681001"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 03 : 33 : 29 UTC
+  , issueCommentBody =
+      "There isn't a good name here because no matter how you name it you're still introducing an unneeded and confusing concept. Users shouldn't have to think of it as `multi_reduce` for one thing users don't think of `count` and `sum` as falling under the heading of `reduce`. Passing a stream through `do` is something that I've already seen tons of users do expecting mostly the semantics we've described. From what I've seen the types of operations rarely run afoul of the limitations we're talking about but most importantly when they do we can give them a very clear error message so this isn't dangerous. We're just going to be giving them that same error message when they run afoul of the rules in another function so why not just put this functionality where people expect it?\r\n\r\n---\r\n\r\nAs for the porcelain command. One of the things I really like about this proposal is that it removes reductions as nouns in ReQL. Having objects like `r.avg(\"foo\")` floating around in `group_by` worked well at the time but IMO it's a lot easier to understand if you think of `avg` as a verb and you only see it in the context of `foo.avg()` which reads as \"take the average of foo.\" ReQL's really built around chaining and the idea that `foo.bar` can be thought of as \"apply the action `bar` to the noun `foo`.\" Bringing the syntax for groups in line with this seems both very powerful and like it lets us present a much tighter coherent API.\r\n\r\nI'm failing to see what the `combine` proposal is adding. I don't think it really makes queries much shorter (if any shorter). And it gives us an entirely new way of calling every single reducing function that we need to implement (actually a decent amount of work) and document."
+  , issueCommentId = 29681001
+  }

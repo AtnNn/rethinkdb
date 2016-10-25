@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-08) 14 : 37 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 4065840
+        , simpleUserLogin = N "sseppola"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4065840?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sseppola"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245618865"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2270#issuecomment-245618865"
+  , issueCommentCreatedAt = 2016 (-09) (-08) 14 : 37 : 40 UTC
+  , issueCommentBody =
+      "I found it inconvenient that `nil.merge()` throws `\"Cannot perform merge on a non-object non-sequence\"` instead of just skipping the computation(`nil.merge() -> nil`). Regardless, my use case was easily fixed by replacing `get().merge()` with `getAll().map(x => x.merge())`\r\n\r\nIf anyone else has this issue, here's an example:\r\n<details>\r\nTurn something like this:\r\n```js\r\nr.table(GROUPS_TABLE)\r\n    .get(groupId)\r\n    .merge({\r\n      users: r.table(USERS_TABLE)\r\n        .getAll(r.args(r.row('memberIds')))\r\n        .coerceTo('array'),\r\n    })\r\n    .then(group => group)\r\n```\r\n\r\nInto this:\r\n```js\r\nr.table(GROUPS_TABLE)\r\n    .getAll(groupId)\r\n    .map(group => group.merge({\r\n      users: r.table(USERS_TABLE)\r\n        .getAll(r.args(group('members')))\r\n        .coerceTo('array'),\r\n    }))\r\n    .then(groups => groups[0])\r\n```\r\n</details>"
+  , issueCommentId = 245618865
+  }

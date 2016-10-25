@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-09) 18 : 27 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245998220"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6098#issuecomment-245998220"
+  , issueCommentCreatedAt = 2016 (-09) (-09) 18 : 26 : 50 UTC
+  , issueCommentBody =
+      "Hi @DomiR, that surely shouldn't happen.\r\n\r\nUnfortunately I cannot reproduce this issue, and I don't see how it could happen so far. The \"Delete selected tables\" button simply deletes entries from the `table_config` system table. There's no way that could delete a database, which would require deleting from `db_config`, unless there's some very bad bug in RethinkDB.\r\n\r\nWhich version of RethinkDB are you running?\r\n\r\nAlso, the `__deleted_database__` name shouldn't normally appear in recent versions of RethinkDB, since deleting a database will also delete all tables inside of it.\r\n\r\nThe one exception is when you have two (or more servers) and do something like this:\r\n1. Create a database\r\n2. Disconnect both servers\r\n3. On server A, create a table in the database\r\n4. On server B, delete the database\r\n5. Reconnect both servers\r\n6. You will now have a table without a database, and it will be listed in the UI under the `__deleted_database__` name.\r\n\r\nCould that have happened?\r\n\r\nThe good news is, that you can assign the tables to a database again to make them accessible, and no data should be lost: Let's say you want to move all tables without a database into the `new_db` database. For this, go to the Data Explorer and run the query `r.db('rethinkdb').table('table_config').filter({db: \"__deleted_database__\"}).update({db: \"new_db\"})`."
+  , issueCommentId = 245998220
+  }

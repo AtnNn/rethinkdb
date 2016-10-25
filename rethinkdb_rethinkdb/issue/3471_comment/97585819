@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-29) 21 : 06 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97585819"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97585819"
+  , issueCommentCreatedAt = 2015 (-04) (-29) 21 : 06 : 58 UTC
+  , issueCommentBody =
+      "Here's my thinking on this:\r\n* We need to implement the btree timestamp solution at some point because it supports lots of important use cases really well.  I think everyone agrees on this.\r\n* I think we should have a simpler interface as well to address the common question \"what do I do if my connection drops?\", and possibly to address \"what do I do if my client dies?\".  This interface needs to be simple, it should support as many types of changefeeds as possible, and ideally it should be easy to implement.\r\n  - Telling people to use `include_initial_vals` works if the set they're retrieving is small and they don't need old values (so no client-side live mapreduce for example).  I think we should recommend this if it works for people.\r\n  - My proposed `resumable: true` solution above works if you don't need to survive client failure.  It works for all changefeeds and is very little implementation effort.\r\n    * We could extend it to support client failure by adding two new functions `Cursor::serialize` and `r.resume_cursor`; you would call `cursor.serialize` in one client and then call `r.resume_cursor(serialized_form)` in the other client to resume from there instead.  This should be perfectly doable.\r\n\r\n---\r\n\r\nWith that framing, here's what I think we should do:\r\n* Release 2.1 with `include_initial_vals` and the interface I described above.\r\n* If people aren't happy with the fact that they have no way to survive client failures except starting over with `include_initial_vals`, we can extend the interface with `Cursor::serialize` and `r.resume_cursor`.  I don't think we should do this until people complain, though.\r\n* In 2.2 (hopefully) we should add support for the btree timestamp thing.  We'll explain to people that it's a low-level interface that requires more implementation effort on their part but supports a lot of very powerful use cases."
+  , issueCommentId = 97585819
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-14) 05 : 00 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/121133171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-121133171"
+  , issueCommentCreatedAt = 2015 (-07) (-14) 04 : 57 : 51 UTC
+  , issueCommentBody =
+      "#### Permission Levels\r\n\r\nI like the permission levels, but I think we should also add an append-only permission level for use in e.g. log tables (so people can log events but not delete things).\r\n\r\n#### Permissions format\r\n\r\nI don't really like the permissions format.  I think it should use names instead of UUIDs and generally be more human-readable.\r\n\r\nA row in the permissions table would have four fields: `user` (the name of the account the permissions are for), `access` (a document describing access permissions), `http_access` (whether or not the user can use `r.http`), and `admin` (whether or not the user can do global configuration tasks like add other users).  It would also have an auth key attached, maybe as an unreadable field?\r\n\r\nThe access document would be a document that maps from database names to subdocuments.  The subdocuments would map from table names to permission documents.  Permission documents would be objects with the fields `write`, `read`, `admin`, or `append`.  If the field is set to true that permission is granted, if it's set to `null`, `false` or is missing permission is denied.\r\n\r\nSo, for example, here's a permissions document granting access to some tables in the production database and http access but not global admin access:\r\n\r\n```rb\r\n{\r\n  user: 'danielmewes',\r\n  auth_key: <hidden>,\r\n  access: {\r\n    production: {customers: {read: true}, orders: {read: true, write: true}, logs: {append: true}},\r\n  },\r\n  http_access: true,\r\n  admin: false\r\n}\r\n```\r\n\r\nI think it's fine to use database/table names instead of UUIDs here.  I don't think anyone would expect dropping a table and recreating a table with the same name to invalidate existing sets of permissions for that table.\r\n\r\n#### Updating Permissions\r\n\r\nI think a new system table is probably the best option.\r\n\r\nI'm not sure whether or not it's OK to return from permissions updates before the new permissions have propagated to the whole cluster.  If it's a lot easier than we should probably do that and only do something else if people complain.\r\n\r\n#### Security\r\n\r\nI agree with Josh, if we're going to be making authentication a bigger part of the product we should use a library designed for it rather than homerolling our own thing with hashing concatenated strings.  SSL seems fine if it isn't too hard."
+  , issueCommentId = 121133171
+  }

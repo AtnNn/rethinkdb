@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-09) 00 : 04 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/100396700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3700#issuecomment-100396700"
+  , issueCommentCreatedAt = 2015 (-05) (-09) 00 : 04 : 50 UTC
+  , issueCommentBody =
+      "I think that at least for `for_each` it is too big a pitfall for people to fall into, and a difficult one to explain to users. For example the following two queries both return `inserted:10`, but the first only inserts a single document:\r\n```python\r\nr.range(0, 10).for_each(insert({})).run()\r\nr.range(0, 10).for_each(insert({'id':r.row})).run()\r\n```\r\n\r\nI now know that this is because in the first case the `insert({})` is only evaluated once, and then the `for_each` accumulates the results, and that the second works because `r.row` forces the the bit inside the `for_each` to be a function (and so is evaluated 10 times). But none of that is obvious, and this creates an odd corner that people have to have run afoul of in order to know. Plus many people are not going to figure out what is happening, so are just going to come away with the notion that `RethinkDB is broken`.\r\n\r\nSo I would say we either force everything inside a `for_each` to be evaluated every time (since that makes sense for it), or make `insert` force the functionality just like `r.row`."
+  , issueCommentId = 100396700
+  }

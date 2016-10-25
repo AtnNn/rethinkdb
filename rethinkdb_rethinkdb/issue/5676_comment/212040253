@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-19) 17 : 55 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 248383
+        , simpleUserLogin = N "alfredbaudisch"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/248383?v=3"
+        , simpleUserUrl = "https://api.github.com/users/alfredbaudisch"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212040253"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5676#issuecomment-212040253"
+  , issueCommentCreatedAt = 2016 (-04) (-19) 17 : 53 : 51 UTC
+  , issueCommentBody =
+      "I fixed it by myself. These are the changes:\r\n\r\n1) Name and tag the servers (-n and -t). Also the canonical-address of each node is the local machine IP of the docker network (i.e. rethinknet in this case).\r\n\r\n    docker run -d -h localhost -p 8080:8080 -p 28015:28015 -p 29015:29015 -v /data_rethink1:/data --name rethink-1 --net rethinknet rethinkdb  rethinkdb -n rethink1 -t rethink1 -d /data --bind all --canonical-address 172.18.0.2\r\n    docker run -d -h localhost -p 8081:8080 -p 28016:28015 -p 29016:29015 -v /data_rethink2:/data --name rethink-2 --net rethinknet rethinkdb rethinkdb -n rethink2 -t rethink2 -d /data --bind all --canonical-address 172.18.0.3 -j 172.18.0.2:29015\r\n    docker run -d -h localhost -p 8082:8080 -p 28017:28015 -p 29017:29015 -v /data_rethink3:/data --name rethink-3 --net rethinknet rethinkdb rethinkdb -n rethink3 -t rethink3 -d /data --bind all --canonical-address 172.18.0.4 -j 172.18.0.2:29015\r\n\r\n2) Run the proxy node as a rethinkdb Docker image, where the canonical-address is the docker machine ip. Previously I was trying to start the proxy outside docker.\r\n\r\n    docker run -d -h localhost -p 28020:28015 --name rethink-proxy --net rethinknet rethinkdb rethinkdb proxy --canonical-address 192.168.99.100 -j 172.18.0.2:29015 -j 172.18.0.3:29015 -j 172.18.0.4:29015 -o 3\r\n\r\nNote that the intent of this is to run a cluster and a proxy in my local machine for development. "
+  , issueCommentId = 212040253
+  }

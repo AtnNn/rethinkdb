@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-30) 01 : 13 : 02 UTC
+  , issueUpdatedAt = 2015 (-01) (-30) 01 : 13 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3222/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3222"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3222
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Alex Casanova: Crash updating from 1.13 to 1.15.x"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3222"
+  , issueCreatedAt = 2014 (-10) (-22) 17 : 17 : 13 UTC
+  , issueBody =
+      Just
+        "From the mailing list:\r\n\r\nI just updated from 1.13 to the latest 1.15.1. I'm in a docker container running Centos 6.5. \r\nI received some errors when I ran \r\nrethinkdb --bind all &\r\n\r\n----\r\n```\r\n-bash-4.1# rethinkdb --bind all &\r\n[2] 15646\r\n[1]   Trace/breakpoint trap   (core dumped) rethinkdb --bind all\r\n-bash-4.1# info: Running rethinkdb 1.15.1 (GCC 4.8.2)...\r\ninfo: Running on Linux 3.16.2+ x86_64\r\ninfo: Using cache size of 966 MB\r\ninfo: Loading data from directory /var/www/html/rethinkdb_data\r\nVersion: rethinkdb 1.15.1 (GCC 4.8.2)\r\nerror: Error in src/clustering/administration/persist.cc at line 130:\r\nerror: Guarantee failed: [res == archive_result_t::SUCCESS] Deserialization of T (template code) failed with error archive_result_t::RANGE_ERROR.\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\naddr2line: 'rethinkdb': No such file\r\nerror: Tue Oct 21 21:30:46 2014\r\n```\r\n-----\r\n\r\n\r\nI updated rethinkdb tools using pip. Then I removed the rethinkdb_data directory and ran rethinkdb to start fresh. Once it started I ran a restore operation to import some data from production (1.13)\r\nI get the following error\r\n\r\n-----\r\n```\r\nrethinkdb restore --force -c localhost ./rethinkdb_export_2014_10_22\r\nUnzipping archive file...\r\ntar: webpages/configs.json: time stamp 2014-10-22 07:59:07 is 37568.595763654 s in the future\r\ntar: webpages/configs.info: time stamp 2014-10-22 07:59:07 is 37568.595480617 s in the future\r\ntar: webpages: time stamp 2014-10-22 07:59:07 is 37568.595432816 s in the future\r\ntar: accounts_archive/cancelled_accounts.info: time stamp 2014-10-22 07:59:07 is 37568.595214182 s in the future\r\ntar: accounts_archive/cancelled_accounts.json: time stamp 2014-10-22 07:59:07 is 37568.595149635 s in the future\r\ntar: accounts_archive: time stamp 2014-10-22 07:59:07 is 37568.595066816 s in the future\r\n  Done (0 seconds)\r\nImporting from directory...\r\nimporting with args: ['rethinkdb-import', '--connect', 'localhost:28015', '--directory', '/tmp/tmp1aM1X3', '--auth', '', '--clients', '8', '--force']\r\nVersion: rethinkdb 1.15.1 (GCC 4.8.2)\r\nerror: Error in src/btree/secondary_operations.cc at line 54:\r\nerror: Unexpected magic in btree_sindex_block_t.\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\naddr2line: 'rethinkdb': No such file\r\nerror: Tue Oct 21 21:32:58 2014\r\n\r\n       1: backtrace_t::backtrace_t() at 0xbef560 (rethinkdb)\r\n       2: format_backtrace(bool) at 0xbef8c0 (rethinkdb)\r\n       3: report_fatal_error(char const*, int, char const*, ...) at 0xdd0370 (rethinkdb)\r\n       4: get_secondary_indexes_internal(buf_lock_t*, std::map<sindex_name_t, secondary_index_t, std::less<sindex_name_t>, std::allocator<std::pair<sindex_name_t const, secondary_index_t> > >*) at 0xb976e2 (rethinkdb)\r\n       5: store_t::store_t(serializer_t*, cache_balancer_t*, std::string const&, bool, perfmon_collection_t*, rdb_context_t*, io_backender_t*, base_path_t const&, outdated_index_report_t*) at 0xa29f61 (rethinkdb)\r\n       6: do_create_new_store(std::vector<threadnum_t, std::allocator<threadnum_t> > const&, int, store_args_t, serializer_multiplexer_t*, scoped_array_t<scoped_ptr_t<store_t> >*, store_view_t**) at 0xd40ac1 (rethinkdb)\r\n       7: callable_action_instance_t<pmap_runner_one_arg_t<boost::_bi::bind_t<void, void (*)(std::vector<threadnum_t, std::allocator<threadnum_t> > const&, int, store_args_t, serializer_multiplexer_t*, scoped_array_t<scoped_ptr_t<store_t> >*, store_view_t**), boost::_bi::list6<boost::_bi::value<std::vector<threadnum_t, std::allocator<threadnum_t> > >, boost::arg<1>, boost::_bi::value<store_args_t>, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<scoped_array_t<scoped_ptr_t<store_t> >*>, boost::_bi::value<store_view_t**> > >, int> >::run_action() at 0xd42c2e (rethinkdb)\r\n       8: coro_t::run() at 0xb32bb8 (rethinkdb)\r\nerror: Exiting.\r\n[                                        ]   0%\r\n0 rows imported in 2 tables\r\nReQL error during 'create table': Connection is closed.\r\nIn file: /tmp/tmp1aM1X3/webpages/configs.json\r\nReQL error during 'create table': Connection is closed.\r\nIn file: /tmp/tmp1aM1X3/accounts_archive/cancelled_accounts.json\r\nErrors occurred during import\r\nError: rethinkdb-import failed\r\n```\r\n--------\r\n\r\n\r\nI tried running the dump command on production and try to restore from there but i can't get rethinkdb to stay on\r\n\r\n----\r\n\r\n```\r\nrethinkdb restore --force -c localhost ./rethinkdb_dump_2014-10-22T10\\:08\\:16.tar.gz\r\nUnzipping archive file...\r\n  Done (0 seconds)\r\nImporting from directory...\r\nimporting with args: ['rethinkdb-import', '--connect', 'localhost:28015', '--directory', '/tmp/tmpTV4IDH', '--auth', '', '--clients', '8', '--force']\r\nVersion: rethinkdb 1.15.1 (GCC 4.8.2)\r\nerror: Error in src/btree/secondary_operations.cc at line 54:\r\nerror: Unexpected magic in btree_sindex_block_t.\r\nerror: Backtrace:\r\naddr2line: 'rethinkdb': No such file\r\naddr2line: 'rethinkdb': No such file\r\nVersion: rethinkdb 1.15.1 (GCC 4.8.2)\r\nerror: Error in src/btree/secondary_operations.cc at line 54:\r\nerror: Unexpected magic in btree_sindex_block_t.\r\nerror: Backtrace:\r\nerror: Wed Oct 22 10:11:17 2014\r\n\r\n       1: backtrace_t::backtrace_t() at 0xbef560 (rethinkdb)\r\n       2: format_backtrace(bool) at 0xbef8c0 (rethinkdb)\r\n       3: report_fatal_error(char const*, int, char const*, ...) at 0xdd0370 (rethinkdb)\r\n       4: get_secondary_indexes_internal(buf_lock_t*, std::map<sindex_name_t, secondary_index_t, std::less<sindex_name_t>, std::allocator<std::pair<sindex_name_t const, secondary_index_t> > >*) at 0xb976e2 (rethinkdb)\r\n       5: store_t::store_t(serializer_t*, cache_balancer_t*, std::string const&, bool, perfmon_collection_t*, rdb_context_t*, io_backender_t*, base_path_t const&, outdated_index_report_t*) at 0xa29f61 (rethinkdb)\r\n       6: do_create_new_store(std::vector<threadnum_t, std::allocator<threadnum_t> > const&, int, store_args_t, serializer_multiplexer_t*, scoped_array_t<scoped_ptr_t<store_t> >*, store_view_t**) at 0xd40ac1 (rethinkdb)\r\n       7: callable_action_instance_t<pmap_runner_one_arg_t<boost::_bi::bind_t<void, void (*)(std::vector<threadnum_t, std::allocator<threadnum_t> > const&, int, store_args_t, serializer_multiplexer_t*, scoped_array_t<scoped_ptr_t<store_t> >*, store_view_t**), boost::_bi::list6<boost::_bi::value<std::vector<threadnum_t, std::allocator<threadnum_t> > >, boost::arg<1>, boost::_bi::value<store_args_t>, boost::_bi::value<serializer_multiplexer_t*>, boost::_bi::value<scoped_array_t<scoped_ptr_t<store_t> >*>, boost::_bi::value<store_view_t**> > >, int> >::run_action() at 0xd42c2e (rethinkdb)\r\n       8: coro_t::run() at 0xb32bb8 (rethinkdb)\r\nerror: Exiting.\r\naddr2line: 'rethinkdb': No such file\r\naddr2line: 'rethinkdb': No such file\r\n[                                        ]   0%\r\n0 rows imported in 2 tables\r\nReQL error during 'create table': Connection is closed.\r\nIn file: /tmp/tmpTV4IDH/accounts_archive/cancelled_accounts.json\r\nReQL error during 'create table': Connection is closed.\r\nIn file: /tmp/tmpTV4IDH/webpages/configs.json\r\nErrors occurred during import\r\nError: rethinkdb-import failed\r\n[1]+  Trace/breakpoint trap   (core dumped) rethinkdb\r\n```\r\n\r\n---\r\n\r\nAny suggestions"
+  , issueState = "closed"
+  , issueId = Id 46535793
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

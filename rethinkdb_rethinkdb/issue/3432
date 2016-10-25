@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-21) 02 : 51 : 50 UTC
+  , issueUpdatedAt = 2015 (-01) (-21) 02 : 51 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3432/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3432"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3432
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 445190
+        , simpleUserLogin = N "brwnll"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/445190?v=3"
+        , simpleUserUrl = "https://api.github.com/users/brwnll"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Spurious \"More data is available\" in Data Explorer (regression)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3432"
+  , issueCreatedAt = 2014 (-12) (-11) 22 : 53 : 28 UTC
+  , issueBody =
+      Just
+        "Attempting to use getNearest(), and it's not returning any results, except if I run a different query first, kinda.\r\n\r\nSetup: Table that is structured like so (subset)\r\n```json\r\n{\r\n    \"name\" : \"a business location\",\r\n    \"address\" : {\r\n        \"location\": {\r\n             \"$reql_type$\":  \"GEOMETRY\" ,\r\n             \"coordinates\": [\r\n                 -122.730209 ,\r\n                 48.990702\r\n              ] ,\r\n            \"type\":  \"Point\"\r\n        }\r\n     }\r\n}\r\n```\r\nAs a test, I attempted to run `getNearest()`, taking the location of one of the businesses directly.\r\n```js \r\nr.table('locations').getNearest(r.point(-122.730209, 48.990702), { index: 'address.location' })\r\n```\r\n\r\nAnd I get an empty array as a result.\r\n\r\nThe other oddity is, if I run this in the query explorer, but run a different query first such as \r\n```js\r\nr.table('locations')\r\n```\r\n_then_ run the previous query, the results show \"[]\" but _also_ \"More data is available. Load the next batch ->\".\r\n\r\nClicking that WILL display my 1 returned location which corresponds with the above point.\r\n\r\nBut if I run the query again, everything is gone, with no \"More data\" link."
+  , issueState = "closed"
+  , issueId = Id 51749480
+  , issueComments = 17
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

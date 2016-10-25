@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-06) 20 : 14 : 31 UTC
+  , issueUpdatedAt = 2015 (-01) (-06) 20 : 14 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3501/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3501"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3501
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Panic: \"Assertion failed: [pval2.has()]\" using `.get()` with rethinkdb._debug_table_status"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3501"
+  , issueCreatedAt = 2015 (-01) (-06) 00 : 19 : 23 UTC
+  , issueBody =
+      Just
+        "This is likely associated with (or duplicate to) #3487. It is hitting slightly differently, so I am posting this separately.\r\n\r\n`next` edc8056 is reliably crashing with an assertion (`Assertion failed: [pval2.has()]`) when I do the following:\r\n\r\n```python\r\nimport rethinkdb as r\r\nconn = r.connect().repl()\r\nr.table_create('bob').run()\r\nr.db('rethinkdb').table('_debug_table_status').get(r.table('bob').config()['id']).run()\r\n```\r\n\r\nHere is the crash output:\r\n```\r\nVersion: rethinkdb 1.15.2-1552-gedc805-dirty (debug) (CLANG 6.0 (clang-600.0.56))\r\nerror: Error in src/rdb_protocol/artificial_table/artificial_table.cc at line 27:\r\nerror: Assertion failed: [pval2.has()] \r\nerror: Backtrace:\r\nerror: Mon Jan  5 16:11:26 2015\r\n       \r\n       1: 0   rethinkdb                           0x00000001027d1db0 _Z19rethinkdb_backtracePPvi + 272 at 0x1027d1db0 ()\r\n       2: 0   rethinkdb                           0x00000001019c1ef0 _ZN11backtrace_tC2Ev + 304 at 0x1019c1ef0 ()\r\n       3: 0   rethinkdb                           0x00000001019c3e0b _ZN26lazy_backtrace_formatter_tC2Ev + 43 at 0x1019c3e0b ()\r\n       4: 0   rethinkdb                           0x00000001019c0d55 _ZN26lazy_backtrace_formatter_tC1Ev + 21 at 0x1019c0d55 ()\r\n       5: 0   rethinkdb                           0x00000001019c0cc0 _Z16format_backtraceb + 48 at 0x1019c0cc0 ()\r\n       6: 0   rethinkdb                           0x000000010218b2dd _Z18report_fatal_errorPKciS0_z + 733 at 0x10218b2dd ()\r\n       7: 0   rethinkdb                           0x0000000102221974 _Z29checked_read_row_from_backendP26artificial_table_backend_tRKN2ql7datum_tEP8signal_tPS2_PNSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEE + 404 at 0x102221974 ()\r\n       8: 0   rethinkdb                           0x0000000102221c58 _ZN18artificial_table_t8read_rowEPN2ql5env_tENS0_7datum_tEb + 248 at 0x102221c58 ()\r\n       9: 0   rethinkdb                           0x000000010279535e _ZN2ql7table_t7get_rowEPNS_5env_tENS_7datum_tE + 142 at 0x10279535e ()\r\n       10: 0   rethinkdb                           0x00000001027a40e1 _ZN2ql15get_selection_t3getEv + 145 at 0x1027a40e1 ()\r\n       11: 0   rethinkdb                           0x0000000102792e30 _ZNK2ql5val_t8as_datumEv + 128 at 0x102792e30 ()\r\n       12: 0   rethinkdb                           0x00000001026ca3e8 _ZN2ql3runENS_8protob_tI5QueryEEP13rdb_context_tP8signal_tPNS_14stream_cache_tERK13ip_and_port_tP8Response + 4040 at 0x1026ca3e8 ()\r\n       13: 0   rethinkdb                           0x000000010262f170 _ZN18rdb_query_server_t9run_queryERKN2ql8protob_tI5QueryEEP8ResponseP16client_context_tRK13ip_and_port_t + 928 at 0x10262f170 ()\r\n       14: 0   rethinkdb                           0x0000000102216d3e _ZN14query_server_t15connection_loopI15json_protocol_tEEvP16linux_tcp_conn_tP16client_context_t + 302 at 0x102216d3e ()\r\n       15: 0   rethinkdb                           0x0000000102213663 _ZN14query_server_t11handle_connERK12scoped_ptr_tI27linux_tcp_conn_descriptor_tEN14auto_drainer_t6lock_tE + 2771 at 0x102213663 ()\r\n       16: 0   rethinkdb                           0x000000010221c41c _ZNSt3__110__function6__funcINS_6__bindIM14query_server_tFvRK12scoped_ptr_tI27linux_tcp_conn_descriptor_tEN14auto_drainer_t6lock_tEEJPS3_RNS_12placeholders4__phILi1EEESA_EEENS_9allocatorISI_EEFvRS6_EEclESL_ + 716 at 0x10221c41c ()\r\n       17: 0   rethinkdb                           0x00000001019822f0 _ZNKSt3__18functionIFvR12scoped_ptr_tI27linux_tcp_conn_descriptor_tEEEclES4_ + 160 at 0x1019822f0 ()\r\n       18: 0   rethinkdb                           0x000000010197e53c _ZN32linux_nonthrowing_tcp_listener_t6handleEi + 108 at 0x10197e53c ()\r\n       19: 0   rethinkdb                           0x000000010198548e _ZN26callable_action_instance_tINSt3__16__bindIM32linux_nonthrowing_tcp_listener_tFviEJPS2_RiEEEE10run_actionEv + 302 at 0x10198548e ()\r\n       20: 0   rethinkdb                           0x00000001019b0cfc _ZN25callable_action_wrapper_t3runEv + 108 at 0x1019b0cfc ()\r\n       21: 0   rethinkdb                           0x00000001019910b5 _ZN6coro_t3runEv + 917 at 0x1019910b5 ()\r\n```"
+  , issueState = "closed"
+  , issueId = Id 53465536
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

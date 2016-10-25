@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-14) 23 : 35 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/156758200"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5089#issuecomment-156758200"
+  , issueCommentCreatedAt = 2015 (-11) (-14) 23 : 35 : 37 UTC
+  , issueCommentBody =
+      "Hi @webmasterkai,\r\n\r\nEvery time you call `.merge` it constructs a new object.  So the code you wrote above will run in `O(n^2)` time, since it's constructing `n` objects of average size `n/2` during the `reduce` step.  The query language really isn't optimized for this case -- object construction is usually rare, so it's pretty expensive right now.\r\n\r\nI'd write this query as `r.range(500).map(function(row) { return [r.uuid(), row.add(1)]; }).coerce_to('object')`, which should be much faster.\r\n\r\nLeaving this issue open since we should probably optimize this case at some point in the future."
+  , issueCommentId = 156758200
+  }

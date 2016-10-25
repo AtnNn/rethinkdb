@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-13) 21 : 33 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/232493660"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5923#issuecomment-232493660"
+  , issueCommentCreatedAt = 2016 (-07) (-13) 21 : 33 : 55 UTC
+  , issueCommentBody =
+      "It looks like the garbage collector cannot keep up with the high write load when running `rethinkdb import` on a table with a multi-index.\r\n\r\nThis is partially because `rethinkdb import` uses soft-durability writes, which do not slow down as quickly as hard-durability writes if the storage backend can't keep up. So the write rate stays high for a while before the garbage collector can start catching up.\r\nRunning `rethinkdb import` with the `--hard-durability` flag seems to avoid the issue for the case of data imports, but is not a general solution.\r\n\r\nI suspect that backfilling data from another replica puts a similar amount of stress on the garbage collector, and that that's why the file size goes up so much when adding a replica. I haven't verified this yet.\r\n\r\nI'm currently experimenting with tuning the aggressiveness of the garbage collector. In @Calavoow's test case, the file size with the existing index is still about 1.9 GB on the system I'm testing on (it will depend on the performance characteristics of the I/o system and some other factors). It's better than before, but not quite perfect yet.\r\n\r\n@bsharpe and @Calavoow: If I send you a new binary with the tuned GC parameters, would you be able to test these scenarios again on your systems? @Calavoow I'll also need the operating system / distribution + version that you're running on."
+  , issueCommentId = 232493660
+  }

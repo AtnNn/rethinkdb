@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-10) 04 : 50 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73644028"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3600#issuecomment-73644028"
+  , issueCommentCreatedAt = 2015 (-02) (-10) 04 : 50 : 04 UTC
+  , issueCommentBody =
+      "Node.js streams are basically an attempt to provide a standard interface for streams, but it is still tagged as unstable even with Node 0.12 -- https://nodejs.org/api/stream.html#stream_stream\r\nOne interesting thing with providing a Node.js stream is that because it is a standard, you can pipe it to a Transform streams or a Writable streams - that other libraries can implement, like the `fs` module, `process.stdout` etc..\r\n\r\nOne important caveat with streams is that it was implemented for buffers. You can set it to ouput objects/values, but in this case, `null` is a forbidden value (sending `null` means that the stream has ended).\r\n\r\nSo while it's nice to have, it cannot completely replace the current interface with cursors (except if you pass `null` values as a ReQL pseudo type or `undefined` in the streams).\r\nIt's also relatively little work to add a Stream interface. I did it in rethinkdbdash, and it's about 150 lines -- https://github.com/neumino/rethinkdbdash/blob/master/lib/stream.js.\r\n\r\nNote: In rethinkdbdash, streams are currently implemented with the current API:\r\n```\r\nvar stream = query.toStream();\r\nstream.on('error', handleError);\r\nstream.pipe(process.stdout);\r\n```\r\n\r\nThe stream is not returned by the promise of `run` because it would require to cache errors in multiple places:\r\n```\r\nquery.run(connection, {stream: true}).then(function(stream) {\r\n    stream.on('error', handleError);\r\n    stream.pipe(process.stdout);\r\n}).error(handleError);\r\n```"
+  , issueCommentId = 73644028
+  }

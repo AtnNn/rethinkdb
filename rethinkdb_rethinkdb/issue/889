@@ -1,0 +1,83 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-28) 23 : 50 : 40 UTC
+  , issueUpdatedAt = 2013 (-06) (-29) 02 : 01 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/889/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/889"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 889
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 43867
+          , simpleUserLogin = N "jdoliner"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/43867?v=3"
+          , simpleUserUrl = "https://api.github.com/users/jdoliner"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Proposal: pattern-matching pluck"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/889"
+  , issueCreatedAt = 2013 (-05) (-22) 05 : 29 : 54 UTC
+  , issueBody =
+      Just
+        "I think that in addition to attribute names, we should let people pass patterns to pluck specified as objects, with the following semantics:\r\n* If an attribute maps to `true`, include that attribute.\r\n* If an attribute maps to an object, recurse into that object.\r\n* If an attribute maps to an array, recurse into that array.\r\n* If an attribute maps to `NULL` or `false`, exclude it.  (This is useful because it allows people to construct plucks that behave differently based on a piece of code they execute.)\r\n* Any other value for an attribute is an error.\r\n\r\nFor example:\r\n\r\n```ruby\r\n> obj = {:a => {:b => 1, :c => 2}, \r\n         :d => [{:e => 1, :f => 2}, \r\n                {:e => 3, :f => 4}]}\r\n\r\n> obj.pluck({:a => {:b => true}})\r\n{:a => {:b => 1}}\r\n\r\n> obj.pluck({:a => true, :d => [{:e => true}]})\r\n{:a => {:b => 1, :c => 2}, :d => [{:e => 1}, {:e => 3}]}\r\n\r\n> obj.pluck({:a => true, :d => [{:e => true, :f => false}]})\r\n{:a => {:b => 1, :c => 2}, :d => [{:e => 1}, {:e => 3}]}\r\n\r\n> obj.pluck({:a => obj[:a].do{|a| a[:b].eq(1)}, :d => false})\r\n{:a => {:b => 1, :c => 2}}\r\n\r\n> obj.pluck({:a => obj[:a].do{|a| a[:b].eq(2)}, :d => false})\r\n{}\r\n```"
+  , issueState = "closed"
+  , issueId = Id 14604778
+  , issueComments = 71
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 37
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.7"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/37"
+          , milestoneCreatedAt = 2013 (-06) (-18) 00 : 25 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

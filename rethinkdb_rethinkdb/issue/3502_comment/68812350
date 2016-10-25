@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-06) 01 : 21 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68812350"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3502#issuecomment-68812350"
+  , issueCommentCreatedAt = 2015 (-01) (-06) 01 : 21 : 58 UTC
+  , issueCommentBody =
+      "Hi @thelinuxlich,\r\nthe difficulty with that is that it can't (easily) be done atomically. If you shard your table for example, it can happen that the document has to be moved over to a different server by changing the ID. You would basically have to insert a new document on the destination server, and then delete the old document on the source server after the destination servers has acknowledged the write.\r\n\r\nWithout a distributed commit protocol (such as 2PC), this can easily go wrong. For example if the network connection is interrupted in the middle, both servers might now have a copy of the document. One under the old and one under the new ID.\r\n\r\nI suppose this might be acceptable in some scenarios, so it's worth considering."
+  , issueCommentId = 68812350
+  }

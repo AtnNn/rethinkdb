@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-02) 19 : 16 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/118137542"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4453#issuecomment-118137542"
+  , issueCommentCreatedAt = 2015 (-07) (-02) 19 : 16 : 27 UTC
+  , issueCommentBody =
+      "@behrad I assume the `r.get` in `.update( {id: UUID, param: r.get('param').default([]).append([\"myvalue\"])` is actually an `r.row`? Probably `append([\"myvalue\"])` should be `append(\"myvalue\")` as well?\r\nAssuming it's `r.row`, it shouldn't be a particularly expensive operation unless the \"params\" field gets very large. For large documents, every update rewrites the whole document, so that's something to keep in mind.\r\nWe currently have a minor inefficiency with `default`, though it's not that bad. You could avoid it by rewriting the update as\r\n`.update( {param: r.branch(r.hasField('param'), r.row('param').append(\"myvalue\"), [\"myvalue\"])` but I doubt that will make a huge difference.\r\n\r\nThe join will certainly be a bit slower to read than having all the data inline in the document. If your workload is write-heavy it might still make sense to take it out into separate documents (make sure you use `eq_join` which utilizes an index).\r\n\r\nRegarding the number of write connections:\r\nWhat I meant was that you mentioned that you were doing 500 writes concurrently. If you want to prioritize reads over those writes, the simplest way would be to perform fewer writes concurrently.\r\n\r\nI still have to investigate what exactly the reads are waiting on. There might be something else going on that we can optimize on the side of RethinkDB.\r\n\r\nAs a minor improvement in this particular case, you might also get slightly better runtimes by putting a `coerceTo('ARRAY')` at the end of your `orderBy.limit` query.\r\nWithout that RethinkDB attempts to send a subset of the results earlier if it detects that query execution is slow. However that doesn't make sense if you need the full result anyway, and it slightly reduces overall efficiency."
+  , issueCommentId = 118137542
+  }

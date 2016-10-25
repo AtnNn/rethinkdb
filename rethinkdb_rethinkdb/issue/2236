@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-07) (-06) 22 : 00 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2236/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2236"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 2236
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Improve the python stress client"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2236"
+  , issueCreatedAt = 2014 (-04) (-10) 00 : 08 : 18 UTC
+  , issueBody =
+      Just
+        "@Tryneus, I believe you wrote the python stress client mainly for the X workload, but I've been using it for other things, such as replacing the C++ stress client.\r\n\r\n* The python stress client does not stop until it gets killed.\r\n\r\nI have been experimenting with two command-line flags, `--duration` to stop after a given number of seconds, and `--op-count` to stop after a given number of operations.\r\n\r\n* It limits the number of operations per second, which doesn't fully stress the server.\r\n\r\nI modified it to not limit the number of operations per second when given the `--ops-per-sec 0` arguments.\r\n\r\n* Arguments cannot be passed directly to the workload. The X workloads look for their arguments in environment variables.\r\n\r\nCurrently, the stress script is an executable which imports the workload secified by the `--workload` argument, which is a python module. I think it would work better if each workload was a separate executable and the stress script was turned into module that would be imported by each workload.\r\n\r\n* The C++ stress client has many other options and flags not supported by the python stress client.\r\n\r\nBecause it only supports memcache, we've talked about removing the C++ stress client. (@timmaxw you had some reservations about this. Do you remember what they were?)\r\n\r\nMost of the options that the C++ stress client supports are not used by any of the scripts in test. Does anyone have a use case that requires one of these options?\r\n\r\n```\r\n        --client-suffix\r\n                Append a per-client id to key names.\r\n        --ignore-protocol-errors\r\n                Do not quit if the protocol throws errors.\r\n        -w, --workload\r\n                Target load to generate. Expects a value in format D/U/I/R/A/P/V/RR, where\r\n                        D - number of deletes\r\n                        U - number of updates\r\n                        I - number of inserts\r\n                        R - number of reads\r\n                        A - number of appends\r\n                        P - number of prepends\r\n                        V - number of verifications\r\n                        RR - number of range reads\r\n                Defaults to [1/4/8/64/0/0/0/0]\r\n        -k, --keys\r\n                Key distribution in DISTR format (see below). Defaults to [8-16].\r\n        -K, --keys-prefix\r\n                Prefix every key with the following string. Defaults to [].\r\n        -v, --values\r\n                Value distribution in DISTR format (see below). Maximum possible\r\n                value size is [10485760]. Defaults to [8-128].\r\n        -b, --batch-factor\r\n                A range in DISTR format for average number of reads\r\n                to perform in one shot. Defaults to [1-16].\r\n        -R, --range-size\r\n                A range in DISTR format for average number of values\r\n                to retrieve per range get. Defaults to [16-128].\r\n        -l, --latency-file\r\n                File name to output individual latency information (in us).\r\n                The information is not outputted if this argument is skipped.\r\n        -L, --worst-latency-file\r\n                File name to output worst latency each second.\r\n                The information is not outputted if this argument is skipped.\r\n        -q, --qps-file\r\n                File name to output QPS information. '-' for stdout.\r\n                The information is not outputted if this argument is skipped.\r\n        -f, --db-file\r\n                If present drop kv pairs into sqlite and verify correctness on read.\r\n        -r, --distr\r\n                A key access distrubution. Possible values: 'uniform' (default), and 'normal'.\r\n        -m, --mu\r\n                Control normal distribution. Percent of the database size within one standard\r\n                distribution (defaults to 1%).\r\n        -p, --pipeline\r\n                Maximum number of operations that may be queued to server (defaults to 1).\r\n```"
+  , issueState = "open"
+  , issueId = Id 31205589
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

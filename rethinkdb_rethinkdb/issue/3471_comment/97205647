@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 21 : 01 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97205647"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97205647"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 21 : 01 : 29 UTC
+  , issueCommentBody =
+      "@larkost \r\n\r\n> Will all changefeeds be resumable, or do you need to opt-in when creating the changefeed?    \r\n\r\nIt will be opt-in with a `resumable` optarg to `run`.\r\n\r\n> Does the reusability survive a client crash?\r\n\r\nNo. It only survives a network disconnect between the client and the server.\r\n\r\n> Can you resume after the hosting server crashes?\r\n\r\nNo\r\n \r\n> Do you have to know what server is hosting the feed, or can you connect to any server?\r\n\r\nYou have to connect to the same server, but you don't need to know which one it is because the cursor knows the server and `resume` automatically connects to the same server again.\r\n\r\n> Can multiple clients pull from the same changefeed to make a work queue? (probably not, but we should be clear)\r\n\r\nNo. The API doesn't really allow this to happen, and if users found a way around it the previous listeners to the feed would receive an error.\r\n\r\n> Will these be named, or are we going with the timestamp/token idea?\r\n\r\nNeither. They will be bound to a specific cursor instance on the client. Internally we'll probably generate a UUID for them, but that's transparent to the user.\r\n\r\n\r\nI'm referring to this proposal https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-96811351\r\n\r\nIn the longer term we'll also implement timestamp/token based changefeeds which will allow you to reconnect to any server, at any time, and even if the server or client crashes, however with a more complex (low-level) interface."
+  , issueCommentId = 97205647
+  }

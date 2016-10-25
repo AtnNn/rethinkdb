@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-20) 21 : 03 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/84143955"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3949#issuecomment-84143955"
+  , issueCommentCreatedAt = 2015 (-03) (-20) 21 : 00 : 45 UTC
+  , issueCommentBody =
+      "Here's a technical proposal of how we could solve the subtree count problem. It is kind of ugly because it breaks abstraction boundaries in the code, but so far it seems to be the most practical one:\r\n\r\n1. Split the block ids into two ID ranges. One that we use for blob blocks (those that we use for storing large values), and one that we use for all other nodes.\r\n\r\n2. Have two different data structures for the in-memory LBA. One for blob blocks that doesn't need a subtree count (and no recency, see below), and one for other blocks with an added subtree count. We currently have an array that's indexed by block ID and contains that sort of information. We would split that up into two arrays, one for each block ID range. The on-disk LBA format could always store all data, or we could have two different structs there as well.\r\n\r\n3. The cache currently mirrors the recency for each block to avoid having to thread switch to the serializer when requesting a recency. We would implement a similar thing for subtree counts. Furthermore we would limit both of them to the non-blob block ID range to conserve memory.\r\n\r\n4. The cache interface must be changed to distinguish between the two types of blocks.\r\n\r\nDistinguishing blob and other blocks is important to keep memory consumption in check. As a very nice side-effect, this would also allow us to stop storing recencies for blob blocks, which would reduce our per-value memory overhead by close to 16 bytes (relevant for https://github.com/rethinkdb/rethinkdb/issues/1951).\r\n\r\nOnce that is done, we'll need to update the btree traversal and ReQL query language code to make use of the subtree counts.\r\n\r\nAn open question is how to upgrade existing data files. My suggestion would be to have a flag in the table that indicates whether the table has subtree counts or not. New tables will always have subtree counts, but old tables will never have them. Queries will only make use of subtree counts if they're available on the particular table.\r\nUnderneath, the in-memory LBA and cache could treat all blocks as non-blob blocks for old tables.\r\nAs far as the on-disk format of the LBA is concerned: In the worst-case we could completely rewrite it once during migration. That is relatively cheap."
+  , issueCommentId = 84143955
+  }

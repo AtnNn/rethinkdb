@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-09) (-16) 17 : 49 : 08 UTC
+  , issueUpdatedAt = 2015 (-09) (-16) 17 : 49 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4845/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4845"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4845
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1366
+          , simpleUserLogin = N "deontologician"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1366?v=3"
+          , simpleUserUrl = "https://api.github.com/users/deontologician"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 4420101
+        , simpleUserLogin = N "eric-poitras"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4420101?v=3"
+        , simpleUserUrl = "https://api.github.com/users/eric-poitras"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error in the java driver when attempting to insert a null value."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4845"
+  , issueCreatedAt = 2015 (-09) (-16) 02 : 41 : 39 UTC
+  , issueBody =
+      Just
+        "Here is the refacto for the insert test to reproduce the problem:\r\n\r\n```java\r\n    @Test\r\n    public void testTableInsert(){\r\n        MapObject foo = new MapObject()\r\n                .with(\"hi\", \"There\")\r\n                .with(\"yes\", 7)\r\n                .with(\"no\", null );\r\n        Map<String, Object> result = r.db(dbName).table(tableName).insert(foo).run(conn);\r\n        assertEquals(result.get(\"inserted\"), 1L);\r\n    }\r\n```\r\nThis is an existing test in the suite. I added the line: .with(\"no\", null ); \r\n\r\nThe test above cause this exception. Seems that nulls doesn't merge well in map collectors. \r\n```\r\njava.lang.NullPointerException\r\n\tat java.util.HashMap.merge(HashMap.java:1216)\r\n\tat java.util.stream.Collectors.lambda$toMap$210(Collectors.java:1320)\r\n\tat java.util.stream.Collectors$$Lambda$37/299863913.accept(Unknown Source)\r\n\tat java.util.stream.ReduceOps$3ReducingSink.accept(ReduceOps.java:169)\r\n\tat java.util.HashMap$EntrySpliterator.forEachRemaining(HashMap.java:1683)\r\n\tat java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:512)\r\n\tat java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:502)\r\n\tat java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)\r\n\tat java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\r\n\tat java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)\r\n\tat com.rethinkdb.ast.ReqlAst.buildOptarg(ReqlAst.java:50)\r\n\tat com.rethinkdb.ast.ReqlAst.build(ReqlAst.java:44)\r\n\tat com.rethinkdb.ast.ReqlAst$$Lambda$10/1973143096.apply(Unknown Source)\r\n\tat java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)\r\n\tat java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)\r\n\tat java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:512)\r\n\tat java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:502)\r\n\tat java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)\r\n\tat java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\r\n\tat java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)\r\n\tat com.rethinkdb.ast.ReqlAst.build(ReqlAst.java:39)\r\n\tat com.rethinkdb.ast.Query.lambda$serialize$11(Query.java:55)\r\n\tat com.rethinkdb.ast.Query$$Lambda$9/258266172.accept(Unknown Source)\r\n\tat java.util.Optional.ifPresent(Optional.java:159)\r\n\tat com.rethinkdb.ast.Query.serialize(Query.java:55)\r\n\tat com.rethinkdb.net.Connection.runQuery(Connection.java:139)\r\n\tat com.rethinkdb.net.Connection.run(Connection.java:180)\r\n\tat com.rethinkdb.ast.ReqlAst.run(ReqlAst.java:62)\r\n\tat RethinkDBTest.testTableInsert(RethinkDBTest.java:201)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.lang.reflect.Method.invoke(Method.java:497)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\r\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\r\n\tat org.junit.rules.ExpectedException$ExpectedExceptionStatement.evaluate(ExpectedException.java:239)\r\n\tat org.junit.rules.RunRules.evaluate(RunRules.java:20)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\r\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:105)\r\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:56)\r\n\tat org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:64)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:50)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.lang.reflect.Method.invoke(Method.java:497)\r\n\tat org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)\r\n\tat org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)\r\n\tat org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)\r\n\tat com.sun.proxy.$Proxy2.processTestClass(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:106)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.lang.reflect.Method.invoke(Method.java:497)\r\n\tat org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)\r\n\tat org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:360)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)\r\n\tat org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)\r\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\r\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\r\n\tat java.lang.Thread.run(Thread.java:745)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 106686635
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

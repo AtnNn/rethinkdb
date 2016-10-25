@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-12) 23 : 47 : 04 UTC
+  , issueUpdatedAt = 2014 (-08) (-19) 20 : 56 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2893/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2893"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2893
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "polyglot/regression/2774 failing on Python3"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2893"
+  , issueCreatedAt = 2014 (-08) (-12) 20 : 27 : 28 UTC
+  , issueBody =
+      Just
+        "There is a problem in at least 2 of the sub-tests in `polyglot/regression/2774` when run on any version of Python 3. The problem is that the tests is trying to add a binary and a string, which Python 3 will not do:\r\n```python\r\npy: binary_trunc1 = r.binary(b'123456789012345678901234567890123456789012345678901234567890' +\r\n'123456789012345678901234567890123456789012345678901234567890')\r\n```\r\nThe error message that this is prompting:\r\n```python\r\nTraceback (most recent call last):\r\n  File \"/home/ssd2/larkost/rethinkdb/test/rql_test/build/polyglot.regression.2774.py3.4\", line 412, in <module>\r\n    define(\"binary_trunc1 = r.binary(b'123456789012345678901234567890123456789012345678901234567890' + '123456789012345678901234567890123456789012345678901234567890')\")\r\n  File \"/home/ssd2/larkost/rethinkdb/test/rql_test/build/polyglot.regression.2774.py3.4\", line 370, in define\r\n    driver.define(expr)\r\n  File \"/home/ssd2/larkost/rethinkdb/test/rql_test/build/polyglot.regression.2774.py3.4\", line 283, in define\r\n    exec(expr, globals(), self.scope)\r\n  File \"<string>\", line 1, in <module>\r\nTypeError: can't concat bytes to str\r\n```\r\n\r\nThe fix is easy: prepend a 'b' to the string.\r\n\r\nThere may be additional problems after this, as the test \"driver\" is not trapping for this as it is part of a `define` statement. I will take care of that as part of this bug."
+  , issueState = "closed"
+  , issueId = Id 40095541
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

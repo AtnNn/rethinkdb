@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-29) 21 : 35 : 10 UTC
+  , issueUpdatedAt = 2016 (-07) (-29) 21 : 35 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6015/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6015"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6015
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1635074
+        , simpleUserLogin = N "dekimir"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1635074?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dekimir"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "blob::stepsize() overflows when levels > 6"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6015"
+  , issueCreatedAt = 2016 (-07) (-29) 21 : 19 : 35 UTC
+  , issueBody =
+      Just
+        "This leads to guarantee violations when appending large regions and could, theoretically, cause an infinite loop in `blob_t::append_region()`.\r\n\r\n```\r\n(lldb) p max_block_size_t::unsafe_make(4096)\r\n(max_block_size_t) $62 = {\r\n  block_size_t = (ser_bs_ = 4096)\r\n}\r\n(lldb) p blob::stepsize($62, 1)\r\n(int64_t) $63 = 4084\r\n(lldb) p blob::stepsize($62, 2)\r\n(int64_t) $64 = 2082840\r\n(lldb) p blob::stepsize($62, 3)\r\n(int64_t) $65 = 1062248400\r\n(lldb) p blob::stepsize($62, 4)\r\n(int64_t) $66 = 541746684000\r\n(lldb) p blob::stepsize($62, 5)\r\n(int64_t) $67 = 276290808840000\r\n(lldb) p blob::stepsize($62, 6)\r\n(int64_t) $68 = 140908312508400000\r\n(lldb) p blob::stepsize($62, 7)\r\n(int64_t) $69 = -1923736915554206464\r\n```"
+  , issueState = "closed"
+  , issueId = Id 168416855
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

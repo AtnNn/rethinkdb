@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-05) 07 : 50 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29877662"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1738#issuecomment-29877662"
+  , issueCommentCreatedAt = 2013 (-12) (-05) 07 : 50 : 04 UTC
+  , issueCommentBody =
+      "I thought about this for a bit, and I think I've remembered one of the reasons we enforce this behavior.  When using `--join` parameters, we do not know which `--join` corresponds to which node in an existing cluster, or if the `--join` is for a node not currently present in the cluster metadata.  So, if `Node B` is starting up and connection attempts to `Node A` are failing, there are a number of possibilities, but for this scenario, notably:\r\n\r\n* `Node A` is down for some reason\r\n* `Node A` has been moved to a different address/port\r\n\r\nIf indeed `Node A` has been moved, how should `Node B` know that its `--join` directive was meant to point to `Node A`?  As far as I can tell, we have no way of being certain.  Therefore, if `Node A` from its new address/port connects to `Node B`, should `Node B` continue attempting to connect to its `--join` address?\r\n\r\nI'm not certain if there is a good answer to this, but the way we currently separate initial joining from reconnecting sidesteps this issue fairly well (though not completely).  I'll think about it some more, and probably poke at our `initial_joiner_t` a bit to see if there's anything we can do without it being obviously wrong from a usability perspective."
+  , issueCommentId = 29877662
+  }

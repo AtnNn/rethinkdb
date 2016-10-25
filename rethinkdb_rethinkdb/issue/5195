@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-07) 17 : 46 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5195/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5195"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 5195
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5043
+        , simpleUserLogin = N "thelinuxlich"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5043?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thelinuxlich"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Slow query(and it gets slower with readMode: \"outdated\")"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5195"
+  , issueCreatedAt = 2015 (-12) (-11) 07 : 29 : 21 UTC
+  , issueBody =
+      Just
+        "So I have this query which returns 13k items before the .group() and 569 after:\r\n\r\n```javascript\r\nr.table(\"pageviews\").between([7,r.time(2015,12,1,\"-02:00\")],[7,r.now()],{index: \"client_id_created_at\"})\r\n.eqJoin(\"session_id\",r.table(\"sessions\")).zip().merge(row => {\r\n  return {\r\n                            point: row(\"point\").default(null),\r\n                            pageview_count: row(\"pageviews\"),\r\n                            is_unique: row(\"is_unique\"),\r\n                            is_rejected: row(\"pageviews\").lt(2),\r\n                            session_duration: row(\"updated_at\").toEpochTime().sub(row(\"created_at\").toEpochTime()),\r\n                            session_properties: row(\"properties\"),\r\n                            session_referer_type: row(\"referer\")(\"type\").default(null),\r\n                            session_referer_domain: row(\"referer\")(\"domain\").default(null),\r\n                            session_referer_query: row(\"referer\")(\"query\").default(null),\r\n                            session_referer_path: row(\"referer\")(\"path\").default(null),\r\n                            origin: row(\"origin\").default(null),\r\n                            weather: row(\"weather\").default({\r\n                                temperature: -1,\r\n                                type: \"null\",\r\n                                weather_icon: \"null\"\r\n                            }),\r\n                            device: row(\"device\"),\r\n                            is_multi_device: row.hasFields(\"next_device\"),\r\n                            geo: row(\"geo\").default({\r\n                                city: \"null\",\r\n                                country: \"null\",\r\n                                country_code: \"null\",\r\n                                latitude: -1,\r\n                                longitude: -1,\r\n                                region: \"null\",\r\n                                region_code: \"null\"\r\n                            })\r\n};\r\n}).group(\"href\")\r\n```\r\nThis takes approximately 5 seconds, running it with a node.js script on the same machine as the database. I have a cluster of 3 n1-standard4 google cloud instances, all with 100gb SSD disks(database is using 4gb, cache is using 10gb of 15gb available RAM.\r\n\r\nThis is supposed to run on hundreds of millions of records in the worst case, so I get really alarmed that it takes 5 seconds for a small dataset.\r\nAlso, I tried setting readMode to \"outdated\" and to my surprise it slowed the query to 7 seconds.\r\n\r\nI'm using latest RethinkDB version and rethinkdbdash"
+  , issueState = "open"
+  , issueId = Id 121654574
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

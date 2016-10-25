@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 55 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4315/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4315"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      , IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 4315
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Command-buffering synchronously-constructed future-like connections"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4315"
+  , issueCreatedAt = 2015 (-05) (-30) 04 : 10 : 27 UTC
+  , issueBody =
+      Just
+        "Basically, for the JS driver, I want to get a connection object immediately from r.connect() (or a similar function) that I can then pass to queries' `.run()`, and it will add the command to the connection promise's `.then` callback.\r\n\r\nSomething like this:\r\n\r\n```js\r\nvar conn = r.connection(cfg.rethinkdb);\r\nconn.use('example');\r\nr.insert({stuff:'foo',things:['bar','baz']}).run(conn);\r\n\r\n// would work like:\r\n\r\nr.connect(cfg.rethinkdb).then(conn => {\r\n  conn.use('example');\r\n  r.insert({stuff:'foo',things:['bar','baz']}).run(conn);\r\n})\r\n```\r\n\r\nRight now, if I want anything like this behavior (where I can return a synchronous value and not have to worry about buffering queries to run after the connection is established), I have to use rethinkdbdash, which has problems (namely, I can't easily use it to run connection-agnostic queries constructed with a module like https://github.com/stuartpb/endex)."
+  , issueState = "open"
+  , issueId = Id 82691867
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

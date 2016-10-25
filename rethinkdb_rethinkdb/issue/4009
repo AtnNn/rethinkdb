@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-03) 18 : 24 : 52 UTC
+  , issueUpdatedAt = 2015 (-04) (-03) 18 : 24 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4009/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4009"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:build"
+          , labelName = "cp:build"
+          }
+      ]
+  , issueNumber = 4009
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "build hanging on browserify fetch"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4009"
+  , issueCreatedAt = 2015 (-04) (-02) 23 : 11 : 41 UTC
+  , issueBody =
+      Just
+        "On both my home and office computers I am unable to build `next` as the build hangs on the \"FETCH browserify_3.24.13\" step (I can only tell this by canceling the build). A bit of investigation and I found the issues is with the  the `npm pack` line in `mk/support/pkg/npm-pkg.inc`. That process continues running indefinitely and the output file continues to grow (I saw 6.5 gigs).\r\n\r\nMy theory is that because we are calling `npm pack` in a directory that contains the cache folder that we are using that it somehow creates a loop continuously adding more files. I have no explanation about why this is happening on my two computers and not on gantz or newton. Initially I suspected `npm` versions, but have since rules that out. it might also be version of MacOS.\r\n\r\nHowever, I have been able to work around it by changing the `pkg_fetch` method of `mk/support/pkg/npm-pkg.inc` to the following change that moves the cache to `/tmp` (or more pointedlyL out of the same directory):\r\n\r\n```bash\r\npkg_fetch () {\r\n    pkg_make_tmp_fetch_dir\r\n    cp \"$pkg_dir/$npm_package.shrinkwrap\" \"$tmp_dir/npm-shrinkwrap.json\"\r\n    cache_dir=$(mktemp -d \"/tmp/npm_cache-XXXXXXXX\")\r\n    package_json > \"$tmp_dir/package.json\"\r\n    mkdir \"$tmp_dir/node_modules\"\r\n    in_dir \"$tmp_dir\" npm --cache \"$cache_dir\" install\r\n    in_dir \"$tmp_dir\" npm --cache \"$cache_dir\" pack\r\n    in_dir \"$tmp_dir\" tar xf packed-$npm_package-$version.tgz\r\n    mv \"$tmp_dir/package\" \"$src_dir\"\r\n    pkg_remove_tmp_fetch_dir\r\n}\r\n```\r\n\r\nWe should make some change similar to this. Over to @AtnNn as this is his area."
+  , issueState = "closed"
+  , issueId = Id 66029364
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

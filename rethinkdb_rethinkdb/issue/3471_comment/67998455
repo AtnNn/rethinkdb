@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-23) 21 : 05 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67998455"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-67998455"
+  , issueCommentCreatedAt = 2014 (-12) (-23) 21 : 05 : 52 UTC
+  , issueCommentBody =
+      "My guess is that this is probably not too difficult in a basic form.\r\n\r\nThere are a few open questions:\r\n1. What exactly must be in the timestamp? Probably it will be a set of replication timestamps, with separate timestamps for different key/hash ranges?\r\n2. What do we have to do to make the changefeed survive rebalancing / reconfiguration?\r\n3. If we lose a few writes in the underlying table due to a primary dying, this API doesn't allow us to roll those changes back without starting from scratch. We should think a bit about how to handle that case.\r\n  * We can either ignore the issue and simply resume feeding changes from the new primary. In this case the state submitted over the feed will become out of sync with the actual data in the table.\r\n  * Or we can send the user a message to drop all keys and start over. Or we can terminate the changefeed and require the user to start over.\r\n  * Finally we could do something more complex and ask the user to send back any key ranges that they think might have been affected by the changes since some given timestamp. We would then rebackfill only those ranges. This requires some substantial effort on the user's side. It would also require making the timestamps transparent.\r\n\r\nPoint 3 will become especially relevant when we implement automatic failover.\r\n\r\n\r\nA minor detail: In our current backfilling logic, the \"drop potentially obsolete key range\" requests are restricted to a given hash shard. We have to either expose the hashing function to the user in some way, or make sure that we re-send the given key range over all hash shards."
+  , issueCommentId = 67998455
+  }

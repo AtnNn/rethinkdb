@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-03) (-12) 12 : 27 : 08 UTC
+  , issueUpdatedAt = 2013 (-03) (-15) 00 : 04 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/267/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/267"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 267
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 48436
+          , simpleUserLogin = N "coffeemug"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/48436?v=3"
+          , simpleUserUrl = "https://api.github.com/users/coffeemug"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Don't blindly copy methods off of modules for the `r` shortcut in python"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/267"
+  , issueCreatedAt = 2013 (-01) (-30) 19 : 02 : 45 UTC
+  , issueBody =
+      Just
+        "Right now we implement the `r` shortcut in python with the following lines:\r\n\r\n    for fun in dir(sys.modules[__name__]):\r\n        setattr(r, fun, getattr(sys.modules[__name__], fun))\r\n\r\nthe problem is that this doesn't ignore hidden methods and functions which has some weird results.\r\n\r\nThis has the undesired (I think) effect that it clobbers the documentation of the function replacing it with the documentation for the module. In bpython this yields a very confusing view where documentation of a module is displayed while you're in the middle of calling `r`. I think having the documentation for the function `r` is more important than having the module docs there. Module docs just gives us a summary of what rethinkdb does and I think there's a good chance people will already know that once they're importing in to python. But seeing docs for the function is still useful.\r\n\r\nAlthough it doesn't seem to break anything I think it's also weird to add the other hidden methods and attributes to `r` when we import it. I don't think this is worth fixing in the old python driver but we should make sure not to do the same thing in the new one.\r\n"
+  , issueState = "closed"
+  , issueId = Id 10470999
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

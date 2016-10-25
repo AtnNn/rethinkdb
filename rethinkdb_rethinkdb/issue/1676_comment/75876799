@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 23 : 50 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75876799"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1676#issuecomment-75876799"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 23 : 50 : 17 UTC
+  , issueCommentBody =
+      "I agree we should rip the profiler out.  It provides almost no useful information right now, and it's a constant source of headaches while writing ReQL code.  There are also some problems with the way it's designed:\r\n\r\n* It builds up the trace in a way totally disconnected from the way we compute backtraces.  This makes it very hard to figure out what parts of your query correspond to what parts of the trace.\r\n* It makes it very hard to parallelize things in the query language.  There's a single `trace` object, and depth is managed by calling functions on it to enter new chunks of code, so if you spawn two blocking coroutines to do work then you can't profile that work.  (There's also no way to combine traces really.)\r\n* It doesn't have a good way to reconcile work done on the shards with work done eagerly on the node parsing the query, so we throw away a lot of information when we shard.\r\n\r\nI think that it's extremely unlikely we will get from here to a good profiler by tweaking the one we have.  I think we should rip it out, keep the most useful statistics (query latency, number of shards hit, etc.), and possibly write a profiler in the future that works by attaching durations to parts of the backtrace."
+  , issueCommentId = 75876799
+  }

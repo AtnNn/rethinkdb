@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2015 (-10) (-01) 01 : 46 : 51 UTC
+  , issueUpdatedAt = 2015 (-10) (-01) 17 : 45 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1526/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1526"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1526
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1255573
+        , simpleUserLogin = N "linuxdynasty"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1255573?v=3"
+        , simpleUserUrl = "https://api.github.com/users/linuxdynasty"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Compound Secondary Index Speed"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1526"
+  , issueCreatedAt = 2013 (-10) (-08) 21 : 07 : 09 UTC
+  , issueBody =
+      Just
+        "I noticed when I was testing the speed of the queries that I have in my product, there was a significant decreases in certain queries that involved Compound Indexes.\r\n\r\nFor instance this query took Total time: 0:00:03.790848\r\neq_join with a compound index without a filter and using distinct()\r\n\r\n```\r\nr.table('apps_per_agent').get_all(['installed', 'default'], index='status_and_customer').eq_join(lambda x: [x['app_id'], 'no'], r.table('unique_applications'), index='appid_and_hidden').pluck({'right': 'app_id'}).distinct().run(conn)\r\n```\r\n\r\nNow this query is eq_join with an index with a filter took Total time: 0:00:01.156872\r\n```\r\nr.table('apps_per_agent').get_all(['installed', 'default'], index='status_and_customer').eq_join('app_id', r.table('unique_applications')).filter({'right': {'hidden': 'no'}}).pluck({'right': 'app_id'}).distinct().run(conn)\r\n```\r\n\r\n@jdoliner Can add more details to this, since he was working with me on this issue.\r\n\r\nI expected the compound index to be faster than the filter when it came to the eq_join, but not in this case."
+  , issueState = "closed"
+  , issueId = Id 20707092
+  , issueComments = 41
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-10) (-05) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 109
+          , milestoneClosedIssues = 17
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/109"
+          , milestoneCreatedAt = 2015 (-10) (-01) 17 : 45 : 43 UTC
+          , milestoneState = "closed"
+          }
+  }

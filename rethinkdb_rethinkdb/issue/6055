@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-15) 19 : 25 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6055/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6055"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 6055
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7917
+        , simpleUserLogin = N "bsharpe"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7917?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bsharpe"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Backfill process too slow"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6055"
+  , issueCreatedAt = 2016 (-08) (-15) 13 : 08 : 10 UTC
+  , issueBody =
+      Just
+        "We added a new identical node to our cluster of 4 machines this weekend.   \r\n\r\nStarted sharding tables one at a time -- biggest first (as we've learned; they need the most scratch space).\r\n\r\nOne table of small rows has 180 millions records in it; it's taken more than 2 days to backfill the shards.  We stopped all other work on the DB to give it the best chance of finishing over the weekend...which it did not.\r\n\r\nEither manually (via a setting) or automatically -- seems like the backfill process should utilize more resources when it can.  We would love a MAX setting -- where we could take the DB offline, add a new node; set backfill to MAX and have things resharded in <24hrs.\r\n\r\nDuring the height of the backfill process - I only ever see about 2.5 to 4k writes per second.   At that rate it seems like it should take approximately 13 hrs to copy to the whole table, but ours has taken >50hrs...and it's still going.\r\n\r\nUbuntu 14.04.01 / 256G RAM / 24 dual-core cpus / SSD drives / bonded 10G/s network cxns\r\nusing Rethink 2.3.4 with GC tweaks sent to us by Daniel.\r\n\r\nFollow up:  It took 5 days for the backfill in question to finish.   We ended up having to go ahead and use the table despite not having all replicas available."
+  , issueState = "open"
+  , issueId = Id 171166470
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

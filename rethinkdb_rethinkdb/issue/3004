@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-04) 15 : 53 : 56 UTC
+  , issueUpdatedAt = 2014 (-09) (-04) 15 : 54 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3004/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3004"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3004
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Test failures on OS X"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3004"
+  , issueCreatedAt = 2014 (-09) (-04) 03 : 24 : 57 UTC
+  , issueBody =
+      Just
+        "I'm getting test failures in geo primitives: specifically I'm seeing this:\r\n\r\n```\r\n$ ./test-runner polyglot/geo/primitives.py2.6 polyglot/geo/primitives.rb2.0\r\nWarning: did not find any tests for javascript\r\nUsing rethinkdb binary from /Users/graham/wd/rethinkdb/build/debug_clang_notcmalloc\r\n\tpython 2.6 interpreter: /usr/bin/python2.6, driver: /Users/graham/wd/rethinkdb/drivers/python\r\n\truby 2.0 interpreter: /usr/bin/ruby, driver: /Users/graham/wd/rethinkdb/drivers/ruby\r\n\r\n== Running polyglot/geo/primitives.py2.6 (python 2.6)\r\n== Failed polyglot/geo/primitives.py2.6 test with result code 1 (/Users/graham/wd/rethinkdb/test/rql_test/src/geo/primitives.yaml) Output:\r\nCreating default connection to CPP server on port 15644\r\n\r\n\r\nTEST FAILURE: polyglot/geo/primitives.py2.6/6\r\nTEST BODY:    r.circle([0,0], 0.1, num_vertices=3, geo_system='unit_sphere')\r\nCPP result is not equal to expected result:\r\n\tVALUE: {u'$reql_type$': u'GEOMETRY', u'type': u'Polygon', u'coordinates': [[[0, -5.7295779513082321], [-4.9660929474448583, 2.8612057544957015], [4.9660929474448583, 2.8612057544957015], [0, -5.7295779513082321]]]}\r\n\tEXPECTED: {'$reql_type$': 'GEOMETRY', 'type': 'Polygon', 'coordinates': [[[0, -5.7295779513082321], [-4.9660929474448574, 2.861205754495701], [4.9660929474448574, 2.861205754495701], [0, -5.7295779513082321]]]}\r\n\r\nFailed 1 tests\r\n\r\n\r\n== Running polyglot/geo/primitives.rb2.0 (ruby 2.0)\r\n== Failed polyglot/geo/primitives.rb2.0 test with result code 1 (/Users/graham/wd/rethinkdb/test/rql_test/src/geo/primitives.yaml) Output:\r\nTEST FAILURE: polyglot/geo/primitives.rb2.0/6\r\n\tBODY: r.circle([0,0], 0.1, :num_vertices=>3, :geo_system=>'unit_sphere')\r\n\tVALUE: {\"$reql_type$\"=>\"GEOMETRY\",\r\n \"coordinates\"=>\r\n  [[[0, -5.729577951308232],\r\n    [-4.966092947444858, 2.8612057544957015],\r\n    [4.966092947444858, 2.8612057544957015],\r\n    [0, -5.729577951308232]]],\r\n \"type\"=>\"Polygon\"}\r\n\tEXPECTED: {:\"$reql_type$\"=>\"GEOMETRY\",\r\n :coordinates=>\r\n  [[[0, -5.729577951308232],\r\n    [-4.966092947444857, 2.861205754495701],\r\n    [4.966092947444857, 2.861205754495701],\r\n    [0, -5.729577951308232]]],\r\n :type=>\"Polygon\"}\r\nFailed 1 tests\r\n\r\n\r\nRuby: 8 of 9 tests passed. 1 tests failed.\r\n\r\n\r\n== Failed 2 tests (of 2) in 4.97 seconds!\r\n\tpolyglot/geo/primitives.py2.6 (python 2.6)\r\n\tpolyglot/geo/primitives.rb2.0 (ruby 2.0)\r\n```\r\n\r\nThis appears to be a precision issue\8212that is, `float_a == float_b` being checked rather than `math.abs(float_a - float_b) < tolerance` that is the usual appropriate check.  @larkost can this be addressed in the test harness?"
+  , issueState = "closed"
+  , issueId = Id 41891012
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

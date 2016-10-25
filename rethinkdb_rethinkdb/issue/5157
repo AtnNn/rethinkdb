@@ -1,0 +1,83 @@
+Issue
+  { issueClosedAt = Just 2015 (-12) (-15) 09 : 52 : 07 UTC
+  , issueUpdatedAt = 2015 (-12) (-28) 12 : 39 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5157/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5157"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5157
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Hanging `include_initial` `get_all`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5157"
+  , issueCreatedAt = 2015 (-11) (-30) 19 : 25 : 32 UTC
+  , issueBody =
+      Just
+        "@tatsujin1 reported this issue on Slack:\r\n> in my test with 25000 documents a simple indexed query (using `get_all`) takes 50ms, no problem, but \8203sometimes\8203 it can take over 30 seconds...\r\n> this during frequent changes to the documents.\r\n> oh, forgot to mention that the query is a changefeed, using\r\n`include_initial`.... and the initial documents are received quite quickly, but the `ready` state document is not received until much later.\r\n> query result is about 1000 documents\r\n> sometimes it can even hang completely... and stopping the modifications at this time does not make the query's initial batch to be returned any faster...\r\n> my complete query is simply:  `r.db('thedb').table('thetable').get_all(3, index='value').changes(include_initial=True, include_states=True).run()`\r\n> in fact, it seems that if the `ready` state is not received within ~1 second - and at that time stopping the process modifying the table - the ready state will never be received\r\n\r\nAlso:\r\n> just tried leaving the query running longer for once, and its still hanged after about ~1 hour\r\n\r\nCPU load on the database was low, and judging from the load value of just 0.6 to 1.5, I suspect that i/o was also not a major bottleneck here.\r\n\r\n@mlucy Could you take this one please?"
+  , issueState = "closed"
+  , issueId = Id 119561906
+  , issueComments = 18
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 114
+          , milestoneClosedIssues = 19
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/114"
+          , milestoneCreatedAt = 2015 (-12) (-15) 22 : 25 : 25 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-05) (-13) 22 : 57 : 49 UTC
+  , issueUpdatedAt = 2015 (-05) (-13) 22 : 57 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4201/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4201"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4201
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 316661
+          , simpleUserLogin = N "timmaxw"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/316661?v=3"
+          , simpleUserUrl = "https://api.github.com/users/timmaxw"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Tables don't fail over"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4201"
+  , issueCreatedAt = 2015 (-05) (-08) 03 : 21 : 16 UTC
+  , issueBody =
+      Just
+        "I created a three-node cluster like this:\r\n```\r\n./rethinkdb --bind all -d data_0 -o 0 &\r\n./rethinkdb --bind all -d data_1 -o 1 -j localhost &\r\n./rethinkdb --bind all -d data_2 -o 2 -j localhost &\r\n```\r\n\r\nThen created a table and configured it to 3 replicas:\r\n```\r\nr.tableCreate('t1')\r\nr.table('t1').reconfigure({replicas: 3, shards: 1})\r\n```\r\n\r\n`r.table('t1').status()` confirmed that all replicas were ready.\r\n\r\nThen I shut down the current primary. After 2-3 minutes they remaining two replicas hadn't elected a new primary. `r.table('t1').status()` looked as follows:\r\n```\r\n{\r\n    \"db\": \"test\" ,\r\n    \"id\": \"b9821a78-ce8f-4c9c-a5ad-44c9611af287\" ,\r\n    \"name\": \"t2\" ,\r\n    \"shards\": [\r\n        {\r\n            \"primary_replicas\": [ ],\r\n            \"replicas\": [\r\n                {\r\n                    \"server\": \"sinister_lbf\" ,\r\n                    \"states\": [\r\n                        \"waiting_for_primary_replica\"\r\n                    ]\r\n                } ,\r\n                {\r\n                    \"server\": \"sinister_zpd\" ,\r\n                    \"states\": [\r\n                        \"disconnected\"\r\n                    ]\r\n                } ,\r\n                {\r\n                    \"server\": \"sinister_x7p\" ,\r\n                    \"states\": [\r\n                        \"waiting_for_primary_replica\"\r\n                    ]\r\n                }\r\n            ]\r\n        }\r\n    ] ,\r\n    \"status\": {\r\n        \"all_replicas_ready\": false ,\r\n        \"ready_for_outdated_reads\": true ,\r\n        \"ready_for_reads\": false ,\r\n        \"ready_for_writes\": false\r\n    }\r\n}\r\n```\r\n\r\nIt happened two out of two times I tried.\r\n\r\n@timmaxw this should work right? Is this a bug?"
+  , issueState = "closed"
+  , issueId = Id 74211576
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

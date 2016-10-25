@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-14) 21 : 21 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/148205417"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3384#issuecomment-148205417"
+  , issueCommentCreatedAt = 2015 (-10) (-14) 21 : 21 : 04 UTC
+  , issueCommentBody =
+      "The implementation for the optimization mentioned in this issue would probably look somewhat like this I think:\r\n* Add a `handle_pre_leaf()` callback to `concurrent_traversal_callback_t`, just like we have in `depth_first_traversal_callback_t`\r\n* Overwrite that callback in the `rget_cb_t` / `rget_cb_t_wrapper`\r\n* In the callback, check if the terminal is a `count`. If it is, check that the leaf's range is completely inside the traversal range. If it is, iterate directly over the offsets in the leaf node and check for each whether they correspond to deletion entries or live pairs. If an offset is live, call the accumulate method on the `count` terminal.\r\n\r\nThis would cut out having to go through the concurrent_traversal logic for each key/value pair in the leaf node, which goes through a few order-enforcement steps and puts each call into a coroutine. So this optimization would probably save a bit of CPU, though I'm unsure how much.\r\nIt sounds like it's not worth doing until we have more evidence that the bottleneck is actually in this part of the code."
+  , issueCommentId = 148205417
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-02) (-08) 21 : 06 : 59 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1863/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1863"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1863
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "2PC Mechanisms, r.eval() and r.rql() proposal"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1863"
+  , issueCreatedAt = 2014 (-01) (-14) 10 : 24 : 13 UTC
+  , issueBody =
+      Just
+        "While we don't support any ACID transactions, it would still be desirable to support some easy ways to perform two phase commits.\r\n\r\nA simple example is to consider an game application with players. players are stored in a single table. Each player have a money attribute. I wish to implement a transfer money feature with the following requirements:\r\n\r\n* A player can send money to another player as long as his available balance remains positive.\r\n* After performing a money transfert of amount X, eventually the sender should have his balance decreased by X, and the receiver should gain X.\r\n\r\nThese requirements have to withstand any sort of application server crash, or network failure, or slow network, or slow application servers.\r\n\r\nIntuitively, we want to perform atomically:\r\n* Check if the balance of Sender is positive\r\n* If yes, decrement his balance, and increment the balance of Receiver.\r\n\r\nUsing a separate lock server like ZooKeeper would not work, because my application server could be arbitrarily slow or loose the connection with the lock server, so the app server could could lose the lock while performing the decrement/increment.\r\n\r\nOkay, so that leaves us with the atomic operations of rethinkdb.\r\n\r\nWe can decrement the balance so that the positive balance invariant is always respected, but then if the app server dies right after that, the Receiver account will never be incremented.\r\nWell, that's fixable, if we remember that we need to do an increment on the receiver account in a pending_sends set. Let's pick a some random xid to denote the money transaction id. So the update is now \"if balance > X, decrement balance by X, and add to pending_sends set the pair [xid, receiver_id, X]\". This way, if the app server dies, we remembered that we have to increment receiver_id's balance X amount of money. We still have the problem of having incrementing the receiver's account by X, and removing the xid from the sender's pending_sends array to prevent giving the receiver too much money. That's fixable too, we can add a pending_receives set on the receiver side, and add [xid, X] to the set. Once done, we can safely remove the xid from the pending_sends. And once done we can atomically increment the sender's account and remove the xid from his pending_receives.\r\n\r\nThat's pretty complicated. What happens if we want to do a transaction with N players, and what if we also want to create and delete documents along the way.\r\n\r\nWe need some ways to do a 2PC in an elegant manner. Considering only update operations does not lose generalization as creates/deletes operations can be emulated by shadowing documents on the app side with a \"visible\" attribute that gets updated.\r\n\r\n---\r\n\r\nIdeally, we want something like `r.transaction(write_opertions)` to enqueue all of our writes. If one of them cannot be performed, don't perform any of them. if they can all be performed, do them all. We obviously don't care about isolation (readers can see some of the writes already done, some not yet done).\r\n\r\nWith the players example we would do something like:\r\n\r\n```ruby\r\nr.transaction(\r\n  r.table('players').get('sender_id').update { |doc|\r\n    r.branch(doc[:balance] > X,\r\n             doc[:balance] = doc[:balance] - X,\r\n             r.error('no enough money'))\r\n  },\r\n  r.table('players').get('receiver_id').update { |doc|\r\n    doc[:balance] = doc[:balance] + X\r\n  }\r\n)\r\n```\r\n\r\nWell, we can't have this, otherwise specifying an invariant \"doc[:balance] > X\" in both queries would necessitate to take a lock on the two documents which would be a bad idea.\r\n\r\n---\r\n\r\nWe could get away with it by providing `r.eval()` and `r.rql()` commands to let the application specify its mechanism:\r\n\r\n* `r.rql(rql_expr)` leaves the rql expression as is and doesn't evaluate it. It's just a wrapper for rql_expr.to_pb at the end of the day (but performed server side). For example:\r\n\r\n```ruby\r\nr.table('players').get('sender_id').update(:todo =>\r\n  r.rql(r.table('players').get('receiver_id').update(:stuff => '123')))\r\n```\r\n\r\nThis would store the protobuf of the rql expression in the todo attribute (it's just a wrapper on `.to_pb`, but it's a bit nicer).\r\n\r\n* `r.eval(rql_expr)` runs the rql_expr on the server. For example:\r\n\r\n```ruby\r\nr.table('players').get('sender_id').eval(:todo)\r\nr.do(r.table('players').get('sender_id')) { |doc| r.eval(doc[:todo]) }\r\n```\r\n\r\n`r.eval` would have security implications, so perhaps it's better to only allow eval on a special type. Similarly with how dates are stored with `$reql_type$`, we could to do the same with the type of `r.rql()`. It somewhat solves the problem if only the database can write this special type to documents (to avoid a user passing a fancy hash as a value with this rql type).\r\n\r\nHere is how it would work to do a 2pc:\r\n\r\n```ruby\r\ndef prepare_2pc(doc_updates)\r\n  # doc_updates is a hash of rql selectors to rql updates.\r\n  # e.g. { r.table('player').get('123') => r.do(unbound) { |doc| doc[:money] = doc[:money] + 1 } }\r\n\r\n  # A transaction is identified with a xid.\r\n  xid = UUID.generate\r\n\r\n  # We saved all the document selectors involved in the 2pc first, because\r\n  # as soon as we write to the database, we need to be able to rollback\r\n  # the 2pc. This also gives us a table of transactions and the ability to\r\n  # rollback pending transactions. We save all the updates to be performed\r\n  # so we can commit the transaction later in time.\r\n  r.table('transactions').insert(\r\n    :id => xid,\r\n    :state => 'prepare',\r\n    :created_at => Time.now,\r\n    :doc_selectors => doc_updates.keys.map { |s| r.rql(s) },\r\n    :doc_updates => doc_updates.values.map { |s| r.rql(s) }\r\n  ).run\r\n\r\n  # Locking the documents in place, so concurrent transactions will fail.\r\n  # current_xid can be namespaced to allow different transactions that\r\n  # operates on different fields to occur. it could be current_balance_xid\r\n  # for example.\r\n  docs_selector.update { |doc|\r\n    r.branch(doc[:current_xid],\r\n             r.error('document is already in a transaction'),\r\n             { doc[:current_xid] => xid })\r\n  }.run\r\n\r\n  return xid\r\nrescue\r\n  # Some document might have been involved in a transaction, we are out.\r\n  rollback_2pc(xid)\r\n  return nil\r\nend\r\n\r\ndef rollback_2pc(xid)\r\n  r.table('transactions').get(xid).update { |transaction|\r\n    r.branch(transaction[:state].ne('commit'),\r\n             {:state => 'rollback'},\r\n             r.error(\"Cannot rollback, the transaction is committed\"))\r\n  }.run\r\n\r\n  # We remove all the current_xid from the documents to unlock them\r\n  r.do(r.table('transactions').get(xid)) { |transaction|\r\n    transaction[:doc_selectors].map { |selector|\r\n      r.eval(selector).update { |doc|\r\n        r.branch(doc[:current_xid].eq(xid),\r\n                 doc[:current_xid].update(:current_xid => nil),\r\n                 { })\r\n      }\r\n    }\r\n  }.run\r\n\r\n  # And we finally remove the transaction\r\n  r.table('transactions').get(xid).delete.run\r\nend\r\n\r\ndef commit_2pc(xid)\r\n  r.table('transactions').get(xid).update { |transaction|\r\n    r.branch(transaction[:state].ne('rollback'),\r\n             {:state => 'commit'},\r\n             r.error(\"Cannot commit, the transaction is rollbacked\"))\r\n  }.run\r\n\r\n  r.do(r.table('transactions').get(xid)) { |transaction|\r\n    {:left => transaction[:doc_selectors],\r\n     :right => transaction[:doc_updates]}.zip { |selector, update|\r\n      r.eval(selector).update { |doc|\r\n        r.branch(doc[:current_xid].eq(xid),        \r\n                r.expr([doc[:current_xid] = nil, r.eval(update, doc)]),\r\n                { })\r\n      }\r\n    }\r\n  }.run\r\n\r\n  r.table('transactions').get(xid).delete.run\r\nend\r\n```\r\n\r\n```ruby\r\nxid = prepare_2pc(\r\n  r.table('player').get('sender_id')   => r.do(unbound) { |doc| doc[:money] = doc[:money] - X },\r\n  r.table('player').get('receiver_id') => r.do(unbound) { |doc| doc[:money] = doc[:money] + X }\r\n)\r\n\r\nif r.table('player').get('sender_id').run['money'] > X\r\n  commit_2pc(xid)\r\nelse\r\n  rollback_2pc(xid)\r\nend\r\n```\r\n\r\n---\r\n\r\nThere are some issue where we need to call `r.do(unbound) { |doc| ... }` to pass a lambda with an argument to the db that can be serialized. That's because we need to be able to call `r.eval(serialized_rql, the_bindings)` at some point.\r\n\r\nIn short, `r.eval()` is pure awesomeness, because now we are able to completely abstract the 2pc mechanism easily. As a sys admin, I can come in and list the transactions in progress in the transactions table. I can also always finish a transaction safely (by committing if the transaction was already committed, or by doing a rollback) (there is a small race when preparing the transaction, but that could be easily avoided with an additional state), and this without knowing what the actual commit operations were, because there are stored in the transaction object in RQL.\r\n\r\nNot that it would be impossible to call `.to_pb` manually, and parsing back the RQL putting some glue everywhere and recompiling it to some sane RQL, it feels much more natural to have it part RQL.\r\nThe 2pc implementation demonstrates the power of `r.eval()`, but I'm sure other use cases can leverage `r.eval()` to do interesting things."
+  , issueState = "open"
+  , issueId = Id 25564559
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

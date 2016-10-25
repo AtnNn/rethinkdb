@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-04) (-20) 23 : 52 : 15 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2950/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2950"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2950
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "r.http should do utf-8 validation before returning a string"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2950"
+  , issueCreatedAt = 2014 (-08) (-22) 22 : 02 : 24 UTC
+  , issueBody =
+      Just
+        "Currently, `r.http` with `result_format='auto'` looks for some known binary content-types and returns a String if the content-type of the page isn't among them. The issue with this is that we don't allow Strings to have null bytes in them. It's possible for a content-type to miss our heuristic for finding binary files and to be returned as a string improperly. This throws an avoidable exception and prevents the user from doing what they want to do.\r\n\r\nFollowing the discussion on rethinkdb/docs#467, I think we should do one of these two things:\r\n\r\n1. Validate the page content as utf-8, and only if it validates return a String (otherwise return a Binary).\r\n2. If utf-8 validation turns out to be too slow in practice, switch from white-listing binary content-types to white-listing content-types that are utf-8. The default return type of `r.http` would become a Binary, and only white-listed content-types would return a String.\r\n\r\nThe downside of approach 1 is that we'd need to add code to do utf-8 validation, and that it may be slow. The downside of 2 is that it may be surprising to users that some content type comes back as a binary because we didn't explicitly white-list it."
+  , issueState = "open"
+  , issueId = Id 40954358
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

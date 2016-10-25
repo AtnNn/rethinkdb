@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-19) 02 : 41 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56129014"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2720#issuecomment-56129014"
+  , issueCommentCreatedAt = 2014 (-09) (-19) 02 : 37 : 23 UTC
+  , issueCommentBody =
+      "@neumino Your proposal looks really good, but I think the `compose` and `group` options could be combined (plus I think `compose` is a better term for describing what your `group` does).\r\n\r\n`compose: undefined | string | function(doc, joined)`\r\n\r\nIf set to `undefined` join produces existing behavior. If set to a string it would group the right values into an array and assign the result to a property on the left document with the provided name. If provided a function, it will take two arguments: the left document and the joined documents.\r\n\r\nExamples for both use cases:\r\n\r\n```js\r\n// equivalent to @neumino's \"group\" example\r\nr.table(\"posts\").join(\"id\", r.table(\"comments\"), {\r\n  index: \"postId\",\r\n  compose: \"comments\"\r\n})\r\n\r\n// equivalent to @neumino's \"group + compose\" example\r\nr.table(\"posts\").join(\"id\", r.table(\"comments\"), {\r\n  index: \"postId\",\r\n  compose: function (post, comments) {\r\n    return post.merge({ comments: comments.orderBy(\"date\") });\r\n  }\r\n})\r\n```\r\n\r\nSo in addition to combining the options, this allows you to arbitrarily compose the join result (instead of being restricted to the two `group` options)."
+  , issueCommentId = 56129014
+  }

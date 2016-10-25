@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-16) 06 : 48 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165016108"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5213#issuecomment-165016108"
+  , issueCommentCreatedAt = 2015 (-12) (-16) 06 : 48 : 19 UTC
+  , issueCommentBody =
+      "@mlucy, I think you're imagining that.  It should be possible to get the backtrace of a coroutine from the stack pointer, and from there you can write a gdb extension to do the same.  This wouldn't allow you to walk the stack frame in gdb, though.\r\n\r\nI'm not sure how possible it is, but perhaps we could write an extension that switches to a specific coroutine stack so you could inspect local variables, etc.  This would likely be destructive, though, and it would be harder to guarantee that you could continue execution afterwards (even if you switch back to the original stack you broke on).\r\n\r\nAs it stands, there are some hardly-useful data structures that may be enabled in debug mode so you can see how many coroutines of certain types are running at a given point in time.  If you know enough about the state of the server, you may be able to determine which coroutines are running so you can place useful debug statements or breakpoints.  These are `coro_globals_t::running_coroutine_counts` and `coro_globals_t::total_coroutine_counts`.  They are not ideal.\r\n\r\nIf you are not doing stress testing, you can build with `THREADED_COROUTINES=1` to use threads instead of coroutines.  This is probably good enough for most cases.\r\n"
+  , issueCommentId = 165016108
+  }

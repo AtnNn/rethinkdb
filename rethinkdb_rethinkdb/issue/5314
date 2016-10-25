@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-01) (-26) 03 : 15 : 07 UTC
+  , issueUpdatedAt = 2016 (-01) (-27) 02 : 01 : 31 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5314/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5314"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5314
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1430058
+        , simpleUserLogin = N "ntquyen"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1430058?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ntquyen"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Got error `cannot allocate memory` when running rethinkdb in docker container"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5314"
+  , issueCreatedAt = 2016 (-01) (-25) 09 : 06 : 14 UTC
+  , issueBody =
+      Just
+        "I'm running rethinkdb inside docker container version `2.2.3+1~0jessie` and below is the container configuration:\r\n\r\n```\r\ndocker run \\\r\n     --name=ips_messages \\\r\n     --restart=always \\\r\n     -m 8000M \\\r\n     -c 512 \\\r\n     -p 8484:8080 \\\r\n     -p 28019:28015 \\\r\n     -p 29019:29015 \\\r\n     -v /data/rethinkdb-ips_messages:/data \\\r\n     -d rethinkdb:2.2.3 \\\r\n     rethinkdb -d /data --cache-size 7000 --bind all\r\n```\r\n\r\nSo I gave about 8GB of RAM for the container to run and 7GB for rethinkdb to use as its cache size. But when I dump the database, the rethinkdb instance tries to allocate more memory than the number I assign to the whole container and throw memory allocation error:\r\n```\r\nVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nerror: Error in src/arch/types.cc at line 35:\r\nerror: I/O operation failed. (Cannot allocate memory) (offset = 4122062336, count = 4096)\r\nerror: Backtrace:\r\nVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nerror: Error in src/arch/types.cc at line 35:\r\nerror: I/O operation failed. (Cannot allocate memory) (offset = 28143037440, count = 30720)\r\nerror: Backtrace:\r\nVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyedVersion: rethinkdb 2.2.3+1~0jessie (GCC 4.9.2)\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [this->prev_ == this] non-empty intrusive list destroyederror: Mon Jan 25 08:33:52 2016\r\n\r\n       1 [0xa8b5f0]: backtrace_t::backtrace_t() at 0xa8b5f0 (rethinkdb)\r\n       2 [0xa8b969]: format_backtrace(bool) at 0xa8b969 (rethinkdb)\r\n       3 [0xd00a9d]: report_fatal_error(char const*, int, char const*, ...) at 0xd00a9d (rethinkdb)\r\n       4 [0x99ff1c]: linux_iocallback_t::on_io_failure(int, long, long) at 0x99ff1c (rethinkdb)\r\n       5 [0x9907f5]: thread_doer_t<std::_Bind<std::_Mem_fn<void (linux_iocallback_t::*)(int, long, long)> (linux_iocallback_t*, int, long, long)> >::on_thread_switch() at 0x9907f5 (rethinkdb)\r\n       6 [0x99f878]: linux_message_hub_t::on_event(int) at 0x99f878 (rethinkdb)\r\n       7 [0x99c986]: epoll_event_queue_t::run() at 0x99c986 (rethinkdb)\r\n       8 [0x99af90]: linux_thread_pool_t::start_thread(void*) at 0x99af90 (rethinkdb)\r\n       9 [0x7f09025ab0a4]: /lib/x86_64-linux-gnu/libpthread.so.0(+0x80a4) [0x7f09025ab0a4] at 0x7f09025ab0a4 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       10 [0x7f09022e004d]: clone+0x6d at 0x7f09022e004d (/lib/x86_64-linux-gnu/libc.so.6)\r\nerror: Exiting.\r\n```\r\n I'm don't know how to get the cache size config right in this scenario, but it seems rethinkdb is trying to get more memory than assigned.\r\n\r\n```\r\n$ docker -v\r\nDocker version 1.8.3, build cedd534-dirty\r\n\r\n$ uname -a\r\nLinux coreos-data-1 4.2.2-coreos-r1 #2 SMP Sat Dec 5 05:56:36 UTC 2015 x86_64 Intel(R) Xeon(R) CPU E5-2609 v2 @ 2.50GHz GenuineIntel GNU/Linux\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 128491712
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

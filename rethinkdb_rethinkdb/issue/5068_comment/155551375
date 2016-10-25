@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-10) 20 : 08 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/155551375"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5068#issuecomment-155551375"
+  , issueCommentCreatedAt = 2015 (-11) (-10) 20 : 08 : 53 UTC
+  , issueCommentBody =
+      "I think the problem is just with the ordering. A compound index in RethinkDB is simply an index over an array, where the array is composed from multiple fields in the document.\r\n\r\nThe ordering on arrays in ReQL is defined through lexicographical ordering on its elements. In particular that means that if you do a `between([2, \"t2\", \"c\"], [4, \"t2\", \"c\"], {...})`, values such as `[3, \"a\", \"b\"]` will be in the range. In fact any value that has a 3 as a first element, as well as all values with a 2 as the first element and a second element larger than `\"t2\"` etc. will be inside the range.\r\n\r\nIf you want to match all but one components of the compound index exactly, while specifying a range for the remaining component, you can do that, but you have to make sure that the component that you want to specify the range on is the last one in the compound index.\r\n\r\nIn your example, you'd need to put the time at the end of the index, and then query like this:\r\n`between([\"t2\", \"c\", 2], [\"t2\", \"c\", 4], {index: \"topic_user_time\"})`\r\n\r\nNote that only the last component (the time) is different between the left and the right bound."
+  , issueCommentId = 155551375
+  }

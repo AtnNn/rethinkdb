@@ -1,0 +1,66 @@
+Issue
+  { issueClosedAt = Just 2015 (-06) (-01) 20 : 20 : 14 UTC
+  , issueUpdatedAt = 2015 (-07) (-12) 20 : 06 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4312/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4312"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4312
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "raft branch: building breaking on MacOS because of  `debug_print`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4312"
+  , issueCreatedAt = 2015 (-05) (-29) 21 : 51 : 30 UTC
+  , issueBody =
+      Just
+        "On MacOS the current version of the `raft` branch is failing to build with the message:\r\n```\r\nsrc/clustering/table_contract/contract_metadata.cc:190:5: error: call to 'debug_print' is ambiguous\r\n    debug_print(buf, ack.branch_history.branches.size());\r\n    ^~~~~~~~~~~\r\n./src/debug.hpp:29:6: note: candidate function\r\nvoid debug_print(printf_buffer_t *buf, int x);\r\n     ^\r\n./src/debug.hpp:30:6: note: candidate function\r\nvoid debug_print(printf_buffer_t *buf, uint64_t x);\r\n     ^\r\n```\r\n\r\nAs the error message points out this is because it can't decide which version of `debug_print` to convert to because on MacOS because `size_t` is defined as something other than a `uint64` (I got as far as `__darwin_size_t` before giving up). With @VeXocide's help I tried working around this by using a `static_cast<uint64_t>` in the offending line, but that just got me to the to the next similar problem. This would probably work, but would create a whack-a-mole problem trying to keep up with all of this class of problem for all the different platforms.\r\n\r\nWe also tried to see if we could either add a `size_t` version of `debug_print` (works on MacOS, fails on newton because of duplicate signatures) or remove the `uint64_t` version (used other places), but neither worked."
+  , issueState = "closed"
+  , issueId = Id 82601885
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

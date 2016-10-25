@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-15) 19 : 12 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7917
+        , simpleUserLogin = N "bsharpe"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7917?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bsharpe"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/247423346"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6055#issuecomment-247423346"
+  , issueCommentCreatedAt = 2016 (-09) (-15) 19 : 12 : 04 UTC
+  , issueCommentBody =
+      "@danielmewes TBH, it's been over a month since we added a new node.   \r\n\r\nWe're currently doing ~150-250k reads/s and ~3-4k writes/s almost all the time.  The last time we added a node was specifically because we were running out of space 2 of our 4 nodes.  We stopped the writes to the db to add the new node, and at the time assumed that things would backfill faster if we weren't trying to write as much to the db as normal.  So, for 2 days we left the writing off.  On the 3rd day, we turned our metric calculations back on because we couldn't go any longer with them off.  The sharding/replicating took another 3 days after that.\r\n\r\nPerhaps we were too cautious to start writing heavily to tables that were marked \"ready (some replicas missing)\" -- but we were concerned about our lack of disk space and eagerly needing the sharding to move data off of the crowded nodes and onto the new one.\r\n\r\nSo, in the future...  can we assume that as long as a table is marked \"ready\" (even without all replicas) that we can write to it as normal?"
+  , issueCommentId = 247423346
+  }

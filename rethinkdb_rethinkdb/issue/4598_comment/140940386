@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 04 : 48 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140940386"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4598#issuecomment-140940386"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 01 : 37 : 40 UTC
+  , issueCommentBody =
+      "@danielmewes building off `r.updateAtomically`, I think we could simply if even further:\r\n\r\n```\r\nr.atomic(task1, task2, ..., taskN)\r\n```\r\n\r\nWhere `taskN` can be an arbitrary ReQL expression (that can be proved deterministic) or a callback function that will be invoked with the result of the previous operation (or `undefined` for the first task). The nice thing about this is you can get rid of the dedicated `precondition` argument and still keep the usefulness of that concept.\r\n\r\nYour example could then be rewritten as:\r\n\r\n```js\r\nr.atomic(\r\n  r.table('accounts').get(sender_id)('balance'),\r\n  function (sender_balance) {\r\n    return r.table('accounts').get(sender_id).update({balance: sender_balance - transfer_amount});\r\n  },\r\n  r.table('accounts').get(receiver_id)('balance'),\r\n  function (receiver_balance) {\r\n    return r.table('accounts').get(receiver_id).update({balance: receiver_balance  - transfer_amount});\r\n  }\r\n)\r\n```"
+  , issueCommentId = 140940386
+  }

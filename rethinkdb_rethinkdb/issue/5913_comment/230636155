@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-05) 23 : 52 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/230636155"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5913#issuecomment-230636155"
+  , issueCommentCreatedAt = 2016 (-07) (-05) 23 : 52 : 19 UTC
+  , issueCommentBody =
+      "A couple questions @bsharpe :\r\n* Which version of RethinkDB are you currently running?\r\n* Did you recently upgrade? Which version were you running before?\r\n* Which operating system / distribution are you running on? If you're on Linux, what is the output of `uname -a`?\r\n* Are you using any virtualization or running on plain hardware? If the system is virtualized, which virtualization system are you using?\r\n* What is the file system that the data is stored on? (ext4, BTRFS etc.)\r\n* Would you be able to send us the raw (corrupted) data files from RethinkDB for further investigation? We are happy to sign an NDA if the data is sensitive, and can provide you with access to a secure  upload server to upload the files.\r\n\r\nRecovery from this might be tricky, since it looks like at least two out of the three replicas (db-2 and db-3) got corrupted somehow. Do you have backups of the data? It might be best to restore from a backup. You can also try to extract the data from db-1 if it isn't corrupted as well. The first step is verifying that the data is in fact readable on db-1. To do this:\r\n\r\n* Connect a client to db-1 directly\r\n* Run the following query (JavaScript syntax):\r\n```js\r\nr.dbList().map(function(db) {\r\n  return r.db(db).tableList().map(function(tbl) {\r\n    return r.db(db).table(tbl, {readMode: \"_debug_direct\"}).map(function(x) { return x; }).count();\r\n  })\r\n})\r\n```\r\n\r\nYou can even run this query in the Data Explorer (make sure you connect directly to db-1), though it might time out there after a few minutes.\r\n\r\nIf the query finishes successfully (it should give a list of table counts), then it looks like db-1 is not corrupted. In that case, you could take down db-2 and db-3 and use a `reconfigure` with `emergencyRepair: \"unsafe_rollback\"` option on db-1 to turn db-1 into the sole authorative replica. See http://rethinkdb.com/api/javascript/reconfigure/ for more details on emergency repair. Once this is done, you can delete (or more safely: move away) the old data directory on db-2 and db-3, and start those servers back up with a fresh data directory. Now you can run `reconfigure` again (without `emergencyRepair`) to re-establish replicas on those servers."
+  , issueCommentId = 230636155
+  }

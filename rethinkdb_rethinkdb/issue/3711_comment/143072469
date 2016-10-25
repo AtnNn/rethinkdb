@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-24) 23 : 05 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143072469"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3711#issuecomment-143072469"
+  , issueCommentCreatedAt = 2015 (-09) (-24) 23 : 05 : 36 UTC
+  , issueCommentBody =
+      "Very interesting writeup @mike-marcacci, thanks for sharing your thoughts.\r\n\r\nI think there is still a big demand for writing web applications without needing to write any backend code. Firebase for example is built almost entirely on this assumption, and you can do a lot of cool things with it. You're certainly right that there are limits to this approach, and eventually a complex application will probably require a special backend of some form. However there are also many applications that can work perfectly well at scale without an application-specific backend, assuming the tools provided by the database for this purpose are flexible and powerful enough.\r\n\r\nYou are right that GraphQL is different enough from ReQL, and it would add a lot of complexity to support it as equal citizens next to each other directly in the server. We're a couple of steps away from supporting full authorization, references and schema enforcement directly in the server, and as you point out all of these things are required for properly supporting GraphQL.\r\n\r\nHowever I think there's a lot of potential in supporting GraphQL through our upcoming plugin infrastructure. In fact it's a prime example of what the plugin system would be good for.\r\nEssentially all the GraphQL-specific logic would be implemented in JavaScript and run in the plugin. It would perform schema validation, follow relationships, and provide authorization. It would then translate each GraphQL query into one or multiple ReQL queries, and issue them to the RethinkDB server. We can utilize Facebook's reference demo implementation, and likely only need to add authorization and the ReQL translation layer.\r\n\r\nThis also has the nice benefit that GraphQL support doesn't put much of an additional burden on the core server development. We might end up having to implement a few additional features in ReQL to fully support all GraphQL features, but those would likely benefit a wide range of use cases and wouldn't actually be specific to GraphQL.\r\n\r\nWith us providing the GraphQL plugin first hand, we will be able to provide a particularly good user experience, in that we can package the underlying RethinkDB server and the GraphQL plugin up nicely. The goal is that you need to install and administer exactly one piece of software, and you can get started writing your applications without being concerned about the backend.\r\nInternally, the RethinkDB server and the GraphQL plugin are really two separate pieces of software, but as a new user you don't need to be worry about that.\r\nThe other nice thing is that since the plugin will be very easy to modify and extend, more advanced users can start building their own extensions on top of it, and will get instant full access to the expressiveness of ReQL at that point.\r\n\r\nI hope that makes sense.\r\n\r\nWe'll hopefully get started with basic work around a GraphQL plugin/layer in the next couple weeks. Any contributions would be amazing at that point! :-)"
+  , issueCommentId = 143072469
+  }

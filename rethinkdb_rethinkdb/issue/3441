@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-06) 21 : 14 : 15 UTC
+  , issueUpdatedAt = 2015 (-07) (-06) 21 : 17 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3441/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3441"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 3441
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Consistently collect test artifacts"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3441"
+  , issueCreatedAt = 2014 (-12) (-15) 23 : 13 : 08 UTC
+  , issueBody =
+      Just
+        "Currently the files that a test (and the servers involved) produce are not collected in a consistent way in `./run` and `./test-runner`. The former is more consistent (if a bit of a packrat), but the latter is all over the place (and largely does not collect anything, especially from the server). So the list of what should be collected should be thought through and the behavior made consistent for all tests.\r\n\r\nAs a starting point here is a proposal:\r\n* create a single folder to hold all test output, with sub-folders for each test (if there are multiple)\r\n* default that folder to a short random-named (alpha) folder in '.', with a command-line switch to specify a location\r\n* in that folder write a meta-data file with information about when the test was run, with what options, git information, host information (hostname, CPU, etc), etc...\r\n* each test should also have a meta-data file with timing and setting information. For tests that use a common server it should also indicate what server was used.\r\n* keep stdout/stderr from the tests in one file (possibly with line prefixes to denote which they came from)\r\n* keep the server log for each server started, stderr/stdout (single file) from the server is only kept in the case of a crash (in case there is information there not logged).\r\n* server files are only kept when it crashes (or fails), with a command-line switch to keep all\r\n\r\nI think this strikes the balance between having what is needed for 99% of diagnosis and not filling up our servers drives with un-needed data that will never be looked at."
+  , issueState = "closed"
+  , issueId = Id 52052358
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-04) 20 : 34 : 41 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2906/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2906"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2906
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Re-think pseudotables for e.g. table configuration"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2906"
+  , issueCreatedAt = 2014 (-08) (-13) 01 : 26 : 06 UTC
+  , issueBody =
+      Just
+        "I'm a little unhappy with the current proposal for configuring tables and getting their status.  It looks like this right now:\r\n\r\n```rb\r\n> r.db('rethinkdb').table('table_config')\r\n[{name: \"db_name.table_name\",\r\n  uuid: ...,\r\n  ...\r\n  },\r\n ...\r\n]\r\n> r.db('rethinkdb').table('table_status')\r\n[{name: \"db_name.table_name\",\r\n  uuid: ...,\r\n  ...\r\n  },\r\n ...\r\n]\r\n```\r\nAnd if you want to e.g. change `db.table`'s blood type to be `a`, you'd write:\r\n```rb\r\n> r.db('rethinkdb').table('table_config').get('db_name.table_name').update({blood_type: 'a'})\r\n```\r\n\r\nHere are the problems I have with it:\r\n* It treats tables like top-level objects.\r\n  - Everything else treats tables as being contained in databases.\r\n  - It requires using 'db_name.table_name' as the primary key.\r\n    * If you have a name from the configuration, and you want to get the table, you have to write `name.split('.').do{|x| r.db(x[0]).table(x[1])}`.\r\n  - Per-db permissions become a problem when we want to implement them.\r\n* It introduces a bunch of questions, and doesn't act like a normal table.\r\n  - Should you be able to create and drop tables by inserting and deleting into this table?\r\n    - If so, now we have two ways to do things.\r\n    - If not, why not?  It's yet another way this table doesn't act like a normal table.\r\n* There are multiple ways to get to things.\r\n  - Want to see what machines a table is sharded over?  You have to write `r.db('rethinkdb').table('table_config').get('db_name.table_name')['shards']` (or something).\r\n  - Want to see what indexes exist on a table?  You have to write `r.db('db_name').table('table_name').index_list()`.\r\n  - **Want to see the status of a table?  You have to write `r.db('rethinkdb').table('table_status').get('db_name.table_name')`.**\r\n  - **Want to see the status of the indexes on that table?  You have to write `r.db('db_name').table('table_name').index_status()`.**\r\n\r\nHere's an alternate proposal: we define two commands `table_config` and `table_status` on `db`.  Then things look like this:\r\n```rb\r\n> r.db('db').table_status() # get the status of all tables\r\n> # note the similarity to `r.db('db').table_list()` and `r.db('db').table('table').index_status()`\r\n> r.db('db').table_status('table') # get the status of one table\r\n> r.db('db').table_config() # get a selection on the configuration of all tables\r\n> r.db('db').table_config('table') # get a single row selection on a table\r\n> r.db('db').table_config('table').update({blood_type: 'a'}) # update a table's blood type\r\n```"
+  , issueState = "closed"
+  , issueId = Id 40115727
+  , issueComments = 30
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

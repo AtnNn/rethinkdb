@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-29) 00 : 24 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/215600573"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5707#issuecomment-215600573"
+  , issueCommentCreatedAt = 2016 (-04) (-29) 00 : 24 : 32 UTC
+  , issueCommentBody =
+      "I agree that #2768 is probably a bad idea, but it shows that some users expect `map` to work on a single selection the same way it does on a stream.\r\n\r\nI even think that this expectation is justified. If I see two queries `r.table(\"t\").get(\"a\").map(...)` and `r.table(\"t\").getAll(\"a\").map(...)`, I wouldn't expect the `map` in there to do different things.\r\n\r\nI think overloads are great if their meaning is obvious. I think they are not great if different people have different expectations as to what the \"natural\" semantics are. I think mapping over an object and mapping over a sequence are sufficiently different operations that they should have different terms. \r\n\r\nEven the signature of the commands is different. For a sequence, the mapping function receives one argument. For an object, it receives two arguments (key and value).\r\n\r\nOverloading `map` makes sense in many languages. But I think it's not a good idea in ReQL. If we didn't have a `SINGLE_SELECTION`, I would probably think differently about this. But since we do, and the difference between `get` and `getAll` keeps confusing new users even as it is, my opinion is that we shouldn't do the overload.\r\n\r\nMy opinion is that we should do neither #2768 nor #878 because of this ambivalence."
+  , issueCommentId = 215600573
+  }

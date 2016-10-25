@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-04) 17 : 56 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/137806037"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4795#issuecomment-137806037"
+  , issueCommentCreatedAt = 2015 (-09) (-04) 17 : 56 : 10 UTC
+  , issueCommentBody =
+      "I don't believe it does.\r\nIf you look at `Connection._data`, it does the following:\r\n```\r\n[...]\r\n# Since we have enough data, we slice it out of the\r\n# buffer, and parse it as JSON.\r\nresponseBuffer = @buffer.slice(12, responseLength + 12)\r\nresponse = JSON.parse(responseBuffer)\r\n\r\n# Now it's off to `_processResponse` where the data is\r\n# converted to a format the user will be able to work\r\n# with, error responses are detected etc.\r\n@_processResponse response, token\r\n```\r\n\r\n`_processResponse` calls `_addResponse` on the right cursor, which in turn calls `_promptNext` which does the prefetching.\r\n\r\nSo `JSON.parse` is done before we start fetching the next batch from what I can tell."
+  , issueCommentId = 137806037
+  }

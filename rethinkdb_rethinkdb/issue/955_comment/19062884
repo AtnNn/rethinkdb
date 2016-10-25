@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-06) 22 : 06 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 41908
+        , simpleUserLogin = N "lincolnq"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/41908?v=3"
+        , simpleUserUrl = "https://api.github.com/users/lincolnq"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19062884"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/955#issuecomment-19062884"
+  , issueCommentCreatedAt = 2013 (-06) (-06) 17 : 59 : 16 UTC
+  , issueCommentBody =
+      "I have a bunch of ideas on this front.\r\n\r\nIn brief: \r\n\r\n1. Make indexes accessible in ReQL as their own (readonly) selection:\r\n   `table.index('uid')` ==> `[ {'uid': 'value_of_uid', 'id': 'value_of_primary_key'}, ...]`\r\n\r\n2. Add 'selection range operators' to perform a guaranteed-to-be-fast range query over a selection, based on its primary key. Essentially, this is half of `between`. There would be options or variant forms for including/excluding prefix matches. Example:\r\n   `selection.filterLtePrefix('b')` ==> new selection with all entries from `selection` where the 1-length prefix of the primary key is 'b' or less. So  this would grab `['a', 'ab', 'b', 'bc']` but not 'c'.\r\n\r\nBenefits:\r\n* Now, `between` desugars into (e.g.) sel.index().filterGte().filterLte().eqJoin().zip()\r\n* @jdoliner's `prefix` desugars into sel.index().filterGte().filterLtePrefix().eqJoin().zip()\r\n* You can write queries that only access the index without doing that eqJoin, which is very useful in some scenarios (I wanted it today)\r\n\r\nProblems:\r\n* in the above \"between\" example, the desugar doesn't work because eqJoin() doesn't produce a selection but between does. So we would need to work around that somehow.\r\n\r\nEDIT: .index() (with different semantics, but a similar idea) was discussed in #602 ."
+  , issueCommentId = 19062884
+  }

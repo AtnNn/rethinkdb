@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-06) 23 : 59 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73335641"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3663#issuecomment-73335641"
+  , issueCommentCreatedAt = 2015 (-02) (-06) 23 : 59 : 24 UTC
+  , issueCommentBody =
+      "I don't think we should have any special support for waiting on a sequence. We already support waiting on a specific index; all of a table's indexes; the table itself; or all the tables in a database. In the unlikely event that the user wants to do something more complicated, like wait on two indexes without waiting on a third one, they can do something like `[...].foreach(f(r.row).wait())`, or just call `wait()` on the things one at a time. So we already make the common things easy and the uncommon things possible. @mlucy @gchpaco Why do you think waiting on a sequence is common enough to justify its own special syntax?\r\n\r\n@mlucy, I think you have a good point that it's nice to be able to build up to `r.table('test').index('a').wait()` piece by piece. But I think it would be confusing for `r.table('test').index('a')` to return a binary blob with no explanation. Can we think of something for `.index()` to return that will make users say \"that's an index\" when they see it? Maybe we could return the same thing as `.index().config()`, but maybe not writable."
+  , issueCommentId = 73335641
+  }

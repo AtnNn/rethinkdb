@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-20) 03 : 45 : 13 UTC
+  , issueUpdatedAt = 2015 (-04) (-02) 21 : 30 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3389/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3389"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 3389
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add Response.ResponseType.SUCCESS_ATOM_FEED"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3389"
+  , issueCreatedAt = 2014 (-12) (-02) 04 : 02 : 40 UTC
+  , issueBody =
+      Just
+        "Any chance to introduce a new term like `Response.ResponseType.SUCCESS_ATOM_FEED` such that libraries know if the query returned a feed for a table/stream, or for a unique value/document?\r\n\r\nThe driver could treat a SUCCESS_FEED and a SUCCESS_ATOM_FEED the same way, except that there would be a new method like `feed.isAtom()`.\r\n\r\n\r\nThe reason behind is that I would like to have the following interface in thinky.\r\n\r\n```js\r\nvar Channel = thinky.createModel(\"Channel\", { /* schema */ })\r\nvar echo = sockjs.createServer({ sockjs_url: 'http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js' });\r\necho.on('connection', function(conn) {\r\n    var channel;\r\n    conn.on('data', function(id) {\r\n        if (channel === undefined) {\r\n            channel = null;  \r\n            Channel.get(id).changes().run().then(function(channel) { // channel is an instance of Channel here\r\n                conn.write(channel.toJSON());\r\n                // I would prefer not to create an instance of Channel everytime, but keep the same object and just update it.\r\n                channel.on(\"change\", function() {\r\n                    conn.write(channel.toJSON());\r\n                })\r\n            })\r\n        }\r\n    });\r\n    conn.on('close', function() {\r\n        // do some clean up\r\n    });\r\n});\r\n```\r\n\r\nBasically for a point changefeed, I would like to return not a feed, but an actual object that automatically updates itself and emit events (thinky will wrap the feed).\r\nThe thing is now I have no way to know if I'll get back a stream of a single value/object.\r\n\r\nI could work around by removing `changes` and adding an option in `run`, but I would prefer to stick close to ReQL if possible.\r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 50610205
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

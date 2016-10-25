@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-07) 00 : 24 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73338412"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3130#issuecomment-73338412"
+  , issueCommentCreatedAt = 2015 (-02) (-07) 00 : 24 : 50 UTC
+  , issueCommentBody =
+      "@deontologician -- I would prefer supporting it on the server to rewriting it in the drivers.  My problem with it isn't that it's done on the server, it's that it's really weird for `r.db('test').X` to throw an error and `r.db('test').X.Y` to not throw an error (and, in fact, be the only way of accomplishing a vital and common task).\r\n\r\nThe reason chaining works so well is that users can build up a mental model of it.  \"OK, I call `db`, and that gives me a database, then I call `table` on that database, and I get a table, and then I call `config` on that table to get its configuration.\"  When you start having chains where some of the subchains are invalid, it messes up the model.  \"OK, I call `db`, and that gives me a database, then I call `table` on that database and get an error, but if I call `create` *after* that instead of getting an error I add a new table to the database.\"\r\n\r\nImagine if you had a bash pipeline where `program` worked, `program | grep ...` failed to execute, and `program | grep ... | program2` successfully executed -- it would be pretty weird.  Chaining in ReQL is a similar thing in my mind.  I feel like users should be able to understand a query by adding one term at a time and seeing what they get at each step.\r\n\r\n(`default` is a special case because it's explicitly meant to handle errors, and because people are familiar with exception handlers.)"
+  , issueCommentId = 73338412
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-27) 22 : 47 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/71744817"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3675#issuecomment-71744817"
+  , issueCommentCreatedAt = 2015 (-01) (-27) 22 : 47 : 29 UTC
+  , issueCommentBody =
+      "I'll just comment on Ruby:\r\n\r\n* It's not uncommon to have mutable objects as keys: you just don't mutate them, or else you call `rehash` after you do.  I think the number of people calling `group`, mutating the keys of their groups, and then being confused that hash lookup doesn't respect the mutated keys is probably pretty small.  If you're really worried about this, there's a method `freeze` that can be used to make the keys non-mutable.\r\n* The object interface is strictly better.  You can access a single group efficiently with `groups[g]`, or iterate over all of them with `groups.each{|g,r|...}`.  It also prints nicely.  I tried it both ways in the driver when we were originally discussing this: the Hash was way more convenient and felt much more integrated with the language.\r\n\r\n---\r\n\r\nFrom a language perspective, the server returns a `GROUPED_DATA` pseudotype to the client.  The same way each client converts the `TIME` pseudotype into an appropriate native type, each client is expected to convert the `GROUPED_DATA` pseudotype into the most appropriate data structure for its language.  In Ruby that's a Hash, no question.  I'm not 100% sure whether or not it's a frozenset in Python; I could see an argument that it isn't.\r\n"
+  , issueCommentId = 71744817
+  }

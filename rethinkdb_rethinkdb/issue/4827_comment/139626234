@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-11) 18 : 50 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139626234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4827#issuecomment-139626234"
+  , issueCommentCreatedAt = 2015 (-09) (-11) 18 : 50 : 29 UTC
+  , issueCommentBody =
+      "That sounds like the \"started\" field in the \"dailys\" table is stored as a string. ReQL has a special data/time type that's required in order to perform time operations (such as `during`) on the data.\r\n\r\nYou can probably convert the string into a ReQL time object through the `r.ISO8601` command ( http://rethinkdb.com/api/javascript/iso8601/ ):\r\n```js\r\nr.table('dailys').filter(function (daily) {\r\n  var timezone = '-04:00';\r\n  var previous = r.time(previousWeek.getFullYear(), previousWeek.getMonth(), previousWeek.getDate(), timezone);\r\n  var next = r.time(nextWeek.getFullYear(), nextWeek.getMonth(), nextWeek.getDate(), timezone);\r\n\r\n  return r.ISO8601(daily('started')).during(previous, next);\r\n}).run(conn)\r\n```"
+  , issueCommentId = 139626234
+  }

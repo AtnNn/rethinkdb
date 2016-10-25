@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-12) 22 : 05 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5876/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5876"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5876
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Changefeeds on jobs table cause high network traffic"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5876"
+  , issueCreatedAt = 2016 (-06) (-21) 18 : 35 : 23 UTC
+  , issueBody =
+      Just
+        "Reported in https://github.com/rethinkdb/rethinkdb/issues/5428#issuecomment-221880310 by @analytik\r\n\r\n--\r\nActually, maybe scratch my post above. It seems that running  r.db('rethinkdb').table('jobs').changes()  hugely increases network traffic between nodes.\r\n\r\nIf I run it on our production setup of 3 nodes + 1 proxy, the network usage on the proxy goes up from 0.5~1.0MB/s to ~3.5MB/s (not Mbps), and the usage on server nodes goes from about 2MB/s combined, to about 3~3.5MB/s combined.\r\n\r\nAll of our app servers connect through the proxy, so they don't even show in the changefeed. Is this related at all to anything in your original post? Should I file a new ticket for this, or is it a known behavior?\r\n\r\n--\r\n\r\nWell, that's exactly what's puzzling me. The `jobs` changefeed returns a few queries per second if I don't filter them out, but they're basically the admin UI fetching a list of servers/tables/status, things like that. None of our business logic is there, no inserts or anything that would take more than a few kilobytes of easily compressible text.\r\n\r\nOur cluster has about 4~20k reads per second, and 10~600 writes per second, but 90% are inserts or updates which are about 1kB in size. So I think even if all the insert queries were secretly being transferred between nodes, it would be a few hundred kB/s for the whole cluster.\r\n\r\nI've tried it again today just to be sure - we've scaled to 5 nodes and 2 proxies, I've ran just `r.db('rethinkdb').table('jobs').changes()` at first from a web UI, then after a minute I quickly changed it to `r.db('rethinkdb').table('jobs').filter(doc => doc('type').ne('backfill')).changes()` so it wouldn't kill my browser, as it seems there are some 300'000 second old backfill jobs still claiming to be running (even when all shards on all nodes are up to date).\r\n\r\n[Here is the screenshot](https://www.dropbox.com/s/6euw9mdyzymmy4a/Screenshot%202016-06-21%2013.27.56.png?dl=0) from Prometheus monitoring - on one node, the traffic went up from 1.1MB/s to 3.5MB/s. There are also other things running on those nodes, but the spike always correlates with me running the changefeed on jobs.\r\n\r\nWe're running RethinkDB 2.3.4~0jessie on a Debian Jessie x64 docker container running on a CoreOS cluster.\r\n\r\nIt's important for us to be able, in the future, to have a permanently running changefeed on all jobs to monitor slow queries - or, to be able to enable such logging in RethinkDB servers themselves. Alternatively, we'd need to hack our way through python and node.js drivers to log every query after it's executed."
+  , issueState = "open"
+  , issueId = Id 161509060
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

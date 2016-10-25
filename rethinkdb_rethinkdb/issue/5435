@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2016 (-02) (-23) 02 : 02 : 25 UTC
+  , issueUpdatedAt = 2016 (-02) (-23) 02 : 02 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5435/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5435"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5435
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "RethinkDB on `next` sometimes segfaults"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5435"
+  , issueCreatedAt = 2016 (-02) (-22) 19 : 34 : 12 UTC
+  , issueBody =
+      Just
+        "Depending on the compilation environment, you sometimes seem to get binaries on `next` that crash every single time on startup.\r\n@laminko reported this in https://github.com/rethinkdb/rethinkdb/issues/5348#issuecomment-186863025 , and @nighelles and myself have also seen this before.\r\n\r\n```\r\nRecursively removing directory /home/lmk/Programs/rethinkdb/build/release/rethinkdb_data/tmp\r\nInitializing directory /home/lmk/Programs/rethinkdb/build/release/rethinkdb_data\r\nRunning rethinkdb 2.2.1-505-g0af5b1-dirty (GCC 4.9.3)...\r\nRunning on Linux 4.4.0-sabayon x86_64\r\nLoading data from directory /home/lmk/Programs/rethinkdb/build/release/rethinkdb_data\r\nVersion: rethinkdb 2.2.1-505-g0af5b1-dirty (GCC 4.9.3)\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 367:\r\nerror: Segmentation fault from reading the address 0x55.\r\nerror: Backtrace:\r\nerror: Sun Feb 21 23:54:21 2016\r\n       \r\n       1 [0x55bac6936ab7]: backtrace_t::backtrace_t() at 0x55bac6936ab7 (./rethinkdb)\r\n       2 [0x55bac6936ebb]: format_backtrace(bool) at 0x55bac6936ebb (./rethinkdb)\r\n       3 [0x55bac68cfd8e]: report_fatal_error(char const*, int, char const*, ...) at 0x55bac68cfd8e (./rethinkdb)\r\n       4 [0x55bac69233f4]: linux_thread_pool_t::fatal_signal_handler(int, siginfo_t*, void*) at 0x55bac69233f4 (./rethinkdb)\r\n       5 [0x7fcb2e5fa0e0]: /lib64/libpthread.so.0(+0x110e0) [0x7fcb2e5fa0e0] at 0x7fcb2e5fa0e0 (/lib64/libpthread.so.0)\r\n       6 [0x55bac692875b]: coro_t::move_to_thread(threadnum_t) at 0x55bac692875b (./rethinkdb)\r\n       7 [0x55bac65f71fa]: perfmon_collection_t::add(perfmon_membership_t*) at 0x55bac65f71fa (./rethinkdb)\r\n       8 [0x55bac65f731f]: perfmon_membership_t::perfmon_membership_t(perfmon_collection_t*, perfmon_t*, char const*, bool) at 0x55bac65f731f (./rethinkdb)\r\n       9 [0x55bac67914ac]: run_rethinkdb_serve(base_path_t const&, serve_info_t*, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, uuid_u const*, server_config_versioned_t const*, cluster_semilattice_metadata_t const*, directory_lock_t*, bool*) at 0x55bac67914ac (./rethinkdb)\r\n       10 [0x55bac679221a]: run_rethinkdb_porcelain(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*) at 0x55bac679221a (./rethinkdb)\r\n       11 [0x55bac6792eb5]: std::_Function_handler<void (), std::_Bind<void (*(base_path_t, name_string_t, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> >, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> >, bool, serve_info_t*, directory_lock_t*, bool*))(base_path_t const&, name_string_t const&, std::set<name_string_t, std::less<name_string_t>, std::allocator<name_string_t> > const&, file_direct_io_mode_t, int, boost::optional<boost::optional<unsigned long> > const&, bool, serve_info_t*, directory_lock_t*, bool*)> >::_M_invoke(std::_Any_data const&) at 0x55bac6792eb5 (./rethinkdb)\r\n       12 [0x55bac6925187]: starter_t::run_wrapper(std::function<void ()> const&) at 0x55bac6925187 (./rethinkdb)\r\n       13 [0x55bac6928eb8]: coro_t::run() at 0x55bac6928eb8 (./rethinkdb)\r\nerror: Exiting.\r\n[1]    27246 trace trap  ./rethinkdb\r\n```"
+  , issueState = "closed"
+  , issueId = Id 135518233
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-02) 23 : 57 : 57 UTC
+  , issueUpdatedAt = 2015 (-01) (-23) 21 : 50 : 41 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3483/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3483"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "d4c5f9"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:devops"
+          , labelName = "cp:devops"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3483
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Reconsider how \"rethinkdb export\" calculates progress"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3483"
+  , issueCreatedAt = 2015 (-01) (-01) 00 : 04 : 49 UTC
+  , issueBody =
+      Just
+        "Currently `rethinkdb export` runs `r.table(...).count()` and then `r.table(...)`. As it reads documents from the stream returned by `r.table(...)`, it counts the number of documents; then it uses this value as the numerator of the progress fraction, with the result of `r.table(...).count()` as the denominator.\r\n\r\nThis means that the server must traverse the entire data set twice: once to count the number of documents, and again to stream them to the client. For a data set that doesn't fit into RAM, this could make `rethinkdb export` take twice as long as it needs to. Until the first traversal is finished, `rethinkdb export` will report 0% progress.\r\n\r\nWe should consider using a distribution query to estimate the denominator for the progress fraction instead. We can do this by running `r.table(...).info()['doc_count_estimates'].sum()`. This won't give exact results, but it will run in constant time instead of reading the entire table."
+  , issueState = "closed"
+  , issueId = Id 53209107
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

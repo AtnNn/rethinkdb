@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 01 : 18 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95766836"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95766836"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 01 : 18 : 25 UTC
+  , issueCommentBody =
+      "If we wanted to require clients to connect to the same machine, I think the persistent feed API would have to be done on the connection level. For example:\r\n\r\n```py\r\nconn = r.connect()\r\nconn.feed_create('my_feed', r.table('users').orderBy.limit);\r\nfor x in conn.feed('blah'):\r\n  print(x)\r\n  # If an error occurs, call `conn.reconnect()`\r\n```\r\n\r\nThis pseudocode is sloppy -- we can try to work through it if you think it's worthwhile. But I think this would be pretty bad. I agree with @danielmewes that it's worth investing into allowing users to connect to persistent feeds from any machine.\r\n\r\n> Maybe we should just give up and accept that we're going to have one intracluster message for every change in every named changefeed?\r\n\r\nMay be I'm misunderstanding something, but how else could you possibly do it? With current (unnamed) feeds, if a client connects to machine A, and the master for the table is on a machine B, wouldn't B need to send a message to A every time something happens so that the client could get it? \r\n\r\nCould you explain the intracluster traffic issue in more detail? (TBH I don't understand how it works now, and what the problem would be with named feeds)"
+  , issueCommentId = 95766836
+  }

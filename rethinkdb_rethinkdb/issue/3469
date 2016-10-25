@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-05) 23 : 21 : 54 UTC
+  , issueUpdatedAt = 2015 (-01) (-23) 21 : 50 : 41 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3469/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3469"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3469
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "r.http is not passing back cookies sent during digest authentication"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3469"
+  , issueCreatedAt = 2014 (-12) (-23) 17 : 27 : 45 UTC
+  , issueBody =
+      Just
+        "There has been some back-and-forth in the tests about whether cookies are required during digest authentication. Put simply here is what is happening:\r\n\r\n1. `r.http` connects to the server\r\n2. the server responds with a 401 response with the auth-request headers, adding in a cookie header\r\n3. `r.http` follows through on the auth-request properly, but does not send back the cookie from step 2\r\n4. `httpbin` checks for the cookie, and sends back a 401 code.\r\n\r\nPart of the lack of clarity has been both that `httpbin` is currently indiscriminate when it checks for cookies that it set, so we have been working around this by always sending cookies (both steps 1 and 3), and so there is some cookie on step 3, making `httpbin` happy. The issue in for `httpbin` is Runscope/httpbin#124\r\n\r\nMy guess is that we are not specifically turning on `libcurl`'s cookie jar for the session, and so it is not doing this correctly. This might be as easy as just enabling that if we already have the concept of a session, although it might get more complicated if `r.http` sessions can bounce around among the worker processes.\r\n\r\nNote that I am keeping the work-around in the tests for the moment."
+  , issueState = "closed"
+  , issueId = Id 52758954
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

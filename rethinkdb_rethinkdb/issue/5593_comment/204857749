@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-03) 02 : 48 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/204857749"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5593#issuecomment-204857749"
+  , issueCommentCreatedAt = 2016 (-04) (-03) 02 : 41 : 42 UTC
+  , issueCommentBody =
+      "Just a guess and the folks at RethinkDB would know more, but...\r\n\r\nThe first example runs a bunch of separate getAll's, one for each set of posts within each board, and the second just runs two getAll's total.\r\n\r\nI'm not sure if you want to return _both_ boards _and_ posts or only _posts_. Assuming you want only posts, you can just do this which is roughly equivalent to your second example:\r\n\r\n```\r\nr.table('posts').getAll(r.args(\r\n    r.table('boards').getAll('1233131', {index: 'folders_id'})('id').coerceTo('array')\r\n  ), {index: 'boards_id'})\r\n})\r\n```\r\n\r\nThis will error out if there are zero boards with that id FYI, but so will your second example (see https://github.com/rethinkdb/rethinkdb/issues/2588 for a workaround)"
+  , issueCommentId = 204857749
+  }

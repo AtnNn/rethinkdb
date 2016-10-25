@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2013 (-12) (-17) 08 : 29 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1750/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1750"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1750
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Replicas and read priority"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1750"
+  , issueCreatedAt = 2013 (-12) (-09) 22 : 24 : 07 UTC
+  , issueBody =
+      Just
+        "From the mailing list:\r\n\r\n#### Matt Black\r\n\r\nHello list,\r\n\r\nI've essentially used the replication setup as a means to copy data between two datacenters in different AWS regions.\r\n\r\nNow I have ridiculous read latency, since my replicas are geographically miles apart (which is unsurprising).\r\n\r\nIs there any way I can force queries to use only a single datacenter for reads? Removing the replica on one side temporarily will work, but i'd like something that isn't so hacky.\r\n\r\nThanks!\r\n\r\n#### Slava Akhmechet\r\n\r\nHi Matt, I have a few questions about your setup:\r\nHow do you configure your table in Rethink? Are you using RethinkDB's datacenter feature? How many replicas do you have per table, and how many write acks? (If you're using the datacenter feature, what are these settings per datacenter?)\r\nHow are the clients (that are running queries) connected to the RethinkDB cluster? Do you connect them to random nodes across different regions, only one region, etc?\r\nBy default read queries always go through the master for a given shard. This is done to guarantee consistency. If you're ok with slightly out of date reads, you can set the `use_outdated` flag to true in `run` (see http://rethinkdb.com/api/javascript/run/). This will prevent all read queries from always going through the master and should speed up read latency. There are still some improvements we can make to the algorithm (right now it will pick a replica with some degree of randomness and there is no way to enforce where to go), but it should help.\r\n\r\nWe'd love to collaborate with you on this -- your feedback would help immensely to improve the product.\r\n\r\n\r\n#### Joe Doliner\r\n\r\nThis feature is solidly in the category of something we know exactly how to fix and that we'll eventually have to make this fix we've just been holding off until it seems that people are actually running complex enough clusters that it's necessary. I think we should probably schedule this for 1.13. It shouldn't be too hard."
+  , issueState = "open"
+  , issueId = Id 23997921
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

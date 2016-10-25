@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-08) (-26) 00 : 55 : 48 UTC
+  , issueUpdatedAt = 2016 (-08) (-26) 00 : 55 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6073/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6073"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6073
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 534887
+        , simpleUserLogin = N "paralin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/534887?v=3"
+        , simpleUserUrl = "https://api.github.com/users/paralin"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Changing a change feed query without re-pulling all the values"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6073"
+  , issueCreatedAt = 2016 (-08) (-25) 17 : 06 : 00 UTC
+  , issueBody =
+      Just
+        "In, for example, a time series application, I might be interested in all datapoints between time X and Y. I also know new datapoints might come in while I'm watching this range of time values, so I subscribe to a change feed with include_initial set to true. I might later become interested in datapoints between time X-5 and Y+10. I'd rather not re-pull the data I already have, but I do need to pull the data that changing the query adds to the cursor.\r\n\r\nOne solution is to do the following:\r\n\r\n - Fetch data from the window of time before and after the current window, and add this data to the working set\r\n - Close the old cursor and subscribe to the entire range with include_initial unset.\r\n\r\nHowever, this is clunky as it does not allow for other types of changes to the query, like further filtering, without competely redoing the query.\r\n\r\nMy proposal is to allow the cursor to be manipulated a bit to change the scope of the query, and then use change feeds to reflect that change. So, if I expanded my min/max filters in a cursor, I would expect some ADD events to come through the change feed, and vise-versa.\r\n\r\nThis might be too complex to implement and out of scope of the DB, but I can think of loads of applications where I'd like to change the scope of a cursor without having to re-fetch all the data."
+  , issueState = "closed"
+  , issueId = Id 173258595
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

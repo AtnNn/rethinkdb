@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-10) 21 : 03 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225295032"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-225295032"
+  , issueCommentCreatedAt = 2016 (-06) (-10) 21 : 03 : 09 UTC
+  , issueCommentBody =
+      "I actually don't like having expiration rolled into `indexCreate` very much, because from the user's point of view these are really different functionalities. An index is something you create to speed up queries, while expiration is its own functionality. Expiration as proposed here happens to be implemented on top of indexes, but I think that's not something a user will necessarily want to care about.\r\n\r\nAllowing some offset from `r.now()` to be used is reasonable, but I'm concerned that it might make the interface unnecessarily complex because there will then be two different ways of defining the same thing.\r\nThat being said, if we make the separate-index case the default, and allow the offset with an existing index as an optional optimization, that might be fine.\r\n\r\nHow about this interface?\r\n* `tbl.expirationCreate(indexName[, replaceFunction], {expiration_offset: seconds})` attaches an expiration trigger to the index `indexName`. Optionally, a custom function can be provided that allows writes other than deletion when a document expires. The default is `replaceFunction = function(oldVal) { return null; }`. Finally, the `expiration_offset` option (default value: `0`) can be specified to expire when the index value becomes smaller than `now - expiration_offset`.\r\nThis fails if an expiration trigger is already associated with the given index.\r\n* `tbl.expirationDrop(indexName)` removes the expiration trigger from the given index\r\n\r\nThe current expiration functions will be visible as an `expiration` object in the `table_config`. The object will have the format\r\n```js\r\n{\r\n  indexName1: {\r\n        replace_function: binary,\r\n        expiration_offset: n,\r\n        query: \"expirationCreate('indexName1', function(...) { return ... })\"\r\n    },\r\n  indexName2: { ... },\r\n  ...\r\n}\r\n```\r\n\r\nThe `query` field will be in the same format as what we are currently getting from `indexStatus()`, and will have the pretty-printed replace function that can be used to re-create the expiration hook in JavaScript."
+  , issueCommentId = 225295032
+  }

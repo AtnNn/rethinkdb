@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-13) 20 : 34 : 54 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5489/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5489"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5489
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Unify handling of proxy servers in system tables"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5489"
+  , issueCreatedAt = 2016 (-03) (-07) 20 : 06 : 55 UTC
+  , issueBody =
+      Just
+        "This is related to https://github.com/rethinkdb/rethinkdb/issues/5485 , https://github.com/rethinkdb/rethinkdb/issues/5428 and https://github.com/rethinkdb/rethinkdb/issues/3182 .\r\n\r\nProxy server currently don't appear in any of the system tables or administrative commands.\r\nI've discussed this with @VeXocide a bit.\r\n\r\nWe should probably do the following things:\r\n* Determine a consistent naming scheme for proxies. Proxies don't have any persistent state, and they currently don't have a server name. However most system tables will need a server name. My suggestion is `proxy_<proxy UUID with - replaced by _>`. We can include this name in the `conn.server()` output (#5485) which will also solve #3182 .\r\n* Determine which system tables and administrative commands need to include / be aware of proxies, and then implement it. For obvious reasons, all commands and tables concerned with table configuration should *not* consider proxies. However `stats`, `current_issues` and `jobs` (#5428) most probably should. I think it also makes sense to have proxies in `server_status`, with their `cache_size_mb` field simply being `0`. I'm unsure about whether they should appear in `server_config` or not. I think not, because most of the fields in there don't apply to proxies.\r\n\r\nWe should figure out the naming quickly so we can use it for #5485.\r\n\r\nThe second part is more involved, and can wait for 2.4."
+  , issueState = "open"
+  , issueId = Id 139079883
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

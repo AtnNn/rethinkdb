@@ -1,0 +1,55 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-22) 22 : 43 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5989/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5989"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5989
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "invalid double parsing in reql protocol"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5989"
+  , issueCreatedAt = 2016 (-07) (-22) 12 : 28 : 02 UTC
+  , issueBody =
+      Just
+        "In switching the C++ driver to use rapidjson I had only one failure in the numbers tests:\r\n```\r\n  TEST: maybe_run(R::expr(1234567890123456789012345678901234567890.0), *conn)\r\n[11] >> [1,1.2345678901234569e39,{}]\r\n[11] << {\"r\":[1.2345678901234567e39],\"t\":1}\r\n  FAILURE in \8216maybe_run(R::expr(1234567890123456789012345678901234567890.0), *conn)\8217:\r\n    Expected: \8216\&1.2345678901234569e39\8217\r\n     but got: \8216\&1.2345678901234567e39\8217\r\n```\r\n\r\nwith the original code the number is encoded as follows:\r\n```\r\n TEST: maybe_run(R::expr(1234567890123456789012345678901234567890.0), *conn)\r\n[11] >> [1,1.2345678901234568e+39,{}]\r\n[11] << {\"r\":[1.2345678901234568e+39],\"t\":1}\r\n```\r\n\r\nI can confirm that `1.2345678901234568e+39` == `1.2345678901234569e39`, however when the latter is sent to the server it's responding with `1.2345678901234567e39`.\r\n\r\nAny thoughts here?\r\n"
+  , issueState = "open"
+  , issueId = Id 167034866
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

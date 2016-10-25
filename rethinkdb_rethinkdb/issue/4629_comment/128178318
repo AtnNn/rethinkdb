@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 23 : 05 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128178318"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128178318"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 23 : 05 : 57 UTC
+  , issueCommentBody =
+      ">  Note that this won't be true for `eq_join` feeds, and possibly other feeds in the future.\r\n\r\nTrue. I don't know how this will work out then. It won't get easier for sure :-(\r\n\r\nI think I might have been unclear. By the \"changefeed client\", I meant the thing that lives on the parsing node, not the ReQL client. Skipping IDs there is not a choice if we want to maintain the invariant that once a given ID is received on a changefeed, all writes with smaller IDs will have been reflected in it. If we skip IDs, we cannot recover the ordering of writes to different shards as far as I can tell, so there's no chance we can maintain that invariant.\r\n\r\nNote that all of this only applies to @Slava's suggestion here:\r\n> But you need to think more, what happens when a query touches a lot of documents? Would you > return write IDs for all of them? Like a query of `UPDATE collection SET field = field + 1 WHERE field > 20` and it updates 200 rows?\r\n> \r\n> If the write IDs are monotonically increasing globally, then you can just return the latest ID.\r\n\r\nIf we're ok with generating one write ID for each affected primary key, then we won't have that problem and the implementation will be a lot simpler. We can for example just use replication timestamps in that case, and the changefeed client (the thing on the server) doesn't need to care about reconstructing ordering across documents."
+  , issueCommentId = 128178318
+  }

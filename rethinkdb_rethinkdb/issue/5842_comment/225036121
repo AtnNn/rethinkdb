@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-09) 21 : 44 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225036121"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5842#issuecomment-225036121"
+  , issueCommentCreatedAt = 2016 (-06) (-09) 21 : 44 : 14 UTC
+  , issueCommentBody =
+      "Thanks for reporting this @vsivsi . I think it's a bug that `r.js` is even allowed as a conflict-resolution function.\r\n\r\nA conflict-resolution function must be what we call \"provably deterministic\", or it could cause issues with replication. `r.js` is generally not in that class of functions.\r\n\r\nAssigning @nighelles to add a check for that.\r\n\r\nFor your particular query, you can solve this without using `r.js` and it should work (and be more efficient). However you must use ReQL operations in the function body instead of the regular JS operators.\r\n\r\nInstead of \r\n```js\r\nfunction (id, o, n) { n.count = o.count + 1; return n; }\r\n```\r\ntry the following:\r\n```js\r\nfunction (id, o, n) { return n.merge({count: o('count').add(1)}); }\r\n```\r\n\r\nIn JavaScript we cannot overload the `+` and the field access `.` operator, so you have to use `.add` and `o('count')` instead."
+  , issueCommentId = 225036121
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-01) 17 : 47 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47686677"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-47686677"
+  , issueCommentCreatedAt = 2014 (-07) (-01) 17 : 37 : 49 UTC
+  , issueCommentBody =
+      "Hi @neumino,\r\n\r\nThanks for the quick reply. I definitely see where you're coming from here \8211 it took a while for me to wrap my head around treating the driver itself like a connection, but I can totally see that working. My stylistic preference came from the fact that in many of my use cases, I have reusable \"models\" which build the queries but are unaware of the connection details. These are instantiated with a connection pool, which contains the default database, etc.\r\n\r\nThat said, I definitely see an advantage to replacing something like this:\r\n\r\n```js\r\nvar r = require('rethinkdb');\r\n\r\nfunction Model(pool){\r\n  this.$pool = pool;\r\n}\r\n\r\nModel.prototype.doSomething = function doSomething(callback){\r\n  this.$pool.acquire(function(err, conn){\r\n    r.table('some').filter({a:'b'}).run(conn, function(err, res){\r\n      conn.release();\r\n      callback(err, res);\r\n    });\r\n  });\r\n}\r\n```\r\n\r\nwith a much simpler:\r\n\r\n```js\r\nfunction Model(r){\r\n  this.$r = r;\r\n}\r\n\r\nModel.prototype.doSomething = function doSomething(callback){\r\n  this.$r.table('some').filter({a:'b'}).run(callback);\r\n}\r\n```\r\n\r\nYou can consider me won-over :)"
+  , issueCommentId = 47686677
+  }

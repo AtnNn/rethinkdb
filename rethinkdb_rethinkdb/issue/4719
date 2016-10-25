@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 30 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4719/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4719"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "207de5"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:clustering"
+          , labelName = "cp:clustering"
+          }
+      ]
+  , issueNumber = 4719
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Overhaul handling of inactive tables with higher timestamps"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4719"
+  , issueCreatedAt = 2015 (-08) (-18) 23 : 30 : 58 UTC
+  , issueBody =
+      Just
+        "In https://github.com/rethinkdb/rethinkdb/issues/4668, we fixed the problem of an inactive table in the `multi_table_manager_t` having a higher timestamp than the highest active table entry for that table in the cluster by ignoring timestamps when an inactive table is told to become active.\r\n\r\nThis has a few problems, so we should consider replacing that logic by a better solution.\r\nHere's one suggested by @timmaxw:\r\n\r\n> Here's an alternative solution, in two parts:\r\n> \r\n> 1. Change how epoch timestamps are computed in migration. I don't quite understand the way migration currently works, but I suggest that when migrating an inactive server, you should assign an epoch timestamp in the distant past, so active servers would always be assigned newer epochs than inactive servers. I think that would prevent the bug from appearing in newly-migrated clusters.\r\n> \r\n> 2. Make emergency repair work if there exists an inactive server with a higher epoch than any active server, even if there are no other problems. This would require some non-trivial changes to the emergency repair infrastructure: it would have to fetch the current epoch timestamp on every connected server (using yet another table_status_request_t flag, perhaps) and then take those into account when deciding to repair or not, and when computing the new epoch. This would allow repairing users' already-broken clusters, and also make it possible to recover if this situation happens for reasons other than migration. I think it's fine to require the user to run the emergency repair command if the situation happens for reasons other than migration.\r\n\r\nOne thing to note about this (by me):\r\n> My only concern with fixing the non-migration scenario by adding another emergency_repair option is that it will be non-obvious to the user when they have to use it. Too recent inactive table configs can \"sleep\" in the cluster for a while, until someone reconfigures the table to use another replica. That replica will then get stuck in the \"transitioning\" phase, without a clear indication of why this is happening and what the solution is. We should probably detect this situation somehow and display a descriptive issue.\r\n> That being said I agree that this is still the cleanest solution, even though it requires a bit of work to implement."
+  , issueState = "open"
+  , issueId = Id 101772473
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

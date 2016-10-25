@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-22) 23 : 20 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/71119794"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3641#issuecomment-71119794"
+  , issueCommentCreatedAt = 2015 (-01) (-22) 23 : 20 : 09 UTC
+  , issueCommentBody =
+      "Right, which is what I'm doing now, my issue comes when writing code like this:\r\n\r\nHere's an example query from the webui that uses the same system tables in a lot of different ways:\r\n\r\n```coffeescript\r\nquery = r.do(\r\n    r.db('rethinkdb').table('table_status').coerceTo('array'),\r\n    r.db('rethinkdb').table('table_config', identifierFormat: \"uuid\").coerceTo('array'),\r\n    r.db('rethinkdb').table('server_config').coerceTo('array'),\r\n    r.db('rethinkdb').table('server_status').coerceTo('array'),\r\n    (table_status, table_config_id, server_config, server_status) ->\r\n        Q = driver.query_library\r\n        r.expr(\r\n            num_primaries:\r\n                Q.num_primaries(table_config_id)\r\n            num_connected_primaries:\r\n                Q.num_connected_primaries(table_status)\r\n            num_replicas:\r\n                Q.num_replicas(table_config_id)\r\n            num_connected_replicas:\r\n                Q.num_connected_replicas(table_status)\r\n            tables_with_primaries_not_ready:\r\n                Q.tables_with_primaries_not_ready(\r\n                    table_config_id, table_status)\r\n            tables_with_replicas_not_ready:\r\n                Q.tables_with_replicas_not_ready(\r\n                    table_config_id, table_status)\r\n            num_tables: table_config_id.count()\r\n            num_servers: server_status.count()\r\n            num_connected_servers:\r\n                Q.num_connected_servers(server_status)\r\n            disconnected_servers:\r\n                Q.disconnected_servers(server_status)\r\n            num_disconnected_tables:\r\n                Q.num_disconnected_tables(table_status)\r\n            num_tables_w_missing_replicas:\r\n                Q.num_tables_w_missing_replicas(table_status)\r\n        )\r\n)\r\n```\r\nThe query library can now have functions like this that accept the table to work on:\r\n\r\n```coffeescript\r\nnum_disconnected_tables: (table_status=r.db('rethinkdb').table('table_status')) ->\r\n    table_status.count((table) ->\r\n        shard_is_down = (shard) -> shard('primary_replica').eq(null)\r\n        table('shards').map(shard_is_down).contains(true)\r\n    )\r\n```\r\n\r\nIf the library function is called inside a big query where table_status is used many times, I can use the .coerceTo('array') trick, and it works fine. That is, unless my library query happens to use .get() on the table. In order to get around it, the library functions would need to do a filter since that's defined on both arrays and tables.\r\n\r\nObjections I can think of:\r\n1. If I rejigger the table to be an object with ids as keys so I can pass it to a function with `.do`, none of the other methods on the table will work, since they work on arrays mostly, not objects.\r\n2. If the table is small enough to memoize by coercing to an array, then it probably isn't too slow to do the `.filter` on vs. converting it to an object. This is debateable."
+  , issueCommentId = 71119794
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-31) 19 : 09 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6339494
+        , simpleUserLogin = N "nuno-andre"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6339494?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nuno-andre"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/204083463"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5577#issuecomment-204083463"
+  , issueCommentCreatedAt = 2016 (-03) (-31) 19 : 07 : 05 UTC
+  , issueCommentBody =
+      "Hi! Yes, i'm proxying the rest of the script through Tor with `pysocks` and setting `no_proxy` to server's local IP. \r\n\r\n    import rethinkdb, socks, socket\r\n\r\n    socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr='127.0.0.1', port=9150)\r\n    socket.socket = socks.socksocket\r\n\r\n    rethinkdb.connect('192.168.1.134', 28015).repl()\r\n\r\nWhen I connect to RethinkDB server at LAN IP I get:\r\n\r\n    rethinkdb.errors.ReqlDriverError: Could not connect to 192.168.1.134:28015. Error: Socket error: 0x01: General SOCKS server failure\r\n\r\nSo I have to monkeypatch to connect. Saving the original socket:\r\n\r\n    import rethinkdb, socks, socket\r\n\r\n    NO_TOR_SOCKET = socket.socket\r\n    socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr='127.0.0.1', port=9150)\r\n    socket.socket = socks.socksocket\r\n    TOR_SOCKET = socket.socket\r\n\r\n    socket.socket = NO_TOR_SOCKET\r\n    rethinkdb.connect('192.168.1.134', 28015).repl()\r\n    socket.socket = TOR_SOCKET\r\n\r\nOr turning the proxy off and on around the RethinkDB connection:\r\n\r\n    import rethinkdb, socks, socket\r\n\r\n    socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr='127.0.0.1', port=9150)\r\n    socket.socket = socks.socksocket\r\n\r\n    socks.setdefaultproxy()\r\n    rethinkdb.connect('192.168.1.134', 28015).repl()\r\n"
+  , issueCommentId = 204083463
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-23) 22 : 05 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/221110324"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5790#issuecomment-221110324"
+  , issueCommentCreatedAt = 2016 (-05) (-23) 22 : 05 : 46 UTC
+  , issueCommentBody =
+      "If the `users` table is small, using an index might not give you a big advantage over the `filter`.\r\n\r\nOne thing that might help speeding up the query is using the `eqJoin` command:\r\n```js\r\nr.db('example').table('posts')\r\n  .eqJoin('userKey', r.db('example').table('users'), {index: 'key'})\r\n  .map(function(joined) {\r\n    return joined('left').merge({\r\n      firstname: joined('right')('firstname'),\r\n      lastname: joined('right')('lastname') });\r\n  })\r\n```\r\n\r\nThis will generate multiple results if there are multiple matches on the `users` table. You can add `.group('id').limit(1).ungroup().concatMap(r.row('reduction'))` to get rid of these duplicates."
+  , issueCommentId = 221110324
+  }

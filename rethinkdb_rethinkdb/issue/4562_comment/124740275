@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 22 : 01 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124740275"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4562#issuecomment-124740275"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 22 : 01 : 44 UTC
+  , issueCommentBody =
+      "Not sure about the Java stacktrace, but I can give some insights on the stacktraces 1 and 2:\r\n- The error in 1 should not happen in theory, but then it happened. Rethinkdbdash 2.0.14 used a workaround for some events in the `net` library that were not properly fired (or fired too early). Maybe there's something else laying around. You could try to print the error here (in the rethinkdbdash driver used by thinky) to see what error the connection get\r\nhttps://github.com/neumino/rethinkdbdash/blob/master/lib/pool.js#L201\r\n- The stacktrace in 2 means that the connection used by the changefeed generated an error, and the driver close the feed and is basically just a consequence of the connection getting closed.\r\n\r\nI believe printing the error in `pool.js` should give a pretty good explanation on what's happening here since it will bubble up errors happening on the TCP connections.\r\n\r\nI'll track down how 1 can happen in rethinkdbdash in https://github.com/neumino/rethinkdbdash/issues/116"
+  , issueCommentId = 124740275
+  }

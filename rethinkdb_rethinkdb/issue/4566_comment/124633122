@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 19 : 01 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124633122"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4566#issuecomment-124633122"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 19 : 00 : 21 UTC
+  , issueCommentBody =
+      "@marshall007 Ah, that's an interesting thought. While objects aren't stored as hash-maps on the server (instead they are sorted arrays of key/value pairs, on which we perform binary search to look up a key), I would still imagine this to be somewhat faster if there are few documents in the second table since it avoids all kinds of usual subquery processing overhead.\r\n\r\nI wonder if the slow part in this case is building the object with 4K keys one by one. Every element being added to the object in the reduction function will essentially build a new object structure, including having the keys sorted again.\r\n\r\nA slightly different way of doing that step that might or might not be faster is:\r\n```js\r\nr.table('right')('id')\r\n.map([[r.row, true]])\r\n.reduce(function (l, r) { return l.add(r); })\r\n.coerceTo('object')\r\n.do(function (keys) {\r\n  return r.table('left').filter(function (row) {\r\n    return keys.hasFields(row('right_id')).not()\r\n  })\r\n})\r\n```"
+  , issueCommentId = 124633122
+  }

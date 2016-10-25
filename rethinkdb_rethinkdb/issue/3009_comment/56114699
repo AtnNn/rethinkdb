@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-18) 22 : 51 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56114699"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3009#issuecomment-56114699"
+  , issueCommentCreatedAt = 2014 (-09) (-18) 22 : 51 : 02 UTC
+  , issueCommentBody =
+      "> We define != incorrectly (doesn't behave right with NaNs for example.\r\n\r\nWe throw an error if we encounter NaN because JSON doesn't include NaNs.\r\n\r\n> As long as we move floating point values into and out of datums, we will never experience > 64 bit precision operations.\r\n\r\nThere are parts of our code (like `avg_terminal_t`) where we do multiple operations on a double (in that case an addition and then a division) without putting it into and out of a datum.  A quick audit suggests that we're always doing so across very-hard-to-optimize boundaries, though, so I guess I'm willing to trust that GCC will always write the intermediate results out rather than e.g. combining a multiply and an add into a fused multiply-add on one processor and thus changing the result.\r\n\r\nIf we're never using x87, then I guess we don't have to worry about register spilling changing the results either.  So I **suppose** we can just assume nothing bad will happen and continue to write hard-to-optimize floating point code.  Is everyone else fine with that?\r\n\r\n> I do not believe we have tests for data divergence because no one has yet demonstrated it outside of this single case, which we have resolved by marking geo terms as nondet.\r\n\r\nIt would be nice to know we won't fall over if that happens.\r\n\r\n\r\n"
+  , issueCommentId = 56114699
+  }

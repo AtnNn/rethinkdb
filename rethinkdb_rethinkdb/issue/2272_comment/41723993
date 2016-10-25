@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-29) 19 : 55 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41723993"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2272#issuecomment-41723993"
+  , issueCommentCreatedAt = 2014 (-04) (-29) 19 : 55 : 15 UTC
+  , issueCommentBody =
+      "If we assume for now that the write can delay all updates to the secondary index until the end of its processing (in practice there can be issues with memory consumption from having to hold all changes in memory, but I imagine those can be worked around).\r\n\r\nWe now could do the following:\r\nThe write gets in line for a write lock on the secondary index block immediately, so it's not reordered with other writes. However it makes no attempt to actually acquire the lock, and lets read acquirers go ahead and acquire a read lock on the secondary index block.\r\nIn general, this is not ok because an up to date read could now read a secondary index and not see the change of the previous write. Our semantics guarantee that it should see the previous write's changes.\r\nHowever there is one exception: If the read is any but the first batch of a multi-batch read, it actually is ok for the read to overtake the write and not see the write's changes. After all we only guarantee that the read sees writes that have happened before the read was first initiated.\r\n\r\n\r\nThese tweaks could improve the problem.\r\nHowever they will also make the logic a lot more complicated, and we have to take care of memory consumption for large writes which will lead to even more complexity (large writes will either have to be split up, or they will have to revert to flushing changes to the secondary index immediately if the changes are larger than a certain threshold, or they have to swap out the modifications to an on-disk queue etc.)."
+  , issueCommentId = 41723993
+  }

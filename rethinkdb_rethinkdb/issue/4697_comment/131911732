@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-17) 18 : 06 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131911732"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4697#issuecomment-131911732"
+  , issueCommentCreatedAt = 2015 (-08) (-17) 18 : 06 : 57 UTC
+  , issueCommentBody =
+      "I think the discrepancy in performance comes from the fact that if you don't attach the `count()`, only the first few results of the `eq_join` will be computed until your client requests more. For computing the `count()`, the whole result must be generated before the query can return something.\r\n\r\nI can see from the HTTP query timeout error, that you're running these queries in the Data Explorer. If you run them in another client, that should both avoid the timeout, and you can load the full result by iterating over the cursor in the first query to get more comparable timings.\r\n\r\nIn general `eq_join` for large numbers of documents can be a bit slow right now. This is a known issue which we will get to once we get the chance."
+  , issueCommentId = 131911732
+  }

@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2014 (-12) (-03) 23 : 53 : 49 UTC
+  , issueUpdatedAt = 2016 (-08) (-05) 17 : 27 : 38 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3391/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3391"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 3391
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Consider using no-direct-io by default"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3391"
+  , issueCreatedAt = 2014 (-12) (-02) 20 : 05 : 19 UTC
+  , issueBody =
+      Just
+        "Our assumption has always been that this is slower because of the added overhead of going through the OS' block cache.\r\nWe should re-evaluate this, and actually benchmark whether the overhead is significant.\r\n\r\nHere are three arguments in favor of making buffered I/O the default:\r\n* On rotational drives, I get an ~3x improvement in soft-durability write throughput with buffered I/O, since the operating system can apparently combine write operations better than we are currently doing. This is pretty huge (an alternative would be to investigate why we are so inefficient without it, but that's more work).\r\n* There have been bugs in combination with BTRFS and other file systems, that lead to data corruption and other issues when using direct I/O. Using buffered I/O frequently avoided those.\r\n* If the cache size is mis-configured or set smaller than necessary out of reliability concerns, the performance drop becomes less severe if there's the OS' buffer as a fallback.\r\n\r\nIt seems possible that making buffered I/O the default is going to improve the out-of-the-box experience for a huge majority of our users.\r\nI propose we still provide a `--direct-io` flag to enable direct I/O, so users can enable it in specialized cases where it makes sense (e.g. on high-speed SSDs, possibly)."
+  , issueState = "closed"
+  , issueId = Id 50711128
+  , issueComments = 13
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

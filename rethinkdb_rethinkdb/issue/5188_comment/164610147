@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-15) 01 : 11 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164610147"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5188#issuecomment-164610147"
+  , issueCommentCreatedAt = 2015 (-12) (-15) 01 : 11 : 51 UTC
+  , issueCommentBody =
+      "Thinking about it a little more, we might want to leave these types off by default.  If we turn them on by default then it will encourage people to use them as their default way of interacting with changefeeds, when we want to push them to be writing code like this:\r\n\r\n```rb\r\nr.table('test').changes.run.each {|row|\r\n  handle_add(row['new_val']) if row['new_val']\r\n  handle_remove(row['old_val']) if row['old_val']\r\n}\r\n```\r\n\r\nSince that's what you want your logic to be doing for 99% of cases.  Code that needs to distinguish uninitial vals from deletes is *extremely* rare, so if we leave initial/uninitial value types in as separate from added/removed value types then that would be additional motivation to leave the types off by default in order to encourage good API use.  We definitely don't want people to be writing code like this:\r\n\r\n```rb\r\nr.table('test').changes.run.each {|row|\r\n  case row['type']\r\n  when 'add'\r\n    handle_add(row['new_val'])\r\n  when 'initial'\r\n    handle_add(row['new_val'])\r\n  when 'remove'\r\n    handle_remove(row['old_val'])\r\n  when 'uninitial'\r\n    handle_remove(row['old_val'])\r\n  when 'change'\r\n    handle_add(row['new_val'])\r\n    handle_remove(row['old_val'])\r\n  end\r\n}\r\n```\r\n  "
+  , issueCommentId = 164610147
+  }

@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-29) 22 : 42 : 00 UTC
+  , issueUpdatedAt = 2013 (-09) (-09) 23 : 13 : 25 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1377/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1377"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1377
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "RqlCompileError in python driver when multiple threads using lambdas"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1377"
+  , issueCreatedAt = 2013 (-08) (-28) 01 : 59 : 57 UTC
+  , issueBody =
+      Just
+        "Ran into the following error running debug mode from commit e180692.  This was with the stress client, and the error seems to be a result of using multiple threads running update queries.\r\n\r\nexample error message:\r\n```\r\nRqlCompileError: Unrecognized variabled 182\r\n```\r\n\r\nAfter talking with @wmrowan, it appears that this was caused by a race-condition in `class Func` in `ast.py`, which increments a variable ID with access controlled by a lock.  The problem arises when many threads are constructing Func objects at the same time (i.e. using lambdas in rql queries).\r\n\r\nMerged a fix into next in commit bbfa557, review OTS by @wmrowan, cherry-picked into v1.9.x in commit 59855a6.\r\n\r\nOpening this issue to discuss if locking is actually necessary here, or if there is a thread-safe way to assign variable IDs without locking."
+  , issueState = "closed"
+  , issueId = Id 18645177
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 49
+          , milestoneClosedIssues = 17
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.9"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/49"
+          , milestoneCreatedAt = 2013 (-08) (-26) 20 : 51 : 19 UTC
+          , milestoneState = "closed"
+          }
+  }

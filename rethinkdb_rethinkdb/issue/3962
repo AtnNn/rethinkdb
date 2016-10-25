@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-03) (-23) 17 : 38 : 39 UTC
+  , issueUpdatedAt = 2015 (-03) (-23) 17 : 38 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3962/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3962"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3962
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Suggestion: time.resolution([resolution-spec]) \8594 time"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3962"
+  , issueCreatedAt = 2015 (-03) (-22) 15 : 08 : 59 UTC
+  , issueBody =
+      Just
+        "\r\nThe 'resolution' (or 'precision') function can help in grouping by a given duration.\r\n\r\nIt should return the same time, but rounded to a lower precision (like an hour precision, or 10-minute precision and so on).\r\n\r\nTake [InfluxDB's example] (http://influxdb.com/docs/v0.8/api/aggregate_functions.html#count):\r\n\r\n```SQL\r\nSELECT COUNT(column_name) FROM series_name group by time(10m) ...\r\n```\r\n\r\nIn ReQL:\r\n\r\n```Python\r\nr.table('series_name').group(lambda x: x['when'].resolution(10.minutes)).count()...\r\n```\r\n\r\nFor group in intervals of 2 hours and a half:\r\n```Python\r\nr.table('series_name').group(lambda x: x['when'].resolution(2.hours + 30.minutes)).count()...\r\n```\r\n\r\nor\r\n\r\n```Python\r\nr.table('series_name').group(lambda x: x['when'].resolution(2.hours.30.minutes)).count()...\r\n```\r\n\r\nOr maybe:\r\n```Python\r\nr.table('series_name').group(lambda x: x['when'].resolution(r.duration('2h 30min')).count()...\r\n```\r\n"
+  , issueState = "closed"
+  , issueId = Id 63541762
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

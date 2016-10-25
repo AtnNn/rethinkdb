@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-13) 19 : 40 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225685983"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5850#issuecomment-225685983"
+  , issueCommentCreatedAt = 2016 (-06) (-13) 19 : 40 : 57 UTC
+  , issueCommentBody =
+      "Thanks for reporting this @ajselvig.\r\n\r\nLooks like there are two issues:\r\n* The \"Some possible reasons\" list assumes that we're creating the data directory, which isn't necessarily the case (such as here, where the data directory already exists but is just missing a file).\r\n* With an empty metadata file, RethinkDB doesn't properly detect the error but goes into some kind of infinite loop instead.\r\n\r\n>  I'm not quite sure why it can't create the metadata file from scratch\r\n\r\nWe can't do this because creating an empty metadata file would cause all data currently stored on the server to be silently discarded. The metadata file is a critical component of the RethinkDB state.\r\nEven restoring an older metadata file from a backup is risky, because it might invalidate guarantees that the Raft cluster relies on and can potentially lead to crashes or data loss if the server is part of a cluster. Looks like it worked out in your case luckily."
+  , issueCommentId = 225685983
+  }

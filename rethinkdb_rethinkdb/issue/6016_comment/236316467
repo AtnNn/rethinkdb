@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-29) 23 : 15 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/236316467"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6016#issuecomment-236316467"
+  , issueCommentCreatedAt = 2016 (-07) (-29) 23 : 15 : 06 UTC
+  , issueCommentBody =
+      "You can only use one index on a given table at a time. However you can use a compound index in this case to make it work:\r\n```js\r\nr.table('documents')\r\n  .indexCreate('user-with-access_grantedOn', doc => doc('access').map(acc => [acc('user'), acc('grantedOn')]), {multi: true})\r\n```\r\n\r\nNote that each index key is now actually an array pair `[user, grantedOn]` rather than just `user`.\r\n\r\nYou can then query like this:\r\n```js\r\nr.table('documents')\r\n  .between(['danielmewes', r.minval], ['danielmewes', r.maxval], { index: 'user-with-access_grantedOn' })\r\n  .orderBy({index: 'user-with-access_grantedOn'})\r\n```"
+  , issueCommentId = 236316467
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-07) (-28) 01 : 44 : 28 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4583/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4583"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4583
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 361373
+        , simpleUserLogin = N "jbmikk"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/361373?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jbmikk"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Path expressions proposal  "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4583"
+  , issueCreatedAt = 2015 (-07) (-26) 20 : 23 : 20 UTC
+  , issueBody =
+      Just
+        "I came accross situations where I need to update deep objects dinamically (the path to be updated was known only at runtime) and it becomes tedious to build complex deep expressions. The main problem is that to set a deep object you have to build all of the wrapping objects.\r\n\r\nI though that it would be useful to have something like a bracket command, but for building objects instead of walking through an existing one.\r\n\r\nIn order to avoid queries like this:\r\n\r\n    r.table('users').update({\r\n        field1: {\r\n            field2: {\r\n                field3: {\r\n                    field4: \"hello\"\r\n                }\r\n            }\r\n        }\r\n    })\r\n\r\nWe could have something like this:\r\n\r\n    r.table('users').update(r.path(['field1', 'field2', 'field3', 'field4'], 'hello'))\r\n\r\nThis would have the added benefit of simplifying other tasks too:\r\n    \r\n    //Remove field\r\n    r.table('users').update(r.path(['field1', 'field2', 'field3', 'field4'], r.literal()))\r\n\r\n    //Merge object\r\n    r.expr({}).merge(r.path(['field1', 'field2', 'field3', 'field4'], 'hello'))\r\n\r\n    //Dynamic paths \r\n    r.table('users').update(r.path(arrayOfNames, \"hello\"))\r\n\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 97347183
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

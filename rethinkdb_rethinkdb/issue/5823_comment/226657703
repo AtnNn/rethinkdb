@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-17) 01 : 19 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/226657703"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-226657703"
+  , issueCommentCreatedAt = 2016 (-06) (-17) 01 : 19 : 45 UTC
+  , issueCommentBody =
+      "Here's a variation of the `evictionCreate` API:\r\n```js\r\ntable.evictionCreate(name, triggerType, options)\r\ntable.evictionList()\r\ntable.evictionDrop(name)\r\n```\r\n\r\n`triggerType` for now could only be `\"time\"`, but might allow other values in the future.\r\n\r\nDepending on the `triggerType` value, we require certain options to be set.\r\n\r\nIn case of `\"time\"`, I propose that we require both the `index` and the `delay` options.\r\n\r\nWe can debate whether `delay` should be required or not, but I think it might be a good idea to require it so that users don't accidentally delete their whole table because the index is on the `lastModified` timestamp and they forgot to specify the `delay`.\r\n\r\nAdditionally, the `replace` option may or may not be specified.\r\n\r\nAn example call would be:\r\n```js\r\ntbl.evictionCreate(\r\n  \"expire\",\r\n  \"time\", {index: \"lastModifiedAt\", delay: 600});\r\n```\r\n\r\nor more advanced with a custom `replace` function:\r\n```js\r\ntbl.evictionCreate(\r\n  \"expire\",\r\n  \"time\", {index: \"indexName\", delay: 600, replace: function(oldVal) { return oldVal.merge({evicted: true}); } });\r\n```"
+  , issueCommentId = 226657703
+  }

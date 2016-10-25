@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 22 : 49 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94965506"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-94965506"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 22 : 49 : 26 UTC
+  , issueCommentBody =
+      "@Tryneus: I can't tell if you're responding to my comment or if we wrote our comments concurrently. Your \"change ids\" sound similar to my \"tokens\".\r\n\r\nOne disadvantage of putting change ids into the `CONTINUE` query is that the client might send a `CONTINUE` query before they've actually recorded the corresponding changes to durable storage. \r\n\r\nWhat if we have the application explicitly ack events? For example, suppose the user is copying changes into another database. For each change, they write it to the other database (with change ID attached) and then once the write completes, they ack the change ID to RethinkDB. When resuming after a crash, they read the latest change ID from the database, ack it to RethinkDB, and then ask for a new changefeed from the last acked point. So the ack mechanism serves two purposes: it lets RethinkDB free memory, and it lets the client tell RethinkDB where to resume sending changes from. "
+  , issueCommentId = 94965506
+  }

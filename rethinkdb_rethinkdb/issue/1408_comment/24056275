@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-09) 09 : 15 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24056275"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1408#issuecomment-24056275"
+  , issueCommentCreatedAt = 2013 (-09) (-09) 09 : 15 : 33 UTC
+  , issueCommentBody =
+      "Hi @cespare,\r\n\r\nThanks for the API suggestion (and the kind words ^.^).\r\n\r\nThe next few releases are slated to have mostly performance and stability improvements, so it might be a while before we get around to this.\r\n\r\nIn the interim, you can also hack around this like so:\r\n```ruby\r\nr.table(\"ev\").grouped_map_reduce(\r\n  lambda { |row| row[:ts].date + r.epoch_time(row[:ts].time_of_day).hours*60*60},\r\n  lambda { |row| row.pluck(:value) },\r\n  lambda { |acc, row| {:value => acc[:value] + row[:value]} }\r\n).run\r\n```\r\n\r\nBasically, you separate the day from the time of day in seconds, then take the time of day as an offset from the epoch, compute the number of hours, multiply it to get a number of seconds, and add it back to the date.  This is incredibly ugly, so I agree we need something better here.\r\n\r\nAlso, as an aside, one of the things I personally love about ReQL is that it plays nice with native functions.  You can just hot-patch the RQL class to add this yourself if you want (note: this class will probably be renamed to ReQL in a future version of the driver, so this code might not be future-proof):\r\n```ruby\r\nclass RethinkDB::RQL\r\n  def round_hours\r\n    self.do{|t| t.date + r.epoch_time(t.time_of_day).hours*60*60}\r\n  end\r\nend\r\n\r\nirb(main):4036:0> r(Time.now).run\r\n2013-09-09 02:10:51 -0700\r\nirb(main):4037:0> r(Time.now).round_hours.run\r\n2013-09-09 02:00:00 -0700\r\n\r\n# You can see the code actually gets run on the server.\r\nirb(main):4038:0> r(Time.now).round_hours\r\nr.funcall(\r\n  lambda {|var_19|\r\n    var_19.date.add(var_19.time_of_day.epoch_time.hours.mul(60).mul(60))\r\n  },\r\n  {:$reql_type$ =>\r\n     \"TIME\",\r\n   :epoch_time =>\r\n     1378717956.9421222,\r\n   :timezone =>\r\n     \"-07:00\"}\r\n)\r\n```\r\n"
+  , issueCommentId = 24056275
+  }

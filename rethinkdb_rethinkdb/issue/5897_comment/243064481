@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-29) 08 : 34 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/243064481"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5897#issuecomment-243064481"
+  , issueCommentCreatedAt = 2016 (-08) (-29) 08 : 34 : 16 UTC
+  , issueCommentBody =
+      "Thank you for your replies.\r\n\r\nWe've been using iptables-based kube-proxy since 1.1, since userspace proxying was indeed quite slow.\r\n\r\nHowever, as @danielmewes noted, rethinkdb cluster nodes cache the IP address of other pods, so besides the initial name resolution for `--join`, the kubernetes services are barely relevant for intracluster communication, are they? We have 5 kubernetes services for 5 nodes - e.g. `rethinkdb4` service IP never changes, and other nodes and proxies connect to the domain name `rethinkdb4`, but that still didn't save us from the #6071 backfill issues (if that was the culprit at all).\r\n\r\nWe will introduce `--cluster-reconnect-timeout=30` to production tomorrow and see if that solves our problems.\r\n\r\nAlso, I have to apologize for the questions about `invalid clustering header` error - since the error was reported as `[::ffff:10.244.83.0]` I couldn't be sure which pod exactly it was coming from - both node, proxy, and app servers were running from 10.244.83.*, since that range was allocated to all Docker containers running on one physical node (and it was coming from all machines). However, this morning I've noticed that in my dev environment it resolved to specific IPs - and then I realized we run this dumb script to check DB connectivity before we start our app containers -\r\n```\r\nwhile ! nc -z -w 5 rethinkdb1 29015; echo $? | grep -q 0\r\ndo\r\n    sleep 1\r\ndone\r\n```\r\n:facepalm:"
+  , issueCommentId = 243064481
+  }

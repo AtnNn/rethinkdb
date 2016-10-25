@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-17) 19 : 23 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/122383603"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4544#issuecomment-122383603"
+  , issueCommentCreatedAt = 2015 (-07) (-17) 19 : 23 : 20 UTC
+  , issueCommentBody =
+      "A few comments on @larkost's + @VeXocide's proposal:\r\n\r\n`RqlLimitError` instead of `RqlResourceError`: :+1: , it sounds better to me\r\n\r\nRegarding separating `NON_EXISTENCE`: I think we should keep the separate class. In general I think more granularity is better than less here (in the long term I think we will make these things yet a lot more granular). In this specific case, the distinction is relevant because people handle this specific type of error all the time, by using `default` in their queries. It's only logical I think to provide the same option to client side code.\r\n\r\nI don't fully understand what `RqlQueryError` is supposed to be apart from table and database nonexistence. Is it basically our current `RqlCompileError` + `RqlLogicError`?\r\nI think combining those error types into that class might be outside the scope of this issue, since the RqlCompileError vs. RqlRuntimeError distinction as far as I understand is pretty deeply related to how we're processing queries. We can reconsider that distinction and come up with something that makes more sense from the user's perspective, but I feel like this should be a separate change (I could also be wrong and changing this might be trivial, @mlucy ?).\r\n\r\nWhat if we make `RqlLogicErrors` just plain `RqlRuntimeError`s?\r\n\r\n`RqlAvailabilityError` instead of `RqlOpError`: :+1: I like that name much better.\r\n\r\nI think we should have separate classes for definite and indeterminate failures. This is a pretty important distinction if someone wants to make use of the consistency guarantees we provide (and it happens to be at the core of why we introduced error classes for 2.1 in the first place).\r\nI'm not super happy with the names of the `RqlAvailabilityError` subclasses yet. `RqlOpFailedError` and `RqlOpIndeterminateError` (or just `RqlIndeterminateError`) might be ok, but they don't make it clear that they refer to failures due to availability problems. I think I could live with them though.\r\n\r\nMoving `RqlCursorEmpty` outside the hierarchy sounds good (this is a Python-specific thing right?)\r\n`RqlAuthError` as a separate type also sounds useful.\r\n\r\nModified version of the hierarchy:\r\n- RqlCursorEmpty (client side)\r\n- RqlError\r\n  - RqlCompileError (for 2.1 at least)\r\n  - RqlRuntimeError (includes current RqlLogicErrors)\r\n    - RqlNonExistenceError\r\n    - RqlLimitError\r\n    - RqlUserError\r\n    - RqlInternalError\r\n    - RqlTimeoutError (client side)\r\n    - RqlAvailabilityError\r\n      - RqlOpFailedError\r\n      - RqlIndeterminateError\r\n  - RqlDriverError\r\n  - RqlAuthError"
+  , issueCommentId = 122383603
+  }

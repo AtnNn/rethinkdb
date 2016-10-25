@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-09) 22 : 10 : 39 UTC
+  , issueUpdatedAt = 2013 (-08) (-09) 22 : 10 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1214/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1214"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1214
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1461947
+          , simpleUserLogin = N "neumino"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1461947?v=3"
+          , simpleUserUrl = "https://api.github.com/users/neumino"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Suggester doesn't properly deal with comments sometimes"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1214"
+  , issueCreatedAt = 2013 (-07) (-30) 01 : 09 : 35 UTC
+  , issueBody =
+      Just
+        "I had a hard time debugging #1212 because there is another bug.\r\n\r\nThe suggester doesn't properly parse the query and don't do a suggestion as precise as it should. The reason is that in `extract_data_from_query`, we parse comments only at the top level.\r\n\r\nAnd we don't always do recursive calls (like when we parse an object).\r\nI could fix it by adding code to deal with comments everywhere, or make more recursive calls.\r\n\r\nSo if you comment a whole query, it works fine, but if you comment a field in an object, the suggestions won't be really good in the object itself.\r\n\r\nI have to think a little more to decide how to fix this one (parse comments everywhere or make more recursive calls)\r\n\r\nEx:\r\nIf the cursor is in `add()`, the description will be the one of the parent (the first `r.expr() instead of `add()`)\r\n```\r\nr.expr({\r\n  //comment\r\n  a: r.expr(1).add(2)\r\n})\r\n```"
+  , issueState = "closed"
+  , issueId = Id 17372546
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-08) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 40
+          , milestoneClosedIssues = 96
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.8"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/40"
+          , milestoneCreatedAt = 2013 (-06) (-29) 01 : 55 : 11 UTC
+          , milestoneState = "closed"
+          }
+  }

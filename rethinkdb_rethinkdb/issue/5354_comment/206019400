@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-05) 22 : 40 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/206019400"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5354#issuecomment-206019400"
+  , issueCommentCreatedAt = 2016 (-04) (-05) 22 : 40 : 29 UTC
+  , issueCommentBody =
+      "The `connections/asyncio_connection_3_5.py3.5` setup was pretty broken:\r\n1. It assumed that `test/rql_test/connections/asyncio_connection_3_5.py3_5.test` would be run with Python 3.5. Rather it is just run as an executable and the shebang line made that the system default Python (for most systems: 2.7).\r\n2. That same file then checked if it was running Python 3.5 or greater, then used `sys.exit(0)`. This signals the test system that it passed.\r\n3. In the case of the wrong version of Python an `AssertionError` would have been thrown, and not caught by the `try` block that was set out for it since that latter was looking for an `ImportError`.\r\n4. The line that ran the actual test file then chose `python3` rather than `python3.5` as the default.\r\n\r\nWith 6651ae74 I have moved the version check into the actual test,and fixed it to run on Python 3.5. I also did some other generic cleanup on stuff that I noticed (e.g.: unneeded imports). The test is, of course, still failing."
+  , issueCommentId = 206019400
+  }

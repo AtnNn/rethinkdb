@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-22) 23 : 32 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56459242"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3085#issuecomment-56459242"
+  , issueCommentCreatedAt = 2014 (-09) (-22) 23 : 32 : 39 UTC
+  , issueCommentBody =
+      "So this is somehow similar to https://github.com/rethinkdb/rethinkdb/issues/3026\r\n\r\nThe during command can take only a date, so it would make sense to automatically coerce strings to ReQL dates object.\r\nIt's something similar to what `thinky` is doing when you declare a field as a Date. If it finds a string, it will automatically wrap it in a `r.ISO8601`.\r\n\r\nThe problem comes when you do something like\r\n```\r\nr.table(\"users\").get(1).update({birthdate: \"1987-09-22T23:26:09.657+00:00\"}).run(...)\r\n```\r\n\r\nThe field `birthdate` will be stored as a string (since RethinkDB has no idea that you want to store it as a date), and if you try then to retrieve all the people born before 1990, you would do\r\n```\r\nr.table(\"users\").filter( r.row(\"birthdate\").lt(r.time(1990, 01, 01, 'Z')) ).run(...)\r\n```\r\nAnd it would not work because you are comparing a string and a date.\r\n\r\n\r\nSo this is maybe more something to do on the ORM layer where you can specify the type of a field?"
+  , issueCommentId = 56459242
+  }

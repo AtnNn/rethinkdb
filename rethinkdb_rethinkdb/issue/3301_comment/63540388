@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-18) 20 : 37 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63540388"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3301#issuecomment-63540388"
+  , issueCommentCreatedAt = 2014 (-11) (-18) 20 : 37 : 29 UTC
+  , issueCommentBody =
+      "I think we all agree that we should verify input strings to be valid UTF-8 encoded Unicode, and that we should reject the query otherwise (with the remaining question of whether and how to provide backwards compatibility for existing data).\r\n\r\nWhen it comes to normalization, there seem to be different scenarios where either behavior can be confusing for users.\r\nHere's my high-level recap of the issue, according to how I understand it:\r\n\r\nIf we do normalization automatically, we get the sort of security problem that @srh mentions. In my opinion this is probably the strongest argument against general normalization of strings in RethinkDB.\r\n\r\nIf we don't do normalization, the results of the database can be quite unexpected to a human observer (see the example by @larkost). Under certain circumstances, data inserted in one way, cannot be retrieved anymore through a different channel. For example a user might be unable to even enter a certain encoding of a character without going through great lengths (not to mention them having to figure out that there's a problem with different encodings in the first place).\r\n\r\nBoth of these cases are going to primarily surprise users who are not aware of how unicode works.\r\n\r\nWe can add a `text` type (`unicode` is another possible name) similar to our binary type. We would perform automatic normalization only on text-type strings. \r\nThis would solve the problem for users who are aware of the issue, but would help little for those who are not since they wouldn't use it in the first place.\r\n\r\nThis is my current opinion on the question:\r\nI used to lean towards general normalization. I think the fact that we wouldn't preserve strings in their binary form is fine. That's what we have `r.binary` for.\r\nI hadn't previously thought of the security problems that @srh mentioned though. I can totally see something like that happen, and I can think of many related scenarios that would cause similar security issues in users' applications. While storing non-normalized strings has much more potential for confusion to a human user, I'm having a much harder time thinking of security vulnerabilities which don't involve a human operator that could stem from this behavior.\r\nFor that reason I now think generally normalizing inputs would be a bad idea given our current type system, unless we can find a way to avoid these issues."
+  , issueCommentId = 63540388
+  }

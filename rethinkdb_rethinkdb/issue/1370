@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-27) 01 : 03 : 38 UTC
+  , issueUpdatedAt = 2015 (-08) (-27) 01 : 03 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1370/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1370"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1370
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "failed index creation in python driver fails slowly"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1370"
+  , issueCreatedAt = 2013 (-08) (-27) 22 : 37 : 59 UTC
+  , issueBody =
+      Just
+        "i tried to create an index a table using the data explorer and it \"failed\" - meaning the web interface said their was a timeout, but apparently the index was actually being created.\r\n\r\nfollowing that i tried to create the index using the python driver, but it took 10 minutes to fail with the error: Index `somefield` already exists.\r\n\r\nMy table is 7M+ docs of ~2k each (+/- 1k).\r\n\r\nI ran it again and it failed faster this time (maybe because the index is already finished being created and previously it was still not finished?) and here's what I got:\r\n\r\n```\r\n$ time python -c \"import rethinkdb as r; r.connect().repl(); r.db('test').table('sometable').index_create('somefield').run()\"\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/usr/lib64/python2.7/site-packages/rethinkdb/ast.py\", line 106, in run\r\n    return c._start(self, **global_opt_args)\r\n  File \"/usr/lib64/python2.7/site-packages/rethinkdb/net.py\", line 159, in _start\r\n    return self._send_query(query, term, global_opt_args)\r\n  File \"/usr/lib64/python2.7/site-packages/rethinkdb/net.py\", line 229, in _send_query\r\n    raise RqlRuntimeError(message, term, frames)\r\nrethinkdb.errors.RqlRuntimeError: Index `somefield` already exists. in:\r\nr.db('test').table('sometable').index_create('somefield')\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\r\nreal\t0m26.455s\r\nuser\t0m0.056s\r\nsys\t0m0.008s\r\n```"
+  , issueState = "closed"
+  , issueId = Id 18638752
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

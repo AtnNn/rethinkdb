@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-09) 21 : 31 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225033194"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5840#issuecomment-225033194"
+  , issueCommentCreatedAt = 2016 (-06) (-09) 21 : 31 : 57 UTC
+  , issueCommentBody =
+      "Backups through backfilling are not something we officially recommend at the moment, because there are a lot of tricky aspects to it, and things can go wrong easily, leaving you with an incomplete backup or even a permanently damaged production cluster, as you have also discovered.\r\n\r\nThe really important thing that must be avoided at all cost is \"duplicating\" a server within a cluster. That means that once you take a snapshot of the data directory, you must either\r\n1) never start the server that you took the snapshot from up again\r\n2) or, start the server back up but never restore using that snapshot within the same cluster.\r\n\r\nIf you leave the existing server running as a cluster member for a while and later start a server with the data directory from the snapshot, that will look to the cluster as if the same replica had reappeared with its data having gone \"gone back in time\". There are many parts in RethinkDB's protocol where servers have to provide guarantees that they have written data to persistent storage and that this change to the data will never be undone. Using a snapshot within the same cluster violates that guarantee and things can go pretty wrong (from crashes to data loss).\r\n\r\nRestoring should work if you start a completely new cluster (but make sure it never connects to a server from the old cluster, or you might be in trouble) with the server with the snapshot being the only one that has data for a given table. Then you should be able to use emergency_repair to promote it back to a full replica.\r\nAs long as there's another replica in the cluster with more up-to-date data, even emergency_repair will never discard the newer data in favor of a more out-of-date replica.\r\n\r\nAnother variation that you could try, but which is still risky, is starting a server up from the snapshot with no `--bind` option and without any `--join` / `-j` options, so that it doesn't join the cluster and cannot be contacted by the other servers in the cluster. Then you can connect to that server, use emergency_repair to promote it to a working replica, and use `rethinkdb dump` to extract a backup from it. You can then restore that backup into any cluster you like."
+  , issueCommentId = 225033194
+  }

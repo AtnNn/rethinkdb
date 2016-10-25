@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-15) 02 : 32 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/131281224"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4688#issuecomment-131281224"
+  , issueCommentCreatedAt = 2015 (-08) (-15) 02 : 32 : 14 UTC
+  , issueCommentBody =
+      "@JohnyDays that is definitely plausible (though the slowdown factor is a bit larger than I would expect, so there might be more to it).\r\nThe reason is that if you put a `limit(...)` term into a query, RethinkDB has to route all data through a single CPU core and single server (in case you're on a cluster). This is necessary because it cannot enforce the precise limit on the number of results otherwise.\r\nAll processing that occurs after the `limit` will then also happen on that single core/server.\r\n\r\nWithout the limit, a lot of the processing steps in your query will happen on multiple cores in parallel, and also utilize multiple servers if the `events` table is sharded.\r\n\r\n(also pinging @mlucy. Do you think there's more to this?)"
+  , issueCommentId = 131281224
+  }

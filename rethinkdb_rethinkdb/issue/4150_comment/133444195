@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-21) 14 : 32 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 770655
+        , simpleUserLogin = N "Morgul"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/770655?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Morgul"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/133444195"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-133444195"
+  , issueCommentCreatedAt = 2015 (-08) (-21) 14 : 32 : 05 UTC
+  , issueCommentBody =
+      "@danielmewes Thanks for the clarification. To address a few more points:\r\n\r\n* **Analyzing the filter** - I definitely understand the complexity here. I think it might be acceptable to roll out optimization in stages; a first pass that will work for simple predicates in `filter`, and then as time and importance allows, this gets expanded until eventually it's a full blown analysis. Out of curiosity, when you say _\"but that would make it impossible to use this for `between` predicates for example\"_, what do you mean by 'impossible'? Can you expand a little bit more on that?\r\n\r\n* **Picking indexes** - I think there's a feeling that optimization needs to 90% correct to be worthwhile; when in reality I think anything over 50% is a win. (Technically, anything over 0% is a win, but I digress...) So, the simplest thing would be to say, \"When filter uses secondary indexes, it will only use simple indexes matching the keys of the predicate.\" I feel that's worthwhile, and addresses several use cases, while being 'no worse' than currently. (Caveat: I assuming that `filter` only uses indexes when explicitly told to do so, by an option. This is in keeping with the desires of the current discussion, and prevents wrong or failed queries because you named a compound index the same as a field you're trying to filter on.)\r\n\r\nRegarding how to tell filter what indexes to use, here's an alternate syntax that could work:\r\n\r\n```javascript\r\nr.db('document_store')\r\n    .table('metadata')\r\n    .filter({ policy: 555555, form: 999 },\r\n        { index_map: { policy: 'crazyIndexOfDoom', form: 'form' }\r\n    })\r\n```\r\n\r\nIt's a bit repetitive, but is trivially generated in code, and has a nice explicitness to it; it maintains the \"You know how optimized each piece of the query is\" property that's desired. The one addition I would request is an option: `use_simple_indexes` that would attempt to use simple indexes for each key of the filter, and not finding one, would work as filter currently does. This keeps filter explicit, and (unless I miss something) keeps the optimizer simple, as proposed. (Note: I'm assuming that telling filter to use secondary indexes is _actually_ telling it to use the simple optimizer discussed here; my limited understanding is that just blindly using secondary indexes wouldn't be as desirable as attempting to optimize their usage. However, if that's not the case, then maybe we don't need an optimizer?)\r\n\r\nAs for your last proposal for supporting both syntaxes; sure. I suspect we could create a more elegant syntax (perhaps like what I proposed, or something different), but the core of what you suggest is very much in line with my thoughts."
+  , issueCommentId = 133444195
+  }

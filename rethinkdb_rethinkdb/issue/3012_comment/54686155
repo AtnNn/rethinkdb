@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-05) 21 : 51 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54686155"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3012#issuecomment-54686155"
+  , issueCommentCreatedAt = 2014 (-09) (-05) 21 : 50 : 47 UTC
+  , issueCommentBody =
+      "I think the important part about @wojons' `r.debug()` proposal is that you get access to additional runtime data, such as the latency of the term it's applied to.\r\n\r\nIf you don't need that, you can emulate `debug()` through something like this:\r\n```\r\nr.http('http://example.com').do(function(x) {\r\n  return r.or(\r\n    r.and(r.db('log').table('http_log').insert({...}),\r\n      false),\r\n    x)}).filter({'status': 'active'}).pluck('username')\r\n```\r\n\r\nThe use of or and and makes sure that the `insert` is first executed, but then the function inside the `do` just returns its argument `x`, which here is made the second argument to `or`.\r\n\r\nHowever in contrast to @wojons original example, you cannot log the latency because you don't get access to it inside the `do`"
+  , issueCommentId = 54686155
+  }

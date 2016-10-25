@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-11) 19 : 55 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/155892986"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5076#issuecomment-155892986"
+  , issueCommentCreatedAt = 2015 (-11) (-11) 19 : 54 : 12 UTC
+  , issueCommentBody =
+      "> Which isn't the case when data comes in in intervals greater than one second and the representation ends up in peaks.\r\n\r\nI'm not sure I follow. Let's say you have 0 ops/s and then you have 100 ops in 1/10th of a second, followed by a long period of 0 ops/s again.\r\n\r\nThe line graph would be at 0, then move to 100 for roughly one second (because that's the granularity at which the server aggregates the ops/s), and fall back to 0.\r\nThere will be a small delay for raising to 100 and a small delay of similar magnitude for falling back to 0, since the web UI only polls the server for new numbers at a certain frequency (I think something like 2 times per second? Would have to look it up).\r\nLet's assume a 2 Hz refresh rate for the sake of this example.\r\nSo initially the line is at 0. Then the next data point that the web UI gets from the server is 100 ops/s. The line graph will interpolate linearly over the x distance of 0.5s and move from 0 to 100. At the next query point, the ops/s is still reported by the server as 100 (since it takes 1.0 seconds to drop back to 0, because of the servers' aggregation granularity). So the line graph will stay constant at the 100 mark. The next read another 0.5 s later will be 0 again and the line will interpolate down to 0.\r\nSo we have the following non-zero 0.5s intervals:\r\n1. Raising edge from 0 to 100\r\n2. Constant edge at 100\r\n3. Sinking edge from 100 to 0\r\n\r\nIf you integrate this you will find that the integral is `0.5 * 50 + 0.5 * 100 + 0.5 * 50 = 100`. So the integral is exactly correct, since that's the number of operations that were actually performed.\r\n\r\nI might be missing something relevant here. Could you explain again why you think that the graph represents the throughput incorrectly?"
+  , issueCommentId = 155892986
+  }

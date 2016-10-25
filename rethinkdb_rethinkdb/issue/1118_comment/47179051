@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-26) 01 : 33 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47179051"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-47179051"
+  , issueCommentCreatedAt = 2014 (-06) (-26) 01 : 32 : 43 UTC
+  , issueCommentBody =
+      "I'm on board with the overall direction of the thing.\r\n\r\nThoughts/questions on the API:\r\n\r\n- For filters, when do documents enter the change feed? When only the new value passes the filter, only the old value, both, or either?\r\n- What's the API for saying `stream.group(...).avg(...).changes()` (EDIT: or rather, what does the user get in this case)?\r\n- I'm not sure we want to drop `new_val/old_val` for single document change feeds or aggregation changefeeds (though I see why that's cleaner). Here is an example -- suppose I want to show a ticker for average game scores of various groups of my users, and as it changes I want to show how much they rose or dropped (in absolute values and percentages). Sort of how stocks have red/green down/up arrows. If we don't give people old values, this might be relatively hard to do because when the new value is received, the server may no longer have the old value, and the user would have to care about keeping track of the old value manually. I think that might be quite annoying, and we might be better off just keeping `new_val/old_val` syntax everywhere.\r\n\r\nThoughts on the implementation:\r\n\r\n- I agree that both a reverse function implementation and storing intermediate values implementation are valuable. I think that we should start with the reverse function implementation because it's (a) efficient, and (b) gives us a chance in hell to ship this soon. We can add the intermediary values implementation later and let the user explicitly switch between the two.\r\n- wrt to where to specify the reverse function, we should consider #1725. For example, if we specify it in `changes`, how would that work with multiple aggregations? Also, we'll not only need to specify it in the `changes` command, but also when we persist queries. It seems to me like it's way better to specify it in the `reduce` command for all these reasons.\r\n\r\nThoughts on query persistence:\r\n\r\n- The direction makes sense, but the overall API seems kind of messy to me. I'd change the name to \"views\" (which is generally accepted in the db world). I also think it's weird to attach them to tables like that (or may be not?). Could we open a separate issue to discuss this? I think we can hold off on finalizing that API for now, start working on the incremental changefeeds, and discuss the persistence API in parallel (since it doesn't really impact anything else)."
+  , issueCommentId = 47179051
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-30) 21 : 19 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/136193863"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4569#issuecomment-136193863"
+  , issueCommentCreatedAt = 2015 (-08) (-30) 21 : 12 : 53 UTC
+  , issueCommentBody =
+      "Using postgres as a document store (since it supports `jsonb`) is also just as fast:\r\n\r\n```\r\npython bar.py \r\ncount is 100000\r\nint query took 379ms\r\n```\r\n\r\nand here is the code for that one:\r\n\r\n```python\r\n\r\nimport random\r\nimport pytz\r\nimport time\r\nimport yappi\r\nimport psycopg2\r\nimport ujson\r\nfrom functools import partial\r\nfrom datetime import datetime\r\nfrom psycopg2.extras import register_default_jsonb\r\nfrom psycopg2.extras import Json\r\n\r\njson = partial(Json, dumps=ujson.dumps)\r\nconn = psycopg2.connect(\"dbname=sontek user=sontek\")\r\n\r\nUTC = pytz.utc\r\n\r\nYAPPI = False\r\nDO_CREATE = False\r\nDO_INSERTS = False\r\n\r\ncur = conn.cursor()\r\nregister_default_jsonb(cur, loads=ujson.loads)\r\n\r\nif DO_CREATE:\r\n    cur.execute(\"\"\"\r\n    CREATE TABLE test2 (body jsonb)\r\n    \"\"\")\r\n\r\nSTART_BIGINT = 100000000000000000\r\nEND_BIGINT = 999999999999999999\r\n\r\n\r\ndef utc_now():\r\n    now = datetime.utcnow()\r\n    tz_now = now.replace(tzinfo=UTC)\r\n    return tz_now\r\n\r\n\r\ndef get_rint(start=1000000, end=9999999):\r\n    \"\"\"\r\n    Generate a very large integer\r\n    :return:\r\n    \"\"\"\r\n    return random.randint(start, end)\r\n\r\n\r\ndef get_bigint():\r\n    \"\"\"\r\n    Generate a random BIGINT\r\n    :return:\r\n    \"\"\"\r\n    return get_rint(start=START_BIGINT, end=END_BIGINT)\r\n\r\n\r\nif DO_INSERTS:\r\n    for i in range(0, 100000):\r\n        data = {\r\n            'respondent_id': get_bigint(),\r\n            'row_id': get_bigint(),\r\n            'column_id': get_bigint(),\r\n            'value_id': get_bigint(),\r\n            'rid1': get_bigint(),\r\n            'rid2': get_bigint(),\r\n            'rid3': get_rint(),\r\n            'now': utc_now()\r\n        }\r\n        cur.execute(\"\"\"\r\n        INSERT INTO test2(body)\r\n        VALUES(%s)\r\n        \"\"\", [json(data)]\r\n        )\r\n\r\nstart = time.time()\r\n\r\nif YAPPI:\r\n    yappi.set_clock_type('cpu')\r\n    yappi.start(builtins=True)\r\n\r\ncur.execute(\"\"\"\r\nSELECT * FROM test2;\r\n\"\"\")\r\nresult = cur.fetchall()\r\ndata = []\r\nfor row in result:\r\n    data.append(row)\r\n\r\ncount = len(data)\r\nend = time.time()\r\nconn.commit()\r\ncur.close()\r\nconn.close()\r\n\r\nif YAPPI:\r\n    stats = yappi.get_func_stats()\r\n    stats.save('callgrind.out', type='callgrind')\r\n    print('checkout callgrind.out')\r\n\r\nprint(\"count is %s\" % count)\r\nduration = int(1000 * (end - start))\r\nprint(\"int query took %sms\" % duration)\r\n\r\n\r\n```"
+  , issueCommentId = 136193863
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-03) (-24) 01 : 00 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2116/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2116"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2116
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "file_account_t destruction could send coroutine messages past thread pool lifetime."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2116"
+  , issueCreatedAt = 2014 (-03) (-19) 19 : 17 : 31 UTC
+  , issueBody =
+      Just
+        "Look at the linux_file_t and linux_disk_manager_t types.  Suppose you have a linux_file_t object on a different thread than the linux_disk_manager_t.  Then suppose you make a file account for that file.  Then you destroy the account, destroy the file, destroy the linux disk manager, and destroy the thread pool.  What happens when you destroy the account is that `delayed_destroy` gets spawned in its own coroutine.  It then goes to the disk manager's thread.\r\n\r\nBug 1: At this point the disk manager could hypothetically already be destroyed -- since we had to spawn a coroutine and _then_ go to the disk manager's thread, while we could have subsequently destroyed the linux_file_t and gone straight to the disk manager's thread to destroy the disk manager somehow, without an intervening coroutine spawn.  This could happen if the accounting_diskmgr_t::account_t object we want to destruct has never been used -- its auto_drainer_t::lock_t that would refer to the drainer in accounting_diskmgr_t has never been initialized.\r\n\r\nSuppose Bug 1 doesn't apply, because we used the account.  We then destruct the accounting_diskmgr_t::account_t object on the disk manager thread.  We then have ourselves go back to our original thread.  At this time the linux_file_t could have been destroyed, but that's okay, the code allows that.  What can also happen: The disk manager has been destroyed and the thread pool has been destroyed.\r\n\r\nThis is not a high priority bug because this can only crash the process after we're destroying the disk manager, and by that point we've already finished all write operations."
+  , issueState = "open"
+  , issueId = Id 29763832
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-15) 23 : 27 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/226349092"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-226349092"
+  , issueCommentCreatedAt = 2016 (-06) (-15) 23 : 27 : 14 UTC
+  , issueCommentBody =
+      "It actually turns out that this \"eviction\" proposal as I described it is pretty meaningless (noticed by @VeXocide).\r\n\r\nThe imagined future variant that works for table-size based eviction doesn't play well with the `replacer` function that we were imagining for time-based expiration. Not only could you never have anything other than a deletion for a size-based trigger, but more importantly there wouldn't even be any \"current\" document that's getting evicted since the trigger would be based on a table-wide property, rather than on a per-document property as in the time-based expiration case.\r\n\r\nWe can try to roll the `replacer` into some more generic \"action specifier\", but at that point we're basically getting to generic triggers which is a way more complex issue.\r\n\r\nThe time-based expiration is relatively easy to implement and understand due to certain properties that it has. One such property is that for any given document value, you can always determine whether that document is expired or not. This is what allows us to resume expiration seamlessly after a server restart, and it's what allows us to specify the `replacer` function in the way that we originally imagined. Other eviction or trigger sources would often not have that property, and we couldn't provide quite the same semantics and guarantees for those.\r\n\r\nI'd like to give this a bit more thought.\r\n\r\nSo far I think @mlucy's proposal is pretty reasonable (probably with `delay` instead of `offset`):\r\n```js\r\ntable.expirationCreate(my_expiration, {index: 'timestamp', offset: r.year(), replacer: function(...) { return ...;}})\r\n```"
+  , issueCommentId = 226349092
+  }

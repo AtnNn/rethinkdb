@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-14) 20 : 58 : 11 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5147/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5147"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:packaging"
+          , labelName = "cp:packaging"
+          }
+      , IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      ]
+  , issueNumber = 5147
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Use `__main__.py` to enclose `_backup.py` etc.."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5147"
+  , issueCreatedAt = 2015 (-11) (-24) 20 : 35 : 29 UTC
+  , issueBody =
+      Just
+        "Our current way of running the administrative scripts such as `export`, `restore`, and `index_rebuild` is a bit awkward in that you call `export backup` and the server uses `execvp` to call `rethinkdb-export`. That is installed only when you have the driver installed on the system, so uses the first on on `$PATH`, and uses `pkg_resources.load_entry_point` to actually start the process from the module, again found via the `$PATH`. This all makes it hard to test, and a fragile if you are in the middle of transferring from one version of RethinkDB to another.\r\n\r\nIf instead we included a `__main__.py` file, and then drove all of the commands out of that one it would mean that the driver could be called directly, even if it was not on the path (e.g.: `python -m /path/to/driver`). That would change the call from the `rethinkdb` binary to be `python -m rethinkdb export` to match what we have now. And when combined with #4507 it would use the corresponding version of the driver."
+  , issueState = "open"
+  , issueId = Id 118697466
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

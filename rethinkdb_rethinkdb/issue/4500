@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-07) 02 : 14 : 06 UTC
+  , issueUpdatedAt = 2015 (-10) (-01) 21 : 14 : 28 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4500/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4500"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4500
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5236124
+        , simpleUserLogin = N "coldume"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5236124?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coldume"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Change feed does not work properly with slice()"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4500"
+  , issueCreatedAt = 2015 (-07) (-04) 15 : 55 : 42 UTC
+  , issueBody =
+      Just
+        "To repeat the problem:\r\n```javascript\r\n// Run in window 1.\r\nr.tableCreate('user')\r\n// Run in window 2.\r\nr.table('user').orderBy({ index: r.desc('id') }).limit(100).changes().slice(5, 10)\r\n\r\n// Run in window 1, repeat 10 times and insert 10 records. Change feed works expected in window 2 \r\nr.table('user').insert({ name: 'foo' })\r\n// Run in window 1. Change feed closed and does not work in window 2 \r\nr.table('user').delete()\r\n```\r\n\r\nI have tested this on linux and osx, and have the same result, change feed upaded and works as expected when inserting data, but closed when you deleting more than 5 records. Is it intended or am I doing it wrong? Thanks.\r\n\r\nP.S, the following alternative works:\r\n\r\n```javascript\r\nr.table('user').orderBy({ index: r.desc('id') }).limit(10).changes().skip(5)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 93024000
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

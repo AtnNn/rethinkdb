@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-21) 01 : 37 : 52 UTC
+  , issueUpdatedAt = 2015 (-01) (-21) 01 : 38 : 09 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1734/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1734"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 1734
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "error: Out of memory."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1734"
+  , issueCreatedAt = 2013 (-12) (-04) 19 : 53 : 09 UTC
+  , issueBody =
+      Just
+        "I had a table with about 80k documents.\r\nI dropped the table.\r\nCreated a new one\r\nAnd I was inserting documents. with\r\n\r\n\r\n```\r\nr.db('test').table('test').insert( r.db('test').table('test').map(r.row.without('id')) )\r\n```\r\nWhen the server crashed, there was about 10 documents I think in the table\r\n\r\n\r\nThere was one index based on the field `value`.\r\nEach document has a field value that map to 1.\r\n\r\n```\r\nmichel@newton:~/rethinkdb/next/rethinkdb/scripts$ ./spin_up_cluster 14920 1\r\n../build/debug/rethinkdb --directory cluster_directory_0 --machine-name Dionysus --port-offset 14920 --bind all\r\ninfo: Creating directory /home/ssd0/michel/rethinkdb/next/rethinkdb/scripts/cluster_directory_0\r\ninfo: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/ssd0/michel/rethinkdb/next/rethinkdb/scripts/cluster_directory_0' did not already exist.)\r\ninfo: Running rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)...\r\ninfo: Running on Linux 3.2.0-55-generic x86_64\r\ninfo: Loading data from directory /home/ssd0/michel/rethinkdb/next/rethinkdb/scripts/cluster_directory_0\r\ninfo: Our machine ID is f755bbde-99bb-49ab-8f3b-175cf5b9f91a\r\ninfo: Listening for intracluster connections on port 43935\r\ninfo: Listening for client driver connections on port 42935\r\ninfo: Listening for administrative HTTP connections on port 23000\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1, 10.0.3.1, 192.168.122.1, 192.168.0.7, 192.168.1.7, ::1, fe80::225:90ff:fe0d:8e8a%2, fe80::225:90ff:fe0d:8e8b%3, fe80::4c86:67ff:fe18:3e5f%4\r\ninfo: Server ready\r\nCTRL-C to kill me http requests can be sent to ports: 14921 \r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/arch/runtime/coroutines.cc at line 141:\r\nerror: Assertion failed: [cglobals->coro_count < 10000] Too many coroutines allocated on this thread. This is problem due to a misuse of the coroutines\r\nerror: Backtrace:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/utils.cc at line 261:\r\nerror: Out of memory.\r\nerror: Backtrace:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/utils.cc at line 261:\r\nerror: Out of memory.\r\nerror: Backtrace:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/utils.cc at line 261:\r\nerror: Out of memory.\r\nerror: Backtrace:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/errors.cc at line 108:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/errors.cc at line 108:\r\nerror: Error in src/errors.cc at line 108:\r\nerror: Uncaught exception of type \"std::bad_alloc\"\r\n         what(): std::bad_alloc\r\nerror: Uncaught exception of type \"std::bad_alloc\"\r\n         what(): std::bad_alloc\r\nerror: Uncaught exception of type \"std::bad_alloc\"\r\n         what(): std::bad_alloc\r\nerror: Backtrace:\r\nerror: Backtrace:\r\nerror: Backtrace:\r\nVersion: rethinkdb 1.11.1-21-g4deb9c (debug) (GCC 4.6.3)\r\nerror: Error in src/errors.cc at line 108:\r\nerror: Uncaught exception of type \"std::bad_alloc\"\r\n         what(): std::bad_alloc\r\nerror: Backtrace:\r\n```\r\n\r\nnewton didn't seem to be swapping at that time.\r\nFeel free to close if newton just ran out of memory."
+  , issueState = "closed"
+  , issueId = Id 23741357
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-09) 16 : 53 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/252497802"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6125#issuecomment-252497802"
+  , issueCommentCreatedAt = 2016 (-10) (-09) 16 : 53 : 18 UTC
+  , issueCommentBody =
+      "The difference with that query is that it computes `r.now()` before performing the update.  It becomes `something.update({createdAt: some_time_value})`.  Then all shards get updated with the same time value.\r\n\r\nCorrect me if my Ruby is wrong, but I think the query `r.table(\"table\").get(1).update { { \"expires_at\" => r.now } }` passes a closure to update.  This closure gets transformed into a function in ReQL, and the query applies such a function to every document gets updated.  Thus, `r.now()` gets evaluated in the middle of the function on a document-by-document basis.  That makes it be non-deterministic.\r\n\r\nThe problem is that the update function needs to be run exactly once, so that all replicas get the same value.  That means the data gets retrieved from the shards, then the update function gets run, and then the result gets written back to the shards.  Because it has a round-trip across machines, this gets executed non-atomically.\r\n\r\nA fix, if we want one, is for every query to have a pre-determined value that gets computed for `r.now()` in all uses in the query.  That might work for some queries, while being inappropriate for other uses such as change feeds."
+  , issueCommentId = 252497802
+  }

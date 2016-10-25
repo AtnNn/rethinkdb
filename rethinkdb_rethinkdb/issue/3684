@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-01) (-30) 02 : 22 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3684/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3684"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 3684
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "JS driver throws an error during the socket read callback"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3684"
+  , issueCreatedAt = 2015 (-01) (-29) 01 : 07 : 56 UTC
+  , issueBody =
+      Just
+        "Found when writing some changefeed tests:\r\n\r\n```js\r\nr.db(\"foo\").table(\"bar\").changes().map(r.row(\"dummy\"))\r\n```\r\n\r\nThe map function should error on any row.  This ends up throwing the error during the socket read callback rather than from the user's context (where they can catch and handle it).\r\n\r\nStack trace:\r\n```\r\nRqlRuntimeError: No attribute `dummy` in object [...]\r\n    at RqlRuntimeError.RqlServerError (/home/ssd2/grey/rethinkdb/build/packages/js/errors.js:39:13)\r\n    at new RqlRuntimeError (/home/ssd2/grey/rethinkdb/build/packages/js/errors.js:51:50)\r\n    at mkErr (/home/ssd2/grey/rethinkdb/build/packages/js/util.js:173:10)\r\n    at Feed.IterableResult._promptNext (/home/ssd2/grey/rethinkdb/build/packages/js/cursor.js:169:16)\r\n    at Feed.IterableResult._addResponse (/home/ssd2/grey/rethinkdb/build/packages/js/cursor.js:83:12)\r\n    at TcpConnection.Connection._processResponse (/home/ssd2/grey/rethinkdb/build/packages/js/net.js:126:14)\r\n    at TcpConnection.Connection._data (/home/ssd2/grey/rethinkdb/build/packages/js/net.js:105:12)\r\n    at Socket.<anonymous> (/home/ssd2/grey/rethinkdb/build/packages/js/net.js:495:32)\r\n    at Socket.EventEmitter.emit (events.js:95:17)\r\n    at Socket.<anonymous> (_stream_readable.js:736:14)\r\n```\r\n\r\nThe cursor code should be appending the error to its list of responses and silently terminating the cursor.  The user should receive an error callback once they get to that response in the cursor's queue."
+  , issueState = "open"
+  , issueId = Id 55841278
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

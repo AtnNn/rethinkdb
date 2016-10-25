@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-06) 19 : 21 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73296375"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73296375"
+  , issueCommentCreatedAt = 2015 (-02) (-06) 19 : 21 : 18 UTC
+  , issueCommentBody =
+      "> ```py\r\nt.filter(r.row['x'] == 1)\r\nt.filter(r.row['x'] + 1 == 1)\r\nt.filter(r.row['x'] > 1)\r\nt.filter(r.row['x'] + 1 > 1)\r\n```\r\n\r\nI'm not sure if this sort of thing is what @AtnNn actually meant, but I don't think a system where some of these throw the error and others don't is a good solution.\r\n\r\nMaybe I should re-iterate what the concept behind my proposed extension to `r.and` and `r.or` is.\r\n\r\nThe core idea is that we can interpret missing fields as a value which we have no information about, though we still assume that it is one of the possible values in our type system (a string, a number, a bool, null, anything).\r\n\r\nSince we cannot tell *which* value it is exactly, we have to throw an error on a query like `r.expr({}).getField('a')`, since we cannot possibly deduce the result of that query. For the sake of this discussion, let's treat this error as a special value `undefined` (but in practice we can still represent it as an exception, just as we're doing now).\r\n\r\nNow the idea of my proposal is that we sometimes *can* proof the value of a term, even if it contains an `undefined` subterm somewhere.\r\nWe can generally \"proof away\" the `undefined` whenever the value of the outer term does not actually depend on the value of its `undefined` argument, usually due to the values of some of its other arguments.\r\nIn fact we're already doing this sort of thing in a couple places, wherever it follows naturally from a lazy evaluation of the arguments:\r\n`r.branch(true, \"a\", undefined) -> \"a\"`\r\n`r.or(true, undefined) -> true`\r\n\r\nOf course we cannot possibly proof every valid statement in this system.\r\nFor example showing that `r.branch(someExpr.eq(0), \"a\", undefined)` has the value `\"a\"` would require proofing that `someExpr` is `0` which is undecidable at least in the presence of `r.js`.\r\n\r\nSo in most cases we will not be able to handle the `undefined` and turn it into something defined. As described in the proposal https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73182328 we can do it for a few more cases of `or` and `and` than we do currently (at least as far as the truthness of the returned value is concerned).\r\n\r\nIf we want to stay consistent with this system, we should *not* make `filter` turn `undefined` into `false`. However since it's an optarg (`default`) that users can use to disable this, I don't think it's such a big issue if we do. Using `default = r.error` by default would be more consistent though.\r\n\r\n\r\nI personally really like this system. It's very conservative in when it swallows `undefined`, but still handles the case that some users have run into where they expect `r.or(r.row('missing'), true)` to still return `true`.\r\nImplementing the proposed `or` / `and` change alone makes the `false` default on `filter` less scary to me, and from what I can tell it seems reasonable to do no matter what we do about that `false` default in the end."
+  , issueCommentId = 73296375
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 22 : 06 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95732109"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95732109"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 22 : 06 : 27 UTC
+  , issueCommentBody =
+      "Alright, finally caught up with this.  My thoughts:\r\n\r\n* I don't really like acking.  It makes the clients more complicated, and puts us in Two Generals territory.  (For example, say someone is using changefeeds to replicate a table into another database.  If they atomically store the token of a change when they apply it, another client with access to that database can pick up where the old client left off perfectly.  You can't get that with Acks because the Ack (or the Ack-Ack or the Ack-Ack-Ack) might be lost due to failure and you can get an acked value that isn't actually committed, or vice-versa.  Users would have to implement two-phase commit themselves to get around this.)\r\n\r\n* I think we should have a simple API that always attaches tokens and lets you either restart a feed starting at a particular token or restart a feed and get everything available.  I'm pretty sure we only need to keep two old batches around because we only ever prefetch one batch ahead.  We'll have to make that prefetching behavior part of the client spec if we do that.\r\n\r\n* Since the results are all going through one server, we also have the option of using real timestamps rather than opaque tokens and letting people provide any time they want as the `since` argument.  Are there any major downsides to this?\r\n\r\n* I agree with @danielmewes that we should pick a default limit on the number of changefeeds we queue up and let people change it with an optarg.  We don't want to let orphaned changefeeds consume resources without bound, regardless of whether they're consuming memory or disk space."
+  , issueCommentId = 95732109
+  }

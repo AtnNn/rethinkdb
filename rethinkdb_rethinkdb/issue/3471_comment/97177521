@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 19 : 31 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97177521"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-97177521"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 19 : 30 : 26 UTC
+  , issueCommentBody =
+      "The proposal sounds good.\r\n\r\nI would consider making `resumable` a purely boolean optarg. From looking at the argument name it's not obvious to me that\r\na) I can set it to a number and\r\nb) which effect that number has.\r\n\r\nI think it would be better to have a `resumable_ttl` optarg or something similar which defaults to 1 hour and can be set to a different time. I don't feel that strongly about this though.\r\n\r\n\r\n@timmaxw This proposal does not allow resuming across client restarts. An example from my understanding would be (pseudo code):\r\n```\r\nconn = r.connect()\r\nfeed = r.table(\"t\").changes().run(conn, resumable=true)\r\n\r\nwhile true:\r\n  try:\r\n    print feed.next()\r\n  catch RqlConnectionError:\r\n    feed.resume() // Reconnects, makes the feed readable again\r\n```\r\n\r\nI'm assuming here that `resume()` blocks until the connection has been re-established (using some loop with back-off logic internally). I think this  makes the interface nicer to use. What do others think? If we do that, `resume()` should accept a `timeout` parameter. If it doesn't succeed within the timeout `resume()` would rethrow the last exception it got when trying to connect.\r\n\r\nAlso this would be a good time to finally get https://github.com/rethinkdb/rethinkdb/pull/2103 in for the RqlConnectionError type."
+  , issueCommentId = 97177521
+  }

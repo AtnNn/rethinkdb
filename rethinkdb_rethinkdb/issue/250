@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2013 (-01) (-28) 22 : 34 : 20 UTC
+  , issueUpdatedAt = 2013 (-07) (-10) 03 : 51 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/250/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/250"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 250
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91193
+        , simpleUserLogin = N "mglukhovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mglukhovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Show a more helpful error message if the user hasn't started with --bind [network adapter]"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/250"
+  , issueCreatedAt = 2013 (-01) (-20) 17 : 24 : 29 UTC
+  , issueBody =
+      Just
+        "We switched to requiring `--bind [network adapter]` or --bind `all`, and instead by default only allow connections via localhost.\r\n\r\nRight now the startup message looks like this if you start with just `rethinkdb` on OS X:\r\n```\r\ndr-manhattan:~ michael$ rethinkdb\r\ninfo: Running rethinkdb 1.3.2 (CLANG 4.1 ((tags/Apple/clang-421.11.66)))...\r\ninfo: Loading data from directory rethinkdb_data\r\ninfo: Listening on addresses (add more using '--bind'): 127.0.0.1.\r\ninfo: Listening for intracluster connections on port 29015.\r\ninfo: Listening for client driver connections on port 28015.\r\ninfo: Listening for administrative HTTP connections on port 8080.\r\ninfo: Server ready\r\n```\r\n\r\nIt's pretty clear if you read the startup messages line by line that you have to use `--bind` to add more addresses. However, this was a sudden and recent addition, so I didn't see the change on line 4. My next step was to type `rethinkdb --help`, but its output wasn't very helpful (see #245). I ultimately ended up finding my answer in the [cluster setup guide](http://www.rethinkdb.com/docs/guides/startup/)-- use `--bind all`.\r\n\r\nI would normally dismiss this as my failing to not read the output carefully, but I think this merits a bit more thought:\r\n  - This is an experience that affects a lot of users when they first start using RethinkDB. All of our guides, etc. indicate that you should visit http://[hostname]:[ip listed in the output of `rethinkdb`] to see the admin tool. This is not the experience if they install it on a remote machine, and is not documented clearly.\r\n  - Apparently I'm not the only one who had this problem, except in the context of the init script: http://c2journal.com/2012/12/06/rethinkdb-nightmare-1-service-wont-start/"
+  , issueState = "closed"
+  , issueId = Id 10138461
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

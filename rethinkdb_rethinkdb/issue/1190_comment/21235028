@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 07 : 16 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21235028"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1190#issuecomment-21235028"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 07 : 16 : 27 UTC
+  , issueCommentBody =
+      "So, I'm a tiny bit confused at this point.  How is `r._` different from `r.row`?\r\n\r\n```python\r\nr.expr([1,2,3,4]).map(r.mul(r._, r._))\r\nr.expr([1,2,3,4]).map(r.mul(r.row, r.row))\r\n```\r\n\r\nThe set of features you're referring to as \"currying\" seems like three different things, at least to me:\r\n\r\n* `seq.reduce(r.add)` -- letting people pass the name of a function to reduce.  I think that this is awesome.  I also think that we should let people use the data aggregators from `groupby` here once the `.group.map.reduce` proposal comes around.  (It's also something I think people will be familiar with -- Ruby lets you right `seq.reduce(:+)`, and Python lets you pass the name of a function to reduce, which is what this looks like.)\r\n* `seq.map(r.mul(r._, r._))` -- letting people use anaphora to specify functions in languages with verbose lambda syntax.  We already have `r.row` for this purpose, and I would be hesitant to introduce multiple types of anaphora for this task.  It might be cool to introduce something like `r.row` for positional arguments, though, so that you could use the shorter anaphoric syntax for functions of more than one variable.\r\n* `seq.filter(r.contains(x))` -- automatic currying.  I'm not very fond of this, for a few reasons:\r\n  - It's of limited usefulness, because for many functions (like `contains`), you want to curry the second argument, not the first.\r\n  - I don't think people will be familiar with this behavior -- none of our three client languages do automatic currying.  (Actually, as far as I know, no languages with variadic functions do automatic currying.)\r\n  - It doesn't play nice with variadic arguments.  This doesn't just apply to our arithmetic operators -- basically all of our terms (e.g. `contains`, `has_fields`) are variadic when it makes sense, and I think that's really convenient.\r\n  - It saves very little typing over the much more explicit `seq.filter(r([1, 2, 3]).contains(r.row))`.  (Subpoint: because it's less explicit, attaching backtraces to it would be a pain in the ass -- if you write `seq.filter(r.sub(1))` and you have an object in your sequence, no part of the user's query can be underlined for the backtrace, because the object in the sequence doesn't reside anywhere in the syntax tree of the `sub` expression.)"
+  , issueCommentId = 21235028
+  }

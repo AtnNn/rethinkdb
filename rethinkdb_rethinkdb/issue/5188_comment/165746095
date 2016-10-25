@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-18) 10 : 51 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165746095"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5188#issuecomment-165746095"
+  , issueCommentCreatedAt = 2015 (-12) (-18) 10 : 51 : 30 UTC
+  , issueCommentBody =
+      "TL;DR: I think we should drop/deprecate `includes_states`, add an `output` optarg, and send 5 types.\r\n\r\nI really like what this issue is trying to accomplish, but I'm concerned including a `type` field into existing feeds might make them *more* confusing (especially if it's controlled by an optarg).\r\n\r\nWe already have an `include_states` optarg that injects a `state` field. Now we'll have an `includes_types` optarg that will inject a `type` field, and the information in the `type` field will partially intersect with the information that the `state` field already provides. I think that would leave users with too many unaswered questions (e.g. \"what's the difference between `type` and `state`? when do I use each? why do both exist?\")\r\n\r\nIf we make types on by default, then there is even more confusion (e.g. \"oh, so `types` are on by default, `states` are off by default, and the difference between them is...?\")\r\n\r\nI think a better option would be to replace the `includes_states` optarg with an `output` optarg that takes on multiple values. For now, these values could be `verbose` (default), and `compact`.\r\n\r\n- `verbose` would be equivalent to what is proposed here (i.e. will include the types *instead* of states) and would be the default.\r\n- `compact` would be equivalent to what currently is accomplished via `includes_states=True`.\r\n- We might also add something like `extra_compact` (but with a better name) that would be equivalent to `include_states=False`, though I don't think this format is very useful since it loses information.\r\n\r\nEventually, we'll implement #3719 and #4707 and `output` will be extended to support more formats (e.g. `all/list` and `diff`). This seems much cleaner than the existing proposal of bolting on `includes_types`.\r\n\r\nAs far as merging `add/initial` and `remove/uninitial`, it seems that everyone who commented in this thread thinks it's a bad idea. I actually do think that 95% of the time users will want to follow the progression of:\r\n\r\n- Just define add/remove handlers and have the system translate other events to these\r\n- Define the change handler for specialized behavior\r\n- Define the initial/uninitial handlers for specialized behavior\r\n\r\nI think this sort of behavior is super-valuable, but should be up to the drivers. I wouldn't mess with the types in the database, so I prefer not merging events into a single type on the server level."
+  , issueCommentId = 165746095
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-24) 07 : 53 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 372365
+        , simpleUserLogin = N "analytik"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/372365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/analytik"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/241984989"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5897#issuecomment-241984989"
+  , issueCommentCreatedAt = 2016 (-08) (-24) 07 : 51 : 38 UTC
+  , issueCommentBody =
+      "We're having clustering issues in production (that I'll describe in a separate issue - basically backfill gets broken, and network traffic goes to 300-650Mbps for hours without helping, and the affected table slows down literally 1000x) that might be related to this.\r\n\r\nWe have Kubernetes+Docker setup, 5 nodes, 5 separate replication controllers. `rethinkdb1` joins `rethinkdb2..5`, and has `--canonical-address=rethinkdb1`, which resolves to Service IP, which never changes (unless we delete it). The other nodes do the same.\r\n\r\nMy questions are:\r\n\r\n- does `--canonical-name` affect what @encryptio mentions, _\"[node] continues to try to connect to cluster members for a LONG time\"_  - how does it connect - which piece of data is cached? The DNS name, the IP address of the service, or the IP address of the pod itself?\r\n\r\n- only one of our nodes is frequently reporting this - `Received invalid clustering header from [::ffff:10.244.83.0]:36446, closing connection -- something might be connecting to the wrong port.` - we had this spamming our logs before, when we had several RethinkDB proxies running under one Kubernetes service, and they all had the same canonical name. But that was problematic, so those are long gone (now we have a PetSet for proxies). Could it mean we've hit an issue with the dynamic IP address, let's say rethinkdb2 now has an IP that rethinkdb3 used to have a week ago? Could this message be improved somehow? Is there a way to tell if the connection is coming from a client, proxy, or server?\r\n\r\n- What is the safe way to run production nodes until this gets resolved? Is `--canonical-address=<static service dns name>` safe? If we would switch to `--canonical-address=<static service ip>`, would it work any differently?\r\n\r\n- Is there any way, even if hacky one, to flush this \"cache\" the former IP addresses of nodes that got killed? Will restarting servers one by one solve the issue? (Because it temporarily solved our backfill/slowness bug.)"
+  , issueCommentId = 241984989
+  }

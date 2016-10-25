@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-14) 23 : 21 : 24 UTC
+  , issueUpdatedAt = 2013 (-06) (-14) 23 : 21 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/241/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/241"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 241
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 161935
+        , simpleUserLogin = N "alexbw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/161935?v=3"
+        , simpleUserUrl = "https://api.github.com/users/alexbw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Support for inserting and retrieving picklable objects in Python"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/241"
+  , issueCreatedAt = 2013 (-01) (-18) 03 : 48 : 10 UTC
+  , issueBody =
+      Just
+        "Currently, attempting to save a NumPy array as value in a dictionary in the Python driver is not supported. Try:\r\n\r\n```\r\nimport numpy\r\nr.table('users').insert({'name': 'Slava', 'age': 29,   \r\n'some_2d_array':numpy.random.random((100,100)) }).run()\r\n```\r\n\r\nwill return the error:\r\n```AttributeError: 'numpy.ndarray' object has no attribute 'iteritems'```\r\n\r\nNumPy arrays, along with many built-in Python types, can pickle themselves into compact binary representations using \r\n\r\n```\r\nimport cPickle\r\nbinary_string = cPickle.dumps(numpy.random.random((100,100)))\r\nr.table('users').insert({'name': 'Slava', 'age': 29,   \r\n'some_2d_array':binary_string }).run()\r\ndoc = r.table('users').filter(lambda doc: doc['name'] == 'Slava').run()\r\nretrieved_array = cPickle.loads(str(doc['some_2d_array']))\r\n```\r\n\r\nIt would be very desirable to be able to work with objects that can pickle themselves without having to add wrapper code, and seems like an achievable feature. "
+  , issueState = "closed"
+  , issueId = Id 10086638
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-29) 01 : 11 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/176508096"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5334#issuecomment-176508096"
+  , issueCommentCreatedAt = 2016 (-01) (-29) 01 : 11 : 47 UTC
+  , issueCommentBody =
+      "So, I'd like to say one last time that I don't necessarily think this is a good idea.  It is inherently inefficient to be inserting and/or deleting in the middle of an array on every change.  It would be much better for the certain other project to keep track of the results of an `orderBy.limit` changefeed in some sort of balanced tree structure ordered by whatever we're ordering by on the server, and then do inserts and deletes on that in logarithmic time instead.\r\n\r\nIf that's too hard, though, we can plausibly add this.  @danielmewes and I talked a little bit about the implementation earlier.  The server is currently storing the top `n` elements in an ordered map, which means that we can't really compute the offsets efficiently -- we'll have to do work proportional to the size of `n` on every change in order to generate the offsets.  We could fix this by using a balanced tree structure that stores subtree counts, but it looks like neither Boost nor the STL provides one, so we'd have to find one somewhere or write it ourselves.  Probably for the first version we should not bother and just accept the O(n) overhead.\r\n\r\n---\r\n\r\nAs for the proposal:\r\n* We should maybe call it `includeOffsets` instead of `includePositions`, since we already use the word `offset` to describe this in other places (like the `offsets_of` command).  `old_pos/new_pos` would have to change too.\r\n* Should we error if this optarg is set for non-`orderBy.limit` changefeeds, since it has no meaning and won't change the output?\r\n* It seems a little weird to have `old_pos/new_pos` sometimes be there and sometimes be `null` when there's no semantic difference, but I don't object strongly to this if it seems more consistent to you."
+  , issueCommentId = 176508096
+  }

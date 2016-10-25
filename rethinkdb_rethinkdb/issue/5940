@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-20) 00 : 23 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5940/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5940"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5940
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "[python] change feed not returning all results"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5940"
+  , issueCreatedAt = 2016 (-07) (-12) 18 : 09 : 10 UTC
+  , issueBody =
+      Just
+        "Hey, I'm trying to get the C++ driver to pass all tests for v2.3.4 and have run into a particularly weird case in what seems to only be my current two test rethink servers. I'm running the following python code:\r\n```\r\nimport rethinkdb as r\r\nr.connect('192.168.11.77').repl()\r\nr.table('foo').delete().run()\r\nc = r.table('foo').changes(squash=1000000).run(changefeed_queue_size=10)\r\nr.table('foo').insert([{'id':0}, {'id':1}, {'id':2}, {'id':3}, {'id':4}, {'id':5}, {'id':6}]).get_field('inserted').run()\r\nfor i in range(7): print c.next()\r\n```\r\n\r\nwhich results in the following output:\r\n```\r\nmbroadst@retinoid:~$ python test.py\r\n{u'old_val': None, u'new_val': {u'id': 4}}\r\n{u'old_val': None, u'new_val': {u'id': 3}}\r\n{u'old_val': None, u'new_val': {u'id': 1}}\r\n{u'old_val': None, u'new_val': {u'id': 6}}\r\n{u'old_val': None, u'new_val': {u'id': 5}}\r\n{u'old_val': None, u'new_val': {u'id': 0}}\r\n```\r\n\r\nand then it just hangs on the last result, which never arrives _unless_ I go into the web console of the server and issue a `r.table('foo').delete()` from the Data Explorer. As soon as that happens, the last entry `{u'old_val': None, u'new_val': {u'id': 2}}` pops into sight and the script completes execution.\r\n\r\nAny ideas?"
+  , issueState = "open"
+  , issueId = Id 165143240
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-20) 14 : 27 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 11457665
+        , simpleUserLogin = N "urugator"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/11457665?v=3"
+        , simpleUserUrl = "https://api.github.com/users/urugator"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/227152451"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5869#issuecomment-227152451"
+  , issueCommentCreatedAt = 2016 (-06) (-20) 14 : 08 : 20 UTC
+  , issueCommentBody =
+      "AFAIK unique fields (secondary indexes) are still not supported. However, as that stackoverflow answer suggests, you can have a second table, where the primary key is an array of your unique fields.\r\n\r\n```javascript\r\n// Table \"accountIdentities\"\r\n{ id: [\"username1\", \"email1\"] },\r\n{ id: [\"username2\", \"email2\"] }\r\n```\r\nWhen inserting/updating account, try to write into ```accountIdentities``` table first and if the operation is successful write into ```accounts``` table.\r\n\r\nWhen deleting, delete ```accounts``` record first.\r\n\r\nSince write operation involves two documents, it is not atomic, so in case of failure you can end up with inconsistent DB.\r\n\r\nEdit: just for clarification, this example presumes that a combination of  ```username``` and ```email``` must be unique, if it's not the case you need a table for each field ... or not? I am actually not sure :)"
+  , issueCommentId = 227152451
+  }

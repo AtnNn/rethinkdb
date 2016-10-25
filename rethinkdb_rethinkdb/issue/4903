@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 46 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4903/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4903"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4903
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Uneven CPU core utilization"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4903"
+  , issueCreatedAt = 2015 (-09) (-30) 02 : 38 : 52 UTC
+  , issueBody =
+      Just
+        "We currently start a number of threads equal to the number of CPU cores plus one (the final thread is a special utility thread). We also pin those threads to specific CPU cores.\r\n\r\nThere are a few things that are statically assigned to certain threads, and can use a lot of CPU. The most prominent one is probably the thread that's being used for a given intracluster connection. This task is often the bottleneck in clusters, and it uses only a single thread.\r\nSimilarly the btree shards for a given table are assigned to 8 randomly chosen threads.\r\n\r\nYet other tasks (like incoming client connections) are assigned round-robin to one of the threads.\r\n\r\nThere is no awareness in how threads are assigned as to how busy the threads already are.\r\n\r\nHaving other CPU-intensive tasks assigned to a thread that's already handling an intracluster connection for example can therefore severely limit the performance of the server.\r\nIt also makes performance somewhat unpredictable, because it will depend on which thread a given connection or btree shard ends up on.\r\n\r\nOne suggestion to avoid this:\r\n- split the thread space up into e.g. \"intracluster\", \"btree\" and \"general purpose\" threads\r\n- launch one thread per CPU core for each of those classes\r\n- don't pin any threads to a core. Instead let the operating system dynamically rebalance the threads to whichever core is the least busy."
+  , issueState = "open"
+  , issueId = Id 109003239
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-03) (-11) 00 : 52 : 37 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2692/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2692"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2692
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "ReQL semi-proposal: extending selections to objects"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2692"
+  , issueCreatedAt = 2014 (-07) (-11) 20 : 17 : 13 UTC
+  , issueBody =
+      Just
+        "There is a whole class of document manipulation tasks that are extremely frustrating to perform in ReQL. Consider the following example document:\r\n\r\n```py\r\n{\r\n  # primary key, a db_name/table_name pair; named \"table\"\r\n  \"table\": \"db_name.table_name_1\",\r\n\r\n  # list of shards for the table\r\n  \"shards\": [\r\n    {\r\n      # shard name\r\n      name: \"shard1\",\r\n\r\n      # list of replicas; must be the same length across all shards;\r\n      # servers are specified by name\r\n      \"replicas\": [\"m1\", \"m2\"],\r\n\r\n      # priority list of directors; must be a non-empty subset of replicas;\r\n      # this field may be omitted, in which case the system just uses the\r\n      # replica list above\r\n      \"director_candidates\": [\"m2\"]\r\n    },\r\n    {\r\n      # shard name\r\n      name: \"shard2\",\r\n\r\n      # list of replicas; must be the same length across all shards;\r\n      # servers are specified by name\r\n      \"replicas\": [\"m1\", \"m2\"],\r\n\r\n      # priority list of directors; must be a non-empty subset of replicas;\r\n      # this field may be omitted, in which case the system just uses the\r\n      # replica list above\r\n      \"director_candidates\": [\"m2\"]\r\n    }\r\n  ]\r\n}\r\n```\r\n\r\nSuppose I'd like to change the second replica in `shard2` from `m2` to `m3`. Doing that in ReQL right now is really, really, really hard.\r\n\r\nI propose introducing a concept of subobject selections, that would allow performing this operation as follows:\r\n\r\n```py\r\nr.table('foo')\r\n  .get(doc_id)('shards')\r\n  .filter({ 'name': 'shard2'})('replicas').nth(1)\r\n  .update('m3')\r\n```\r\n\r\nCommands like `get_field`, `pluck`, `nth`, and `filter` (called on selections of objects or arrays) would return subobject selections that could then be modified via `update`, `delete`, and `replace` directly. This is absolutely beautiful because I could incrementally build up a query for precisely the element I want, and then change it by tacking on a mutable command.\r\n\r\nSome open questions I can think of:\r\n\r\n- How do we make this work with our type system? What are the edge cases I didn't think through?\r\n- This introduces a weird duality in commands -- if the object above isn't a document in the table and is passed via `r.expr`, the code to return a new object with the second replica of `shard2` modified is dramatically different (and much more complicated) from the code if the object is a document in the table. Is there anything we can do to unify these two use cases so the code looks similar?\r\n\r\nRelated to (and possibly supersedes) #2056."
+  , issueState = "open"
+  , issueId = Id 37693664
+  , issueComments = 19
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-16) 07 : 28 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32447366"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1855#issuecomment-32447366"
+  , issueCommentCreatedAt = 2014 (-01) (-16) 07 : 28 : 13 UTC
+  , issueCommentBody =
+      "I would expect\r\n```\r\n{ { left: { a : 1 }, right: { a: 2 } }.collapse(delimiter='_')\r\n// { left_a: 1, right_a: 2 }\r\n```\r\n\r\nCould we have collapse not take a delimiter? And let it collapse as many fields as you want but just on one level.\r\nAnd add a method `flatten` that would completely flatten the document (and can take a `delimiter`)?\r\n\r\nThe use case I have in my mind are:\r\n- join a post and the author, and collapse the post. I expect the `author` document to take precedence if there is a field `author` in the `post` object.\r\n- join a post and the author, pluck the author's name and collapse both fields.\r\n- join a post and some comments, pluck the post's id, collapse the comment then the post's id\r\n- pull data from github and flatten everything. I don't think anyone would want to collapse one level to end up with this kind of object\r\n```\r\n{\r\n    issue_id: 1234,\r\n    issue_title: \"Hello world\",\r\n    author_contact:{\r\n       phone: \"XXX-XXX-XXXX\",\r\n       email: \"xxx@yyy.com\"\r\n    },\r\n    author_name: \"Luke\"\r\n}\r\n```\r\n\r\n\r\nI also think that fixing https://github.com/rethinkdb/rethinkdb/issues/1466 with an optarg would be more helpful than trying to fix it with `collapse`.\r\n"
+  , issueCommentId = 32447366
+  }

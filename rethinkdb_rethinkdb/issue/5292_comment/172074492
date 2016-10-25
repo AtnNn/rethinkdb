@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-15) 21 : 47 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 478118
+        , simpleUserLogin = N "bchavez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/478118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bchavez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/172074492"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5292#issuecomment-172074492"
+  , issueCommentCreatedAt = 2016 (-01) (-15) 20 : 09 : 48 UTC
+  , issueCommentBody =
+      "I used a push-based model for response processing instead of a pull-based one. In the .NET driver, consumer threads aren't polling for their responses. Pull-based response processing from consumer threads put me into a lot of concurrency issues. A lot of these problems went away when I switched to a push-based model for response processing in the .NET driver. Pushed-based response processing also reduced a lot of locking. I don't know if Java has anything push-based for threads that could lend itself as an alternative solution. One possible solution is to use a dictionary of  query tokens + some kind of registered semaphore for awaiting consumers.\r\n\r\nBasically, I have a dedicated thread responsible for picking up messages off the wire and delivering them to awaiting thread consumers.\r\n\r\nAn additional benefit of having a dedicated thread for reading responses is the dedicated thread will immediately throw when the connection stream is closed (ie: node goes down) [or at least it does in .NET]. So if connection pooling is ever implemented like in the .NET driver you instantly know when a connection goes down (and you have an opportunity to do some clean up); rather than have incident threads failing on a `write()` due to a lingering `.isOpen` on a dead connection stream."
+  , issueCommentId = 172074492
+  }

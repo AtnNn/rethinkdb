@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-28) 19 : 55 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/125735401"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4592#issuecomment-125735401"
+  , issueCommentCreatedAt = 2015 (-07) (-28) 19 : 55 : 12 UTC
+  , issueCommentBody =
+      "This is interesting and indeed pretty surprising. Thanks for reporting your findings @nkreipke .\r\n\r\n`is_empty` does load exactly one batch worth of data onto the server that the query is run on. If the documents are large or need to be loaded from disk that might be what's making it slow, though 5.6 seconds sound *very* slow.\r\n\r\nWe should probably use a special smaller batch size for `is_empty`.\r\n\r\n@nkreipke To confirm that tuning the batch configuration internally would make `is_empty` faster, could you try the following on your test data set?\r\n```\r\n# Table with 40000 documents\r\ntime(100) { r.db('db').table('table').is_empty.run(:max_batch_rows => 1) }\r\n```"
+  , issueCommentId = 125735401
+  }

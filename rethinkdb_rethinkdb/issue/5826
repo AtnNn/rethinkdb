@@ -1,0 +1,69 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-20) 00 : 27 : 20 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5826/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5826"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "d4c5f9"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:devops"
+          , labelName = "cp:devops"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5826
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 241565
+        , simpleUserLogin = N "aranw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/241565?v=3"
+        , simpleUserUrl = "https://api.github.com/users/aranw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "RethinkDB fatal error failed to delete via init script"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5826"
+  , issueCreatedAt = 2016 (-06) (-03) 17 : 24 : 30 UTC
+  , issueBody =
+      Just
+        "Just booted up a fresh server on AWS and trying to install and start RethinkDB via the init script. \r\n\r\nServer's running Ubuntu 14.04 and I've added a 40gb SSD and mounted it to `/data` it's formatted in ext4\r\n\r\nI get the following stack trace when I use `service rethinkdb start`\r\n\r\nInterestingly I can see it deleting and creating the `/data/rethinkdb` folder. Also when I use `rethinkdb --bind all` the server boots up fine if I do it from the `/data` directory. \r\n\r\n```\r\nroot@ip-172-31-40-242:/data# service rethinkdb start\r\nrethinkdb: db2: Starting instance. (logging to `/data/rethinkdb/log_file')\r\nRecursively removing directory /data/rethinkdb/tmp\r\nRecursively removing directory /data/rethinkdb\r\nIn recursion: removing file '/data/rethinkdb/tmp'\r\nIn recursion: removing file '/data/rethinkdb/log_file'\r\nIn recursion: removing file '/data/rethinkdb'\r\nVersion: rethinkdb 2.3.3~0trusty (GCC 4.8.2)\r\nerror: Error in src/utils.cc at line 541:\r\nerror: Guarantee failed: [res == 0]  (errno 13 - Permission denied) Fatal error: failed to delete '/data/rethinkdb'.\r\nerror: Backtrace:\r\nerror: Fri Jun  3 17:18:48 2016\r\n\r\n       1 [0xabae80]: backtrace_t::backtrace_t() at 0xabae80 (/usr/bin/rethinkdb)\r\n       2 [0xabb213]: format_backtrace(bool) at 0xabb213 (/usr/bin/rethinkdb)\r\n       3 [0xd3e64d]: report_fatal_error(char const*, int, char const*, ...) at 0xd3e64d (/usr/bin/rethinkdb)\r\n       4 [0xaa9945]: remove_directory_helper(char const*, stat const*, int, FTW*) at 0xaa9945 (/usr/bin/rethinkdb)\r\n       5 [0x7f3c99f41d52]: /lib/x86_64-linux-gnu/libc.so.6(+0xedd52) [0x7f3c99f41d52] at 0x7f3c99f41d52 (/lib/x86_64-linux-gnu/libc.so.6)\r\n       6 [0x7f3c99f4230b]: /lib/x86_64-linux-gnu/libc.so.6(+0xee30b) [0x7f3c99f4230b] at 0x7f3c99f4230b (/lib/x86_64-linux-gnu/libc.so.6)\r\n       7 [0xaaa9b4]: remove_directory_recursive(char const*) at 0xaaa9b4 (/usr/bin/rethinkdb)\r\n       8 [0xc1ecad]: directory_lock_t::~directory_lock_t() at 0xc1ecad (/usr/bin/rethinkdb)\r\n       9 [0xc169d0]: main_rethinkdb_porcelain(int, char**) at 0xc169d0 (/usr/bin/rethinkdb)\r\n       10 [0x7347de]: main+0x1fe at 0x7347de (/usr/bin/rethinkdb)\r\n       11 [0x7f3c99e75ec5]: __libc_start_main+0xf5 at 0x7f3c99e75ec5 (/lib/x86_64-linux-gnu/libc.so.6)\r\n       12 [0x741122]: /usr/bin/rethinkdb() [0x741122] at 0x741122 ()\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nNothing special about my config other than setting the directory and bind all"
+  , issueState = "open"
+  , issueId = Id 158414874
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

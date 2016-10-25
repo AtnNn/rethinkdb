@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-06) 19 : 22 : 10 UTC
+  , issueUpdatedAt = 2016 (-06) (-06) 20 : 03 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5831/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5831"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5831
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 555399
+        , simpleUserLogin = N "carlskii"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/555399?v=3"
+        , simpleUserUrl = "https://api.github.com/users/carlskii"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Returning top level attributes within nested queries "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5831"
+  , issueCreatedAt = 2016 (-06) (-06) 13 : 33 : 04 UTC
+  , issueBody =
+      Just
+        "Not quite sure the best way to explain this, but here goes.\r\n\r\nWhen I run my rethink nested queries I need to include in my document output the values of items one level below my document root, called `title`. However, to get the required data I need to concatenate some of the nested elements and then perform the query. This means that the top level items don't get returned. \r\n\r\nHere's an example of my query:\r\n\r\n```python\r\nr.db('test').table(\"data\")\\\r\n    .concat_map(lambda doc: doc[\"items\"]) \\\r\n    .filter(lambda sa: sa[\"level1\"][\"level2\"] == \"foo\") \\\r\n    .concat_map(lambda x: x[\"details\"][\"detail1\"])\\\r\n    .filter(lambda x: x[\"data\"]\r\n    .match(\"^Hello\")) \\\r\n    .run()\r\n```\r\n\r\nSo this returns the documents that match `[\"level1\"][\"level2\"]` with a value of `foo` & `[\"details\"][\"detail1\"] [\"data\"] that begins with `Hello`. \r\n\r\nHowever, the problem is made somewhat more complex because `items` is an array which means I need to add the `title` to each of the 'items' in order to get what I need to be returned. \r\n\r\nSo my question is, how can I include a top level attribute called `title` within my document `items` results. \r\n\r\nI think I should be using the `merge` function to restructure my output document, but I'm not completely sure how to build the extra part of the query. \r\n"
+  , issueState = "closed"
+  , issueId = Id 158678755
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-24) 22 : 44 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/85722680"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2316#issuecomment-85722680"
+  , issueCommentCreatedAt = 2015 (-03) (-24) 22 : 44 : 46 UTC
+  , issueCommentBody =
+      "I assume we're timing out HTTP-backed ReQL connections because if the browser is closed or the connection dies, we have no way of knowing that the connection is closed.\r\n\r\nHowever while a query is running, we will actually have an open HTTP connection for the underlying logical ReQL connection. That's how the client is waiting for the query response. So if the connection goes down or the browser is closed, that HTTP connection will be terminated the same way any other TCP connection is.\r\n\r\nSo while any HTTP connection is open, I don't see a reason for why we should time out the ReQL connection. I think currently we reset the timeout whenever we receive a new HTTP request for the logical ReQL query. I propose we keep the timeout disabled as long as the HTTP connection is open."
+  , issueCommentId = 85722680
+  }

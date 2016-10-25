@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-04) 22 : 31 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72945481"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3074#issuecomment-72945481"
+  , issueCommentCreatedAt = 2015 (-02) (-04) 21 : 41 : 12 UTC
+  , issueCommentBody =
+      "It seems like the options are converging on:\r\n\r\n1. `return_changes = \"keys\"`, and use the changefeed format with `new_val` wrapping the keys. Return all new primary key values in modified documents, including ones set explicitly by inserted documents.\r\n    - Suboptions:\r\n       - A. update, replace, delete would support \"keys\", and would return trivial changes.\r\n       - B. update, replace, delete would not support the \"keys\" value, which would avoid trivial changes.'\r\n       - C. update, replace, delete would support \"keys\", but we filter out trivial changes. Only keys of inserted or deleted documents would be returned.\r\n2. `return_changes = \"keys\"`, on insert would return exactly what `generated_keys` returns now, but would make the feature opt-in.\r\n    - Suboptions:\r\n       - A: update, replace, delete would not support the \"keys\" optarg\r\n       - B: update, replace, delete \"keys\" and the interpretation is \"return an array of the keys of all modified documents\".\r\n3. Make a new optarg like `generated_keys = true` which would default to false, but would replicate the current generated_keys format and behavior. Update and replace would not support this optarg.\r\n\r\nMy opinions on the above: \r\n- 2 is bad. having `return_changes` not use the changefeed format would be really inconsistent.\r\n- 3 is better, and makes generated_keys opt-in, but we would still ultimately have two formats that answer the question \"what changed?\". This seems suboptimal especially now that point changefeeds don't have their own format anymore.\r\n- 1B is my favorite. We have one format for returning changes, and if someone wants to find out what happened in an update/replace query, they can use `pluck`/`getField` with `return_changes=true` as @mlucy mentions.\r\n\r\nI think if we're willing to make a backwards incompatible change, it'd be better to just make it consistent, vs. trying to minimize work to port code using the old way. If they're going to change it anyway to explicitly pass the optarg, it's not too much more to strip off an extra wrapper around the keys.\r\n\r\n**Edit:** Added 1C from below\r\n**Edit2:** Added 2B"
+  , issueCommentId = 72945481
+  }

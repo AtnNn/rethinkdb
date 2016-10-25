@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-18) 04 : 47 : 29 UTC
+  , issueUpdatedAt = 2014 (-09) (-18) 04 : 57 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3070/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3070"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3070
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Combination-Multi Indices "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3070"
+  , issueCreatedAt = 2014 (-09) (-18) 01 : 23 : 28 UTC
+  , issueBody =
+      Just
+        "Hi there!\r\n\r\nI have a use case where I need a multi index that's a combination of two properties. It's probably easiest to show a broken example:\r\n\r\nUltimately, what I'd like to be able to do is get the record below with either of these queries:\r\n\r\n```js\r\nr.db('test').table('documents').getAll([1, \"red\"], {index: 'customer_tags'});\r\nr.db('test').table('documents').getAll([1, \"blue\"], {index: 'customer_tags'});\r\n```\r\n\r\n**The data:**\r\n```json\r\n {\r\n   \"id\": \"d5a17ff0-1108-4214-b762-c0dbd6aa4f26\",\r\n   \"customer_id\": 1,\r\n   \"tags\": [\r\n      \"red\",\r\n      \"blue\"\r\n    ]\r\n }\r\n```\r\n\r\n**How I would write the index, if it were possible to use `r.row` here:**\r\n```js\r\nr.db('test').table('documents').indexCreate('customer_tags', r.row('tags').map(function(tag){\r\n  return [r.row('customer_id'), tag];\r\n}), {multi: true})\r\n```\r\n\r\nIs there currently a way to do this that I'm just missing? This seems like it's probably a pretty common use case.\r\n\r\nThanks so much!\r\nMike"
+  , issueState = "closed"
+  , issueId = Id 43082930
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

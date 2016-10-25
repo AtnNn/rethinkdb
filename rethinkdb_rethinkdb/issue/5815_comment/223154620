@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-01) 23 : 31 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223154620"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5815#issuecomment-223154620"
+  , issueCommentCreatedAt = 2016 (-06) (-01) 23 : 26 : 37 UTC
+  , issueCommentBody =
+      "Took a quick look at the code and found the following:\r\n* We do have a check that restricts the total number of elements across all groups when converting from a grouped stream to an array (as `ungroup()` does). Specifically this check is in `to_array_t::add_res`, which even has a special error message `Grouped data over size limit `100000`. [...]`.\r\n* My suspicion is that this check isn't working in this case, because we are doing an `accumulate_all` read. In that case, we will use a batch specification that requests *all* results from the grouped stream, before we even call the mentioned `add_res` function for the first time. In effect, all data will have been loaded into memory already, and it will be too late.\r\n* Assuming the previous assumption is right, we would be enforcing the array size for each group individually, but not across groups.\r\n\r\n@mlucy Does this explanation sound correct to you? Any ideas for a simple fix?"
+  , issueCommentId = 223154620
+  }

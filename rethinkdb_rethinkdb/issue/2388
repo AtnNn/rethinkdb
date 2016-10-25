@@ -1,0 +1,77 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-13) 20 : 32 : 34 UTC
+  , issueUpdatedAt = 2014 (-05) (-13) 20 : 33 : 39 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2388/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2388"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2388
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "response_code possibly uninitialized"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2388"
+  , issueCreatedAt = 2014 (-05) (-13) 18 : 49 : 08 UTC
+  , issueBody =
+      Just
+        "I get this when compiling with clang:\r\n\r\n```\r\nsrc/extproc/http_job.cc:458:16: error: variable 'response_code' may be uninitialized when used here [-Werror,-Wconditional-uninitialized]\r\n    } else if (response_code < 200 || response_code >= 300) {\r\n               ^~~~~~~~~~~~~\r\n```\r\n\r\nAs far as I can tell, it is provable that response_code will be initialized (assuming that the curl_easy_getinfo call actually sets it if it returns CURLE_OK, and assuming that opts->attempts is greater than zero).\r\n\r\n*However*, it is possible for opts->attempts to be zero, as far as I can tell.  The comment for http_term_t::get_attempts says the number must be specified as an INTEGER >= 0.  And the code accepts zero."
+  , issueState = "closed"
+  , issueId = Id 33427342
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

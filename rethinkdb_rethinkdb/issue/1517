@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-07) 18 : 42 : 13 UTC
+  , issueUpdatedAt = 2013 (-10) (-22) 21 : 04 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1517/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1517"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1517
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "I think we forget to reset the block_size of an mc_inner_buf_t in combination with snapshots"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1517"
+  , issueCreatedAt = 2013 (-10) (-05) 01 : 05 : 05 UTC
+  , issueBody =
+      Just
+        "I'm not sure if this is a bug (it very much seems like one), and what consequences it has. @srh, you should have a look at this.\r\n\r\nIn mc_inner_buf_t::allocate(), we have code which handles the case that an inner_buf is kept around after deletion of a block if it is still snapshotted. We re-use the inner buffer by resetting its properties. This is done by calling inner_buf->initialize_to_new().\r\n\r\nHowever, we do not reset the block_size attribute of mc_inner_buffer_t. In the mc_inner_buf_t constructor for new blocks, we initialize block_size to block_size_t::undefined().\r\n\r\nI'm pretty sure that we should also reset it to undefined when re-using an old buffer.\r\n"
+  , issueState = "closed"
+  , issueId = Id 20557503
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

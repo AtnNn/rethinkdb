@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-02) 15 : 29 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2826500
+        , simpleUserLogin = N "LMnet"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2826500?v=3"
+        , simpleUserUrl = "https://api.github.com/users/LMnet"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/178636604"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5342#issuecomment-178636604"
+  , issueCommentCreatedAt = 2016 (-02) (-02) 15 : 29 : 44 UTC
+  , issueCommentBody =
+      "We use RethinkDB with Scala. We have an `Id` class:\r\n```case class Id[+T](id: UUID, klass: String)```\r\n`+T`  is covariant type. For example, if we have:\r\n```\r\nclass A\r\nclass B extends A\r\nclass C extennds A\r\n```\r\nSo, `Id[A]` could be `Id[B]` or `Id[C]`.\r\n\r\nIn some of our tables we store `Id` of base type, not concrete. And sometimes we need to understand, what is concrete type of this `Id`. That's why we use this prefixes. For my example above, ids would looks like this:\r\n```\r\nB:082a7808-16cf-4f56-bf07-e2c2f8e248ca\r\nC:bddef1af-2546-4a53-8817-da5199cd3e65\r\n```\r\n\r\nThis works perfectly for our needs. But I tested sharding and noticed, that documents distibution across shards is not uniform. `rebalance()` solve this problem, but it's not suitable solution for production."
+  , issueCommentId = 178636604
+  }

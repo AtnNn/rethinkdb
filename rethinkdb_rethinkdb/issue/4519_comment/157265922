@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-17) 04 : 39 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 412608
+        , simpleUserLogin = N "kamilion"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/412608?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kamilion"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157265922"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-157265922"
+  , issueCommentCreatedAt = 2015 (-11) (-17) 04 : 39 : 43 UTC
+  , issueCommentBody =
+      "So, I've been at this for a while myself.\r\nRight now, I'm using SCRYPT to store passwords in rethinkdb.\r\n\r\nhttp://www.tarsnap.com/scrypt.html\r\nlinks to these two at the bottom of the page:\r\nhttps://pypi.python.org/pypi/scrypt/\r\nThe python/C extension version which I use myself..\r\nhttps://github.com/scintill/scrypt\r\nAnd the javascript version for use in the browser.\r\n\r\nHere's the methods I use for storage in rethinkdb.\r\nhttps://github.com/kamilion/kaizen/blob/master/auth/authmodel.py#L125\r\n\r\nSCRYPT has some interesting properties in this situation.\r\n\r\nThe python driver itself is aware of a successful decryption.\r\nscrypt.error will be raised if the password to the container is not correct.\r\n\r\n\r\n**THIS IS IMPORTANT: IT DOES NOT MATTER WHAT I STORE INSIDE THE CONTAINER.**\r\n\r\nIn this case, I'm simply storing 64 bytes of garbage inside. I'll get the same 64 bytes back out, if the decryption succeeds. But for my purpose of authentication, the action of encryption and decryption occurs... NOT HASHING. If the decryption fails, an error's raised. In my source, I have it set to take 0.5 seconds per attempt.\r\n\r\nNOW. That being explained... SCRYPT of course can encrypt anything you want. I provide a system to operate a Virtual Machine Host. At one point, I planned to store unlocked SSH private keys inside of SCRYPT. The only way to get them out is to provide the correct passphrase.\r\n\r\nNow, I have a remarkably naive implementation linked above, but one could easily use it to provide a challenge response, where the SCRYPT blob is sent to the client, who uses javascript to open it, extract the real secret, hash it, and return it to the server, who performs roughly the same process, and compares the hashes. Or SHA512 hash the password before transmitting it over HTTP/HTTPS.\r\nI have not done any of these things; because honestly? I use my yubikey to log in, and I simply ordered more for our web staff as needed...\r\n\r\nOf course, thinking about implementing SCRYPT into rethinkdb is not a part of the discussion about RBAC; but it ties so closely together, AND provides security for data at rest, it may well be the time to take a hard look at pulling it in as part of the RBAC implementation and have the access roles truly enforce their semantics. \r\n```\r\n\r\n\r\nSorry mario, the key to unlock this document's contents is in another castle. . .\r\n\r\n\r\n```\r\nTwo drivers agree to play chicken with each-other. One of them removes his steering wheel and throws it out the window. \r\n\r\nWhich driver will win the game of chicken, in which the win condition is intimidating the other driver into swerving first?\r\n\r\nThe one who simply says he's not going to swerve... \r\n**or the one who has removed the ability to swerve entirely?**\r\n"
+  , issueCommentId = 157265922
+  }

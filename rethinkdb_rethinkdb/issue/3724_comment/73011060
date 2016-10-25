@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 08 : 30 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73011060"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3724#issuecomment-73011060"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 08 : 30 : 42 UTC
+  , issueCommentBody =
+      "@wojons I sketched out a proposal for a new command called `scan` in #3736. @danielmewes pointed out that it is similar to what you propsed here. I'm not sure I fully understand what you are trying to do or what the semantics of `r.agg` would be, but I think your query could be expressed like this using `scan`:\r\n\r\n```\r\nr.table('manifest')\r\n .getAll('ABC', {index: 'flight_number'})\r\n .filter(r.row('kg').lt(1000))\r\n .scan(0, function(total, doc) {\r\n   return total.add(doc('kg')).do(function(new_total){\r\n     return r.branch(new_total.lte(1000000), [new_total, [doc]], null)})})\r\n .limit(525)\r\n```"
+  , issueCommentId = 73011060
+  }

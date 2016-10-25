@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-25) 01 : 19 : 43 UTC
+  , issueUpdatedAt = 2015 (-11) (-25) 01 : 19 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5002/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5002"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5002
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Remove generic parameter on Java connections"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5002"
+  , issueCreatedAt = 2015 (-10) (-27) 01 : 20 : 23 UTC
+  , issueBody =
+      Just
+        "Copied from @eric-poitras 's comment: https://github.com/rethinkdb/rethinkdb/issues/3930#issuecomment-139841060\r\n\r\n\r\n> it is useful for Connection to be a Generic type ? Java can be a bit strange in the way he handle generics and sometime it's just better to avoid it. Here a sample case of what I am talking about:\r\n\r\n```java\r\npublic class SomeClass implements SomeApi {\r\n\r\n    private final Db         db;\r\n    private final Connection conn;\r\n\r\n    @Inject\r\n    public SomeClass( Db db, Connection conn ) {\r\n        this.db = db;\r\n        this.conn = conn;\r\n    }\r\n\r\n    @Override\r\n    public List<Device> listDevices() throws ApiException {\r\n        Cursor<Map<String, Object>> c = db.table( \"test\" ).run( conn );\r\n    }\r\n```\r\n\r\n> The line: `Cursor<Map<String, Object>> c = db.table( \"test\" ).run( conn );` won't compile because I did not defined the variable conn as a generic type `Connection<?>` then java call the \"run\" method in JDK 1.4 style so it returns Object instead of `<T>`. (By the way, IntelliJ error highlighter don't event see this as a problem, it's javac that throws an error !).\r\n\r\nI agree the connection parameter was a dumb idea on my part, it parameterizes over something no one ever cares about, and the subtype system should be fine to define other kinds of connection behaviors when necessary.\r\n"
+  , issueState = "closed"
+  , issueId = Id 113484744
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

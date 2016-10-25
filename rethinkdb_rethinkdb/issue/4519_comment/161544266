@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-03) 07 : 55 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161544266"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-161544266"
+  , issueCommentCreatedAt = 2015 (-12) (-03) 07 : 55 : 49 UTC
+  , issueCommentBody =
+      "I just created a first user, granted it permissions, and deleted it again. There's still a _lot_ that needs to happen, but there is progress!\r\n\r\nThe following snippet now does something.\r\n```\r\nr.db(\"test\").tableCreate(\"foo\")\r\nr.db(\"rethinkdb\").table(\"users\")\r\nr.db(\"rethinkdb\").table(\"users\").insert({\"id\": \"vexocide\", \"access\": {\"$read\": true, \"$write\": true, \"$config\": true}})\r\nr.db(\"rethinkdb\").table(\"users\")\r\nr.db(\"test\").grant(\"vexocide\", {\"$read\": true, \"$write\": true, \"$config\": false})\r\nr.db(\"test\").table(\"foo\").grant(\"vexocide\", {\"$read\": true, \"$write\": true, \"$config\": true})\r\nr.db(\"rethinkdb\").table(\"users\")\r\nr.db(\"rethinkdb\").table(\"users\").get(\"vexocide\").delete()\r\nr.db(\"rethinkdb\").table(\"users\")\r\n```\r\n\r\nAlong the way that spits out the following.\r\n```\r\n[\r\n    {\r\n        \"access\":{\r\n            \"$config\":true,\r\n            \"$read\":true,\r\n            \"$write\":true\r\n        },\r\n        \"id\":\"admin\",\r\n        \"password\":false\r\n    },\r\n    {\r\n        \"access\":{\r\n            \"$config\":true,\r\n            \"$read\":true,\r\n            \"$write\":true,\r\n            \"test\":{\r\n                \"$config\":false,\r\n                \"$read\":true,\r\n                \"$write\":true,\r\n                \"foo\":{\r\n                    \"$config\":true,\r\n                    \"$read\":true,\r\n                    \"$write\":true\r\n                }\r\n            }\r\n        },\r\n        \"id\":\"vexocide\",\r\n        \"password\":false\r\n    }\r\n]\r\n```"
+  , issueCommentId = 161544266
+  }

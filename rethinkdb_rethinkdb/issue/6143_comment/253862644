@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-10) (-14) 17 : 09 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/253862644"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6143#issuecomment-253862644"
+  , issueCommentCreatedAt = 2016 (-10) (-14) 17 : 09 : 48 UTC
+  , issueCommentBody =
+      "@yspb you're definitely on the right track. The issue with your first query is that you can only chain an indexed `.orderBy` using the same index in the previous expression. The trick is to create a compound index that you can use to both filter the results and sort them:\r\n\r\n```js\r\nr.db('store').table('tags')\r\n.indexCreate('autocomplete', (row) => {\r\n  return row('autocomplete').map((edge) => [ edge, row('count') ])\r\n}, { multi: true })\r\n\r\nr.db('store').table('tags')\r\n.between(\r\n  [ 's', r.minval ],\r\n  [ 's', r.maxval ],\r\n  { index : 'autocomplete' }\r\n)\r\n.orderBy({ index: r.desc('autocomplete') })\r\n.pluck('name').limit(20);\r\n```\r\n\r\nAlso note that if all you need for your autocomplete implementation is a prefix match, then you could just use the `name` field directly instead of creating all the left edge nGrams yourself. This also massively reduces the size of the index:\r\n\r\n```js\r\nr.db('store').table('tags').indexCreate('autocomplete', [ r.row('name'), r.row('count') ])\r\n\r\nr.db('store').table('tags')\r\n.between(\r\n  [ 's', r.minval ],\r\n  [ r.maxval, r.maxval ], // note the query changes slightly here\r\n  { index : 'autocomplete' }\r\n)\r\n.orderBy({ index: r.desc('autocomplete') })\r\n.pluck('name').limit(20);\r\n```\r\n\r\nLet me know if you have any other questions."
+  , issueCommentId = 253862644
+  }

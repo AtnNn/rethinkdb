@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-18) 20 : 37 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3902/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3902"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3902
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Suggestion: reading from and writing to streams from a node via r.pipe(src_stream, dest_stream) and r.node(name).openStream(path) \8594 stream"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3902"
+  , issueCreatedAt = 2015 (-03) (-06) 19 : 20 : 54 UTC
+  , issueBody =
+      Just
+        "A possible use case is efficiently importing from a compressed file (similar to #3838):\r\n\r\nSSH to server *mynode* and issue:\r\n```\r\nmyuser@mynode> mkfifo /path/to/my-fifo\r\nmyuser@mynode> bzip2 -dc my-file.json.bz2 > /path/to/my-fifo\r\n```\r\n\r\nThen, open the web UI, connect to any node on the cluster, and issue:\r\n```\r\nr.table('test.mytable').insert(\r\n  r.node('mynode').openStream('/path/to/my-fifo')\r\n)\r\n\r\nor\r\n\r\nr.pipe(\r\n  r.node('mynode').openStream('/path/to/my-fifo'),\r\n  r.table('test.mytable').insert()\r\n)\r\n```\r\n\r\nOr we could do something similar to #3832:\r\n\r\nInstead of\r\n```\r\nrethinkdb import --format csv --delimiter ' ' --table t --force -f ~/t.csv --map \"\\\r\nlambda imported_row: {\r\n  'ms': imported_row['ms'].coerce_to('number'),\r\n  'when': r.iso8601(r.add(imported_row['YYYY-MM-DD'], 'T', imported_row['HH:mm:ss.sss']), default_timezone='-3'),\r\n  'node': 1\r\n}\"\r\n```\r\n\r\nWe could just:\r\n```\r\nr.table('t').insert(\r\n  r.node('mynode').openStream('/path/to/my-fifo').map(\r\n  lambda imported_row: {\r\n    'ms': imported_row['ms'].coerce_to('number'),\r\n    'when': r.iso8601(r.add(imported_row['YYYY-MM-DD'], 'T', imported_row['HH:mm:ss.sss']), default_timezone='-3'),\r\n    'node': 1\r\n  })\r\n)\r\n```\r\n\r\nWe can use node.openStream for exporting a stream to a file, like this:\r\n\r\n```\r\nr.pipe(\r\n  r.table('src').filter({'a': true}),\r\n  r.node('mynode').openStream('/path/to/exported-file.json')\r\n)\r\n```\r\n\r\n***r.pipe()*** could return some stats about the operation, like how many rows ran through it.\r\n"
+  , issueState = "open"
+  , issueId = Id 60145801
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

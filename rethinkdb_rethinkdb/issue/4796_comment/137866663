@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-04) 23 : 39 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/137866663"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4796#issuecomment-137866663"
+  , issueCommentCreatedAt = 2015 (-09) (-04) 22 : 13 : 36 UTC
+  , issueCommentBody =
+      "Looks good, although it won't work for the Python async backends (asyncio, Tornado, and Twisted).\r\n\r\nIn the default `net.py`, `ConnectionInstance` has a member `_socket` corresponding to a `SocketWrapper`, but the behaviors are different for the other backends:\r\n\r\n* `net_asyncio.py`: `ConnectionInstance` has a member `_streamwriter`, and you can get the underlying socket via `_streamwriter.get_extra_info('socket')`\r\n* `net_twisted.py`: `ConnectionInstance` has a member `_connection`, which is a `DatabaseProtocol` object, and you can get the local connection info via `_connection.transport.getHost()`, I believe.\r\n* `net_tornado.py`: `ConnectionInstance` has a member `_socket`, of the type `socket.socket`.\r\n\r\nBecause these behaviors are so different on each `ConnectionInstance` implementation, the `ConnectionInstance` itself should provide methods for reading these properties.\r\n\r\n@marshall007, I understand if you don't want to spend the resources to implement and test this on the other Python backends, and if you prefer I can open an issue and add the other implementations myself once this PR has been merged."
+  , issueCommentId = 137866663
+  }

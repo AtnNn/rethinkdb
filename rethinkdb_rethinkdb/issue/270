@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2013 (-02) (-05) 22 : 10 : 56 UTC
+  , issueUpdatedAt = 2013 (-05) (-02) 00 : 41 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/270/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/270"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 270
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Failure in ClusteringReactor.AddSecondaryTest"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/270"
+  , issueCreatedAt = 2013 (-01) (-31) 20 : 16 : 59 UTC
+  , issueBody =
+      Just
+        "I experienced a failure in the AddSecondaryTest here's the backtrace. The bug appears to be intermittent.\r\nVersion: rethinkdb 1.3.2-354-g070c53 (debug) (GCC 4.6.1)\r\nerror: Error in arch/timer.cc at line 73:\r\nerror: Guarantee failed: [nanos > 0] \r\nerror: Backtrace:\r\nerror: Thu Jan 31 12:06:37 2013\r\n       \r\n       1: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:251\r\n       2: format_backtrace(bool) at backtrace.cc:198\r\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:71\r\n       4: timer_handler_t::add_timer_internal(long, timer_callback_t*, bool) at timer.cc:73\r\n       5: fire_timer_once(long, timer_callback_t*) at timer.cc:108\r\n       6: writeback_t::on_transaction_commit(mc_transaction_t*) at writeback.cc:152\r\n       7: mc_cache_t::on_transaction_commit(mc_transaction_t*) at mirrored.cc:1501\r\n       8: mc_transaction_t::~mc_transaction_t() at mirrored.cc:1198\r\n       9: scc_transaction_t<mc_cache_t>::~scc_transaction_t() at semantic_checking.tcc:136\r\n       10: mock::serializer_file_write_stream_t::serializer_file_write_stream_t(serializer_t*) at serializer_filestream.cc:75\r\n       11: mock::dummy_protocol_t::store_t::~store_t() at dummy_protocol.cc:235\r\n       12: mock::dummy_protocol_t::store_t::~store_t() at dummy_protocol.cc:242\r\n       13: void boost::checked_delete<mock::dummy_protocol_t::store_t const>(mock::dummy_protocol_t::store_t const*) at checked_delete.hpp:35\r\n       14: void boost::delete_clone<mock::dummy_protocol_t::store_t>(mock::dummy_protocol_t::store_t const*) at clone_allocator.hpp:57\r\n       15: void boost::heap_clone_allocator::deallocate_clone<mock::dummy_protocol_t::store_t>(mock::dummy_protocol_t::store_t const*) at clone_allocator.hpp:75\r\n       16: boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::null_clone_allocator<false>::deallocate_clone(mock::dummy_protocol_t::store_t const*) at reversible_ptr_container.hpp:127\r\n       17: boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::null_policy_deallocate_clone(mock::dummy_protocol_t::store_t const*) at reversible_ptr_container.hpp:277\r\n       18: void boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::remove<boost::void_ptr_iterator<__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, mock::dummy_protocol_t::store_t> >(boost::void_ptr_iterator<__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, mock::dummy_protocol_t::store_t>) at reversible_ptr_container.hpp:251\r\n       19: void boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::remove<boost::void_ptr_iterator<__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, mock::dummy_protocol_t::store_t> >(boost::void_ptr_iterator<__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, mock::dummy_protocol_t::store_t>, boost::void_ptr_iterator<__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, mock::dummy_protocol_t::store_t>) at reversible_ptr_container.hpp:256\r\n       20: boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::remove_all() at reversible_ptr_container.hpp:219\r\n       21: boost::ptr_container_detail::reversible_ptr_container<boost::ptr_container_detail::sequence_config<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> > >, boost::heap_clone_allocator>::~reversible_ptr_container() at reversible_ptr_container.hpp:466\r\n       22: boost::ptr_sequence_adapter<mock::dummy_protocol_t::store_t, std::vector<void*, std::allocator<void*> >, boost::heap_clone_allocator>::~ptr_sequence_adapter() at ptr_sequence_adapter.hpp:129\r\n       23: boost::ptr_vector<mock::dummy_protocol_t::store_t, boost::heap_clone_allocator, std::allocator<void*> >::~ptr_vector() at ptr_vector.hpp:31\r\n       24: mock::test_cluster_group_t<mock::dummy_protocol_t>::~test_cluster_group_t() at test_cluster_group.cc:238\r\n       25: unittest::runAddSecondaryTest() at clustering_reactor.cc:102\r\n       26: boost::detail::function::void_function_invoker0<void (*)(), void>::invoke(boost::detail::function::function_buffer&) at function_template.hpp:113\r\n       27: boost::function0<void>::operator()() const at function_template.hpp:761\r\n       28: starter_t::run_wrapper(boost::function<void ()> const&) at runtime.cc:54\r\n       29: boost::_mfi::mf1<void, starter_t, boost::function<void ()> const&>::operator()(starter_t*, boost::function<void ()> const&) const at mem_fn_template.hpp:166\r\n       30: void boost::_bi::list2<boost::_bi::value<starter_t*>, boost::_bi::value<boost::function<void ()> > >::operator()<boost::_mfi::mf1<void, starter_t, boost::function<void ()> const&>, boost::_bi::list0>(boost::_bi::type<void>, boost::_mfi::mf1<void, starter_t, boost::function<void ()> const&>&, boost::_bi::list0&, int) at bind.hpp:314\r\n       31: boost::_bi::bind_t<void, boost::_mfi::mf1<void, starter_t, boost::function<void ()> const&>, boost::_bi::list2<boost::_bi::value<starter_t*>, boost::_bi::value<boost::function<void ()> > > >::operator()() at bind_template.hpp:21\r\n       32: boost::detail::function::void_function_obj_invoker0<boost::_bi::bind_t<void, boost::_mfi::mf1<void, starter_t, boost::function<void ()> const&>, boost::_bi::list2<boost::_bi::value<starter_t*>, boost::_bi::value<boost::function<void ()> > > >, void>::invoke(boost::detail::function::function_buffer&) at function_template.hpp:154\r\n       33: boost::function0<void>::operator()() const at function_template.hpp:761\r\n       34: callable_action_instance_t<boost::function<void ()> >::run_action() at runtime_utils.hpp:58\r\n       35: callable_action_wrapper_t::run() at runtime_utils.cc:67\r\n       36: coro_t::run() at coroutines.cc:178\r\n"
+  , issueState = "closed"
+  , issueId = Id 10515639
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

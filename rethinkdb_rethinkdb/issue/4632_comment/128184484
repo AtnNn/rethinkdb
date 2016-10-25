@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 23 : 40 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128184484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4632#issuecomment-128184484"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 23 : 40 : 21 UTC
+  , issueCommentBody =
+      "Hi @jamhall, for creating a ReQL time object, you cannot use `new Date` inside of an `r.js` function unfortunately.\r\n\r\nHere's a (unfortunately somewhat lengthy) alternative that relies on `r.js` only for the string splitting:\r\n\r\n```js\r\nr.table('weather')\r\n .update(function (oldRow) {\r\n   return { time: oldRow.do(r.js('(function (point) { return point.time.split(/[- :]/); })'))\r\n                        .do(function (splits) {\r\n                          return r.time(splits(0).coerceTo('number'),\r\n                                        splits(1).coerceTo('number'),\r\n                                        splits(2).coerceTo('number'),\r\n                                        splits(3).coerceTo('number'),\r\n                                        splits(4).coerceTo('number'),\r\n                                        0,\r\n                                        \"Z\");\r\n                        })\r\n     };\r\n }, { nonAtomic: true })\r\n```\r\n\r\nIf you want to, you could do the splitting in ReQL without `r.js` as well. using the http://rethinkdb.com/api/javascript/match/ `match` command (ReQL's `split` doesn't support a regex yet)."
+  , issueCommentId = 128184484
+  }

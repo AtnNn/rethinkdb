@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-06) 23 : 08 : 42 UTC
+  , issueUpdatedAt = 2015 (-04) (-06) 23 : 08 : 42 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2649/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2649"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 2649
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "connections/connection.js test errors"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2649"
+  , issueCreatedAt = 2014 (-07) (-03) 17 : 58 : 04 UTC
+  , issueBody =
+      Just
+        "When the `connections/connection.js` test is run on MacOS the \"Javascript connection API With a server\" test is failing to run because the method it is using to detect the startup of the rehtinkdb server is failing, and even seems tone causing the server to never complete setup.\r\n\r\nThese problems do not seem to happen on newton, and it is unknown what causes the difference at this point.\r\n\r\nThe problems:\r\n\r\n1.  In `test/rql_test/connections/connection.js` the lines with `fs.write(server_err_log, data)` are apparently causing a silent error, and need to be changed to `fs.write(server_err_log, data.toString())`. A similar change also needs to be made in the `cpp_server.stdout.on` handler.\r\n\r\n2. If you fix issue 1, and then disable the `spawn('rm', ['-rf', 'rethinkdb_data']);` line in `afterEach`, and then look at the output in `run/server-error-log.txt` you will see a lot of lines like this:\r\n```Previous message may not have been written to the log file (cannot flush stderr: Operation not supported).```\r\nObviously somewhere in the stack something is not working as expected. But it seems to me that outputting a message complaining the STDERR is not working as you expect on STDERR is particularly unhelpful[1]. Better would be to output this sort of message to syslog. Or at worst this message should only be printed once, and not at 'info'. If you bypass the PIPEs in the test, and redirect straight to files, then these lines go away, but that prevents the startup detection from working.\r\n\r\n3. As long as the PIPEs are in place, nothing is ever written to `rethinkdb_data/log_file`. Removing the PIPEs fixes this problem, implying that when there is a problem flushing data to STDERR that writing data to the file is skipped.\r\n\r\nTo reproduce (on MacOS, such as Gantz):\r\n```\r\ngit checkout next\r\n./configure --allow-fetch\r\nmake DEBUG=1\r\ncd test/rql_test\r\n./test-runner connections/connection -i js\r\n```\r\n\r\n[1] Very much in the tradition of \"No keyboard detected, press any key to continue\"."
+  , issueState = "closed"
+  , issueId = Id 37106836
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

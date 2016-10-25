@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 23 : 54 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3755/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3755"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3755
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Get rid of the dump/restore temporary directory"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3755"
+  , issueCreatedAt = 2015 (-02) (-11) 01 : 21 : 47 UTC
+  , issueBody =
+      Just
+        "When running `rethinkdb dump` and `rethinkdb restore`, users are required to have enough free space in their temporary directory (or whichever directory is passed in `--temp-dir`) for the entire uncompressed database.  This is then tar-gzipped into the final location, which means even more free space is needed (even though we use the `--remove-files` option).\r\n\r\nChange `rethinkdb dump` and `rethinkdb restore` to stream the database to/from the destination file directly, probably using the Python `tarfile` module.\r\n\r\nSuggested new directory format:\r\n```\r\nexport_dir/\r\n  test/\r\n    tbl_a.info\r\n    tbl_a.json.part0\r\n    tbl_a.json.part1\r\n    tbl_b.info\r\n    tbl_b.json\r\n```\r\n* Change `rethinkdb dump` and `rethinkdb restore` to use this directory format.\r\n  * Nice to have: support this directory format in `rethinkdb export` and `rethinkdb import` as well, for consistency.\r\n* When running `rethinkdb dump`, collect chunks separately for each table, then append to the tar file as a new file.\r\n    * This may be done by calling directly into `_export.py` routines and hooking onto the queue of rows read from the database (normally sent to the file writers)\r\n    * Make sure that the file is only renamed to the target file only after the dump is complete\r\n* When running `rethinkdb restore`, stream chunks file-by-file from the source tar file\r\n    * This may be done by calling directly into `_import.py`, and replacing the file reader routines with parsed files from the tarfile.\r\n    * The progress bar would need to be reimplemented in terms of progress through the tar file"
+  , issueState = "open"
+  , issueId = Id 57264340
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

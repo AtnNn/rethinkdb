@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-08) (-30) 22 : 32 : 13 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6069/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6069"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 6069
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1686193
+        , simpleUserLogin = N "daveisfera"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1686193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/daveisfera"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Python datetime not rounded like r.time()"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6069"
+  , issueCreatedAt = 2016 (-08) (-23) 20 : 53 : 25 UTC
+  , issueBody =
+      Just
+        "r.time() will round the number of milliseconds, but Python datetime does not do the same thing. This results in different results when using the same inputs through the different interfaces. It can also cause problems during floating point conversions when reading values and then writing them back (i.e. the timestamp can become X.ABC999 in the Python datetime when it should be X.ABD000 where C is D-1).\r\n\r\nHere's a simple script to demonstrate the difference in behavior:\r\n\r\n```\r\n#!/usr/bin/env python3\r\n\r\nimport datetime\r\n\r\nimport pytz\r\nimport rethinkdb as r\r\n\r\nconn = r.connect(host=\"localhost\", db=\"test\")\r\n\r\nr.table_create(\"test_time\").run(conn)\r\ntruth = datetime.datetime(2016, 1, 1, 0, 0, 0, 1000, pytz.utc)\r\nr.table(\"test_time\").insert({\"time\": truth}).run(conn)\r\nr.table(\"test_time\").insert({\"time\": datetime.datetime(2016, 1, 1, 0, 0, 0, 999, pytz.utc)}).run(conn)\r\nr.table(\"test_time\").insert({\"time\": r.time(2016, 1, 1, 0, 0, 0.000999, \"Z\")}).run(conn)\r\nfor row in r.table(\"test_time\").run(conn):\r\n    print(row[\"time\"], row[\"time\"] == truth)\r\n```"
+  , issueState = "open"
+  , issueId = Id 172803912
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 54
+          , milestoneNumber = 119
+          , milestoneClosedIssues = 8
+          , milestoneDescription = Nothing
+          , milestoneTitle = "2.3.x"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/119"
+          , milestoneCreatedAt = 2016 (-04) (-06) 18 : 05 : 18 UTC
+          , milestoneState = "open"
+          }
+  }

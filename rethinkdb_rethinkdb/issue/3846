@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 36 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3846/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3846"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 3846
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1981198
+        , simpleUserLogin = N "thejsj"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1981198?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thejsj"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error Messages Involving Expected type SELECTION but found SEQUENCE"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3846"
+  , issueCreatedAt = 2015 (-02) (-26) 22 : 22 : 32 UTC
+  , issueBody =
+      Just
+        "When doing a query that attempts to treat a non-selection as a selection, ReQL provides a message that points to the fact that it was expecting a SELECTION but found a SEQUENCE.\r\n```\r\nr.db('caltrain').table('trains')('trains')\r\n .update({}) // This won't work because this is a stream \r\n```\r\n```\r\nRqlRuntimeError: Expected type SELECTION but found SEQUENCE:\r\nVALUE SEQUENCE in:\r\nr.db(\"caltrain\").table(\"trains\")(\"trains\").update({})\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^           \r\n```\r\nThe first confusing part about this message is that the documentation states that a selection is a sequence: \r\n\r\n> Sequences aren't their own data type\8212instead, that's a collective word for all the list data types: arrays, streams, selections, and tables.\r\n\r\nObviously, all selections are sequences but not all sequences are selections, but the wording is still a bit confusing.\r\n\r\nSecond (and most importantly) the message does not help the user properly debug the query. It would be more useful for the user to know that the database wan't able to execute that query because that query was an array or a stream. This would also make it more explicit why exactly the error was thrown.\r\n\r\nSuggestion #1 Make the Error Message more explicit:\r\n\r\n```\r\nExpected type SELECTION but found STREAM\r\n```\r\n\r\nSuggestion #2: Keep the word sequence, but include the data type associated with the sequence:\r\n\r\n```\r\nExpected type SELECTION but found SEQUENCE (STREAM)\r\n```\r\n\r\n@mlucy"
+  , issueState = "open"
+  , issueId = Id 59154163
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

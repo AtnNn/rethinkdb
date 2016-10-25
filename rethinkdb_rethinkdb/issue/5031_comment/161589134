@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-03) 10 : 33 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5964
+        , simpleUserLogin = N "cultofmetatron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5964?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cultofmetatron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/161589134"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5031#issuecomment-161589134"
+  , issueCommentCreatedAt = 2015 (-12) (-03) 10 : 32 : 19 UTC
+  , issueCommentBody =
+      "@neumino, you're right that the syntax gets a little wierd when you have the connection object being passed in. personally I never liked that anyway. there should be a connection pool that automatically closes when there's no more data.  Rethinkdbdash does this very well.\r\n\r\nnow assuming there's some very good reason its done this way, you could still use it inside an observable\r\n\r\n```javascript\r\nr.connect({}).then(function(connection) {\r\n  query().run().subscribe({\r\n    function next(row) { console.log(row) },\r\n    function error(err) { console.log(err) },\r\n    function complete() { connection.close() }\r\n  })\r\n})\r\n```\r\n\r\ncould be handled like so.\r\n```javascript\r\nr.connect({})\r\n  .flatmap((connection) => \r\n      query.run(connection)\r\n        .doOnCompleted(() => connection.close()))\r\n  .subscribe(\r\n      function next(row) { console.log(row) },\r\n      function error(err) { console.log(err) }\r\n   );\r\n```\r\n\r\nIts clumsier than I'd like but it'll do.  Since observables are so composable, I can create a trivial convenience method\r\n\r\n```javascript\r\nlet closer = function(r, query) {\r\n  return r.connect({})\r\n    .flatmap((connection) => \r\n      query.run(connection)\r\n      .doOnCompleted(() => connection.close()))\r\n}\r\n\r\ncloser(r, query)\r\n  .subscribe(\r\n      function next(row) { console.log(row) },\r\n      function error(err) { console.log(err) }\r\n   );\r\n\r\n```\r\n\r\n\r\nAs for the next getting potentially huge.  The next() passed to the subscribe is for mutation. ideally you should be performing as much data transformation as you can before it gets to this point.\r\n\r\nNow was far as streams are concerned. node streams are nice. they do a descent job. However, they are still no where near as composable as observables. one great example is exception propagation and handling.\r\n\r\nlets say the connection is flakey for whatever reason and we need to try a few times. I could modify closer to then try and connect up to n times.\r\n\r\n```javascript\r\nvar closer = function(n, r, query) {\r\n  return reduce(range(0, n - 1), (connectionObservable) =>\r\n    connectionObservable.catch((err) => r.connect({})), () => r.connect({}))\r\n  .flatMap((connection) => \r\n    query.run(connection)\r\n      .doOnCompleted(() => connection.close());     \r\n}\r\n\r\n//returns an observble that represents 10 attempts to get a connection object before \r\n//erroring out\r\ncloser(10, r, query)\r\n  .subscribe(\r\n      function next(row) { console.log(row) },\r\n      function error(err) { console.log(err) });\r\n\r\n```\r\n\r\nPlease tell me how this could be done better with node streams?\r\n\r\n"
+  , issueCommentId = 161589134
+  }

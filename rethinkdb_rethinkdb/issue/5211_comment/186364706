@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-19) 19 : 12 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/186364706"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5211#issuecomment-186364706"
+  , issueCommentCreatedAt = 2016 (-02) (-19) 19 : 11 : 26 UTC
+  , issueCommentBody =
+      "Hi there, I'm also experiencing this behavior when upgrading from 2.2.3+1 to 2.2.4 on ubuntu 14.04. There's nothing in the logs on the effected server and the actual `apt-get install` command refuses to respond to `ctrl+c`:\r\n\r\n```\r\nReading package lists... Done\r\nBuilding dependency tree       \r\nReading state information... Done\r\nThe following packages will be upgraded:\r\n  rethinkdb\r\n1 upgraded, 0 newly installed, 0 to remove and 164 not upgraded.\r\nNeed to get 10.4 MB of archives.\r\nAfter this operation, 4,096 B of additional disk space will be used.\r\nGet:1 http://download.rethinkdb.com/apt/ trusty/main rethinkdb amd64 2.2.4~0trusty [10.4 MB]\r\nFetched 10.4 MB in 0s (17.5 MB/s)      \r\n(Reading database ... 74726 files and directories currently installed.)\r\nPreparing to unpack .../rethinkdb_2.2.4~0trusty_amd64.deb ...\r\nrethinkdb: instance1: Waiting for instance to stop (pid 19563) ..........................................................................................................................................................................................................................................................................................................................................................................\r\n\r\n```\r\n\r\n\r\nI eventually killed the rethinkdb process with `kill -9` but that spun the whole cluster into a really surprising state where 4 of the 5 replicas in a couple shards went into \"backfilling\" status (despite being spread across 7 different servers), bringing the tables into \"outdated reads only\" mode. This obviously sounds like a separate issue, and I'll post another ticket if I can figure out what's going on, but I wanted to caution anybody else who is trying to do a live upgrade.\r\n\r\n"
+  , issueCommentId = 186364706
+  }

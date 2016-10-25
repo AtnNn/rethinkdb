@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-14) 20 : 59 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32306705"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1863#issuecomment-32306705"
+  , issueCommentCreatedAt = 2014 (-01) (-14) 20 : 59 : 06 UTC
+  , issueCommentBody =
+      "> In your code, if some queries fail or the script gets killed, it will leave stale transactions and :current_xid fields lying around\r\n\r\nI fixed the rollback update query, and added a missing delete in the commit method. Otherwise I'm not sure what case you are referring to. I'm sure there are some more bugs in the proof of concept I've described.\r\n\r\nTypically a worker would periodically fetches stale transactions to finish them, by attempting to rollback the transaction if possible, or finish the commit otherwise.\r\nTransactions can also be finished by code that need to perform a transaction on a document, which is still involved in a transaction by finishing the current_xid transaction.\r\n\r\nDoing some 2pc with `{ transfer: { from: ..., to: ..., amount: ...}}` is not a great because perhaps I want to do 10 different 2pcs in my application. I don't want to have to rewrite specific 2pc logic for each of them. It's not productive and error prone.\r\n\r\nAs @danielmewes points out, one could get away by specifying named RQL queries in some lookup table. eval is definitely not necessary, but makes things much nicer as we can start building an abstraction layer completely separated from the application logic (some fancy web UI?) that would survive arbitrary application code modifications (changing the lookup table can dangerous while the system is running).\r\nAlso having a lookup table means that the update queries  will be defined in a different location/file of where they'll be used. This can lead to hard to read application code."
+  , issueCommentId = 32306705
+  }

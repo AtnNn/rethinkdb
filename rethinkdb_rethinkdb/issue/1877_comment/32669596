@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-18) 01 : 49 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 762554
+        , simpleUserLogin = N "ckmaresca"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/762554?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ckmaresca"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32669596"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1877#issuecomment-32669596"
+  , issueCommentCreatedAt = 2014 (-01) (-18) 00 : 50 : 57 UTC
+  , issueCommentBody =
+      "I'm not sure how to translate `merge({ doc(\"results\").add(newDoc(\"results\")) })` (edit: see solution below) into PHP but it does work like this:\r\n\r\n```php\r\n\\table($table)->get($id)->replace( function($doc) use ($request) {\r\n\t\treturn r\\branch(\r\n\t\t\t$doc->eq(null),\r\n\t\t\t$request,\r\n\t\t\t$doc->merge(array('results' => r\\expr($request['results'])->spliceAt(0, $doc('results'))))\r\n\t\t);\r\n\t}\r\n)->run($conn);\r\n```\r\n\r\n`branch` seems like a bit cleaner syntax.\r\n\r\nEdit: `merge(array('results' => r\\expr($request['results'])->add($doc('results'))))` works"
+  , issueCommentId = 32669596
+  }

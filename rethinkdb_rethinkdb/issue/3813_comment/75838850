@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 20 : 38 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75838850"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3813#issuecomment-75838850"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 20 : 28 : 20 UTC
+  , issueCommentBody =
+      "* > It means code from the ql layer leaks all over everything -- in my opinion it's nuts that the unshard visitor is constructing environments and evaluating ReQL code.\r\n\r\n    The code that calls `.unshard()` doesn't know that ReQL code is being evaluated, so it doesn't feel like an abstraction break to me.\r\n\r\n* > Certain queries (e.g. `reduce`) will produce more network traffic without unsharding.\r\n\r\n    Are you sure? `.unshard()` is only called from `cluster_namespace_interface_t`, which runs on the same machine as the parser. (Except for sindex status queries, but those are bullshit anyway.)\r\n\r\n* My biggest concern about getting rid of unsharding is that it makes ReQL more tightly coupled to clustering. Right now, clustering sees `.shard()`/`.unshard()` as abstract operations that obey a certain set of properties. For example, `response = store.perform(query)` is equivalent to:\r\n    ```\r\n    q1, q2 = query.shard()\r\n    r1 = store.perform(q1)\r\n    r2 = store.perform(q2)\r\n    res = query.unshard([r1, r2])\r\n    ```\r\n   This means that in theory, there are many possible valid implementations of clustering, and the ReQL code doesn't have to know which one is in use. For example, as part of the Raft work, there may be some changes in how writes are sharded during a backfill. (But that isn't directly relevant to this conversation because the responses are discarded in that case.)\r\n\r\n    Breaking this abstraction can lead to bugs. For example, the way we implement sindexes breaks this abstraction, which led to #2904.\r\n\r\n    Of course, sometimes abstractions lead to poor performance, and this may be one of those cases.\r\n\r\n* > Some of the new operations we're adding require us to know a per-shard timestamp\r\n\r\n    Will this work correctly even if the table is reconfigured or rebalanced? This sounds like a situation where breaking the abstraction I described above could lead to bugs."
+  , issueCommentId = 75838850
+  }

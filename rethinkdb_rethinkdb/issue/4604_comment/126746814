@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-31) 16 : 36 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/126746814"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4604#issuecomment-126746814"
+  , issueCommentCreatedAt = 2015 (-07) (-31) 16 : 36 : 29 UTC
+  , issueCommentBody =
+      "Hi @gjuchault , if you use `merge`, `do`, `branch` etc. all that happens is that they modify the in-memory copy of the document that you fetched through `get` before returning it as the query result.\r\nThey do not by themselves change the data stored in the table.\r\n\r\nIn ReQL, only four commands write to the table: `insert`, `delete`, `update` and `replace`.\r\n\r\nFor your query, `update` is the most convenient because it performs the `merge` implicitly. Your query would look like this:\r\n```js\r\nr.db('test')\r\n .table('Session')\r\n .get('c5ce22e2-3587-4841-b9a5-bd4520de8deb')\r\n .update(function (source) {\r\n  return r.branch(\r\n    source.hasFields('flash'),\r\n    r.branch(\r\n      source('flash').hasFields('emptyFlash'),\r\n      { flash: {} },\r\n      { flash: { emptyFlash: true } }\r\n    ),\r\n    { flash: {} }\r\n  );\r\n})\r\n```\r\n\r\n(Note that `merge` also recurses into sub documents, so `source.merge({ flash: source('flash').merge({ emptyFlash: true }) })` can be simplified to `source.merge({ flash: { emptyFlash: true } })`. In the case of `update` the outer merge is implicit, so we can omit it altogether.)"
+  , issueCommentId = 126746814
+  }

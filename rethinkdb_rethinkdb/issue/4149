@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-10) 00 : 20 : 03 UTC
+  , issueUpdatedAt = 2015 (-07) (-10) 00 : 20 : 03 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4149/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4149"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fbda04"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/st:review"
+          , labelName = "st:review"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4149
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "timeOfDate() and date() ignore timezone"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4149"
+  , issueCreatedAt = 2015 (-04) (-29) 23 : 24 : 00 UTC
+  , issueBody =
+      Just
+        "Noticed by @neumino in https://github.com/rethinkdb/docs/issues/744 : \r\n```js\r\nr.time(1986, 11, 3, \"+00:00\").date()\r\nMon Nov 03 1986 00:00:00 GMT+00:00\r\n\r\nr.time(1986, 11, 3, \"+02:00\").date()\r\nMon Nov 03 1986 02:00:00 GMT+02:00\r\n```\r\n\r\nI feel like this might be a bug, since it behaves *really* badly in some cases:\r\n```js\r\nr.time(1986, 11, 3, 23, 0, 0, \"-02:00\").inTimezone(\"+00:00\")\r\nTue Nov 04 1986 01:00:00 GMT+00:00\r\n// So this time is on the 4th in UTC, and on the 3rd in -02:00. But let's see what date makes of it:\r\n\r\nr.time(1986, 11, 3, 23, 0, 0, \"-02:00\").date()\r\nSun Nov 02 1986 22:00:00 GMT-02:00\r\n// It's saying that this is on the 2nd! This doesn't seem to make any sense to me.\r\n```\r\n\r\n`timeOfDate` has a similar problem, and I think this is almost certainly a bug:\r\n```js\r\nr.time(1986, 11, 3, \"+02:00\").timeOfDay()\r\n-7200\r\n```\r\n\r\nNote that it returns a negative number.\r\n\r\nmentioning (@neumino , @mlucy)"
+  , issueState = "closed"
+  , issueId = Id 72015967
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

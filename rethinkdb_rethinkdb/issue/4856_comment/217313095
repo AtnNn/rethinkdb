@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-05) 23 : 55 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 4277427
+        , simpleUserLogin = N "codermapuche"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4277427?v=3"
+        , simpleUserUrl = "https://api.github.com/users/codermapuche"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/217313095"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4856#issuecomment-217313095"
+  , issueCommentCreatedAt = 2016 (-05) (-05) 23 : 55 : 54 UTC
+  , issueCommentBody =
+      "Hi, this is not the best solution but works.\r\nYou can use this function over the input value:\r\n\r\n```\r\ncaseAndAccentInsensitive = (function () {\r\n\t\r\n  const accentMap = (function(letters) {\r\n\t  \r\n    let map = {};\r\n\t\r\n\twhile(letters.length>0) {\r\n\t\t\r\n\t  let letter = \"[\" + letters.shift() + \"]\",\r\n\t      chars = letter.split('');\r\n\t\t  \r\n\t  while(chars.length>0) {\r\n\t    map[chars.shift()] = letter;\r\n\t  }\r\n\t  \r\n\t}\r\n\t\r\n\treturn map;\r\n\t\r\n  })([\r\n    'a\224\225\226\227\228\229', // a\r\n    'c\231',      // c\r\n    'e\232\233\234\235',   // e\r\n    'i\236\237\238\239',   // i\r\n    'n\241',      // n\r\n    'o\242\243\244\245\246\248', // o\r\n    's\223',      // s\r\n    'u\249\250\251\252',   // u\r\n    'y\255'       // y\r\n  ]);\r\n\r\n  return function (text) {\r\n    var textFold = '';\r\n\r\n    if (!text)\r\n      return textFold;\r\n\r\n    text = text.toLowerCase();\r\n\r\n    for (var idx = 0; idx < text.length; idx++) {\r\n\t  let charAt = text.charAt(idx);\r\n\t  \r\n      textFold += accentMap[charAt] || charAt;\t  \r\n\t}\r\n\r\n    return \"(?i)\" + textFold;\r\n  }\r\n\r\n})();\r\n```\r\nEasy to extend, you can add any other case to array inside of a function.\r\n\r\nExample: \r\n\r\n```\r\nr.table('users').filter(function(doc){\r\n    return doc('name').match(caseAndAccentInsensitive(\"john\"))\r\n}).run(conn, callback);\r\n\r\ncaseAndAccentInsensitive(\"hello\") == caseAndAccentInsensitive(\"hell\243\") == \"(?i)h[e\232\233\234\235]ll[o\242\243\244\245\246\248]\"\r\n```"
+  , issueCommentId = 217313095
+  }

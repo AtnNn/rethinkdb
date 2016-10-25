@@ -1,0 +1,33 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-16) 16 : 51 : 12 UTC
+  , issueUpdatedAt = 2015 (-07) (-16) 16 : 51 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4539/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4539"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4539
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91193
+        , simpleUserLogin = N "mglukhovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mglukhovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Large port offsets fail"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4539"
+  , issueCreatedAt = 2015 (-07) (-16) 16 : 40 : 28 UTC
+  , issueBody =
+      Just
+        "Seen on `rethinkdb 2.1.0-0BETA1`:\r\n\r\nFirst node starts up fine:\r\n\r\n```\r\norpheus:rethinkdb michael$ rethinkdb\r\nRecursively removing directory /Users/michael/rethinkdb/rethinkdb_data/tmp\r\nInitializing directory /Users/michael/rethinkdb/rethinkdb_data\r\nRunning rethinkdb 2.1.0-0BETA1 (CLANG 4.2 (clang-425.0.28))...\r\nRunning on Darwin 14.4.0 x86_64\r\nLoading data from directory /Users/michael/rethinkdb/rethinkdb_data\r\nwarn: Cache size is larger than available memory.\r\nwarn: Cache size is very low and may impact performance.\r\nListening for intracluster connections on port 29015\r\nListening for client driver connections on port 28015\r\nListening for administrative HTTP connections on port 8080\r\nListening on addresses: 127.0.0.1, ::1\r\nTo fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.\r\nServer ready, \"orpheus_local_lyb\" b9cdb101-321d-416b-b93b-f14e72e247cc\r\n```\r\n\r\nSecond node with a port offset of 1000 fails:\r\n\r\n```\r\norpheus:2 michael$ rethinkdb -o 1000 --join localhost:29015\r\nRunning rethinkdb 2.1.0-0BETA1 (CLANG 4.2 (clang-425.0.28))...\r\nRunning on Darwin 14.4.0 x86_64\r\nLoading data from directory /Users/michael/rethinkdb/2/rethinkdb_data\r\nwarn: Cache size does not leave much memory for server and query overhead (available memory: 419 MB).\r\nwarn: Cache size is very low and may impact performance.\r\nListening for intracluster connections on port 30015\r\nConnected to server \"orpheus_local_lyb\" b9cdb101-321d-416b-b93b-f14e72e247cc\r\nDisconnected from server \"orpheus_local_lyb\" b9cdb101-321d-416b-b93b-f14e72e247cc\r\nerror: Could not bind to RDB protocol port: The address at localhost:29015 is reserved or already in use.\r\n```\r\n\r\nSecond node with a port offset of 1 succeeds:\r\n\r\n```\r\norpheus:2 michael$  rethinkdb --port-offset 1 --join localhost:29015\r\nRunning rethinkdb 2.1.0-0BETA1 (CLANG 4.2 (clang-425.0.28))...\r\nRunning on Darwin 14.4.0 x86_64\r\nLoading data from directory /Users/michael/rethinkdb/2/rethinkdb_data\r\nwarn: Cache size is larger than available memory.\r\nwarn: Cache size is very low and may impact performance.\r\nListening for intracluster connections on port 29016\r\nConnected to server \"orpheus_local_lyb\" b9cdb101-321d-416b-b93b-f14e72e247cc\r\nListening for client driver connections on port 28016\r\nListening for administrative HTTP connections on port 8081\r\nListening on addresses: 127.0.0.1, ::1\r\nTo fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.\r\nServer ready, \"orpheus_local_0r6\" bf158010-bfdd-4890-ba1d-8552eb924177\r\n```\r\n\r\nIs there a reason small port offsets work (1, 10) but not large ones (1000)?"
+  , issueState = "closed"
+  , issueId = Id 95475498
+  , issueComments = 3
+  , issueMilestone = Nothing
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-15) 18 : 58 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/148488416"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4958#issuecomment-148488416"
+  , issueCommentCreatedAt = 2015 (-10) (-15) 18 : 58 : 02 UTC
+  , issueCommentBody =
+      "In general, this is a bit difficult in the current system, since the table configuration stores a specific list of servers as replicas, rather than storing the parameters that were passed into `reconfigure`.\r\nThe fact that we don't store the `reconfigure` parameters avoids a lot of issues that could otherwise arise if the configuration was subsequently modified through the `table_config` system table interface.\r\nIt also makes reasoning about the correctness of the system easier, if we don't have to deal with servers being dynamically added and/or removed from the replica set.\r\nWe had a lot of discussion about this back when designing the table configuration API for RethinkDB 1.16, and came to the conclusion that the current system was the easiest to get consistent and safe.\r\n\r\nYour specific use case might be simpler to solve however. It could possibly be implemented by means of a \"placeholder\" replica entry in the table configuration. Once the current Raft leader sees that an additional server connects, it could submit a new configuration where the place-holder replica is replaced by the new server.\r\n\r\nI might be wrong, but I feel like this is a rather special use case. I'm going to put this into `backlog` for now, as I think there are a few other important features we'd like to work on first. But we'll keep it on the list."
+  , issueCommentId = 148488416
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-09) 01 : 03 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69278457"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2950#issuecomment-69278457"
+  , issueCommentCreatedAt = 2015 (-01) (-09) 01 : 03 : 38 UTC
+  , issueCommentBody =
+      "So the current state is that if I try to load a web page that isn't UTF-8 but is a `text/*` format, it will force it to a string and that string may be invalid.  If I `r.http` a URL that purports to be JSON but is actually not encoded in UTF-8, that will fail with a poor error message and quote the (invalid) string in the reply, which is kinda bad.\r\n\r\n@danielmewes has proposed that we always give binaries by default, particularly because parsing the HTML `<head>` so that we can know what encoding the body uses is really not trivial.  I am not so sure about this, because a) we lose all the header information when we do that, particularly the `Content-Type` which is important b) users may have grown to expect strings from `r.http` and this may be a bit of a surprise to them.\r\n\r\nWhen we have the improved UTF-8 parser needed for #2518 we can properly 'escape' the invalid body, which is a separate issue.\r\n\r\nPossibly we should add a new data type that includes all the headers as well, as those could be useful.  But that may not be a good idea to run from `r.http`, maybe call it something else.  ICU does have methods for charset conversion."
+  , issueCommentId = 69278457
+  }

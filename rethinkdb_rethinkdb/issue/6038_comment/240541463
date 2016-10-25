@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-17) 20 : 43 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/240541463"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6038#issuecomment-240541463"
+  , issueCommentCreatedAt = 2016 (-08) (-17) 20 : 42 : 54 UTC
+  , issueCommentBody =
+      "@ntquyen The precise cause and minimal necessary steps for reproducing this are still unclear to me.\r\n\r\nThe way I can reproduce it is by spinning up a cluster of three servers, each using the `--direct-io` option and storing the data on rotational disks (both together slow down data access). Then I create 200 tables, and shard and replicate all of them to 3 shards * 3 replicas each. After shutting down the servers and starting them up again, they often (but not always) get stuck and tables never become ready.\r\n\r\nIt looks like increasing the Raft election timeout for repeated elections avoids this issue, and the elections eventually start converging on a leader (the only way for changing the timeout currently is to compile RethinkDB from source)."
+  , issueCommentId = 240541463
+  }

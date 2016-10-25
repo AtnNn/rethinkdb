@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-18) 22 : 35 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18109158"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/838#issuecomment-18109158"
+  , issueCommentCreatedAt = 2013 (-05) (-18) 22 : 35 : 16 UTC
+  , issueCommentBody =
+      "Hi @pixelspark,\r\n\r\nWe currently support these sorts of things through a really ugly API of coercing to and from arrays.  (We hope to have implemented a better API by the time we release 1.6.)\r\n\r\nFor example:\r\n```ruby\r\nirb(main):544:0> r({:id => 1, :x => 2, :y => 3}).coerce_to(\"array\").run\r\n[[\"id\", 1], [\"x\", 2], [\"y\", 3]]\r\nirb(main):547:0> r([[\"id\", 1], [\"x\", 2], [\"y\", 3]]).coerce_to(\"object\").run\r\n{\"x\"=>2, \"y\"=>3, \"id\"=>1}\r\n```\r\n\r\nSo you could write e.g. unpivot like this:\r\n```ruby\r\ndef unpivot seq                                                        \r\n  seq.concat_map {|obj|                                                \r\n    obj[:id].do {|id|                                                  \r\n      obj.coerce_to(\"array\").filter{|x| x[0].ne('id')}.map {|kv|       \r\n        {:id => id, :k => kv[0], :v => kv[1]}\r\n      }                                                                \r\n    }                                                                  \r\n  }                                                                    \r\nend                                                                    \r\n```\r\n```ruby\r\nirb(main):652:0> seq = r([{:id => 1, :x => 2, :y => 3}, {:id => 10, :x => 20, :y => 30}])\r\nr([{:y => 3, :x => 2, :id => 1}, {:y => 30, :x => 20, :id => 10}])\r\nirb(main):653:0> PP.pp unpivot(seq).run\r\n[{\"k\"=>\"x\", \"v\"=>2, \"id\"=>1},\r\n {\"k\"=>\"y\", \"v\"=>3, \"id\"=>1},\r\n {\"k\"=>\"x\", \"v\"=>20, \"id\"=>10},\r\n {\"k\"=>\"y\", \"v\"=>30, \"id\"=>10}]\r\n```"
+  , issueCommentId = 18109158
+  }

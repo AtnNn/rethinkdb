@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-17) 22 : 52 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1793187
+        , simpleUserLogin = N "r-marques"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1793187?v=3"
+        , simpleUserUrl = "https://api.github.com/users/r-marques"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165607260"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5218#issuecomment-165607260"
+  , issueCommentCreatedAt = 2015 (-12) (-17) 22 : 52 : 30 UTC
+  , issueCommentBody =
+      "table with 32 shards and 5 replicas\r\n\r\n```python\r\ndef iterate_cursor3():\r\n    changes = r.table('backlog', read_mode=\"outdated\").order_by(index=r.asc('transaction_timestamp'))\\\r\n                   .run(b.conn)\r\n\r\ndef iterate_cursor4():\r\n    changes = r.table('backlog', read_mode=\"outdated\")\\\r\n        .between([b.me, r.minval], [b.me, r.maxval], index='assignee__transaction_timestamp')\\\r\n        .order_by(index=r.asc('assignee__transaction_timestamp'))\\\r\n        .run(b.conn)\r\n\r\n\r\ndef test_3():\r\n    changes = r.table('backlog', read_mode=\"outdated\")\\\r\n        .between([b.me, r.minval], [b.me, r.maxval], index='assignee__transaction_timestamp')\\\r\n        .order_by(index=r.asc('assignee__transaction_timestamp'))\\\r\n        .limit(1000)\\\r\n        .run(b.conn)\r\n\r\nif __name__ == '__main__':\r\n\r\n    t = Timer(\"iterate_cursor3()\", \"from __main__ import iterate_cursor3\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"iterate_cursor4()\", \"from __main__ import iterate_cursor4\")\r\n    print(t.repeat(3, 10))\r\n\r\n    t = Timer(\"test_3()\", \"from __main__ import test_3\")\r\n    print(t.repeat(3, 10))\r\n\r\n```\r\n\r\n```bash\r\n[3.027518674003659, 3.042580873996485, 3.001284633006435]\r\n[82.67401049399632, 82.37763549000374, 82.99948971898993]\r\n[58.4569350380043, 58.16038898398983, 58.56703164798091]\r\n```\r\n\r\nGetting the cursor without filter takes around 300 msec. Running the queries with a secondary compound index don't improve time when compared with the first tests with filter. Looking at the web ui the server time is lower but the round trip time stays the same\r\n\r\ntable with 1 shard and one replica\r\n\r\n```bash\r\n[0.2741379200015217, 0.2472346439899411, 0.2378616839996539]\r\n[69.99181048100581, 71.46442211800604, 70.60323254298419]\r\n[45.455375037010526, 45.637769728986314, 45.330314163002186]\r\n```\r\n\r\nGetting the cursor in the first example takes ~25msec. Still think that my best bet right now is to do the filtering on the client side"
+  , issueCommentId = 165607260
+  }

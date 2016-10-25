@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-05) 18 : 01 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6288907
+        , simpleUserLogin = N "ramanala"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6288907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ramanala"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/237920130"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6034#issuecomment-237920130"
+  , issueCommentCreatedAt = 2016 (-08) (-05) 18 : 01 : 53 UTC
+  , issueCommentBody =
+      "@danielmewes : Thank you for your reply!\r\n\r\nI have previously tested RethinkDB using our tool-set with respect to crashes (and did **not** discover any bugs wrt crashes). I think I somewhat understand the crash-consistency protocol of RethinkDB. If I am not wrong,  an acknowledgement to user is given only after writing the data block(s), fsync-ing it, then updating the metablock to point to the new changes, fsync-ing it. Something like below:\r\n\r\nwrite(data_part) -- usually an append \r\nfsync(data_part) // or fdatasync\r\nwrite(metablock) -- usually an inplace write\r\nfsync(metablock) // or fdatasync\r\n// ok to give ack here.\r\n\r\nI see your point that you can detect partially written metablocks using checksum mismatches. I called the issue as \"silent data loss\" because, the user had been acknowledged after the above sequence of events completed and at a later point, the latest metablock is **corrupted** (not due to a crash) and so she cannot access the data -- i.e, the data seems to have silently disappeared.\r\n\r\nI see your point that RethinkDB does expect that the storage layers beneath it won't return corrupt data silently (which may not be necessarily true). I have filed an older issue (5925) with respect to this and that was marked as \"will be fixed in a future milestone\". I understand that this fix is not-so-simple as it involves supporting older older on-disk formats and so on. Until then, **Would it be possible to explicitly document the expectations of RethinkDB from lower layers with respect to data reliability?** "
+  , issueCommentId = 237920130
+  }

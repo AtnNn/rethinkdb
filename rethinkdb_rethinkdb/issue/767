@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2013 (-05) (-09) 16 : 37 : 01 UTC
+  , issueUpdatedAt = 2013 (-05) (-09) 16 : 37 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/767/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/767"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 767
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Forbid NaN with the JavaScript driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/767"
+  , issueCreatedAt = 2013 (-05) (-08) 00 : 17 : 44 UTC
+  , issueBody =
+      Just
+        "```\r\nr.expr({a:NaN})\r\n```\r\nThis query doesn't return an error.\r\n\r\n\r\nI could insert the object in the database, but when I tried to retrieved it, the server crashed.\r\n```\r\nVersion: rethinkdb 1.4.3-1207-gdb0014 (debug) (GCC 4.6.1)\r\nerror: Error in src/rdb_protocol/datum.cc at line 102:\r\nerror: Guarantee failed: [isfinite(r_num)] \r\nerror: Backtrace:\r\nerror: Tue May  7 17:15:42 2013\r\n       \r\n       1: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:249\r\n       2: format_backtrace(bool) at backtrace.cc:196\r\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:71\r\n       4: ql::datum_t::init_json(cJSON*, ql::env_t*) at datum.cc:102\r\n       5: ql::datum_t::datum_t(cJSON*, ql::env_t*) at datum.cc:128\r\n       6: ql::datum_t::init_json(cJSON*, ql::env_t*) at datum.cc:118\r\n       7: ql::datum_t::datum_t(boost::shared_ptr<scoped_cJSON_t> const&, ql::env_t*) at datum.cc:131\r\n       8: ql::lazy_datum_stream_t::next_impl() at datum_stream.cc:234\r\n       9: ql::datum_stream_t::next() at datum_stream.cc:30\r\n       10: ql::stream_cache2_t::serve(long, Response*, signal_t*) at stream_cache.cc:42\r\n       11: ql::run(Query*, scoped_ptr_t<ql::env_t>*, Response*, ql::stream_cache2_t*) at term.cc:172\r\n       12: query2_server_t::handle(Query*, query2_server_t::context_t*) at pb_server.cc:53\r\n       13: boost::_mfi::mf2<Response, query2_server_t, Query*, query2_server_t::context_t*>::operator()(query2_server_t*, Query*, query2_server_t::context_t*) const at mem_fn_template.hpp:281\r\n       14: Response boost::_bi::list3<boost::_bi::value<query2_server_t*>, boost::arg<1>, boost::arg<2> >::operator()<Response, boost::_mfi::mf2<Response, query2_server_t, Query*, query2_server_t::context_t*>, boost::_bi::list2<Query*&, query2_server_t::context_t*&> >(boost::_bi::type<Response>, boost::_mfi::mf2<Response, query2_server_t, Query*, query2_server_t::context_t*>&, boost::_bi::list2<Query*&, query2_server_t::context_t*&>&, long) at bind.hpp:383\r\n       15: Response boost::_bi::bind_t<Response, boost::_mfi::mf2<Response, query2_server_t, Query*, query2_server_t::context_t*>, boost::_bi::list3<boost::_bi::value<query2_server_t*>, boost::arg<1>, boost::arg<2> > >::operator()<Query*, query2_server_t::context_t*>(Query*&, query2_server_t::context_t*&) at bind_template.hpp:62\r\n       16: boost::detail::function::function_obj_invoker2<boost::_bi::bind_t<Response, boost::_mfi::mf2<Response, query2_server_t, Query*, query2_server_t::context_t*>, boost::_bi::list3<boost::_bi::value<query2_server_t*>, boost::arg<1>, boost::arg<2> > >, Response, Query*, query2_server_t::context_t*>::invoke(boost::detail::function::function_buffer&, Query*, query2_server_t::context_t*) at function_template.hpp:133\r\n       17: boost::function2<Response, Query*, query2_server_t::context_t*>::operator()(Query*, query2_server_t::context_t*) const at function_template.hpp:761\r\n       18: protob_server_t<Query, Response, query2_server_t::context_t>::handle(http_req_t const&) at protob.tcc:211\r\n       19: routing_http_app_t::handle(http_req_t const&) at routing_app.cc:29\r\n       20: routing_http_app_t::handle(http_req_t const&) at routing_app.cc:29\r\n       21: http_server_t::handle_conn(scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t) at http.cc:308\r\n       22: boost::_mfi::mf2<void, http_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>::operator()(http_server_t*, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t) const at mem_fn_template.hpp:280\r\n       23: void boost::_bi::list3<boost::_bi::value<http_server_t*>, boost::arg<1>, boost::_bi::value<auto_drainer_t::lock_t> >::operator()<boost::_mfi::mf2<void, http_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>, boost::_bi::list1<scoped_ptr_t<linux_tcp_conn_descriptor_t>&> >(boost::_bi::type<void>, boost::_mfi::mf2<void, http_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>&, boost::_bi::list1<scoped_ptr_t<linux_tcp_conn_descriptor_t>&>&, int) at bind.hpp:392\r\n       24: void boost::_bi::bind_t<void, boost::_mfi::mf2<void, http_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>, boost::_bi::list3<boost::_bi::value<http_server_t*>, boost::arg<1>, boost::_bi::value<auto_drainer_t::lock_t> > >::operator()<scoped_ptr_t<linux_tcp_conn_descriptor_t> >(scoped_ptr_t<linux_tcp_conn_descriptor_t>&) at bind_template.hpp:33\r\n       25: boost::detail::function::void_function_obj_invoker1<boost::_bi::bind_t<void, boost::_mfi::mf2<void, http_server_t, scoped_ptr_t<linux_tcp_conn_descriptor_t> const&, auto_drainer_t::lock_t>, boost::_bi::list3<boost::_bi::value<http_server_t*>, boost::arg<1>, boost::_bi::value<auto_drainer_t::lock_t> > >, void, scoped_ptr_t<linux_tcp_conn_descriptor_t>&>::invoke(boost::detail::function::function_buffer&, scoped_ptr_t<linux_tcp_conn_descriptor_t>&) at function_template.hpp:154\r\n       26: boost::function1<void, scoped_ptr_t<linux_tcp_conn_descriptor_t>&>::operator()(scoped_ptr_t<linux_tcp_conn_descriptor_t>&) const at function_template.hpp:761\r\n       27: linux_nonthrowing_tcp_listener_t::handle(int) at network.cc:800\r\n       28: boost::_mfi::mf1<void, linux_nonthrowing_tcp_listener_t, int>::operator()(linux_nonthrowing_tcp_listener_t*, int) const at mem_fn_template.hpp:166\r\n       29: void boost::_bi::list2<boost::_bi::value<linux_nonthrowing_tcp_listener_t*>, boost::_bi::value<int> >::operator()<boost::_mfi::mf1<void, linux_nonthrowing_tcp_listener_t, int>, boost::_bi::list0>(boost::_bi::type<void>, boost::_mfi::mf1<void, linux_nonthrowing_tcp_listener_t, int>&, boost::_bi::list0&, int) at bind.hpp:314\r\n       30: boost::_bi::bind_t<void, boost::_mfi::mf1<void, linux_nonthrowing_tcp_listener_t, int>, boost::_bi::list2<boost::_bi::value<linux_nonthrowing_tcp_listener_t*>, boost::_bi::value<int> > >::operator()() at bind_template.hpp:21\r\n       31: callable_action_instance_t<boost::_bi::bind_t<void, boost::_mfi::mf1<void, linux_nonthrowing_tcp_listener_t, int>, boost::_bi::list2<boost::_bi::value<linux_nonthrowing_tcp_listener_t*>, boost::_bi::value<int> > > >::run_action() at runtime_utils.hpp:58\r\n       32: callable_action_wrapper_t::run() at runtime_utils.cc:67\r\n       33: coro_t::run() at coroutines.cc:178\r\nerror: Exiting.\r\n```\r\n\r\n\r\nAssigning to @wmrowan "
+  , issueState = "closed"
+  , issueId = Id 14078464
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-05) (-15) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 8
+          , milestoneClosedIssues = 183
+          , milestoneDescription =
+              Just "Issues that are absolutely necessary for 1.5."
+          , milestoneTitle = "1.5"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/8"
+          , milestoneCreatedAt = 2013 (-03) (-20) 02 : 06 : 44 UTC
+          , milestoneState = "closed"
+          }
+  }

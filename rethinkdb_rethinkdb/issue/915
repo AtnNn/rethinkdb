@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-26) 23 : 45 : 07 UTC
+  , issueUpdatedAt = 2013 (-10) (-19) 08 : 07 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/915/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/915"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 915
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 43867
+          , simpleUserLogin = N "jdoliner"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/43867?v=3"
+          , simpleUserUrl = "https://api.github.com/users/jdoliner"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "[ReQL proposal] Support variadic arguments to `get` and `get_all`"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/915"
+  , issueCreatedAt = 2013 (-05) (-28) 04 : 14 : 03 UTC
+  , issueBody =
+      Just
+        "It's extremely common for people to want to get records by an index where they're looking to get anything that matches any of the keys in an array. Currently they have to do this:\r\n\r\n```\r\nr.expr([1, 2, 3]).map(table('foo').get(r.row))\r\nr.expr([1, 2, 3]).map(table('foo').get_all(r.row, { index: 'foo' }).coerce_to('array'))\r\n```\r\n\r\nThis is documented in our FAQ, but it's pretty clunky to use and it raises a question on IRC once every few days. Instead, I propose the following:\r\n\r\n```\r\ntable('foo').get(1, 2, 3) # returns all records where pkey is either 1, 2, or 3\r\ntable('foo').get_all(1, 2, 3, { index: 'foo' }) # returns all records where foo is either 1, 2, or 3\r\n```\r\n\r\nThis proposal has a flaw -- it makes `get` and `get_all` difficult/impossible to use with multiple values if the user picks an array from a value in the database. I'm not sure how to fix it -- we can potentially introduce new operators, but that seems clunky to me as well.\r\n\r\nEDIT: @mlucy pointed out that my original `get_all` example doesn't work because `get_all` returns a selection. I've modified it to coerce to an array."
+  , issueState = "closed"
+  , issueId = Id 14818220
+  , issueComments = 38
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 37
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.7"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/37"
+          , milestoneCreatedAt = 2013 (-06) (-18) 00 : 25 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

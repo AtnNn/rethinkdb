@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-30) 07 : 16 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97691314"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4150#issuecomment-97691314"
+  , issueCommentCreatedAt = 2015 (-04) (-30) 07 : 16 : 02 UTC
+  , issueCommentBody =
+      "> ... or in a more creative way (e.g. run multiple versions of the query in parallel, kill the queries once the fastest one returns, and cache the information for a while).\r\n\r\nI realize you left `filter` out of this proposal for simplicity. However, if we go with the second option (quoted above), optimizing `r.table.filter` becomes super powerful so I couldn't help but mention it. Consider `r.table(...).filter({ foo: ..., bar: ... })` where `foo` and `bar` are both indexed. It's impossible to know at run-time which of the following is going to be faster, so executing both and running the faster one on subsequent requests would be a huge win!\r\n\r\n```js\r\nr.table(...).getAll(..., { index: 'foo' }).filter({ bar: ... })\r\nr.table(...).getAll(..., { index: 'bar' }).filter({ foo: ... })\r\n```\r\n\r\nIn one of our apps we currently do this transformation manually, but it's a naive approach. We have a hard-coded list of fields that we know are indexed and we do the `get_all` on the first one we come across then filter by everything else."
+  , issueCommentId = 97691314
+  }

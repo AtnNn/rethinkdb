@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-02) 19 : 29 : 50 UTC
+  , issueUpdatedAt = 2013 (-08) (-14) 22 : 50 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1225/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1225"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1225
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Too many file descriptors used, when run under valgrind."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1225"
+  , issueCreatedAt = 2013 (-08) (-02) 03 : 59 : 51 UTC
+  , issueBody =
+      Just
+        "A large number of file descriptors are being created, and this is exposed when running under valgrind.\r\n\r\nThe error happens in next, when an eventfd creation fails.\r\n\r\nFor some reason, in valgrind, running on Wheezy, the `file_limit.rlim_max` value in `run_generic_global_startup_behavior()` (defined in utils.cc), which is returned by `getrlimit(RLIMIT_NOFILE, ...)`, is 1024, but running outside of valgrind, it's 4096.  I don't know the reason for this -- is it that valgrind simulates the function's behavior?  But this does mean that we're using too many file descriptors.\r\n\r\nWe also need running under valgrind to just work (and I was running this for another issue I was working on) so I'm going to investigate this and fix it."
+  , issueState = "closed"
+  , issueId = Id 17543629
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-08) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 40
+          , milestoneClosedIssues = 96
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.8"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/40"
+          , milestoneCreatedAt = 2013 (-06) (-29) 01 : 55 : 11 UTC
+          , milestoneState = "closed"
+          }
+  }

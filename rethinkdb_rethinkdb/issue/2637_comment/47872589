@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 06 : 50 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47872589"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2637#issuecomment-47872589"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 06 : 50 : 14 UTC
+  , issueCommentBody =
+      "I don't think we should just lower the value. At the very least we have to test this very carefully.\r\n\r\n`count()` is a special case because we don't load the data, but for almost any other operation storing more values inline will make them faster because of improved cache efficiency. Storing almost everything outside the tree will make many operations incredibly inefficient. Just think of doing a table scan over out-of-memory data on rotational drives. We are talking about a slowdown of at least a factor of 10 if documents are suddenly not in the leaf nodes anymore but have to be retrieved from different places all over the disk one at a time (rather than loading a single leaf node with ~10 documents).\r\n\r\nAlso in the absence of secondary indexes, storing small documents outside the tree wastes a *huge* amount of disk and cache space right now, because block sizes are multiples of 512 bytes."
+  , issueCommentId = 47872589
+  }

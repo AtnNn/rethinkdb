@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-11) 20 : 43 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48780640"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2692#issuecomment-48780640"
+  , issueCommentCreatedAt = 2014 (-07) (-11) 20 : 42 : 59 UTC
+  , issueCommentBody =
+      "I like this idea.\r\n\r\nHowever it seems to break down if you want to modify multiple parts of the document.\r\n\r\nThe \"modifiable\" state could be preserved when using `do` and `for_each`. And when modifying an object, the body of the function passed to `do` and `for_each` could be an array of modifications to apply sequentially.\r\n\r\nSomething like this:\r\n\r\n```\r\nr.table('foo')\r\n  .get(doc_id)('shards').nth(0).('replicas').do(\r\n    lambda x: [\r\n       x.nth(0).update('m3'),\r\n       x.nth(1).update('m4')])\r\n```\r\n\r\n```\r\nr.table('foo')\r\n  .get(doc_id)('shards')('replicas').for_each(\r\n    lambda row: row.update(lambda x: x.set_insert('m3')))\r\n```\r\n\r\n> There is now a weird duality in commands -- if the object above isn't a document in the table [...] the code [...] is dramatically different (and much more complicated)\r\n\r\nThere could be a command that turns an object into one that can be modified:\r\n\r\n```\r\nr.expr({'a': [{'b': 1}]})\r\n  .modify(\r\n    lambda x: [\r\n      x['a'][0]['b'].replace(2),\r\n      x.merge({'c': 3})])\r\n\8594 {'a': [{'b': 2}], 'c': 3}\r\n```"
+  , issueCommentId = 48780640
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2013 (-07) (-29) 20 : 40 : 51 UTC
+  , issueUpdatedAt = 2013 (-08) (-14) 02 : 29 : 22 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1210/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1210"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1210
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 368827
+        , simpleUserLogin = N "Vbitz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/368827?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Vbitz"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "JS Driver failing on insert"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1210"
+  , issueCreatedAt = 2013 (-07) (-28) 02 : 52 : 14 UTC
+  , issueBody =
+      Just
+        "Running this code using node v0.10.15\r\n\r\n```javascript\r\nvar r = require(\"rethinkdb\");\r\n\r\nr.connect({\r\n    host: \"localhost\",\r\n    port: 28015,\r\n    db: \"test\"\r\n}, function (err, conn) {\r\n    if (err) throw err;\r\n    r.table(\"testing\").delete().run(conn, function (deleteErr, deleteCursor) {\r\n        if (err) throw deleteErr;\r\n        console.log(\"Deleted all items in: testing\");\r\n        r.table(\"testing\").insert({hello: \"world\", t: 1}).run(conn, function (err, cursor) {\r\n            if (err) throw err;\r\n            else console.log(\"success\");\r\n        });\r\n    });\r\n});\r\n```\r\nresults in this error\r\n```\r\nDeleted all items in: testing\r\n\r\n/Users/joshua/Dropbox/weaponGen/test/dbConn.js:13\r\n            if (err) throw err;\r\n                           ^\r\nRqlClientError: MALFORMED PROTOBUF (missing field `type`):\r\nargs {\r\n  type: DATUM\r\n  datum {\r\n    type: R_STR\r\n    r_str: \"{\\\"hello\\\":\\\"world\\\",\\\"t\\\":1}\"\r\n  }\r\n}\r\n1: 98\r\n in:\r\nr.table(\"testing\").insert(r.json(\"{\"hello\":\"world\",\"t\":1}\"))\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```\r\nRunning npm ls outputs\r\n```\r\n  /Users/joshua/Dropbox/weaponGen\r\n  \9492\9472\9516 rethinkdb@1.7.0-2\r\n    \9492\9472\9472 node-protobuf@1.0.5\r\n```"
+  , issueState = "closed"
+  , issueId = Id 17306460
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

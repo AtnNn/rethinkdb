@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-04) 07 : 10 : 34 UTC
+  , issueUpdatedAt = 2013 (-10) (-04) 08 : 31 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1464/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1464"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 1464
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 595361
+        , simpleUserLogin = N "VanCoding"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/595361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VanCoding"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "add dynamic indices"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1464"
+  , issueCreatedAt = 2013 (-09) (-19) 14 : 53 : 28 UTC
+  , issueBody =
+      Just
+        "I've seen that you have added compound indices and that there's a feature request for multi indices, too, at https://github.com/rethinkdb/rethinkdb/issues/933.\r\n\r\nWhat about combining those 2 and making dynamic indices?\r\n\r\nThis could be achieved by allowing the user to pass a function to the \"indexCreate\" function, that then returns an array of values to index the document to.\r\n\r\n### An example for a compund index:\r\n\r\n#### data\r\n     {street:\"samplestreet 6\",zip:0000,city:\"mycity\"}\r\n#### index\r\n    r.indexCreate(\"addresslowercase\",function(row){\r\n       return [(row.street+\", \"+row.zip+\" \"+row.city).toLowerCase()];\r\n    });\r\n#### query\r\n    r.table(\"addresses\").get(\"samplestreet 6, 0000 mycity\",{index:\"addresslowercase\"})\r\n\r\n\r\n### An example for a multiindex:\r\n\r\n#### data\r\n    {father:\"xyz\",mother:\"zyx\"}\r\n#### index\r\n    r.indexCreate(\"parent\",function(row){\r\n        return [row.father,row.mother];\r\n    });\r\n#### query\r\n    r.table(\"persons\").get(\"xyz\",{index:\"parent\"});\r\n\r\nThis would give the user the maximum flexibility. Wouldn't it be awesome?"
+  , issueState = "closed"
+  , issueId = Id 19759495
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 27
+          , milestoneClosedIssues = 127
+          , milestoneDescription =
+              Just
+                "These issues are not reproducible or happen in platforms or configurations that are not supported."
+          , milestoneTitle = "worksforme"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/27"
+          , milestoneCreatedAt = 2013 (-04) (-08) 21 : 57 : 50 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-27) 03 : 01 : 21 UTC
+  , issueUpdatedAt = 2013 (-06) (-27) 03 : 01 : 21 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/993/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/993"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "007575"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:API_settled"
+          , labelName = "tp:API_settled"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 993
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal: add an alias to GETATTR and make it polymorphic"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/993"
+  , issueCreatedAt = 2013 (-06) (-12) 18 : 25 : 58 UTC
+  , issueBody =
+      Just
+        "I propose the following two changes.\r\n\r\nFirst, add an alias `obj.get_field('x')` that would be equivalent to `obj('x')` in JS and `obj['x']` in Py and Rb.\r\n\r\nSecond, make it polymorphic on sequences:\r\n\r\n```\r\n# EDIT: renamed `get_fields` to `get_field`\r\nr.expr([{a: 1, b: 1}, {a: 2, b: 2}, {b: 3}]).get_field('a')\r\n=> [1, 2]\r\n\r\n# EDIT: FORGET THE PART BELOW (you can't differentiate between `r.table('foo')[5]`\r\n# (which is `nth`) and `r.table('foo')['a']`)\r\nr.expr([{a: 1, b: 1}, {a: 2, b: 2}, {b: 3}])('a')\r\n=> [1, 2]\r\n\r\n# I'm not entirely sure what to do with the `{b:3}` object\r\n```\r\n\r\nThis would make nested array operations much nicer. The issue described here https://groups.google.com/forum/?fromgroups#!topic/rethinkdb/TsgPICk0yhk would be as simple as `r.db(\"test\").table('goods').filter(r.row('categories')('id').contains(38))`"
+  , issueState = "closed"
+  , issueId = Id 15465851
+  , issueComments = 20
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 37
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.7"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/37"
+          , milestoneCreatedAt = 2013 (-06) (-18) 00 : 25 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

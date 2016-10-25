@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-24) 18 : 01 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77415632"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3769#issuecomment-77415632"
+  , issueCommentCreatedAt = 2015 (-03) (-05) 18 : 04 : 39 UTC
+  , issueCommentBody =
+      "Here's an updated version, using r.do and returning the coefficient of variation as well:\r\n\r\n```Python\r\nr.table('t').group(r.row['G']).map(r.row['value']).map(lambda x: {\r\n  'count': 1,\r\n  'sum': x,\r\n  'min': x,\r\n  'max': x,\r\n  'diff': 0 # M2,n:  sum((val-mean)^2)\r\n\r\n}).reduce(lambda a, b: {\r\n  'count': r.add(a['count'], b['count']),\r\n  'sum': r.add(a['sum'], b['sum']),\r\n  'min': r.branch(a['min'].lt(b['min']), a['min'], b['min']),\r\n  'max': r.branch(a['max'].gt(b['max']), a['max'], b['max']),\r\n\r\n  # See https://gist.github.com/Pyrolistical/8139958\r\n  # diff: a.diff + b.diff + avgdelta * avgdelta * weight\r\n  'diff': r.add(\r\n    a['diff'],\r\n\tb['diff'],\r\n\tr.do(\r\n      # temp helpers\r\n      # avgdelta: a.sum/a.count - b.sum/b.count; // a.mean - b.mean\r\n      # weight: a.count * b.count / (a.count + b.count)\r\n\t  r.sub(a['sum'].div(a['count']), b['sum'].div(b['count'])),\r\n\t  r.div(a['count'].mul(b['count']), a['count'].add(b['count'])),\r\n\t  lambda avgdelta, weight: r.mul(avgdelta, avgdelta, weight)\r\n\t)\r\n  )\r\n\r\n}).ungroup().map(lambda g: {\r\n  'G': g['group'],\r\n  'count': g['reduction']['count'],\r\n  'sum': g['reduction']['sum'],\r\n  'min': g['reduction']['min'],\r\n  'max': g['reduction']['max'],\r\n  # sample variance\r\n  's2': r.branch(g['reduction']['count'].gt(1), r.div(g['reduction']['diff'], g['reduction']['count'].sub(1)), 0)\r\n\r\n}).merge(lambda d: r.do(\r\n  r.div(d['sum'], d['count']), # avg\r\n  r.branch(d['s2'].eq(0), 0, r.do( d['s2'], r.js('(function(x){ return Math.sqrt(x) })') )), # sample standard deviation\r\n  lambda avg, s: {\r\n  'avg': avg,\r\n  's': s,\r\n  'CV': r.branch(avg.eq(0), 0, r.div(s, avg))\r\n}))\r\n```\r\n\r\nThis query ran at 11.56 Kdocs / s , processing ~14 million docs in 20 minutes and inserting the results in a new table (4400 docs)"
+  , issueCommentId = 77415632
+  }

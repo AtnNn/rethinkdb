@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-06) 23 : 57 : 54 UTC
+  , issueUpdatedAt = 2014 (-06) (-10) 22 : 34 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2457/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2457"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      ]
+  , issueNumber = 2457
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Investigate disk space usage"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2457"
+  , issueCreatedAt = 2014 (-05) (-23) 18 : 42 : 54 UTC
+  , issueBody =
+      Just
+        "Reported by a user on 1.12.5:\r\n\r\nSample documents:\r\n\r\n```\r\n{\"a\":\"d0a3f01a\",\"u\":\"332d4319\",\"c\":\"204625db\",\"cc\":\"MX\",\"_c\":\"2014-03-01 00:01:52\",\"r\":\"\",\"ip\":\"201.132.177.186\",\"e1\":\"L0E8TZZ51B-PWo.BN63HEJ\",\"e2\":\"\"},\r\n{\"a\":\"9225a8d4\",\"u\":\"4dcb4186\",\"c\":\"82dd26ff\",\"cc\":\"MX\",\"_c\":\"2014-03-01 00:00:35\",\"r\":\"\",\"ip\":\"187.151.59.214\",\"e1\":\"\",\"e2\":\"\"},\r\n{\"a\":\"2d3d8f66\",\"u\":\"e963d421\",\"c\":\"984ba862\",\"cc\":\"\",\"_c\":\"2014-03-01 00:01:40\",\"r\":\"\",\"ip\":\"181.24.0.140\",\"e1\":\"L0EA1ZZ52D-PW_JBOXkGwy\",\"e2\":\"\"},\r\n{\"a\":\"67cd25ab\",\"u\":\"75c5dd6c\",\"c\":\"8f016fc1\",\"cc\":\"IN\",\"_c\":\"2014-03-01 00:01:14\",\"r\":\"http:\\/\\/adserver.bigboxnet.com\\/r\\/id,cCjsNSIPg1H6ir-AGCYzvmuI0Zie_sIMw-P2cTZD_ovt15ah8Zwjlh-b35Ap2Ba-IcgGn1w3S-Y5s6GY9FW4OA==\",\"ip\":\"125.62.209.207\",\"e1\":\"\",\"e2\":\"\"}\r\n```\r\n\r\nWith 27M documents, the user reports on-disk size of 56GB.\r\n\r\nLooking at the sample documents, they're between 100-256 bytes in size. Even if we assume 512 bytes, back of the napkin math suggests raw size should be about 12GB. Double that because the btree is half full or some such, and double it again because of GC (that sounds bad), and we get ~48GB. However, we're may be a factor of 4-8 off from raw data size.\r\n\r\nWe should look into what's going on here again, and do one (or more) of the following:\r\n\r\n- Fix what we can\r\n- Test other comparable systems\r\n- Publish data relative to other systems to assuage user fears (or instill fears into our own hearts)\r\n\r\nMildly related to #1831."
+  , issueState = "closed"
+  , issueId = Id 34200761
+  , issueComments = 38
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

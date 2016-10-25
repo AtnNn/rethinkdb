@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-13) 21 : 33 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69824399"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-69824399"
+  , issueCommentCreatedAt = 2015 (-01) (-13) 21 : 33 : 02 UTC
+  , issueCommentBody =
+      "> This I'm less sure about. The current behavior of `all` is that if it encounters a non-existence error, it rethrows it immediately rather than evaluating the rest of the arguments to see if it can find a `false`.\r\n\r\nI think that having `r.all(nonexistence, false)` return `false` is more consistent with the proposed behavior of having `r.any(nonexistence, true)` to return `true`.\r\n\r\nFurthermore it makes more sense to me semantically. If we think of `nonexistence` as meaning that the value of the argument is undefined / unknown, then - in a world where `all` can return either `true` or `false` - the result of `r.all(nonexistence, false)` is still well defined, and must be `false`.\r\n\r\nHowever that ignores the fact that we actually don't just return `true` or `false` from `any`/`all`, but actually return one of the arguments. As you point out, that makes the exact behavior of `any`/`all` under nonexistence somewhat trickier to define.\r\n\r\nI wonder if we should take this as a chance to simplify `any`/`all` behavior in this respect, and make them always return either `true` or `false`. I'll open a separate thread to discuss that."
+  , issueCommentId = 69824399
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-22) 01 : 37 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/142156289"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4869#issuecomment-142156289"
+  , issueCommentCreatedAt = 2015 (-09) (-22) 01 : 37 : 56 UTC
+  , issueCommentBody =
+      "I'm not so sure about attaching this to the `RQL` instance, because it's pretty common to use multiple `RQL` instances in the same query.  For example, `r.table('test').concat_map{|row| r.table('test2').get_all(row['id'], index: 'foreign_key')}` uses two `RQL` instances.  (Also, it's moderately common to store portions of queries and re-use them later, so even if `r` were set to a constant `RQL` instance you'd still get problems.)\r\n\r\n> Why does a RQL instance have a method that creates a connection that has no association to that instance?\r\n\r\nThe expected usage of the driver is to `include RethinkDB::Shortcuts` and then type `conn = r.connect(...); r.table('test').run(conn)`.  The `RQL` instance is just there as a helper.  (If you're wondering why we use that weird interface, it's because we try to keep the APIs in the three official drivers as close as possible and that works in all of them.  It's debatable whether that was a good decision, but it's hard to go back and change it now.)"
+  , issueCommentId = 142156289
+  }

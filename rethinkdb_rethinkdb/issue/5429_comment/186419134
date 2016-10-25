@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-19) 21 : 41 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/186419134"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5429#issuecomment-186419134"
+  , issueCommentCreatedAt = 2016 (-02) (-19) 21 : 41 : 16 UTC
+  , issueCommentBody =
+      "We already prioritize backfills that are important for availability over those that are not. However I believe our current schema is symmetric, so it will not arbitrarily pick a subset of otherwise equal replicas in order to backfill them more quickly than others. I'm fuzzy on the details though.\r\nI know that our current system also prefers smaller backfills, so I would assume that that would in practice break symmetry and still lead to certain backfills to proceed first.\r\n\r\nWe might just need to tune the current algorithm a bit.\r\n\r\nThis sort of tuning can be extremely tricky in practice unfortunately, since it's a rather complex optimization problem. Depending on what disks are used on the different servers, cache utilization, network bandwidth, CPU load etc. the bottleneck can shift between different components. In some cases it's more efficient to backfill all replicas at the same time (e.g. it can improve cache utilization, which reduces load on the disks and overall brings up more replicas more quickly without impacting the time until availability is restored). In other cases it's better to backfill a small number of either \"critical\" or even randomly picked replicas first to bring them up more quickly, while pausing backfills to the remaining replicas.\r\n\r\nI'm pretty sure we can do better than what we currently have implemented, but it's going to be some work and will not work perfectly in all circumstances."
+  , issueCommentId = 186419134
+  }

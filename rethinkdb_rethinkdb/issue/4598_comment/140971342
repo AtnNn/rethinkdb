@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-17) 05 : 07 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 690517
+        , simpleUserLogin = N "mike-marcacci"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/690517?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mike-marcacci"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140971342"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4598#issuecomment-140971342"
+  , issueCommentCreatedAt = 2015 (-09) (-17) 05 : 07 : 49 UTC
+  , issueCommentBody =
+      "Thanks for the very thoughtful replies! The `r.updateAtomically` and `r.atomic` proposals here would both work for the use case as I presented it, but I fear the more aesthetically pleasing `r.atomic` breaks down when we add a bit more logic. To build off my example, consider the following:\r\n\r\n```js\r\nr.lock(r.table('accounts').get(sender_id), r.table('accounts').get(receiver_id), function(sender, receiver) {\r\n    return r.branch(\r\n        sender('balance').lt(amount),\r\n        r.error('You have an insufficient balance.'),\r\n        {\r\n            sender: sender.update({ balance: sender('balance').sub(amount) }),\r\n            receiver: receiver.update({ balance: receiver('balance').add(amount) })\r\n        }\r\n    );\r\n});\r\n```\r\n\r\nBy locking tables **first**, we guarantee that the `sender` has not been updated between checking the balance and updating it. If the locking/atomic mechanism is not flexible enough to acommodate this kind of logic internally (and make it easy to do so) I'm concerned that people will add this logic outside the lock, and miss their race conditions until it's too late.\r\n\r\nThis has really been the crux of this problem for me: in RQL, how can we express a sequence of state-changing modifications in a way that is flexible enough to be useful."
+  , issueCommentId = 140971342
+  }

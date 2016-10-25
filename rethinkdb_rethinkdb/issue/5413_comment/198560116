@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-03) (-18) 22 : 02 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/198560116"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5413#issuecomment-198560116"
+  , issueCommentCreatedAt = 2016 (-03) (-18) 21 : 57 : 21 UTC
+  , issueCommentBody =
+      "It looks like using [`.nodeify(cb)`](http://bluebirdjs.com/docs/api/ascallback.html) (as we typically do to support callbacks) does not modify the promise yet also prevents \"uncaught\" rejections from bubbling up.\r\n\r\n```\r\n$ node\r\n> var Promise = require('bluebird')\r\nundefined\r\n> Promise.reject('error').nodeify((err, result) => console.log(err))\r\nPromise {\r\n  _bitField: 16777216,\r\n  _fulfillmentHandler0: 'error',\r\n  _rejectionHandler0: undefined,\r\n  _promise0: undefined,\r\n  _receiver0: undefined }\r\nerror\r\n> Promise.reject('error').nodeify((err, result) => console.log(err)).catch((err) => console.log(err))\r\nPromise {\r\n  _bitField: 0,\r\n  _fulfillmentHandler0: undefined,\r\n  _rejectionHandler0: undefined,\r\n  _promise0: undefined,\r\n  _receiver0: undefined }\r\nerror\r\nerror\r\n```\r\n\r\nI still think resolving promises from `final`doesn't make any sense. For one thing, there's no reason for promise people to use the `final` callback. It can already be accomplished by doing `eachAsync(...).then(() => Promise.delay(10))`, and this is how you would expect a Promise-based API to behave. Another is that it it results in discrepancies between the callback and Promise based APIs. There currently is no callback equivalent to returning a promise from `final`.\r\n\r\nIf you look at the code, our current implementation is:\r\n\r\n```js\r\nreturn nextCb().nodeify(errCb)\r\n```\r\n\r\nWhat's being proposed (resolving promises from `final` and thus having side-effects on the outer promise) would look something like:\r\n\r\n```js\r\nreturn nextCb() if not errCb?\r\nreturn nextCb().then ->\r\n  return Promise.resolve(errCb())\r\n.catch (err) ->\r\n  return Promise.resolve(errCb(err))\r\n```\r\n\r\nI hope this helps to illustrate why I think that what's being proposed is unconventional."
+  , issueCommentId = 198560116
+  }

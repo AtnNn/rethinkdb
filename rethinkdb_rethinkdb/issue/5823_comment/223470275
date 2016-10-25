@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-03) 01 : 42 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/223470275"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5823#issuecomment-223470275"
+  , issueCommentCreatedAt = 2016 (-06) (-03) 01 : 42 : 04 UTC
+  , issueCommentBody =
+      "> Run tbl.between(r.maxval, r.now, {index: indexName}).replace(replaceFunction) limited to the shard's range.\r\n\r\nIs this going to be run in a single transaction?  If so, that will be pretty high-latency.  If not, I think this could get into an infinite loop if `replaceFunction` always moves things from the front of the range you're scanning to the end.\r\n\r\n> Detail to detect bad replaceFunction: if next has the same primary key as the next from the previous iteration, print an error and sleep indefinitely as well.\r\n\r\nRelated to the above: it might be better to instead check the timestamp of the output of `replaceFunction`, and if it's still in the range then log an error and sleep indefinitely.  (As written, I think this might also trigger spurious aborts if someone happens to insert a document with the same primary key as one which was just expired.)\r\n\r\n---\r\n\r\nSome other problems:\r\n* How long do we sleep for if there are no documents in the index?\r\n* What if `nextTS` is extremely far in the future (e.g. the only documents in the table are ones which essentially never expire), so we decide to sleep for a long time, and then new documents are inserted which need to be expired much sooner?\r\n  - I think we need to hook into the sindex modification callback to reduce the sleep time when inserts/updates schedule a document that needs to be expired in the near future."
+  , issueCommentId = 223470275
+  }

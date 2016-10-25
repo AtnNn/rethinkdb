@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-16) 03 : 20 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164976568"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5212#issuecomment-164976568"
+  , issueCommentCreatedAt = 2015 (-12) (-16) 03 : 20 : 23 UTC
+  , issueCommentBody =
+      "That's the current intended behavior, but I agree it's confusing.  (As a general rule `tbl.getAll(X).Y()` is the same as `r(X).do(function(x) { return tbl.getAll(x).Y(); })`.)\r\n\r\nSupporting this kind of query isn't totally trivial, so if we decide to change this I think we should do so by producing an error if people write the first query and telling them to write out the `do` explicitly so that it's clearer to them what's going on.\r\n\r\nAnother thing which can also confuse people is `tbl.getAll(X)[0].changes()`.  What that query does is it runs the `getAll`, gets a single document back, and then \"locks on\" to that document (another @Tryneus coining) and subscribed to changes on that.  So if that specific document is deleted, it won't go on to the next document in the `getAll`, it will just say `{old_val: ..., new_val: nil}`.  We should consider finding a way to make it clearer what's going on there, too (or maybe just forbidding that one outright)."
+  , issueCommentId = 164976568
+  }

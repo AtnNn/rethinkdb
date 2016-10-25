@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-28) 18 : 49 : 40 UTC
+  , issueUpdatedAt = 2016 (-04) (-28) 18 : 49 : 46 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5105/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5105"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5105
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "evaluate removing OpenSSL dependency"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5105"
+  , issueCreatedAt = 2015 (-11) (-17) 16 : 58 : 34 UTC
+  , issueBody =
+      Just
+        "With Apple further depreciating OpenSSL (#4963) there has been some discussion about removing OpenSSL as a dependency. There are a number of odd corners that we currently depend on OpenSSL that will have to be covered if we are going to do this, and some possibilities to do so:\r\n- `src/client_protocol/server.cc` uses it to get a sha256 digest\r\n  -  include a single-file sha256 implementation\r\n  - `mbed TLS` (formerly `PolarSSL`) is an alternative\r\n  - on MacOS ComonCrypto provides a drop-in replacement that has full OS support (see `COMMON_DIGEST_FOR_OPENSSL` in `/usr/include/CommonCrypto/CommonDigest.h `)\r\n- The `s2` library that we use in `geo` support uses it for bing-number support. This is limited to a single file (`exactfloat.cc`).\r\n  - we could try to pull the bignumb support out of OpenSSL and include those files in our project\r\n  - it is possible that `mbed TLS` has support that we could use\r\n  - `gmplib` might be used as a replacement for bignumb support\r\n- When we build `libcurl` we link it against OpenSSL when not on MacOS (there we use `--darwin-ssl`)\r\n  - `mbed TLS` is a good candidate here, but there is an outstanding question about whether it can use the root certs on MacOS."
+  , issueState = "closed"
+  , issueId = Id 117398869
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 18
+          , milestoneClosedIssues = 180
+          , milestoneDescription =
+              Just
+                "These feature requests, bugs and pull requests have been acknowledged, but will not be fixed."
+          , milestoneTitle = "wontfix"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/18"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 24 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-04) (-03) 18 : 56 : 55 UTC
+  , issueUpdatedAt = 2015 (-04) (-16) 02 : 01 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4006/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4006"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4006
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Cluster communication maxes out CPU on one thread, is inefficient"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4006"
+  , issueCreatedAt = 2015 (-04) (-02) 18 : 13 : 18 UTC
+  , issueBody =
+      Just
+        "I can so something like 50,000 point gets on a single server, but if I shard the table across two I'm only getting ~25,000 qps.\r\nI'm sending all queries to one of the servers with many concurrent clients (have tried between 64 and 1024). The server not getting the queries has one CPU core maxed out, with the majority of it spend in kernel code.\r\n\r\nI believe a major part of the problem is that we send each cluster message as something like two individual packages over the network. With some preliminary hacks that batch cluster messages together (by using our existing `linux_tcp_conn_t::write_buffered()`), I can get the query throughput back up to ~50,000. There's still a lot of system CPU usage, but something else might be the bottleneck at that point.\r\n\r\nI'm putting this into 2.0-polish because it's a pretty major limitation to scalability at the moment.\r\n\r\nIn the long term we should consider doing something like https://github.com/rethinkdb/rethinkdb/issues/2331 and open multiple connections between nodes on different cores to get better parallelism."
+  , issueState = "closed"
+  , issueId = Id 65981559
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 89
+          , milestoneClosedIssues = 117
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.0"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/89"
+          , milestoneCreatedAt = 2015 (-01) (-26) 07 : 45 : 17 UTC
+          , milestoneState = "closed"
+          }
+  }

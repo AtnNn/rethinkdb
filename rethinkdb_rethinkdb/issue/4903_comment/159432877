@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-24) 23 : 01 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159432877"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4903#issuecomment-159432877"
+  , issueCommentCreatedAt = 2015 (-11) (-24) 22 : 59 : 30 UTC
+  , issueCommentBody =
+      "Very interesting read @thedrow . Thanks for your references and your write-up of the paper.\r\n\r\nRethinkDB is a bit special in that it currently very heavily relies on cooperative coroutines. Many parts of the code are written to avoid the need cross-thread communication and locking, since most data structures have a \"home thread\". Those data structures can be used by multiple coroutines to mask i/o, but only one such coroutine will be running in a non-blocking section at a time.\r\n\r\nWe use a related mechanism to parallelize Btree operations across CPU cores. The key space is split up into (currently constant) 8 hash-based shards. Each hash-shard has its own btree structure and own page cache. The processing for each shard happens on a different thread (assuming there are at least 8 CPU cores available). However each individual shard/btree is only directly accessed by one single thread. This again avoids cross-thread locking and reduces the overhead for cross-thread communication.\r\n\r\nThere are some limitations to this approach, in that it's harder to scale to an arbitrary number of CPU cores with a single table and/or single query (the processing portion not related to btree operations for a particular query is assigned to a random thread).\r\n\r\nChanging this architecture is a lot of work, since assumptions about the coroutine model on top of explicit thread assignments is baked pretty deeply into the code.\r\nUnfortunately that makes it hard to do a quick comparison of what the performance differences between the different concepts will be.\r\n\r\nSome of the other points you mention are also worth looking into once we've gotten a few lower-hanging fruits for performance optimizations out of the way. For example looking into better utilization of SIMD instructions in the btree and/or the query processing code is something we should consider once CPU profiling shows that those parts have become a bottleneck (last time I profiled RethinkDB, a bigger chunk of CPU time was associated with serialization/deserialization of queries and data, as well as with memory allocations for intermediate structures etc.)."
+  , issueCommentId = 159432877
+  }

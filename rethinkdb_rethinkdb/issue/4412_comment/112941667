@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-17) 20 : 36 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/112941667"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4412#issuecomment-112941667"
+  , issueCommentCreatedAt = 2015 (-06) (-17) 20 : 36 : 01 UTC
+  , issueCommentBody =
+      "I completely agree about eliminating the intermediate output variable. I think I'd also be fine with unifying `exc_t`, `admin_op_exc_t`, and `cannot_perform_query_exc_t`.\r\n\r\nBut I think we should keep `no_such_table_exc_t`, `failed_table_op_exc_t`, and `maybe_failed_table_op_exc_t`, for two reasons: First, we often handle them in non-trivial ways rather than letting them bubble up. For example, we sometimes ignore `no_such_table_exc_t`. Second, we don't have the information necessary to produce a useful message at the location where those exceptions are thrown.\r\n\r\nIn general, I think the new unified `exc_t` should represent a \"user-facing exception\"; any exception of this type that is thrown should eventually be presented to the user, and we shouldn't do any other processing on it except possibly to add a backtrace or add context to the error message. We shouldn't use it to represent error conditions that we can recover from or take some special action in response to."
+  , issueCommentId = 112941667
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-09) (-07) 19 : 06 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/245383821"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/364#issuecomment-245383821"
+  , issueCommentCreatedAt = 2016 (-09) (-07) 19 : 05 : 57 UTC
+  , issueCommentBody =
+      "@jedwards1211 It's not entirely clear how much performance benefit range-sharding can have over hash-sharding in RethinkDB. For queries involving secondary indexes, we already have to hit all shards for example, so this won't change. The two cases I can see where range sharding is sometimes more efficient are queries of the form:\r\n1. `r.table(...).between(a, b)` (using the *primary* index)\r\n2. `r.table(...).orderBy({index: \"id\"})` (again using primary index)\r\n\r\nApart from that, range sharding I think makes our backfilling and resharding code simpler and more efficient.\r\n\r\nHash-sharding in RethinkDB won't happen for a while. I'm not sure if we will do a full switch then, or offer both strategies (I think we'll probably be able to offer both strategies).\r\n\r\n--\r\n\r\n* The hard limit of 64 shards means the DB will never be able to scale beyond a certain size\r\n\r\nNote that you can still make use of more servers if you split the data into multiple tables (also, if you want to have e.g. 3x replication, note that you can utilize up to 192 servers for a single table). But it can certainly put a limit on the scalability of some operations.\r\n\r\n* RethinkDB doesn't automatically split and rebalance chunks like MongoDB does\r\n\r\nYeah, you currently have to run `rebalance` manually and it will cause brief table downtimes while it's transitioning.\r\n\r\n* I assume the sharding is just controlled by the primary key? The docs are not very explicit about this.\r\n\r\nThat is correct, we currently only offer primary-key based sharding.\r\n"
+  , issueCommentId = 245383821
+  }

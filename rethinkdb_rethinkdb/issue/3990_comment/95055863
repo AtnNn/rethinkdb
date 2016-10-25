@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-22) 07 : 21 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95055863"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3990#issuecomment-95055863"
+  , issueCommentCreatedAt = 2015 (-04) (-22) 07 : 16 : 24 UTC
+  , issueCommentBody =
+      "Hmm I've had some queries where even the current 500ms was very significantly limiting efficiency.\r\n\r\nIt was a query that was mapping over a table with an expensive mapping function (doing an analytical query over a second table).\r\nIn general if the mapping function takes anywhere near the batch timeout, efficiency will drop dramatically. So I would be careful in lowering it without a good reason.\r\n\r\n50 ms for the first batch seem ok, though I'd consider instead having a `maxBatchRows` limit on the first batch. In the common case where you run something like `r.table(...)` in the data explorer, that will usually return quickly, and you only want the first 40 results anyway.\r\nAt the same time it won't make the first batch wasted for queries where computing each individual result is expensive (I think it's also weird if the first batch of such a query times out quickly and you see only a single result in the Data Explorer until it loads more data. Or are we setting minBatchRows for the first batch?)."
+  , issueCommentId = 95055863
+  }

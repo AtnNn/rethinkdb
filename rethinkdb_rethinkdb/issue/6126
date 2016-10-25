@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-10) (-17) 15 : 37 : 07 UTC
+  , issueUpdatedAt = 2016 (-10) (-17) 15 : 37 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6126/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6126"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6126
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5080851
+        , simpleUserLogin = N "VitaliyLogvin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5080851?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VitaliyLogvin"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Filter not working"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6126"
+  , issueCreatedAt = 2016 (-09) (-28) 00 : 40 : 00 UTC
+  , issueBody =
+      Just
+        "why this not working? return empty array. but i need specific records \r\nHelp fix my code please\r\n\r\n```\r\n            var diu = data.diu;\r\n\r\n    \t\tr.db(\"multichat\").table(\"rooms_users\")\r\n\t\t\t  .filter(function (rooms_user) {return rooms_user(\"user_id\").eq(diu);})\r\n\t\t\t  .innerJoin(r.db(\"multichat\").table(\"rooms\"), function(room_user, room){\r\n\t\t\t    return room_user(\"room_id\").eq(room(\"id\"))\r\n\t\t\t  }).without({\"right\": {\"id\": true}}).zip().run(conn, function(err, cursor) \r\n\t\t\t\t{\r\n\t\t\t        if (err) throw err;\r\n\t\t\t        cursor.toArray(function(err, result) {\r\n\t\t\t            if (err) throw err;\r\n \t\t\t            console.log(JSON.stringify(result, null, 2)); \r\n\t\t\t    });\t\t\t\r\n\t\t\t});\r\n```\r\n\r\nThis is work . **i dont understood different**\r\n\r\n              \r\n```\r\n                var roomid=data.roomid;\r\n\r\n    \t\tr.db(\"multichat\").table(\"messages\")\r\n    \t\t  .orderBy({index: r.asc('date')})\r\n\t\t\t  .filter(function (message) {return message(\"room_id\").eq(roomid);})\r\n\t\t\t  .run(conn, function(err, cursor) \r\n\t\t\t\t{\r\n\t\t\t        if (err) throw err;\r\n\t\t\t        cursor.toArray(function(err, result) {\r\n\t\t\t            if (err) throw err;\r\n \t\t\t            console.log(JSON.stringify(result, null, 2)); \r\n\t\t\t    });\t\t\t\r\n\t\t\t});\r\n\r\n```\r\n\r\nalso i tried like this . but its return all records. need specific \r\n\r\n                     \r\n```\r\n                         var diu = data.diu;\r\n\r\n                        r.db(\"multichat\").table(\"rooms_users\")\r\n\t\t\t  .filter(function (diu){return [{user_id:diu}]})\r\n\t\t\t  .innerJoin(r.db(\"multichat\").table(\"rooms\"), function(room_user, room){\r\n\t\t\t    return room_user(\"room_id\").eq(room(\"id\"))\r\n\t\t\t  }).without({\"right\": {\"id\": true}}).zip().run(conn, function(err, cursor) \r\n\t\t\t\t{\r\n\t\t\t        if (err) throw err;\r\n\t\t\t        cursor.toArray(function(err, result) {\r\n\t\t\t            if (err) throw err;\r\n \t\t\t            console.log(JSON.stringify(result, null, 2)); \r\n\t\t\t    });\t\t\t\r\n\t\t\t});\r\n```\r\n\r\n**how correctly transfer the external value(from client) to the function(filter)?**"
+  , issueState = "closed"
+  , issueId = Id 179652734
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

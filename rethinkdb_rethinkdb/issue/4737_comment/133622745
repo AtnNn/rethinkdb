@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-22) 01 : 13 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/133622745"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4737#issuecomment-133622745"
+  , issueCommentCreatedAt = 2015 (-08) (-22) 01 : 13 : 51 UTC
+  , issueCommentBody =
+      "I can chime in a bit about rethinkdbdash. Basically with rethinkdbdash you never take care of the connection. It manages its own set of connections and you just call `run()` on a query, and the driver will run the query (or reject the query if no connection is no server is available)\r\n\r\nThe connection pool (let's call it the pools master) keep one connection pool per available server (servers provided in the `server` field). If you set the mode `discovery: true`, rethinkdbdash will open a changefeed on server_status and kill/create pools as servers join/disconnect from the cluster.\r\n\r\nBasically if you do\r\n```\r\nvar r = require('rethinkdbdash')({\r\n  discovery: true,\r\n  servers: [ { host: ..., port: ...}, { host: ..., port: ...}, ... ]\r\n})\r\n```\r\n\r\nThen you can try to kill/restart a server, you'll see that it's pretty cool :-)\r\n\r\nThe only caveat (as far as I know) is if the following happen:\r\n- Two server A and B that are not seeds join the cluster\r\n- All the seeds die\r\n- A dies\r\n- B dies\r\n- A restart\r\nAt that time you won't be connected because:\r\n- All the seeds are down\r\n- The last server that was available before all server go down is not available\r\n\r\nThe driver may be updated to reconnect to A at some point, but this its kind of an extreme scenario since it requires all your server to die at some point."
+  , issueCommentId = 133622745
+  }

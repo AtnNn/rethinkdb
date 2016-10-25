@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-05) 02 : 38 : 27 UTC
+  , issueUpdatedAt = 2014 (-08) (-05) 02 : 39 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2761/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2761"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e11d21"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/_release_holder"
+          , labelName = "_release_holder"
+          }
+      ]
+  , issueNumber = 2761
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "changefeeds on multiple joined servers fail on second feed"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2761"
+  , issueCreatedAt = 2014 (-07) (-25) 18 : 40 : 55 UTC
+  , issueBody =
+      Just
+        "When I open the same change feed on two joined servers then add enough data to satisfy them the second one errors out when I try to read it. I am able to reproduce this both on `x1.13.x` and `next` both on MacOS locally and Newton (linux). The steps to reproduce:\r\n\r\n1. `./rethinkdb create -d alpha; ./rethinkdb -d alpha -o 50`\r\n2. `./rethinkdb create -d beta; ./rethinkdb -d beta -o 51 --join localhost:29065`\r\n3. `connA = r.connect(port=29065); connB = r.connect(port= 29066)`\r\n4. `r.db_create('test').run(connA); r.table_create('changefeed_simultaneous').run(connA)`\r\n5. `r.table_list().run(connB)` - prove that the table is visible on beta\r\n6. `feedA = r.table('changefeed_simultaneous').changes().limit(5).run(connA); feedB = r.table('changefeed_simultaneous').changes().limit(5).run(connB)`\r\n7. `r.table('changefeed_simultaneous').insert([{'id':x, 'updated':5} for x in range(1,6)]).run(connA)`\r\n8. `[x for x in feedA]`\r\n9. `[x for x in feedB]`\r\n\r\nThe last step errors out with:\r\n```python\r\n>>> [x for x in feedB]\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"rethinkdb/net.py\", line 78, in __iter__\r\n    self.conn._check_error_response(self.responses[0], self.query.term)\r\n  File \"rethinkdb/net.py\", line 287, in _check_error_response\r\n    raise RqlRuntimeError(message, term, frames)\r\nrethinkdb.errors.RqlRuntimeError: Changefeed aborted (table unavailable). in:\r\nr.table('changefeed_simultaneous').changes().limit(5)\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  \r\n```\r\nIf the order of reading the changefeeds is reversed then `feedA` will fail instead.\r\n\r\nNote that a test that includes this check is in the works (how this was discovered)."
+  , issueState = "closed"
+  , issueId = Id 38758373
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 71
+          , milestoneClosedIssues = 113
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.14"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/71"
+          , milestoneCreatedAt = 2014 (-06) (-11) 22 : 31 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

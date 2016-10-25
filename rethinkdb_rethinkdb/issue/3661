@@ -1,0 +1,78 @@
+Issue
+  { issueClosedAt = Just 2015 (-01) (-27) 20 : 48 : 12 UTC
+  , issueUpdatedAt = 2015 (-01) (-27) 20 : 48 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3661/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3661"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:web-ui"
+          , labelName = "cp:web-ui"
+          }
+      , IssueLabel
+          { labelColor = "e11d21"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/_release_holder"
+          , labelName = "_release_holder"
+          }
+      ]
+  , issueNumber = 3661
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Error after permanently removing server from issues"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3661"
+  , issueCreatedAt = 2015 (-01) (-26) 21 : 36 : 23 UTC
+  , issueBody =
+      Just
+        "I had a cluster of four servers which contained one table, shared and replicated four times. After shutting the whole cluster down and restarting two of the servers I got two issues for the missing tables. Subsequently I've permanently removed one of the servers, which means the table is configured to have more shards / replicates than we have servers, probably resulting in the following error.\r\n\r\n```\r\nExpected NUMBER or STRING as second argument to `bracket` but found NULL in:\r\nr.do(r.db(\"rethinkdb\").table(\"table_status\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"table_config\", {identifierFormat: \"uuid\"}).coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"server_config\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"server_status\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"jobs\").coerceTo(\"array\"), r.db(\"rethinkdb\").table(\"current_issues\").coerceTo(\"array\"), function(var_2, var_3, var_4, var_5, var_6, var_7) { return {num_primaries: var_3(\"shards\").map(function(var_8) { return var_8.count(); }).sum(), num_connected_primaries: var_2.map(function(var_9) { return var_9(\"shards\")(\"primary_replica\").count(function(var_10) { return var_10.ne(null); }); }).sum(), num_replicas: var_3(\"shards\").map(function(var_11) { return var_11.map(function(var_12) { return var_12(\"replicas\").count(); }).sum(); }).sum(), num_connected_replicas: var_2(\"shards\").map(function(var_13) { return var_13(\"replicas\").map(function(var_14) { return var_14(\"state\").count(function(var_15) { return r([\"ready\", \"looking_for_primary_replica\"]).contains(var_15); }); }).sum(); }).sum(), tables_with_primaries_not_ready: r.db(\"rethinkdb\").table(\"server_config\").map(function(var_16) { return [var_16(\"id\"), var_16(\"name\")]; }).coerceTo(\"ARRAY\").coerceTo(\"OBJECT\").do(function(var_17) { return var_2.map(var_3, function(var_18, var_19) { return {id: var_18(\"id\"), name: var_18(\"name\"), db: var_18(\"db\"), shards: var_18(\"shards\").map(r.range(), var_19(\"shards\"), function(var_20, var_21, var_22) { return {position: var_21.add(1), num_shards: var_18(\"shards\").count(), primary_id: var_22(\"primary_replica\"), primary_name: var_17(var_22(\"primary_replica\")), primary_state: var_20(\"replicas\").filter({server: var_17(var_22(\"primary_replica\"))})(\"state\")(0)}; }).filter(function(var_23) { return r([\"ready\", \"looking_for_primary_replica\"]).contains(var_23(\"primary_state\")).not(); }).coerceTo(\"array\")}; }).filter(function(var_24) { return var_24(\"shards\").isEmpty().not(); }).coerceTo(\"array\"); }), tables_with_replicas_not_ready: var_2.map(var_3, function(var_25, var_26) { return {id: var_25(\"id\"), name: var_25(\"name\"), db: var_25(\"db\"), shards: var_25(\"shards\").map(r.range(), var_26(\"shards\"), function(var_27, var_28, var_29) { return {position: var_28.add(1), num_shards: var_25(\"shards\").count(), replicas: var_27(\"replicas\").filter(function(var_30) { return r([\"ready\", \"looking_for_primary_replica\", \"offloading_data\"]).contains(var_30(\"state\")).not(); }).map(var_29(\"replicas\"), function(var_31, var_32) { return {replica_id: var_32, replica_name: var_31(\"server\")}; }).coerceTo(\"array\")}; }).coerceTo(\"array\")}; }).filter(function(var_33) { return var_33(\"shards\")(0)(\"replicas\").isEmpty().not(); }).coerceTo(\"array\"), num_tables: var_3.count(), num_servers: var_5.count(), num_connected_servers: var_5.count(function(var_34) { return var_34(\"status\").eq(\"connected\"); }), disconnected_servers: var_5.filter(function(var_35) { return var_35(\"status\").ne(\"connected\"); }).map(function(var_36) { return {time_disconnected: var_36(\"connection\")(\"time_disconnected\"), name: var_36(\"name\")}; }).coerceTo(\"array\"), num_disconnected_tables: var_2.count(function(var_37) { return var_37(\"shards\").map(function(var_38) { return var_38(\"primary_replica\").eq(null); }).contains(true); }), num_tables_w_missing_replicas: var_2.count(function(var_39) { return var_39(\"status\")(\"all_replicas_ready\").not(); }), num_sindex_issues: var_7.count(function(var_40) { return var_40(\"type\").eq(\"outdated_index\"); }), num_sindexes_constructing: var_6.count(function(var_41) { return var_41(\"type\").eq(\"index_construction\"); })}; })\r\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ```"
+  , issueState = "closed"
+  , issueId = Id 55541013
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

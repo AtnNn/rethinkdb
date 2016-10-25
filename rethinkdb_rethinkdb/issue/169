@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2013 (-02) (-26) 21 : 25 : 34 UTC
+  , issueUpdatedAt = 2013 (-02) (-26) 21 : 25 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/169/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/169"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 169
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 552910
+          , simpleUserLogin = N "Tryneus"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/552910?v=3"
+          , simpleUserUrl = "https://api.github.com/users/Tryneus"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Bad matching of rethinkdb versions on intracluster connections"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/169"
+  , issueCreatedAt = 2012 (-12) (-18) 23 : 37 : 53 UTC
+  , issueBody =
+      Just
+        "Currently we add `RETHINKDB_VERSION` string to the intracluster message header. When intracluster messages are sent, we compare the headers and reject the message if they don't match. This has the nice property of verifying that things aren't connected to the wrong port, and that nodes with different versions don't connect to each other.\r\n\r\nHowever, currently `RETHINKDB_VERSION` is set in the makefile, and includes the target OS the package was built for. For example, `1.2.9-precise` or `1.2.9-oneiric`. A side effect of this scheme is that if I install RethinkDB on a precise machine and oneiric machine, they cannot connect to each other because the version strings don't match. However, there is no actual technical reason why the nodes couldn't interoperate.\r\n\r\nHere are the fixes I think we need to include:\r\n\r\n1. Provide a number of constants to rethinkdb executable via the makefile, e.g. `NUMERIC_VERSION`, `ARCH_BITSIZE`, `OS_NAME`, etc. (in this case we'd have `1.2.9`, `64`, `Linux`, etc. This way, we can put the relevant parts in the message header, so, for example, 64 bit Linux machines can talk to each other even across distributions.\r\n\r\n2. The error message always has the invalid message on port wording. In case of a version mismatch, we should give an appropriate message (e.g. a 64-bit node trying to connect to a 32-bit node, a 1.2.9 node is trying to connect a 1.2.8 node, etc.)"
+  , issueState = "closed"
+  , issueId = Id 9386023
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

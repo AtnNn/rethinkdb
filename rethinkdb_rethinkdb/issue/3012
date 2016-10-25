@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-08) (-27) 00 : 25 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3012/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3012"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      , IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 3012
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 139396
+        , simpleUserLogin = N "wojons"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/139396?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wojons"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "r.debug()"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3012"
+  , issueCreatedAt = 2014 (-09) (-05) 06 : 37 : 32 UTC
+  , issueBody =
+      Just
+        "This would be a something that is added to the API. It can be appended just about any other method in the API. Debug is also ignored in the chaining process. Lets get an example. Your using r.http but you want to know how long did it take for just the r.http part to run. Maybe you want to know the status code that came out and how many retries it had to make.\r\n\r\n```js\r\nr.http('http://example.com').debug(function(debug) {})\r\n```\r\n\r\nThis would allow the debug now has its own context to work in without anything else so If the user still wants to run a filter on the data out of http. It would look like this.\r\n\r\n```js\r\nr.http('http://example.com').debug(function(debug) {}).filter({'status': 'active'}).pluck('username')\r\n```\r\n\r\nNow inside of the debug maybe you want to log that data to a table or something else if it was a super slow call. (I may be missing a branch or something for the command but the idea should be there)\r\n\r\n```js\r\nr.http('http://example.com').debug(function(debug) {\r\n    r.db('log').table('http_log').insert(debug.filter(r.row(\"latency\").gt(100))\r\n}).filter({'status': 'active'}).pluck('username')\r\n```\r\n\r\nI also a better name maybe inspect and not debug it depends. A query should be able to have as many debug method calls things should also should be able to be wraped in debug\r\n\r\n```js\r\nr.debug(r.table('my_table'))\r\n```\r\n\r\nI am not exactly sure what things should be in every debug. for example a filter debug would result in how many docs were sent into the filter and how many made it out of the filter. I think there should also be a way to do some sort of a debug and a merge so if you want to get the debug into the normal pipeline of rethinkdb.\r\n\r\n```js\r\nr.table().filter().debug(function(doc){}, true).pluck()\r\n```"
+  , issueState = "open"
+  , issueId = Id 42018482
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-03) 15 : 00 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 91193
+        , simpleUserLogin = N "mglukhovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mglukhovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127270672"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4617#issuecomment-127270672"
+  , issueCommentCreatedAt = 2015 (-08) (-03) 15 : 00 : 31 UTC
+  , issueCommentBody =
+      "I was trying to import data into my RethinkDB cluster, and got an error:\r\n\r\n```\r\n$ rethinkdb import -d git/rethinker-dashboard/rethinkdb_export_2015-08-02T23\\:18\\:30/\r\nError: Incompatible server version found, expected >= 1.16.0\r\n```\r\n\r\nAfter checking that my server and Python driver versions were up to date, I started investigating with @AtnNn. I checked the version with Python reported in the `server_status` system table:\r\n\r\n```python\r\n>>> list(r.db('rethinkdb').table('server_status').run())\r\n[{u'status': u'disconnected', u'network': {u'canonical_addresses': None, u'http_admin_port': None, u'hostname': None, u'cluster_port': None, u'reql_port': None}, u'process': {u'version': None, u'pid': None, u'cache_size_mb': None, u'argv': None, u'time_started': None}, u'connection': {u'time_connected': None, u'time_disconnected': None}, u'id': u'4ba38031-5fa8-4233-85fd-23016ea0effd', u'name': u'orpheus_local_2ky'}, {u'status': u'connected', u'network': {u'canonical_addresses': [{u'host': u'127.0.0.1', u'port': 29015}, {u'host': u'::1', u'port': 29015}], u'http_admin_port': 8080, u'hostname': u'orpheus.local', u'cluster_port': 29015, u'reql_port': 28015}, u'process': {u'version': u'rethinkdb 2.0.1 (CLANG 6.1.0 (clang-602.0.49))', u'pid': 28239, u'cache_size_mb': 369.3125, u'argv': [u'rethinkdb'], u'time_started': datetime.datetime(2015, 8, 3, 14, 37, 41, 150000, tzinfo=<rethinkdb.ast.RqlTzinfo object at 0x10813d250>)}, u'connection': {u'time_connected': datetime.datetime(2015, 8, 3, 14, 37, 41, 153000, tzinfo=<rethinkdb.ast.RqlTzinfo object at 0x10813df50>), u'time_disconnected': None}, u'id': u'e1e5b00e-88cb-42fd-a816-1c6f34dc8fda', u'name': u'orpheus_local_f3l'}]\r\n```\r\n\r\nAfter being very confused as to why my server version was being reported as `None`, I realized that I'd left a demo cluster in a bad state. One of my servers had been disconnected, and I hadn't permanently removed it. The import script was looking for the first server in the system table, which happened to be the missing server, so the import script failed the version check (since it was `None`).\r\n\r\nPermanently removing the server fixed the issue. My thoughts:\r\n\r\n- The import script should either refuse to import data if the cluster is in a bad state, return an error if there is a missing server, or keep looking for servers in the list until it finds one that reports a version other than `None`.\r\n- It would be supremely useful if there was a ReQL command for finding the specific server the driver is connected to via ReQL (which we had at one point with `ajax/me`, some discussion in #4617). I'll open an issue for this separately."
+  , issueCommentId = 127270672
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-11) 19 : 32 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/239266560"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/809#issuecomment-239266560"
+  , issueCommentCreatedAt = 2016 (-08) (-11) 19 : 32 : 04 UTC
+  , issueCommentBody =
+      "@ingararntzen Sounds like a (\"Euclidean\") multi-dimensional index would be ideal for your use case. Generic index-intersection as primarily discussed here would probably still help, but wouldn't be as good as a single multi-dimensional index.\r\n\r\nAbout your work-around: All RethinkDB geospatial commands use a spherical earth model with geodesics, with the exception of `getNearest`, `distance` and `r.circle`, which use more sophisticated ellipsoidal earth models for distance calculations (though you can change this to spherical with an optional argument).\r\nSo for your case, you *will* see aberrations from a Euclidean rectangle in `getIntersecting`, which will become more pronounced as the rectangle gets larger, or gets further away from the equator. The reason is that the vertices of the rectangle are going to be connected through spherical geodesics, and not along the latitude lines. That is, the rectangle is going to \"bulge out\" away from the equator.\r\n\r\nThere are two things you can do to reduce the impact of this: 1. You can insert additional vertices into the rectangle at different longitudes along a single latitude. 2. You can make sure that the rectangle remains small, and close to the equator. For example you could map your coordinate space into the small region of latitude `[-1 deg, 1 deg]` and longitude `[-1 deg, 1 deg]` or similar. Numerical stability will suffer eventually if you get too small, but for the most part should be fairly good."
+  , issueCommentId = 239266560
+  }

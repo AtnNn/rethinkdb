@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-27) 05 : 23 : 48 UTC
+  , issueUpdatedAt = 2015 (-08) (-27) 18 : 29 : 01 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4768/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4768"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4768
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5043
+        , simpleUserLogin = N "thelinuxlich"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5043?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thelinuxlich"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Short-circuit chained filters?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4768"
+  , issueCreatedAt = 2015 (-08) (-26) 08 : 40 : 36 UTC
+  , issueBody =
+      Just
+        "When I write something like this:\r\n\r\n```\r\nr.table(\"users\").filter({age: 10}).filter({foo: \"bar\"});\r\n```\r\n\r\nAnd the first filter doesn't return anything, I expected RethinkDB would skip altogether all the logic after, but if I run the query profile I see something like this:\r\n\r\n```\r\n{\r\n\"description\":  \"Evaluating filter.\" ,\r\n\"duration(ms)\": 0.081655 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating filter.\" ,\r\n\"duration(ms)\": 0.060813 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating table.\" ,\r\n\"duration(ms)\": 0.028789 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating db.\" ,\r\n\"duration(ms)\": 0.009399 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating datum.\" ,\r\n\"duration(ms)\": 0.000855 ,\r\n\"sub_tasks\": [ ]\r\n}\r\n]\r\n} ,\r\n{\r\n\"description\":  \"Evaluating datum.\" ,\r\n\"duration(ms)\": 0.000314 ,\r\n\"sub_tasks\": [ ]\r\n}\r\n]\r\n} ,\r\n{\r\n\"description\":  \"Evaluating make_obj.\" ,\r\n\"duration(ms)\": 0.008454 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating elements in make_obj.\" ,\r\n\"mean_duration(ms)\": 0.000657 ,\r\n\"n_samples\": 1\r\n}\r\n]\r\n}\r\n]\r\n} ,\r\n{\r\n\"description\":  \"Evaluating make_obj.\" ,\r\n\"duration(ms)\": 0.00234 ,\r\n\"sub_tasks\": [\r\n{\r\n\"description\":  \"Evaluating elements in make_obj.\" ,\r\n\"mean_duration(ms)\": 0.000366 ,\r\n\"n_samples\": 1\r\n}\r\n]\r\n}\r\n]\r\n}\r\n```\r\nAm I right to assume that the second filter is still taken into consideration? "
+  , issueState = "closed"
+  , issueId = Id 103209616
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 26
+          , milestoneClosedIssues = 316
+          , milestoneDescription =
+              Just
+                "These issues are neither bugs nor feature requests. Spam, user questions and accidentally created issues end up here."
+          , milestoneTitle = "invalid"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/26"
+          , milestoneCreatedAt = 2013 (-04) (-05) 01 : 37 : 20 UTC
+          , milestoneState = "closed"
+          }
+  }

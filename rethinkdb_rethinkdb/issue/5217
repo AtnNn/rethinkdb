@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-08) 20 : 38 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5217/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5217"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5217
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1675025
+        , simpleUserLogin = N "astanciu"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1675025?v=3"
+        , simpleUserUrl = "https://api.github.com/users/astanciu"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Consider Cleaner Error Objects"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5217"
+  , issueCreatedAt = 2015 (-12) (-16) 14 : 49 : 36 UTC
+  , issueBody =
+      Just
+        "Currently, if an error occurs in a query, you get a response like this:\r\n```\r\n{ deleted: 0,\r\n  errors: 1,\r\n  first_error: 'Duplicate primary key `id`:\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450216729500,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n}\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450276183124,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n}',\r\n  inserted: 0,\r\n  replaced: 0,\r\n  skipped: 0,\r\n  unchanged: 0 }\r\n```\r\n\r\nHowever, this makes it challenging to programmatically detect the type of error to send something meaningful back to the client without doing some string manipulation. \r\n\r\nIt would be extremely helpful to split the errors into objects with keys for the error type and error metadata, maybe something like this:\r\n\r\n\r\n```\r\n{ deleted: 0,\r\n  errors: 1,\r\n  first_error: \r\n   {message: 'Duplicate primary key `id`',\r\n    metadata:'\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450216729500,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n}\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450276183124,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n'}\r\n},\r\n  inserted: 0,\r\n  replaced: 0,\r\n  skipped: 0,\r\n  unchanged: 0 }\r\n```\r\n\r\nOr maybe even:\r\n```\r\n{ deleted: 0,\r\n  errors: 1,\r\n  first_error: \r\n   {type: 'DUPLICATE', \r\n    message: 'Duplicate primary key `id`',\r\n    metadata:'\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450216729500,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n}\\n{\\n\\t\"action\":\\t\"CREATE\",\\n\\t\"created\":\\t1450276183124,\\n\\t\"createdby\":\\t\"Some User\",\\n\\t\"description\":\\t\"Default create user workflow\",\\n\\t\"entity\":\\t\"USER\",\\n\\t\"graph\":\\t{\\n\\t\\t\"connections\":\\t[],\\n\\t\\t\"groups\":\\t[],\\n\\t\\t\"inports\":\\t{},\\n\\t\\t\"outports\":\\t{},\\n\\t\\t\"processes\":\\t{},\\n\\t\\t\"properties\":\\t{\\n\\t\\t\\t\"environment\":\\t{\\n\\t\\t\\t\\t\"height\":\\t300,\\n\\t\\t\\t\\t\"runtime\":\\t\"node\",\\n\\t\\t\\t\\t\"width\":\\t300\\n\\t\\t\\t},\\n\\t\\t\\t\"name\":\\t\"Main\"\\n\\t\\t}\\n\\t},\\n\\t\"id\":\\t\"ebbd7f6c-e03e-4900-8450-6b63b0f0c68d\",\\n\\t\"name\":\\t\"Create User\",\\n\\t\"organization\":\\t\"acme\"\\n'}\r\n},\r\n  inserted: 0,\r\n  replaced: 0,\r\n  skipped: 0,\r\n  unchanged: 0 }\r\n```\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 122520125
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

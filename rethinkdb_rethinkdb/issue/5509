@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-07) 17 : 34 : 27 UTC
+  , issueUpdatedAt = 2016 (-04) (-07) 17 : 34 : 27 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5509/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5509"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      ]
+  , issueNumber = 5509
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add optarg to `eachAsync` for managing concurrency"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5509"
+  , issueCreatedAt = 2016 (-03) (-12) 06 : 20 : 04 UTC
+  , issueBody =
+      Just
+        "Now that we have `eachAsync` for automatically awaiting async operations before continuing to read from the cursor, it would be nice if the concurrency could be controlled. This would essentially be equivalent to [`Promise.map(..., { concurrency: <int> })`](http://bluebirdjs.com/docs/api/promise.map.html#map-option-concurrency) from bluebird.\r\n\r\nWhile this can be done in user-code with relative ease, I think it's useful enough (namely in tuning the performance of bulk operations) to consider implementing.\r\n\r\n```js\r\nconst concurrency = 10;\r\nconst pending = [];\r\n\r\ncursor.eachAsync((job) => {\r\n  Promise.resolve().then(() => {\r\n    if (pending.length >= concurrency) {\r\n      return Promise.any(pending);\r\n    }\r\n  }).then(() => {\r\n    let p = asyncHandler(job).then(() =>\r\n      pending.splice(pending.indexOf(p), 1);\r\n    );\r\n    pending.push(p);\r\n  });\r\n});\r\n```\r\n\r\nProposal:\r\n\r\n```js\r\ncursor.eachAsync(asyncHandler, { concurrency: 10 });\r\n```"
+  , issueState = "closed"
+  , issueId = Id 140352083
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

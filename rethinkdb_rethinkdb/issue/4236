@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 20 : 25 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4236/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4236"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4236
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1981198
+        , simpleUserLogin = N "thejsj"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1981198?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thejsj"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Extend `changeAt` to accept functions in both arguments."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4236"
+  , issueCreatedAt = 2015 (-05) (-15) 18 : 27 : 40 UTC
+  , issueBody =
+      Just
+        "Currently, it's very cumbersome to alter arrays. Usually, they involved finding the index of a particular value and then using `changesAt` with the index to update the value. \r\n\r\nAfter talking to @danielmewes, we had the idea of using `changesAt` to do this kind of operation by being able to take a function in the first and second argument. The first argument would work as a filter and the second argument would return a value.\r\n\r\nExample:\r\n\r\n```\r\nr.expr([ { name: 'jorge', score: 100 }, { name: 'atnnn', score: 40 }])\r\n  .changeAt(function (value) { \r\n    return value('name').eq('jorge')' \r\n   }, function (value) { \r\n      return { name: value('name'), score: 99999 }'; \r\n   });\r\n```\r\n\r\nThis would be consistent with the current API, because you can do something like: \r\n\r\n```\r\nr.expr([ { name: 'jorge', score: 100 }, { name: 'atnnn', score: 40 }])\r\n  .changeAt(1, function (value) { \r\n      return { name: value('name'), score: 99999 }'; \r\n   });\r\n```\r\nor\r\n\r\n```\r\nr.expr([ { name: 'jorge', score: 100 }, { name: 'atnnn', score: 40 }])\r\n  .changeAt(function (value) { \r\n    return value('name').eq('jorge')' \r\n   }, \"Hulk\");\r\n```"
+  , issueState = "open"
+  , issueId = Id 76813133
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

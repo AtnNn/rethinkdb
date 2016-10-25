@@ -1,0 +1,56 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-25) 20 : 44 : 51 UTC
+  , issueUpdatedAt = 2015 (-01) (-02) 21 : 16 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2784/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2784"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2784
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Consider replacing vector clocks with naive timestamp-based conflict resolution"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2784"
+  , issueCreatedAt = 2014 (-07) (-31) 01 : 30 : 12 UTC
+  , issueBody =
+      Just
+        "In #2663, we decided that the new ReQL administrative API should handle vector clock conflicts as follows: Reading from a conflicted value produces an error. Writing to a conflicted value resolves the conflict.\r\n\r\nHowever, I'm not sure that this is actually the best solution. The problem is that we have no good way to return a document that is partially in error. Imagine this situation: A user accidentally causes a vector clock conflict on a table's `database` field. Now they can't access the table's metadata at all; they get an error telling them to \"overwrite the document\". But maybe they've forgotten what they had the config set to. Even though the valid config is still stored on the server, the user can't access it; they have to reconstruct it. The user experience is similarly bad if they do a range scan over the `rethinkdb.table_config` artificial table. The table with the metadata conflict will not appear; instead, they will get a message saying that there was an error.\r\n\r\nWe should consider replacing vector clocks with a structure consisting of `(timestamp, uuid, value)`, where `timestamp` is a `time_t`. The semilattice join is defined by comparing first by timestamp, then by UUID. When the user writes to a field, the server will set `timestamp` to the larger of the server's current `time()` and the old timestamp plus one, and it will set `uuid` to its machine ID. (Or peer ID. Or a newly generated UUID. It doesn't matter.)\r\n\r\nNormally, this works transparently, just like vector clocks. If the user issues two updates almost simultaneously, one will be chosen arbitrarily. If the user writes the same field on both sides of a netsplit, whichever write happens later (by wall-clock time) will be chosen, as long as the servers' clocks are sane. If the servers' clocks are insane, then everything still works properly, except that if the user writes the same field on both sides of a netsplit the winner will be arbitrary. The user never sees a conflict; the system always picks a value for the field. \r\n\r\nThis issue is probably not important."
+  , issueState = "closed"
+  , issueId = Id 39154845
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-01) (-23) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 81
+          , milestoneClosedIssues = 321
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.16"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/81"
+          , milestoneCreatedAt = 2014 (-09) (-04) 04 : 49 : 30 UTC
+          , milestoneState = "closed"
+          }
+  }

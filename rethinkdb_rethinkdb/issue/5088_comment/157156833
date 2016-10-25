@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-16) 20 : 27 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157156833"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5088#issuecomment-157156833"
+  , issueCommentCreatedAt = 2015 (-11) (-16) 20 : 15 : 05 UTC
+  , issueCommentBody =
+      "@dparnell: Thanks for the pull requests, but I am going to close this one without merging. We are aware of the issue on El Capitan and are already considering what to do about it. But in the mean time there is already an easier solution that does not involve switching to `libressl`: add `--fetch openssl` to your `./configure` invocation. This will cause the system to download OpenSSL and that will just work.\r\n\r\nAs a bit of background: Apple has removed the OpenSSL headers from El Capitan (10.11). Prior to that version the headers were installed with Xcode, and then linked to as normal if the Xcode command-line tools were installed (`xcode-select --install`). However OpenSSL has been depreciated for some time on OS X, and this is the next step in that depreciation: the binary is still installed so existing programs will continue to work, but no new ones can be compiled to link to it (without some work).\r\n\r\nApple's action is a painful, but necessary step to force people to move off of an unsupported system install. Even the OpenSSL group recommends statically linking in most cases. There are issues with this (code size), especially with Apple's root certificates being stored in the Keychain (good idea, but non-standard), but at the end of this transition period things should be generally better.\r\n\r\nThere is some conversation going on internally to replace OpenSSL altogether in our codebase, but in the mean time using the `--fetch` option above fixes the problem.\r\n\r\nAgain, thanks for your effort."
+  , issueCommentId = 157156833
+  }

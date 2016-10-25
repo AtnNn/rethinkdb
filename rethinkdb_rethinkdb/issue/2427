@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-29) 22 : 40 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2427/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2427"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      ]
+  , issueNumber = 2427
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "python driver connections do not work well with threading"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2427"
+  , issueCreatedAt = 2014 (-05) (-21) 17 : 41 : 11 UTC
+  , issueBody =
+      Just
+        "The Python driver does not seem to be playing nice with threading, with a variety of problems:\r\n- `Connection is broken` exceptions on queries (but subsequent calls can work)\r\n- `No JSON object could be decoded` exceptions\r\n- hanging forever on queries, sometimes seen as a hang on threading.join()\r\n\r\nI will be opening a branch on this, and in two subsequent checkins add a test that shows this, then a Proof-of-Concept fix. But there should probably be a discussion around what the proper strategy should be. My initial thoughts on the options:\r\n\r\n1. Explicitly declare that connections belong ONLY to the thread that started them and provide a reasonable exception to this end when people try to use the connection from another thread. This would be fairly easy using threading.local(). A way of making this somewhat easier to use would be to provide a method to clone a thread (i.e.: use the same connection information) from a connection object passed from another thread.\r\n\r\n2. Do the work within the driver to handle passing the thread object within threads. My initial Proof-of-Concept shows that at least the first part of the problem can be solved relatively simply by putting the socket connection in a thread-local object. But there is a lot of thinking that is going to been to be done about what parts of the current net.Connection object should be shared between threads and what should be thread-local, and putting appropriate locks around the former.\r\n\r\nNote that a similar conversation is probably going to apply to things using the multiprocessing module. The same solutions can probably work for both types of (semi) concurrent methods, but we would need to confirm that both work."
+  , issueState = "open"
+  , issueId = Id 34006555
+  , issueComments = 21
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

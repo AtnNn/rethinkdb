@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-09) 17 : 58 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91311088"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4036#issuecomment-91311088"
+  , issueCommentCreatedAt = 2015 (-04) (-09) 17 : 58 : 09 UTC
+  , issueCommentBody =
+      "Thanks, I can see that disk reads are being done for the table `mjf`. Is that the one we're talking about?\r\n\r\nTable scans from rotational disks can be slow in RethinkDB, since each document that's not in the cache will cause a disk seek. Still I'd expect in the range of 100 reads/s even if no document is in cache and not the 5 or so that you've seen.\r\n\r\nI'm trying to find out what exactly is necessary to trigger this issue. When you have a moment, would you mind running a small experiment for me?\r\nI've already tried this locally but it worked fine, so I'm wondering whether my test case is bad or if there's something special to your system:\r\n\r\nRun these queries in the Data Explorer to create a table `test` and insert 150k documents (might take a few minutes):\r\n```js\r\nr.tableCreate('test')\r\n\r\nr.range(150000).forEach(function(i) { return r.table(\"test\").insert({id: i, a: 1,b: 1,c: 1,d: 1,e: 1,f: 1,g: 1,h: 1, arr: [\r\n  5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5\r\n]}, {durability: \"soft\"}); })\r\n```\r\n\r\nThen, could you run these queries (in Python) and tell me if one of them exhibits the slow behavior?\r\n```py\r\n# 1. only pluck a small field\r\nres = []\r\nfor doc in r.table(\"test\").pluck(\"a\").run(conn):\r\n    res.append(doc)\r\n\r\n# 2. pluck the array\r\nres = []\r\nfor doc in r.table(\"test\").pluck(\"arr\").run(conn):\r\n    res.append(doc)\r\n```\r\n\r\nThanks for your help in tracking this down!"
+  , issueCommentId = 91311088
+  }

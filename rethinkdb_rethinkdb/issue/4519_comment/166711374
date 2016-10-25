@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-22) 19 : 37 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/166711374"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-166711374"
+  , issueCommentCreatedAt = 2015 (-12) (-22) 19 : 36 : 25 UTC
+  , issueCommentBody =
+      "Having the user entries and passwords in a separate table has the nice property that it's more obvious what parts of the data in those tables a user can change and what parts they don't.\r\nThe plan is that every user can change their own password, but they can't add or delete users, or change permissions without having additional permissions themselves.\r\n\r\nWith a separate `users` table, the rule becomes \"every user can update their own entry in `users`\". With a combined table for both, the rule would be something like \"every user can update the `password` field of their own entry in `auth`, but not any other fields\" (or whatever the table would be called).\r\n\r\n@mlucy I think consistency between the tables isn't really an issue. Keep in mind that this is just how we represent the data in the ReQL artificial table interface. It doesn't necessarily reflect how the data is stored internally. Basically deleting a user from `users` would remove the associated document in `permissions` as well. Creating a user by inserting info `users` would make a new (almost empty) document in `permissions` appear as well.\r\nI think the valid operations should be as follows:\r\n* On `users`: Inserting creates a user, deleting deletes a user, updates can change the `password` field\r\n* On `permissions`: Neither inserts nor deletes are allowed. Updates change the permissions of a given user."
+  , issueCommentId = 166711374
+  }

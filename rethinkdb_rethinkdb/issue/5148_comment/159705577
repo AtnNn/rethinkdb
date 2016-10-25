@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-25) 19 : 18 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159705577"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5148#issuecomment-159705577"
+  , issueCommentCreatedAt = 2015 (-11) (-25) 19 : 18 : 10 UTC
+  , issueCommentBody =
+      "A few more questions:\r\n* Can you get the same behavior on `\"tableB\"` or only on `\"tableA\"`?\r\n* Which version of RethinkDB did you upgrade from? Did the issue exist before the upgrade?\r\n* Is there any chance that the reads you're observing are coming from a `count` query and not the \r\n`.get`? I assume the reads/s numbers are from the throughput graph in the web UI?\r\n* Would you mind running a little experiment?\r\n  1. Restart the server\r\n  2. Go to the web UI and make sure that there are 0 reads/s\r\n  3. Run only `r.database(\"db1\").table(\"tableA\").get(\"DOES NOT EXIST\")` in the Data Explorer\r\n  4. Check if you can now observe the high reads/s in the throughput graph\r\n  5. If yes, go back to the Data Explorer and run `r.db('rethinkdb').table('jobs')`\r\n  6. Post the output of that query here\r\n* Can you observe a growth in RethinkDB's memory consumption when this happens? I wonder if an out of memory condition could be the reason for the VM locking up.\r\n\r\nRegarding `count()` taking a long time: This might be normal. With a data set larger than the cache size, and with the data files being on a rotational HDD, traversing the whole table to count the number of documents can sometimes take a long time.\r\nAs a somewhat unfortunate edge case, if you run a `count()` in the Data Explorer, the Data Explorer  might time out after a few minutes. However the query will actually keep running in the background and put additional load on the server."
+  , issueCommentId = 159705577
+  }

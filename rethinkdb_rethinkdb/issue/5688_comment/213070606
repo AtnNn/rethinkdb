@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-21) 19 : 02 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/213070606"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5688#issuecomment-213070606"
+  , issueCommentCreatedAt = 2016 (-04) (-21) 19 : 02 : 48 UTC
+  , issueCommentBody =
+      "I am not sure that I understand you, so here is what I thin you are saying: you have two `rethinkdb` servers ('a' and 'b'), possibly with different tables on them, and you want make sure that data from one is replicated on the other. Is that correct?\r\n\r\nAssuming so, then the solution is to either restart one of the servers using the `--join` option to inform it of the other one, or to start a third server (one using `proxy` would work, and not involve a data on disk) and give it two `--join` options to the first two. They will find each other through that third server, which you can immediately take down again.\r\n\r\nOnce your servers see each other, then you need to use the [`reconfigure`](http://rethinkdb.com/api/python/reconfigure/) command on the tables with `replicas` equal to the number of servers you have running. That will make sure that the data exists on that number of servers.\r\n\r\nAnd as a side note: the way the logic works out it is MUCH safer to have 3 servers rather than 2. In that case we can automatically failover if any one server drops out. In the case of just 2 servers the cluster can't make good decisions when one goes down."
+  , issueCommentId = 213070606
+  }

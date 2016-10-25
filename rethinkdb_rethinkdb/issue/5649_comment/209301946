@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-13) 08 : 33 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 471065
+        , simpleUserLogin = N "PeterKnego"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/471065?v=3"
+        , simpleUserUrl = "https://api.github.com/users/PeterKnego"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/209301946"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5649#issuecomment-209301946"
+  , issueCommentCreatedAt = 2016 (-04) (-13) 08 : 31 : 33 UTC
+  , issueCommentBody =
+      "Hi Brian,\r\n\r\nthanks for pointing out all the details about the Connection and sharing your experiences. It does not discourage me at all and I'll try to find a way to resolve the issues you pointed out.\r\n\r\n1. As I understand there is no way for user code (or ConnectionPool wrapper) to know if an exception thrown by Connection can be recovered from? The logical solution in this case is to discard the connection and not return it to pool. \r\n(In reality, non-checked exception can not be anticipated and will break the execution of the current thread. Normally in the server-side code a generic exception wrapper will catch such exceptions and just produce a generic error response)\r\nSo this is more of a general situation that affects all code using Connection (userland code and/or ConnectionPool) and needs to be cleared by Connection developers: \r\n\r\n  - Are there any exceptions thrown by Connection that are recoverable? If yes, than they should be expected by user code and should be a checked exception (forcing user at compile time to deal with this possible situation).\r\n  - Can Connection continue to be used after such exception? If yes, then they should probably not be an exception, but an error code. \r\n  - Can en exception happen that affects just one Cursor and others Cursors can happily continue working? If yes, then the exception should be thrown on the Cursor, or the Cursor instead just produces the error code.\r\n\r\n  At the moment ConnectionPool behaves the same as user code - it stops using the Connection after an exception, as it has no way of knowing \r\n\r\n2. About possible resources leak: should all uses of Connection `try-catch` exceptions and `.close()` the Connection? This is not indicated in docs/examples.\r\n\r\n3. Good point about accumulation/exhaustion if one node goes down for a while. The proper way of handling this would be to have a set of connection pools, one for each node. The lease logic would then round-robin through the set of connection pools, skipping pools that can not produce a working Connection (maybe with some time-based back-off algorithm for unavailable nodes). When node is again available, the logic would instantly (depending on the back-off) start producing Connections for it."
+  , issueCommentId = 209301946
+  }

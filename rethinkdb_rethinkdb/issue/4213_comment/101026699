@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-11) 19 : 35 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/101026699"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4213#issuecomment-101026699"
+  , issueCommentCreatedAt = 2015 (-05) (-11) 19 : 35 : 13 UTC
+  , issueCommentBody =
+      "I think we've never reached a final conclusion on what `null` should be treated like, though my impression was that we tended towards treating `null` like a regular value and not like non-existence except in a few exceptions (like in `replace` to delete a document).\r\nThere's the whole discussion in https://github.com/rethinkdb/rethinkdb/issues/1032 for example, where we basically concluded that `null` *should* be a regular value that's indexed.\r\n\r\nI'm somewhat opposed to ignoring `null` here, since it would be inconsistent with `orderBy(...).limit(1)`, as well as inconsistent with the ordering implied by the ReQL comparison operators.\r\n\r\nIf we now make `min` and `max` ignore `null` values, we would also have the problem that we would need to explicitly filter out `null` in indexed `min` and `max` queries once #1032 is done in order to make indexed and non-indexed `min`/`max` behave the same.\r\n\r\nI'd rather change the docs for now and leave changing the server as a ReQL discussion."
+  , issueCommentId = 101026699
+  }

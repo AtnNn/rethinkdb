@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 23 : 33 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47995609"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1862#issuecomment-47995609"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 23 : 33 : 39 UTC
+  , issueCommentBody =
+      "> Is specifying an integer shard id actually convenient (as in, in that accessible enough for people to actually use)?\r\n\r\nI think it should be a string, e.g. `\"europe\"` or `\"us\"` or `\"more_than_a_year_old\"` or `\"vip\"`. The purpose of custom sharding is when there's a good reason to distinguish between the different custom shards. For that purpose strings are much more usable than integers. And I can't think of a reason not to use strings.\r\n\r\n> I don't think we should let people specify number of hash-shards per custom-shard -- they shouldn't know or care how to do that. They should just be able to say \"I want to scale more\", add a few shards, and Rethink should add them to the relevant custom shard.\r\n\r\nI disagree on both theoretical and practical grounds:\r\n\r\n* On theoretical grounds, a custom-shard is an entity that the user knows and cares about; they care about the number of hash-shards per custom-shard as much as they care about the number of hash-shards per table.\r\n\r\n* On practical grounds, it's not always obvious which custom-shard should get the new hash-shard. If the user is adding a hash-shard because they're running out of storage space, it should go to the custom-shard which is the closest to filling up its disk. If the user is adding a hash-shard because they want more query throughput, it should go to the custom-shard which has the slowest queries. Or maybe the one with the most queries? There's no way for the system to know that. The user must make the decision."
+  , issueCommentId = 47995609
+  }

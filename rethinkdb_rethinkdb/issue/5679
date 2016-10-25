@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-04) (-19) 23 : 09 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5679/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5679"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 5679
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 159819
+        , simpleUserLogin = N "cefn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/159819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/cefn"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Add filter-like boolean operator 'matches' ?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5679"
+  , issueCreatedAt = 2016 (-04) (-18) 12 : 36 : 44 UTC
+  , issueBody =
+      Just
+        "It seems like there's an important bit of syntactic sugar missing from the RethinkDB API unless I've missed it. \r\n\r\nIt would allow the truth-testing of document-field-matching using a javascript map like ```{role:\"admin\",authenticated:true}```. \r\n\r\nIt would have conditional logic equivalent to the map-oriented syntax of [filter](https://rethinkdb.com/api/javascript/filter/) but applied to member fields returning a bool, (as opposed to a map applied to sequences returning a filtered sequence).\r\n\r\nMotivation: I would like to be able to filter for both subdocuments which are fields and those which are arrays from my document-oriented store with the convenience of the simplified filter map syntax, without having to expand every matching criterion into an eq() clause as I am currently doing. \r\n\r\nUSE CASE\r\n\r\nIn my use-case I would like to offer up an API like\r\n\r\n```javascript\r\n    registry.retrieveWorkshopGroups({\r\n        workshopFilter:{type:'keynote'},\r\n        groupFilter:{role:\"facilitator\"}\r\n    })\r\n```\r\n\r\nHowever, my registry is deliberately designed to hide exactly how the entities are mapped to documents or sub-documents. Consequently, while 'workshop' might be a field member of a document or aggregation, a group might exist as an array in the document or aggregation.\r\n\r\nWhile the groupsFilter can be passed the filter(...) function because groups is an array, but there is no way to pass on the workshopFilter map to any ReQL function as part of a 'select' composition as far as I can see, because it's a field not a sequence.\r\n\r\nIdeally the same syntax for matching fields as for matching arrays, could be provided by a 'matches' operator (the eq operator is already available, but it requires the target to exactly equal the map, returning false if any ADDITIONAL fields exist, so ).\r\n\r\nCurrently I believe the only way to do the above requires me to decompose the {type:keynote} filter specification of workshopFilter (where workshop is a singleton in my aggregation), and procedurally reconstruct subdocument eq() calls against the singleton itself. \r\n\r\nCANONICAL USE AND COMPLETE RUNNABLE EXAMPLE\r\n\r\nBelow is a complete executable example which works, but would be massively simplified given a boolean operator with a canonical use like...\r\n\r\n```javascript\r\n.filter(function(doc){\r\n   return doc(\"workshop\").matches({type:\"keynote\"})\r\n})\r\n```\r\n\r\n...as it would eliminate the need for my 'workshopCriterionFactory' function, which simply maps from filter-like syntax into singleton .eq syntax in a clunky way.\r\n\r\n```javascript\r\nvar r = require(\"rethinkdb\"),\r\n    _ = require(\"lodash\"),\r\n    Promise = require(\"bluebird\");\r\n\r\nr.connect({\r\n    host:\"localhost\",\r\n    port:28015\r\n}).then(function(conn){\r\n\r\n    return Promise.resolve()\r\n        .then(function(){\r\n            return r.dbDrop(\"sesh\").run(conn);\r\n        })\r\n        .then(function(){\r\n            return r.dbCreate(\"sesh\").run(conn);\r\n        })\r\n        .then(function(){\r\n            conn.use(\"sesh\")\r\n        })\r\n        .then(function(){\r\n            return Promise.all([\r\n                r.tableCreate(\"users\"       ).run(conn),\r\n                r.tableCreate(\"workshops\"   ).run(conn),\r\n            ]);\r\n        })\r\n        .then(function(){\r\n            return Promise.all([\r\n                r.table(\"users\"     ).indexCreate(\"redemptions_invitationId\",   r.row(\"redemptions\")(\"invitationId\"), {multi:true}).run(conn),\r\n                r.table(\"users\"     ).indexCreate(\"redemptions_groupId\",        r.row(\"redemptions\")(\"groupId\")     , {multi:true}).run(conn),\r\n                r.table(\"workshops\" ).indexCreate(\"groups_id\",                  r.row(\"groups\")(\"id\")               , {multi:true}).run(conn),\r\n                r.table(\"workshops\" ).indexCreate(\"invitations_id\",             r.row(\"invitations\")(\"id\")          , {multi:true}).run(conn),\r\n            ]);\r\n        })\r\n        .then(function(){\r\n            return Promise.all([\r\n                r.table(\"users\"     ).indexWait(\"redemptions_invitationId\"  ).run(conn),\r\n                r.table(\"users\"     ).indexWait(\"redemptions_groupId\"       ).run(conn),\r\n                r.table(\"workshops\" ).indexWait(\"groups_id\"                 ).run(conn),\r\n                r.table(\"workshops\" ).indexWait(\"invitations_id\"            ).run(conn),\r\n            ]);\r\n        })\r\n        .then(function(){\r\n            return Promise.all([\r\n                r.uuid().run(conn),\r\n                r.uuid().run(conn),\r\n                r.uuid().run(conn),\r\n                r.uuid().run(conn),\r\n            ]);\r\n        })\r\n        .spread(function(userId, workshopId, invitationId, groupId ){\r\n\r\n            var userTable = r.table(\"users\");\r\n            var workshopTable = r.table(\"workshops\");\r\n\r\n            var userRecord = {\r\n                id:userId,\r\n                redemptions:[\r\n                    {\r\n                        invitationId:invitationId,\r\n                        groupId:groupId,\r\n                    },\r\n                ],\r\n            };\r\n\r\n            var workshopRecord = {\r\n                type:\"keynote\",\r\n                version:\"0\",\r\n                invitations:[\r\n                    {\r\n                        id:invitationId,\r\n                        role:\"contributor\",\r\n                    }\r\n                ],\r\n                groups:[\r\n                    {\r\n                        id:groupId,\r\n                        role:\"facilitator\",\r\n                    }\r\n                ],\r\n            };\r\n\r\n            return Promise.all([\r\n                    userTable.insert(userRecord).run(conn),\r\n                    workshopTable.insert(workshopRecord).run(conn),\r\n                ])\r\n                .spread(function(){\r\n                    var workshopFilter = {type:\"keynote\"}; //this would in the future be a runtime filtering map\r\n                    var groupFilter = {role:\"facilitator\"}; //this would in the future be a runtime filtering map\r\n\r\n                    var workshopCriterionFactory = function(doc){\r\n                        var filterResult;\r\n                        for(name in workshopFilter){\r\n                            var clause = doc(\"workshop\")(name).eq(workshopFilter[name]);\r\n                            if(typeof filterResult ===\"undefined\"){\r\n                                filterResult = clause;\r\n                            }\r\n                            else{\r\n                                filterResult = filterResult.and(clause);\r\n                            }\r\n                        }\r\n                        return filterResult;\r\n                    }\r\n\r\n                    return userTable\r\n                        .filter({\"id\":userId})\r\n                        .concatMap(function(user){\r\n                            return user(\"redemptions\")\r\n                        })\r\n                        .concatMap(function(redemption){\r\n                            return workshopTable.getAll(redemption(\"groupId\"), {index:\"groups_id\"}).map(function(workshop){\r\n                                    return {\r\n                                        redemption:redemption,\r\n                                        workshop:workshop,\r\n                                    }\r\n                                })\r\n                                .filter(function(doc){\r\n                                    return workshopCriterionFactory(doc);\r\n                                })\r\n                                .filter(function(doc){\r\n                                    var groupSelfJoin = {id:redemption(\"groupId\")};\r\n                                    for (var name in groupFilter) {\r\n                                        groupSelfJoin[name] = groupFilter[name];\r\n                                    }\r\n                                    return doc(\"workshop\")(\"groups\").filter(groupSelfJoin).isEmpty().not()\r\n                                })\r\n                        })\r\n                        .run(conn)\r\n                        .then(function(result){\r\n                            return result.toArray();\r\n                        })\r\n                        .then(function(arr){\r\n                            console.log(JSON.stringify(arr, null, '\\t'));\r\n                            void(0);\r\n                        });\r\n                })\r\n        });\r\n});\r\n```"
+  , issueState = "open"
+  , issueId = Id 149138430
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-25) 20 : 25 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/134729676"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4763#issuecomment-134729676"
+  , issueCommentCreatedAt = 2015 (-08) (-25) 20 : 25 : 38 UTC
+  , issueCommentBody =
+      "Thanks for the extensive report @kulbirsaini !\r\n\r\nThere are a couple of different things at play here.\r\n\r\n>  tried to understand but I am not sure how having two tables with same name (though different uuids) actually helps and why we shouldn't have stricter rules to avoid table name collisions.\r\n\r\nWe generally don't allow creating tables with names that already exist. The case where you can end up with this is if you either perform multiple metadata operations at the same time, or if you have a netsplit and create a new table by the same name on both sides of the netsplit, and then rejoin the two halves of the cluster back together.\r\n\r\nThe reason this can happen is a technical one. The set of existing tables is exchanged within the cluster in an asynchronized way. It is eventually consistent, but not immediately consistent. What this means is that if multiple operations occur at the same time, you can run into conflicts that you'll need to manually resolve (in this case by renaming one of the tables). One of the advantages of this approach is that you can still create, rename or delete tables if parts of your cluster are unavailable. So in the end this is a trade-off between consistency guarantees and remaining administrable under failure cases.\r\n\r\nNote that this only applies to how the existence and name of a given table is synchronized. The data in the tables itself is replicated in an immediately consistent way in RethinkDB.\r\n\r\n> The cluster list show 3 databases and 2 tables while top right corner, it shows 15/15 tables ready.\r\n\r\nThis is probably the consequence of a  race condition that has been reported to occur when running the thinky tests. The reasons for this are similar as for the table renaming issue.\r\nThe issue for this is https://github.com/rethinkdb/rethinkdb/issues/4727\r\nThose tables end up without a database, and the web UI doesn't currently display them. You can move the \"hidden\" tables over to the `test` database for example by running\r\n```js\r\nr.db('rethinkdb').table('table_config').filter({db: '__deleted_database__'}).update({db: 'test'})\r\n```\r\n\r\nNow there are two open problems that I don't currently have an explanation for, and which look like bugs:\r\n> Also, my dashboard does not work anymore and it doesn't even have an error to display for more. \r\n\r\nThis definitely seems to be a bug in the dashboard. @deontologician What would be the best way to debug this?\r\n\r\n> One of the tables in a totally different database (I didn't touch that db for more than a week now) is marked unavailable and reason shown is that no replicas are available.\r\n\r\nThis seems to be the main bug here. That definitely shouldn't happen, and it sounds really bad. \r\nCould you tell me the name of that table so I can find it in the `_debug_table_status` output that you sent me?\r\nCould you also run `r.db(...).table(...).status()` on that table and report the output here?\r\n\r\nDespite being shown as unavailable, does running queries against that table still work?\r\n\r\n\r\nMany thanks for helping us track this down! Sorry for your bumpy experience so far. Hope we can figure this out very soon."
+  , issueCommentId = 134729676
+  }

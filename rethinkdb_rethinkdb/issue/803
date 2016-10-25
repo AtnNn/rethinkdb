@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-04) (-28) 20 : 01 : 01 UTC
+  , issueUpdatedAt = 2014 (-04) (-28) 20 : 01 : 12 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/803/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/803"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:hygiene"
+          , labelName = "tp:hygiene"
+          }
+      ]
+  , issueNumber = 803
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 706854
+          , simpleUserLogin = N "AtnNn"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/706854?v=3"
+          , simpleUserUrl = "https://api.github.com/users/AtnNn"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Remove internal memcache protocol, dummy protocol, templatization of clustering layer."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/803"
+  , issueCreatedAt = 2013 (-05) (-14) 19 : 58 : 11 UTC
+  , issueBody =
+      Just
+        "A useful aspect of the dummy protocol is that it offers simple sets and gets and an unusual region type, and we don't have to worry so much about the data storage implementation being correct or incorrect.\r\n\r\nA useful aspect of the memcache protocol is that we have some stress client or serial_mix tests that use this protocol.\r\n\r\nAnother useful aspect of templatization is that it helps enforce separation of concerns pretty harshly.\r\n\r\nI think all but the last useful aspect are now no longer present.  The rdb_protocol is quite stable when it comes to dumb gets and sets, which is what the dummy and memcache protocols get us.  The dummy protocol's unusual region type failed to catch recent bugs in region logic (where sharding created empty write operations).  We now have a python stress client for the rdb protocol, or will soon.  Separation of concerns can be enforced by code review.\r\n\r\nThe advantage of removing these protocols is that you can make changes to the \"protocol API\" without having to update three different things.  We can get rid of the memcache port that's baked in.  There may be less obstacles to the question of how automatic consistent hashing based sharding should be mapped to memcache or dummy protocol region types.  Optimization to types like region_map_t or other generic types' performance becomes more feasible."
+  , issueState = "closed"
+  , issueId = Id 14328204
+  , issueComments = 30
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

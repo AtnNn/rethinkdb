@@ -1,0 +1,58 @@
+Issue
+  { issueClosedAt = Just 2016 (-06) (-09) 21 : 31 : 57 UTC
+  , issueUpdatedAt = 2016 (-06) (-17) 20 : 41 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5840/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5840"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5840
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 19826619
+        , simpleUserLogin = N "ember-graab"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/19826619?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ember-graab"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Backup / Restore Snapshots of Cluster Data using Backfill Method"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5840"
+  , issueCreatedAt = 2016 (-06) (-08) 21 : 04 : 46 UTC
+  , issueBody =
+      Just
+        "I've been trying to setup a Backup/Restore scheme to take a snapshot of the data in a cluster and then later be able to restore that snapshot as the authoritative/primary data for recovery purposes. I've been running into some issues while trying a number of different variations of the scheme - errors about hosting server(s) being unreachable; tables being available for outdated reads, but not up-to-date reads or writes (which makes sense but I'd like to override); etc. I've tried some emergency repairs using table reconfigures, but haven't gotten the cluster back into a healthy state.\r\n\r\nI'm using a Backfill technique where I attach a new instance to the cluster as a nonvoting replica, wait for it to collect all the latest data, terminate it, then take a snapshot of the hard drive. For the Restore step, I then restore this snapshot into a new volume and attach it to a new instance which gets added to the cluster as the primary replica. The restore step is where things go wonky.\r\n\r\nI've tried a few different setups with this - terminating the backup server without reconfiguring it out of the cluster as nonvoting first (causes the RDB dash to flag errors about the missing backup server), reconfiguring it out before terminating it (fixes those errors but might not work the same way to do iterative backfilling backups), restoring into a brand new cluster with no existing data, restoring into the original existing cluster where the snapshot was sourced, etc. Ultimately I think we'll want to be able to do either a new cluster or the original existing one for recovery.\r\n\r\nAny ideas how to force the cluster to recognize old data as authoritative? Or how to force the cluster to forget known to be non-existent replicas from when the snapshot was created?\r\n\r\nFor reference I'm using AWS EC2 volumes and their Snapshot flow."
+  , issueState = "closed"
+  , issueId = Id 159271773
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

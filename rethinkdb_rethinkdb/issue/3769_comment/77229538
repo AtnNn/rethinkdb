@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-10) 14 : 54 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77229538"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3769#issuecomment-77229538"
+  , issueCommentCreatedAt = 2015 (-03) (-04) 19 : 36 : 22 UTC
+  , issueCommentBody =
+      "Here's a ReQL to compute the sample standard deviation, adapted from a MongoDB version found at https://gist.github.com/Pyrolistical/8139958\r\n\r\nSince there's no native square root function in ReQL, I needed to use r.js for that.\r\n\r\nBTW, how can I use temporary helper variables to write less code (see temp helpers below) ?\r\n\r\n```\r\nr.table('t').group(r.row['G']).map(r.row['value']).map(lambda x: {\r\n  'count': 1,\r\n  'sum': x,\r\n  'min': x,\r\n  'max': x,\r\n  'diff': 0 # M2,n:  sum((val-mean)^2)\r\n}) \\\r\n.reduce(lambda a, b: {\r\n  'count': r.add(a['count'], b['count']),\r\n  'sum': r.add(a['sum'], b['sum']),\r\n  'min': r.branch(a['min'].lt(b['min']), a['min'], b['min']),\r\n  'max': r.branch(a['max'].gt(b['max']), a['max'], b['max']),\r\n\r\n  # See https://gist.github.com/Pyrolistical/8139958\r\n  # temp helpers\r\n  # delta: a.sum/a.count - b.sum/b.count; // a.mean - b.mean\r\n  # weight: a.count * b.count / (a.count + b.count)\r\n\r\n  # diff: a.diff + b.diff + delta * delta * weight\r\n  'diff': r.add(\r\n    a['diff'],\r\n\tb['diff'],\r\n\tr.mul(\r\n\t  r.sub(a['sum'].div(a['count']), b['sum'].div(b['count'])),\r\n\t  r.sub(a['sum'].div(a['count']), b['sum'].div(b['count'])),\r\n\t  r.div(a['count'].mul(b['count']), a['count'].add(b['count']))\r\n\t  )\r\n\t)\r\n}) \\\r\n.ungroup().map(lambda g: {\r\n  'G': g['group'],\r\n  'count': g['reduction']['count'],\r\n  'sum': g['reduction']['sum'],\r\n  'min': g['reduction']['min'],\r\n  'max': g['reduction']['max'],\r\n  's2': r.branch(g['reduction']['count'].gt(1), r.div(g['reduction']['diff'], g['reduction']['count'].sub(1)), 0)\r\n}).merge(r.js('(function(x){ \\\r\n  return { s: Math.sqrt(x.s2) } \\\r\n})')).merge(lambda d: {\r\n  'avg': r.div(d['sum'], d['count'])\r\n})\r\n```"
+  , issueCommentId = 77229538
+  }

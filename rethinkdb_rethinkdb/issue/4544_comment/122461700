@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-18) 00 : 49 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/122461700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4544#issuecomment-122461700"
+  , issueCommentCreatedAt = 2015 (-07) (-18) 00 : 49 : 17 UTC
+  , issueCommentBody =
+      "I like `ResourceError` a lot better than `LimitError`.  Isn't `resource` the usual term for this?  Cursory googling suggests that the former is more common (googling \"resource error\" turns up other projects using the same term, \"limit error\" turns up nothing).\r\n\r\nI definitely don't think `LogicError`s should just be `RuntimeError`s; they're a specific type of runtime error and obscuring that doesn't seem very useful.  It's especially weird because they'd then be the only type of `RuntimeError` that we *don't* have a subclass for.  I agree we could probably find a better name though.  Maybe `ExecutionError`?\r\n\r\nI like `AvailabilityError` a lot; I think that's a much better name for it.  `AuthError` seems good too.\r\n\r\nWhat's going on with `RqlTimeoutError`?  I was under the impression that we just used the native timeout exception types in the client languages.  If so, I think we should continue doing that; it always annoys me when projects duplicate existing exception types.\r\n\r\nHere's the hierarchy I'd propose:\r\n\r\n- RqlCursorEmpty (client side) // this is a Python-only thing, right?\r\n- RqlError\r\n  - RqlCompileError\r\n  - RqlRuntimeError\r\n    - RqlLogicError\r\n      - RqlNonExistenceError\r\n    - RqlResourceError\r\n    - RqlUserError\r\n    - RqlInternalError\r\n    - RqlTimeoutError (client side) // maybe, not sure what's going on with this\r\n    - RqlAvailabilityError\r\n      - RqlOpFailedError\r\n      - RqlOpIndeterminateError\r\n  - RqlDriverError\r\n  - RqlAuthError"
+  , issueCommentId = 122461700
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-27) 04 : 58 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1276278
+        , simpleUserLogin = N "williamstein"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1276278?v=3"
+        , simpleUserUrl = "https://api.github.com/users/williamstein"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/143518867"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4754#issuecomment-143518867"
+  , issueCommentCreatedAt = 2015 (-09) (-27) 04 : 58 : 33 UTC
+  , issueCommentBody =
+      "Additional followup.  I tried using my new code (with waitFor:'ready_for_writes') in production, testing restarting when node.    It didn't really work in that the wait started passing fine, but I still started getting \"Did you just reshard?\" errors.   The server would stupidly just keep retrying (dozens of times a second on various changefeeds), and I think that made the server never finish whatever it needed to do so as to not return the \"Did you just reshard?\" error.  So I changed my code so that (in addition to the wait code), also if when making a changefeed there's an error message that contains the string \"Did you just reshard?\", then my code waits a few seconds (currently 10s) before returning the error.  This reduces the load on the server and this did actually work.   There are still some \"Did you just reshard?\" errors, and it takes a while for everything to stabilize, but it 100% does work without any intervention.  This is a massive improvement over the situation before.  \r\n\r\nIt would of course be way better if wait(waitFor='ready_for_writes') would only return -- \"sure the table is ready to go!\" -- if I'm not going to the subsequently get \"Did you just reshard?\" errors.   If that were the case, I could delete that hack I put in involving the delay in case of a \"\"Did you just reshard?\" message, and also things would probably just work much better.     I guess what I really want is  wait(waitFor='ready_for_changefeeds')..."
+  , issueCommentId = 143518867
+  }

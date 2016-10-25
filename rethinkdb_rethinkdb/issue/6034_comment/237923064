@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-05) 18 : 14 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/237923064"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6034#issuecomment-237923064"
+  , issueCommentCreatedAt = 2016 (-08) (-05) 18 : 13 : 35 UTC
+  , issueCommentBody =
+      "Also you're raising a great point with respect to the handling of metadata checksums for https://github.com/rethinkdb/rethinkdb/issues/5925 .\r\n\r\nBecause checksum failures on the latest metablock are to a degree expected after a crash, it would be hard to tell whether this is due to a data corruption (which after #5925 we generally would be able to catch), or due to being interrupted in the middle of a write.\r\nIn the former case we would want to tell the user that the data was corrupted (and probably terminate RethinkDB, since the data loss might cause us to violate Raft invariants among others and could cause havoc and further data loss on other - so far unaffected - replicas in the cluster).\r\nIn the latter case we would want to silently read the next metablock and continue.\r\n\r\nI'm not sure if we can fully resolve this ambiguity. It might be that the best we can do is print a warning if the latest metablock is not valid (again, this only really makes sense after #5925)."
+  , issueCommentId = 237923064
+  }

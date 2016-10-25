@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-15) 09 : 53 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 3498024
+        , simpleUserLogin = N "mschurr"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3498024?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mschurr"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/210394005"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5660#issuecomment-210394005"
+  , issueCommentCreatedAt = 2016 (-04) (-15) 09 : 50 : 28 UTC
+  , issueCommentBody =
+      "Sure, I have attached the slf4j debug logs - I'm assuming this is what you meant? I inserted an item from the web UI before terminating the server and you can see that change shows up in the logs, so the change feed was working initially. The server was terminated roughly at `04:47:00`. I waited until roughly `04:57:00` (10 minutes) before capturing the logs - as you can see, nothing happened in the logs between when I terminated the server and then. My Java process was still running ten minutes later (blocked on the for loop seemingly forever).\r\n\r\nThe logs:\r\n\r\n```\r\n04:45:31.251 [main] DEBUG d.SimpleTest - Channel opening...\r\n04:45:31.900 [main] DEBUG c.r.a.Query - JSON Send: Token: 1 [1,[152,[[15,[\"messages\"]]]],{\"db\":[14,[\"chatapp\"]]}]\r\n04:45:31.918 [pool-1-thread-1] DEBUG c.r.a.Query - JSON Recv: Token: 1 {\"t\":3,\"r\":[],\"n\":[1]}\r\n04:45:32.059 [main] DEBUG c.r.a.Query - JSON Send: Token: 1 [2]\r\n04:46:57.058 [pool-1-thread-1] DEBUG c.r.a.Query - JSON Recv: Token: 1 {\"t\":3,\"r\":[{\"new_val\":{\"id\":\"8a1ae685-ef92-4219-b053-6b0d06a8670f\",\"message\":\"Hello!\",\"name\":\"Bob\",\"time\":0},\"old_val\":null}],\"n\":[1]}\r\n04:46:57.065 [main] DEBUG d.SimpleTest - Channel received {new_val={name=Bob, id=8a1ae685-ef92-4219-b053-6b0d06a8670f, time=0, message=Hello!}, old_val=null}\r\n04:46:57.065 [main] DEBUG c.r.a.Query - JSON Send: Token: 1 [2]\r\n```\r\n\r\nThe complete code of my test:\r\n\r\n```java\r\npackage demo;\r\n\r\nimport static com.rethinkdb.RethinkDB.r;\r\n\r\nimport java.util.HashMap;\r\n\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\n\r\nimport com.rethinkdb.RethinkDB;\r\nimport com.rethinkdb.net.Connection;\r\nimport com.rethinkdb.net.Cursor;\r\n\r\npublic class SimpleTest {\r\n  private static final Logger logger = LoggerFactory.getLogger(SimpleTest.class);\r\n  \r\n  public static void main(String[] args) throws Exception {    \r\n    logger.debug(\"Channel opening...\");\r\n    try (Connection conn = \r\n        RethinkDB.r.connection().hostname(\"localhost\").port(28015).db(\"chatapp\").connect()) {\r\n      Cursor<HashMap<String, ?>> cursor = null;\r\n      try {\r\n        cursor = r.table(\"messages\").changes().run(conn);\r\n        \r\n        for (HashMap<String, ?> item : cursor) {\r\n          logger.debug(\"Channel received {}\", item);            \r\n        }\r\n      } finally {\r\n        if (cursor != null) {\r\n          cursor.close();\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\n\r\nLet me know if I can provide you with anything else."
+  , issueCommentId = 210394005
+  }

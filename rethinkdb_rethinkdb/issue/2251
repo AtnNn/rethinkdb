@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-05) (-28) 22 : 50 : 07 UTC
+  , issueUpdatedAt = 2014 (-05) (-28) 22 : 50 : 07 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2251/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2251"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 2251
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Dropping a secondary index under load can crash the server"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2251"
+  , issueCreatedAt = 2014 (-04) (-14) 20 : 36 : 55 UTC
+  , issueBody =
+      Just
+        "Discussed this with @srh earlier.\r\n\r\nHere's a scenario in which dropping a secondary index can lead to a server crash:\r\n\r\n1. A snapshotted read R goes into the secondary index tree.\r\n\r\n2. The secondary index is dropped. Dropping currently works in four steps:\r\n   2.1 remove the sindex from the sindex block\r\n   2.2 detach the sindex superblock\r\n   2.3 release the sindex block (so other queries can proceed)\r\n   2.4 actually delete all the blocks of the now detached sindex tree, detaching all referenced values\r\n\r\n3. While the snapshotted read R is still active in the sindex tree and the sindex drop has just released the sindex block (2.3) but hasn't actually deleted all of the sindex tree yet (i.e. 2.4 is still ongoing), we delete a value from the table through the primary btree. The deletion will detach it in the primary btree and all indexes, and then actually delete the blocks associated with it. Since the sindex has already been removed from the sindex block in step 2.1, the blob will not be detached in the secondary index that's currently being dropped.\r\n\r\n4. The snapshotted read R gets to a place in the secondary index that points to the blob deleted in step 3. It tries to load it. There is no snapshot of it, since 3 didn't detach it and the sindex deletion 2.4 hasn't got to it yet (otherwise it would have detached it). So it tries to load the current block which has been deleted in 3.\r\n\r\n\r\n@srh also noted that our current way of dropping a secondary index can leave orphaned blocks that will never be freed behind, if the server crashes or is shut down in the middle of dropping a secondary index.\r\nHe proposed adding a third secondary index status to solve both of those problems. Right now a secondary index can be in post construction or ready. We would add a third state \"being deleted\"."
+  , issueState = "closed"
+  , issueId = Id 31502001
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-06) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 61
+          , milestoneClosedIssues = 160
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.13"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/61"
+          , milestoneCreatedAt = 2014 (-03) (-25) 19 : 19 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

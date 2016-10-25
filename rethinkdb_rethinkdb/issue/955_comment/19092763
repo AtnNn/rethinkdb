@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-07) 07 : 26 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19092763"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/955#issuecomment-19092763"
+  , issueCommentCreatedAt = 2013 (-06) (-07) 07 : 25 : 08 UTC
+  , issueCommentBody =
+      "> Why wouldn't that be possible?\r\n\r\nBecause a compound index isn't ordered by the right side, it's ordered by the left side. Suppose I have an index `[i, j, k]`. If I do something like `get_all(['foo'], index='bar', prefix='right')` (which is an equivalent of asking for `[_, _, 'foo']`) I would have to scan the whole table to get the results since the index is ordered first by `i`, then by `j`, and only then by `k`. Essentially the last component `foo` can be anywhere in the table, so I can't get to it efficiently without a full scan.\r\n\r\nOn the hand, I can get to the left side prefix efficiently simply by searching for `foo` in the tree, getting to it, and then walking the tree left to right until I no longer see `foo`.\r\n\r\n> I bet you can't have the left side be a prefix and that's because it's already implicitly a prefix since `[\"foo\"] < [\"foo\", \"bar\"]`.\r\n\r\nI don't understand what you mean here.\r\n"
+  , issueCommentId = 19092763
+  }

@@ -1,0 +1,71 @@
+Issue
+  { issueClosedAt = Just 2013 (-10) (-16) 00 : 03 : 10 UTC
+  , issueUpdatedAt = 2013 (-10) (-16) 00 : 03 : 10 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1470/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1470"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1470
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Reduce random disk seeks during write transactions"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1470"
+  , issueCreatedAt = 2013 (-09) (-21) 00 : 25 : 08 UTC
+  , issueBody =
+      Just
+        "This can be part of a solution to #1080.\r\n\r\nCurrently, each write transaction causes the following sequence of disk writes:\r\n- at least one data block write\r\n- at least one LBA block write\r\n- a metablock write\r\n\r\nThe first two have to complete before the metablock can be written. It would be nice if we could do one of these two things to speed up the process:\r\n1. Reduce the number of different blocks that need to be written\r\n2. Optimize how these blocks are written to reduce random seeks on rotational drives\r\n\r\n2 can be complicated. I favour the following proposal made by @srh to tackle 1:\r\n\r\nIn a hard-durability setting, we usually change only a very small number of LBA entries. We could allocate a fixed-size area in the metablock to store these recent LBA changes, instead of writing them into a block of their own. Only when the area gets full, we flush those changes out to a specialized LBA block in the LBA extent. This would eliminate step 2 for the majority of transactions."
+  , issueState = "closed"
+  , issueId = Id 19847828
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-11) (-21) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 46
+          , milestoneClosedIssues = 79
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.11"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/46"
+          , milestoneCreatedAt = 2013 (-07) (-27) 05 : 40 : 03 UTC
+          , milestoneState = "closed"
+          }
+  }

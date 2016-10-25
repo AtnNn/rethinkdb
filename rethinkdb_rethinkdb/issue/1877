@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-01) (-20) 23 : 55 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1877/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1877"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02d7e1"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:reql"
+          , labelName = "cp:reql"
+          }
+      ]
+  , issueNumber = 1877
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Implementing an upsert that appends to an array is complicated"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1877"
+  , issueCreatedAt = 2014 (-01) (-18) 00 : 12 : 17 UTC
+  , issueBody =
+      Just
+        "@ckmaresca had a use case where he got an array of results `$request['results']`, and wanted to accumulate those results from multiple requests in the field of some document.\r\nHis documents would look like this:\r\n```\r\n{\r\n  id: \"...\",\r\n  metaData: {...},\r\n  results: [\"result1\", \"result2\", \"result3\", ...]\r\n}\r\n```\r\n\r\nBasically he wanted to get the following behavior:\r\n* check if document $id exists\r\n* if not create new document of the form given above, with the results field containing the items from $request['results']\r\n* If it exists, append the items from $request['results'] to the current results field of the document\r\n\r\nApparently there is an operator in MongoDB called $push http://docs.mongodb.org/manual/reference/operator/update/push/ which allows to easily do all of these things in one command.\r\n\r\nIn ReQL, it took us both quite a while until we figured it out (see https://github.com/danielmewes/php-rql/issues/52). In the end we ended up with the following query:\r\n```php\r\n$defaultDocument = array('id' => $id, 'metaData' => ..., 'results' => array());\r\n\r\nr\\table($table)->get($id)->replace(\r\n        function ($docOrNull) use ($defaultDocument, $request) {\r\n            return $docOrNull->rDefault($defaultDocument)->rDo(\r\n                function($doc) use($request) { \r\n                     return $doc\r\n                         ->merge(array('results' =>\r\n                             r\\expr($request['results'])->spliceAt(0, $doc('results'))));\r\n                }\r\n           );\r\n        }\r\n    )->run($conn);\r\n```\r\n($abc denotes a variable with name abc in PHP)\r\n\r\nThis seems very complicated. I don't have a concrete idea of what we could do to make this easier, but maybe somebody else has?"
+  , issueState = "open"
+  , issueId = Id 25847932
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

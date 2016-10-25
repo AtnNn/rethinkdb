@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 02 : 11 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94613204"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2411#issuecomment-94613204"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 02 : 11 : 17 UTC
+  , issueCommentBody =
+      "@PrakashThapa sorry we haven't gotten back to this yet. We usually find `count` to be reasonably fast (though not constant time, but we're going to work on that).\r\n\r\nSince you're using `count` with a function, I wonder if it's that function that's executed slowly. We know that `default` is very slow if it triggers often for example. Maybe that's related...\r\n\r\nFor this query (or a similar one)\r\n```\r\nr.table(\"o\").count(function(x){\r\n      return f(\"income\").default(0).gt(x(\"initial\").default(0).mul(5000))\r\n    })\r\n```\r\ncould you try if it's still slow if you rewrite it like this and add a filter that doesn't let anything through?\r\n```\r\nr.table(\"o\").filter(function(x){\r\n      return f(\"income\").default(0).gt(x(\"initial\").default(0).mul(5000))\r\n    })\r\n   .filter(function(x) { return false; })\r\n   .count()\r\n```\r\n\r\nNote that I moved the count function into a filter, and then added a second filter to get rid of all results before actually counting. This should show us whether it's evaluating the `filter` which makes this slow.\r\n\r\nRegarding `default` slowness, you might also be interested in https://github.com/rethinkdb/rethinkdb/issues/1232 ."
+  , issueCommentId = 94613204
+  }

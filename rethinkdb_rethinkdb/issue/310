@@ -1,0 +1,74 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-06) 22 : 13 : 02 UTC
+  , issueUpdatedAt = 2014 (-05) (-30) 00 : 55 : 43 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/310/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/310"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 310
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 3416
+        , simpleUserLogin = N "thoughtpolice"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thoughtpolice"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Garbage Collector does not trim files (causing unbounded space use)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/310"
+  , issueCreatedAt = 2013 (-02) (-09) 07 : 45 : 19 UTC
+  , issueBody =
+      Just
+        "After importing every CSV file for [2012 basball statistics](http://seanlahman.com/baseball-archive/statistics/) into a seperate table per file in RethinkDB 1.3.2 (on OS X,) I have noticed that the on disk format seems extraordinarily large, for simple data.\r\n\r\nI started up 6 servers with RethinkDB. All on one machine (high end Core i7, 16 GB of RAM,) two data centers ('main' and 'backup',) three servers a piece, with various sharding/backups. There were only shards on the few largest tables. Backups were all mostly configured to the backup datacenter systems, with shards pinned to the main  datacenter for performance (this is really awesome and easy, by the way :)\r\n\r\nThe CSV files are a simple 30 megabytes, and there are only about 500k rows across all files - but across all 6 servers with only a few tables sharded, I see well over 10GB of on disk usage.\r\n\r\nI looked at one of my 6 servers. I took the one with the smallest amount of used space and compressed it. Using `bzip` to compress all the data made it go from 1GB to 89mb.\r\n\r\nAre there any plans to implement on disk compression, or something like that? In my personal experience working on high performance I/O software for fame and glory in a past life, compression is almost always a worthy tradeoff in terms of CPU spent for I/O in terms of time and space. There are plenty of freely usable and high-speed compressors that should be able to handle this, with a compatible license. I have personal experience with both [QuickLZ](http://quicklz.com) and [Snappy](http://snappy.googlecode.com). In general, bzip almost always gives the best compression ratios, but it's slow as hell.\r\n\r\nThose compressors should easily handle I/O-level speeds for about any workload on a decent CPU, in my experience. And clearly the data seems redundant to the point that anything should give pretty good results. And obviously for some loads, it can even be faster - just due to the tradeoff of writing less to disk (this is extremely helpful when you get to rotational disks IME.)\r\n\r\nI can give exact setup details to reproduce this if you would like, but I think the CSV files should be all you need."
+  , issueState = "closed"
+  , issueId = Id 10806945
+  , issueComments = 27
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-08) 03 : 49 : 58 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 20 : 11 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5487/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5487"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 5487
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 5234060
+        , simpleUserLogin = N "QianJin2013"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5234060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/QianJin2013"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "[Question of Java Client]: Should LocalDateTime be saved with time zone information?"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5487"
+  , issueCreatedAt = 2016 (-03) (-07) 03 : 33 : 11 UTC
+  , issueBody =
+      Just
+        "I have a trivial question about Java Client Driver of RethinkDB.\r\nI am working on [Support almost ALL types in/out. (e.x. Enum, OffsetDateTime, BigDecimal, double, Float... ) by QianJin2013 \183 Pull Request #5484 \183 rethinkdb/rethinkdb](https://github.com/rethinkdb/rethinkdb/pull/5484), it's too long, so i ask it here separately.\r\n\r\nFirst, let me give some summary about Java's new Date Time type design:\r\n--------Type-------------------------   ----have time zone----   ----RethinkDB save time zone----                       \r\n`java.time.OffsetDateTime`:             YES                                 YES\r\n`java.time.TimeZonedDateTime`:     YES                                 YES\r\n`java.time.LocalDateTime`:               NO                                 YES           !!Not consistent\r\n`java.time.LocalDate`:                       NO                                 NO\r\n`java.time.LocalTime`:                      NO                                 NO\r\n\r\nThen, i'd thought when rethink db's java client store above types to db, it follow above policy. But in fact NO.\r\n\r\nWhen i store `OffsetDateTime` to db, it save data as following format:\r\n```\r\n    \"offsetDateTimeProperty\": {\r\n        \"$reql_type$\": \"TIME\",\r\n        \"epoch_time\": 1457175284.443,\r\n        \"timezone\": \"+09:00\"\r\n    },\r\n```\r\nThis is perfect.\r\n\r\nBut when i store `LocalDateTime` to db, it will try to output time zone information:\r\nThe <a href=\"https://github.com/rethinkdb/rethinkdb/blob/next/drivers/java/src/main/java/com/rethinkdb/ast/Util.java#L87\">ast.Util.java:: toReqlAst  convert  `LocalDateTime` or `LocalTime` to OffsetDateTime.</a>\r\n```\r\n            ZoneId zid = ZoneId.systemDefault();\r\n            DateTimeFormatter fmt2 = fmt.withZone(zid);\r\n            return Iso8601.fromString(((LocalDateTime) val).format(fmt2));\r\n```\r\nThis also sounds reasonable. So, having fixed the bug of .format() error with \r\n```\r\n            ZonedDateTime zdt = ((LocalDateTime)val).atZone(ZoneId.systemDefault());\r\n            return Iso8601.fromString(zdt.format(fmt));\r\n```\r\n\r\nThe LocalDateTime will be output as following format (same as OffsetDateTime):\r\n```\r\n    \"localDateTimeProperty\": {\r\n        \"$reql_type$\": \"TIME\",\r\n        \"epoch_time\": 1457175284.444,\r\n        \"timezone\": \"+09:00\"\r\n    },\r\n```\r\n\r\nAnd for `LocalDate`, it stores as different format, without time zone information. (I do not know where did the conversion yet).\r\n```\r\n    \"localDateProperty\": {\r\n        \"chronology\": {\r\n            \"calendarType\": \"iso8601\",\r\n            \"id\": \"ISO\"\r\n        },\r\n        \"dayOfMonth\": 5,\r\n        \"dayOfWeek\": \"SATURDAY\",\r\n        \"dayOfYear\": 65,\r\n        \"era\": \"CE\",\r\n        \"leapYear\": true,\r\n        \"month\": \"MARCH\",\r\n        \"monthValue\": 3,\r\n        \"year\": 2016\r\n    },\r\n```\r\n\r\nfor `LocalTime`, it does no output time zone information.\r\n```\r\n    \"localTimeProperty\": {\r\n        \"hour\": 19,\r\n        \"minute\": 54,\r\n        \"nano\": 444000000,\r\n        \"second\": 44\r\n    },\r\n```\r\n\r\nMy questions are:\r\nIs the policy of output time zone information consistent? seems confused, especially for LocalDateTime.\r\nActually, i do not even know why javaers save LocalDate/LocalDateTime/LocalTime in db.\r\n(well, LocalTime seems be pure time, reasonable)"
+  , issueState = "closed"
+  , issueId = Id 138876160
+  , issueComments = 8
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 110
+          , milestoneClosedIssues = 150
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/110"
+          , milestoneCreatedAt = 2015 (-10) (-05) 20 : 52 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-21) 15 : 39 : 45 UTC
+  , issueUpdatedAt = 2016 (-04) (-21) 17 : 57 : 00 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5699/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5699"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5699
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "OpenSSL build error on OSX 10.10.5 "
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5699"
+  , issueCreatedAt = 2016 (-04) (-21) 13 : 29 : 59 UTC
+  , issueBody =
+      Just
+        "```\r\nsrc/clustering/administration/main/command_line.cc:857:57: error: use of undeclared identifier 'SSL_OP_NO_TLSv1_1'\r\n        SSL_OP_NO_SSLv2|SSL_OP_NO_SSLv3|SSL_OP_NO_TLSv1|SSL_OP_NO_TLSv1_1);\r\n                                                        ^\r\n/usr/include/openssl/ssl.h:582:39: note: expanded from macro 'SSL_CTX_set_options'\r\n        SSL_CTX_ctrl((ctx),SSL_CTRL_OPTIONS,(op),NULL)\r\n```\r\n\r\nI've temporarily worked around this by modifying that code to the following:\r\n```\r\n#ifdef __MACH__\r\n    long ssl_options = SSL_OP_NO_SSLv2|SSL_OP_NO_SSLv3|SSL_OP_NO_TLSv1;\r\n#else\r\n    long ssl_options = SSL_OP_NO_SSLv2|SSL_OP_NO_SSLv3|SSL_OP_NO_TLSv1|SSL_OP_NO_TLSv1_1;\r\n#endif\r\n\r\n    SSL_CTX_set_options(\r\n        tls_ctx_out->get(),\r\n        ssl_options);\r\n```\r\n\r\n**NOTE:** it's worth noting that OS detection via defines is pretty spotty in this codebase, you might want to standardize on a few `OS_[WINDOWS|OSX|LINUX]` variables in the configure process? Maybe this already exists, but a quick grep through the source didn't turn anything up for OSX. "
+  , issueState = "closed"
+  , issueId = Id 150075176
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

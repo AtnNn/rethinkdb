@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-20) 01 : 08 : 54 UTC
+  , issueUpdatedAt = 2015 (-08) (-20) 01 : 10 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4728/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4728"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4728
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 312966
+        , simpleUserLogin = N "mbroadst"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/312966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbroadst"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "inconsistent results for orderBy query (js driver)"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4728"
+  , issueCreatedAt = 2015 (-08) (-20) 00 : 53 : 06 UTC
+  , issueBody =
+      Just
+        "if you run the following code multiple times, you'll see that the results returned vary between the top returned document being: `{ username: 'arthur', email: 'arthur@gmail.com' }` or `{ username: 'arthur', email: 'aaaaarthur@gmail.com' }`. With the Data Explorer the top result is consistently `{ username: 'arthur', email: 'arthur@gmail.com' }`\r\n\r\n```\r\n'use strict';\r\nvar Promise = require('bluebird'),\r\n    r = require('rethinkdb');\r\n\r\nr.connect({host: 'localhost', port: 28015}, function(err, connection) {\r\n  if (err) throw err;\r\n\r\n  r.db('test').tableDrop('user').run(connection, function(err, result) {\r\n    r.db('test').tableCreate('user').run(connection, function(err, result) {\r\n        if (err) throw err;\r\n\r\n        var data = [\r\n          { username: 'arthur', email: 'arthur@gmail.com' },\r\n          { username: 'james', email: 'james@gmail.com' },\r\n          { username: 'henry', email: 'henry@gmail.com' },\r\n          { username: 'william', email: 'william@gmail.com' },\r\n          { username: 'edward', email: 'edward@gmail.com' },\r\n          { username: 'arthur', email: 'aaaaarthur@gmail.com' }\r\n        ];\r\n\r\n        r.db('test').table('user').insert(data).run(connection, function(err, result) {\r\n          if (err) throw err;\r\n\r\n          r.db('test').table('user').orderBy('username').run(connection, function(err, result) {\r\n            if (err) throw err;\r\n            console.log(result);\r\n\r\n            r.db('test').tableDrop('user').run(connection, function(err, result) {\r\n              if (err) throw err;\r\n            });\r\n          });\r\n        });\r\n    });\r\n  });\r\n});\r\n```"
+  , issueState = "closed"
+  , issueId = Id 102032552
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

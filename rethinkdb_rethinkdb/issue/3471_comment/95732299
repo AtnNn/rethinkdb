@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 22 : 07 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95732299"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95732299"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 22 : 07 : 53 UTC
+  , issueCommentBody =
+      "Here's my alternate proposal for re-using the table infrastructure to do persistence. This would keep the same api discussed above, with explicit acks, named feeds etc:\r\n\r\n- For each persistent changefeed, create a normal rethinkdb table (named after the feed).\r\n- The table isn't exposed directly in tableList(), and we don't give any way to do gets by id etc.\r\n- Changes get written into this table with some monotonically increasing id, instead of being put into a disk-backed queue.\r\n- When a client requests changes, they just end up reading from this table.\r\n- Queries for `since`, etc use a `between` query\r\n- `cursor.ack`, becomes a `.delete()` for a row in the changefeed table\r\n- There's no auto-deletion or anything, they can delete these tables explicitly by deleting the changfeed entry in `rethinkdb.feeds`. \r\n\r\nSince we aren't exposing the changefeed tables as regular tables, long term we can integrate them more closely with the disk datastructures for the tables themselves, so writing changefeed data could be done inside the original atomic write transaction. Also we could replicate and provide the same HA guarantees we do for normal tables.\r\n\r\nThe key point being a lot of work has gone into making tables reliable, and these are pretty much the same guarantees we want for persistent/resumable changefeeds, albeit with a different interface.\r\n\r\n"
+  , issueCommentId = 95732299
+  }

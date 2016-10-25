@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-26) 22 : 10 : 26 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6001/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6001"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:build"
+          , labelName = "cp:build"
+          }
+      ]
+  , issueNumber = 6001
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "rework build system linker dependency system"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6001"
+  , issueCreatedAt = 2016 (-07) (-26) 21 : 49 : 36 UTC
+  , issueBody =
+      Just
+        "Our build system has some [clever code](https://github.com/rethinkdb/rethinkdb/blob/next/mk/support/build.mk#L139-L142) to figure out what link flags are needed to link everything together at the end. This code runs a number of scripts at various points to have per-package shell scripts return values, and works pretty well. However, if those scripts fail there is no way of causing that build step to fail, so we wind up carrying the problem forward into the link phase where the error message is not as clear as it could be. I tried re-working this to fail, but could not come up with a small change that would fix it [1].\r\n\r\nHowever, a reworking of that part of the `makefiles` could both simplify this, as well as allow for better failure modes:\r\n- As part of the build steps for each external module have it create a file with the linker settings.\r\n- This could actually be (or replace) the `install.witness` file.\r\n- The link sections could then have a step that would `cat` the contents of all of these files together.  \r\n\r\nUnless I am missing something, this should be both quicker and simpler to implement, as well as making debugging this a lot easier.\r\n\r\n[1] The main problem is that we are trying to both get a value back from a script (to assign to a variable) as well as check it's exit code. If we were in a rule we could probably rely on the automatic failure detection, but we need this to happen outside of rules (so rules can use the output), but between my reading of the `makefile` documentation [2] and some experimentation this does not seem possible.\r\n\r\n[2] [The documentation](https://www.gnu.org/software/make/manual/html_node/Shell-Function.html) states that there is a `.SHELLSTATUS` variable, but I have not been able to get it to work, or find other documentation on it."
+  , issueState = "open"
+  , issueId = Id 167720523
+  , issueComments = 0
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

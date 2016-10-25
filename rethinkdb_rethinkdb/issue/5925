@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-07) (-12) 19 : 26 : 24 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5925/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5925"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 5925
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 6288907
+        , simpleUserLogin = N "ramanala"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6288907?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ramanala"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Integrity of read results"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5925"
+  , issueCreatedAt = 2016 (-07) (-08) 14 : 05 : 57 UTC
+  , issueBody =
+      Just
+        "[Possible improvement?]\r\n\r\nIn its default configuration, RethinkDB does not checksum individual data items such as rows in a table (I am not sure if there is an option to enable checksums for individual data items). Is there any setting to enable this? \r\n\r\nWithout this, RethinkDB is vulnerable to _silent corruptions_ resulting from underlying problems in disks and file systems atop them. In a small test case where the underlying disk/FS corrupts a particular block holding the user data, RethinkDB can silently return corrupted user data on a read request. \r\n\r\nMoreover, this seems to be happening even when only one replica (the primary) is corrupted and I perform the read with **read_mode='majority'** directing my query to the primary replica. Even when a majority read_mode is specified, it seems like the actual data bytes from a majority of servers are not compared and finally the corrupted data from the primary is returned. I have two questions regarding this:\r\n\r\n1. Does RethinkDB actually consult a majority of servers before returning a response to a read query? (I understand that it does so from reading the documentation -- is that right?)\r\n2. If yes, what if the other majority of servers return a different value for the same query (this is possible if the primary's disk block is corrupted)? Does RethinkDB compare the data bytewise and verify integrity of the result returned? \r\n\r\nI tried to look for the code which collects read responses from the majority but got lost in the code! It would be nice if someone can point me to the place I should be looking.\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 164538293
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

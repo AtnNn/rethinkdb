@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-14) 00 : 36 : 39 UTC
+  , issueUpdatedAt = 2014 (-03) (-26) 01 : 10 : 17 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1127/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1127"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1127
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "About variadic methods"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1127"
+  , issueCreatedAt = 2013 (-07) (-04) 17 : 20 : 37 UTC
+  , issueBody =
+      Just
+        "In case people wanted to retrieve multiple documents based on an array of ids, they had to do\r\n\r\n```javascript\r\nr.expr( [1,2,3] ).map( function(id) {\r\n    return r.table(\"test\").get(\"id\")\r\n}).run(...)\r\n```\r\n\r\nNow they can use getAll and do\r\n```javascript\r\nr.table(\"test\").getAll( 1,2,3 ).run(...)\r\n```\r\nWhich is pretty cool.\r\n\r\n\r\nThe problem now is when the array of ids is programatically built. Now people in JavaScript have to do\r\n```javascript\r\nvar arrayId = [1,2,3];\r\nvar table = r.table(\"test\");\r\ntable.getAll.apply(table, arrayId).run(...)\r\n```\r\n\r\nIt's definitivly not as pretty as\r\n```javascript\r\nvar arrayId = [1,2,3];\r\nr.table(\"test\").getAll( arrayId ).run(...)\r\n```\r\nI tend to somehow think that `apply` is a little advanced feature in JavaScript since it's mostly used to change the context.\r\n\r\nBut the problem is that people could pass an array as a value for a secondary index... So the previous syntax doesn't work -- but we could force people to pass an array in case they search for a value which is an array.\r\n\r\nOther case that is a little worse: \r\nSuppose I have an array of values and I want to do\r\n```\r\nr.table(\"test\").getAll( 1,2,3, { index: \"nameIndex\"} ).run(...)\r\n```\r\nI need an array with the object with the index. If I somehow want to keep my array of values for other purposes, I would have to create a copy of it and add the object (or add the object then pop it -- which is more efficient but not really pretty)\r\n\r\n\r\nIn Python it's slightly more elegant with `*args` but it still not really really nice.\r\n\r\nAny thoughts?\r\nI'm opening this issue mostly for discussion. I just bumped into it and was wondering if we could make that a little more user friendly."
+  , issueState = "closed"
+  , issueId = Id 16376134
+  , issueComments = 18
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

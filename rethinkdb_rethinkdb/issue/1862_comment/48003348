@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-04) 02 : 22 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48003348"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1862#issuecomment-48003348"
+  , issueCommentCreatedAt = 2014 (-07) (-04) 02 : 22 : 32 UTC
+  , issueCommentBody =
+      "Here are several different ways that we could have users specify custom-shards:\r\n\r\n1. The obvious way: a function from documents (or primary keys) to shard names. When the function changes, RethinkDB scans the entire database and moves documents appropriately. During this scan process we need to do something special to ensure that queries still go to the right places. There's an awkward race condition between changes to the function and reads that are supposed to supply a shard name to inform RethinkDB where to look for the document.\r\n\r\n2. A function from documents (or primary keys) to \"shard keys\". The user specifies a range of \"shard keys\" for each custom-shard. The function cannot be changed unless there is exactly one custom-shard in existence. However, the boundaries of the custom-shards can be changed arbitrarily. The advantages of this system over the above proposal are: We don't have to re-scan the entire database when the boundaries of a custom-shard are changed. When the user does a read, they specify a shard key instead of a shard name, and then we can internally take care of the \"awkward race condition\" in a safe way.\r\n\r\n3. Same as option 2 but we also create an index on the shard key even within each custom-shard. This makes it cheap to incrementally change the boundaries of a custom-shard. This is approximately what MongoDB does."
+  , issueCommentId = 48003348
+  }

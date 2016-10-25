@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2015 (-08) (-17) 18 : 52 : 43 UTC
+  , issueUpdatedAt = 2015 (-08) (-17) 18 : 52 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4701/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4701"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 4701
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 322436
+        , simpleUserLogin = N "silver83"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/322436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/silver83"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "reproducible crash on update(), large(ish) dataset"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4701"
+  , issueCreatedAt = 2015 (-08) (-17) 11 : 31 : 11 UTC
+  , issueBody =
+      Just
+        "Seems like { returnChanges: 'always' } is making it crash faster.... \r\nRan on a smaller dataset and passed without issue.\r\nRan again with { returnChange: false } and it just took much longer but it crashed after a 3 minutes or so...\r\n\r\nSeems like its growing from 400MB before the query, to ~5GB.\r\n\r\nAlso noticed that when it doesn't crash, but rather just times out in the data explorer, the memory footprint doesn't return to pre-query levels...\r\n\r\nTable1 count = 2018451\r\nTable2 count = 1010070\r\n\r\n```\r\ndb.table('Table1').update(function(link) {\r\n    var table2 = db.table('Table2').get(link('Table2_id'));\r\n\t  return { updatedAt: table2('updatedAt') };\r\n}, { returnChanges: 'always', nonAtomic:true });\r\n```\r\n\r\n```\r\nRunning rethinkdb 2.0.1 (CLANG 6.1.0 (clang-602.0.49))...\r\nRunning on Darwin 14.4.0 x86_64\r\nLoading data from directory /Users/yoni.shalom/rethinkdb_data\r\nListening for intracluster connections on port 29015\r\nListening for client driver connections on port 28015\r\nListening for administrative HTTP connections on port 8080\r\nListening on addresses: [redacted]\r\nServer ready, \"redacted\" 5c7677f4-575d-4850-9935-76186caab49d\r\nA newer version of the RethinkDB server is available: 2.0.4. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.\r\nVersion: rethinkdb 2.0.1 (CLANG 6.1.0 (clang-602.0.49))\r\nerror: Error in src/rdb_protocol/profile.cc at line 241:\r\nerror: Guarantee failed: [stop]\r\nerror: Backtrace:\r\nerror: Mon Aug 17 14:33:17 2015\r\n\r\n       1: 0   rethinkdb                           0x0000000108e375e3 _Z19rethinkdb_backtracePPvi + 132 at 0x108e375e3 ()\r\n       2: 0   rethinkdb                           0x0000000108acc51c _ZN11backtrace_tC2Ev + 72 at 0x108acc51c ()\r\n       3: 0   rethinkdb                           0x0000000108accc6d _ZN26lazy_backtrace_formatter_tC2Ev + 39 at 0x108accc6d ()\r\n       4: 0   rethinkdb                           0x0000000108acc1b5 _Z16format_backtraceb + 25 at 0x108acc1b5 ()\r\n       5: 0   rethinkdb                           0x0000000108c61295 _Z18report_fatal_errorPKciS0_z + 412 at 0x108c61295 ()\r\n       6: 0   rethinkdb                           0x0000000108d57aa3 _ZN7profile8durationERKNSt3__16vectorIN5boost7variantINS_7start_tENS_7split_tENS_8sample_tENS_6stop_tENS2_6detail7variant5void_ESA_SA_SA_SA_SA_SA_SA_SA_SA_SA_SA_SA_SA_SA_SA_EENS0_9allocatorISB_EEEE + 213 at 0x108d57aa3 ()\r\n       7: 0   rethinkdb                           0x0000000108d57af5 _ZN7profile9sampler_t10new_sampleEv + 33 at 0x108d57af5 ()\r\n       8: 0   rethinkdb                           0x0000000108ca6da0 _Z33do_a_replace_from_batched_replaceN14auto_drainer_t6lock_tEP20fifo_enforcer_sink_tRK27fifo_enforcer_write_token_tRK16btree_loc_info_t13one_replace_tRKN2ql19configured_limits_tEP9promise_tIP12superblock_tEP28rdb_modification_report_cb_tbPNSA_7datum_tEPN7profile9sampler_tEPNSN_7trace_tEPNSt3__13setINSS_12basic_stringIcNSS_11char_traitsIcEENSS_9allocatorIcEEEENSS_4lessISZ_EENSX_ISZ_EEEE + 58 at 0x108ca6da0 ()\r\n       9: 0   rethinkdb                           0x0000000108cb07b6 _ZNSt3__110__function6__funcINS_6__bindIPFvN14auto_drainer_t6lock_tEP20fifo_enforcer_sink_tRK27fifo_enforcer_write_token_tRK16btree_loc_info_t13one_replace_tRKN2ql19configured_limits_tEP9promise_tIP12superblock_tEP28rdb_modification_report_cb_tbPNSE_7datum_tEPN7profile9sampler_tEPNSR_7trace_tEPNS_3setINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_4lessIS12_EENS10_IS12_EEEEEJS4_S6_S7_SA_SD_RSF_SM_RSO_RbSQ_RST_RSV_S17_EEENS10_IS1F_EEFvvEEclEv + 172 at 0x108cb07b6 ()\r\n       10: 0   rethinkdb                           0x0000000108bf0f07 _ZN11coro_pool_tINSt3__18functionIFvvEEEE10worker_runES3_N14auto_drainer_t6lock_tE + 135 at 0x108bf0f07 ()\r\n       11: 0   rethinkdb                           0x0000000108c4ac13 _ZN26callable_action_instance_tINSt3__16__bindIM11coro_pool_tINS0_8functionIFvvEEEEFvS5_N14auto_drainer_t6lock_tEEJPS6_S5_S8_EEEE10run_actionEv + 107 at 0x108c4ac13 ()\r\n       12: 0   rethinkdb                           0x0000000108ac4a02 _ZN6coro_t3runEv + 70 at 0x108ac4a02 ()\r\nerror: Exiting.\r\n[1]    41562 trace trap  rethinkdb --bind all\r\n```"
+  , issueState = "closed"
+  , issueId = Id 101401255
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

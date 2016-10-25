@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 16 : 31 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 27421
+        , simpleUserLogin = N "mkleehammer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/27421?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mkleehammer"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61668089"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2721#issuecomment-61668089"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 16 : 31 : 46 UTC
+  , issueCommentBody =
+      "I see there is a settled tag, but let me throw in one more thing to consider: a lot of times I want to select either a single row or a single field value but need to use a query that returns a stream.  (I am brand new to RethinkDB so I might be missing an obvious, existing way to achieve this).  As the programmer, I know what to expect but the system couldn't without a hint.\r\n\r\nThe Python DB API has two useful methods cursor.fetchone() and cursor.fetchall().  The first returns a single row or None (null) if there are no more rows.  Without something like this, you would need every single-row fetch to look something like this (I use koa a lot):\r\n\r\n```\r\nvar array = yield r.table('t')...run(cnxn);\r\nvar row = (array.length) ? array[0] : null;\r\n```\r\n\r\nHaving a short query modifier on the end would be quite a bit more convenient:\r\n\r\n```\r\nvar row = yield r.table('t')...one().run(cnxn)\r\n```\r\n\r\nSimilarly I often need a single value, whether a field or calculated, and don't want to have to use:\r\n\r\n```\r\nvar array = yield r.table('t')...run(cnxn)\r\nvar val = (array.length) ? array[0].hash : null;\r\n```\r\n\r\nInstead, a different modifier would be very handy:\r\n\r\n```\r\nvar value = yield r.table('t')...val('hash').run(cnxn)\r\n```\r\n\r\nWhile these are syntactic sugar, they are very, very handy but also very straightforward.  They let me tailor the query to be exactly what I am trying to get from the database instead of getting close each time.\r\n\r\n```\r\nvar array = r.table('t')\r\nvar row   = r.table('t')...one()\r\nvar val    = r.table('t)...val('hash')\r\n```\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+  , issueCommentId = 61668089
+  }

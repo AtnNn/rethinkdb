@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-13) 18 : 58 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/209595470"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5661#issuecomment-209595470"
+  , issueCommentCreatedAt = 2016 (-04) (-13) 18 : 58 : 34 UTC
+  , issueCommentBody =
+      "@encryptio instead of having an optarg, what do you think about having a generic term (maybe `.catch()`) for handling exceptions server-side?\r\n\r\n```js\r\n.catch() // catch everything, return `null`\r\n.catch(<type>) // catch errors of `<type>`, return `null`\r\n.catch(<value>) // catch everything, return `<value>`\r\n.catch(<type>, <value>) // catch errors of `<type>`, return `<value>`\r\n```\r\n\r\n**Example usage:**\r\n\r\n```js\r\nlet expr = r.expr(\"str\").coerceTo(\"number\");\r\n\r\n// the following would all be equivalent in this case:\r\nexpr.catch(r.literal(0))\r\nexpr.catch('CoercionError', r.literal(0))\r\nexpr.catch('ReqlCoercionError', r.literal(0))\r\nexpr.catch(r.Error.ReqlCoercionError, r.literal(0))\r\n```\r\n\r\nWith this in place, `.default()` just becomes a special case of `.catch()`.\r\n\r\n```js\r\nr.row('foo').default('bar')\r\nr.row('foo').catch(r.Error.ReqlNonExistenceError, r.literal('bar'))\r\n```"
+  , issueCommentId = 209595470
+  }

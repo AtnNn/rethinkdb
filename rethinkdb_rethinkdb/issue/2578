@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-01) (-09) 07 : 27 : 34 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2578/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2578"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 2578
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Simplify r.match() usage when dealing with arrays"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2578"
+  , issueCreatedAt = 2014 (-06) (-20) 02 : 29 : 58 UTC
+  , issueBody =
+      Just
+        "When filtering documents based on nested string arrays using `r.match()`, it become a bit hairy. It would be great if `array.match(regexp)` queries were automatically expanded to a filter function. With the current behavior you have to do something like this:\r\n\r\n```js\r\nr.expr([\r\n  { tags: [ 'hello', 'world' ] },\r\n  { tags: [ 'world' ] }\r\n])\r\n.filter(\r\n  r.row('tags').filter(function (tag) {\r\n    return tag.match('^h');\r\n  }).count().gt(0)\r\n)\r\n```\r\n\r\nIf the query were automatically expanded, you could get away with simply:\r\n\r\n```js\r\nsequence.filter(\r\n  r.row('tags').match('^h').count().gt(0)\r\n)\r\n```\r\n\r\n---\r\n\r\n**Part 2:** This is a broader issue, but if empty arrays were considered falsy the example above would be further simplified to:\r\n\r\n```js\r\nsequence.filter(r.row('tags').match('^h'))\r\n```\r\n\r\nAnd an interesting side effect is that the above example would now also work in scenarios where the underlying type is ambiguous. So you would no longer have to do crazy things like this:\r\n\r\n```js\r\nr.expr([\r\n  { tags: 'hello' },\r\n  { tags: 'world' },\r\n  { tags: [ 'hello', 'world' ] }\r\n])\r\n.filter(r.branch(\r\n  r.row('tags').typeOf().eq('ARRAY'),\r\n  r.row('tags').filter(function (tag) {\r\n    return tag.match('^h');\r\n  }).count().gt(0),\r\n  r.row('tags').match('^h')\r\n))\r\n```"
+  , issueState = "open"
+  , issueId = Id 36135646
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

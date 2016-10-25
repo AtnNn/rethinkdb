@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-05) 17 : 35 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/237913436"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6034#issuecomment-237913436"
+  , issueCommentCreatedAt = 2016 (-08) (-05) 17 : 35 : 30 UTC
+  , issueCommentBody =
+      "Hi @ramanala. Interesting question.\r\n\r\nThe checksum in the metablock is actually *not* to protect against corruption caused by disk or file-system errors. Its intended function is much simpler: Recovery after a crash.\r\n\r\nIf you unplug power on your server while RethinkDB is in the middle of writing the metablock, RethinkDB needs to be able to detect this situation the next time you start it. It uses the checksum to verify that the latest metablock has been fully written. If it finds that it has not been fully written, it simply uses the metablock before that and verifies its checksum, and so on until it finds a valid metablock. Normally only one new metablock can be written at a time, so the second most recent one will be guaranteed to be valid.\r\n\r\nThis does not cause silent data loss, because RethinkDB only acknowledges a write *after* the corresponding metablock has been written to disk. So it's always valid to skip to the next-older block, if the latest one turns out to be incomplete.\r\n\r\nOn many real systems, hard drives guarantee atomic writes of individual blocks. However we decided to not rely on that, as it depends on a bunch of assumptions about alignment etc.\r\n\r\nRethinkDB overall relies on the storage to not exhibit silent data corruption, and on the operating system, file system and hard drives to guarantee persistence after an `fsync`.\r\n\r\nThe checksums in the metablocks are therefore not a corruption detection feature, and would be highly useless at that as well (since corruption is much more likely to happen in one of the other data blocks).\r\n\r\nHope this helps. I'm going to close this issue since it's more of a question than a bug or feature request. You're welcome to ask more questions in this thread though."
+  , issueCommentId = 237913436
+  }

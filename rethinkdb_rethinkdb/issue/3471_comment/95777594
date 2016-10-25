@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 02 : 23 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95777594"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3471#issuecomment-95777594"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 02 : 23 : 22 UTC
+  , issueCommentBody =
+      "@coffeemug -- that was what I meant by \"In the future we can also implement some complicated solution where once you've caught up you go back to getting messages through the normal deduplicated channel\".  It's not absurdly complicated; it's strictly simpler than `include_initial_vals` for example.  It's implementation time, though, and it also forces us to not skimp on some other things (for example, if we weren't doing the switching-over logic then the queues on the shards would always know what batches we've sent, meaning we wouldn't have to worry about the acking thing Daniel just mentioned).\r\n\r\n@danielmewes -- I was assuming we'd be sending one ack per batch, not per change, since clients won't be explicitly acking changes (at least in the first version).  I think that should be manageable.\r\n\r\nUpon reflection, I think I agree that putting the queues on the shards is probably the right way to do it.  If we do it with no optimizations we can almost certainly get it in for 2.1; I'd like to propose that I just start on the non-optimized version and based on how fast it's going we can make the call about whether to put the optimizations in for 2.1 or hold off until 2.2 for that."
+  , issueCommentId = 95777594
+  }

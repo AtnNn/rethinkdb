@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-04) (-21) 21 : 42 : 30 UTC
+  , issueUpdatedAt = 2016 (-04) (-21) 21 : 42 : 35 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5593/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5593"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5593
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 15014338
+        , simpleUserLogin = N "bgnorlov"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/15014338?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bgnorlov"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Performance question"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5593"
+  , issueCreatedAt = 2016 (-04) (-02) 20 : 54 : 15 UTC
+  , issueBody =
+      Just
+        "Can anyone explain why one query inside database slower than two queries in runtime? I have table 'folder' , table 'boards' with 'folders_id' index and table 'posts' with 'boards_id' index. My first query \r\n```javascript\r\nr.connect(config.rethinkdb).then(dbConn=>{\r\n  var time = Date.now();\r\n  r.table('boards').getAll('1233131', {index: 'folders_id'}).concatMap(board=>{\r\n    return r.table('posts').getAll(board('id'),{index: 'boards_id'})\r\n  }).coerceTo('array').run(dbConn).then((res)=>{\r\n    console.log(Date.now()-time, res.length);\r\n  });\r\n});\r\n```\r\nuses concatMap and it took nearly 151 ms. But secon query \r\n```javascript\r\n\r\nr.connect(config.rethinkdb).then(dbConn=>{\r\n  var time = Date.now();\r\n  r.table('boards').getAll('1233131', {index: 'folders_id'}).map(r.row('id')).coerceTo('array').run(dbConn).then(ids=>{\r\n    console.log(Date.now()-time, ids.length);\r\n    var arr = ids;\r\n    arr.push({index: 'boards_id'});\r\n    var thisObj = r.table('posts');\r\n    return thisObj.getAll.apply(thisObj, arr).coerceTo('array').run(dbConn)\r\n  }).then((res)=>{\r\n    console.log(Date.now()-time, res.length);\r\n  });\r\n});\r\n```\r\nuses two runtime queries (first retrieves all ids and second fetches all posts) and it took nearly 60 ms. I tested with other data and concatMap approach twice (or three times on small data) slower then approach with retrieves ids and then items itself"
+  , issueState = "closed"
+  , issueId = Id 145416707
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

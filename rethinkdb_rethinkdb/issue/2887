@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2014 (-08) (-13) 16 : 00 : 34 UTC
+  , issueUpdatedAt = 2014 (-08) (-13) 18 : 18 : 52 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2887/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2887"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2887
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 7431361
+          , simpleUserLogin = N "larkost"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/7431361?v=3"
+          , simpleUserUrl = "https://api.github.com/users/larkost"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Test driver seems to not read all of dictionaries in Python driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2887"
+  , issueCreatedAt = 2014 (-08) (-11) 23 : 58 : 01 UTC
+  , issueBody =
+      Just
+        "Off next, `test/rql_test/src/regression/2838.yaml` is defined as so:\r\n```yaml\r\ndesc: Test that return_changes fails gracefully.\r\ntests:\r\n  - py: r.table_create('2838')\r\n    ot: ({'created':1})\r\n\r\n  - py: r.table('2838').insert([{'result':i} for i in range(1,100)]).pluck('first_error', 'inserted')\r\n    ot: ({'inserted':99})\r\n\r\n  - py: r.table('2838').update({'foo':'bar'}, return_changes=True)['changes'].count()\r\n    runopts:\r\n      array_limit: '40'\r\n    ot: (40)\r\n\r\n  - py: r.table('2838').update({'foo':'quux'}, return_changes=True)['warnings']\r\n    runopts:\r\n      array_limit: '40'\r\n    ot: (['Too many changes, array truncated to 40.'])\r\n\r\n  - py: r.table_drop('2838')\r\n    ot: ({'dropped':1})\r\n```\r\n\r\nIf test #4 is changed to read\r\n```yaml\r\n  - py: r.table('2838').update({'foo':'quux'}, return_changes=True)\r\n    runopts:\r\n      array_limit: '40'\r\n    ot: ({'warnings':['Too many changes, array truncated to 40.']})\r\n```\r\n\r\nthe test succeeds, even though there are many more fields returned by that expression than just `warnings`."
+  , issueState = "closed"
+  , issueId = Id 40012825
+  , issueComments = 7
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 76
+          , milestoneClosedIssues = 60
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.15"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/76"
+          , milestoneCreatedAt = 2014 (-07) (-30) 21 : 42 : 02 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-22) 18 : 25 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/234619374"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5991#issuecomment-234619374"
+  , issueCommentCreatedAt = 2016 (-07) (-22) 18 : 25 : 21 UTC
+  , issueCommentBody =
+      "The actual block size is determined by the cache, not by the `blob_t`. The `block_size` that you pass into `blob_t` and which you modified is only used for runtime-checks, and doesn't actually lead to larger blocks being allocated.\r\n\r\nThe problem occurs when you pass a `maxreflen` size in this line that is too large to fit into a block:\r\n```C++\r\nblob_tracker_t tk(5000);\r\n```\r\n\r\nNormally the `blob_t` constructor would catch this and crash with a more meaningful error, but since the block size that you pass to the `blob_t` constructor does not match the actual block size that the cache uses it can't detect the issue.\r\n\r\nIf you want to test larger block sizes, you'll have to change the size of btree leaf nodes.\r\nHave a look at the file `src/config/args.hpp`. You can try modifying the `DEFAULT_BTREE_BLOCK_SIZE` value there. Note that changing this value hasn't been tested for a long long time, so there might be other issues.\r\n\r\nClosing since this is not a bug in RethinkDB and the code behaves as expected. Thanks for reporting it though!"
+  , issueCommentId = 234619374
+  }

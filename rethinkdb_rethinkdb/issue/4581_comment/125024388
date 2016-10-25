@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-26) 18 : 15 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/125024388"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4581#issuecomment-125024388"
+  , issueCommentCreatedAt = 2015 (-07) (-26) 18 : 15 : 56 UTC
+  , issueCommentBody =
+      "@chrisfosterelli Thanks for bringing this to our attention. The FAQ is indeed pretty misleading when it talks of \"If the user runs a query that cannot be executed atomically, by default RethinkDB will throw an error\". I'll open a separate issue in our docs repository https://github.com/rethinkdb/docs/issues/ so we can improve it.\r\nWhat the documentation describes only applies to `update` and `replace`. `insert` was never intended to perform arbitrary mutations, so it doesn't take a function either (neither atomic nor non-atomic).\r\n\r\nThe first two queries are *not* atomic. As soon as you involve a subquery in `insert` it will not be atomic anymore.\r\n\r\nThe only way to do this operation atomically at the moment is through `replace`:\r\n```\r\nr.table('FruitCollection').get(1).replace({ \r\n  id : 1, \r\n  fruits : r.row.default([]).append('orange')\r\n});\r\n```\r\n\r\n`replace` will insert a new document if the key doesn't exist."
+  , issueCommentId = 125024388
+  }

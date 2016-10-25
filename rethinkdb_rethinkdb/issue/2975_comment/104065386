@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-20) 22 : 49 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 725218
+        , simpleUserLogin = N "eliaslevy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/725218?v=3"
+        , simpleUserUrl = "https://api.github.com/users/eliaslevy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/104065386"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2975#issuecomment-104065386"
+  , issueCommentCreatedAt = 2015 (-05) (-20) 22 : 49 : 12 UTC
+  , issueCommentBody =
+      "@danielmewes In a fully segregated net split with only two partition and no offline nodes, you'll always have a quorum of nodes in one of the two partition.  That should allow that partition to function, including the creation of tables.  Obviously, in a partition without a quorum I expect activity, other than explicit out of date reads to, to stop.  That is the expected behavior of a CP system.  If I wanted to err on the side of availability, I'd choose a proper AP system like Riak and deal with eventual consistency at the application layer, rather than use something that attempts to be both yet is neither.\r\n\r\nAnd yes, do we expect to create tables on an ongoing basis.  The idea is to create several tables per customer and on board customers constantly.\r\n\r\nRegarding the data center issues, I understand you, but I feel that you are somewhat mixing two distinct models of operation by trying to use server tags for multi-data center support.  As you currently support data center replication, nodes on remote data center are considered part of the local cluster.  This has some nice characteristics, but also negative ones.  \r\n\r\nIt means  replicas can't be under the control of a different entity, which is common in large organization, and can be good practice in general to avoid a single point of failure being the cluster configuration.  It means you can't have a remote cluster that acts like a data warehouse replicating data from multiple other clusters, since a node can't belong to multiple clusters.  \r\n\r\nI'd argue there is a reason most distributed data stores, even AP ones like Riak, implement replication as an eventual consistency sidecar, separate from the core clustering logic.\r\n\r\n\r\n"
+  , issueCommentId = 104065386
+  }

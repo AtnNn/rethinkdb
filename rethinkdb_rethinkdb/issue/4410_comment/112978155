@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-17) 23 : 18 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/112978155"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4410#issuecomment-112978155"
+  , issueCommentCreatedAt = 2015 (-06) (-17) 23 : 18 : 29 UTC
+  , issueCommentBody =
+      "@danielmewes thanks for the suggestion. Using `.forEach` is the cleanest solution I've come across but it's ~10-15x slower than doing a batch insert + removing the inserted docs afterwards:\r\n\r\n```js\r\ntable.insert(docs, { conflict: 'update', return_changes: true })\r\n.do(function (result) {\r\n  // get a list of all inserted keys\r\n  var keys = result('changes').filter({ old_val: null })('new_val')('id');\r\n  return table.getAll(r.args(keys)).delete();\r\n})\r\n```\r\n\r\nThis is obviously sub-optimal in terms of readability, so I'll probably stick with the `.forEach` for now. These are usually nightly jobs or one-off imports anyway.\r\n\r\nIf I remember correctly in MongoDB you can do `.update(docs, { upsert: false })` and it will skip any docs that aren't found. That's pretty much what I'm looking for."
+  , issueCommentId = 112978155
+  }

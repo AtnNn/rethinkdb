@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-18) 21 : 18 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/240860182"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6038#issuecomment-240860182"
+  , issueCommentCreatedAt = 2016 (-08) (-18) 21 : 18 : 59 UTC
+  , issueCommentBody =
+      "@ntquyen It is indeed the third timeout in which it loops. Evenly split votes are not the only case where this triggers. The other case (which I think we are seeing here) is if simply not enough other nodes reply to the voting request on time. Issuing a vote is a comparably expensive operation, since it must be persisted in the Raft log, and therefore requires disk access. So this could potentially cause nodes to take more than the 1-2 second election timeout that RethinkDB currently uses.\r\n\r\nWhenever a candidate doesn't get enough votes within the election timeout, it will start another term and loop.\r\n\r\nThis is also the timeout where the backoff that we are testing comes into play."
+  , issueCommentId = 240860182
+  }

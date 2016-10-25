@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 20 : 13 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2608446
+        , simpleUserLogin = N "Slava"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2608446?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Slava"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/128133997"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4629#issuecomment-128133997"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 20 : 13 : 28 UTC
+  , issueCommentBody =
+      "> I was imagining that monotonically increasing IDs were important for squashing, and more generally so that if machine A sends n writes and tells machine B to wait for them it doesn't have to send O(n) stamps to B (monotonically increasing per-machine IDs work for this because you just have to send O(machine) stamps to B and your cluster probably isn't that big).\r\n\r\nYes, I think this is exactly my understanding. The monotonically increasing IDs help to see a squashed change and compare it to the ones application is waiting for.\r\n\r\n> Specifically: The way I understand this, the idea is to know when a given write has been reflected in the database and has started to be broadcasted to all subscribed users.\r\n\r\n> In the original proposal the idea was to accomplish this by getting some sort of ID for a given write, and then waiting for that ID to show up on the changefeed. However in that case, one could just as well simply wait on the write to be acknowledged, which has about the same effect.\r\n\r\nThis is not exactly what I've proposed to @coffeemug. We don't care about DB acknowledging the write (we get it already in the current driver). We care to see when a write appears in the changefeed observed by application."
+  , issueCommentId = 128133997
+  }

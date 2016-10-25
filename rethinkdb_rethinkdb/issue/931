@@ -1,0 +1,62 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2014 (-12) (-31) 01 : 39 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/931/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/931"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "ededed"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/cp:testing"
+          , labelName = "cp:testing"
+          }
+      ]
+  , issueNumber = 931
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Test index creation interruption in a cluster"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/931"
+  , issueCreatedAt = 2013 (-05) (-31) 09 : 06 : 16 UTC
+  , issueBody =
+      Just
+        "Someone ran into a bug with index creation interruption in a cluster, and here's what I suspect is happening:\r\n\r\n1. Create a cluster of two machines\r\n2. Fill the cluster with a non-trivial amount of data (enough that secondary index creation takes some time)\r\n3. Start secondary index creation on the data\r\n4. Before the secondary index creation completes, kill the master and declare it dead\r\n5. Connect a client to the new master (which used to be a replica before you declared the old master dead). Or use the data explorer.\r\n\r\nAt this point the user experienced the following phenomena:\r\n\r\n* `r.table('foo').indexList()` included the secondary index in the list\r\n* The index was inaccessible via `getAll` with the following error: ```RqlRuntimeError: Index `s` was not found. in:```\r\n\r\nI'm not 100% sure this is the way to reproduce the bug, but this is the most plausible scenario based on the data we have. We should test this scenario as much as we can."
+  , issueState = "open"
+  , issueId = Id 14984579
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 1777134
+                , simpleUserLogin = N "mlucy"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/1777134?v=3"
+                , simpleUserUrl = "https://api.github.com/users/mlucy"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 53
+          , milestoneNumber = 68
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "tests"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/68"
+          , milestoneCreatedAt = 2014 (-04) (-25) 22 : 22 : 22 UTC
+          , milestoneState = "open"
+          }
+  }

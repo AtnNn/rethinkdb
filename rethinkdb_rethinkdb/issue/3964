@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-03) (-24) 02 : 37 : 58 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3964/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/3964"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 3964
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Suggestion: Inner Changefeeds"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/3964"
+  , issueCreatedAt = 2015 (-03) (-22) 20 : 19 : 59 UTC
+  , issueBody =
+      Just
+        "RethinkDB could provide the same functionality as [InfluxDB's Continuous Queries] (http://influxdb.com/docs/v0.8/api/continuous_queries.html).\r\n\r\nA continuous query looks essentially like a Changefeed in which the client is a table in the cluster itself, or an *Inner* Changefeed.\r\n\r\nFrom their documentation:\r\n> When writing in large amounts of raw data, you will often want to query a downsampled variant of the data for viewing or analysis. In some cases, this downsampled data may be needed many times in the future, and repeatedly computing the same rollups is wasteful. Continuous queries let you precompute these expensive queries into another time series in real-time. \r\n\r\nInfluxDB query syntax:\r\n```SQL\r\nselect count(type) from events group by time(10m), type \r\ninto events.count_per_type.10m\r\n```\r\n\r\nIn ReQL:\r\n```Python\r\n\r\nr.table('events').group( lambda x: [x['type'], x['when'].resolution(10.minutes)] ).count() \\\r\n.into('events_count_per_type_10m')\r\n\r\n# or\r\n\r\nr.table(\"events_count_per_type_10m\").insert(\r\nr.table('events').group( lambda x: [x['type'], x['when'].resolution(10.minutes)] ).count()\r\n, continuous=True)\r\n\r\n```\r\n\r\n"
+  , issueState = "open"
+  , issueId = Id 63570980
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

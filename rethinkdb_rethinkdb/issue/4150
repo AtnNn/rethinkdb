@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-05) (-31) 14 : 30 : 08 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4150/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4150"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 4150
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "ReQL optimizer"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4150"
+  , issueCreatedAt = 2015 (-04) (-30) 02 : 23 : 47 UTC
+  , issueBody =
+      Just
+        "When I talk to users about optimization, I get a 50/50 split:\r\n\r\n- Half the people love explicit indexes. They like complete control of the execution and guarantees about asymptotic performance in production.\r\n- Half the people hate explicit indexes, because for certain workloads using them turns out to be really, really hard.\r\n\r\nFor example, many users store time-series data (say, a log of all customer purchases over time), and give analysts a UI where they can filter and sort on random fields. An analyst might say:\r\n\r\n- give me all the purchases where product type is shoes\r\n- purchased after 2014\r\n- sorted by price\r\n\r\nSince the queries are essentially generated dynamically (the analyst toggles things in a custom UI to get what they want), it's *very* hard to write ReQL code that's executed efficiently. Even if you know the query ahead of time, it's hard to make it run efficiently. Should I use the product type index, the datetime index, or the price index? Which one performs better?\r\n\r\nThis is an extremely common use case.\r\n\r\nI think the philosophy of explicit index specification is sound, and I think a traditional approach of writing queries and having the database optimize them behind the scenes is (a) hard to implement and (b) bad for live, realtime systems. I'd like to propose an alternative that satisfies the following goals:\r\n\r\n- Allows us to maintain the philosophy of explicit index specification\r\n- Is reasonably simple to implement\r\n- Makes use cases like the one above dramatically easier to implement efficiently\r\n\r\n```py\r\nr.begin_optimizer()\r\n .table('purchases')\r\n .get_all('shoes', index='product_type')\r\n .between(r.time(2014, 1, 1), r.maxval, index='purchase_date')\r\n .order_by(index='price')\r\n .end_optimizer()\r\n .whatever_you_want()\r\n```\r\n\r\nThe commands within the `begin/end_optimizer` block would have the restriction of an allowed whitelist of indexable commands (e.g. `get_all`, `between`, etc.) Non-indexable commands and transformations aren't allowed (e.g. no `map`, `filter`, etc.) The optimizer can reorder commands within the block, and pick the indexes it believes are most valuable (i.e. it can choose not to use a particular index within the block).\r\n\r\nIt could be implemented either in a traditional way (by collecting statistics), or in a more creative way (e.g. run multiple versions of the query in parallel, kill the queries once the fastest one returns, and cache the information for a while).\r\n\r\nThis gives the following advantages:\r\n\r\n- Fixes the most common use case where the optimizer is needed\r\n- Is much easier to implement than a traditional optimizer since it's more limited, doesn't require parsing the AST within `filter`, etc.\r\n- Allows us to maintain explicit indexing philosophy\r\n\r\n/cc @mlucy "
+  , issueState = "open"
+  , issueId = Id 72040403
+  , issueComments = 46
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

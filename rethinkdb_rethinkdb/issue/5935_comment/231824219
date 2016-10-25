@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-11) 18 : 35 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/231824219"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5935#issuecomment-231824219"
+  , issueCommentCreatedAt = 2016 (-07) (-11) 18 : 35 : 20 UTC
+  , issueCommentBody =
+      "The swap behavior your describe sounds like normal behavior, since once a system goes into swap it rarely lets go of it (least-used-memory goes in first, which therefore is unlikely to leave). So the issue here is ore about why you are getting the memory high-water event. There are generally two area where we use memory in RethinkDB: disk cache (reduce time-consuming reads from disk, this includes all index data) and in handling queries. We have a limiter on the first[1], but there are a number of types of queries who's memory usage is not limited (except indirectly by the array-size limitations).\r\n\r\nIf you happen to hit one of these, then unfortunately this is expected behavior. Other than figuring out the query that is causing it, and rewriting it to avoid that route (typically via an index), there is not much that can be done there.\r\n\r\n@bsharpe: Just to be sure about things, you can check the effective cache-size limitation with this query in the Data Explorer: `r.db('rethinkdb').table('server_config')`\r\n\r\n[1] `--cache-size` on the command line, `cache-size` in the config file, or 1/2 of available memory at startup by default"
+  , issueCommentId = 231824219
+  }

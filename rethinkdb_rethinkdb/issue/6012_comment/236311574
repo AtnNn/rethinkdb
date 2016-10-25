@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-29) 22 : 43 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 563469
+        , simpleUserLogin = N "niieani"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/563469?v=3"
+        , simpleUserUrl = "https://api.github.com/users/niieani"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/236311574"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/6012#issuecomment-236311574"
+  , issueCommentCreatedAt = 2016 (-07) (-29) 22 : 41 : 21 UTC
+  , issueCommentBody =
+      "Actually, my initial report wasn't exact, I've done a bit more debugging and added the reversed order as suggested by @mlucy. Here are my findings:\r\n\r\nslice(0, 20) - <1ms\r\nskip(0).limit(20) - **1ms**\r\nlimit(20).skip(0) - 1ms\r\n\r\nslice(1000, 1020) - 1ms\r\nskip(1000).limit(20) - **14ms**\r\nlimit(20).skip(1000) - <1ms\r\n\r\nslice(5000, 5020) - 1ms\r\nskip(5000).limit(20) - **68ms**\r\nlimit(20).skip(5000) - <1ms\r\n\r\nStrangely, the reversed version, `limit().skip()` seems even faster than `slice` (repeatedly <1ms), although that might just be the error margin.\r\n"
+  , issueCommentId = 236311574
+  }

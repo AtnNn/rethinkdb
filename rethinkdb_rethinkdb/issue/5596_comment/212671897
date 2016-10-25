@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-21) 00 : 42 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212671897"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/5596#issuecomment-212671897"
+  , issueCommentCreatedAt = 2016 (-04) (-21) 00 : 42 : 20 UTC
+  , issueCommentBody =
+      "Ok your patch looks great to me.\r\n\r\nThe one thing I'd like to see changed is accepting the parameter in seconds, rather than milliseconds. Please make sure you properly check for `int` overflows when converting back to `ms`. Using seconds is more consistent with our other parameters and more useful in practice I think.\r\n\r\nRegarding comparing the node name: We should actually compare the server ID rather than the name. I thins this might already happen in the handshake (at least the server IDs are exchanged), but the information isn't propagated up to the `auto_reconnector_t` so it doesn't know that it should stop trying. It sounds completely reasonable though to stop reconnecting to an address from the `auto_reconnector_t` once we find out that the server ID isn't what we were expecting. I can give you some more pointers if you'd like to look into this. Basically this is where we receive the remote server ID https://github.com/rethinkdb/rethinkdb/blob/next/src/rpc/connectivity/cluster.cc#L961 , but we don't actually know in this function which ID we were expecting. The function has an `expected_id`, but that is a `peer_id_t` which changes every time a server is restarted and hence doesn't help for the auto reconnector (since it should try to reconnect even after another server got restarted). I'm not sure if we would still need the expected peer ID check if we added an expected server ID check."
+  , issueCommentId = 212671897
+  }

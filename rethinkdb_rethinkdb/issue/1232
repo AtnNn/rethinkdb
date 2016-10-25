@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-04) (-21) 02 : 10 : 49 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1232/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1232"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1232
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Investigate .default() performance"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1232"
+  , issueCreatedAt = 2013 (-08) (-02) 22 : 41 : 48 UTC
+  , issueBody =
+      Just
+        "There are about 90k records in the table `test`.\r\n\r\n\r\nThis script runs in about 4 seconds\r\n```py\r\nfor i in xrange(10):\r\n    r.db('test').table('test').grouped_map_reduce(\r\n        lambda doc: doc[\"field\"], # doc[\"field\"] exists and always maps to the same value\r\n        lambda doc: doc['rand'],\r\n        lambda left, right:\r\n            left + right\r\n    ).run()\r\nend = time.time()\r\n```\r\n\r\nWhile this one needs about 30 seconds\r\n\r\n```py\r\nfor i in xrange(10):\r\n    r.db('test').table('test').grouped_map_reduce(\r\n        lambda doc: doc[\"non_existing_field\"].default(None),\r\n        lambda doc: doc['rand'],\r\n        lambda left, right:\r\n            left + right\r\n    ).run()\r\nend = time.time()\r\n```"
+  , issueState = "open"
+  , issueId = Id 17585805
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 268
+          , milestoneNumber = 41
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone will be revisited after each major release during the planning stage for the major release after it. They will be moved to a specific release milestone if chosen for that release."
+          , milestoneTitle = "subsequent"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/41"
+          , milestoneCreatedAt = 2013 (-06) (-30) 07 : 32 : 52 UTC
+          , milestoneState = "open"
+          }
+  }

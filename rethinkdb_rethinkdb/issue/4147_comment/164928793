@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-15) 23 : 04 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164928793"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4147#issuecomment-164928793"
+  , issueCommentCreatedAt = 2015 (-12) (-15) 23 : 04 : 09 UTC
+  , issueCommentBody =
+      "@Tryneus and I came up with an algorithm that would allow us to efficiently avoid duplicate results in a `getAll`:\r\n\r\n1. On any given shard, we keep track of the previously traversed `[sindex key, primary key]` pair. We skip over any entry that has the same pair as the previous value. This gives us the invariant that for a given sindex key, a given shard will only give us distinct results.\r\n2. During unsharding, make sure that we maintain the invariant that the output is always ordered by primary key. This again allows us to easily omit duplicates in the process. For a single sindex key, we already get results that way from each shard, and we just need to merge them across shards in an ordered way. For multi-gkey `getAll`s, see the next point:\r\n3. If we have multiple sindex keys (for variadic `getAll`s), we must make sure to perform a \"merge sort\" like merge not only during unsharding, but also on each shard to maintain the ordering by primary key. This will require a change to how we're traversing the tree for multiple keys at the moment. We currently send all batches for the first key first. Then we transition to the second key and so on. In order to make the merge work, we'd need to traverse for each key in parallel before we can send a batch back to the parsing node.\r\n\r\nThis is still going to be a bit of work, but I believe it's feasible."
+  , issueCommentId = 164928793
+  }

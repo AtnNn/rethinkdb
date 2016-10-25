@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-21) 21 : 07 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/166421534"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4519#issuecomment-166421534"
+  , issueCommentCreatedAt = 2015 (-12) (-21) 21 : 07 : 47 UTC
+  , issueCommentBody =
+      "I propose breaking up the `users` table into two tables: `users` and `permissions`.\r\n\r\nThe `users` table would look like this:\r\n\r\n```\r\n[\r\n    {\r\n        \"id\":\"admin\",\r\n        \"password\":false\r\n    },\r\n    {\r\n        \"id\":\"vexocide\",\r\n        \"password\":false\r\n    }\r\n]\r\n```\r\n\r\nThe `permissions` table will look like this:\r\n\r\n```\r\n[\r\n    {\r\n        \"config\":true,\r\n        \"read\":true,\r\n        \"write\":true\r\n        \"id\": [\"admin\"],\r\n    },\r\n    {\r\n        \"config\":true,\r\n        \"read\":true,\r\n        \"write\":true,\r\n        \"id\": [\"vexocide\"],\r\n    },\r\n    {\r\n        \"config\":false,\r\n        \"read\":true,\r\n        \"write\":true,\r\n        \"id\": [\"vexocide\", \"test\"]\r\n    },\r\n    {\r\n        \"config\":true,\r\n        \"read\":true,\r\n        \"write\":true\r\n        \"id\": [\"vexocide\", \"test\", \"foo\"]\r\n    }\r\n]\r\n```\r\n\r\nThe `id` for the `permissions` table will be a triple `[user, db, table]` (with `db` and `table` possibly omitted). I think this is much cleaner, is pretty easy to understand, and avoids the whole dollar sign issue.\r\n\r\n\r\n"
+  , issueCommentId = 166421534
+  }

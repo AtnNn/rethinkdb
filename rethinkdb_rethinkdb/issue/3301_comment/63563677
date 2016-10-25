@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-18) 23 : 12 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63563677"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3301#issuecomment-63563677"
+  , issueCommentCreatedAt = 2014 (-11) (-18) 23 : 12 : 04 UTC
+  , issueCommentBody =
+      "Maybe my understanding of @srh's example is wrong.\r\nSo here's a slightly different one:\r\nSuppose you have a table where entries have different visibilities. You have `\"public\"` and `\"private\"` entries. Except that you are a French software developer and hence use the terms `\"public\"` and `\"priv\233\"` to represent these visibilities in your table.\r\n\r\nAssume that some users of your application are allowed to list either all public or private entries, but other users are only allowed to see the public ones. So you might have a URL like this (assume it's a web application):\r\n`listEntries?userSecret=....&showVisibility=priv\233`\r\n\r\nIn your application, you are now going to verify the `userSecret`. If the user is not permitted to view private entries, you might have code that looks somewhat like this:\r\n```\r\nif (userNotAuthorized && showVisibility == \"priv\233\") {\r\n    echo \"You are not authorized to see this.\";\r\n    return;\r\n}\r\ndisplay(r.table(\"t\").filter(r.row(\"visiblity\").eq(showVisbility)).run());\r\n```\r\n\r\nThis is perfectly fine and safe code, as long as at the place where you insert into the table you use the same encoding of the \"priv\233\" string as in this piece of code. That is very likely, since you are probably using the same editor and language for both places (and if there's a mismatch, you will notice it since the code won't work).\r\n\r\nNow consider what would happen if RethinkDB normalized the strings for the purpose of comparison. An attacker could pass in a differently encoded `showVisibility` argument that normalizes to the same string as \"priv\233\" does. RethinkDB would happily reveal all the private entries in this case.\r\n\r\n\r\nI'm sure you can construct *some* case where a vulnerability would be avoided by normalization, but my impression is that those cases are less common. I can think of a lot of cases where code stops working properly due to a lack of normalization, but I'm having a hard time thinking of a case where it would lead to security issues.\r\nGenerally my impression is that it's typically *safer* to consider two keys as *non-equal* when it doubt, than it is to consider them as *equal*. Something might stop working, but it's much less likely that you reveal secret data. I could be wrong about this though.\r\n\r\nThere's also the interesting question of how many commonly used other systems do unicode-aware comparison and how many don't. If there's a clear majority that does it one way, we could avoid many issues by doing it the same way."
+  , issueCommentId = 63563677
+  }

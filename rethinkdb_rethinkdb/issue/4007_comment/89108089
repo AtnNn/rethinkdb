@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-03) 01 : 35 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/89108089"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4007#issuecomment-89108089"
+  , issueCommentCreatedAt = 2015 (-04) (-03) 01 : 35 : 31 UTC
+  , issueCommentBody =
+      "@danielmewes, this was on newton (SSD), but not super-scientific, even though the numbers are fairly consistent.\r\n\r\n@v3ss0n, the stats are from the tornado webserver - simply wrapping the `yield table.insert...` call with `time.time()` to get a time delta, pushing it into an array, and dumping stats at the end of the test.  This is basically the total latency for the request, including writing to the socket.\r\n\r\nBased on these numbers, there is almost no noticeable difference between the 1-connection and 10-connection tests, so the bottleneck is probably not in TCP.\r\n\r\nSome more stats (derived from the above tables):\r\n1 connection, hard durability:\r\n\r\nclients | inserts/sec | percentage latency from insert\r\n---- | ---- | ----\r\n1 | 58.24 | 46%\r\n3 | 159.0 | 48%\r\n10 | 439.0 | 56%\r\n30 | 703.4 | 60%\r\n50 | 685.6 | 57%\r\n\r\n1 connection, soft durability:\r\n\r\nclients | inserts/sec | percentage latency from insert\r\n---- | ---- | ----\r\n1 | 67.52 | 37%\r\n3 | 185.0 | 38%\r\n10 | 559.9 | 47%\r\n30 | 745.3 | 53%\r\n50 | 701.9 | 53%\r\n\r\n1 connection, noreply:\r\n\r\nclients | inserts/sec | percentage latency from insert\r\n---- | ---- | ----\r\n1 | 103.6 | 3%\r\n3 | 291.8 | 3%\r\n10 | 921.6 | 2%\r\n30 | 880.5 | 1%\r\n50 | 840.9 | 0%\r\n\r\nIt appears that with more than 30 concurrent clients (or 10 with `noreply=True`), the bottleneck was actually in the Tornado webserver - I would guess due to CPU saturation or syscall overhead, though I haven't investigated the cause.\r\n\r\nI imagine some optimization work could be done in the server and client to reduce request latency, but for the most part these numbers seem reasonable to me.  We should investigate if there is a cause for latency spikes as @v3ss0n mentioned.\r\n"
+  , issueCommentId = 89108089
+  }

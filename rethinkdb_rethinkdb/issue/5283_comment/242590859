@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-26) 00 : 57 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 534887
+        , simpleUserLogin = N "paralin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/534887?v=3"
+        , simpleUserUrl = "https://api.github.com/users/paralin"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/242590859"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5283#issuecomment-242590859"
+  , issueCommentCreatedAt = 2016 (-08) (-26) 00 : 57 : 10 UTC
+  , issueCommentBody =
+      "Copying my comment from my duplicate issue #6073 \r\n\r\nIn, for example, a time series application, I might be interested in all datapoints between time X and Y. I also know new datapoints might come in while I'm watching this range of time values, so I subscribe to a change feed with include_initial set to true. I might later become interested in datapoints between time X-5 and Y+10. I'd rather not re-pull the data I already have, but I do need to pull the data that changing the query adds to the cursor.\r\n\r\nOne solution is to do the following:\r\n\r\nFetch data from the window of time before and after the current window, and add this data to the working set\r\nClose the old cursor and subscribe to the entire range with include_initial unset.\r\nHowever, this is clunky as it does not allow for other types of changes to the query, like further filtering, without competely redoing the query.\r\n\r\nMy proposal is to allow the cursor to be manipulated a bit to change the scope of the query, and then use change feeds to reflect that change. So, if I expanded my min/max filters in a cursor, I would expect some ADD events to come through the change feed, and vise-versa.\r\n\r\nThis might be too complex to implement and out of scope of the DB, but I can think of loads of applications where I'd like to change the scope of a cursor without having to re-fetch all the data."
+  , issueCommentId = 242590859
+  }

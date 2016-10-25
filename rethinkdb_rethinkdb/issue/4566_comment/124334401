@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-24) 05 : 13 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/124334401"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4566#issuecomment-124334401"
+  , issueCommentCreatedAt = 2015 (-07) (-24) 05 : 13 : 38 UTC
+  , issueCommentBody =
+      "Thanks for the suggestions. I also tried loading all the keys in from the right table first, but that didn't help much either:\r\n\r\n```js\r\nr.table('right')('id')\r\n.map(r.object(r.row, true))\r\n.reduce(function (l, r) { return l.merge(r); })\r\n.do(function (keys) {\r\n  return r.table('left').filter(function (row) {\r\n    return keys.hasFields(row('right_id')).not()\r\n  })\r\n})\r\n```\r\n\r\nI would have thought that loading 4K keys into a hashmap upfront and doing lookups against that would have been significantly faster than calling `.get()` 1.7M times. @danielmewes any insight into this?\r\n\r\nAside from that, my questions have been answered so feel free to close this in favor of #2720."
+  , issueCommentId = 124334401
+  }

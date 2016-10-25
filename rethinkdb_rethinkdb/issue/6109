@@ -1,0 +1,63 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-09) (-15) 19 : 07 : 04 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6109/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6109"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 6109
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Reconsider changefeed error behavior when queue gets full"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6109"
+  , issueCreatedAt = 2016 (-09) (-14) 21 : 31 : 35 UTC
+  , issueBody =
+      Just
+        "Currently, our behavior is as follows (from the documentation):\r\n\r\n> The server will buffer up to `changefeedQueueSize` elements (default 100,000). If the buffer limit is hit, early changes will be discarded, and the client will receive an object of the form `{error: \"Changefeed cache over array size limit, skipped X elements.\"}` where `X` is the number of elements skipped.\r\n\r\nThe problem is that most people are not going to handle `error` documents in their code since they are rare, especially in testing.\r\n\r\nI propose that we change the behavior of changefeeds to throw an exception if this happens instead.\r\nIt's slightly worse because it will cause the changefeed to be terminated, rather than just skipping changes but staying alive. However I doubt that a changefeed with skipped notifications is of much use anyway.\r\n\r\nThis reduces the error cases that users have to think about and handle.\r\n\r\nThis is a ReQL proposal, but for the case that we get a quick consensus, I'd like to still change this for 2.4.\r\n\r\n@mlucy, @VeXocide, @larkost, @deontologician thoughts?"
+  , issueState = "open"
+  , issueId = Id 177026931
+  , issueComments = 10
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

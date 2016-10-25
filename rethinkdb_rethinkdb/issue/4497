@@ -1,0 +1,73 @@
+Issue
+  { issueClosedAt = Just 2015 (-07) (-06) 17 : 59 : 45 UTC
+  , issueUpdatedAt = 2015 (-07) (-06) 18 : 01 : 06 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4497/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4497"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4497
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "\"Assertion failed: [drainer.has()]\" crash in ClusteringBranch.Backfill"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4497"
+  , issueCreatedAt = 2015 (-07) (-03) 03 : 28 : 16 UTC
+  , issueBody =
+      Just
+        "I already have a fix for this. Just putting it here for reference.\r\n\r\n```\r\n[ RUN      ] ClusteringBranch.Backfill\r\nVersion: rethinkdb 2.0.0-1-1408-g3a347e-dirty (debug) (CLANG 3.2 (tags/RELEASE_32/final))\r\nerror: Error in ./src/unittest/clustering_utils.hpp at line 118:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Assertion failed: [drainer.has()] \r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Backtrace:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Thu Jul  2 20:22:42 2015\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:100\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:203\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:283\r\n       4: format_backtrace(bool) at backtrace.cc:198\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       6: unittest::test_inserter_t::stop() at clustering_utils.hpp:118\r\n       7: ./rethinkdb-unittest() [0x1bfabff] at 0x1bfabff ()\r\n       8: unittest::run_backfill_test(unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*) at clustering_branch.cc:184\r\n       9: std::_Function_handler<void (unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*), void (*)(unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*)>::_M_invoke(std::_Any_data const&, unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*) at functional:1779\r\n       10: std::function<void (unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*)>::operator()(unittest::simple_mailbox_cluster_t*, primary_dispatcher_t*, unittest::mock_store_t*, local_replicator_t*, order_source_t*) const at functional:2160\r\n       11: ./rethinkdb-unittest() [0x1bf9fe5] at 0x1bf9fe5 ()\r\n       12: unittest::run_ClusteringBranch_Backfill() at clustering_branch.cc:186\r\n       13: std::_Function_handler<void (), void (*)()>::_M_invoke(std::_Any_data const&) at functional:1779\r\n       14: std::function<void ()>::operator()() const at functional:2160\r\n       15: starter_t::run_wrapper(std::function<void ()> const&) at runtime.cc:61\r\n       16: std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)>::operator()(starter_t*, std::function<void ()> const&) const at functional:550\r\n       17: _ZNSt5_BindIFSt7_Mem_fnIM9starter_tFvRKSt8functionIFvvEEEEPS1_S4_EE6__callIvJEJLi0ELi1EEEET_OSt5tupleIJDpT0_EESt12_Index_tupleIJXspT1_EEE+0x70 at functional:1145\r\n       18: _ZNSt5_BindIFSt7_Mem_fnIM9starter_tFvRKSt8functionIFvvEEEEPS1_S4_EEclIJEvEET0_DpOT_+0x26 at functional:1203\r\n       19: std::_Function_handler<void (), std::_Bind<std::_Mem_fn<void (starter_t::*)(std::function<void ()> const&)> (starter_t*, std::function<void ()>)> >::_M_invoke(std::_Any_data const&) at functional:1779\r\n       20: std::function<void ()>::operator()() const at functional:2160\r\n       21: callable_action_instance_t<std::function<void ()>&>::run_action() at callable_action.hpp:31\r\n       22: callable_action_wrapper_t::run() at runtime_utils.cc:43\r\n       23: coro_t::run() at coroutines.cc:205\r\n       24: coro_t* coro_t::spawn_sometime<std::function<void ()>&>(std::function<void ()>&&&) at coroutines.hpp:58\r\n       25: starter_t::on_thread_switch() at runtime.cc:57\r\n       26: linux_message_hub_t::on_event(int) at message_hub.cc:154\r\n       27: epoll_event_queue_t::run() at epoll.cc:115\r\n       28: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:161\r\n       29: /lib/x86_64-linux-gnu/libpthread.so.0(+0x7e9a) [0x7f767ce49e9a] at 0x7f767ce49e9a (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       30: clone+0x6d at 0x7f767cb768bd (/lib/x86_64-linux-gnu/libc.so.6)\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Exiting.\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nTrace/breakpoint trap (core dumped)\r\n```"
+  , issueState = "closed"
+  , issueId = Id 92782544
+  , issueComments = 2
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 316661
+                , simpleUserLogin = N "timmaxw"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/316661?v=3"
+                , simpleUserUrl = "https://api.github.com/users/timmaxw"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 95
+          , milestoneClosedIssues = 217
+          , milestoneDescription =
+              Just "To-do list before shipping auto-failover"
+          , milestoneTitle = "2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/95"
+          , milestoneCreatedAt = 2015 (-03) (-04) 21 : 09 : 42 UTC
+          , milestoneState = "closed"
+          }
+  }

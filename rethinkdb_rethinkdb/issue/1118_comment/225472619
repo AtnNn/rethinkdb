@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-13) 01 : 25 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225472619"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-225472619"
+  , issueCommentCreatedAt = 2016 (-06) (-13) 01 : 25 : 51 UTC
+  , issueCommentBody =
+      "There's a lot of discussion above.  Here's my understanding the\r\ncurrent proposal:\r\n* You can write any of these:\r\n  - stream.avg(...).changes()\r\n  - stream.sum(...).changes()\r\n  - stream.count(...).changes()\r\n  - stream.reduce(..., reverse: FUNC).changes()\r\n* In particular, it doesn't need to be on a selection;\r\n  `.map.reduce.changes` etc. are legal.  (We should probably support\r\n  `concat_map.reduce.changes` even though we don't yet support\r\n  `.concat_map.changes`, since it's easy.)\r\n\r\nA few other things:\r\n* Should we support `.coerce_to(...).changes()`?  The most common\r\n  would probably be `.coerce_to('array').changes()`, where we'd\r\n  re-send the whole array every time it changes.  There's an argument\r\n  that coercing to an array is a terminal, so it might be more\r\n  consistent to support it.\r\n* Should we support `.group.reduce.changes`?  There's no real\r\n  technical limitation, it would be almost as easy as not supporting\r\n  it.  If so, should we also take this opportunity to support\r\n  `.group.changes`?\r\n* How should we handle reductions over nothing?\r\n  (E.g. `r.table('test').avg('foo').changes()` when `test` changes\r\n  from empty to non-empty -- what's `old_val`?)  Currently `sum` and\r\n  `count` return 0 on empty streams, while `avg` and `reduce` produce\r\n  an error.\r\n  - We should probably use `0` as the \"nothing\" value for the\r\n    terminals that return it on an empty stream.\r\n  - One option would be to just use `nil` as the \"nothing\" value for\r\n    all other terminals.\r\n  - Another option would be to error by default, but to let people\r\n    write e.g.  `.avg('foo').default(whatever).changes()` to specify\r\n    it explicitly.\r\n\r\nAlso, on the subject of implementation, it probably wouldn't actually be\r\nthat hard to do it the efficient way where we do chunks of reductions\r\non the shards and only ship the aggregates over.  It would only speed\r\nup the initial computation, but it would probably speed it up a *lot*.\r\n(The reason I don't think it would be particularly hard is that we're\r\nalready only tracking timestamps on a per-read-transaction basis, so\r\nwe wouldn't lose any fidelity if we attached a terminal to the reads\r\nwe ship over and got back a pre-aggregated value alongside the\r\nstamps.)\r\n"
+  , issueCommentId = 225472619
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-22) 07 : 35 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95061581"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/873#issuecomment-95061581"
+  , issueCommentCreatedAt = 2015 (-04) (-22) 07 : 35 : 44 UTC
+  , issueCommentBody =
+      "`merge` already takes a variable number of arguments, any of which can be functions. The conflict resolution function would have to be a named argument.\r\n\r\nHow would this interact with recursive merge? I would expect that there would be no recursion if merge was given a conflict resolution function. `r.merge({a: {b: 1}}, {a: {b: 2}}, :conflict f)` would call `f(:a, {b: 1}, {b: 2})` and not `f(:b, 1, 2)`. The default value for the conflict resolution function would be `r.merge` itself, restoring the recursive behaviour. Short-cirtcuiting conflict resolution only for a given key would then be done by delegating back to merge, for example: `lambda k, a, b: r.branch(k == \"k\", ..., r.merge(a, b))`.\r\n\r\nThat raises the question of how to handle queries like `r.merge({a: 1}, {a: r.literal()), :conflict f)` or `r.merge({a: {b: 2}, {a: r.literal({})}, :conflict f)`. Perhaps literal values could be treated like the value they wrap, but respond differently to a hypothetic `r.literalp` command.\r\n\r\nReturning `r.literal()` from the conflict function could be allowed, thus removing the key just like in a regular merge."
+  , issueCommentId = 95061581
+  }

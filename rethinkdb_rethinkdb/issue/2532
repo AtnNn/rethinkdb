@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-06) (-11) 07 : 49 : 16 UTC
+  , issueUpdatedAt = 2014 (-08) (-11) 15 : 10 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2532/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2532"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2532
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 525534
+        , simpleUserLogin = N "timjrobinson"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/525534?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timjrobinson"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "too many open files"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2532"
+  , issueCreatedAt = 2014 (-06) (-11) 07 : 26 : 27 UTC
+  , issueBody =
+      Just
+        "I'm constantly getting too many open files errors in both the rethinkdb server and nodejs client. \r\n\r\nThe terminal error is: \r\n\r\n```\r\nerror: accept() failed: Too many open files.\r\n```\r\n\r\nNodeJS client error is: \r\n```\r\nError: RqlDriverError: Handshake timedout\r\n    at /home/tim/projects/towerstorm/lobby/lib/rethinkdb-client.coffee:23:15\r\n    at TcpConnection.<anonymous> (/home/tim/projects/towerstorm/lobby/node_modules/rethinkdb/net.js:67:18)\r\n    at g (events.js:180:16)\r\n    at EventEmitter.emit (events.js:95:17)\r\n    at [object Object].<anonymous> (/home/tim/projects/towerstorm/lobby/node_modules/rethinkdb/net.js:427:22)\r\n    at listOnTimeout (timers.js:110:15)\r\n```\r\n\r\nrethinkdb-client.coffee code is: (this is based of the tutorial code, posting here in case there's something wrong with my implementation.  \r\n```\r\nr = require('rethinkdb')\r\nnetconfig = require('../config/netconfig')\r\n\r\ndb = r\r\ndb.onConnect = (callback) ->\r\n  r.connect {host: netconfig.db.host, port: netconfig.db.port, db: 'towerstorm'}, (err, conn) ->\r\n    if err then throw new Error(err)\r\n    if !conn then throw new Error(\"No RethinkDB connection returned\")\r\n    callback(err, conn)\r\n```\r\n\r\nIn my models I use this like so:\r\n```\r\nUser.findById = (id, callback) ->\r\n  if !id then return callback(new Error(\"Invalid ID passed to User.findById\"))\r\n  db.onConnect (err, conn) =>\r\n    if err then return callback(err)\r\n    db.table('users').get(id).run(conn, User.defaultCallback(callback))\r\n```\r\n\r\n\r\nRethinkDB details:\r\n```\r\ninfo: Running rethinkdb 1.12.5 (GCC 4.9.0)...\r\ninfo: Running on Linux 3.14.5-1-ARCH x86_64\r\ninfo: Using cache size of 100 MB\r\n```\r\n\r\nI'm using npm packages:\r\nrethinkdb: 1.12.0-1\r\nconnect-rethinkdb: 0.4.0 (used for user sessions)\r\n\r\nulimit -n is showing 4096. Soft limit for open files is 4096 and hard limit is 8192. \r\n\r\n"
+  , issueState = "closed"
+  , issueId = Id 35458198
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

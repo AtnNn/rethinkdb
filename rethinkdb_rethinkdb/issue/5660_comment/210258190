@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-15) 02 : 39 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 3498024
+        , simpleUserLogin = N "mschurr"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3498024?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mschurr"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/210258190"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5660#issuecomment-210258190"
+  , issueCommentCreatedAt = 2016 (-04) (-15) 02 : 33 : 30 UTC
+  , issueCommentBody =
+      "I'm not entirely sure. I wrapped the loop in a try-catch block that catches and logs all exceptions and I'm definitely not getting any exceptions. I waited ~5 minutes after I terminated the server to see if it would eventually time out and throw an exception, but I got nothing.\r\n\r\nI'm using the latest version of the drivers (through Maven) and the latest version of the server (on Ubuntu installed through apt-get).\r\n\r\nMy complete code is:\r\n```java\r\n   (new Thread() {\r\n      @Override\r\n      public void run() {\r\n        while (true) {\r\n          logger.debug(\"Listening for data changes...\");\r\n          try (Connection conn = dbp.getConnection()) {\r\n            Cursor<HashMap<String, ?>> cursor = null;\r\n            try {\r\n              cursor = r.table(\"messages\").changes().run(conn);\r\n              \r\n              // Access the cursor like an infinite iterator.\r\n              // Blocks the thread until new information becomes available.\r\n              // Pretty cool!\r\n              for (HashMap<String, ?> item : cursor) {\r\n                logger.debug(\"Channel: delivering message notification of {}\", item);\r\n              }\r\n            } catch (Exception e) {\r\n              logger.warn(\"Connection lost.\" , e);\r\n              continue;\r\n            } finally {\r\n              if (cursor != null) {\r\n                cursor.close();\r\n              }\r\n            }\r\n          }\r\n          \r\n          try {\r\n            Thread.sleep(500);\r\n          } catch (InterruptedException e) {}\r\n        }\r\n      }\r\n    }).start();\r\n```\r\n\r\ngetConnection() is simply:\r\n\r\n```java\r\n  public Connection getConnection() {\r\n    Connection.Builder c = r.connection()\r\n        .hostname(host)\r\n        .port(port)\r\n        .db(db);\r\n    \r\n    if (user != null && password != null) {\r\n      c.user(user, password);\r\n    }\r\n    \r\n    return c.connect();\r\n  }\r\n```\r\n\r\nThe `for (HashMap<String, ?> item : cursor)` loop never breaks (by the iterator throwing an Exception) when connection is lost."
+  , issueCommentId = 210258190
+  }

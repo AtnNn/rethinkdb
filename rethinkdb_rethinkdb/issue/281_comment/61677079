@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 17 : 12 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 27421
+        , simpleUserLogin = N "mkleehammer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/27421?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mkleehammer"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61677079"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/281#issuecomment-61677079"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 17 : 12 : 32 UTC
+  , issueCommentBody =
+      "I just want to put a vote in for something simple and orthogonal - something that is optional.\r\n\r\nI tried rethinkdbdash but managed to hang a 5 line script with a single createTable() call.  Once I do that, the script won't exit - due to an open connection or timer or something.  Obviously this is a bug that will be fixed, but the complexity made me nervous and I abandoned it.  Similarly, one of the things I dislike most about the MongoDB driver is that it hides the connection pooling internals.\r\n\r\nFrom what I can tell, a lot of demand for connection management is in web apps using Express and Koa.  Perhaps providing a simple pool that does not try to magically figure out when it can reclaim a connection along with middleware for Koa & Express that *can* do that would be interesting.\r\n\r\nAs an example, I wrote a RethinkDB middleware last night that adds methods to the context (`this`) that will run queries or get a connection and associate it with the request.  (In my case, I also added coercion to arrays manually, along with a row version and a scalar version.)\r\n\r\nHere is an example.  Note that there is no need for try / finally or to close any connections:\r\n\r\n```\r\n// Run a query and return all rows in an array.\r\nvar a = yield this.fetchall(r.table('t')...);\r\n\r\n// Run a query and return the first row or null.\r\nvar row = yield this.fetchone(r.table('t')...);\r\n\r\n// Access to the connection if needed\r\nvar cnxn = yield this.connect();\r\n```\r\n\r\nThe fetch methods obtain a connection, run the query, and return the connection.  More importantly, `this.connect()` returns a connection, but it also attaches it to the request.  The middleware looks for this and returns it at the end of the request.\r\n\r\nHaving the middleware close the connection is a simpler design, I think, since it has information about the lifetime of the request which a connection or pool could not."
+  , issueCommentId = 61677079
+  }

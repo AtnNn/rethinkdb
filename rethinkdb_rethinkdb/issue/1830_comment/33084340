@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-23) 00 : 11 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33084340"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1830#issuecomment-33084340"
+  , issueCommentCreatedAt = 2014 (-01) (-23) 00 : 11 : 55 UTC
+  , issueCommentBody =
+      "What makes deleting table files somewhat complicated is the fact that our current reactor architecture is based on the assumption that even nodes that have no share in a table's data keep the actual data file around. We will eventually get rid of that requirement, as getting rid of it is a requirement for https://github.com/rethinkdb/rethinkdb/issues/1861.\r\n\r\nThe other way to solve this problem is to implement \"aggressive\" compaction of a table file.\r\nIt would also be a fair amount of work, but has the advantage that it is in itself a useful feature. Furthermore, it works even if a node loses its role as a replica for only a subset of the range shards. We could not delete the file in that case, but we could still compact the table to reduce disk usage.\r\n\r\nIt would probably work somewhat like this:\r\n1. Call `reclaim_space_aggressively()` on the log_serializer\r\n2. The log_serializer tells the data_block_manager to deactivate all active extents, and to put all now inactive extents into a state where they can be garbage-collected.\r\n3. Run the data block GC. However in contrast to a usual GC process, don't stop when reaching the GV low ratio but only when all GC'able extents have been garbage collected. This part is a bit tricky, because on a live table where other range shards are still active, it might be impossible to ever fully reach that state. We would have to detect such cases. Wait for the data block GC to finish.\r\n4. Tell the LBA to inactivate the active LBA extents.\r\n5. Run the LBA GC. It will rewrite the LBA, using the extents that were freed by the data GC.\r\n\r\nI think this procedure should quite reliably shrink a table to close to its minimal size."
+  , issueCommentId = 33084340
+  }

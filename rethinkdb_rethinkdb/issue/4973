@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-03) 18 : 08 : 52 UTC
+  , issueUpdatedAt = 2015 (-11) (-10) 01 : 59 : 53 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4973/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4973"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 4973
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 167416
+          , simpleUserLogin = N "VeXocide"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/167416?v=3"
+          , simpleUserUrl = "https://api.github.com/users/VeXocide"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Debug-mode crash during table fuzzing: server_name_map doesn't contain the expected server"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4973"
+  , issueCreatedAt = 2015 (-10) (-21) 00 : 40 : 56 UTC
+  , issueBody =
+      Just
+        "I was testing the new `--kill` option for `table_fuzzer.py` against `v2.1.x`, and ran into this crash with the command line `table_fuzzer.py --servers 7 --threads 48 --changefeeds --kill`\r\n\r\n```\r\nerror: Error in ../src/clustering/administration/servers/server_metadata.cc at line 37:\r\nerror: server_name_map doesn't contain the expected server. expected: 4ef020da-4760-4436-b024-38d1145ae41f found: 60893a92-8864-4df4-afa2-c174b606ffe8=g, b338d283-f296-4713-88f1-d81246f6c63a=e, bb7f350a-c712-4da3-931f-f6b0785ea2df=a, bd816db7-dd3d-42af-ac12-fb0a055daae9=c, e22b87e7-60e5-47e8-bc5b-17688173e951=b\r\nerror: Backtrace:\r\n2015-10-20T17:07:05.992028597 22.199573s error: Tue Oct 20 17:07:04 2015\r\n1 [0x1bb88ac]: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:101\r\n2 [0x17dd771]: backtrace_t::backtrace_t() at backtrace.cc:203\r\n3 [0x17ddddf]: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:283\r\n4 [0x17dd6bf]: format_backtrace(bool) at backtrace.cc:198\r\n5 [0x17d15a2]: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n6 [0x1d83eda]: server_name_map_t::get(uuid_u const&) const at server_metadata.cc:36\r\n7 [0x1bda5f7]: table_availability_issue_t::build_info_and_description(cluster_semilattice_metadata_t const&, server_config_client_t*, table_meta_client_t*, admin_identifier_format_t, ql::datum_t*, datum_string_t*) const at table.cc:90\r\n8 [0x1bbb30e]: issue_t::to_datum(cluster_semilattice_metadata_t const&, server_config_client_t*, table_meta_client_t*, admin_identifier_format_t, ql::datum_t*) const at issue.cc:17\r\n9 [0x1bbbf76]: issues_artificial_table_backend_t::read_all_rows_as_vector(signal_t*, std::vector<ql::datum_t, std::allocator<ql::datum_t> >*, admin_err_t*) at issues_backend.cc:55\r\n10 [0x1b020e2]: artificial_table_backend_t::read_all_rows_as_stream(ql::backtrace_id_t, ql::datumspec_t const&, sorting_t, signal_t*, counted_t<ql::datum_stream_t>*, admin_err_t*) at backend.cc:17\r\n11 [0x1afef88]: artificial_table_t::read_all(ql::env_t*, std::string const&, ql::backtrace_id_t, std::string const&, ql::datumspec_t const&, sorting_t, read_mode_t) at artificial_table.cc:74\r\n12 [0x1ae3b67]: ql::table_t::as_seq(ql::env_t*, std::string const&, ql::backtrace_id_t, ql::datum_range_t const&, sorting_t) at val.cc:224\r\n13 [0x1ae33fc]: ql::table_slice_t::as_seq(ql::env_t*, ql::backtrace_id_t) at val.cc:174\r\n14 [0x1ae5bf8]: ql::val_t::as_seq(ql::env_t*) at val.cc:561\r\n15 [0x1a57656]: ql::changes_term_t::eval_impl(ql::scope_env_t*, ql::args_t*, ql::eval_flags_t) const at seq.cc:416\r\n16 [0x19d9b0f]: ql::op_term_t::term_eval(ql::scope_env_t*, ql::eval_flags_t) const at op.cc:225\r\n17 [0x1a9fe3e]: ql::runtime_term_t::eval(ql::scope_env_t*, ql::eval_flags_t) const at term.cc:353\r\n18 [0x1bb20cd]: ql::query_cache_t::ref_t::run(ql::env_t*, Response*) at query_cache.cc:311\r\n19 [0x1bb1894]: ql::query_cache_t::ref_t::fill_response(Response*) at query_cache.cc:249\r\n20 [0x1a9f692]: ql::run(ql::query_id_t&&, ql::protob_t<Query>, Response*, ql::query_cache_t*, signal_t*) at term.cc:269\r\n21 [0x1baee4a]: rdb_query_server_t::run_query(ql::query_id_t&&, ql::protob_t<Query> const&, Response*, ql::query_cache_t*, signal_t*) at query_server.cc:49\r\n```"
+  , issueState = "closed"
+  , issueId = Id 112488472
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-11) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 92
+          , milestoneClosedIssues = 84
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/92"
+          , milestoneCreatedAt = 2015 (-02) (-03) 22 : 18 : 37 UTC
+          , milestoneState = "closed"
+          }
+  }

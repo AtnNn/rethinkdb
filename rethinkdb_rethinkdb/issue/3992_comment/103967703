@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-20) 17 : 25 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/103967703"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3992#issuecomment-103967703"
+  , issueCommentCreatedAt = 2015 (-05) (-20) 17 : 25 : 53 UTC
+  , issueCommentBody =
+      "> I think it's OK to officially not guarantee something, but to make the database as safe as possible by default for people who don't think to read the official guarantees.\r\n\r\nI'm not a fan of this since it seems like it will make it harder for users to find out what the actual guarantees are during their testing / evaluation phase, but if you think strongly that we should do this I will not veto it.\r\n\r\nWe should make sure that our additional guarantee isn't leaked though.\r\nSpecifically consider queries like these:\r\n```js\r\ntable.filter(r.table(\"other\").get(r.row(\"reference\"))).update({counter: r.row(counter).add(1)})\r\n```\r\nThe filter in this is not atomic, but the update (incrementing the counter is). This is a totally legitimate and probably not uncommon query.\r\n\r\nIf we now apply the proposed rewrite rule, this query will fail because the update function is no longer atomic. That would leak the fact that we're doing something magical underneath and the error would probably be very confusing.\r\nSo we should only apply the rewrite if we can proof the filter function deterministic.\r\n\r\nThis by the way is also a general problem with the proposal. Since an update function can either be fully deterministic or fully non deterministic, we would need a way to disable this kind of rewriting. Otherwise a large set of legitimate queries will become impossible to run.\r\nConsider the example query with the counter increment again: The rewrite would make the update function non-deterministic, so the user would need to pass in `nonAtomic: true`. However that would now also make the counter increment non-atomic, which in some applications can be dramatically worse than what the query currently does without the rewrite."
+  , issueCommentId = 103967703
+  }

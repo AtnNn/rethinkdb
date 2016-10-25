@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-10) 22 : 09 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1126819
+        , simpleUserLogin = N "meenie"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1126819?v=3"
+        , simpleUserUrl = "https://api.github.com/users/meenie"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225307955"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1118#issuecomment-225307955"
+  , issueCommentCreatedAt = 2016 (-06) (-10) 22 : 08 : 22 UTC
+  , issueCommentBody =
+      "If I could do a changefeed on an aggregate that [calculates NPS](https://www.getfeedback.com/examples/net-promoter-score), that would be amazing.  I have data that looks something like this:\r\n```javascript\r\nconst npsData = [\r\n  {\r\n    \"component_id\": 1,\r\n    \"number\": 10\r\n  },\r\n  {\r\n    \"component_id\": 1,\r\n    \"number\": 10\r\n  },\r\n  {\r\n    \"component_id\": 2,\r\n    \"number\": 8\r\n  },\r\n  {\r\n    \"component_id\": 1,\r\n    \"number\": 9\r\n  },\r\n  {\r\n    \"component_id\": 2,\r\n    \"number\": 2\r\n  },\r\n  ...\r\n];\r\n```\r\n\r\nAnd my query looks something like this:\r\n```javascript\r\nr.expr(npsData)\r\n  .group('component_id', 'number').count()\r\n  .ungroup()\r\n  .map((row) => {\r\n    const number = row('group').nth(1);\r\n    const ret = r.expr({\r\n      component_id: row('group').nth(0),\r\n      distribution: [{number: number, total: row('reduction')}],\r\n      total_answers: row('reduction'),\r\n      detractors: 0,\r\n      passives: 0,\r\n      promoters: 0\r\n    });\r\n\r\n    return r.branch(\r\n      number.eq(9).or(number.eq(10)),\r\n      ret.merge({promoters: ret('promoters').add(row('reduction'))}),\r\n      number.eq(7).or(number.eq(8)),\r\n      ret.merge({passives: ret('passives').add(row('reduction'))}),\r\n      ret.merge({detractors: ret('detractors').add(row('reduction'))})\r\n    );\r\n  })\r\n  .group('component_id')\r\n  .reduce((left, right) => ({\r\n    component_id: left('component_id'),\r\n    total_answers: left('total_answers').add(right('total_answers')),\r\n    detractors: left('detractors').add(right('detractors')),\r\n    passives: left('passives').add(right('passives')),\r\n    promoters: left('promoters').add(right('promoters')),\r\n    distribution: left('distribution').add(right('distribution')),\r\n  }))\r\n  .do((datum) => {\r\n    const passivesPercentage = datum('passives').div(datum('total_answers')).mul(100);\r\n    const promotersPercentage = datum('promoters').div(datum('total_answers')).mul(100);\r\n    const detractorsPercentage = datum('detractors').div(datum('total_answers')).mul(100);\r\n    return {\r\n      distribution: datum('distribution'),\r\n      passives_percentage: passivesPercentage,\r\n      promoters_percentage: promotersPercentage,\r\n      detractors_percentage: detractorsPercentage,\r\n      score: promotersPercentage.sub(detractorsPercentage)\r\n    };\r\n  })\r\n  .ungroup()\r\n  .map(row => ({\r\n    component_id: row('group'),\r\n    distribution: row('reduction')('distribution'),\r\n    passives_percentage: row('reduction')('passives_percentage'),\r\n    promoters_percentage: row('reduction')('promoters_percentage'),\r\n    detractors_percentage: row('reduction')('detractors_percentage'),\r\n    score: row('reduction')('score')\r\n  }));\r\n```\r\n\r\nCould the above be achieved with this new api?"
+  , issueCommentId = 225307955
+  }

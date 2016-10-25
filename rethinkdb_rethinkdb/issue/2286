@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2014 (-07) (-17) 21 : 51 : 00 UTC
+  , issueUpdatedAt = 2014 (-07) (-17) 21 : 51 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2286/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/2286"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 2286
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 504770
+        , simpleUserLogin = N "stijnsanders"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/504770?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stijnsanders"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Possible error in protocol buffer binary encoding."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/2286"
+  , issueCreatedAt = 2014 (-04) (-19) 21 : 38 : 21 UTC
+  , issueBody =
+      Just
+        "I'm disecting the response to a plain tableCreate call binary. Is this a bug at your end or have I got something wrong? The response I got back was:\r\n\r\n    08 01 10 01 1A 1E 08 06  ........\r\n    22 00 32 18 0A 07 63 72  \".2...cr \r\n    65 61 74 65 64 12 0D 08  eated...\r\n    03 1A 00 00 00 00 00 00  ........\r\n    F0 3F 22 00              \240?\"\r\n\r\nThe message is based on the Response message from ql2.proto, so:\r\n\r\n    08 01 \"type=SUCCESS_ATOM\"\r\n    10 01 \"token=1\"\r\n    1A 1E \"response\", a Datum message of 30 bytes long:\r\n      08 06 \"type=R_OBJECT\"\r\n      22 00 \"r_str=''\"\r\n      32 18 \"r_object\", a AssocPair message of 24 bytes long:\r\n        0A 07 63 72 65 61 74 65 64 \"key='created'\"\r\n        12 0D \"val\", a Datum message of 13 bytes long:\r\n          08 03 \"type=R_NUM\"\r\n          1A 00 ...\r\n\r\nThis is where I get stuck, 0x1A is '3' for Datum.r_num shift to the left by 3 bits, but the lower 3 bits hold '2' which should denote a length delimited protocol buffer field. The next byte, interpreted as a varint, holds 0, so this doesn't look right. Looking forward, the 8 next byte seem to hold a floating point (for 'created') and the final 22 00 are \"r_str=''\" for the Datum. (By the way, r_str is optional, why is it set here?)\r\n\r\nIt may be that protocol buffer parsers in general, going by the ql2.proto definition, take this the right way, but you're counting on them being un-strict about the specific protocol buffer wire type.\r\n\r\nUnless I'm overlooking something. If so please tell."
+  , issueState = "closed"
+  , issueId = Id 31855027
+  , issueComments = 12
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

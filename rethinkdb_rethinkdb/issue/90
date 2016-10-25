@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2012 (-11) (-21) 22 : 35 : 09 UTC
+  , issueUpdatedAt = 2013 (-05) (-02) 00 : 42 : 28 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/90/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/90"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 90
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 258437
+          , simpleUserLogin = N "srh"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/258437?v=3"
+          , simpleUserUrl = "https://api.github.com/users/srh"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "NO_EPOLL=1 kills CPU, busywaits."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/90"
+  , issueCreatedAt = 2012 (-11) (-20) 00 : 52 : 50 UTC
+  , issueBody =
+      Just
+        "To reproduce.\n\n1. Build rethinkdb with `make NO_EPOLL=1`.\n2. Run htop or some other CPU monitor in another terminal.\n3. Run ./build/debug-noepoll/rethinkdb\n\nPut a debugf in front of the poll(2) call in `arch/runtime/event_queue/poll.cc` and you'll see that it spins around the loop, busywaiting, with many calls per millisecond while the server should be idling.  Compare that with epoll, where you'll see one call per 5 milliseconds (because of the timerfd timer).\n\nThe OS X port (#5) is waiting on this."
+  , issueState = "closed"
+  , issueId = Id 8489222
+  , issueComments = 4
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 5
+          , milestoneClosedIssues = 227
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.4"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/5"
+          , milestoneCreatedAt = 2012 (-12) (-21) 23 : 41 : 54 UTC
+          , milestoneState = "closed"
+          }
+  }

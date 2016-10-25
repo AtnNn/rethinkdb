@@ -1,0 +1,57 @@
+Issue
+  { issueClosedAt = Just 2016 (-07) (-22) 18 : 25 : 21 UTC
+  , issueUpdatedAt = 2016 (-07) (-22) 19 : 02 : 02 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5991/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5991"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 5991
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 1635074
+        , simpleUserLogin = N "dekimir"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1635074?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dekimir"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Write-after-free during blob append"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5991"
+  , issueCreatedAt = 2016 (-07) (-22) 18 : 14 : 04 UTC
+  , issueBody =
+      Just
+        "When I change a few numbers in `blob_test.cc` and run `make unit`, I get the following error on MacOS:\r\n\r\n```\r\nrethinkdb-unittest(84138,0x700000104000) malloc: *** error for object 0x7fe14b016c08: incorrect checksum for freed object - object was probably modified after being freed.\r\n```\r\n\r\nHere are the changes I've made to get this error:\r\n\r\n```diff\r\ndiff --git a/src/unittest/blob_test.cc b/src/unittest/blob_test.cc\r\nindex 8d71fae..8ee0b55 100644\r\n--- a/src/unittest/blob_test.cc\r\n+++ b/src/unittest/blob_test.cc\r\n@@ -24,7 +24,7 @@ public:\r\n     }\r\n \r\n     explicit blob_tracker_t(size_t maxreflen)\r\n-        : buf_(alloc_emptybuf(maxreflen), maxreflen), blob_(max_block_size_t::unsafe_make(4096),\r\n+        : buf_(alloc_emptybuf(maxreflen), maxreflen), blob_(max_block_size_t::unsafe_make(8192),\r\n                                                             buf_.data(), maxreflen) { }\r\n \r\n     void check_region(txn_t *txn, int64_t offset, int64_t size) {\r\n@@ -145,13 +145,14 @@ void small_value_test(cache_t *cache) {\r\n     cache_conn_t cache_conn(cache);\r\n     txn_t txn(&cache_conn, write_durability_t::SOFT, 0);\r\n \r\n-    blob_tracker_t tk(251);\r\n+    blob_tracker_t tk(5000);\r\n \r\n     tk.append(&txn, \"a\");\r\n     tk.append(&txn, \"b\");\r\n     tk.unappend(&txn, 1);\r\n     tk.unappend(&txn, 1);\r\n-    tk.append(&txn, std::string(250, 'd'));\r\n+    tk.append(&txn, std::string(6000000, 'd'));\r\n+    return;  // Early return to prove the error happens above.\r\n     for (int i = 0; i < 250; ++i) {\r\n         tk.unappend(&txn, 1);\r\n     }\r\n```\r\n\r\nNot sure if this violates some implicit `blob_t` rule, but I couldn't find anything in the interface description that would suggest that.  Even if the modified test is incorrect, I'd expect the code to catch the violation instead of writing into free memory.\r\n\r\nclang -v:\r\n```\r\nApple LLVM version 6.1.0 (clang-602.0.53) (based on LLVM 3.6.0svn)\r\nTarget: x86_64-apple-darwin15.5.0\r\nThread model: posix\r\n```"
+  , issueState = "closed"
+  , issueId = Id 167101898
+  , issueComments = 3
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 19
+          , milestoneClosedIssues = 174
+          , milestoneDescription =
+              Just
+                "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."
+          , milestoneTitle = "notabug"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/19"
+          , milestoneCreatedAt = 2013 (-03) (-29) 21 : 07 : 05 UTC
+          , milestoneState = "closed"
+          }
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2016 (-03) (-24) 00 : 45 : 46 UTC
+  , issueUpdatedAt = 2016 (-03) (-24) 00 : 45 : 50 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1850/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1850"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1850
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Promise/Futures and noreply_wait Proposal"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1850"
+  , issueCreatedAt = 2014 (-01) (-11) 22 : 51 : 00 UTC
+  , issueBody =
+      Just
+        "I want an API that allows me to do writes in bulk for performance.\r\nSee for example https://github.com/redis/redis-rb#futures\r\n\r\nThere is some potential with http://stackoverflow.com/questions/20294097/rethinkdb-multiple-queries-in-a-single-request\r\nBut that's less ideal because I would need to buffer my writes in the applications, and during that time, the server is idle. Also, the semantics of such replies can be weird (esp. with the return_vals feature).\r\n\r\nHere is how I think it should work for ruby (I'm not saying javascript, because things are asynchronous by nature):\r\n\r\n```ruby\r\n# Current behavior, not great for parallelization: maybe the two queries would hit different shards.\r\nresult1 = rql_query1.run(c) # waits for the result\r\nresult2 = rql_query2.run(c) # waits for the result\r\n\r\n# With futures\r\nfuture_result1 = rql_query1.run(c, :async => true) # we send the write to the server and we dont wait for the reply\r\nfuture_result2 = rql_query2.run(c, :async => true) # we send the write to the server and we dont wait for the reply\r\n\r\nfuture_result1.value # waits for the query to complete and returns the result\r\nfuture_result2.value # waits for the query to complete and returns the result.\r\n\r\n# To wait for all pending queries to complete\r\n# Calling c.wait would wait for all the pending futures to complete.\r\nc.wait\r\n\r\n# Note that if some query errored (bad syntax or whatever),\r\n# retrieving the future's value is where the exception will be raised, not on c.wait.\r\n```\r\n\r\nThis would be trivial to implement due to how the rql protocol works with query tokens. Would this feature also make the noreply feature useless? (unless I don't understand the usecase for noreply)."
+  , issueState = "closed"
+  , issueId = Id 25452630
+  , issueComments = 18
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

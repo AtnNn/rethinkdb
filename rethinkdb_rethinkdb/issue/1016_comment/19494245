@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-15) 10 : 14 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19494245"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1016#issuecomment-19494245"
+  , issueCommentCreatedAt = 2013 (-06) (-15) 10 : 14 : 25 UTC
+  , issueCommentBody =
+      "I remember talking with @mlucy about this a while ago and the way that we\r\nboth really wanted to see this work is that registered types would\r\nserialized to an object that looked something like:\r\n\r\n{__reql_type__ : \"pickle\", data: ...}\r\n\r\nThis has some nice properties\r\n\r\n- it's incredibly easy, it takes 0 server side support and is as simple as\r\nlooking up deserialization functions in a map in the drivers.\r\n- it's very easy to do the deserialization and I really think this feature\r\nis awfully half baked if you can't get out what you put in.\r\n- it degrades somewhat gracefully in drivers that don't support the type.\r\nPickling is such a python specific thing I doubt that one will ever truly\r\nbe usable but for a date type it works great in a language that doesn't\r\nhave a native date type. (Which may not exist but somewhere is a good\r\nexample)\r\n- this paves the way for the server understanding these types where it's\r\nuseful. One great place would be with a date type and this we could\r\noverload subtraction on it so we don't need a special datedifference\r\nfunction.\r\n- typeof can give a meaningful result when called on such a value.\r\n\r\nOn Friday, June 14, 2013, coffeemug wrote:\r\n\r\n> r.register_type(CustomType,\r\n>     # serializer\r\n>     lambda obj: r.json(json.dumps(obj)),\r\n>     # deserializer\r\n>     lambda dict: CustomType.from_dict(dict)))\r\n>\r\n> Then:\r\n>\r\n> obj = CustomType()r.table('foo').insert(obj)r.table('foo').get(some_id) # returns CustomType\r\n>\r\n> It's very easy to do the serializer, but harder to do the deserializer\r\n> because it's unclear how to represent type tags properly. I'd suggest doing\r\n> the serializer first and leaving the deserializer for later.\r\n>\r\n> The use case for this is outlined in #241<https://github.com/rethinkdb/rethinkdb/issues/241>\r\n> .\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/1016>\r\n> .\r\n>"
+  , issueCommentId = 19494245
+  }

@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Just 2014 (-09) (-16) 04 : 15 : 28 UTC
+  , issueUpdatedAt = 2014 (-09) (-16) 04 : 17 : 29 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1573/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1573"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1573
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 935203
+        , simpleUserLogin = N "Anorov"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/935203?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Anorov"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Slow list append (general update?) performance"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1573"
+  , issueCreatedAt = 2013 (-10) (-25) 01 : 48 : 31 UTC
+  , issueBody =
+      Just
+        "Given a document with a list of 20,000 elements, appending/pushing scalar elements to the end of that list is taking longer than I would expect.\r\n\r\nI am using the Python drivers. Running on Ubuntu 12.10, fairly new hardware. Latest stable versions of Python, Rethinkdb, the Rethinkdb Python driver, and Protobuf are in use. I compiled and am using the CPP implementation of Protobuf.\r\n\r\nHere is a benchmark to show the issue. I compared RethinkDB with MongoDB.\r\n\r\nhttps://gist.github.com/Anorov/7148155\r\n\r\nFor this test, I'm using 20,000 elements on insert and then doing 1000 appends. For MongoDB, I'm using `safe=True` to keep the same write concern as RethinkDB.\r\n\r\nHere are the results I'm getting:\r\n\r\n    Rethinkdb is running with cpp protobuf implementation\r\n\r\n    Creating tables and documents...\r\n\r\n    Mongo took 0.016871 seconds to insert the document\r\n    Rethink took 0.094353 seconds to insert the document\r\n\r\n    Starting list append tests...\r\n\r\n    Mongo took 7.428063 seconds to make 1000 appends\r\n    Rethink took 45.495957 seconds to make 1000 appends\r\n\r\nDocument insertion for the large-list document is also about 9-10x slower than MongoDB, but that's not as much of a big concern for me.\r\n\r\nRe-run a few times, the Mongo time fluctuates between `6` and `9` seconds. Rethink seems to fluctuate between `35` and `55` seconds. On average, Rethink seems to be 6-8x slower.\r\n\r\nI believe MongoDB updates the list in-place. I'm not sure if Rethink is creating a whole new list, appending the one element to the end, and then replacing the list with the new one, or what.\r\n\r\nIf I add `durability=\"soft\"` to the update, I do get a bit of improvement: `17` to `18` seconds, so only about 2x slower. However, since I am comparing this against Mongo's \"strict\" durability and write concern, this is obviously not a fair comparison. So for the purposes of this I'll only consider the safe vs. safe comparison.\r\n\r\nWould appreciate any advice as to ways I can improve the speed, or investigation into why this is a slow operation. Thanks."
+  , issueState = "closed"
+  , issueId = Id 21564411
+  , issueComments = 9
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 1
+          , milestoneNumber = 17
+          , milestoneClosedIssues = 593
+          , milestoneDescription =
+              Just
+                "The scope of this issue is covered by another issue. The closing comment should link to the other issue."
+          , milestoneTitle = "duplicate"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/17"
+          , milestoneCreatedAt = 2013 (-03) (-29) 20 : 23 : 12 UTC
+          , milestoneState = "closed"
+          }
+  }

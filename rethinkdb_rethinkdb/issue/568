@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2013 (-04) (-08) 21 : 43 : 24 UTC
+  , issueUpdatedAt = 2013 (-04) (-10) 21 : 08 : 45 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/568/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/568"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 568
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 91093
+        , simpleUserLogin = N "mfenniak"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91093?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mfenniak"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Uncaught exception from concatMap if func does not return sequence"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/568"
+  , issueCreatedAt = 2013 (-04) (-01) 23 : 31 : 54 UTC
+  , issueBody =
+      Just
+        "I've come across a crash that occurs in RethinkDB 1.4.2 (Linux/x86-64) when using concatMap if my map function returns a non-SEQUENCE data type.  Here are the steps to reproduce:\r\n\r\n1. `r.dbCreate(\"test\")`\r\n\r\n2. `r.db(\"test\").tableCreate(\"table\")`\r\n\r\n3. `r.db(\"test\").table(\"table\").insert({\"name\":\"Jim Brown\"})`\r\n\r\n4. `r.db(\"test\").table(\"table\").concatMap(function(rec) { return rec(\"name\"); })`; here's the bad query.  As I understand it, concatMap requires a sequence return value, where I've provided string field.\r\n\r\n5. Observe crash:\r\n\r\n```\r\ninfo: Running rethinkdb 1.4.2-1ubuntu1~quantal (GCC 4.7.2)...\r\ninfo: Running on Linux 3.7.0-7-generic x86_64\r\ninfo: Loading data from directory rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all' command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.4.2-1ubuntu1~quantal (GCC 4.7.2)\r\nerror: Error in src/errors.cc at line 111:\r\nerror: Uncaught exception of type \"ql::datum_exc_t\"\r\n         what(): Cannot convert STRING to SEQUENCE\r\nerror: Backtrace:\r\nerror: Mon Apr  1 17:23:29 2013\r\n\r\n       1: rethinkdb() [0x83b751]\r\n... snip pointless backtrace w/ no symbols ...\r\n       25: rethinkdb() [0x8653fe]\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\nExpected behavior: an error message response."
+  , issueState = "closed"
+  , issueId = Id 12682093
+  , issueComments = 11
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 22
+          , milestoneClosedIssues = 5
+          , milestoneDescription = Nothing
+          , milestoneTitle = "1.4.3"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/22"
+          , milestoneCreatedAt = 2013 (-04) (-01) 21 : 43 : 59 UTC
+          , milestoneState = "closed"
+          }
+  }

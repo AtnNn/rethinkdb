@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-18) 09 : 45 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/165731971"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5216#issuecomment-165731971"
+  , issueCommentCreatedAt = 2015 (-12) (-18) 09 : 45 : 42 UTC
+  , issueCommentBody =
+      "@danielmewes -- I didn't get much time to look at the patch, but I added a comment on one thing that seemed obviously wrong.  In general the patch looked complicated and likely to be subtly incorrect (which, to be fair, is better than the current implementation which is blatantly incorrect).\r\n\r\nI really think it would be better to patch this by making the changefeed logic aware of shards.  Here's roughly what that would look like:\r\n* Add a way to correlate `region_t`s with the changefeed `uuid_u`s.\r\n  - This is actually really easy, because the read performs a changefeed stamp at the same time, so we just need to combine the `<uuid_u, stamp>` map and the `<region_t, DATA>` map in the read response into a `<region_t, (uuid_u, stamp, DATA)>` map (since there's a one-to-one mapping between `region_t`s and changefeed server UUIDs).  We'd probably have to maintain this relationship during unsharding, but that should be easy.\r\n  - Once we have this, we'll store the `uuid_u` and `stamp` values on the `hash_range_with_cache_t` type instead of in the `shard_stamps` map.\r\n* Replace `truncate_and_get_active_state` with `get_active_state`, which doesn't truncate and returns one range per hash shard.\r\n  - The `active_state_t` type would change from returning a key range and a `<uuid_u, stamp>` map to returning a `<uuid_u, (stamp, range)>` map with one entry per hash shard, where the ranges can be different for different hash shards.  You could get this by iterating over the `active_ranges`.\r\n  - To make this work correctly you would have to make sure we're doing an UNORDERED traversal so that all the data is always read out of the map, which will make it safe to not truncate.  (As a result you should be able to assert that all ranges are either ACTIVE or EXHAUSTED.)\r\n* We're already using an `std::map<uuid_u, stamped_range_t>` to do the splicing in `splice_stream_t`, so that should require minimal changes: we just update each of the entries in that map separately based on the return value of `get_active_state`.\r\n\r\nIt would probably turn out to be about the same amount of code, and it would be much more obviously correct."
+  , issueCommentId = 165731971
+  }

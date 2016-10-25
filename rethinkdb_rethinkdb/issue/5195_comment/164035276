@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-12) (-11) 20 : 02 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/164035276"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5195#issuecomment-164035276"
+  , issueCommentCreatedAt = 2015 (-12) (-11) 20 : 02 : 13 UTC
+  , issueCommentBody =
+      "To benefit from outdated reads, you could try this:\r\n* Replicate the table \"sessions\" so that each server hosting a primary of \"pageviews\" also has a full replica of the \"sessions\" table.\r\n* Use `read_mode=\"outdated\"` for \"sessions\", but the normal \"single\" read mode for \"pageviews\".\r\n\r\ni.e. something like this:\r\n```js\r\nr.table(\"pageviews\").between([7,r.time(2015,12,1,\"-02:00\")],[7,r.now()],{index: \"client_id_created_at\"})\r\n  .eqJoin(\"session_id\", r.table(\"sessions\", {readMode: \"outdated\"})).zip().merge(........\r\n```\r\n\r\nThis will allow the `eqJoin` queries to be served locally, rather than having to go to another server, since each shard of \"pageviews\" will have a full copy of the \"sessions\" table.\r\n\r\nI suspect that the `eqJoin` slowdown will be addressed by https://github.com/rethinkdb/rethinkdb/issues/5115 .\r\nI'm unsure why this is still taking 1.8 seconds with that part removed.\r\n\r\nCould you post the full query you tested when you removed the `.eqJoin.zip` and got the 1.8 seconds?"
+  , issueCommentId = 164035276
+  }

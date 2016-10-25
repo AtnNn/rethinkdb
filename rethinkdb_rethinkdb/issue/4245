@@ -1,0 +1,64 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2015 (-05) (-20) 22 : 34 : 23 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4245/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4245"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "02e10c"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:enhancement"
+          , labelName = "tp:enhancement"
+          }
+      ]
+  , issueNumber = 4245
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 8921895
+        , simpleUserLogin = N "ha1331"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/8921895?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ha1331"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "getCache, kind of memcached integration"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4245"
+  , issueCreatedAt = 2015 (-05) (-19) 14 : 16 : 26 UTC
+  , issueBody =
+      Just
+        "First of all, I don't know if one should type out their daydreams or \"this would be awesome, atleast according to me\" type of suggestions. These are not issues I guess. So in advance, if these sort of \"I think it could be good feature\" types of \"issues\" are not wanted or should be discussed elsewhere, feel free to remove. Also I apologize for the inconvenience.\r\n\r\nNow that I got that out of the way, I'll get to the point. RethinkDB has get, getAll and filter to get data out, what I think COULD be nice addition, would be getCache(). In my head it would work like some of us use memcache. First you check if you already have that data in memcache, if not you fetch it from db and store it to memcache for later use. \r\n\r\nHow I imagine this would/could/should work with rethinkDB, would be like so:\r\n\r\nr.db('my_awesome_db').getCache( r.db('my_awesome_db').table('my_fabulous_table').getAll(...).map(...),{ttl:120,someOtherOption:true} ).map(...).run(...)\r\n\r\nidea would be that getCache( or what ever it would be named) takes the actual query as an argument, and use that as a key for the lookup. If that query is cached, it just returns the result from memory, if not, it executes the query (and stores it, using the query as a key) everything that comes after getCache would not care or know if it came from memory or not. You could map, reduce, do all the other things you can do with get() or getAll():\r\n\r\nI imagine that this feature could be used with queries that are complex or depend on multiple tables but are used regularly. For example one could have user profile that fetches data from multiple tables. You would get the skeleton of the profile, ie the stuff that can be cached and then map some other stuff to it. For example get the profile, then use map() and fetch messages, alerts, friend reguests or something else and then return a composite of those. \r\n\r\nI am aware that solution for this problem already exists, memcache for one. But then again it could be nice that you only need to have access to rethinkdb and if you have that, you have your cache. No need to figure out memcache, or multiple memcache instances and the logic for all that. Also you could have this cluster scale, you would just define what is the amount of memory you want to allocate per node. Cache would be sharded to all the available nodes and available just like data is now. \r\n\r\nThere are probably many reasons why this is hard, not needed, not worth it and so on. Just wanted to share this idea.\r\n\r\nedit/addition:\r\n\r\nI talked with AtnNn at IRC and he didn't think my idea was totally moronic, so I add this. In the original version of this, I speculated that the cache would be cluster wide and one would just configure how much memory each node donates to the cache. Then I started to think about it and figured that there is no reason why there couldn't be dedicated cache nodes also. Maybe there could be server tag \"cache\" that would dedicate that server for cache. This would allow using lower spec cpus, VM's or no-disks-dedicated-for-database nodes for caching and still get performance boost for the application and load reduction for the cluster."
+  , issueState = "open"
+  , issueId = Id 78106637
+  , issueComments = 1
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 883
+          , milestoneNumber = 2
+          , milestoneClosedIssues = 0
+          , milestoneDescription =
+              Just
+                "Issues in this milestone are not an immediate priority, and will be periodically revisited. When we decide to work on an issue in backlog, we'll move it to next."
+          , milestoneTitle = "backlog"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/2"
+          , milestoneCreatedAt = 2012 (-11) (-11) 14 : 16 : 11 UTC
+          , milestoneState = "open"
+          }
+  }

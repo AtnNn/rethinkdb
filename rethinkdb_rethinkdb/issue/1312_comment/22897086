@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-19) 19 : 16 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22897086"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1312#issuecomment-22897086"
+  , issueCommentCreatedAt = 2013 (-08) (-19) 19 : 16 : 59 UTC
+  , issueCommentBody =
+      "Looks like there is no reason in principle why `r.expr([1,2]).reduce(r.add)` shouldn't work out of the box in python. The error @atnnn get's when trying to do this relates to how we handle variatic arguments in the case of `r.add` etc.\r\n\r\nAs the signature of `r.add` is `def add(*args):` python reports this function as taking 0 arguments when we inspect the code object. This prevents us from properly serializing the function.\r\n\r\nI was able to work around this by changing the signature to `def add(one, two, *rest):` which I also like better for aesthetic reasons since it correctly represents the fact that `r.add` takes *two or more* arguments.\r\n\r\nI'm going to implement this change regardless, but since this will enable `sequence.reduce(r.add)` I think we should highlight this better syntax by changing our documentation and examples to use it.\r\n\r\nI imagine that doing the same in the JS driver will involve a similar change plus a number unforeseeable additional difficulties as is always the case with the JS driver."
+  , issueCommentId = 22897086
+  }

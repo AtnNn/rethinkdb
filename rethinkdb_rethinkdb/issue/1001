@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2013 (-06) (-18) 01 : 03 : 30 UTC
+  , issueUpdatedAt = 2013 (-06) (-18) 01 : 03 : 30 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1001/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1001"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1001
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Proposal: change the behavior of secondary indexes wrt NULLs"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1001"
+  , issueCreatedAt = 2013 (-06) (-13) 07 : 44 : 49 UTC
+  , issueBody =
+      Just
+        "I was writing up an explanation of how to use secondary indexes to match regexes and I followed my intuition and wrote this:\r\n\r\n```javascript\r\nr.table('users').indexCreate('test', r.row('first_name').match('S.*'))\r\nr.table('users').between(null, null, {index: 'test'})\r\n```\r\n\r\nI expected the between call to return *only* the documents where `first_name` starts with `S`, but instead it returned everything because we include `null` into the secondary index. I had to rewrite the query as follows to actually work:\r\n\r\n```javascript\r\nr.table('users').indexCreate('test', r.row('first_name').match('S.*').ne(null))\r\nr.table('users').getAll(true, {index: 'test'})\r\n```\r\n\r\nI think we picked behavior of secondary indexes wrt NULLs and should change it to exclude NULLs. That seems a lot more natural to me."
+  , issueState = "closed"
+  , issueId = Id 15492366
+  , issueComments = 24
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 37
+          , milestoneClosedIssues = 33
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.7"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/37"
+          , milestoneCreatedAt = 2013 (-06) (-18) 00 : 25 : 53 UTC
+          , milestoneState = "closed"
+          }
+  }

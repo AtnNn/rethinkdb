@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 00 : 12 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75669136"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3809#issuecomment-75669136"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 00 : 11 : 55 UTC
+  , issueCommentBody =
+      "@phil-hildebrand,\r\n\r\nIt would take a little work to parallelize export on a per-shard basis.  Unfortunately parallelizing it arbitrarily is a bigger problem simply because it's there is no way to get the distribution of the table in less than O(n) time from a ReQL client.\r\n\r\nThe easiest thing is to change the `get_tables` function to produce a list of shards rather than a list of tables, including bounds for each shard.  This information can be taken from the `r.db('rethinkdb').table('_debug_table_status')['split_points']` field.  Unfortunately, this is the mangled `store_key_t` used by the B-tree, and it is not easily convertible back to a datum type.  Then, to enable arbitrary parallelization, we could include a distribution query in the `_debug_table_status` table.\r\n\r\nAlternatively, we could implement parallelization using active reevaluation of the remaining keyspace in the table.\r\n\r\nBoth options require in-depth assumptions about how datum types map to `store_key_t`s, which is not a good idea.  Perhaps we should extend the query language a bit to make this easier, i.e. to get the ID of a row roughly halfway through the B-Tree of a table.\r\n\r\nAlso, note that there wouldn't be much benefit for trying to parallelize import any more.  We currently have one process reading each file, and a pool of clients writing batches of rows into the database.  The pool of clients is already arbitrarily sizable with a command-line option, and the reader processes are fairly tight loops, they should not be a bottleneck (though the disk might be)."
+  , issueCommentId = 75669136
+  }

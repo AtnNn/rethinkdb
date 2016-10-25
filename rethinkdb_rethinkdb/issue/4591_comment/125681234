@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-28) 17 : 09 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/125681234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4591#issuecomment-125681234"
+  , issueCommentCreatedAt = 2015 (-07) (-28) 17 : 09 : 23 UTC
+  , issueCommentBody =
+      "Thank you for the bug report @mjdean , and sorry you're running into this.\r\n\r\nThis turns out to be a duplicate of https://github.com/rethinkdb/rethinkdb/issues/4143 . However in the other issue we assumed that the server wouldn't crash but would return an error instead. It turns out that the error is returned only in a debug mode binary, but not in the release binaries.\r\n\r\nWe have a proper fix for the problem of `r.args` not working with `orderBy`, but unfortunately it's part of a larger rewrite and we cannot backport it to 2.0.x. It won't be in the upcoming 2.1 release either, but will ship with RethinkDB 2.2 instead.\r\n\r\nI'd like to keep this issue open with a more limited scope: We have to change the debug-only check that's described in #4134 to a release-mode check that provides a proper error message, explaining the fact that `r.args` cannot be used in `order_by` at the moment. @thelinuxlich mentioned in the other issue that `between` might also be affected by this problem, and we should check that as well.\r\n\r\n@mlucy could you fix this in `next` and also backport to `v2.0.x` please?\r\nFrom what I can tell this just needs an `rcheck` on `get_src()->args(0).type()` to detect the `r.args` in `orderby_term_t::eval_impl`.\r\n\r\n@mjdean independently of the crash (which we're going to fix obviously), `r.args` is still not going to work with `orderBy` until RethinkDB 2.2.0.\r\nAs a work-around in JavaScript, I recommend using `.apply` to call `orderBy` with a variable number of arguments like this:\r\n```js\r\nvar table = r.db('test').table('test');\r\ntable.orderBy.apply(table, ['x', 'y'])\r\n```\r\n(there might be a more concise way of writing this)"
+  , issueCommentId = 125681234
+  }

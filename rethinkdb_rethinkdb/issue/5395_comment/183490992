@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-12) 21 : 18 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/183490992"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5395#issuecomment-183490992"
+  , issueCommentCreatedAt = 2016 (-02) (-12) 21 : 18 : 11 UTC
+  , issueCommentBody =
+      "@Prinzhorn This is indeed intended behavior, but I can see that it can be confusing / non-obvious.\r\n\r\nThe fundamental reason for write operations to return an error document rather than throwing the error directly is that they can generally be applied to multiple documents at once (e.g. if you did `r.table().update()` that would update all documents in the table). If the update of one document fails with an error, some of the other updates might still have been performed.\r\n\r\nSo we return this document with the `deleted`, `errors`, `inserted`, `replaced` etc. fields to give some information about how many of the writes have succeeded vs. failed.\r\n\r\nYou can look at https://github.com/rethinkdb/rethinkdb/issues/3440 and the links in there for some more details."
+  , issueCommentId = 183490992
+  }

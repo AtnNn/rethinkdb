@@ -1,0 +1,166 @@
+PullRequest
+  { pullRequestClosedAt = Nothing
+  , pullRequestCreatedAt = 2015 (-05) (-29) 13 : 40 : 36 UTC
+  , pullRequestUser =
+      SimpleUser
+        { simpleUserId = Id 128042
+        , simpleUserLogin = N "jperkin"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/128042?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jperkin"
+        , simpleUserType = OwnerUser
+        }
+  , pullRequestPatchUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4309.patch"
+  , pullRequestState = "open"
+  , pullRequestNumber = 4309
+  , pullRequestHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4309"
+  , pullRequestUpdatedAt = 2016 (-08) (-08) 15 : 33 : 27 UTC
+  , pullRequestBody =
+      "This is a set of commits that add support for SmartOS.\r\n\r\n* 63bcfc2 changes `file_t` to `myfile_t`, `file_t` is exposed from `sys/file.h` on SmartOS.\r\n* 7c4d34a changes `lock_t` to `mylock_t`, `lock_t` is exposed from `sys/machtypes.h` on SmartOS.\r\n* 5702f34 is a set of general portability fixes, required on SmartOS but should be generally applicable and help other ports.\r\n* e826138 adds the core of the SmartOS support, notably an event ports backend for the event queue and timers.\r\n* f257229 isn't great, hence marked XXX, but is currently required as std::to_string isn't available even in C++11 mode with GCC 4.7 on SmartOS.  Looking around this seems to be a problem with other operating systems too.  Ideas for handling this better would be welcome.\r\n\r\nWith these changes applied I am able to run a server in both 32-bit and 64-bit builds.  It should be broadly compatible with other illumos distributions and Oracle Solaris, but those have not been verified.\r\n\r\nRunning the unittest suite on 32-bit results in:\r\n\r\n```\r\n[==========] 287 tests from 63 test cases ran. (779139 ms total)\r\n[  PASSED  ] 285 tests.\r\n[  FAILED  ] 2 tests, listed below:\r\n[  FAILED  ] UtilsTest.IPAddress\r\n[  FAILED  ] RDBBtree.SindexEraseRange\r\n```\r\n\r\nThe `RDBBtree.SindexEraseRange` failure looks very similar to #3805:\r\n\r\n```\r\n[ RUN      ] RDBBtree.SindexEraseRange\r\nsrc/unittest/rdb_btree.cc:253: Failure\r\nValue of: groups->size()\r\n  Actual: 0\r\nExpected: 1\r\nsrc/unittest/rdb_btree.cc:253: Failure\r\nValue of: groups->size()\r\n  Actual: 0\r\nExpected: 1\r\n[  FAILED  ] RDBBtree.SindexEraseRange (11438 ms)\r\n```\r\n\r\nThe `UtilsTest.IPAddress` failure is:\r\n\r\n```\r\n[ RUN      ] UtilsTest.IPAddress\r\nsrc/unittest/utils_test.cc:134: Failure\r\nValue of: ip_strings.find(\"::ffff:203.0.113.59\") != ip_strings.end()\r\n  Actual: false\r\nExpected: true\r\n[  FAILED  ] UtilsTest.IPAddress (2 ms)\r\n```\r\n\r\nFor this test `ip_strings` only contains `203.0.113.59`, so it may just need a change to handle the `getaddrinfo()` handling on SmartOS.\r\n\r\nWhen running the test suite against the 64-bit build, I see intermittent failures in the Clustering tests with heartbeat timeouts, but haven't tracked those down yet, otherwise same results as the 32-bit build.  Running the standalone server seems to work fine.\r\n\r\nI have no real interest in retaining copyright and signing the CLA, so you can consider these changes as being in the public domain and are welcome to take them as your own."
+  , pullRequestIssueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4309"
+  , pullRequestDiffUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4309.diff"
+  , pullRequestUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/pulls/4309"
+  , pullRequestLinks =
+      PullRequestLinks
+        { pullRequestLinksReviewComments =
+            "https://api.github.com/repos/rethinkdb/rethinkdb/pulls/4309/comments"
+        , pullRequestLinksComments =
+            "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4309/comments"
+        , pullRequestLinksHtml =
+            "https://github.com/rethinkdb/rethinkdb/pull/4309"
+        , pullRequestLinksSelf =
+            "https://api.github.com/repos/rethinkdb/rethinkdb/pulls/4309"
+        }
+  , pullRequestMergedAt = Nothing
+  , pullRequestTitle = "Add SmartOS support"
+  , pullRequestId = 36506030
+  , pullRequestMergedBy = Nothing
+  , pullRequestChangedFiles = 68
+  , pullRequestHead =
+      PullRequestCommit
+        { pullRequestCommitLabel = "jperkin:next"
+        , pullRequestCommitRef = "next"
+        , pullRequestCommitSha = "cac3d81a1f7998572f916dfca1e18d3b3b11f08e"
+        , pullRequestCommitUser =
+            SimpleUser
+              { simpleUserId = Id 128042
+              , simpleUserLogin = N "jperkin"
+              , simpleUserAvatarUrl =
+                  "https://avatars.githubusercontent.com/u/128042?v=3"
+              , simpleUserUrl = "https://api.github.com/users/jperkin"
+              , simpleUserType = OwnerUser
+              }
+        , pullRequestCommitRepo =
+            Repo
+              { repoSshUrl = Just "git@github.com:jperkin/rethinkdb.git"
+              , repoDescription =
+                  Just
+                    "An open-source distributed JSON document database with a pleasant and powerful query language."
+              , repoCreatedAt = Just 2015 (-05) (-28) 09 : 48 : 51 UTC
+              , repoHtmlUrl = "https://github.com/jperkin/rethinkdb"
+              , repoSvnUrl = Just "https://github.com/jperkin/rethinkdb"
+              , repoForks = Just 0
+              , repoHomepage = Just "http://www.rethinkdb.com"
+              , repoFork = Just True
+              , repoGitUrl = Just "git://github.com/jperkin/rethinkdb.git"
+              , repoPrivate = False
+              , repoCloneUrl = Just "https://github.com/jperkin/rethinkdb.git"
+              , repoSize = Just 120608
+              , repoUpdatedAt = Just 2015 (-05) (-28) 09 : 48 : 59 UTC
+              , repoWatchers = Just 0
+              , repoOwner =
+                  SimpleOwner
+                    { simpleOwnerId = Id 128042
+                    , simpleOwnerLogin = N "jperkin"
+                    , simpleOwnerUrl = "https://api.github.com/users/jperkin"
+                    , simpleOwnerAvatarUrl =
+                        "https://avatars.githubusercontent.com/u/128042?v=3"
+                    , simpleOwnerType = OwnerUser
+                    }
+              , repoName = N "rethinkdb"
+              , repoLanguage = Just (Language "C++")
+              , repoMasterBranch = Nothing
+              , repoPushedAt = Just 2015 (-06) (-01) 13 : 44 : 46 UTC
+              , repoId = Id 36429286
+              , repoUrl = "https://api.github.com/repos/jperkin/rethinkdb"
+              , repoOpenIssues = Just 0
+              , repoHasWiki = Just False
+              , repoHasIssues = Just False
+              , repoHasDownloads = Just True
+              , repoParent = Nothing
+              , repoSource = Nothing
+              , repoHooksUrl =
+                  "https://api.github.com/repos/jperkin/rethinkdb/hooks"
+              , repoStargazersCount = 0
+              }
+        }
+  , pullRequestComments = 29
+  , pullRequestDeletions = 130
+  , pullRequestAdditions = 525
+  , pullRequestReviewComments = 0
+  , pullRequestBase =
+      PullRequestCommit
+        { pullRequestCommitLabel = "rethinkdb:next"
+        , pullRequestCommitRef = "next"
+        , pullRequestCommitSha = "5b3079e1487fc64727c307ced8127d55cf6c269d"
+        , pullRequestCommitUser =
+            SimpleUser
+              { simpleUserId = Id 1229647
+              , simpleUserLogin = N "rethinkdb"
+              , simpleUserAvatarUrl =
+                  "https://avatars.githubusercontent.com/u/1229647?v=3"
+              , simpleUserUrl = "https://api.github.com/users/rethinkdb"
+              , simpleUserType = OwnerOrganization
+              }
+        , pullRequestCommitRepo =
+            Repo
+              { repoSshUrl = Just "git@github.com:rethinkdb/rethinkdb.git"
+              , repoDescription =
+                  Just "The open-source database for the realtime web."
+              , repoCreatedAt = Just 2012 (-10) (-30) 05 : 37 : 47 UTC
+              , repoHtmlUrl = "https://github.com/rethinkdb/rethinkdb"
+              , repoSvnUrl = Just "https://github.com/rethinkdb/rethinkdb"
+              , repoForks = Just 1376
+              , repoHomepage = Just "http://rethinkdb.com"
+              , repoFork = Just False
+              , repoGitUrl = Just "git://github.com/rethinkdb/rethinkdb.git"
+              , repoPrivate = False
+              , repoCloneUrl = Just "https://github.com/rethinkdb/rethinkdb.git"
+              , repoSize = Just 449097
+              , repoUpdatedAt = Just 2016 (-10) (-25) 17 : 18 : 46 UTC
+              , repoWatchers = Just 16580
+              , repoOwner =
+                  SimpleOwner
+                    { simpleOwnerId = Id 1229647
+                    , simpleOwnerLogin = N "rethinkdb"
+                    , simpleOwnerUrl = "https://api.github.com/users/rethinkdb"
+                    , simpleOwnerAvatarUrl =
+                        "https://avatars.githubusercontent.com/u/1229647?v=3"
+                    , simpleOwnerType = OwnerOrganization
+                    }
+              , repoName = N "rethinkdb"
+              , repoLanguage = Just (Language "C++")
+              , repoMasterBranch = Nothing
+              , repoPushedAt = Just 2016 (-10) (-25) 03 : 23 : 13 UTC
+              , repoId = Id 6452529
+              , repoUrl = "https://api.github.com/repos/rethinkdb/rethinkdb"
+              , repoOpenIssues = Just 1414
+              , repoHasWiki = Just False
+              , repoHasIssues = Just True
+              , repoHasDownloads = Just True
+              , repoParent = Nothing
+              , repoSource = Nothing
+              , repoHooksUrl =
+                  "https://api.github.com/repos/rethinkdb/rethinkdb/hooks"
+              , repoStargazersCount = 16580
+              }
+        }
+  , pullRequestCommits = 3
+  , pullRequestMerged = False
+  , pullRequestMergeable = Just False
+  }

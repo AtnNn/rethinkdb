@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-24) 20 : 27 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/188440970"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5438#issuecomment-188440970"
+  , issueCommentCreatedAt = 2016 (-02) (-24) 20 : 27 : 48 UTC
+  , issueCommentBody =
+      "It might be helpful to enable core files. You can usually do this by editing /etc/security/limits.conf, and adding a line like this:\r\n```\r\n*               soft    core            100000000\r\n```\r\n\r\n(though I haven't tried this particular configuration, so I'm not sure whether it gets applied correctly to rethinkdb when started through a init script or not)\r\n\r\n\r\nThe fact that the same crash happened again might hint at faulty data in one of your tables.\r\nI suggest running the following query to find out which table (if any) is crashing the server:\r\n```js\r\nr.db(...).table(...).map(r.row.toJsonString()).count()\r\n```\r\nYou can run this from the Data Explorer. It might time out if the tables are large, but the query will actually keep running in the background (watch the reads/s graph).\r\n*Warning:* If there is indeed a faulty document in a table, running this query will cause the server to crash again. I recommend only running this at a time where an outage is acceptable.\r\n\r\nOnce we know if the faulty data is in a table and in which table it is, is there a chance that you could send us a copy of that table? I can give you more detailed instructions and a place that you can upload it to later. We can also sign an NDA for the table's data if necessary.\r\n\r\nA few general questions:\r\nWhat hardware is this running on (any virtualization?)?\r\nWhat file system are you using for the RethinkDB data partition? Are there any special mount options?\r\nIs this a single server or a cluster? If it's a cluster, how many nodes?"
+  , issueCommentId = 188440970
+  }

@@ -1,0 +1,65 @@
+Issue
+  { issueClosedAt = Just 2016 (-09) (-24) 18 : 19 : 36 UTC
+  , issueUpdatedAt = 2016 (-09) (-24) 18 : 19 : 36 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6112/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6112"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Java"
+          , labelName = "Java"
+          }
+      ]
+  , issueNumber = 6112
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 16073282
+        , simpleUserLogin = N "jlove-nz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/16073282?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jlove-nz"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "RethinkDB's Java driver blocks forever if the RethinkDB database connection dies."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6112"
+  , issueCreatedAt = 2016 (-09) (-15) 21 : 07 : 17 UTC
+  , issueBody =
+      Just
+        "RethinkDB's Java driver blocks forever (or at least that is the symptom) if the RethinkDB database connection dies - e.g. because the database is shut down, or because an intermediate firewall or load balancer (e.g. AWS's load balancer) kills the TCP connection.\r\n\r\nIf I run the following code with a local rethink DB database, then shut the rethinkDB database down, the application will block indefinitely when it runs the next rethinkDB command (either insert or query).\r\n\r\n\tpackage rethink_connectivity_test;\r\n\t\r\n\timport com.rethinkdb.RethinkDB;\r\n\timport com.rethinkdb.net.Connection;\r\n\t\r\n\tpublic class ConnectivityTest {\r\n\t\r\n\t\tpublic static void main(String [] args) throws Exception {\r\n\t\t\t\r\n\t\t\tRethinkDB r = RethinkDB.r;\r\n\t\t\tConnection c = r.connection()\r\n\t\t\t\t    .hostname(\"localhost\")\r\n\t\t\t\t    .port(28015)\r\n\t\t\t\t    .connect();\r\n\t\t\tr.db(\"test\").tableCreate(\"bucket\").run(c);\r\n\t\t\t\r\n\t\t\tint counter = 0;\r\n\t\t\twhile(true) { \r\n\t\t\t\tr.db(\"test\").table(\"bucket\").insert(r.hashMap(\"counter\", counter)).run(c);\r\n\t\t\t\tlong total = r.db(\"test\").table(\"bucket\").count().run(c);\r\n\t\t\t\t\r\n\t\t\t\tSystem.out.println(\"Document count is \" + total);\r\n\t\t\t\t\r\n\t\t\t\tThread.sleep(1000);\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t\r\nI would anticipate that the application code could in some way be informed and handle this scenario."
+  , issueState = "closed"
+  , issueId = Id 177290236
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }

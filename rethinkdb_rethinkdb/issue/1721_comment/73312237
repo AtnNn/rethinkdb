@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-06) 21 : 06 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73312237"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73312237"
+  , issueCommentCreatedAt = 2015 (-02) (-06) 21 : 05 : 40 UTC
+  , issueCommentBody =
+      "@deontologician I'm not sure I understand what you mean.\r\nI meant to describe the semantics that form the basis for https://github.com/rethinkdb/rethinkdb/issues/1721#issuecomment-73182328.\r\nThe exception I took was that if we *cannot* determine which of its arguments an `or` / `and` returns, but we *can* proof that its value is either definitely truthy or definitely falsey, then we can skip over `undefined` and return one of the other arguments with the same truthyness.\r\n\r\nSo for example:\r\n```\r\nr.or(undefined, \"a\", \"b\") -> undefined\r\n```\r\nYou are right that formally this would be undefined, because we get different results depending on what we put in for the `undefined`:\r\n```\r\nr.or(false, \"a\", \"b\") -> \"a\"\r\nr.or(true, \"a\", \"b\") -> true\r\n```\r\n\r\nHowever no matter what we put in for `undefined`, we will always get a value that's truthy. So according to the above proposal we would pick the first truthy argument that's not `undefined`:\r\n```\r\nr.or(undefined, \"a\", \"b\") -> \"a\"\r\n```\r\n\r\nIn practice I think this will work really nicely."
+  , issueCommentId = 73312237
+  }

@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2013 (-08) (-13) 20 : 14 : 05 UTC
+  , issueUpdatedAt = 2013 (-08) (-13) 20 : 14 : 05 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1270/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1270"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "0052cc"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:ReQL_proposal"
+          , labelName = "tp:ReQL_proposal"
+          }
+      ]
+  , issueNumber = 1270
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Make datetimes require the time zone offset field to be set."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1270"
+  , issueCreatedAt = 2013 (-08) (-10) 00 : 45 : 04 UTC
+  , issueBody =
+      Just
+        "Maybe we should do this.  Maybe not.  Discuss!\r\n\r\nThe specific proposal:\r\n\r\n* Require the timezone field to not be `null`.\r\n* `r.time(...)` constructors lacking a specified timezone gets the `+00:00` timezone.\r\n* `r.now` gets the UTC timezone.\r\n* `r.iso8601` defaults to the UTC timezone.\r\n* anything I haven't thought of that would leave a null timezone should probably default to the UTC timezone.\r\n\r\nIn #1262 we see some of the pitfalls of letting people create a timezone-less date.  Saying `r.now()` produces a timezoneless datetime, but then when serialized to ISO 8601, the hours/minutes/seconds is filled out with the UTC values.  But the timezone offset isn't present.  Then somebody might parse the datetime in their local time zone.\r\n\r\nThe general wisdom for people using databases storing timestamps is that (a) you should *always* store the time zone and (b) it should always be UTC.  I'm not sure (b) is universally true, but (a) probably is universally true.  Lacking a timezone seems like it just begets ambiguity and creates the sort of problems that we've seen."
+  , issueState = "closed"
+  , issueId = Id 17891765
+  , issueComments = 14
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2013 (-08) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 40
+          , milestoneClosedIssues = 96
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.8"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/40"
+          , milestoneCreatedAt = 2013 (-06) (-29) 01 : 55 : 11 UTC
+          , milestoneState = "closed"
+          }
+  }

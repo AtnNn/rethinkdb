@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-25) 17 : 59 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 519940
+        , simpleUserLogin = N "elifarley"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/519940?v=3"
+        , simpleUserUrl = "https://api.github.com/users/elifarley"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/159686389"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5144#issuecomment-159686389"
+  , issueCommentCreatedAt = 2015 (-11) (-25) 17 : 50 : 21 UTC
+  , issueCommentBody =
+      "Hi @danielmewes ,\r\nI've reworded some parts of my post so things are more explicit. The gist of it is that in order to keep **table_sizes** consistent, always keep in mind that it has the final word on table sizes, all the time. So if the file size of a given table doesn't match what's recorded in **table_sizes**, go and change the file size itself.\r\n\r\nThis is similar to [Mercurial](https://www.mercurial-scm.org/)'s [revlog](http://gregoryszorc.com/blog/2014/02/05/the-mercurial-revlog/), an append-only file format.\r\n\r\nWRT the cluster-wide mutex, I think an MVP doesn't need it - just force all AODBs to use a single node of the cluster in the first version.\r\n\r\nAs for use cases for an append-only table, consider Kafka [use cases](https://kafka.apache.org/documentation.html#uses) and [InfluxDB use cases](https://influxdb.com/).\r\n\r\nOn top of that, I'd mention a bank account ledger as a good fit for AO tables - you don't want to change what was recorded in the past.\r\n\r\nAlso, there are many optimization possibilities for the AODB proposal. Here's one:\r\n\r\nInstead of using one mutext per database, we could use a keyed mutex in which the key is a set of all affected tables in a given transaction, so that 2 transactions that affect a different set of tables in a database will proceed without locking.\r\n"
+  , issueCommentId = 159686389
+  }

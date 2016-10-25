@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-15) 10 : 02 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1188497
+        , simpleUserLogin = N "Bacto"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1188497?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Bacto"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/140342808"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4769#issuecomment-140342808"
+  , issueCommentCreatedAt = 2015 (-09) (-15) 10 : 02 : 12 UTC
+  , issueCommentBody =
+      "Thanks @danielmewes, I've just sent you an email.\r\n\r\nYou're lucky, I don't do a lot of operations on this table.\r\n\r\nThe script do this:\r\n\r\nFlag all entries as \"toDelete\":\r\n```\r\nr.table('maxMindBlocksIPv4')\r\n\t.update({ toDelete: true })\r\n\t.run({durability: 'soft'});\r\n```\r\n\r\nInsert new entries by groups of 100.000 with a total at the end of ~2.5M entries:\r\n```\r\nr.table('maxMindBlocksIPv4')\r\n\t.insert(toInsert)\r\n\t.run({durability: 'soft'});\r\n```\r\n\r\nDelete all entries that was flagged as \"toDelete\":\r\n```\r\nr.table('maxMindBlocksIPv4')\r\n\t.getAll(true, { index: 'toDelete' })\r\n\t.delete()\r\n\t.run({durability: 'soft'});\r\n```\r\n\r\nFor information, I use rethinkdbdash on nodeJS.\r\nI have only one second index on \"toDelete\"."
+  , issueCommentId = 140342808
+  }

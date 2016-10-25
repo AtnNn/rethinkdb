@@ -1,0 +1,68 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-14) 20 : 29 : 18 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5625/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5625"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/JavaScript%20/%20Coffee"
+          , labelName = "JavaScript / Coffee"
+          }
+      , IssueLabel
+          { labelColor = "e10c02"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/pr:high"
+          , labelName = "pr:high"
+          }
+      ]
+  , issueNumber = 5625
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 273857
+        , simpleUserLogin = N "andyburke"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/273857?v=3"
+        , simpleUserUrl = "https://api.github.com/users/andyburke"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Not following semver breaks node.js driver"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5625"
+  , issueCreatedAt = 2016 (-04) (-06) 23 : 15 : 32 UTC
+  , issueBody =
+      Just
+        "Today, with the release of 2.3.0, my node.js code stopped working against a 2.2.5 server:\r\n\r\n```\r\nundefined:1\r\nERROR: Received an unsupported protocol version. This port is for RethinkDB queries. Does your client driver version not match the server?\r\n^\r\nSyntaxError: Unexpected token E\r\n   at Object.parse (native)\r\n   at Socket.callback.rawSocket.once.handshake_callback (/code/node_modules/float-rethinkdb/node_modules/rethinkdb/net.js:624:35)\r\n   at emitOne (events.js:77:13)\r\n   at Socket.emit (events.js:169:7)\r\n   at readableAddChunk (_stream_readable.js:146:16)\r\n   at Socket.Readable.push (_stream_readable.js:110:10)\r\n   at TCP.onread (net.js:523:20)\r\n```\r\n\r\nMy package.json setup is:\r\n\r\n```\r\n    \"rethinkdb\": \"^2.2.1\"\r\n```\r\n\r\nThis should allow upgrade to all 2.x.y releases. According to semver, those releases would not break compatibility. (Where major versions break compatibility, minor versions add functionality and patch versions fix bugs.)\r\n\r\nBecause 2.3.0 breaks compatibility with 2.2.x servers, this broke my setup.\r\n\r\nI've since changed my package.json spec to:\r\n\r\n```\r\n    \"rethinkdb\": \"~2.2.1\"\r\n```\r\n\r\nWhich will only update the patch version.\r\n\r\nHowever, I felt I should open this issue to foster discussion of Rethinkdb not following semver. My personal opinion is that following semver makes it very easy and predictable for end users: major version changes are not compatible, minor version changes add functionality but are compatible, patch version changes only address bugs and do not affect functionality or compatibility.\r\n\r\nWhat is the current thinking on Rethinkdb versioning? Is my change to only allow patch version changes really safe to do or do I need to lock things down to specific versions?"
+  , issueState = "open"
+  , issueId = Id 146462907
+  , issueComments = 5
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 86
+          , milestoneNumber = 123
+          , milestoneClosedIssues = 22
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.4-polish"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/123"
+          , milestoneCreatedAt = 2016 (-04) (-28) 19 : 25 : 10 UTC
+          , milestoneState = "open"
+          }
+  }

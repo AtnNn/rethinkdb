@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-16) 23 : 24 : 49 UTC
+  , issueUpdatedAt = 2015 (-11) (-17) 19 : 12 : 47 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5081/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/5081"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "e102d8"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:bug"
+          , labelName = "tp:bug"
+          }
+      ]
+  , issueNumber = 5081
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 1777134
+          , simpleUserLogin = N "mlucy"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/1777134?v=3"
+          , simpleUserUrl = "https://api.github.com/users/mlucy"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 9507966
+        , simpleUserLogin = N "lijialing888"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/9507966?v=3"
+        , simpleUserUrl = "https://api.github.com/users/lijialing888"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "filter().changes() order by \"time\" index breaks down the db"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/5081"
+  , issueCreatedAt = 2015 (-11) (-13) 03 : 14 : 18 UTC
+  , issueBody =
+      Just
+        "Hi guys, \r\nI run 2 processes: 1 to write records, 1 to listen the changes. When I make order by the \"createTime\" index will make the db break down.\r\nBut order by other index (like integer) is fine.\r\n\r\nWrite node script:\r\n```javascript\r\nsetInterval(function() {\r\n    ...\r\n    r.table('alarms').insert({\r\n        id: ++count,\r\n        content: content,\r\n        createTime: r.now()\r\n        ...\r\n    }).run(conn, function (err, result) {\r\n        ...\r\n    })\r\n}, 500);\r\n```\r\n\r\nListener node script:\r\n```javascript\r\nr.table('alarms').orderBy({index: r.desc('createTime')}).\r\nfilter({severity: 'Minor'}).limit(10).changes().\r\nrun(conn, function (err, cursor) {\r\n\r\n});\r\n```\r\n\r\nError Message:\r\nrethinkdb 2.1.5+2~0precise (GCC 4.6.3)\r\nerror: Error in src/arch/runtime/thread_pool.cc at line 359:\r\nerror: Segmentation fault from reading the address 0x8.\r\nerror: Backtrace:\r\n\r\nEnviroment:\r\nuname -a\r\nLinux ubuntu-ljl 3.13.0-68-generic #111~precise1-Ubuntu SMP Fri Nov 6 18:17:31 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\nrethinkdb --version\r\nrethinkdb 2.1.5+2~0precise (GCC 4.6.3)\r\n"
+  , issueState = "closed"
+  , issueId = Id 116692151
+  , issueComments = 6
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 505365
+                , simpleUserLogin = N "danielmewes"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/505365?v=3"
+                , simpleUserUrl = "https://api.github.com/users/danielmewes"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2015 (-11) (-17) 08 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 111
+          , milestoneClosedIssues = 10
+          , milestoneDescription = Just ""
+          , milestoneTitle = "2.2.1"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/111"
+          , milestoneCreatedAt = 2015 (-11) (-16) 22 : 50 : 00 UTC
+          , milestoneState = "closed"
+          }
+  }

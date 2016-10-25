@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-04) (-19) 18 : 06 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 53049
+        , simpleUserLogin = N "rocketraman"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/53049?v=3"
+        , simpleUserUrl = "https://api.github.com/users/rocketraman"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/212008709"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1855#issuecomment-212008709"
+  , issueCommentCreatedAt = 2016 (-04) (-19) 16 : 36 : 20 UTC
+  , issueCommentBody =
+      "Yeah I'd say the current approach to `join` in RethinkDB is very SQL-like: by default, return a flat structure with the content from both sides of the join mashed together (collapsed?). Since I'm getting back JSON, I'd much rather have an easy way to make my result look like Jeffrey noted above. It should also be easy to operate on lists or maps of foreign keys, like:\r\n\r\n```\r\nleft: { id: 1, name: 'John Doe', groupIds: [12, 13] }\r\nright: [{ id: 12, name: 'Some Group Name' }, { id: 13, name: 'Another Group Name' }]\r\n```\r\n\r\nto produce:\r\n\r\n```\r\n{ id: 1, name: 'John Doe', groups: [ { id: 12, name: 'Some Group Name' }, { id: 13, name: 'Another Group Name' } ] }\r\n```\r\n\r\nor\r\n\r\n```\r\nleft: { id: 1, name: 'John Doe', { homeGroup: 12, workGroup: 13 } }\r\nright: [{ id: 12, name: 'Some Group Name' }, { id: 13, name: 'Another Group Name' }]\r\n```\r\n\r\nto produce:\r\n\r\n```\r\n{ id: 1, name: 'John Doe', groups: { homeGroup: { id: 12, name: 'Some Group Name' }, workGroup: { id: 13, name: 'Another Group Name' } } }\r\n```\r\n\r\nUPDATE: According to https://www.rethinkdb.com/docs/table-joins/#using-subqueries, the \"right\" way to do the above is via a subquery rather than a join. Not sure if there is a case for an easy mechanism to accomplish this with join results as well."
+  , issueCommentId = 212008709
+  }

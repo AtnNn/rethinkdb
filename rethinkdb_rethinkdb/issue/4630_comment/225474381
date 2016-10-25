@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-06) (-13) 01 : 50 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/225474381"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4630#issuecomment-225474381"
+  , issueCommentCreatedAt = 2016 (-06) (-13) 01 : 49 : 29 UTC
+  , issueCommentBody =
+      "I read over everything above.  Here's a slight variant of the proposal that I think does what we want:\r\n* We leave `Handler` and `em_run` the way they are.\r\n* We add a new type `AsyncHandler`.\r\n  - An `AsyncHandler` supports a single method `handle` which accepts a block.\r\n    * `handle` will run that block inside of whatever asynchronous thingy it's doing, getting back three things: a method name, arguments to that method, and the current QueryHandle.  (An example would be `[:on_change, [OLD_VAL, NEW_VAL], CURRENT_QUERY_HANDLE]`.)  It will then pass those three things on to a `Handler` (or maybe do something entirely different if the person writing it wants).\r\n    * `handle` accepts a block because we might not want to do all the parsing work on the main thread (and in fact the current implementation delays some of the parsing work and does it inside an EventMachine tick).\r\n* There will be a function `async_run` which is like `em_run` except it accepts an `AsyncHandler`.\r\n* We will probably re-implement `em_run` to call `async_run` with an `AsyncHandler` that knows how to talk to EventMachine.  (Basically the implementation will be that it gets the block, and schedules a tick in EventMachine that evaluates the block and then calls `handle` on the `Handler`.)\r\n* Optionally, we will add a `fiber_run` which is like `em_run` -- an `AsyncHandler` we wrote ourselves that plays nicely with fibers."
+  , issueCommentId = 225474381
+  }

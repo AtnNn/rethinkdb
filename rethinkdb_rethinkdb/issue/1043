@@ -1,0 +1,72 @@
+Issue
+  { issueClosedAt = Just 2014 (-01) (-30) 23 : 31 : 57 UTC
+  , issueUpdatedAt = 2014 (-01) (-30) 23 : 37 : 48 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1043/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/1043"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 1043
+  , issueAssignee =
+      Just
+        SimpleUser
+          { simpleUserId = Id 505365
+          , simpleUserLogin = N "danielmewes"
+          , simpleUserAvatarUrl =
+              "https://avatars.githubusercontent.com/u/505365?v=3"
+          , simpleUserUrl = "https://api.github.com/users/danielmewes"
+          , simpleUserType = OwnerUser
+          }
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "btree-heavy operations do not scale to more than 4 cores"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/1043"
+  , issueCreatedAt = 2013 (-06) (-19) 20 : 12 : 05 UTC
+  , issueBody =
+      Just
+        "When testing #1042, it became evident that the query didn't utilize multiple cores very well. With only the getAll(), the query was maxing out exactly 4 cores on a machine which has 24. \r\nWith a number of filters and groupedMapReduces behind the getAll(), I believe I've seen the server using slightly more than 4 cores, but not by much (probably because it was waiting for data from the btree).\r\n\r\nThe problem here is obviously that we have fixed the number of hash shards to 4.\r\n\r\nThere are two things to this:\r\n1. We should verify that if we have multiple tables, the respective caches are actually assigned to *different* threads, and not all of them hog the same 4 cores.\r\n2. We should see how we can fix the issue of a fixed, low number of hash shards. I think I remember somebody mentioning that the clustering overhead would grow with more shards. Is that true or was there a different reason for setting it to 4?"
+  , issueState = "closed"
+  , issueId = Id 15765808
+  , issueComments = 45
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 48436
+                , simpleUserLogin = N "coffeemug"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/48436?v=3"
+                , simpleUserUrl = "https://api.github.com/users/coffeemug"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Just 2014 (-03) (-13) 07 : 00 : 00 UTC
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 53
+          , milestoneClosedIssues = 203
+          , milestoneDescription = Just ""
+          , milestoneTitle = "1.12"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/53"
+          , milestoneCreatedAt = 2013 (-11) (-19) 09 : 47 : 10 UTC
+          , milestoneState = "closed"
+          }
+  }

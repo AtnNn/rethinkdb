@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-21) 07 : 22 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21306268"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1193#issuecomment-21306268"
+  , issueCommentCreatedAt = 2013 (-07) (-21) 07 : 22 : 32 UTC
+  , issueCommentBody =
+      "* driver devs have to implement the sugar. Admittedly this is easy sugar to implement but still I think there's a big step between having to implement no sugar and having to implement a small amount of sugar.\r\n  - I don't quite follow.  They're already overloading the operator.  In Ruby, they would write `def -@; r.negate(self); end` instead of `def -@; r.sub(0, self); end`.  I think the change would be similar in Python.  And they'd also have to implement `r.negate`, since we added it -- it would be strictly more work to support.\r\n* it actually could misbehave. `sub` already has a few extra meanings attached to it in particular with arrays so I could see someone getting some confusing error messages if they negate something that evaluates to an array.\r\n  - I thought we decided not to overload subtraction on arrays?\r\n* Wrong backtraces is a cost. Where are the other places we show wrong backtraces.\r\n  - I think \"wrong\" is a bad way to think about it.  The backtrace the server sends back correctly identifies the incorrect portion of the query; it can't accurately distinguish between function calls and sugar.  For example, if the user writes `a+b`, the server can't distinguish that from `r.add(a, b)`, so it sends back a backtrace for the latter.  If the client wants to make backtraces more closely match what the user typed, they can tag the `a+b` node in their AST with a note on how to print it.  (Right now, though, we just show `r.add(a, b)`, even though that isn't what the user typed.)  Similarly, if the user writes `-b` in Ruby, the server sees `r.sub(0, b)`.  If the client wants to make the backtrace match what the user typed, they have to tag the `-b` node in their AST same as before.  (Right now, though, we just show `r.sub(0, b)`.)  I plan to fix both of these cases in Ruby once I get some free time to tinker with the pretty printer.\r\n\r\nThere are two problems I see with adding a new protobuf term:\r\n* It's more work.  Counting implementation, adding the new term to all the drivers, adding tests, adding documentation, etc., it's easily an hour+ change for only marginal benefit.  Adding one line to python to overload prefix `-` is a five minute change.\r\n* It's one more barrier between new driver developers and a minimal working driver.  People working in languages where they can't overload prefix `-` will have to implement a term for one particular edge case of `r.sub`, with no real benefit.  Doing this once isn't so bad, but I'd rather have a policy of not adding terms to the language unless they're common or powerful primitives.\r\n\r\n---\r\n\r\nAnyway, I don't feel too strongly about this.  If @wmrowan and @jdoliner both think that `r.sub(0, 1)` is too ugly, I'm fine with adding `r.negate` to the language.  I also second @wmrowan's suggestion that we add absolute value (I propose `r.abs`) while we're in their mucking around."
+  , issueCommentId = 21306268
+  }

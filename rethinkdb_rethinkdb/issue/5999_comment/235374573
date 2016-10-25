@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-07) (-26) 19 : 15 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/235374573"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5999#issuecomment-235374573"
+  , issueCommentCreatedAt = 2016 (-07) (-26) 19 : 15 : 32 UTC
+  , issueCommentBody =
+      "@larkost I think you might be right. I tried reproducing this on Linux and at least with the precise query above, it does not reproduce.\r\n\r\nThis doesn't *necessarily* mean that it's OS X specific (like #5309 seems to be), since for hitting these issues, you sometimes have to hit exactly within a certain boundary of the stack size. If one recursion step in the query evaluation uses slightly more memory, then our existing code for handling out-of-stack conditions might trigger and allocate a new coroutine stack. If it uses slightly less, we might not exhaust the existing stack. So there's sometimes a relatively small window that exposes these issues, which might be slightly different depending on the compiler and platform.\r\n\r\nOne difference to #5309 is that #5309 is only reproducible with debug-mode binaries, while this one happened with a release-mode binary (from brew as far as I know)."
+  , issueCommentId = 235374573
+  }

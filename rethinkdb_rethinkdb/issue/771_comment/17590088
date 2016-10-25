@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-08) 07 : 09 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17590088"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/771#issuecomment-17590088"
+  , issueCommentCreatedAt = 2013 (-05) (-08) 07 : 09 : 17 UTC
+  , issueCommentBody =
+      "I agree we should provide the errant value; that's a clear oversite and pretty easy to fix.\r\n\r\nExplicitly giving the name of the function in which the error occured is harder.  In this case it's easy, but in the case where, say, you get a `datum_exc_t` instead of a vanilla `exc_t` on one of the shards inside a `map` function that was pushed onto a lazy stream, it's much harder.  The easiest thing to do would probably be to attach this information to the backtraces and piggy-back on their already absurdly complicated logic.\r\n\r\nListing both types is theoretically easy but a bit of a pain: currently we only have a way to try to turn a `val_t` into a particular type, and in polymorphic functions we just try one type and then the other.  To do this right we'd have to modify the interface to allow people to ask for a `val_t` as one or more types, and if it succeeds be given back information about which type it was successfully converted to.  (This is also complicated because in this case `OBJECT` is a subtype of `DATUM` rather than a value type proper.)\r\n\r\nI think we could get 90% of the way there on the second two by taking the hacky composite types in `type_manip.hpp` and promoting them to be part of `val_t` (so that we can check both `datum_t` and `val_t` types), then adding a function that we can call like:\r\n```c\r\ninsert_term_t::eval_impl() {\r\n  ...\r\n  val->check_is_convertable(this, val_t::composite_type_t::OBJECT, val_t::composite_type_t::SEQUENCE);\r\n  ...\r\n}\r\n```\r\n\r\nWe'd have to explicitly call this `check_is_convertible` function in our polymorphic functions, but there aren't many of them.\r\n\r\nThis would probably take about a day."
+  , issueCommentId = 17590088
+  }

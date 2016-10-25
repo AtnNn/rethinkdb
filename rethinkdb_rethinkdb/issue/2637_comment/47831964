@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-02) 20 : 32 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 233103
+        , simpleUserLogin = N "nickpoorman"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/233103?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nickpoorman"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47831964"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2637#issuecomment-47831964"
+  , issueCommentCreatedAt = 2014 (-07) (-02) 20 : 32 : 17 UTC
+  , issueCommentBody =
+      "@wojons suggested I try running count with a client instead of Data Explorer because it would error out every time.\r\n\r\nUnder zero load... with ~22 million documents, (that look like the following), it takes me on average 5 minutes to get a count.\r\n\r\nUnder a load of ~3k writes/sec, count never returned (it's been running for > 30 min now).\r\n\r\n``` js\r\n{ sample: 'NG_3456', compound: n:23.45:2.3:4.5, createdAt: 1404310585099, abd: 3456.23 }\r\n```\r\n\r\nEnvironment:\r\nUbuntu 13.10 16gb ram, SSD, 4 core\r\nnode.js --version: v0.11.13\r\nrethinkdb --version: rethinkdb 1.13.1 (CLANG 5.1 (clang-503.0.40))\r\nrethinkdbdash driver version: 1.13.6\r\n\r\nTest code: \r\n\r\n``` js\r\nvar co = require('co');\r\nvar debug = require('debug')('test');\r\nvar re = require('rethinkdbdash')({\r\n  host: '192.168.1.147',\r\n  port: 28015,\r\n  db: 'ml',\r\n});\r\n\r\nco(function * () {\r\n  debug('stating count');\r\n  var start = process.hrtime();\r\n  var c = yield re.table('sample_compounds').count().run();\r\n  var end = process.hrtime(start);\r\n  debug(\"count: \", c);\r\n  debug(\"Execution time (hr): %ds %dms\", end[0], end[1]/1000000)\r\n})();\r\n```"
+  , issueCommentId = 47831964
+  }

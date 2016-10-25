@@ -1,0 +1,70 @@
+Issue
+  { issueClosedAt = Just 2015 (-11) (-17) 01 : 50 : 50 UTC
+  , issueUpdatedAt = 2015 (-11) (-17) 01 : 50 : 56 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4569/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/4569"
+  , issueClosedBy = Nothing
+  , issueLabels =
+      [ IssueLabel
+          { labelColor = "fef2c0"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/Python"
+          , labelName = "Python"
+          }
+      , IssueLabel
+          { labelColor = "444444"
+          , labelUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/labels/tp:performance"
+          , labelName = "tp:performance"
+          }
+      ]
+  , issueNumber = 4569
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 151924
+        , simpleUserLogin = N "sontek"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/151924?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sontek"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle = "Optimize the python driver's serialization code."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4569"
+  , issueCreatedAt = 2015 (-07) (-23) 20 : 29 : 17 UTC
+  , issueBody =
+      Just
+        "Currently if you want to work with 100,000 records it is extremely slow:\r\n\r\n```\r\n$ python foo.py \r\ncount is 164717\r\nint query took 4086ms\r\n```\r\n4 seconds to query 164,000 rows!  I dug into this a little bit using the python library `yappi` and the tool `kcachegrind` to see where it was spending the time.  Here is the python code I used:\r\n\r\n```python\r\nimport rethinkdb as r\r\nimport random\r\nimport pytz\r\nimport time\r\nimport yappi\r\nfrom datetime import datetime\r\n\r\nUTC = pytz.utc\r\n\r\nYAPPI = False\r\nDO_CREATE = False\r\nDO_INSERTS = False\r\n\r\nconn = r.connect()\r\n\r\nif DO_CREATE:\r\n    r.table_create('test').run(conn)\r\n\r\nSTART_BIGINT = 100000000000000000\r\nEND_BIGINT = 999999999999999999\r\n\r\n\r\ndef utc_now():\r\n    now = datetime.utcnow()\r\n    tz_now = now.replace(tzinfo=UTC)\r\n    return tz_now\r\n\r\n\r\ndef get_rint(start=1000000, end=9999999):\r\n    \"\"\"\r\n    Generate a very large integer\r\n    :return:\r\n    \"\"\"\r\n    return random.randint(start, end)\r\n\r\n\r\ndef get_bigint():\r\n    \"\"\"\r\n    Generate a random BIGINT\r\n    :return:\r\n    \"\"\"\r\n    return get_rint(start=START_BIGINT, end=END_BIGINT)\r\n\r\n\r\nif DO_INSERTS:\r\n    for i in range(0, 300000):\r\n        r.table('test').insert({\r\n            'respondent_id': get_bigint(),\r\n            'row_id': get_bigint(),\r\n            'column_id': get_bigint(),\r\n            'value_id': get_bigint(),\r\n            'rid1': get_bigint(),\r\n            'rid2': get_bigint(),\r\n            'rid3': get_rint(),\r\n            'now': utc_now()\r\n        }).run(conn)\r\n\r\nstart = time.time()\r\n\r\nif YAPPI:\r\n    yappi.set_clock_type('cpu')\r\n    yappi.start(builtins=True)\r\n\r\nresult = r.table('test').run(conn)\r\ndata = []\r\nfor row in result:\r\n    data.append(row)\r\n\r\ncount = len(data)\r\nend = time.time()\r\n\r\nif YAPPI:\r\n    stats = yappi.get_func_stats()\r\n    stats.save('callgrind.out', type='callgrind')\r\n    print('checkout callgrind.out')\r\n\r\nprint(\"count is %s\" % count)\r\nduration = int(1000 * (end - start))\r\nprint(\"int query took %sms\" % duration)\r\n```\r\n\r\nand this showed that most of the time is spent in `recursively_convert_pseudo_types`, here is a screenshot of the kcachegrind:\r\n\r\n![screenshot from 2015-07-23 13 06 13](https://cloud.githubusercontent.com/assets/151924/8861344/cba7a5cc-313e-11e5-8588-a630ee983175.png)\r\n"
+  , issueState = "closed"
+  , issueId = Id 96898802
+  , issueComments = 27
+  , issueMilestone =
+      Just
+        Milestone
+          { milestoneCreator =
+              SimpleUser
+                { simpleUserId = Id 706854
+                , simpleUserLogin = N "AtnNn"
+                , simpleUserAvatarUrl =
+                    "https://avatars.githubusercontent.com/u/706854?v=3"
+                , simpleUserUrl = "https://api.github.com/users/AtnNn"
+                , simpleUserType = OwnerUser
+                }
+          , milestoneDueOn = Nothing
+          , milestoneOpenIssues = 0
+          , milestoneNumber = 64
+          , milestoneClosedIssues = 228
+          , milestoneDescription =
+              Just
+                "These issues are no longer relevant to the current version of RethinkDB"
+          , milestoneTitle = "outdated"
+          , milestoneUrl =
+              "https://api.github.com/repos/rethinkdb/rethinkdb/milestones/64"
+          , milestoneCreatedAt = 2014 (-03) (-28) 00 : 17 : 40 UTC
+          , milestoneState = "closed"
+          }
+  }
