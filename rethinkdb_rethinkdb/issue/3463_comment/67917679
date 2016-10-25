@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-23) 03 : 05 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/67917679"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3463#issuecomment-67917679"
+  , issueCommentCreatedAt = 2014 (-12) (-23) 03 : 05 : 12 UTC
+  , issueCommentBody =
+      "The problem is that\r\na) the branch history grows bigger and bigger over time. In this case it reached a serialized size of 10 MB.\r\nb) we didn't estimate the expected change count correctly when re-writing the branch history. This stopped the cache from throttling the writes to remain approximately within its memory limit (1 MB in the case of the metadata cache). I still have to check the details of this, but I think that since a lot of shards were trying to rewrite the branch history at the same time, the unwritten dirty pages in the cache went *way* above the cache limit. Passing in a reasonable expected change count solves the memory consumption issue for me.\r\n\r\nPart a) is probably tricky to fix and needs more thought, but I'm preparing a fix for part b) now.\r\n\r\nGenerally the tables take a very long time to become available, which might also be caused by the big branch history that each shard is rewriting to disk over and over. We should at least combine those writes when possible.\r\n\r\n\r\n@AlexLuya as a work-around, I recommend deleting the data directory and re-creating the tables. That should make the metadata small again."
+  , issueCommentId = 67917679
+  }

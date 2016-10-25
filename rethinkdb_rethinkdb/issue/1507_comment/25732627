@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-04) 21 : 53 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25732627"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1507#issuecomment-25732627"
+  , issueCommentCreatedAt = 2013 (-10) (-04) 21 : 53 : 10 UTC
+  , issueCommentBody =
+      "So btree_store_t has a drainer which gets destructed before anything else does. Specifically it gets destructed before the perfmon_collection in btree_store_t does. This is all perfectly correct and fine.\r\n\r\nHowever there is a function \"post_construct_and_drain_queue\" in protocol.cc which is spawned in a coroutine of its own. One of its arguments is a lock on the mentioned btree_store_t::drainer. Another argument is a shared pointer on an internal_disk_backed_queue_t, which happens to contain a child of the btree_store_t::perfmon_collection.\r\n\r\nUnfortunately the shared pointer argument was in front of the drainer lock argument, so the drainer lock was destructed first. Making the drainer lock the first argument seems to solve the crashes.\r\n\r\nI also added additional debug output in ~perfmon_collection_t to make it easier to locate issues like this one in the future.\r\n\r\nGoing to be in code review 975 soon."
+  , issueCommentId = 25732627
+  }

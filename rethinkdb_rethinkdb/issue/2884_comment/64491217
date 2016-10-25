@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-25) 23 : 36 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/64491217"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2884#issuecomment-64491217"
+  , issueCommentCreatedAt = 2014 (-11) (-25) 23 : 36 : 01 UTC
+  , issueCommentBody =
+      "@timmaxw is going to begin work on this. We will do something pretty simple, which I think covers 95% of all use cases perfectly well:\r\n\r\n- The log table will only contain the last e.g. 1 MB worth of logs. Since we have a very low rate at which logs are generated, it is extremely rare that a user has to access logs older than that. We will document that limitation of course when describing the logs table. If a user for some rare reason needs to check older logs, they can still go to the log file directly.\r\n- Since the log table has a limited size, efficient access is not a concern. We just read the whole last MB and do ordering etc. in memory.\r\n- The primary key is going to be `[<timestamp, server UUID>]`. There won't be any secondary indexes. Again, due to the limited size, re-ordering the entries in memory if needed isn't a problem. The main purpose of the primary key here is to establish uniqueness, and *some* sort of useful ordering.\r\n- Timestamps will be made unique and strictly increasing by checking the timestamp of the latest existing entry in the log file.\r\n- Change feeds on the logs table will only notify about added logs. If the log file is larger than 1 MB and old logs are pushed out of the table, no notification will be sent. This is inconsistent with the usual change feed semantics, but I'm pretty sure that this is what 99% of users will actually want when they listen to changes on the logs.\r\n\r\nOne option for the implementation is to keep a copy of the last MB worth of logs in a ring buffer in memory at all time. We would initialize the buffer at startup from the log file, but wouldn't need any more file reads afterwards. This will also allow us to maintain existing entries in case an external program truncates the underlying log file while RethinkDB is running (compare https://github.com/rethinkdb/rethinkdb/issues/3374 ).\r\nIf on the other hand we keep reading from the log file on each access, we will instead detect file truncations and abort active change feeds on the log table if we detect one."
+  , issueCommentId = 64491217
+  }

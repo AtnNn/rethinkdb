@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-22) 06 : 09 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70975807"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3627#issuecomment-70975807"
+  , issueCommentCreatedAt = 2015 (-01) (-22) 06 : 06 : 23 UTC
+  , issueCommentBody =
+      "Answer: Yes, they can. As long as a ghost server is connected, backfilling doesn't finish. Once I terminate it the tables become available.\r\n\r\nExact steps to reproduce:\r\n* Start a two-server cluster, let's say the servers are called A and B\r\n* Create a table, reconfigure to `{shards: 2, replicas: 1}`\r\n* Remove one of the servers from the cluster, for example server B:\r\n`r.db('rethinkdb').table('server_config').filter({name: \"B\"}).delete()`\r\n* Reconfigure the table to `{shards: 2, replicas: 1}`\r\n* The table never becomes available, the replicas are stuck in state \"backfilling_data\".\r\n* Shut down the ghost server (server B)\r\n* The table becomes available\r\n"
+  , issueCommentId = 70975807
+  }

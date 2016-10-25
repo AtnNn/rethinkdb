@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-08) 02 : 58 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25861733"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/728#issuecomment-25861733"
+  , issueCommentCreatedAt = 2013 (-10) (-08) 02 : 58 : 41 UTC
+  , issueCommentBody =
+      "There is strong evidence that our snapshotting logic cannot cope with the stats block which we acquire in parallel_traversal.cc on line 480 (`process_a_leaf_node()`). We acquire the stats block without any ordering guarantees, sometimes even repeatedly from the same transaction.\r\n\r\nIt *might* be possible that our snapshotting code could actually handle such use cases with minor modifications. But I'm not sure.\r\n\r\nOne solution would be to start a new transaction just to update the stat block each time we have to do so. We would lose the atomicity guarantees though, which is probably not very nice.\r\n\r\nThe other alternative is to acquire the stat block once, and to only ever acquire it while we still hold the superblock. We would then hold on to the lock while the parallel traversal is proceeding. \r\nI imagine this might pose some issues for concurrency?\r\n@Tryneus , @jdoliner do you have an idea how important it is for our performance that we yield the stat block?"
+  , issueCommentId = 25861733
+  }

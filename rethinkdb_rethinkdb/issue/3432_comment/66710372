@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-11) 23 : 47 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66710372"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3432#issuecomment-66710372"
+  , issueCommentCreatedAt = 2014 (-12) (-11) 23 : 47 : 37 UTC
+  , issueCommentBody =
+      "@brwnll Thanks, I think I know basically why this isn't working.\r\nCan you try creating the index like this?      \r\n```\r\nr.table('locations').indexCreate('address.location', r.row('address')('location'), {geo: true})\r\n```\r\ninstead?\r\n\r\nRethinkDB doesn't understand index names like `\"parent.child\"`. Instead your `indexCreate` query will have created an index that was indexing a field with the name `\"parent.child\"` (including the period as part of the field name).\r\n\r\nThis explains why you didn't get any results when using the index.\r\n\r\nThere still is a bug here that the Data Explorer somehow mistakes remaining results from the previous `r.table('locations')` query as additional batches for the next query you're running.\r\n\r\nMoving to 1.16 and pinging @deontologician. I'll test later if I can reproduce it, and if yes whether it still exists in `next` (I think @neumino had done some fix to batch handling in the Data Explorer, but I don't remember what it was exactly and whether it was in v1.15.x or only next)."
+  , issueCommentId = 66710372
+  }

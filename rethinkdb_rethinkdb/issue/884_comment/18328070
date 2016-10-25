@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 07 : 42 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18328070"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18328070"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 07 : 42 : 09 UTC
+  , issueCommentBody =
+      "I think that the cognitive load from having 3 ways to handle NULL/errors probably vastly outweighs the cognitive load from having a slightly non-intuitive behavior for one (or two) of them.  This is especially bad because `catch_all` could easily substitute for either `catch` or `default` in 99% of circumstances.\r\n\r\n(Also, as a minor aside, I think that `(obj[:attr1] * obj[:attr2]).default(0)` reads waaaay better than `(obj[:attr1] * obj[:attr2]).catch_all(0)`.  The second reads like it's catching 0s somehow.)\r\n\r\n---\r\n\r\nFour people have now chimed in and said that `default` handling all errors is confusing, so we should try to avoid doing that if at all possible.\r\n\r\nOn the other hand, I like both of these solutions less:\r\n* Introducing 3 terms for error handling -- for reasons far too obvious and numerous to name.\r\n* Restricting the set of errors caught -- still requires having 2 terms for error handling, and it's very hard to define the right set of errors.\r\n\r\n---\r\n\r\nI think that part of the problem here might be that the name `default` doesn't sound like it should do error handling.  Maybe we could find a better name where we could combine semantics (to avoid having 3 terms) without it being confusing?\r\n\r\nMaybe something like:\r\n\r\n```ruby\r\ntable.filter {|row|\r\n  some_expression(row).on_error(false)\r\n}\r\n```\r\n\r\nor:\r\n\r\n```ruby\r\ntable.filter {|row|\r\n  some_expression(row).on_failure(false)\r\n}\r\n```\r\n\r\n"
+  , issueCommentId = 18328070
+  }

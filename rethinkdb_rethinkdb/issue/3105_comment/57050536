@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-27) 11 : 58 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57050536"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3105#issuecomment-57050536"
+  , issueCommentCreatedAt = 2014 (-09) (-27) 11 : 58 : 33 UTC
+  , issueCommentBody =
+      "You can obtain better performance by using `between` with a lower bound set to the last document on the previous page:\r\n\r\n```\r\n>>> r.table('foo').between(null, null).orderBy({index:'id'}).limit(100000)\r\n[..., {\"id\":\"188e44a1-5ecd-4aea-9936-6cfe5acc14fe\", ...}]\r\n475ms\r\n```\r\n\r\n```\r\n>>> r.table('foo').between(\"188e44a1-5ecd-4aea-9936-6cfe5acc14fe\", null).orderBy({index:'id'}).limit(100000)\r\n[..., {\"id\":\"30f6acff-aac0-4c34-91a0-e93af44d0c0c\", ...}]\r\n471ms\r\n```\r\n\r\n```\r\n>>> r.table('foo').between(\"30f6acff-aac0-4c34-91a0-e93af44d0c0c\", null).orderBy({index:'id'}).limit(100000)\r\n[..., {\"id\":\"497ef5a9-44ef-46de-857a-ef9a6c6aa891\", ...}]\r\n478ms\r\n```\r\n\r\nBoth in this example and in the one on the cookbook, `orderBy` is necessary for pagination to work correctly because RethinkDB does not always return documents in the same order.\r\n\r\nA different index can also be used instead of `id` for both `between` and `orderBy` to order by a different field."
+  , issueCommentId = 57050536
+  }

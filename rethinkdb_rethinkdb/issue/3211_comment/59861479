@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-21) 19 : 43 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59861479"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3211#issuecomment-59861479"
+  , issueCommentCreatedAt = 2014 (-10) (-21) 00 : 23 : 38 UTC
+  , issueCommentBody =
+      "@sfguy, I haven't taken a long look into the data, but it appears to not be valid unicode.  The character won't show up with a grep because it is stored as the binary of `0xEF`, not the literal string `\\xef`.  I ran a quick test to find the problem lines and found errors on 128 lines.  Here is the script I used:\r\n\r\n```py\r\n#!/usr/bin/env python2\r\nf = open('./npidata_20050523-20140907.csv', 'r')\r\n\r\nline_num = 0\r\nfor line in f:\r\n    try:\r\n        x = line.encode('utf-8')\r\n    except UnicodeDecodeError as ex:\r\n        print \"error on line %d, column %d\" % (line_num, ex.args[2])\r\n    line_num = line_num + 1\r\n```\r\n\r\nIf you want to insert this sort of data, you should be using `r.binary`, otherwise you should sanitize your data so that it is valid UTF-8.\r\n\r\nLet me know if you have questions or concerns regarding this.  Leaving this issue open until I hear from you.\r\n\r\n"
+  , issueCommentId = 59861479
+  }

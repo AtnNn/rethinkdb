@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-17) 16 : 31 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46331645"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2422#issuecomment-46331645"
+  , issueCommentCreatedAt = 2014 (-06) (-17) 16 : 31 : 29 UTC
+  , issueCommentBody =
+      "linuxdynasty on IRC pointed out a strange thing.\r\nWe get the proper error in case the default database is defined, but not if no argument is given to `r.connect` \r\n\r\nWith the python driver 1.13 and RethinkDB 1.12\r\n```\r\n>>> r.connect()\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 340, in connect\r\n    return Connection(host, port, db, auth_key, timeout)\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 110, in __init__\r\n    self.reconnect(noreply_wait=False)\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 131, in reconnect\r\n    self._sock_sendall(struct.pack(\"<L\", p.VersionDummy.Protocol.JSON))\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 193, in _sock_sendall\r\n    return self.socket.sendall(data)\r\n  File \"/usr/lib/python2.7/socket.py\", line 224, in meth\r\n    return getattr(self._sock,name)(*args)\r\nsocket.error: [Errno 32] Broken pipe\r\n>>> r.connect(db='test')\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 340, in connect\r\n    return Connection(host, port, db, auth_key, timeout)\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 110, in __init__\r\n    self.reconnect(noreply_wait=False)\r\n  File \"/home/michel/.local/lib/python2.7/site-packages/rethinkdb/net.py\", line 143, in reconnect\r\n    raise RqlDriverError(\"Server dropped connection with message: \\\"%s\\\"\" % response.strip())\r\nrethinkdb.errors.RqlDriverError: Server dropped connection with message: \"ERROR: this is the rdb protocol port (bad magic number)\"\r\n```\r\n\r\n\r\nAnd the JS driver still send this error:\r\n```\r\nRqlDriverError: Could not connect to localhost:28015.\r\nwrite EPIPE\r\n\r\n```"
+  , issueCommentId = 46331645
+  }

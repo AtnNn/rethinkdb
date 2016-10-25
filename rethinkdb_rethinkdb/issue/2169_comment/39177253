@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-01) 07 : 28 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39177253"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-39177253"
+  , issueCommentCreatedAt = 2014 (-04) (-01) 07 : 20 : 49 UTC
+  , issueCommentBody =
+      "For the lower-level API, I think we should have a reserved `'system'` database that contains four system tables:\r\n\r\n- `'directory'` - the physical state of the cluster, as broadcast by each machine. This isn't writeable by the user.\r\n- `'goals'` - the goals for the cluster, as specified by the user. This is writeable by the user.\r\n- `'blueprints'` - the blueprint to execute the goals, as specified by our blueprint compiler implemented by the higher level API. I think users should be able to post custom blueprints if they'd like, though I'm not sure if that's possible right now.\r\n- `'stats'` - perfmons and other statistics. Not writeable by the user.\r\n\r\nWhen the user queries any of these tables, they see the result as seen by the parser of the query (i.e. the machine the user is connected to). This is the same as our current `/ajax` interface.\r\n\r\nThe directory table should have a document per machine (where the primary key of the document is `machine_id` and is the uuid of the machine). I'd keep most things as is in `/ajax/directory`, except drop the whole `memcached/dummy/rdb_namespaces` business, and instead have a key `tables` that maps to an array of tables. Here is example output of `r.db('system').table('directory')`:\r\n\r\n```javascript\r\n[{\r\n  machine_id: '3b461e6b-37bd-42b3-9f4c-b0673b60b798',\r\n  peer_id: \"99cd8e46-e87d-4957-92da-eb905598f075\",\r\n  peer_type: \"server\",    // we probably don't need this if we drop proxies and such\r\n  cache_size_mb: 2639,\r\n  ips: [\"127.0.0.1\", \"::1\"],\r\n  tables: [{\r\n    table_id: 'da9840d9-9400-4fd4-950b-14a09b06f767',\r\n    shards: [{\r\n      shard_id: '1307f431-1f49-4ff9-994b-1344539f716a',\r\n      key_range: [\"\", null],\r\n      replier_present: true,\r\n      responsibility: \"primary\"\r\n      }]\r\n  }]\r\n}]\r\n```\r\n\r\nNote a couple of key differences from the current output of `/ajax/directory`:\r\n\r\n- We no longer key things by random uuids, or just have a list of objects in one huge array. Everything has a descriptive key, so the user can figure out from looking at the document what's going on.\r\n- Key names have been improved whenever possible to be more descriptive.\r\n- Low-level terms such as `'reactor_bcards'` and `'activity_map'` have been hidden from the user. Whenever possible, everything maps to the concepts the user can reasonably be expected to understand -- e.g. shards, tables, etc. (and in case of our directory it's very possible because the json output we chose is atrocious).\r\n- Values that are numbers (e.g. `cache_size`) have human friendly units that correspond to the units the user would pass on the command line.\r\n\r\nAnother IMO huge benefit of this system is that the Web UI does enormous amount of data querying and manipulation in raw Javascript. As we'll port it to ReQL, we'll discover potential limitations in the ReQL API that we would have never discovered otherwise. Eating our own dog food ftw.\r\n\r\nI'll make more posts on `goals`, `blueprints`, and `stats` as well as on a higher level API a bit later (my battery is running out, but you can see where I'm going with the lower-level API).\r\n\r\nEDIT: the tables I proposed aren't enough because we currently have things like `auth`, `issues`, and `last_seen` smack in the middle of `/ajax`. I'll think of how to organize them nicely (we'll likely need a few more system tables)."
+  , issueCommentId = 39177253
+  }

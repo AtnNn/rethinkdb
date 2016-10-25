@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-15) 01 : 09 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63152872"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3252#issuecomment-63152872"
+  , issueCommentCreatedAt = 2014 (-11) (-15) 01 : 07 : 44 UTC
+  , issueCommentBody =
+      "Another idea for a result naming scheme is to make it more consistent with what you get from running\r\n`r.db('rethinkdb').table('table_config').get(...).update(r.table(...).suggest_config(...), {returnChanges: true})`.\r\n\r\nThat would come down to:\r\n```\r\n{\r\n  replaced: <0 or 1 (or more when applied to a db)>,\r\n  skipped: <the opposite of replaced>,\r\n  changes: [{new_val: ..., old_val: ...}]\r\n}\r\n```\r\n\r\nSee https://github.com/rethinkdb/rethinkdb/issues/3223 regarding the contents of `new_val` and `old_val`.\r\n\r\n\r\nLooking at those result structures, I'm now actually doubting whether having `dry_run` default to `true` is such a good idea. The difficulty is that you cannot easily dump the result of `suggest_config` into an update on `table_config`. Instead you need a long chain of field selections and bracket operators to get the actual suggested configuration out of the result.\r\nI would expect a `suggest_config` term to return just the new config, which conflicts with what we decided in https://github.com/rethinkdb/rethinkdb/issues/3223.\r\n\r\nThat brings us back to the question of how to name such a command.\r\nI think `generate_config` wouldn't really work if `dry_run` defaults to `false`. The other name @mglukhovsky mentioned he would be ok was `redistribute`. I don't like that either, because it can be very easily confused with `rebalance`.\r\n\r\nActually I think `reconfigure` is not such a bad name. Maybe we should just keep it?\r\nAlternatively I like `auto_config`.\r\n\r\n@coffeemug @mglukhovsky more thoughts on this?"
+  , issueCommentId = 63152872
+  }

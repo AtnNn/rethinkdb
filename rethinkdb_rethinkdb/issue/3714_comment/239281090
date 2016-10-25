@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-08) (-11) 20 : 25 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/239281090"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3714#issuecomment-239281090"
+  , issueCommentCreatedAt = 2016 (-08) (-11) 20 : 25 : 12 UTC
+  , issueCommentBody =
+      "The pseudo-code in https://github.com/rethinkdb/docs/issues/1137#issuecomment-224995000 works for set-semantics, where the ordering doesn't matter. For an ordered result with `old_offset` and `new_offset` fields, the algorithm will look somewhat like this:\r\n\r\n```\r\n// A data structure with (resizable) array semantics\r\nvar Array documents;\r\n\r\nfeed = r.table(...).orderBy(...).limit(...).changes({includeInitial: true, includeStates: true, includeOffsets: true}).run();\r\n\r\nfor change in feed {\r\n  if (change has field \"state\" and change.state == \"ready\") {\r\n    // We have reached a consistent state of the documents in the table.\r\n    // This might be a good time for rendering the results etc.\r\n    // We can simply stay in the `for` loop to keep it updated.\r\n  }\r\n  if (change has field \"old_offset\" and change.old_offset != null) {\r\n    // Remove the old value at index old_offset from the array\r\n    // (`erase` should \"cut out\" the value, reducing the index of every\r\n    //  subsequent element by 1)\r\n    documents.erase(change.old_offset);\r\n  }\r\n  if (change has field \"new_offset\" and change.new_offset != null) { \r\n    // Add the new value to the array at position new_offset\r\n    documents.insert(change.new_offset, change.new_val);\r\n  }\r\n}\r\n```"
+  , issueCommentId = 239281090
+  }

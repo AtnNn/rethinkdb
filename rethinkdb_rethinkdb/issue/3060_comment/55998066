@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-18) 06 : 32 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55998066"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3060#issuecomment-55998066"
+  , issueCommentCreatedAt = 2014 (-09) (-18) 05 : 57 : 50 UTC
+  , issueCommentBody =
+      "+1 for changing the pseudo type representation rather than flipping the term arguments (though not super strongly).\r\nLat, long is the recommended ordering for these tuples.\r\n\r\nHaving fields \"longitude\" and \"latitude\" for each coordinate pair sounds like a giant space blowup though. I don't think that's a good idea. I personally would rather make the internal format look less similar to GeoJSON (e.g. rename the `type` and/or `coordinates` field), and just use lat, lon consistently as little arrays. We could even make it more space efficient then by removing the individual array pairs for lines and rings of a polygon, since each coordinate pair in RethinkDB always has exactly 2 coordinates (this is not generally the case in GeoJSON). So instead of `coordinates: [[l,l],[l,l],[l,l]]` we would use `coordinates: [l,l,l,l,l,l]`. This would help efficiency a lot.\r\n\r\nWhile I think implementing a good (non-GeoJSON) internal format and sticking with the recommended lat, long argument ordering is by far the better solution, I also realize that it's a bit more work (though probably not even that much). If we really want to release quickly and having to update docs etc. does not nullify the benefit of reduced programming effort, I think I could live with flipping to lon, lat for the term arguments instead. As @mlucy points out it has the other advantage of having GeoJSON immediately usable from a geometry object."
+  , issueCommentId = 55998066
+  }

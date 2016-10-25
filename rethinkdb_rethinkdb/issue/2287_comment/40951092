@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-21) 16 : 47 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40951092"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2287#issuecomment-40951092"
+  , issueCommentCreatedAt = 2014 (-04) (-21) 16 : 47 : 52 UTC
+  , issueCommentBody =
+      "So, the query up to this point will work well:\r\n\r\n```\r\nr.db('test').table('reduce_stuff')\r\n  .map(function(r) { return r.coerceTo('array'); })\r\n  .reduce(function(acc, s) { return acc.add(s); }, [])\r\n```\r\n\r\nThat's because `[]` is an array of field-pairs, and it's true that if acc and s are both arrays of field-pairs, then `acc.add(s)` produces an array of field-pairs.\r\n\r\nThen, there's trouble with this:\r\n\r\n```\r\n.reduce(function(acc2, t) {return acc2.add([t.nth(1)])}, [])\r\n```\r\n\r\nThe desired result type is an array of field values.  This means that `acc2` and `t` should both be arrays of field values.  The stream should therefore, before the reduce function is attached, consist of an array of field values.\r\n\r\nSo a simple way to translate this part of the query into the desired behavior would be to first map the stream into the desired result type: an array of field values:\r\n\r\n```\r\n.map(function(t) { return [t.nth(1)]; })\r\n.reduce(function(acc2, u) {return acc2.add(u)}, [])\r\n```\r\n\r\nOf course you could replace this map and reduce with a single map, as you said."
+  , issueCommentId = 40951092
+  }

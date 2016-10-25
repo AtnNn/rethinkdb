@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-04) 00 : 20 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77071374"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3871#issuecomment-77071374"
+  , issueCommentCreatedAt = 2015 (-03) (-04) 00 : 20 : 02 UTC
+  , issueCommentBody =
+      "Thanks for opening an issue report @ftKnox.\r\n\r\nThe general problem is that this sort of conversion is ambiguous without having additional information. If we swap the Callable and Mapping checks in our implementation of `r.expr` you can theoretically run into the same problem where you expect something to behave like a function, but it also implements `Mappable` and hence is treated like a dictionary.\r\nI imagine that would be even more rare than your use case though.\r\n\r\nThe problem would get solved by something like https://github.com/rethinkdb/rethinkdb/issues/1016, which would allow you to register your subclass explicitly with the driver and tell it how to convert instances of it into a ReQL object.\r\n\r\nHere's a work-around you can try:\r\nsubclass you class from `r.RqlQuery`. Then overwrite the `tt` attribute and the `build(self)` method by something like\r\n```py\r\ntt = pTerm.MAKE_OBJ\r\ndef build(self):\r\n        res = {}\r\n        for k, v in self:\r\n            k = k.build() if isinstance(k, RqlQuery) else k\r\n            res[k] = v.build() if isinstance(v, RqlQuery) else v\r\n        return res\r\n```\r\n\r\nYou can look at the `MakeObj` type for a reference."
+  , issueCommentId = 77071374
+  }

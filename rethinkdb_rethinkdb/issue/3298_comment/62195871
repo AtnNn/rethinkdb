@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-07) 19 : 09 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62195871"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-62195871"
+  , issueCommentCreatedAt = 2014 (-11) (-07) 19 : 09 : 34 UTC
+  , issueCommentBody =
+      "I think `get_nowait()` solves the problem. We could add a `conn.wait_any()` function on the connection, that would wait until there's new data for any of the active queries to avoid the constant sleep in the outer loop.\r\n\r\nOne thing that might make callbacks slightly nicer is that code that uses change feeds can be decoupled better.\r\nWith the `get_nowait()`, you need some kind of central place that repeatedly calls everything that might have a change feed open. With a callback, the connection is the only thing in your application that has to keep track of who currently has changefeeds running.\r\nSo I imagine that callbacks could be easier to use if you have many different components in your application accessing RethinkDB, and not one place that coordinates all of them.\r\n\r\nCould be support both interfaces? A `Queue`-like one, and a callback one?"
+  , issueCommentId = 62195871
+  }

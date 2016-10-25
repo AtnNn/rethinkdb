@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-26) 05 : 24 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 381501
+        , simpleUserLogin = N "tundrax"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/381501?v=3"
+        , simpleUserUrl = "https://api.github.com/users/tundrax"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105396939"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4275#issuecomment-105396939"
+  , issueCommentCreatedAt = 2015 (-05) (-26) 05 : 22 : 45 UTC
+  , issueCommentBody =
+      "Something like this:\r\n\r\n```es6\r\n// filters.js\r\nvar co = require('co');\r\n\r\nfunction *noop() {}\r\n\r\n// taken from koa-compose\r\nfunction compose(filters){\r\n  return function *(next){\r\n    if (!next) next = noop();\r\n\r\n    var i = filters.length;\r\n\r\n    while (i--) {\r\n      next = filters[i].call(this, next);\r\n    }\r\n\r\n    yield *next;\r\n  }\r\n}\r\n\r\n// you can create any group of filters,\r\n// not just limit to rethinkdb api\r\nvar filters = [\r\n\r\n  function *(next) {\r\n    console.log(this); // see this is 'article' passed below\r\n    console.log('pre-1');\r\n    yield next;\r\n    console.log('post-1');\r\n  },\r\n\r\n  function *(next) {\r\n    console.log('pre-2');\r\n    yield next;\r\n    console.log('post-2');\r\n  },\r\n\r\n  function *(next) {\r\n    console.log('pre-3');\r\n    yield next;\r\n    console.log('post-3');\r\n  }\r\n];\r\n\r\n// assume this is your 'article'\r\nvar article = {\r\n  title: 'filters with genertors'\r\n}\r\n\r\nvar it = co.wrap(compose(filters));\r\nit.call(article);\r\n```\r\n\r\nThe output is as follows:\r\n```sh\r\n$ node filters.js\r\n{ title: 'filters with genertors' }\r\npre-1\r\npre-2\r\npre-3\r\npost-3\r\npost-2\r\npost-1\r\n```\r\nhttps://github.com/tundrax/filter-generator"
+  , issueCommentId = 105396939
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-28) 22 : 16 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23452837"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1377#issuecomment-23452837"
+  , issueCommentCreatedAt = 2013 (-08) (-28) 22 : 16 : 45 UTC
+  , issueCommentBody =
+      "Alright, after a long discussion on this topic, @mlucy, @jdoliner, and I came to the following conclusions.\r\n\r\nThere may be a way here to construct a \"safe\" race here but we were unable to convince ourselves that it wouldn't cause any problems. Therefore we are left with solutions that guarantee globally unique variable ID's. There are three possible ways to do this.\r\n\r\n* Maintain a single global counter protected by a lock (this is what we are currently doing in the python driver)\r\n* Generate UUID's for each variable\r\n* Use a thread local counter plus thread id to construct a globally unique counter without locking\r\n\r\nThe first has the advantage of simplicity but suffers from performance problems. The second avoids locking with a small performance penalty on creation of the UUID's. More importantly, large, random variable ID's will be hard for users to read when printed and will inflate query sizes (~10 bytes per variable ID vs. ~1 now). We can fix this by traversing query AST's before printing or serializing and replacing the UUID's with counter values. The last option has similar problems, inflated ID sizes and greater complexity.\r\n\r\nOn balance, we agreed that option 2 probably offers the best tradeoff. This will require fixing the Python and Ruby drivers. In JS this question is irrelevant as there is no preemption."
+  , issueCommentId = 23452837
+  }

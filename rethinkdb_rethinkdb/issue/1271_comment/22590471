@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-13) 19 : 24 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22590471"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1271#issuecomment-22590471"
+  , issueCommentCreatedAt = 2013 (-08) (-13) 19 : 24 : 25 UTC
+  , issueCommentBody =
+      "Having `r.table('foo').between(null, null, index='bar').count()` be\r\nefficient is probably several orders of magnitude harder than implementing\r\nincremental map reduce. I say probably because we've spent a long time\r\ntrying to figure out a way to do it and don't even have a really viable\r\nidea. Furthermore everything semi viable looks like it would require\r\nmassive additions to the btree structure. LMR (live map reduce) is a bit of\r\nwork with all of the UI stuff but I think it's very doable for 1.9. I say\r\nwith decent certainty that it's the only viable way to support queries like\r\nthis efficiently before 2.0. I think the UI also winds up being a lot nicer\r\nbecause you'd write\r\n\r\n```Python\r\n>>> r.table('table').count(r.row['status'].contains('deployed')).run(conn,\r\ncache=True)\r\n{\"created\" : 1}\r\n>>> r.table('table').count(r.row['status'].contains('deployed')).run(conn)\r\n# runs in constant time\r\n5\r\n```\r\n\r\nRather than:\r\n\r\n```Python\r\n>>> r.table('table').index_create(\"contains_deployed\",\r\nr.row['status'].contains('deployed')).run(conn)\r\n{\"created\" : 1}\r\n>>> r.table('table').between(True, True,\r\nindex=\"contains_deployed\").count().run(conn)\r\n```\r\n Which seems a bit less intuitive to me.\r\n\r\n\r\nAlso having to create an index to do an efficient count is very memory and\r\ndisk inefficient. Indexes require an entire btree for the data which is\r\ngoing to be a constant factor of the number of rows in the table whereas an\r\nLMR only requires space proportional to the size of the output which in\r\nthis case is an integer.\r\n\r\n\r\nOn Tue, Aug 13, 2013 at 11:52 AM, coffeemug <notifications@github.com>wrote:\r\n\r\n> And by that I mean it could work, but would require some gymnastics during\r\n> index creation on the part of the user.\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/1271#issuecomment-22588336>\r\n> .\r\n>"
+  , issueCommentId = 22590471
+  }

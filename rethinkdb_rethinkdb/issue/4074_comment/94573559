@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-20) 21 : 30 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94573559"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4074#issuecomment-94573559"
+  , issueCommentCreatedAt = 2015 (-04) (-20) 21 : 27 : 44 UTC
+  , issueCommentBody =
+      "> @danielmewes Why deal with authentication over SSL ? Why not just do it with the authKey ? IMHO SSL should be there just for encryption.\r\n\r\nI agree with this.\r\n\r\n> @joaojeronimo Using the auth key will work in many cases, but we haven't written the connection logic with public access in mind. Hence there might be some vulnerabilities for DoS attacks or other issues there. With SSL client authentication, we could rely on the SSL proxy to take care of these issues for us until we have gotten around to thoroughly test and audit the relevant code paths.\r\n\r\nOn the subject of public-hardness, my general opinion is that the primary use case for client encryption is still privacy within a shared datacenter like EC2, where there may be large-scale malicious (read: NSA) *listeners*, but not *actors*. For both perf and privacy reasons, it's still not a good idea to span the Internet for backing store connections. (As far as non-client connections like clustering are concerned, you should probably have some kind of persistent encrypted VPN bridge for your inter-datacenter communications, or even a direct hard link in the big players' case.)\r\n\r\nFrom the angle of DoS resilience, I would expect that an in-datacenter DoS attack on something like EC2 would be detected and shut down fairly quickly by the hypervisor (or, at worst, a technician, shortly after receiving a page about degredated service reports). If you're spanning untrusted public networks, it's up to you to come up with some other DoS mitigation strategy (beyond just *not advertising the location of your datastore*), as part of your platform (again, some kind of persistent encrypted VPN bridge, or an SSH tunnel or something).\r\n\r\nBesides, even *with* an authentication step around the connection, would that *really* add protection against a sheer SYN-flood DDoS? The way you fight distributed denial of service with a distributed database is to *distribute back*: when 100 attackers have to attack 100 nodes, the end effect comes back down to a measly one-on-one DoS. (This is likely why you never see Amazon slow down under fire.)\r\n\r\n> I think SSL + auth key will be good though as long as there's an additional firewall.\r\n\r\nThis is pretty much what I'm trying to say: everything about the current design is either good enough that adding SSL authentication wouldn't help, or inherently vulnerable in a way that SSL authentication *couldn't* help. HTTPS worked by just adding SSL on top of basic authentication schemes, *and HTTPS is doing just fine*.\r\n\r\nThe only real potential vulnerability that I know of in server implementations of basic auth under HTTPS, in terms of mass attacks by bad actors (which, like in-datacenter DDoS, is something 90% of installations will not have to worry about), is [timing attacks](http://en.wikipedia.org/wiki/Timing_attack), and those can be fixed by doing a constant-time comparison of the authKey."
+  , issueCommentId = 94573559
+  }

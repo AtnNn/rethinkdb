@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-24) 23 : 14 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/64282904"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3365#issuecomment-64282904"
+  , issueCommentCreatedAt = 2014 (-11) (-24) 23 : 14 : 37 UTC
+  , issueCommentBody =
+      "I had a conversation along the lines of @timmaxw's last proposal with @danielmewes. I was not sure I wanted to make this conversation that complicated, so edited back out of my original post. But now that we are going for it...\r\n\r\nI like the idea of \"embedding\" the index data in with the table since I feel that indexes are conceptually a part of their tables. I was a little surprised that `.table_wait()` did not wait for indexes to be ready (makes sense if you think about indexes as part of the table, but not if you see them as separate). So changing this would agree with my intuitive understanding of it.\r\n\r\nAdding an `indexes` opt-arg to the `.wait()` command to specify what you are waiting for would be a solution, e.g.:\r\n\r\n```python\r\nr.db('test').table('a').wait().run() # wait for everything, including all indexes on the table\r\nr.db('test').table('a').wait(indexes=False).run() # wait for the table to be read/write available, but not the indexes\r\nr.db('test').table('a').wait(indexes=['b']).run() # wait for the table to be read/write available, and the index 'b' to be available\r\n```\r\n\r\nI don't think it makes sense to wait for indexes but not some form of read or write availability, and I am not sure about a multi-table form that makes sense in this case."
+  , issueCommentId = 64282904
+  }

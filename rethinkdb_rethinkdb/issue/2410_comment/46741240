@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-21) 01 : 37 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46741240"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2410#issuecomment-46741240"
+  , issueCommentCreatedAt = 2014 (-06) (-21) 01 : 37 : 57 UTC
+  , issueCommentBody =
+      "Thanks to @janih 's unit test https://github.com/janih/rethinkdb-junit, I can now reliably reproduce the following two ways of crashing.\r\nThe server either crashes with\r\n```\r\ntcmalloc: large alloc 5060345628524544 bytes == (nil) @ \r\nrethinkdb: Memory allocation failed. This usually means that we have run out of RAM. Aborting.\r\nAborted (core dumped)\r\n```\r\nor with\r\n```\r\nerror: Error in src/serializer/log/data_block_manager.cc at line 1233:\r\nerror: Guarantee failed: [gc_state.current_entry == __null] 0x37222c0: 523264 garbage bytes left on the extent, 1024 index-referenced bytes, 0 token-referenced bytes, at offset 524288.\r\n```\r\n\r\nThese are reproducible on v1.12.x, but no longer on v1.13.0, and @janih also mentioned that he hadn't seen crashes on 1.13 anymore.\r\n\r\nWe still have to find out what causes this. I'm currently bisecting between 1.12 and 1.13 to find the change that made this disappear."
+  , issueCommentId = 46741240
+  }

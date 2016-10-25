@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-23) 04 : 57 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46806390"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2586#issuecomment-46806390"
+  , issueCommentCreatedAt = 2014 (-06) (-23) 04 : 57 : 53 UTC
+  , issueCommentBody =
+      "About the first error message, this is related to https://github.com/rethinkdb/rethinkdb/issues/2463\r\n\r\nSince 1.13 (and especially the introduction of `r.args`), the JavaScript drivers lets the server handle arity errors, and they currently works for methods that would behave like `r.getAll(r.table(\"comments\"), key1, key2)`.\r\n\r\n\r\nOne way to avoid your error is to do something like\r\n\r\n````\r\nr.table('comments').filter(...)('user').distinct().do(function(users) {\r\n    return r.branch(\r\n        users.count().eq(0),\r\n        [], // users is an empty. array, so we just return an empty array\r\n        r.table('users').getAll(users)\r\n     )\r\n})\r\n```"
+  , issueCommentId = 46806390
+  }

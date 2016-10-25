@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-16) 22 : 15 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 167416
+        , simpleUserLogin = N "VeXocide"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/167416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/VeXocide"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/81964138"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3940#issuecomment-81964138"
+  , issueCommentCreatedAt = 2015 (-03) (-16) 22 : 14 : 36 UTC
+  , issueCommentBody =
+      "I can reproduce this as follows\r\n\r\n```\r\ndiff --git a/src/rdb_protocol/term.cc b/src/rdb_protocol/term.cc\r\nindex 873d44f..c7d1aa5 100644\r\n--- a/src/rdb_protocol/term.cc\r\n+++ b/src/rdb_protocol/term.cc\r\n@@ -231,14 +231,18 @@ void run(const query_id_t &query_id,\r\n     try {\r\n         switch (q->type()) {\r\n         case Query_QueryType_START: {\r\n+            debugf(\"Entering Query_QueryType_START %\" PRIi64 \"\\n\", token);\r\n             scoped_ptr_t<query_cache_t::ref_t> query_ref =\r\n                 query_cache->create(token, q, use_json, interruptor);\r\n             query_ref->fill_response(res);\r\n+            debugf(\"Exiting Query_QueryType_START %\" PRIi64 \"\\n\", token);\r\n         } break;\r\n         case Query_QueryType_CONTINUE: {\r\n+            debugf(\"Entering Query_QueryType_CONTINUE %\" PRIi64 \"\\n\", token);\r\n             scoped_ptr_t<query_cache_t::ref_t> query_ref =\r\n                 query_cache->get(token, use_json, interruptor);\r\n             query_ref->fill_response(res);\r\n+            debugf(\"Exiting Query_QueryType_CONTINUE %\" PRIi64 \"\\n\", token);\r\n         } break;\r\n         case Query_QueryType_STOP: {\r\n             scoped_ptr_t<query_cache_t::ref_t> query_ref =\r\n```\r\n\r\nthen running\r\n\r\n```\r\nIn [1]: import time\r\n\r\nIn [2]: import utils\r\n\r\nIn [3]: r = utils.import_python_driver()\r\n\r\nIn [4]: conn = r.connect(\"localhost\", 28344)\r\n\r\nIn [5]: x = iter(r.db(\"foo\").table(\"foo\").order_by(index=r.desc(\"id\")).limit(10).changes(squash=3.0).run(conn)); print time.time(), next(x), time.time()\r\n1426543784.81 {u'new_val': {u'id': 0}} 1426543787.81\r\n```\r\n\r\nhas the server print\r\n\r\n```\r\n2015-03-16T15:11:29.072935943 Thread 0: Entering Query_QueryType_START 1\r\n2015-03-16T15:11:29.114681176 Thread 0: Exiting Query_QueryType_START 1\r\n2015-03-16T15:11:29.115492471 Thread 0: Entering Query_QueryType_CONTINUE 1\r\n2015-03-16T15:11:32.115865020 Thread 0: Exiting Query_QueryType_CONTINUE 1\r\n2015-03-16T15:11:32.116555428 Thread 0: Entering Query_QueryType_CONTINUE 1\r\n```\r\n\r\nNote the two seconds between `Entering Query_QueryType_CONTINUE 1` and `Thread 0: Exiting Query_QueryType_CONTINUE 1`."
+  , issueCommentId = 81964138
+  }

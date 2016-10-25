@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-07) 19 : 44 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22278251"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1242#issuecomment-22278251"
+  , issueCommentCreatedAt = 2013 (-08) (-07) 19 : 44 : 11 UTC
+  , issueCommentBody =
+      "I'd actually be inclined to leave it as is, that is, you always get the raw object in this situation. There isn't actually much you'd be able to do with a native date object in a JS snippet that you couldn't already do in ReQL and you can always explicitly construct one if you are doing something in a JS snippet that requires this (presumably rare).\r\n\r\nConsider some examples:\r\n\r\n```javascript\r\nr.now().inTimezone(\"-07:00\"/*PDT*/).do(\"(function(d) { return d;})\").toISO8601().run()\r\n```\r\n\r\nCurrently this does what you expect, returning a microsecond precision formatted string *with* timezone information. If we marshalled to and from native dates we'd lose the precision (though this might soon be irrelevant) and the timezone information. Furthermore the only things you'd really be able to do with the date object itself is to convert it to milliseconds since epoch or ISO format it, things you can already do better in ReQL.\r\n\r\nIf you have to work with a native date, because you say, have imported some library you can construct it manually.\r\n\r\n```javascript\r\nr.now().inTimezone(\"-07:00\"/*PDT*/).do(\"(function(d) { myLibFunction(new Date(d.epoch_time*1000));}))\").run()\r\n```\r\n\r\nLastly, the marshalling code (in both directions) could be a pain. We could revisit this eventually, but for now, in the interest of expediency if nothing else, I'd actually prefer to let this be, though we should document it so people know what to expect if they pass a date to a JS snippet."
+  , issueCommentId = 22278251
+  }

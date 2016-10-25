@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-30) 04 : 15 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27364228"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1010#issuecomment-27364228"
+  , issueCommentCreatedAt = 2013 (-10) (-30) 04 : 15 : 57 UTC
+  , issueCommentBody =
+      "Unfortunately that would still be *really* hard. Here is an example.\r\n\r\nThe RethinkDB serializer writes three basic types of blocks -- the metablock (this is what points to the latest known good version of the data), the LBA block (this maps logical block ids to physical addresses on disk and allows log-structured writes and concurrent compaction), and the data blocks. (This would take forever to explain in more detail, but if you'd like to understand how this works, it was inspired by the Btrfs design and is largely similar).\r\n\r\nEarlier versions of RethinkDB would write each type of block into different purposed extents (basically block containers). In those versions, a single write would require three seeks on rotational drives. @danielmewes recently made a serializer changes that combines the LBA and data extents and allows writing both pieces into a single extent.\r\n\r\nMaking a change like that backwards compatible would be really, really hard, and would significantly slow down development and testing. Even if we allowed only reading one version back, writing and testing that code (and then removing it and retesting one version later!) would be extremely difficult. And that's just one format change! Doing it for all changes in the release would be prohibitively expensive (in terms of dev time). It would also push us to be more conservative with changes as we plan releases, and that's counter productive to the current goal (getting a kick-ass LTS release out as soon as possible)."
+  , issueCommentId = 27364228
+  }

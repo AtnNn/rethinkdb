@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-10) 22 : 07 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66533189"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2672#issuecomment-66533189"
+  , issueCommentCreatedAt = 2014 (-12) (-10) 22 : 07 : 15 UTC
+  , issueCommentBody =
+      "After a lot more consideration I have decided to make `./test-runner` run in parallel, and make that the basis for the eventual merge with `./run`. The reasoning is that `./run`'s method of handling parallelization necessarily involves swallowing `SIGINT`s at several levels, which has the nasty side-effect of orphaning processes leaning to issue #2833.\r\n\r\nSo I will be bringing the desired features from `./run`, and the first one is embodied in this issue. A first version of this is in review with CR 2389 (from branch `larkost/2672-parallelize-ReQL-tests`). The output is a little rough (a line for each start/end event rather than the nicer status line from `./run`), but is useable enough for a first version.\r\n\r\nThe speedup in this first version is dramatic, especially with a change of the temp folder for #3352.\r\n\r\n`next` with a small hack for #3352: 999.36 seconds (over 16 minutes)\r\n`larkost/2672-parallelize-ReQL-tests` with `-j 15`: 153.30 seconds (2.5 minutes)\r\n\r\nSo roughly an 8-fold increase on Newton. From looking at `htop` I guess that we are IO limited at this point, and any further speedup is going to require spreading things to multiple disks (assuming the backplane does not become the bottleneck immediately)"
+  , issueCommentId = 66533189
+  }

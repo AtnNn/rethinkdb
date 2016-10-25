@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 13 : 43 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 103003
+        , simpleUserLogin = N "martinrusev"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/103003?v=3"
+        , simpleUserUrl = "https://api.github.com/users/martinrusev"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105914883"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4282#issuecomment-105914883"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 13 : 42 : 30 UTC
+  , issueCommentBody =
+      "Hi @morphar \r\n\r\nOne lesson I learned from this -  put all the code from your experiments in the blog post, not in Github repository were most people are going to miss it anyway(https://github.com/martinrusev/rethinkvsmongo-benchmark/blob/master/benchmark.py)\r\n\r\nAll the queries I make are on indexed fields. The one difference between Mongo and Rethink here is that with Mongo I do: \r\n\r\n`mongo_collection.ensure_index([('last_update', pymongo.DESCENDING)], background=True)`\r\n\r\nand in RethinkDB I only have the create_index function and then not sure when it updates the index?\r\n\r\nIf you have a \"real\" application - you will benchmark and optimize your db specifically for your use case - some people have a lot of reads, some updates and someone like me - mostly inserts. \r\n\r\nBulk queries are another very specific topic - you can bulk insert a data from a crawler for example, but  it is rare to have those in an user facing applications for example.\r\n\r\nA valid argument about the data actually been written on the disk by the time the benchmark finishes. Mongo has journaling which ensures that it will eventually be written, but it is asynchronous, so it could be later. (This has been the default behavior since 2012 http://emptysqua.re/blog/pymongos-new-default-safe-writes/)\r\n\r\nIn Rethink we have durability=soft|hard options for the same functionality, so to compare those results - Mongo is comparable to RethinkDB with durability=soft. I will updated my code to include the real numbers - when all the 100 00 documents are actually written to the disk. \r\n"
+  , issueCommentId = 105914883
+  }

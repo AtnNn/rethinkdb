@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-20) 19 : 42 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19778219"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1042#issuecomment-19778219"
+  , issueCommentCreatedAt = 2013 (-06) (-20) 19 : 42 : 18 UTC
+  , issueCommentBody =
+      "A binary representation that we could just dump to the disk and operate on directly when in memory would certainly be perfect performance-wise (arguably less perfect from a software engineering standpoint)\r\nI'm thinking of a datum_t having something like a single array, which we can reinterpret as a low-level struct. Nested datum_ts would be concatenated together in the same array and addressed through offsets.\r\n\r\nApart from saving cycles when constructing the datum_ts, we would also have considerably better memory locality.\r\n\r\nI don't think we should be too concerned about asymptotic running time complexity of the data structures in the datum_t. In my experience, for small-ish data (say objects with ~100 keys), \"smart\" data structures like trees (std::map) or hash maps don't pay off, because \r\na) you loose a lot of CPU cache efficiency due to many random memory reads\r\nb) you potentially interfere with speculative execution on the CPU\r\nc) you get overhead for memory allocation and deallocation due to the many small objects in your data structure compared to a single array\r\n\r\nOf course our decision should depend on the use case and which operations are run how often on the data structures in question. "
+  , issueCommentId = 19778219
+  }

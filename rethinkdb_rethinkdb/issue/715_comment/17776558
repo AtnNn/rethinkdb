@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-12) 11 : 35 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17776558"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/715#issuecomment-17776558"
+  , issueCommentCreatedAt = 2013 (-05) (-12) 11 : 34 : 44 UTC
+  , issueCommentBody =
+      "It should make almost no difference in fully asynchronous settings.\r\n\r\nFor drivers or applications that are at least partially synchronous (e.g. you can launch only one query at a time), the difference should be very significant. I have made some measurements with the PHP driver, which is fully synchronous (run() returns only after the response has been received). The difference for a simple insert benchmark is quite significant [1]. Of course you could use multiple concurrent clients, but that makes benchmarking more complicated and many people will run stupid benchmarks.\r\n\r\nAlso there are many cases outside of benchmarking where noreply writes absolutely make sense (Slava mentioned a few).\r\n\r\nBy the way, there are still differences in how noreply can be implemented, which determines how meaningful noreply write benchmarks can be. Either, the server waits for a query on a specific connection to finish before it reads the next query from the socket. That way the TCP buffer will get full, and the connection will be throttled. If this is the case, you *can* perform meaningful noreply benchmarking. If on the other hand the server keeps on reading request constantly and just places them on some kind of internal processing queue, benchmarks become pure benchmarks of the driver's and network speed. I'm not sure which one is now implemented, but I feel like it's the former?\r\n\r\n[1] Without write batching, i.e. one insert per request, with a single connection on localhost: 397 qps vs. 130 qps\r\nAnd even when batching 100 documents in each write request, it is still 1255 vs. 640 qps"
+  , issueCommentId = 17776558
+  }

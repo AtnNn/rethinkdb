@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-07) 15 : 11 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 660139
+        , simpleUserLogin = N "victorquinn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/660139?v=3"
+        , simpleUserUrl = "https://api.github.com/users/victorquinn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58199800"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-58199800"
+  , issueCommentCreatedAt = 2014 (-10) (-07) 15 : 08 : 50 UTC
+  , issueCommentBody =
+      "Thanks @danielmewes , here is some more info on what has happened over the past month.\r\n\r\n1. This does not appear fixed with the 1.15 release.\r\n1. We did have a short period of things being mostly alright. What happened was we had one of the three servers in our cluster drop out of the cluster and unable to rejoin. It kept trying to rejoin and kept failing, bringing down the whole cluster. As long as that server kept trying to rejoin, things were all kinds of wonky. So we pulled the server that was misbehaving out of the cluster and shut it down thus leaving our cluster at 2 servers and things were alright for a bit. We stuck with just 2 in the cluster for a week or so and things were relatively stable.\r\n1. We then added a third server back into the mix to spread the load and things got out of control again with our memory graph back to a sawtooth as above, needing regular restarts to keep them from getting out of control.\r\n1. We removed that third server from the cluster figuring it was better to have only 2 and no memory leak than 3 with the memory leak but the memory leak persisted even when we were back to 2.\r\n1. We upgraded to 1.15 thinking it may help but it didn't appear to. \r\n\r\nSo now we have 2 servers running RethinkDB 1.15.0 in the cluster.\r\n\r\nHonestly we had to rollback some of our production code pointing to RethinkDB because it has been over a month and our servers were continuing to blow up. \r\n\r\nThis code was in [the sample app I wrote for you](https://github.com/socialradar/simulated-rethinkdb) referring to the `PlaceIndex` table. The [`getPlacesIndex()`](https://github.com/socialradar/simulated-rethinkdb/blob/master/index.js#L22) code is crucial to our app and was being executed somewhere on the order of 10-50 times/second from the half dozen or so servers in our production API and background task processing servers. I (begrudgingly!) rewrote our code to read/write from/to MySQL instead of RethinkDB.\r\n\r\nMoving that, our highest volume transaction, out of Rethink seemed to slow the bleeding so to speak, but we still have a fair amount of production code on Rethink for now. We are keeping it there for now and monitoring things and would love to move the code we moved out back to Rethink, but are hesitant until this is resolved.\r\n\r\nHere is a graph of the memory usage by the 2 Rethink servers in our cluster for the past week. Again, this is with our highest volume transactions removed back to MySQL for now hence the slower growth rate. One of them died for a bit over the weekend, hence the gap:\r\n\r\n![0qsfj4womro5cvg0s807pxr4rphzyucqquzvk3xjgjy](https://cloud.githubusercontent.com/assets/660139/4544286/daef2a5a-4e31-11e4-831a-44b40d745720.png)\r\n\r\n\r\n![k_y8mdqgyruvglnlaybmub9zvmaf3a8ctnylzt4dn6c](https://cloud.githubusercontent.com/assets/660139/4544231/80dddc50-4e31-11e4-9fc8-4ec12eb95ebc.png)\r\n\r\nLet me know if there is anything further I can do to help to track this down!"
+  , issueCommentId = 58199800
+  }

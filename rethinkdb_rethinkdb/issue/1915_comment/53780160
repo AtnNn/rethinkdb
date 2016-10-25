@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-28) 19 : 11 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53780160"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1915#issuecomment-53780160"
+  , issueCommentCreatedAt = 2014 (-08) (-28) 19 : 10 : 15 UTC
+  , issueCommentBody =
+      "It's still CRing. The code review depended on two previous code reviews (preparing changes to datum_t), both of which are in next. However the final review is still open.\r\n\r\nThere is at least one outstanding question, which is how to handle excessively big documents.\r\n\r\nThe current implementation uses 32 bit offsets to address fields in a datum object. Right now it crashes when one tries to serialize a datum with a field that has a serialized size > 4 GiB.\r\n\r\nThere are different alternatives:\r\n* Keep the current behavior of terminating the process when this happens.\r\n* Change serialization such that it can fail gracefully. Currently most code that serializes things (e.g. in the mailbox code) assumes that serialization can never fail. Changing this assumption could have subtle side effects, and errors might be tricky to recover from in some of the cases.\r\n* Use 64 bit offsets. This would waste another 4 byte per array element and object field.\r\n* Implement two serialization formats, one with 32 and one with 64 bit offsets. When serialization detects that 64 bit offsets are needed, it can transparently switch to the 64 bit format.\r\n* Keep track of the serialized size on datum_t creation. Each datum_t would store its serialized size in memory. Creating a datum_t that exceeds the size limit would trigger a ReQL failure. This doesn't work if a big datum has already been written to disk (in the old format that was legal). The other disadvantage is a waste of 8 bytes of RAM for each datum_t object."
+  , issueCommentId = 53780160
+  }

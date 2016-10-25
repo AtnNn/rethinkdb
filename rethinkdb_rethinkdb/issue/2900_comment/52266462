@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-15) 01 : 46 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52266462"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2900#issuecomment-52266462"
+  , issueCommentCreatedAt = 2014 (-08) (-15) 01 : 46 : 02 UTC
+  , issueCommentBody =
+      "It's not hard to make the backtrace data structure serializable, without modifying the serialization system. For example:\r\n```c++\r\ntypedef int backtrace_t;\r\nstruct backtrace_node_t {\r\n    std::string word;\r\n    backtrace_t parent;   /* can be -1 for root */\r\n};\r\nstruct backtrace_context_t {\r\n    std::vector<backtrace_node_t> nodes;\r\n    std::vector<std::string> reconstruct(backtrace_t i) const {\r\n        std::vector<std::string> words;\r\n        while (i != -1) {\r\n            words.push_back(nodes[i].word);\r\n            i = nodes[i].parent;\r\n        }\r\n        return words;\r\n    }\r\n};\r\n```\r\nWe wouldn't want to ship this around for most queries, because it's approximately as large as the rest of the query combined, but I think that we could do it if we had a good reason."
+  , issueCommentId = 52266462
+  }

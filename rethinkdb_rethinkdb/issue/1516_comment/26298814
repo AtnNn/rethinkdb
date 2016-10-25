@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-15) 00 : 01 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26298814"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-26298814"
+  , issueCommentCreatedAt = 2013 (-10) (-15) 00 : 00 : 11 UTC
+  , issueCommentBody =
+      "And here are the top sources of active coroutines (I reduced the max coroutine limit to 1000 for this to make it easier to reproduce):\r\n```\r\nNUM     Function\r\n299     static coro_t *coro_t::get_and_init_coro(const Callable &) [Callable = pmap_runner_one_arg_t<one_per_thread_t<scoped_array_t<fifo_enforcer_source_t> >::destruct_t, int>]\r\n276     static coro_t *coro_t::get_and_init_coro(const Callable &) [Callable = pmap_runner_one_arg_t<one_per_thread_t<fifo_enforcer_source_t>::construct_0_t, int>]\r\n124     static coro_t *coro_t::get_and_init_coro(const Callable &) [Callable = boost::_bi::bind_t<void, boost::_mfi::mf4<void, directory_write_manager_t<cluster_directory_metadata_t>, peer_id_t, const cluster_directory_metadata_t &, fifo_enforcer_write_token_t, auto_drainer_t::lock_t>, boost::_bi::list5<boost::_bi::value<directory_write_manager_t<cluster_directory_metadata_t> *>, boost::_bi::value<peer_id_t>, boost::_bi::value<cluster_directory_metadata_t>, boost::_bi::value<fifo_enforcer_write_token_t>, boost::_bi::value<auto_drainer_t::lock_t> > >]\r\n112     static coro_t *coro_t::get_and_init_coro(const Callable &) [Callable = boost::_bi::bind_t<void, boost::_mfi::mf5<void, directory_read_manager_t<cluster_directory_metadata_t>, peer_id_t, uuid_u, cluster_directory_metadata_t, fifo_enforcer_write_token_t, auto_drainer_t::lock_t>, boost::_bi::list6<boost::_bi::value<directory_read_manager_t<cluster_directory_metadata_t> *>, boost::_bi::value<peer_id_t>, boost::_bi::value<uuid_u>, boost::_bi::value<cluster_directory_metadata_t>, boost::_bi::value<fifo_enforcer_write_token_t>, boost::_bi::value<auto_drainer_t::lock_t> > >]\r\n```\r\n\r\nIt seems that looking into the long running coroutines first is more promising with respect to solving the bad responsiveness of the web interface.\r\n\r\nThe high number of coroutines might or might not contribute to the timeouts, but we probably should still look into it (a high number of coroutines consumes memory for the stacks, increases the number of CPU cache misses)."
+  , issueCommentId = 26298814
+  }

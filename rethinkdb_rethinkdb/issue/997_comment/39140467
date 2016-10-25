@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-31) 21 : 00 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39140467"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39140467"
+  , issueCommentCreatedAt = 2014 (-03) (-31) 20 : 54 : 14 UTC
+  , issueCommentBody =
+      "I have an alternative proposal.\r\n\r\nFirstly, I think we should drop triggers from this proposal altogether. Here are some reasons why I think triggers are a bad idea:\r\n\r\n* There is no evidence that users want them. Most user requests have been about change feeds, which will solve 90% of people's problems with far less work on our side.\r\n* Triggers are tricky. For example, what if I register a trigger on an insert for a table, and then insert into this table in the trigger? Either we get into an infinite loop, or we have to detect it somehow. That's work. But suppose we detect it. What if trigger on insert in table A inserts into table B, and trigger on inserts in table B inserts into table A? Detecting that is way harder and is a lot of work. We can forbid write queries in triggers and only allow a call to `r.curl`, but that significantly limits their utility, and the same thing could easily be done with change feeds relatively easy.\r\n* Worse is better and all. I think we should do change feeds, see what happens, and do triggers later if it makes sense.\r\n\r\nAlso, I'd like to propose a simpler feed API:\r\n\r\n```python\r\ncursor = r.table('users').onChange()\r\nevent = cursor.next()\r\ncursor.close()\r\n```\r\n\r\nIn this proposal:\r\n\r\n* Feeds aren't persistent. If a connection closes, the feed is destroyed.\r\n* Just like in usual cursors, `next` blocks until there is an event. In JavaScript it's of course a callback.\r\n* If the user doesn't read from the cursor and it fills up on the server past the array size limit, the server closes the cursor.\r\n* I think we should follow @atnnn's semantics for the document returned by `next`\r\n  * It should contain `old_val` and `new_val`\r\n  * When `old_val` is present and `new_val` is `null`, the document has been deleted\r\n  * When `old_val` is null and `new_val` is present, the document has been inserted\r\n  * When both `old_val` and `new_val` are present, the document has been changed\r\n  * Both `old_val` and `new_val` should never be `null`.\r\n\r\n"
+  , issueCommentId = 39140467
+  }

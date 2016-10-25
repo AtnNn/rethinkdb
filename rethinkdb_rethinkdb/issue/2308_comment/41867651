@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-01) 00 : 25 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41867651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2308#issuecomment-41867651"
+  , issueCommentCreatedAt = 2014 (-05) (-01) 00 : 25 : 47 UTC
+  , issueCommentBody =
+      "I didn't mention that as far as the disk structure goes, there's not this central serialization caller, so the versioned_intracluster_serialize or type traits option wouldn't help us manage the changes.\r\n\r\nAlso sometimes we don't want to blithely print a version number in front of every single object in the serializer -- we don't want it on every key and every datum stored, because that wastes our storage space -- in that case we *could* put it on the spare bits of the pair offset.  Or have the only changed value be the 4-byte \"magic\" value at the front of the block, and if we find changing the serialization format of a leaf would make things overflow, split the leaf node.  (Or have a wasteful intermediate representation and then collapse things back down once everything in the leaf is upgraded to the new block magic value.)\r\n\r\nThere are also things like LBA entries that need to be future-compatible (if/when we add subtree counts)."
+  , issueCommentId = 41867651
+  }

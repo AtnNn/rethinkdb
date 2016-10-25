@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-12) 19 : 48 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/120756421"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4441#issuecomment-120756421"
+  , issueCommentCreatedAt = 2015 (-07) (-12) 19 : 48 : 02 UTC
+  , issueCommentBody =
+      "@v3ss0n Yes, the fix for the problem where throttling reduced the overall write throughput is going to ship with 2.1.\r\n\r\nWe don't currently have a dedicated issue for spiky write throughput, but I don't think it's a big problem in practice.\r\nBenchmarks are special because they intentionally try to reach the limits of the system. In practice if you have an application that continuously generates write queries at a higher rate than what the storage system (HDDs or SSDs) can absorb, spiky throughput is going to be the least of your problems I think.\r\nOne exception I can see is the case where you have batch write jobs running in the background, and you don't want them to make foreground queries go into high latencies. In that case there is the easy work-around of making the background / batch writes run with hard durability though, which should make sure that they get slowed down before they can push the amount of unsaved data into critical regions.\r\nPlease let me know if you think there are other important cases that I forgot.\r\n\r\nBtw: The improvements in 2.1 already make writes on SSDs very smooth on my system with the benchmark I tried. It's only on rotational disks where writes were still stalling for a moment if too much unsaved data accumulates."
+  , issueCommentId = 120756421
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-30) 20 : 55 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44698533"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2483#issuecomment-44698533"
+  , issueCommentCreatedAt = 2014 (-05) (-30) 20 : 55 : 02 UTC
+  , issueCommentBody =
+      "Alright, I can reproduce this.  The problem is the code for `rdb_batched_replace`.  It loops over the batch and spawns a coroutine for each replace operation in the batch.\r\n\r\n@neumino -- I'm guessing the documents in your table were small?  For a query like `r.table('test').insert(r.table('test').without('id'))`, the batches will include a huge number of rows (if those rows are small) because there's no latency timeout.\r\n\r\nI can't reproduce this without a changefeed subscribed.  I think it's because the replace operation takes a little bit longer (and blocks on `send`, which I think can take a tiny bit if a bajillion other coroutines are sending at the same time).\r\n\r\nI think the solution is to use a `coro_pool` like @danielmewes suggested.  @danielmewes -- what do you think a reasonable number of coroutines would be for this?"
+  , issueCommentId = 44698533
+  }

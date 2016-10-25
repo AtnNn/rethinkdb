@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-30) 20 : 31 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68394000"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3478#issuecomment-68394000"
+  , issueCommentCreatedAt = 2014 (-12) (-30) 20 : 20 : 19 UTC
+  , issueCommentBody =
+      "@Tryneus \r\n> If anything is wrong here, it would be the name of the field itself.\r\n\r\nDo you have a suggestion?\r\n\r\nThe question here seems to be what `all_replicas_ready` or a similar field with a different name should actually mean exactly, and yours and @VeXocide's interpretations differ.\r\n\r\nFor @Tryneus interpretation, it might better be called something like `replica_states_steady`, or `reached_goal_states`, but that would probably not mean much for a user.\r\n\r\nWe could also consider removing replicas that are `erasing_data` from the `table_status` replicas list altogether. This specific state can be considered more of a background cleanup operation, and it's not relevant for the table's availability or redundancy. In the long term, we could add such operations to the `jobs` table instead.\r\nSide question that might be relevant: If a server starts erasing data for a range [a, b) and then we change the configuration to make it a secondary for an overlapping range [a', b'), which `state` will the secondary show up as while it's waiting for the erase to finish?\r\n(*Edit:* Does it wait at all? If not, is that a bug? I don't think backfilling is generally able to recover from a partially erased range, is it?)"
+  , issueCommentId = 68394000
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-15) 21 : 57 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/112222084"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4400#issuecomment-112222084"
+  , issueCommentCreatedAt = 2015 (-06) (-15) 21 : 57 : 40 UTC
+  , issueCommentBody =
+      "Hi @danielcompton , the only reason for why you have to send CONTINUE requests to the server repeatedly is that in versions of RethinkDB before 2.0, there could only be one request running at a time per connection. To make changefeeds better usable in an interactive environment, we decided to time CONTINUE requests to a changefeed out after just 500ms so that another query could get a chance to run.\r\n\r\nWe've changed this in RethinkDB 2.0. To enable the new behavior, you have to use the `V0_4` version magic. This will have two effects:\r\n1. The server will execute multiple requests in parallel on the same connection. For the driver that means that query responses can arrive in any order. For example if you send a query with token 1 and then send a query with token 2 without waiting for receiving the response for the first query, you might get a response for token 2 before you get the response for token 1.\r\n2. Changefeed requests don't time out anymore.\r\n\r\nSo once you change your driver to the V0_4 protocol, the server will just send you a response with the right token whenever a change happens.\r\nIs that what you have in mind?"
+  , issueCommentId = 112222084
+  }

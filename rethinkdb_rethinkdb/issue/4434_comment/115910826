@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-26) 22 : 48 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/115910826"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4434#issuecomment-115910826"
+  , issueCommentCreatedAt = 2015 (-06) (-26) 22 : 48 : 09 UTC
+  , issueCommentBody =
+      "I don't remember exactly, but looking at the conditions in admin/static/coffee/issues.coffee `render_table_availability` I think I have an explanation:\r\n```\r\n[...]\r\n        h \"p\", [\r\n            \"The following servers are disconnected:\"\r\n            h \"ul\", info.missing_servers.map((servername) ->\r\n                h \"li\",\r\n                    h \"code\", servername\r\n            )\r\n        ] if info.missing_servers.length > 0\r\n        h \"p\", [\r\n            \"None of the replicas for this table are reachable \"\r\n            \"(the servers for these replicas may be down or disconnected). \"\r\n            h \"br\"\r\n            \"No operations can be performed on this table until at least \"\r\n            \"one replica is reachable.\"\r\n        ] if info.missing_servers.length == 0\r\n```\r\n\r\nNote that it shows the observed message if no servers are reported missing.\r\nHowever a table can be not fully ready for reasons other than a missing server, so I believe this check is wrong.\r\n\r\nI was probably reconfiguring a larger table, so it took a while for it to bring all replicas up to date."
+  , issueCommentId = 115910826
+  }

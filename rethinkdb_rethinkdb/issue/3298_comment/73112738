@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 19 : 45 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73112738"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-73112738"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 19 : 44 : 24 UTC
+  , issueCommentBody =
+      "> I think not to implementing asyncio for 2.0/v1, and just adding r.join (with a better name) to allow reading from multiple feeds/cursors is a great solution.\r\n\r\n:+1: We can (and should) ship extended drivers that use certain async frameworks lazily after 2.0.\r\n\r\n\r\nOne thing to keep in mind for the \"joining joins\" or \"adding/removing from a join object\" interface is that we need to assign useful indexes to newly added member-feeds. I think this might become a bit annoying to use with the `x = r.join(...); y = r.join(...); z = r.join(x, y)` interface, but we could make\r\n```\r\nz.add(...)\r\n```\r\nreturn the index of the newly added feed, and also maintain the invariant that removing a feed from a joined feed through\r\n```\r\nz.remove(...)\r\n```\r\nkeeps the indexes of all other member feeds intact.\r\n\r\nIt's also worth pointing out that the `r.join` interface can be mapped almost 1:1 onto server-side union changefeeds, e.g.\r\n```\r\nr.union(\r\n    feedA.map(r.row.merge({feedIndex: 0})),\r\n    feedB.map(r.row.merge({feedIndex: 1}))\r\n  ).changes()\r\n```\r\n\r\nHowever server-side `union.changes` won't allow to add/remove feeds to the union dynamically, so I think it's still worth adding the client-side `r.join` (or whichever name we pick) interface. Another advantage is that it provides us with a test-bed for porting our driver to async frameworks, even if we don't do it in 2.0."
+  , issueCommentId = 73112738
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-12) 20 : 53 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/101416485"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4217#issuecomment-101416485"
+  , issueCommentCreatedAt = 2015 (-05) (-12) 20 : 53 : 18 UTC
+  , issueCommentBody =
+      "Hi @pgrm, RethinkDB times already have millisecond precision. So the easiest way of doing this is to add a `insertion_time` field to each document and setting it to `r.now()` on insert.\r\n\r\nThen you can create an index on the field and sort by insertion time like this:\r\n```js\r\nr.table(...).orderBy({index: \"insertion_time\"})\r\n```\r\n\r\nAlternatively you can save the additional index and use a combination of time and UUID for your primary index. For example:\r\n```js\r\nr.table(...).insert({...., id: [r.now(), r.uuid()]}, {returnChanges: true})\r\n```\r\n\r\nYour primary IDs will thus be an array consisting of both the timestamp in its first component and a random UUID as its second component, just in case two inserts happen at exactly the same time.\r\nThe `{returnChanges: true}` makes sure that you can get the generated key back after the insert (see http://rethinkdb.com/api/javascript/insert/ for more information).\r\n\r\nTo get the documents in insertion time order then:\r\n```js\r\nr.table(...).orderBy({index: \"id\"})\r\n```\r\n\r\nNote that `r.now()` will be evaluated on whichever RethinkDB server you are connected to, so if you're using a RethinkDB cluster you should probably make sure that the server clocks are well synchronized.\r\n\r\nDoes this solve your use case?"
+  , issueCommentId = 101416485
+  }

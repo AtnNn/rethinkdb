@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 21 : 24 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 84101
+        , simpleUserLogin = N "ajdavis"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/84101?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ajdavis"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75849210"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-75849210"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 21 : 24 : 18 UTC
+  , issueCommentBody =
+      "Right, this yields once:\r\n```\r\nfor document in (yield cursor.to_list(length=100)):\r\n        print document\r\n```\r\nBy the time the yield statement is complete, Motor has loaded 100 documents in memory. Then you just have a list and iterate it, without yielding again. So to stream an unlimited number of documents with bounded memory, you need another loop outside *that*, doing something like \"while cursor.alive\" (I haven't tested that recently).\r\n\r\nSo why does yield seem to act differently in a while loop than in a for loop? Why can one yield statement be executed N times in a while loop, but only once in a for loop?\r\n```\r\n>>> def whileloop():\r\n...     while (yield future):\r\n...         pass\r\n...\r\n>>> def forloop():\r\n...     for i in (yield future):\r\n...         pass\r\n...\r\n>>> import dis\r\n>>> dis.dis(whileloop)\r\n  2           0 SETUP_LOOP              11 (to 14)\r\n        >>    3 LOAD_GLOBAL              0 (future)\r\n              6 YIELD_VALUE\r\n              7 POP_JUMP_IF_FALSE       13\r\n\r\n  3          10 JUMP_ABSOLUTE            3\r\n        >>   13 POP_BLOCK\r\n        >>   14 LOAD_CONST               0 (None)\r\n             17 RETURN_VALUE\r\n>>> dis.dis(forloop)\r\n  2           0 SETUP_LOOP              15 (to 18)\r\n              3 LOAD_GLOBAL              0 (future)\r\n              6 YIELD_VALUE\r\n              7 GET_ITER\r\n        >>    8 FOR_ITER                 6 (to 17)\r\n             11 STORE_FAST               0 (i)\r\n\r\n  3          14 JUMP_ABSOLUTE            8\r\n        >>   17 POP_BLOCK\r\n        >>   18 LOAD_CONST               0 (None)\r\n             21 RETURN_VALUE\r\n```\r\nAt the end of the while loop we jump up to instruction pointer 3, which is before the YIELD_VALUE instruction. But at the end of the for loop we jump to instruction 8, which is after YIELD_VALUE.\r\n\r\nThis makes sense. After all, you expect you can stop a while loop by updating a global:\r\n```\r\nstop = False\r\n\r\ndef whileloop():\r\n    while not stop:\r\n        pass\r\n\r\ndef target():\r\n    global stop\r\n    time.sleep(1)\r\n    stop = True\r\n\r\nthreading.Thread(target=target).start()\r\nwhileloop()\r\n````\r\nSo the while loop reloads the value of its control variable on each iteration. But a for loop certainly can't reload its iterable and call iter() on it on each iteration, or it would never get past the first element."
+  , issueCommentId = 75849210
+  }

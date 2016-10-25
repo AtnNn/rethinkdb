@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-03) 08 : 38 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44938351"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2498#issuecomment-44938351"
+  , issueCommentCreatedAt = 2014 (-06) (-03) 08 : 38 : 00 UTC
+  , issueCommentBody =
+      "I will look into the speed issue some time.\r\n\r\nI think the space requirements for an empty table are more likely to grow than to shrink though in the short term. On rotational drives, garbage collection works a lot more efficient with larger extent sizes. Increasing their size is the easiest way to limit the impact of GC on overall performance. In fact my plan was to increase it from the current 512 KB to 2 MB. Anything less didn't provide satisfactory performance in the tests I've done so far, at least not with the way GC is currently operating (i.e. on a per-extent basis).\r\nIt might be possible to use smaller extent sizes for the LBA and metablock extents. Will have to check that.\r\n\r\nIs it really important whether an empty table uses 1 or 20 MB? I feel like this doesn't matter much. Most people will use RethinkDB to store data, not to have empty tables. Though I'm sure there are a few exceptions to this (e.g. having many small tables to implement multi-tenancy).\r\n\r\nIf we really want to reduce space overhead, an option could be to store multiple tables into the same file. This has both advantages and disadvantages performance-wise. It would probably have to be configurable."
+  , issueCommentId = 44938351
+  }

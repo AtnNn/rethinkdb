@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-10) 16 : 41 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91613207"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4046#issuecomment-91613207"
+  , issueCommentCreatedAt = 2015 (-04) (-10) 16 : 41 : 43 UTC
+  , issueCommentBody =
+      "I'm not sure if that's possible. Maybe we could hack something in such that the first time you yield a query object back to the Tornado loop, it somehow triggers `run()`. Were you thinking of something like that?\r\nSo\r\n```py\r\nx = r.table(\"t\").get(0)\r\n```\r\nwould not run (`x` would be a query object), but\r\n```py\r\nx = yield r.table(\"t\").get(0)\r\n```\r\nwould run and `x` would be the query result.\r\n\r\nEven if this is possible, I personally don't think that's a good idea. ReQL has the nice property that you can store queries in variables (or return them from functions) and compose them further into your final query. For example:\r\n```py\r\nx1 = r.table(\"t\").get(1)\r\nx2 = r.table(\"t\").get(2)\r\nres = yield x1.union(x2).run()\r\n```\r\nIn cases like this you want to make it very clear at what point the query is actually executed. You don't want to execute `x1` or `x2` individually. Piggy-backing on yielding to the event loop for triggering query execution sounds fragile and might trigger unwanted execution."
+  , issueCommentId = 91613207
+  }

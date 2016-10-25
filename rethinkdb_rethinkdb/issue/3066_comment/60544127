@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-27) 02 : 29 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60544127"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-60544127"
+  , issueCommentCreatedAt = 2014 (-10) (-27) 02 : 29 : 18 UTC
+  , issueCommentBody =
+      "> What does it mean to set up majority acknowledgements for the primary replica tag?\r\n\r\nSuppose the user says `t.reconfigure(shards=2, replicas=5, primary_tag='datacenter_a')`. By default, our acknowledgement scheme is `'majority'`, which means we'll be waiting on `N/2+1` replicas. However, in this case we should be waiting on the majority of replicas *only* from the datacenter A, not from any datacenter.\r\n\r\nIf when calling `reconfigure` the user specifies explicit tags for replica datacenters as well, I think we should wait on a single acknowledgement from each of the non-primary tags. For example:\r\n\r\n```js\r\nt.reconfigure(shards=2, replicas={'dc_a': 3, 'dc_b': 3}, primary_tag='dc_a')\r\n```\r\n\r\nIn this case we'll wait on majority of `dc_a` replicas and a single replica from `dc_b`.\r\n\r\nThis is the most sensible default setup -- we wait on the majority of replicas to ack the write from the primary tag/datacenter, and wait for a single ack from any other tag/datacenter where replicas reside. If the user wants something else, they can set it explicitly in the config.\r\n\r\nIf the user says `t.reconfigure(shards=2, replicas=5)`, I think we should just set the acknowledgement to `majority` to keep the config document short."
+  , issueCommentId = 60544127
+  }

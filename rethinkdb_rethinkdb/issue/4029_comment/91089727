@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-09) 02 : 02 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91089727"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4029#issuecomment-91089727"
+  , issueCommentCreatedAt = 2015 (-04) (-09) 02 : 01 : 00 UTC
+  , issueCommentBody =
+      "Both fixes are in CR 2790 by @Tryneus .  It ended up being a little bit complicated because `Monitor::wait_while` doesn't take a timeout, `Monitor::wait` does take a timeout but doesn't appear to indicate whether it was woken up by the timeout or by a signal, and wrapping `Monitor::wait` in `Timeout::timeout` confuses the synchronization logic in Ruby 1.9.1, so we have to call `.wait(timeout)` and then check ourselves whether it's been long enough to trip the timeout and/or whether or not we actually got data.\r\n\r\n(Also, I decided to just replace the mutex with a monitor rather than using the monitor mixin because we apparently reset the mutex (and now the monitor) when you call reconnect.  I'm not sure why we did that, but I could see how it would make certain sorts of bugs less likely so I didn't want to change it.)"
+  , issueCommentId = 91089727
+  }

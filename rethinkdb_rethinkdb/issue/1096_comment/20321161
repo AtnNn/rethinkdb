@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 01 : 19 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20321161"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-20321161"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 01 : 19 : 32 UTC
+  , issueCommentBody =
+      "I like @neumino's:\r\n```ruby\r\ntable.group(...).reduce(\r\n  :sum_age => r.sum('age'),\r\n  :fun_res => lambda {|a,b| a.merge(b)}\r\n)\r\n```\r\n\r\nmore than the other proposals for naming reductions, but it has the rather large problem that we can't currently store functions in objects.  Also, if we somehow special-cased that here I think we'd want to think carefully about what to do if people try to pass a function in an object to other things like `map` where it has a reasonable interpretation.\r\n\r\nAlso, I sort of dislike this way of dealing with aggregators.  Writing `table.group(...).reduce(r.sum('age'))` seems way clunkier than writing `table.group(...).sum('age')`.\r\n\r\n---\r\n\r\nA final complaint, which I think throws a wrench into this, is that if you want to do a traditional reduction, you need to map before it.  For example, if you want to add up everyone's age using normal reduce syntax, you *have* to map first:\r\n```ruby\r\ntable.group(...).map{|x| x[:age]}.reduce{|a,b| a+b}\r\n```\r\nwhereas it isn't at all clear how `r.sum` works after a map.  For example, try to write a multi-reduction that uses both `r.sum` and a function that adds things up.\r\n\r\n---\r\n\r\nHere's a proposal that gets around these restraints, but isn't quite as clean:\r\n```ruby\r\ntable.group(...).sum('age') # sum with an aggregator\r\ntable.group(...).map{|x| x[:age]}.reduce{|a,b| a+b} # sum with a traditional reduce\r\ntable.group(...).accum {|g| # a multi-reduction\r\n  :sum_age => g.sum('age'),\r\n  :sum_age_with_func => g.map{|x| x[:age]}.reduce{|a,b| a+b}\r\n}\r\n```"
+  , issueCommentId = 20321161
+  }

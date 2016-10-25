@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 21 : 14 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60832757"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2862#issuecomment-60832757"
+  , issueCommentCreatedAt = 2014 (-10) (-28) 21 : 14 : 13 UTC
+  , issueCommentBody =
+      "OK, here's an implementation proposal:\r\n\r\n* `artificial_table_backend_t` would expose a method for `artificial_table_t` to subscribe to notifications when a row is changed or when the entire table is changed. The notifications only carry the primary key of the row that is changed, not the old or new values. When someone calls `.changes()` on a pseudo-table, the `artificial_table_t` first subscribes to notifications, then fetches the entire contents of the table and stores it in memory. When it receives a notification, it computes the new value of the row (or all the rows, for a full-table notification), then diffs it against the stored value. If they differ, it sends the user a `{old_val: ..., new_val: ...}` and then stores the new value.\r\n\r\n* `table_stats`, `server_stats`, and `jobs` would simply set a repeating timer and report that the entire table has changed every N seconds. It would be nice if the user could specify N, but this isn't essential and would be some extra work.\r\n\r\n* `table_config`, `db_config`, `server_config`, and `cluster_config` would report that the entire table has changed whenever a semilattice update happens.\r\n\r\n* `table_status` and `server_status` would report that the entire table has changed whenever a semilattice update happens. When a directory update happens, they would report changes only for the affected rows.\r\n\r\n* `issues` would report that the entire table has changed whenever a semilattice or directory update happens.\r\n\r\n* `logs` is tricky and we may want to disable change-feeds for it entirely. The problem is that `logs` is big and we would have to store all the log entries in memory on the server handling the change feeds. Whenever a server disconnected or reconnected, all its log entries would appear or disappear in the table, so the client would get a flood of notifications.\r\n\r\n* Pseudo-table change-feeds would only work in \"squash\" mode; they would never guarantee that every individual update was delivered. This gives the backends freedom to squash changes. For example, `r.db(\"rethinkdb\").table(\"jobs\").changes()` will not notify the user of every single query in the system.\r\n\r\nI think this is proposal is feasible. Depending on how much of the existing change-feed architecture we can re-use, I estimate it would take 1-3 person-weeks.\r\n\r\nI'd like to hear comments from @mlucy."
+  , issueCommentId = 60832757
+  }

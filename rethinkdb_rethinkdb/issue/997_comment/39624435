@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-05) 00 : 53 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39624435"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39624435"
+  , issueCommentCreatedAt = 2014 (-04) (-05) 00 : 51 : 30 UTC
+  , issueCommentBody =
+      "The only reason I had was performance, so that *would* be okay.  (So would `r.random`, in regard to the performance reason, but... see [1].)\r\n\r\nExcept:  Don't we rewrite `r.now` terms so that they're deterministic and have a fixed time when the query started?  (If it's going to change values when mapping over a feed, well, there's another difference between feeds and streams.)\r\n\r\nI think I might rather have feeds' values come with a wall-clock timestamp alongside before/after values, rather than allowing `r.now` or changing its behavior.\r\n\r\n[1] On r.random:  A general problem with allowing `r.random` in a feed map or filter function is that multiple consumers of a feed (multiple clients that did `r.table('foo').blah_feed().map(r.row('after').merge({value: r.random(5)}))`, say) would expect their feed results to have different random numbers generated.  Thus we'd have to cache separate values, or use some complicated memory-saving data structure that's hard to get right and requires knowledge of all \"acceptable\" nondeterministic commands.  This also applies to `r.now`.\r\n\r\nThere's also the question of how to cache data when there are two consumers of streams with slightly different maps.  Suppose feed-reader A uses raw feed entries with \"before\" and \"after\", but feed-reader B wants to apply some map function to the stream.  Generally speaking, for any documents that feed-reader A has not ~~applied~~ received, we'd like not to store an extra copy of the document for feed-reader B that has had the map function applied.  Likewise, if both feed-readers want the \"after\" field, but then want to apply different map operations, we'd like to apply the \"after\" mapping right away, never caching the entire document.  What you could get with a semi-naive implementation is that sometimes, `r.now` seems to be called at the same time for all feed readers.  While other times, `r.now` seems to be called at different times for different feed readers.  The user *might* depend on this, especially considering the state of our documentation, so we'd probably want to just cache whatever value of `r.now` we'd use to make sure that all times we use it when processing that row, we get the same value back.  (We might as well just include wallclock timestamps as part of the feed, then.)\r\n\r\nSo allowing any kind of nondeterministic operation in a feed filter function would really limit our abilities for future caching (and we could always call is_deterministic and deal with that naively, but that would be a bigger surface area to implement).  I think we should have feed entries contain a  time entry (with +00:00 time zone offset) in addition to `before` and `after` entries.  Users should use `.pluck(..)` regularly on feeds in any case, if they don't want the timestamp.  And of course these times are not generally monotonically increasing values."
+  , issueCommentId = 39624435
+  }

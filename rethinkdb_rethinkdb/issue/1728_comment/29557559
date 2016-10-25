@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-30) 18 : 08 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29557559"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1728#issuecomment-29557559"
+  , issueCommentCreatedAt = 2013 (-11) (-30) 18 : 08 : 16 UTC
+  , issueCommentBody =
+      "Wait, that doesn't make sense. I can chain `orderBy` to streams:\r\n\r\n```javascript\r\n> r.table('foo').pluck('id').typeOf()\r\n\"STREAM\"\r\n> r.table('foo').pluck('id').typeOf().orderBy('id') // ok\r\n```\r\n\r\nAnd arrays:\r\n\r\n```javascript\r\n> r.table('foo').pluck('id').typeOf().orderBy('id').typeOf()\r\n\"ARRAY\"\r\n> r.table('foo').pluck('id').typeOf().orderBy('id').orderBy('id') // ok\r\n```\r\n\r\nAnd `SELECTION<ARRAY>`:\r\n\r\n```javascript\r\n> r.table('foo').getAll(\"5516c933-1f22-4ea1-9aa9-37b9bad1bfb7\").typeOf()\r\n\"SELECTION<ARRAY>\"\r\n\r\n> r.table('foo').getAll(\"5516c933-1f22-4ea1-9aa9-37b9bad1bfb7\").orderBy('id') // ok\r\n```\r\n\r\nAnd `SELECTION<STREAM>`:\r\n\r\n```javascript\r\n> r.table('foo').orderBy({index: 'id'}).typeOf()\r\n\"SELECTION<STREAM>\"\r\n\r\n> r.table('foo').orderBy({index: 'id'}).orderBy('id') // ok\r\n```\r\n\r\nWhy couldn't we do `orderBy` after `between` if it didn't return a table?"
+  , issueCommentId = 29557559
+  }

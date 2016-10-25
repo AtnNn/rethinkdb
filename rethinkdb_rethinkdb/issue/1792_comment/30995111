@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-20) 08 : 28 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30995111"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1792#issuecomment-30995111"
+  , issueCommentCreatedAt = 2013 (-12) (-20) 08 : 21 : 35 UTC
+  , issueCommentBody =
+      "Firstly, let me give you the solution to the problem you're running into. You can use `rethinkdb admin` to programmatically control replication, sharding, and pinning of shards to specific machines. Here is an example session that sets the number of replicas for a table `users` to `1` in datacenter `US_WEST`:\r\n\r\n```\r\nrethinkdb admin -j HOST:CLUSTER_PORT\r\n> set replicas users 1 US_WEST\r\n```\r\n\r\nYou can also do it non-interactively as follows:\r\n\r\n```\r\nrethinkdb admin -j HOST:CLUSTER_PORT set replicas users 1 US_WEST\r\n```\r\n\r\nOnce you create a database of tables for a customer, you just execute these commands for each table to get the replication behavior you need. There is no need for manual intervention. You can do the same with shards, etc. (just start the CLI admin tool and type `help` -- feel free to ask questions if something is unclear).\r\n\r\nWith respect to the direction of the product, I agree that the overall flow could be nicer. Here are some things we could do:\r\n\r\n1. Make the admin functionality accessible from client drivers to avoid having to call out to a script\r\n2. Allow specifying settings on a database level instead of the table level\r\n3. Allow the user to specify configuration templates that can be applied to newly created databases/tables\r\n4. Add higher level tools that allow automatically adjusting configuration once certain criteria are met (i.e. shard a table once it reaches a certain size)\r\n\r\nWe will make the experience nicer over time, but we're proceeding with caution. Different users have very different requirements, and it's extremely difficult to design proper abstractions. In the meantime, you could always set things programmatically (as described above).\r\n\r\nIf you have specific examples of how other tools solve these problems well, please let us know, we'd love to learn from them!"
+  , issueCommentId = 30995111
+  }

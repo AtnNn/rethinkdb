@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-25) 17 : 26 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/86131427"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3976#issuecomment-86131427"
+  , issueCommentCreatedAt = 2015 (-03) (-25) 17 : 26 : 17 UTC
+  , issueCommentBody =
+      "@pilt sorry you had to run into this. Thank you for filing a bug report.\r\nWe'll try to fix this as quickly as possible.\r\n\r\nA few questions:\r\n- Is the crash repeatable? Did it only happen once or does it happen every time you run a certain query?\r\n- Do you know which queries were running when this happened?\r\n- Do you run RethinkDB on a single server or a cluster? Are any of your tables sharded and/or replicated?\r\n- Have you created any new secondary indexes recently or changed the sharding/replication settings?\r\n\r\n\r\nWe might ask for a copy of your data files later for tracking down the issue. If it's possible, it would be awesome if you could shut down the server(s) and copy the RethinkDB data directory for later inspection before applying below work-around.\r\n\r\nIf the crash happens repeatedly, I suggest rebuilding all secondary indexes as a work-around. You can do that without downtime by following these steps:\r\n1. Build a new temporary index for each existing index. For an index with name \"i\" on table \"t\" in db \"d\", run the following query in the Data Explorer:\r\n```js\r\nr.db(\"d\").table(\"t\").indexCreate(\"i_NEW\", r.db(\"d\").table(\"t\").indexStatus(\"i\")(0)(\"function\"))\r\n```\r\n2. Once the new index is done constructing, replace the old index with the new one:\r\n```js\r\nr.db(\"d\").table(\"t\").indexRename(\"i_NEW\", \"i\", {overwrite: true})\r\n```\r\n\r\n@mlucy Can you look into this please?"
+  , issueCommentId = 86131427
+  }

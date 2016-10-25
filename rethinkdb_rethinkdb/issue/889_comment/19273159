@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-11) 16 : 25 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19273159"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/889#issuecomment-19273159"
+  , issueCommentCreatedAt = 2013 (-06) (-11) 16 : 25 : 41 UTC
+  , issueCommentBody =
+      "I think the main thing that bugs me about the map solution is that it's actually going to lead to a lot of typing as soon as you're plucking any reasonably large number of fields. I just worry that after a bit of serious use it would start to feel like you were having to type the word `True` an awful lot to accomplish what you wanted. This is exacerbated by the fact that if you want to pluck nested attributes at all you need to convert everything to a map for example:\r\n```Python\r\n# suppose you have the code\r\nobj.pluck(\"id\", \"user\", \"location\", \"text\", \"date\", \"created_at\")\r\n# and you decide you just want the \"name\" attribute \r\n# from the \"user\" field not the whole structure\r\n# you have to change your code to:\r\nobj.pluck({\"id\" : True, \"user\" : {\"name\" : True}, \"location\" : True, \"text\" : True, \"date\" : True, \"created_at\" : True})\r\n# instead of\r\nobj.pluck(\"id\", {\"user\" : True}, \"location\", \"text\", \"date\", \"created_at\")\r\n```\r\nIt just seems like hitting that linear increase in typing is going to be really annoying. @neumino, @mglukhovsky and @al3xandru what do you guys think about it?\r\n\r\nAlso it's worth considering that this syntax is going to apply in a number of other places. Such as `has_fields`, `without`, `group_by` `contains` which aren't going to benefit from having the structure of the pluck specifier (or whatever we want to call it) looking like the structure of their output (although I suppose they still look like the input). But we should consider how usable the extra verbosity would be with those"
+  , issueCommentId = 19273159
+  }

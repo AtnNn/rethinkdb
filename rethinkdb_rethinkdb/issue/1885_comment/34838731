@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-12) 04 : 51 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/34838731"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1885#issuecomment-34838731"
+  , issueCommentCreatedAt = 2014 (-02) (-12) 04 : 51 : 26 UTC
+  , issueCommentBody =
+      "@nergdron: A few more questions about the exact numbers:\r\n\r\n> \"Then it went up to 400-500 sustained writes/sec\"\r\n\r\nIs that number from the web admin interface? Where it shows the write queries per second?\r\n\r\n> \"it's mostly stalled again, only doing ~1 msg/sec\"\r\n\r\nWhat exactly do you mean by msg? Where did you get that number from?\r\n\r\n> \"even though the syncing machine is still doing ~20MB/s in ~2000 writes/sec\"\r\n\r\nJust to make sure, by \"syncing machine\", do you mean the machine that is sending the data or the one that is reading the data? Are those 2000 writes/sec disk writes or write queries per seconds as reported by RethinkDB's web UI? Did you have additional queries running while the backfilling was going on? You mention that data was being pushed into the table at the same time.\r\n\r\n> \"we saw it sync about 60k blocks in about an hour\"\r\n\r\nIs that blocks as seen in ajax/progress or the progress bar on the table page of the admin web interface?\r\n\r\n\r\nAlso a more general questions:\r\nWhat is the approximate size of the documents in your table?\r\n\r\n\r\nThank you in advance for the additional information.\r\n\r\nRight now it still looks like this is just random disk reads that are slowing the process down. Here's a bit more explanation:\r\nOriginally being designed around SSDs, RethinkDB does not optimize the data on disk to minimize random access during table scans. This is different from a lot of \"classical\" database systems. Writes on the other hand happen mostly sequentially.\r\nUnfortunately backfilling data in its current implementation requires a table scan, which leads to a lot of random disk reads (this is independent of the number of shards; one shard is enough).\r\nThis also explains why writes would be happening at a faster rate than the backfill.\r\nWith --no-direct-io, the operating system's cache is used to speed up disk access a little by using read ahead. However that cache eventually fills up, and then everything would be back to slow random reads. RethinkDB's own cache actually uses a similar technique to warm up the cache after a server is restarted. Because its cache has a more restricted size, it might get into the \"purely random reads\" state earlier though.\r\nSo far the theory at least.\r\n\r\n\r\n@wojons and @coffeemug had some ideas of how we could make reads more sequential during backfilling. However both solutions require some deeper restructuring of the table traversal and/or backfilling code. It is highly unlikely that we will implement any of them until after the 2.0 release. Sorry that I cannot give a more positive outlook in this respect."
+  , issueCommentId = 34838731
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-11) 07 : 35 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45710754"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2532#issuecomment-45710754"
+  , issueCommentCreatedAt = 2014 (-06) (-11) 07 : 35 : 44 UTC
+  , issueCommentBody =
+      "Given that the error happens both in the client and the server, I think it's likely something's going on with your code. If I'm not mistaken, it looks like you're opening a new connection every time you try to find a user, and then the connection never gets closed (until it times out). Is that right?\r\n\r\nIf it's the case, I'd suggest two improvements:\r\n\r\n- Close every connection immediately after you're done with it (see http://rethinkdb.com/api/javascript/#close)\r\n- Less important, but when does `User.findById` get called? For example, if you call it multiple times per http request, I'd open a connection per request and then reuse that connection for multiple calls, instead of doing a connection per call.\r\n\r\nLet us know if this helps!"
+  , issueCommentId = 45710754
+  }

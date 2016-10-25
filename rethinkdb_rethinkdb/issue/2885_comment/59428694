@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-16) 20 : 53 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59428694"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2885#issuecomment-59428694"
+  , issueCommentCreatedAt = 2014 (-10) (-16) 20 : 53 : 33 UTC
+  , issueCommentBody =
+      "Just a couple of points:\r\n\r\nHaving disk writes/s reads/s is not a useful metric in general.\r\nInstead I think we should have two things:\r\n- bytes written/s and bytes read/s\r\n- index writes/s\r\n\r\nThat would be a per-table property.\r\n\r\n@Tryneus you added a `count` value for each index. We don't currently have a way for computing that efficiently. Instead we should include the approximated number of documents for each shard (as we get from `get_btree_key_distribution()`).\r\n\r\nI don't think we should include disk i/o and memory usage in the `table_stats` table at all. I think almost always you want to know how much disk/memory a given table is using *on a specific server*. If you really need to know the accumulated (or average) resource usage of a table, you can still easily write a `reduce` query over the `server_stats` table.\r\n(your latest proposal still had the `disk` field in the `table_stats`).\r\n\r\n`cache` perfmons will be added again with https://github.com/rethinkdb/rethinkdb/issues/2125 . But there is no reason to have an empty `cache` field as long as that's not done.\r\nGenerally I think cache stats would be more relevant than trying to add stats which are more about system-monitoring and not trivial to get right (like CPU usage or intra-cluster network latency). The latter can be obtained through other tools, stats about the cache cannot.\r\n\r\nFinally, (@wojons) percentiles for the perfmons that measure timings would be really cool. I think that might be the next step, but shouldn't be in the first version."
+  , issueCommentId = 59428694
+  }

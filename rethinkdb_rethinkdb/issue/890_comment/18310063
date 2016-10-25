@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 21 : 44 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18310063"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/890#issuecomment-18310063"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 21 : 44 : 34 UTC
+  , issueCommentBody =
+      "@wmrowan -- I think we should keep it on table creation as well, with the per-query settings overriding the default.\r\n\r\n@srh -- I think `:durability => 'hard'` and `:durability => 'soft'` sound good.  Could you also change the existing optional argument to `table_create` to match?\r\n\r\nI don't think that rolling `noreply` into durability works very well, for two reasons:\r\n* `noreply` only makes sense on a per-query level, whereas hard vs. soft durability makes sense on a per-table level.  It makes a lot of sense to have a query writing to two tables where one of the writes is using soft durability and the other hard (like e.g. soft durability while writing to a table of stats), but it doesn't make any sense to have a query writing to two tables where one of the writes is a noreply write and the other isn't.\r\n* `noreply` affects what the server sends to the client, whereas hard vs. soft durability affects what the server does internally / what the nodes in the cluster send to each other.  For example, if you're doing a `foreach`, you might want to make absolutely sure that one of the writes is on disk before the next one proceeds; this concern seems orthogonal to the question of whether or not you want a reply sent to the client."
+  , issueCommentId = 18310063
+  }

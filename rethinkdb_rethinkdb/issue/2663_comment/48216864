@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-07) 18 : 10 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48216864"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2663#issuecomment-48216864"
+  , issueCommentCreatedAt = 2014 (-07) (-07) 18 : 10 : 20 UTC
+  , issueCommentBody =
+      "I don't really understand what a `zone` is. @coffeemug could give a little more information about them? Is it what @timmaxw described to reduce the size of the blueprint/directory by having only a subset of the cluster that is able to change the metadata of a table?\r\n\r\nA few questions about the low level API\r\n- What does `get_shard` returns? The master of the shards? Or the shard themselves?\r\n- What does `set_shards` do? Does it automatically compute split point for you? What is the status_object? Isn't the shard to be not available as long as the cluster is sharding the table? - Does `r.table('foo').shard_status().changes()` work?\r\n\r\n\r\nI was once in favor of using tags instead of datacenters, but looking at what people ran into, I think it's a bad idea to use tags because:\r\n- It's confusing - for example https://github.com/rethinkdb/rethinkdb/issues/1812\r\n- This will create situation where the cluster cannot automatically solve unsatisfiable goals, and that has been one of thing I don't really like in the web interface.\r\n\r\n\r\nOne note about this proposal is that we still don't give sense to what an ack is, and what value to set. We should probably think about what guarantee we want to provide first maybe?\r\n\r\n\r\nOne more random thing that we can deal later with:  `divest` seems like a quite complicated term to me (I didn't know the word before now).\r\n\r\n\r\nAbout having a machine join and leave the cluster without any issue, that could create unsatisfiable goals instead of a \"dead machine\" error, I'm not sure it's a good idea.\r\nI would rather have `divest` remove all the roles of the machine, then nicely remove it from the cluster (without error)."
+  , issueCommentId = 48216864
+  }

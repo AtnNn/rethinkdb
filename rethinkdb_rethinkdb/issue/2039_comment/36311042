@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-28) 00 : 54 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36311042"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2039#issuecomment-36311042"
+  , issueCommentCreatedAt = 2014 (-02) (-28) 00 : 54 : 25 UTC
+  , issueCommentBody =
+      "By @timmaxw:\r\n\r\nThe option to have two different error replies, one for \"write not performed\" and one for \"write partially/maybe performed\", sounds like the best to me.\r\n\r\n> I'm assuming that the broadcaster is the component that checks this, correct me if I'm wrong\r\n\r\nThe `master_t` receives the write from the query parser, and passes it on to the `broadcaster_t`. The `broadcaster_t` sends the write to the replicas, and informs the `master_t` every time it gets an ack. When the `master_t` hears from the `broadcaster_t` that a replica has acked, then it makes a note, and when there are enough, it replies to the query parser. The `broadcaster_t` does not itself keep track of how many acks it has received. When the `broadcaster_t` realizes it has received all the acks it's ever going to get, then it informs the `master_t` of this; if the `master_t` sees that there were too few acks, it sends \"not enough acks\" back to the query parser.\r\n\r\nWe would implement the proposed change by allowing the `master_t` to query the `broadcaster_t` to ask, \"Which nodes are *likely* to ack this query?\" This would be the set of secondaries that are currently connected to the `broadcaster_t` and up to date (i.e. not backfilling). If that set of nodes does not meet the ack requirements, then the `master_t` would send an error message to the query parser, and never pass the write to the `broadcaster_t` at all."
+  , issueCommentId = 36311042
+  }

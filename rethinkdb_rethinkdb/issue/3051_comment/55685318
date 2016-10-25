@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-16) 01 : 56 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2058304
+        , simpleUserLogin = N "grandquista"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2058304?v=3"
+        , simpleUserUrl = "https://api.github.com/users/grandquista"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55685318"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3051#issuecomment-55685318"
+  , issueCommentCreatedAt = 2014 (-09) (-16) 01 : 56 : 11 UTC
+  , issueCommentBody =
+      "This looks like a problem with your script/Python2. `print` in Python2 implicitly calls `str` with an ascii decode when the object is not `bytes`/`str`/`unicode`. If I change your last call to `print(unicode(e))` then this works correctly in Python2.\r\n\r\nWith further digging I confirmed that all messages get made into a `net.Response` instance. That class decodes all driver input to `'utf-8'` in the first init line. Printing any part of the `Response` instance does not raise a `UnicodeEncodeError`.\r\n\r\nAdding `__unicode__` methods to the error classes did not solve the problem either. Python2 simply requires developers to be explicit about what data is unicode, and all network data should be checked for unicode characters before handling."
+  , issueCommentId = 55685318
+  }

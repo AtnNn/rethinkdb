@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-07) 18 : 33 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39766469"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2222#issuecomment-39766469"
+  , issueCommentCreatedAt = 2014 (-04) (-07) 18 : 33 : 20 UTC
+  , issueCommentBody =
+      "Oh actually the comparison that crashes is probably the line\r\n`guarantee(!is_deleted_);` in `current_page_t::the_page_for_read()`.\r\nIn `cmpb   $0x0,0x10(%rbx)`, `cmpb` compares a byte (which makes sense for bools), the `$0x0` would be the constant false value, and I imagine that 0x10 is the offset of `is_deleted_` in `current_page_t`. `%rbx` is probably supposed to hold the pointer to the `current_page_t`.\r\nThe crash message said `Segmentation fault from reading the address 0x10.`, which would make sense if `%rbx` was 0, i.e. `current_page_` was NULL."
+  , issueCommentId = 39766469
+  }

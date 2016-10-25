@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-07) 19 : 27 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62198139"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-62198139"
+  , issueCommentCreatedAt = 2014 (-11) (-07) 19 : 25 : 10 UTC
+  , issueCommentBody =
+      "@larkost\r\n> I don't think that that is a requirement. \r\n\r\nWhat was that in reference to? Were you talking about the internal implementation in the driver?\r\n\r\nI was thinking of something like this: Imagine you want to write the dashboard for some sort of gaming app with RethinkDB as the backend. Say you are building a frontend and you have two classes:\r\n- a class `ScoreBoard` that displays the current top 10 users\r\n- another class `LatestAchievments` that displays a feed of latest achievments of your team or something like that\r\n\r\nSay that both of these want to use change feeds to automatically update the view whenever the underlying data changes.\r\n\r\nWith the `Queue` interface, they would have some method that calls `get_nowait()` internally. Let's call that method `check_for_updates()`. It would not be allowed to block, because then the other class couldn't react to its updates anymore. So in consequence, you would need to implement some global piece of code that knows about all instances of those classes, and periodically calls the `check_for_update()` method on them.\r\n\r\nWith callbacks the classes would just register the change feed over the RethinkDB connection object, and the RethinkDB connection would call them back once there's new data.\r\n\r\n----\r\n\r\nI'm not too familiar with Python, so I don't know if an implementation of the `Queue`-like interface based on some lower level callback interface provided by our connection object would make sense. It might well be that that would only make it more complex. It was just an idea, in case we wanted to keep the `Queue` implementation separate from the internals of our driver. This is independent of the question of which API we want to expose to users."
+  , issueCommentId = 62198139
+  }

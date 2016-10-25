@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-13) 11 : 13 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19385462"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-19385462"
+  , issueCommentCreatedAt = 2013 (-06) (-13) 11 : 13 : 35 UTC
+  , issueCommentBody =
+      "Alternatively, we don't need to fold a filter into the `on_*` functions:\r\n\r\n```python\r\n# The filter can simply be chained\r\nr.table('user').on_delete().filter(lambda user: ...)\r\n\r\n# Or omitted\r\n# This query always returns the new size of the table when a record is deleted\r\nr.table('user').on_delete().map(lambda user: r.table('user').count())\r\n\r\n# on_replace would be a little more annoying to use though\r\n# This is how you would have to do the same query as in the previous comment\r\nr.table('user').on_replace().filter(r.row['old']['age'] != 18 & r.row['new']['age'] == 18).map(r.row['new'])\r\n\r\n# This also removes much of the rational for `on_*` over `on(event)`\r\nr.table('user').on('insert').filter(lambda new_user: ...)\r\n```\r\n\r\nAlso, I want to point out that this is finally an instance where JS's asynchronous event based nature is more fitting:\r\n```javascript\r\nr.table('user').onInsert().run(conn, function(err, cur) {\r\n   cur.every(function(new_user) {\r\n      // This function is actually an event handler and not a continuation!\r\n      do_something(new_user);\r\n   });\r\n});\r\n```"
+  , issueCommentId = 19385462
+  }

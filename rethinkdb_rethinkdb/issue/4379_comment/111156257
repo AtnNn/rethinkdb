@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-11) 14 : 34 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/111156257"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4379#issuecomment-111156257"
+  , issueCommentCreatedAt = 2015 (-06) (-11) 14 : 34 : 54 UTC
+  , issueCommentBody =
+      "Hi @neilunadkat, you can do this by using an array for the primary key:\r\n\r\n```json\r\n{\r\n   \"id\": [sensor_id, timestamp],\r\n   ...\r\n}\r\n```\r\n\r\nHowever, this could make the data significantly less well distributed across your shards if some sensors put out a lot more data than others. You can periodically rebalance the table (`r.table('foo').rebalance()`) to ameliorate this, but you'd want to make sure it's worth the trouble before going with this scheme.\r\n\r\nSpecifically, you should profile `.between` queries (on a decently sized cluster) with both the default uuid key and the compound key. I would imagine if it all ends up on the same shard (as is likely) you'll get the faster reads you're hoping for, but the performance benefit may not be worth the maintenance overhead of needing to rebalance regularly.\r\n\r\n@danielmewes may have some other insights here"
+  , issueCommentId = 111156257
+  }

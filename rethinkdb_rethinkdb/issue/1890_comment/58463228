@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-09) 04 : 55 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58463228"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1890#issuecomment-58463228"
+  , issueCommentCreatedAt = 2014 (-10) (-09) 04 : 55 : 22 UTC
+  , issueCommentBody =
+      "@dulichan -- I think there's a misunderstanding.  `r.connect` returns a promise.\r\nAnd you have the following behavior:\r\n```\r\nvar db = r.connect()\r\n\r\ndb.then(function(conn) {\r\n    // conn is a connection\r\n});\r\n\r\ndb.then(function(conn) {\r\n    // conn is a connection again\r\n    var p = new Promise(function(resolve, reject) { ... })\r\n    return p\r\n}).then(function(result) {\r\n    // result is the argument that `p` is going to be resolved with\r\n})\r\n```\r\n\r\nSo you can call `then` on `db` multiple time to retrieve the same connection, but if you chain two `then`, the second `then` is going to be called with the result of the promise returned by the first `then`."
+  , issueCommentId = 58463228
+  }

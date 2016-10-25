@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 19 : 38 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20899558"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-20899558"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 19 : 38 : 41 UTC
+  , issueCommentBody =
+      "The problem with putting the metablock in data extents is that, the way we do things right now, we need to write the metablock after we have verified that the original data has been written to disk.  Putting the metablock in the data extent will not change this fact, and we'll still need to wait for the disk to spin around a full revolution before the metablock write gets there.\r\n\r\nIf we want the metablock to be capable of being written simultaneously, it needs to contain checksums of the blocks that are written simultaneously that it refers to.\r\n\r\nRight now the code does all the block writes first, waits for them to complete, then starts doing the index writes, waits for them to complete, and then does metablock writes.  The interface for the serializer needs to be fixed to make a better option available.  First of all, the serializer_t::index_write function needs to be passed a signal that lets it wait for the block writes to finish _after_ it begins the index writes.  That'll reduce 3 waits down to 2.  Second, the metablock could stand to support having checksums of blocks it \"depends on\" -- the block and offsets that need to be checked before the metablock can be trusted.  That'll reduce 2 waits down to 1.\r\n\r\nOnly then does it make sense to worry about starting to write them to the same extent.\r\n\r\nIncidentally, when we do make the serializer write everything to the same extent, the top-level metablocks should not just refer to active extents -- we should also precommit to some lineage of future active extents that we will pick."
+  , issueCommentId = 20899558
+  }

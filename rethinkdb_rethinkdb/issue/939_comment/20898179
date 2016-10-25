@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 19 : 14 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20898179"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-20898179"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 19 : 14 : 24 UTC
+  , issueCommentBody =
+      "We're copying things we didn't copy before.  The buffer cache blocks are concatenated on the serializer thread so that they can be written all squashed together.  The other place with extra copying is in garbage collection, in which blocks are concatenated together for the same purpose (by the same code).\r\n\r\nThere are two ways to avoid this.  One way is to opportunistically use the writev syscall when we can.  For example, any write coming in from the buffer cache will have as many 4k-aligned blocks as unaligned blocks.  Another way is to do the concatenation in the buffer cache thread, and maybe for the serializer's gc to farm its concatenation out to a random thread."
+  , issueCommentId = 20898179
+  }

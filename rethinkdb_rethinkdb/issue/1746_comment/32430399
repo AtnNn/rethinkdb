@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-16) 00 : 16 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32430399"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1746#issuecomment-32430399"
+  , issueCommentCreatedAt = 2014 (-01) (-16) 00 : 16 : 36 UTC
+  , issueCommentBody =
+      "Oh, I already did that to test, but didn't want to bother typing it up.  Here's what I found:\r\nTest was done on a one-node cluster, because cluster overhead would just obscure the numbers we care about.  Numbers are `total time` and `latency` as seen in the Network graph, averaged.  Keep in mind this is over a very fast connection, so these numbers really just show that gzip isn't increasing latency, and that over a slower connection, this will help immensely.\r\n\r\n----\r\n\r\n`<host>:<port>/ajax/stat` uncompressed:\r\nSize: 12.8k\r\nTime: 19.4ms\r\nLatency: 14.8ms\r\n\r\n`<host>:<port>/ajax/stat` compressed:\r\nSize: 1.3k\r\nTime: 17.2ms\r\nLatency: 15ms\r\n\r\n----\r\n\r\n`<host>:<port>/ajax/directory` uncompressed:\r\nSize: 987 bytes\r\nTime: 7.6ms\r\nLatency: 5.8ms\r\n\r\n`<host>:<port>/ajax/directory` compressed:\r\nSize: 513 bytes\r\nTime: 8.6ms\r\nLatency: 6.8ms\r\n\r\n ----\r\n\r\nI also did some tests with the data explorer using rows from `Workload X`, and got the following results (leaving out time/latency because they were practically indistinguishable):\r\n\r\n`r.db('test').table('stress').limit(1)`:\r\nUncompressed size: 2.3k\r\nCompressed size: 1.5k\r\n\r\n`r.db('test').table('stress').limit(10)`:\r\nUncompressed size: 22.1k\r\nCompressed size: 12.3k\r\n\r\n`r.db('test').table('stress').limit(100)`:\r\nUncompressed size: 220k\r\nCompressed size: 119k\r\n\r\nThis request hit the stream batch size, and two responses were seen:\r\n`r.db('test').table('stress').limit(1000)`:\r\nUncompressed size: 284k, 310k\r\nCompressed size: 153k, 167k\r\n\r\n----\r\n\r\nSo, as you can see, we get a very good compression ratio on our stats, about 90%, while our directory and arbitrary JSON rows compress about 50%."
+  , issueCommentId = 32430399
+  }

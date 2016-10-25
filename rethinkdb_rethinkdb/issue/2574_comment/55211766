@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-11) 02 : 28 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55211766"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2574#issuecomment-55211766"
+  , issueCommentCreatedAt = 2014 (-09) (-11) 02 : 28 : 26 UTC
+  , issueCommentBody =
+      "Thinking about this more, another problem with `zip` as a way to solve this is that we don't have a good way to destructure the tuple.  Compare, for example:\r\n```rb\r\npeople.zip(pets).map{|person_pet|\r\n  {person: person_pet[0], pet: person_pet[1]}\r\n}\r\n# vs.\r\nr.map(people, pets){|person, pet|\r\n  {person: person, pet: pet}\r\n}\r\n```\r\n\r\nRuby solves this by having the rule that if you pass an array as the only argument to a function with arity greater than 1, it automatically destructures the array (and any missing variables are bound to `nil`).  So we could mimic that if we wanted to keep `zip` and still have the syntax be nice, but that's arguably more invasive than just making `map` variadic.\r\n\r\nAlso, compare:\r\n```rb\r\nnumbers.zip(r.range()).map{|num_index| num_index[0] / num_index[1]}\r\n# vs.\r\nnumbers.map{|num, index| num / index}\r\n```\r\n\r\nI think I might like variadic map more, on balance, even though it will be less familiar to people coming from Ruby and Python.\r\n  "
+  , issueCommentId = 55211766
+  }

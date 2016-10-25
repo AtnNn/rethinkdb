@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-12) 01 : 11 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32112325"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-32112325"
+  , issueCommentCreatedAt = 2014 (-01) (-12) 01 : 11 : 45 UTC
+  , issueCommentBody =
+      "So, after some thought, here's what I think our semantics should be (at least in the official drivers):\r\n* If you haven't sent any noreply queries, we shouldn't do a `noreply_wait`.  That avoids a whole class of errors in the common case.\r\n* If you *have* sent noreply queries, we should do a `noreply_wait`, but we shouldn't error if we were disconnected.\r\n  - I can see an argument for reporting this to users so they know that some noreply queries were lost, but in general there are lots of ways for noreply queries to fail silently (e.g. the query was handled so the `noreply_wait` request succeeds, but the master is down so the write itself fails).\r\n  - This would solve the original problem (\"people send a noreply write and close the connection and 99% of the time the write doesn't go through\") without making `reconnect` confusing for the majority of users that aren't using noreply writes and might want to reconnect after network trouble and/or restarting the server."
+  , issueCommentId = 32112325
+  }

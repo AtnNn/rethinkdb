@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-04) 08 : 15 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17429672"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/754#issuecomment-17429672"
+  , issueCommentCreatedAt = 2013 (-05) (-04) 08 : 15 : 19 UTC
+  , issueCommentBody =
+      "I think it's pretty clear what's going on here.\r\n7GB data on 1GB memory machines must necessarily lead to out of memory conditions. The large table alone will take up the full 1GB of main memory due to cache. And that's the minimum it will consume. Snapshots will take additional memory. The small tables take some too.\r\n\r\nThat adding the third server triggers it is probably just a coincidence. Maybe because it causes a backfill and thus all data is accessed, or due to the snapshot that it presumably uses. Any reegular workload could trigger it just as well.\r\n\r\nAgain, I pledge to make the cache size at least reconfigruable without having to re-create everything from scratch. #97 \r\n\r\nFor now Shachuan will have to delete and recreate all the tables, overriding their default cache size such that the sum of caches is significantly less than 1 GB (I suggest 700 MB, maybe a bit more still works). Then they will have to reload the data.\r\n@jdoliner once mentioned on IRC that there already is some inofficial way to change cache sizes post table creation. If dumping and then reloading the data is not an option, maybe this trick could be applied here.\r\n"
+  , issueCommentId = 17429672
+  }

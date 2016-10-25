@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 21 : 32 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39613871"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1383#issuecomment-39613871"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 21 : 32 : 43 UTC
+  , issueCommentBody =
+      "Ok, I agree with the rename to `r.http`, and it sounds like there is consensus.\r\n\r\nFirst, @coffeemug, the second argument does not need to be specified, and is not an optarg.  I realize I did not specify that in the latest proposal, but `r.http` may either take one or two parameters.  I think this is better than having another optarg.\r\n\r\nI like changing `--http-proxy` to `--reql-http-proxy`.\r\n\r\nAs for when `depaginate=False`, we can still return a stream, as the data returned from the server may not happen all at once.  I believe we get callbacks from `libcurl` for each chunk of data, and we can parse json into objects to return in the stream.  This way, even if a single page is taking a long time to return from the server, we can still get data back to the query as soon as possible.  This is also sufficient to support the Twitter Streaming API, I believe.\r\n\r\nI like the suggestion that the `depaginate` optarg take a function that will decide if and where the next page is, but if we put it off until later, that is fine.  Having `depaginate=False` be the default sounds reasonable.\r\n\r\n`r.error` should be thrown on any non-temporary HTTP error, a parsing error, or invalid parameters."
+  , issueCommentId = 39613871
+  }

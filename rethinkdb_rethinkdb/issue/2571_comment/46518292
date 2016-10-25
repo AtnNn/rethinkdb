@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 02 : 47 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46518292"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-46518292"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 02 : 47 : 29 UTC
+  , issueCommentBody =
+      "A compound index like any other index is not typed. Such a thing like a compound index where one element is 2-dimensional and another is 1-dimensional doesn't exist. Every entry in the index can have different types.\r\n\r\nIf you ask for entries in an index (whether compound or not) that are between two values `X` and `Y` we should return only values that are of the same type as `X` and `Y`. This is especially true for geometry, where we probably don't want to define an ordering (we could of course define one similar to the order on objects, but it would be extremely meaningless).\r\n\r\nIf you have documents\r\n```\r\n{a: 3}, {a: 4}, {a: r.geoPoint(0, 0)}\r\n```\r\nand create an index on 'a', and then query by `r.between(2, 5)` you would get `{a: 3}, {a: 4}` as your result.\r\n\r\n`order_by()` should fail if it encounters a geometry object, since there is no ordering defined for those.\r\n\r\n`table.between(X, Y)` where `X` or `Y` contain geometry objects would fail for the same reason."
+  , issueCommentId = 46518292
+  }

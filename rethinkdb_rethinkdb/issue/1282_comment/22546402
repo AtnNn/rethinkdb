@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-13) 06 : 55 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22546402"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1282#issuecomment-22546402"
+  , issueCommentCreatedAt = 2013 (-08) (-13) 06 : 55 : 28 UTC
+  , issueCommentBody =
+      "I found this proposal extremely confusing when I first read it. Firstly, I assume that `r.table('foo').index_create(r.now())` is meant to mean `r.table('foo').index_create('time_changed', lambda row: r.now())`? If not then I really am lost.\r\n\r\nWhat I was eventually able to make of this is proposal is that since the (impure) secondary index function being provided can be expected to be reevaluated whenever the row is modified, we end up with a useful index based on last modified time. Unfortunately, aside from being unintuitive and confusing (apparently even for someone who is supposed to know how RethinkDB works) there are some other problems.\r\n\r\nWhile this might work as expected when the index is created on an empty table, how does index creation work on a table already full of documents? I don't believe we are otherwise storing last modified times for rows. At best, we'd have to assign a last modified time to all existing rows equal to the time the index was created.\r\n\r\nI also have to agree with @atnnn. Commands shouldn't have subtly different behavior based on context. I'd rather implement a new command limited to the specific context (as with `r.desc`), than make a different command context dependent (we did reject `r.order_by(r.sub('field'))`).\r\n\r\nI'd much prefer a simpler and more direct way of providing access to this functionality. An option on table creation (say, `r.table_create('foo', last_modified_index='time_changed')`) would be much clearer and isn't subject to the problem of existing documents. Or the option could be `last_modified_field='time_changed'` to add a field to each row with the last modified timestamp. The desired index could then be created with `r.table('foo').index_create('time_changed')`.\r\n\r\nLess desirable but also possible would be a new command, `single_selection.last_modified()` that always returns the last modified time and would work as expected in `r.table('foo').index_create('last_modified', lambda row: row.last_modified())`. To implement this we would always have to store a timestamp for each row. If we don't want to do this then we'd essentially devolve to the table creation option (store last modified times please!) in which case it should just be a field in the row."
+  , issueCommentId = 22546402
+  }

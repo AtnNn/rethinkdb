@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-04) 01 : 47 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29770666"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/874#issuecomment-29770666"
+  , issueCommentCreatedAt = 2013 (-12) (-04) 01 : 47 : 46 UTC
+  , issueCommentBody =
+      "JSON uses UTF-8 because it's a format for storing and retrieving text.  If that's all you're doing, there's no reason not to have Unicode support.  We also support storing and retrieving Unicode text.\r\n\r\nCommitting to **manipulating** Unicode text correctly is entirely different.\r\n\r\nThere are three main reasons I don't want to do this:\r\n\r\n* Implementing `upcase` and `downcase `correctly is probably doable with a bit of work, but it will create the expectation that RethinkDB can do unicode-aware string manipulation, and I don't think that we want to promise that.\r\n* Unicode transformations are, in general, insane.\r\n  - I don't believe that it's possible to upper-case a Unicode string without reference to a locale.  The boost library you linked to takes a locale for its `to_upper` function, and produces different results in different locales.  I don't think we want to make the result of ReQL operations depend on what locale you're in, for obvious reasons, and if we settle on an agnostic standard like the C locale, people will get unexpected results from upper-casing strings.\r\n  - Doing \"correct\" Unicode transformations can cause extremely non-obvious things to happen.  For example, in some locales, upper-casing a Unicode string with ICU can **change its length**.  Not its visual length, but the actual number of code points.\r\n  - The boost library you link to can either use ICU as the backend, or use a smaller non-ICU boost backend.  (Note that case-manipulation on Unicode strings produces **different results** depending on which backend you're using, since the ICU backend will sometimes convert one code point to many or vice-versa while changing case and the pure-boost backend will not.)  I don't think we want to package ICU with RethinkDB, but I also don't think we want to give people the custom non-ICU boost backend, which cursory googling suggests isn't very smart.\r\n* Most other languages don't do this.  Ruby, for example, doesn't touch Unicode characters:\r\n\r\n```ruby\r\n>> a = \"gr\\303\\274\\303\\237EN\\n\"; puts a; puts a.downcase; puts a.upcase\r\ngr\252\223EN\r\ngr\252\223en\r\nGR\252\223EN\r\n```"
+  , issueCommentId = 29770666
+  }

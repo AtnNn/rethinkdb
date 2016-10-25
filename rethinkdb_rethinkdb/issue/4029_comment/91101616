@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-09) 03 : 24 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91101616"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4029#issuecomment-91101616"
+  , issueCommentCreatedAt = 2015 (-04) (-09) 02 : 56 : 33 UTC
+  , issueCommentBody =
+      "Yeah, never use `timeout {}` in ruby, it will break things in very unexpected ways.\r\n\r\nI'm looking at the code on mlucy_4029, and it doesn't fit the patterns I'm use to see.\r\nTypically, I'm expecting a pattern like this:\r\n\r\n```ruby\r\nloop do\r\n  break if condition\r\n  @mon.wait\r\nend\r\n```\r\n\r\n(checking the condition after the wait would be a problem as the signal may never come, and the thread would wait for ever.)\r\n\r\nTo me, this would be more readable:\r\n\r\n```ruby\r\nstart_time = Time.now.to_f\r\n@mon.synchronize {\r\n  loop {\r\n    res = @data.delete(token)\r\n    return res if res\r\n\r\n    if timeout && Time.now.to_f >= start_time + timeout\r\n      raise Timeout::Error, \"Timed out waiting for cursor response.\"\r\n    end\r\n\r\n    unless is_open()\r\n      raise RqlRuntimeError, \"Connection is closed.\"\r\n    end\r\n\r\n    unless @waiters[token]\r\n      raise RqlDriverError, \"Internal driver error, no response found.\"\r\n    end\r\n\r\n    @waiters[token].wait(timeout)\r\n  }\r\n}\r\n```\r\n\r\nThis code takes care of the 3 timeout checks that were previously there, but in only one place.\r\n\r\nThe `* 0.9` thingy seems inappropriate to me. `wait(timeout)` will not return before timeout has elapsed (but may return much longer after timeout). Internally, wait calls `sleep(timeout)`.\r\nIdeally, we would want to decrement the value of timeout based on the amount of time spent in `wait`, but whatever.\r\n\r\nedit: code fix"
+  , issueCommentId = 91101616
+  }

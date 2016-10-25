@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 01 : 55 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32083498"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1843#issuecomment-32083498"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 01 : 55 : 55 UTC
+  , issueCommentBody =
+      "This is only in the Ruby driver.\r\n\r\nBasically, we give two backtraces when a query fails: the first shows where the query was run, and the second shows the line where the erroneous portion of the query was constructed.\r\n\r\nLet's say we have this:\r\n```ruby\r\n0  def get_date_range(tbl, left, right)\r\n1    tbl.between(r.epoch_time(left), r.epoch_time(right), index:'date')\r\n2  end\r\n3\r\n4  def complete_entry_p(entry)\r\n5    entry['field1'] & entry['field2'] & entry['field3'] & entry['field4']\r\n6  end\r\n7\r\n8  get_date_range(r.table('test'), t1, t2).filter{|row| r.not(complete_entry_p(row))}.run\r\n```\r\n\r\nIf an error occurs during the `between`, the construction backtrace shows an error for line 1.  If an error occurs during the predicate in the filter, the construction backtrace shows an error for line 5.  If an error occurs accessing the table, the construction backtrace shows an error for line 8.  In all cases, the execution backtrace shows an error for line 8, because that's where the query is actually run.\r\n\r\n(Basically, every time we build a portion of a query we record where it was built, and later if the backtrace we get from the server shows that that portion of the query caused the error, we tell the user where it was built.)"
+  , issueCommentId = 32083498
+  }

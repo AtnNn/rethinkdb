@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 07 : 59 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20331844"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20331844"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 07 : 58 : 29 UTC
+  , issueCommentBody =
+      "In response to some comments above:\r\n\r\n> having a syntax like `r.expr(datetime.now)[\"year\"]`\r\n\r\nI don't like that for the same reasons @mlucy already mentioned\r\n\r\n> Not being able to have dates as keys is a pretty big deal breaker IMO opinion\r\n\r\nAgreed, this feature would be next to useless without indexing\r\n\r\n---\r\n\r\nI thought about this some more and realized that there are 5 questions we need to answer, and while they're not all necessarily completely orthogonal, I think it's worth thinking about them independently:\r\n\r\n1. How to represent time on the server wrt to functionality (e.g. seconds since epoch, iso8601, etc.)\r\n2. How to represent time on the server wrt to our architecture (e.g. just a string/number, object that contains `__reql_type__` etc.)\r\n3. How to present time creation/manipulation to the client driver (e.g. use client language time time objects, return iso8601 representation, etc.)\r\n4. Which time access functions to implement on the server.\r\n5. How to deal with time zones.\r\n\r\nAfter thinking a bit more, here's what I now think about each one of these:\r\n\r\n1. Milliseconds since epoch in UTC seems like the most machine-friendly, compact, sortable representation there is. Unless I'm missing smtg, I see no advantage in using an alternative representation from a functionality perspective.\r\n2. As far as our architecture, I have a few thoughts\r\n  * It's a bit more work but is also strictly superior to define a type the server knows about (because I think we *want* to make commands like `sub` and `gt` work on time). From the server's perspective, it doesn't have to be an object with `__reql_type__` field -- we can create a new Datum type, which probably would be a more sensible representation. I think we should pick a representation that suits our internal needs best.\r\n  * For any Datum that doesn't natively map to JSON, I think it's important to have two well defined functions: `to_json` and `from_json`. We could then use things like `__reql_type__` to fall back to the json representation if we need to (or parse it from clients that don't wan to do custom datums or smtg), but I don't think we should be storing it this way internally.\r\n3. I think that whether we choose to convert to native language date/time type, or return an object with `__reql_type__` and let users fend for themselves, or whatever, we'll be ok. I would work out the other aspects first, and deal with this last.\r\n4. I think we can agree on this once the other stuff is ironed out.\r\n5. I think we're mostly in agreement here (have the driver pass local timezone to `run` by default, use UTC if it's missing, but always convert to UTC on the server)."
+  , issueCommentId = 20331844
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-28) 01 : 59 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38882124"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1054#issuecomment-38882124"
+  , issueCommentCreatedAt = 2014 (-03) (-28) 01 : 59 : 34 UTC
+  , issueCommentBody =
+      "That was when I thought that `upsert` was performing an `update` if the primary key was already used.\r\n\r\nThe idea was to perform an `insert` or a `replace`.\r\nFor that, I think I wanted to retrieve all the documents that couldn't be inserted\r\n\r\n```\r\nr.db(\"test\").table(\"test\").insert([\r\n  { id: \"existing_id\", value: \"foo\"},\r\n  { id: \"other_existing_id\", value: \"boo\"},\r\n  { id: \"non_existing_id\", value: \"bar\"},\r\n]).run(conn, {returnErrors: true}, function() { ... })\r\n```\r\nwould return\r\n```js\r\n{\r\n   inserted: 1,\r\n   error: 2,\r\n   non_inserted_documents: [\r\n     { id: \"existing_id\", value: \"foo\"},\r\n     { id: \"other_existing_id\", value: \"boo\"},\r\n   ],\r\n   ...\r\n}\r\n```\r\n\r\nIt would still be useful if people want to do an `insert` or an `update`, but we could just add a new flag.\r\nI don't have another use case, so closing as dup of https://github.com/rethinkdb/rethinkdb/issues/1838\r\n"
+  , issueCommentId = 38882124
+  }

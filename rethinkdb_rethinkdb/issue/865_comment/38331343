@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-21) 22 : 39 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38331343"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/865#issuecomment-38331343"
+  , issueCommentCreatedAt = 2014 (-03) (-21) 22 : 33 : 42 UTC
+  , issueCommentBody =
+      "I think the semantics should be:\r\n\r\n- `r.random()` returns a float in [0, 1). [1]\r\n- `r.random(m, n, {float: false})` returns an integer in [m, n), if m < n and both are integers in [-2^53, 2^53].  It errors otherwise.\r\n- `r.random(m, n, {float: true})` returns a float in [m, n) [2], if m < n, it returns m if m == n, and it returns a float in [n, m) if n < m. [3]\r\n- `r.random(n, {float: b})` is the same as `r.random(0, n, {float: b})`.\r\n\r\n\r\n[1] To be more specific (and pedantic), it should *ideally* be some number of the form k * 2^-53, where k is an integer and 0 <= k < 2^53.  That is, we shouldn't have sub-2^-53 components to the number when the output value is less than 0.5.  (In practice a lazy implementation would stop at sub-2^-63 or 2^-64 components.)  (Edit: This doesn't really matter but it is also trivial to get \"right\" assuming that this is right.)\r\n\r\n[2] Meh, who would care about being so particular about ulp-level uniformity in this case?  Doing something equivalent to `r.random() * (n - m) + m` would suffice, except be extra-sure that the value returned by that arithmetic is not rounded up to `n`.  (Edit: Beware: The expression here conflicts with the [n, m) interval suggested below when n < m.)\r\n\r\n[3] In the float case, we should probably have `r.random(m, m, {float: true})` return `m`.  There's no continuity error when doing this with float semantics, it's the limit of `r.random(m, n, {float: true})`'s behavior as n approaches m from above.  And, of course, rounding behavior could produce this edge case.  In the case where n < m, having `r.random(m, n, {float: true})` return a value is not so undesirable either.  It's undesirable with integers, but not floats.  The best behavior might be to always return m for some people, always return n for other (somewhat weird) people, and return a random number (in what interval?) for others.  (It depends on how m and n got computed.)  Somebody who's really antsy about floating point math could use max or min functions to clamp their value to be >= m or <= n.  So the most floating-point-accurate behavior would be to return a random value in one of [n, m), [n, m], (n, m], or (n, m).  There's no concern about future query evaluation in the floating point case.  The interval [n, m) minimizes surprise and documentation here, so that's what we should go with.  (Anybody specific enough to want [n, m] or (n, m] can just redesign their algorithm, they're probably messing up floating point rounding somewhere anyway, and (n, m) would need to further specify what happens when n and m are adjacent values.)\r\n\r\nIn the integer case, it's like calling `expr.slice(2, 2)` -- that returns an empty array, not the same array that `expr.slice(2, 3)` returns.  `expr.slice(2, 1)` also returns an empty array.  Integer random numbers are picked from sets of discrete values, not the floating point continuum.  The consequences will never be the same.  An expression  that might attempted like `query.nth(r.random(100, 100 + n))` shouldn't return a value outside the desired range when the desired range is empty."
+  , issueCommentId = 38331343
+  }

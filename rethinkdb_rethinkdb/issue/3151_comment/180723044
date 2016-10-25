@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-06) 09 : 16 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1441929
+        , simpleUserLogin = N "jlhawn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1441929?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jlhawn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/180723044"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3151#issuecomment-180723044"
+  , issueCommentCreatedAt = 2016 (-02) (-06) 09 : 16 : 24 UTC
+  , issueCommentBody =
+      "Good news everyone! It seems like I've made some progress:\r\n\r\n```\r\n$ openssl s_client -connect localhost:28015 -CAfile cert.pem \r\nCONNECTED(00000003)\r\n     ... [omitted for brevity] ...\r\n---\r\nNo client certificate CA names sent\r\nPeer signing digest: SHA512\r\nServer Temp Key: ECDH, P-521, 521 bits\r\n---\r\nSSL handshake has read 1788 bytes and written 521 bytes\r\n---\r\nNew, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES256-GCM-SHA384\r\nServer public key is 2048 bit\r\nSecure Renegotiation IS supported\r\nCompression: zlib compression\r\nExpansion: zlib compression\r\nNo ALPN negotiated\r\nSSL-Session:\r\n    Protocol  : TLSv1.2\r\n    Cipher    : ECDHE-RSA-AES256-GCM-SHA384\r\n    Session-ID: 9FE618C7C2EF9ED5F50F78AD61E309F2485C79D903D5A7F17E37217F21AE1EB8\r\n    Session-ID-ctx: \r\n    Master-Key: 12F35B3A99E8795A6CCB1E84ACCA982EC3CF1698F3D46033EC42DD415C764E9AAF662F2888F86875D2C536BF5D559AA7\r\n    Key-Arg   : None\r\n    PSK identity: None\r\n    PSK identity hint: None\r\n    SRP username: None\r\n    TLS session ticket lifetime hint: 300 (seconds)\r\n    TLS session ticket:\r\n    0000 - 26 c4 42 48 80 f4 b0 8b-c5 a7 09 24 b9 3b 39 ea   &.BH.......$.;9.\r\n    0010 - 5c 59 c1 22 c0 b8 d4 93-3a d9 94 7a 5a 4d 08 20   \\Y.\"....:..zZM. \r\n    0020 - 05 b2 6b f1 c3 9f 1b b1-ec 21 06 da 8e bf c2 35   ..k......!.....5\r\n    0030 - fa 1f 5d 39 d2 6b 23 6d-13 5d d1 44 d3 93 5a 77   ..]9.k#m.].D..Zw\r\n    0040 - b5 2b bc ac 8d ef 1a 38-9b 26 9d 8e a6 0d 44 72   .+.....8.&....Dr\r\n    0050 - 2a c7 ec 64 f5 b2 a5 76-6f 43 02 22 57 9f 1f 5d   *..d...voC.\"W..]\r\n    0060 - 91 25 3d cf 5c 54 85 7c-b7 45 7f 8a 97 73 ee 4d   .%=.\\T.|.E...s.M\r\n    0070 - f1 8e 7e cd ee 11 1e 70-37 32 33 c0 b2 35 f7 61   ..~....p723..5.a\r\n    0080 - 57 c0 f5 df de fd 24 ce-fe cd c9 c6 95 80 c5 24   W.....$........$\r\n    0090 - 8b 55 2f fb 3d 8b 3f 87-64 51 8a 96 bc bc 39 0c   .U/.=.?.dQ....9.\r\n\r\n    Compression: 1 (zlib compression)\r\n    Start Time: 1454749556\r\n    Timeout   : 300 (sec)\r\n    Verify return code: 0 (ok)\r\n---\r\nhello\r\nERROR: Received an unsupported protocol version. This port is for RethinkDB queries. Does your client driver version not match the server?\r\nclosed\r\n```\r\n\r\nSo far I've only got the query server accepting TLS connections. In the above snippet you can see that after the TLS handshake I wrote `hello` to the server to which it responded with: `ERROR: Received an unsupported protocol version. This port is for RethinkDB queries. Does your client driver version not match the server?`. I also ran simple app that I have against the server to confirm that queries still work and they do!\r\n\r\nHooking up the intra-cluster connections shouldn't be too difficult now that most of the connection and read/write handling stuff is out of the way."
+  , issueCommentId = 180723044
+  }

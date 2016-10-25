@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-22) 23 : 45 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43953062"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2437#issuecomment-43953062"
+  , issueCommentCreatedAt = 2014 (-05) (-22) 22 : 44 : 06 UTC
+  , issueCommentBody =
+      "I just added the term `CHANGES` in the driver, and it works fine.\r\n\r\nBut, for this code:\r\n```js\r\nvar r = require('./js');\r\n\r\nfunction log(feed) {\r\n    feed.next(function(err, data) {\r\n        if (err) {\r\n            console.log(err);\r\n            process.exit(1);\r\n        }\r\n        console.log(data);\r\n        log(feed);\r\n    });\r\n};\r\n\r\nr.connect().then(function(c) {\r\n    r.db('test').table('test').changes().run(c).then(function(feed) {\r\n        console.log('logging');\r\n        log(feed);\r\n    }).error(function(err) {\r\n        console.log(err);\r\n        process.exit(1);\r\n    });\r\n}).error(function(err) {\r\n    console.log(err);\r\n    process.exit(1);\r\n});\r\n```\r\n\r\nThe first change will be displayed only when a second change is done. And the nth changes will be displayed only when a `n+1` change is available.\r\n\r\nSo we really need to fix that, and there are two solutions:\r\n1. Remove `hasNext` from the cursor, and do not keep a buffer of one document in a cursor.\r\nThat's a non backward compatible change and would require shuffling some code in the driver, but it should eventually make the code simpler.\r\n\r\n2. Add a special term for feeds where I can provide another interface (basically a cursor that won't keep a buffer of one change, and that will not implement `hasNext`).\r\nThat's a backward compatible change.\r\n\r\n\r\nAlso what's the plan for the data explorer? I think we didn't really decide on what to do.\r\nI would prefer just not to display feeds for a few reasons\r\n- it seems fragile to me (http connections are not like tcp connections, they time out every 5 minutes)\r\n- it would require a non trivial amount of changes to display the feeds (we wait for 40 results, then update the DOM - we don't update the DOM after each result).\r\n\r\nThat being said, nothing is impossible, but displaying feeds in a good way would require at least a few days of work.\r\n\r\nOne more thing: if we don't want to display them, we need to send back a different type than `SUCCESS_PARTIAL` (or there is no way I can make the different between a cursor coming from `r.table(...)` and a cursor coming from `r.table(...).changes()`).\r\n I thought we agreed on sending back `FEED`?\r\n\r\nPing @coffeemug @Tryneus @mlucy -- Any thoughts on this?"
+  , issueCommentId = 43953062
+  }

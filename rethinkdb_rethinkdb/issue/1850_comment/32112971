@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-12) 02 : 05 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32112971"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1850#issuecomment-32112971"
+  , issueCommentCreatedAt = 2014 (-01) (-12) 01 : 52 : 21 UTC
+  , issueCommentBody =
+      "> sometimes you want to do a throwaway write for performance reasons, in which case you don't want to keep the result around indefinitely in case someone wants it\r\n\r\nYou wouldn't because the value would be stashed in the future object, which will be garbage collected if the user no longer have a reference to it. So the future object is only kept in memory while waiting for the db.\r\n\r\n> There are some use cases where speed / low network traffic are really important \r\n\r\nIf sending a reply like {\"deleted\"=>0, \"errors\"=>0, \"inserted\"=>1, \"replaced\"=>0, \"skipped\"=>0, \"unchanged\"=>0}  makes a worthwhile performance optimization, then we should definitely spend some time making the protocol faster.\r\n\r\nOn my machine, a single Redis process can performs 150,000 op/s without pipelining, and 500,000 op/s with pipelining, while sending replies (op being get or set). Why would a high performance database like redis doesn't implement noreply if that was a good idea? Okay, that's not fair because the two protocols are not really comparable, but then if it's a protocol issue, then we should fix the protocol instead of providing an API to fix underlying issues.\r\n\r\nI think people are using this feature not to relieve network traffic, but to deal with the lack of asynchronous features on the drivers.\r\n\r\nRight now RethinkDB has much more urgent performance problems to deal with, and this \"performance optimization\" seams to be an optimization that is way too early to do, and there is still time to remove this odd feature from the API. Perhaps it would make sense to add it again, once the database is optimized to death, but right now, it should not make any difference, and if it does, then something is really wrong with the protocol that we should fix."
+  , issueCommentId = 32112971
+  }

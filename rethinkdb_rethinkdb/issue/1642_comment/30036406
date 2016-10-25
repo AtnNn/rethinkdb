@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-06) 22 : 47 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30036406"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1642#issuecomment-30036406"
+  , issueCommentCreatedAt = 2013 (-12) (-06) 22 : 47 : 33 UTC
+  , issueCommentBody =
+      "The problem related to the merger serializer was one that happens when several empty index write operations are sent to the merger serializer.  The regular buffer cache does not do this and this issue does not affect v1.11.x.  (As far as I know, no btree users create write transactions without modifying any blocks, because almost all will modify the metainfo in the superblock.  But also, even if that did happen, the buffer cache only calls do_writes when `(!state.serializer_writes.empty())` is true.)\r\n\r\nThe alt cache only experienced this issue because for now it doesn't distinguish between read transactions and write transactions, and read transactions merrily result in an empty index write being performed.  (This is obviously going to be changed.)\r\n\r\nThe merger serializer has been changed in this branch to allow empty index writes.\r\n\r\n"
+  , issueCommentId = 30036406
+  }

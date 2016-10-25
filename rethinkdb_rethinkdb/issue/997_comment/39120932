@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-31) 18 : 06 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39120932"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39120932"
+  , issueCommentCreatedAt = 2014 (-03) (-31) 18 : 05 : 41 UTC
+  , issueCommentBody =
+      "> As a special case, trigger_create would create a temporary feed and return a sequence. Calling .feed_write() with no arguments inside the triggered function will write to that sequence. If there is such a call, the trigger gets dropped when the feed is closed.\r\n\r\nAs a special case when?\r\n\r\n> after the first read, the feed gets deleted when there are no more readers or when there are no more writers.\r\n\r\nThis \"after the first read\" switch of behavior sounds bad.  You have not defined the notion of \"reader\" or \"writer\" and what their lifetimes are, so it is unclear.\r\n\r\n> r.feed_read(name) returns a sequence or datum\r\n\r\nWhich does it return in what situation?  Wait, you can write sequences, as if they were some kind of value, to a feed, and then read them off as sequence objects?  (I'm pretty sure this is bad -- our notion of sequences exists only as *types*, not types of values, in queries that are understood to be non-consistent.  We would have no way of knowing when analyzing before evaluating a query whether `feed_read()` returns a sequence or a single datum.)\r\n\r\nIf you can write sequences, what happens internally if `r.table('foo').feed_write(name)` is evaluated?  What is the behavior of this:\r\n\r\n```\r\nr.table_create('foo');\r\nr.table('foo').insert({'id': 1, 'a': 77});\r\nr.table('foo').feed_write(name);\r\nr.table('foo').replace({'id': 1, 'a': 88});\r\nr.table('foo').feed_read(name);\r\n```\r\n\r\n> queue=...\r\n\r\nWhy can't it be possible for there to be more than one reader, where items *don't* get dropped off the queue if there are no readers?  That's a common use case.\r\n\r\n> The triggering_actions would be a list of all or some of 'after_insert', 'after_delete', 'after_replace', 'before_insert', 'before_delete' or 'before_replace'.\r\n\r\nWhat about having only 'before' and 'after', and use null to represent the absence of a value?  Are 'delete', 'insert', and 'replace' supposed to correspond to ReQL query commands?  (If so, what about 'update'?)\r\n\r\nAlso: It makes no sense for the same function to be registered as both a \"before\" function and an \"after\" function."
+  , issueCommentId = 39120932
+  }

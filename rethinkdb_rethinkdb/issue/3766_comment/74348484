@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-13) 23 : 57 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74348484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3766#issuecomment-74348484"
+  , issueCommentCreatedAt = 2015 (-02) (-13) 23 : 57 : 53 UTC
+  , issueCommentBody =
+      "I tried changing `one_waiter_cond_t` to use `notify_sometime` instead of `notify_now_deprecated` - it was only being used in `static_semaphore_t::co_lock()` and `adjustable_semaphore_t::co_lock()`, both of which would perform a `coro_t::yield_ordered()` right after the `one_waiter_cond_t::wait()`.  I believe this means that users of the `semaphore_t`s already could not count on running immediately, and it is safe to use `notify_sometime` instead and drop the `coro_t::yield_ordered()`.\r\n\r\nI am not positive about this reasoning, but with this change, all the unittests and reql tests pass.  I am also running a few valgrind tests to see if anything suspicious shows up.\r\n"
+  , issueCommentId = 74348484
+  }

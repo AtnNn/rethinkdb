@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 18 : 25 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 467928
+        , simpleUserLogin = N "chipotle"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/467928?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chipotle"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/108044155"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4319#issuecomment-108044155"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 18 : 25 : 53 UTC
+  , issueCommentBody =
+      "This `forEach` function worked for me in the Data Explorer by converting the points to GeoJSON and getting the coordinate values from the returned structure.\r\n\r\n```js\r\n// create a test table and insert some data\r\nr.tableCreate('geotest');\r\n\r\nr.table('geotest').insert([\r\n  {id: 1, location: r.point(10, 20)},\r\n  {id: 2, location: r.point(15, 30)},\r\n  {id: 3, location: r.point(20, 40)}\r\n]);\r\n\r\n// flip the point values in the \"location\" field\r\nr.table('geotest').forEach(function (doc) {\r\n  var coords = doc('location').toGeojson()('coordinates');\r\n  return r.table('geotest').get(doc('id')).update(\r\n    {location: r.point(coords(1), coords(0))}\r\n  );\r\n});\r\n```\r\n\r\nBack up your data first, of course. :)"
+  , issueCommentId = 108044155
+  }

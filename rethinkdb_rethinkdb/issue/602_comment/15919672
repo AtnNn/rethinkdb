@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-04) 19 : 51 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15919672"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/602#issuecomment-15919672"
+  , issueCommentCreatedAt = 2013 (-04) (-04) 19 : 51 : 33 UTC
+  , issueCommentBody =
+      "I have a few comments. First off I think the name can't work here, consider:\r\n\r\n```Python\r\ntable.index(\"foo\") #create an index\r\ntable.sindex(\"foo\") #access an index\r\n```\r\nSeems pretty confusing to me. So I think we're going to need to do something like `table.index_by(\"foo\")`.\r\n\r\nOn a similar note I think the name `get_set` is bad. For 2 reasons the first is that what you're getting back isn't really a set in any standard sense of the word. The second is that it's possible it might cause confusion because `set` could be construed as a synonym for `insert`\r\n\r\n----\r\n\r\nComparing syntaxes:\r\n\r\nSo in our current system the index you want to use is passed as an argument to the operation that will be using. For example:\r\n\r\n```Python\r\ntable.index_by(\"foo\").get(1)\r\n# vs\r\ntable.get(1, \"foo\")\r\n```\r\nI think I could live with both of these syntaxes but I'd prefer the shorter one. Similarly with `between` we have:\r\n\r\n```Python\r\ntable.index_by(\"foo\").between(1, 10)\r\n# vs\r\ntable.between(1, 10, \"foo\")\r\n```\r\nAgain I don't see a huge increase in clarity that makes up for increased verbosity.\r\n\r\n---\r\nMy biggest objection to this proposal is that it seems to create a mental model which isn't as concise as it could be. And having cruft in the mental model is one of the worst things we can have since it will make it harder for people to truly grok ReQL. As far as I can tell people think of databases like this: there exist tables, tables can have 0 or more indexes which can be used to make certain operations more efficient. In SQL indexes are used implicitly while in ours they need to be explicitly specified but I think the mental model is mostly the same. \r\nI think the proposal in which the index is an argument to the operation that uses it matches up better with this mental model because it reinforces the idea that the index only has any use with respect to these operations. You can only reference an index when you're doing one of these operations which is great because that's the only time we can use one on the server side.\r\nWith this proposal we have to answer the question: \"What is this object `table.index_by(\"foo\")?` It's a table object which when you do a `get` will use the secondary index which was specified. But you can't give a description of this object that doesn't hinge on how it affects later operations on it which I think is confusing. "
+  , issueCommentId = 15919672
+  }

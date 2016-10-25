@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-05) 04 : 49 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29871427"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-29871427"
+  , issueCommentCreatedAt = 2013 (-12) (-05) 04 : 49 : 35 UTC
+  , issueCommentBody =
+      "> Instead of trying to support all the complex cases of triggers, I think a simple changes feed would be more ideal.\r\n\r\nI agree, CouchDB's concept of [change notifications](http://docs.couchdb.org/en/1.4.x/changes.html) is a really elegant solution that solves most users needs.\r\n\r\n> Actually, instead of passing the table name as a parameter to a trigger, a better way would be as follows:\r\n> \r\n>     r.table('users').createTrigger('test', r.insert, ... )\r\n> \r\n>     // Stop beeping for twenty year olds\r\n>     r.table('users').dropTrigger('test');\r\n\r\nIn terms of the API. I think conforming to the `EventEmitter` pattern would be best (at least for the JS driver). It might be interesting to introduce the concept of a `feed` to allow arbitrary querying and more focused syntax. Example being:\r\n\r\n````javascript\r\nvar feed = r.table('user').changes({ since: r.now(), return_vals: true });\r\n\r\n// Subscribe to all updates\r\nfeed.on('update', function(user) {\r\n  ...\r\n});\r\n\r\n// Fires on insert of a user with age >20\r\nfeed.filter(r.row('age').gt(20)).on('insert', function(new_user) {\r\n  ...\r\n});\r\n````"
+  , issueCommentId = 29871427
+  }

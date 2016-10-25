@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-11) 19 : 16 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/111247631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4382#issuecomment-111247631"
+  , issueCommentCreatedAt = 2015 (-06) (-11) 19 : 15 : 31 UTC
+  , issueCommentBody =
+      "Sorry you ran into this. This is actually just a case of pretty confusing syntax on our end.\r\n\r\n`r.wait()` doesn't wait for all tables, but it waits for all tables in the default database. It works analogously to other operations such as `r.tableCreate()` or `r.table()`, all of which use the default database if no `r.db(...)` is prefixed.\r\n\r\nSo you'll probably need to run `wait()` on the specific database that you're using, or do something like\r\n```js\r\nr.dbList().filter(r.row.ne('rethinkdb')).forEach(r.db(r.row).wait().do(...))\r\n```\r\nto wait (and run your deletion function) on all tables in all databases."
+  , issueCommentId = 111247631
+  }

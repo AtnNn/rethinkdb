@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-07) 18 : 25 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51511638"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2804#issuecomment-51511638"
+  , issueCommentCreatedAt = 2014 (-08) (-07) 18 : 24 : 55 UTC
+  , issueCommentBody =
+      "If we display something like \"3.4 KB\", I don't care about correctness. But if we display \"372 bytes\", that should be an exact figure. I don't think we should put a `~` before it. It's not hard to determine the exact number.\r\n\r\nHere's some code in Python, that I think should determine the exact size in constant time without decoding the string. @Tryneus, can you double-check my work?\r\n```python\r\ndef compute_decoded_size(encoded):\r\n    (blocks_of_76, leftover) = divmod(len(encoded), 78)\r\n    base64_digits = 76*blocks_of_76 + leftover\r\n    (blocks_of_4, leftover2) = divmod(base64_digits, 4)\r\n    assert leftover2 == 0\r\n    if encoded.endswith(\"==\"):\r\n        number_of_equals = 2\r\n    elif encoded.endswith(\"=\"):\r\n        number_of_equals = 1\r\n    else:\r\n        number_of_equals = 0\r\n    return 3*blocks_of_4 - number_of_equals\r\n```"
+  , issueCommentId = 51511638
+  }

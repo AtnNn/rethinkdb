@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-06) 02 : 17 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/42261270"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2353#issuecomment-42261270"
+  , issueCommentCreatedAt = 2014 (-05) (-06) 02 : 17 : 43 UTC
+  , issueCommentBody =
+      "How is the version number of a cluster message defined? Is it like the highest version of any serialized object in that message? Or is the version number a property of the node that's sending the message? (i.e. a node running RethinkDB 1.12.4 will transmit the same version number with all its messages, but a different one from one running 1.13.0)\r\n\r\nThe idea of having per-version `deserialize()` functions in *every* serializable type for *every* version sounds reasonable, as long as there is close to zero effort involved in generating these functions.\r\n\r\nI'm not quite sure how the interface for generating deserialization functions will look like with this. It seems to me that we basically need some kind of per-version specification for each serializable type, don't we?\r\nFor each version, a type can be either:\r\n- not deserializable (trying to deserialize that version fails) <- this should probably be the default for all versions older than the oldest one which has a deserialization routine defined\r\n- deserializable in a certain specified way\r\n- deserializable in the same way as the previous version(s) <- we wouldn't want to duplicate any code, if the format of the object hasn't changed\r\n\r\nWhen we increase the protocol version from V to V+1, we will initially want all types to automatically assume the third case, i.e. the deserialization routine for V+1 should be the same as for V (assuming we haven't changed anything in the actual format yet). As we go ahead and actually change parts of the protocol, some types will become undeserializable for versions that are too old, and the deserialization routine for version V+1 might diverge from the one for V. All of these steps should be relatively easy from the programmer's point of view.\r\n\r\nHaven't thought about an actual interface. Any ideas yet?\r\n(and am I even understanding the proposal correctly?)"
+  , issueCommentId = 42261270
+  }

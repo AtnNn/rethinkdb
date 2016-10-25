@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-25) 22 : 32 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21589584"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1084#issuecomment-21589584"
+  , issueCommentCreatedAt = 2013 (-07) (-25) 22 : 32 : 07 UTC
+  , issueCommentBody =
+      "I cannot find a commit with ID gab22ed.  The best I can do is to try to reproduce the RDBProtocol.OvershardedMissingAttr test in the v1.6.x branch.  So far, after running the test for 100 iterations in v1.7.x and 300 iterations in v1.6.x, the error has not been reproduced.\r\n\r\nThis error means that somewhere, a log serializer is shutting down without waiting for some action it has submitted to have completed.  Or, it might mean that a serializer hasn't yet been destructed, or something which owns a serializer (a disk backed queue?  something else?) has not yet been destructed, by the time the io_backender_t gets destroyed.\r\n\r\nOne other experiment to do is to run this unit test under valgrind.  If that doesn't reveal any leaks (note that this doesn't quite mean that no leaks could possibly exist -- the error could still be outside the serializer).  If that doesn't exhibit anything, the best thing I can do is to look at the code in the serializer, and look at the code in the things which use the io_backender inside rdb_protocol_t::store_t (such as the metadata store, and disk backed queues) and so on, all the way up.  If I don't find anything then, I don't know what to do.\r\n\r\nIf the bug can't be fixed, a few changes could be made to improve error reporting in the future.  outstanding_txn == 0 should be guaranteed, not asserted.  The submitted action_t's should be put into an intrusive list, so that their contents can be dumped in some form, so that we can get some idea of which files still have activity next time this happens."
+  , issueCommentId = 21589584
+  }

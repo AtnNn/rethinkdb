@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-29) 23 : 16 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61021775"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2822#issuecomment-61021775"
+  , issueCommentCreatedAt = 2014 (-10) (-29) 23 : 16 : 25 UTC
+  , issueCommentBody =
+      "I don't think that we should ever being doing `import rethinkdb` from within the driver at all. In most places we should be doing `from . import foo`, which this patch does. That is the correct way of handling it.\r\n\r\nThe only place were the lines that @AtnNn mentions are needed are in docs.py, and that is because we are doing some strange monkey-patching in order to separate docs into their own file (for build reasons). While my solution looks worse it is actually a better solution.\r\n\r\nAlternately another solution that is a hair cleaner occurred to me this morning while working on something else: move the monkey-patching code from `docs.py` to `__init__.py`. This would leave `docs.py` as only a data file so it would not have to try to do the odd trick it is now doing to try and reference its own package. Since `__init__` already has to import all of the various modules it is in a uniquely good place to do this monkey-patching.\r\n\r\nAnd we are not \"unloading\" the module as in that python issue. All modules remain loaded and available within the namespace(s) that loaded it. So there is no issue of memory leak, that is a red herring."
+  , issueCommentId = 61021775
+  }

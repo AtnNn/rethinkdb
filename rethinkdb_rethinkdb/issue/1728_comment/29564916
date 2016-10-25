@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-01) 01 : 07 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29564916"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1728#issuecomment-29564916"
+  , issueCommentCreatedAt = 2013 (-12) (-01) 01 : 07 : 20 UTC
+  , issueCommentBody =
+      "> it's really the only efficient way to do pagination.\r\n\r\nAh!\r\n\r\n> Also what are these equally important cases where people want to use the same index twice that we don't support? [...] I made a pretty big effort to make sure all of them\r\n\r\nNever mind. I was thinking stuff like `r.table('foo').get_all('bar', index='baz').order_by(..., index='baz')` but relative to pagination it's obviously a lot less important.\r\n\r\nWhich other ones are you thinking of?\r\n\r\n> In the short-term, another option here is to just add an optarg `order` to `between`\r\n\r\nEh, that would pollute the API in a way that we can't easily undo later without breaking people's code. And it smells messy, like something The Other NoSQL Database Company (tm) would do :-D I'd prefer to wait until we do things right rather than add this hack.\r\n\r\n> I think long-term we're just going to have to add another type to the type system (`INDEXABLE_STREAM` or `TABLE_SLICE` or something).\r\n\r\nWhat about these options:\r\n\r\n* Don't denote indexability in the user-facing type. For example, make streams indexable in some cases and not indexable in others, but don't have a way to differentiate between the two by calling `type_of()` -- just throw a runtime error \"this stream is not indexable\".\r\n* Add a notion of attributes to types. For example: `STREAM[INDEXABLE]`, `SELECTION<STREAM[INDEXABLE]>`.\r\n\r\n"
+  , issueCommentId = 29564916
+  }

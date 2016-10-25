@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 23 : 12 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16322207"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/661#issuecomment-16322207"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 23 : 09 : 55 UTC
+  , issueCommentBody =
+      "Note that latency issues (of preemptively requested batches blocking other query responses) can also be fixed by fixing the protocol to not have arbitrarily sized monolithic messages.  There are network bandwidth issues but they're not so important -- the fact that the first batch size is very large (if it is) is a much bigger potential problem, compared to getting the first few elements.\r\n\r\nThere is some issue about that already, I think.\r\n\r\nI think prefetching batches might be something we might want to do after, say, the 3rd batch has arrived.  However, it only improves throughput (at most by a factor of 2) when processing a batch takes on the same order as request time.\r\n\r\nIs that really worth it?  The real potential performance speedup happens when processing a batch goes much faster than requesting and receiving a batch.  In that case, preemptively requesting the _next_ batch is a lame solution -- you want to preemptively request the next N batches, with N depending on how long it took to process the existing ones.\r\n\r\nFor this reason, I think having the Ruby driver not preemptively request the next batch is better than having it preemptively request the next batch, especially for the first 2 or 3 batches (but then maybe after that, as well, in the general principle of code simplicity, considering the marginal gains).\r\n\r\nBut what we *actually* want to do is to have both drivers support preemptively requesting the next N batches, basing that value on measurements of how long it took to process preceding batches.  *And* we want the protocol to support sending responses in a different order than queries.  *And*, with lesser priority, we want the protocol to support breaking up large responses so that one big response doesn't clog network traffic.\r\n\r\n"
+  , issueCommentId = 16322207
+  }

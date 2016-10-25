@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-06) 05 : 28 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27843917"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1562#issuecomment-27843917"
+  , issueCommentCreatedAt = 2013 (-11) (-06) 05 : 26 : 31 UTC
+  , issueCommentBody =
+      "> I can't see a good way to roll `index_wait` into `index_status` with an optarg.\r\n\r\nWe could do it in the same way we do `get_all` -- `index_status('a', 'b', { wait: true })`. We already do something similar in a couple of places, and there is no way index name will ever conflict with an object. \r\n\r\n> `r.table('foo').wait` waits until the table is ready -- there's currently no good way for the user to do this without polling\r\n\r\nHmm, I was 99% sure that `table_create` blocks until the table is ready (by doing internal polling), and only returns when it is. If it doesn't do that, I think it should -- since table creation is effectively a constant time operation, I don't think there is a good reason to return immediately and have a separate wait function. Would you mind checking if the function blocks?\r\n\r\nOn a separate note, I like the idea of `r.table('foo').index('bar').info/wait`. I'm not sure if I prefer it to `r.table('foo').index_ready('foo', wait=Bool)`. This is new, I have to think about it a bit to let it sink in. The latter does have the benefit of being simpler."
+  , issueCommentId = 27843917
+  }

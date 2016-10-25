@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-22) 17 : 17 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 314564
+        , simpleUserLogin = N "RaitoBezarius"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/314564?v=3"
+        , simpleUserUrl = "https://api.github.com/users/RaitoBezarius"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95258492"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3785#issuecomment-95258492"
+  , issueCommentCreatedAt = 2015 (-04) (-22) 16 : 39 : 13 UTC
+  , issueCommentBody =
+      "@danielmewes I wanted to ask you about the behavior of the cursors, I think that they are not very very async-friendly.\r\n\r\n```python\r\n    def _maybe_fetch_batch(self):\r\n        if self.error is None and \\\r\n           len(self.items) <= self.threshold and \\\r\n           self.outstanding_requests == 0:\r\n            self.outstanding_requests += 1\r\n            self.conn._parent._continue(self)\r\n```\r\nCurrently, _continue calls run_query which should return a Deferred/Future/Whatever.\r\n\r\nBut as we don't return it from `_maybe_fetch_batch`, thus, it is impossible to get the deferred object.\r\nFurthermore, I think that there is a biggest problem (correct me if what I'll say is wrong).\r\n\r\nCursor works by waiting for the connection to extend them to get a new response.\r\nIn order to iterate over a cursor, we wait that those items are extended by the connection.\r\nBut how we wait during iteration: `while len(self.items) == 0`. With an async backend, it's maybe stupid to it like that, we should just wait for the deferred from _maybe_fetch_batch returns or sleep until we're extended:\r\n\r\n```python\r\ndef _get_next(self, timeout):\r\n    start_timeout(timeout, self.new_response)\r\n    yield self.extended\r\n    returnValue(convert_pseudo(self.items.pop(0), self.query))\r\n```\r\n\r\nIn fact, all _maybe_fetch_batch is to send CONTINUE query if I understand correctly?\r\n\r\nIt would clearly better if we implemented cursor just as a generator, by subclassing `__iter__` and `__next__`, leading to a code (independent from any backend) : \r\n```python\r\nfor change in cursor:\r\n    print (yield change)\r\n```\r\n\r\nIt was a lot of thoughts in one message, sorry for it!\r\n\r\nEDIT: You can have a working version of the Twisted driver here: https://github.com/RaitoBezarius/rethinkdb/commit/8cd55fcc9c2fcfb67c03d6b03e0b06ee8daed114\r\nMy PR is coming :) !"
+  , issueCommentId = 95258492
+  }

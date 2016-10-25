@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-22) 03 : 37 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35793548"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1990#issuecomment-35793548"
+  , issueCommentCreatedAt = 2014 (-02) (-22) 03 : 37 : 23 UTC
+  , issueCommentBody =
+      "This assertion is wrong and the release mode code is correct, but it's lucky that's the case.  The recent change to make read transactions not spawn flushes, or flush coroutines, and to avoid any possibility of recursive calls to im_waiting_for_flush, resulted in us forming a queue (actually a set) of pending txns to process.  Transaction on that queue which get caught up in a different flush group, or otherwise flushed, will have spawned_flush_ set to true.  Then exists_flushable_txn_set will return true, but with an empty set!  compute_changes will return an empty map, remove_txn_set_from_graph will do nothing, returning an empty set.\r\n\r\nThis describes what the code does as of 6b77f6b54a355a0bff08ef4cdeaf60de10a37a2b."
+  , issueCommentId = 35793548
+  }

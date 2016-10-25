@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-12) 16 : 43 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51939736"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2892#issuecomment-51939736"
+  , issueCommentCreatedAt = 2014 (-08) (-12) 16 : 31 : 15 UTC
+  , issueCommentBody =
+      "You can use `r.args` for this.\r\n\r\nSomething like this:\r\n\r\n```js\r\nr.table('users').getAll(r.args(r.table('comments')('user').coerceTo('array')))\r\n```\r\n\r\nBe careful when your `obj('projects')` is an empty array, as `.getAll()` does not currently support empty queries -- it will return the (misleading) error `Expected 2 or more argument(s) but found 1` when you try to do something like `r.table('projects').getAll(r.args([]))`\r\n\r\nAs a workaround, you can use `r.branch` as described in #2586 or something a bit trickier like: \r\n\r\n```js\r\nr.table('users').getAll(r.args(r.table('comments')('user').coerceTo('array').append('does-not-exist')))\r\n```\r\n\r\n#2463 exists to track the misleading error message.\r\n\r\n#2588 exists to track `getAll` taking zero arguments."
+  , issueCommentId = 51939736
+  }

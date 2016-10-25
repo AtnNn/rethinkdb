@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-13) 21 : 49 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69827122"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3562#issuecomment-69827122"
+  , issueCommentCreatedAt = 2015 (-01) (-13) 21 : 49 : 34 UTC
+  , issueCommentBody =
+      "X-post from #1721:\r\n\r\n---\r\n\r\n> I wonder if we should take this as a chance to simplify any/all behavior in this respect, and make them always return either true or false. I'll open a separate thread to discuss that.\r\n\r\nI would be strongly opposed to that.  The reason we don't do that is that it's common to write code like `val_or_null || backup_val_or_null || default_val` in Ruby (and I would guess a lot of other dynamic languages).  The idea is that if `val_or_null` returns a val, you return that, and otherwise you return `default_val`.  Supporting that use case is about a third of why we adopted the idea of truthy values in the first place.\r\n\r\nI've been thinking about this a little more, and I think we should adopt the following rules (which mimic Ruby's behavior pretty closely):\r\n* `or` returns the first truthy value it encounters or, if it encounters no truthy values, the last value it encounters.  If the last value is a non-existence error, it rethrows it (`false` and `null` are returned).\r\n* `and` returns the first falsey value it encounters or, if it encounters no falsey values, the last value it encounters.  If the first falsey value is a non-existence error, it rethrows it (`false` and `null` are returned).\r\n\r\n---\r\n\r\n> r.or(null, null) -> false (note false isn't any of the arguments to or)\r\n\r\nThat seems like a bug to me; I would expect that to return `null`, and that's what Ruby does."
+  , issueCommentId = 69827122
+  }

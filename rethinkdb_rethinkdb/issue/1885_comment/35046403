@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-14) 01 : 16 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35046403"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1885#issuecomment-35046403"
+  , issueCommentCreatedAt = 2014 (-02) (-14) 01 : 16 : 05 UTC
+  , issueCommentBody =
+      "@nergdron Thank you for the additional information.\r\n\r\nThere are two things I'm going to check based on that:\r\n- The high write throughput on the receiving node could indicate garbage collection being active. I will check if that might have an impact on the backfilling process (it should not, but something could be wrong). Garbage collection typically kicks in only after a while (and can become more aggressive if new data keeps coming in faster than it can clean up). So if something is wrong with garbage collection that would also explain why things get slower after a while.\r\n- The block count that's showed on the progress page is not equivalent to the number of documents that have been backfilled. I will check what it means exactly. I could imagine that in the beginning it's counting inner nodes of the internal btree, which are much cheaper to backfill than the leaf nodes (the reason being that your documents of 1-2k are stored outside of the leaf node. So backfilling a single leaf node means that the machine has to load a large number of documents). It's just a hypothesis right now. Again, I have to check what it means exactly.\r\n\r\nIn general, syncing out-of-memory tables from a rotational drive is definitely terribly slow. In many cases too slow to be practical. I'm not sure when we will be able to change this right now."
+  , issueCommentId = 35046403
+  }

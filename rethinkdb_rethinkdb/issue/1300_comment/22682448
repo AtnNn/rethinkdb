@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-15) 03 : 02 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22682448"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1300#issuecomment-22682448"
+  , issueCommentCreatedAt = 2013 (-08) (-15) 03 : 02 : 46 UTC
+  , issueCommentBody =
+      "Here's how the JS date shim more or less currently works:\r\n\r\n```javascript\r\nvar d = new Date();\r\nd => Wed Aug 14 2013 19:35:04 GMT-0700 (PDT)\r\nd.toISOString() => '2013-08-15T02:39:20.947Z'\r\nr.expr(d).run({'time_format':'native'}) => Wed Aug 14 2013 19:35:04 GMT-0700 (PDT)`\r\nr.expr(d).run({'time_format':'raw'}) => {'$reql_type$':'TIME', 'epoch_time':1376534275, 'timezone':'+00:00'}\r\nr.expr(d).inTimezone(\"+10:00\").run({'time_format':'native'}) => Wed Aug 14 2013 19:35:04 GMT-0700 (PDT)\r\n```\r\n\r\nWhat you can see here is that that JS always stores dates in UTC but displays them in local time when printed. JS dates handed to RethinkDB are thus always in UTC and RethinkDB times converted into native JS dates will always lose their timezone information and be stored in UTC even if they will still be displayed by JS in local time.\r\n\r\nJS treats timezone as a display problem. Dates are fundamentally always UTC but can be displayed in local time if you want. RethinkDB isn't throwing out timezone information associated with the native date but merely respecting this convention.\r\n\r\nMaybe I'm not sure what you're asking for, but no matter what timezone offset we give to a ReQL time object it will display in any JS environment in the same way, local time will be used."
+  , issueCommentId = 22682448
+  }

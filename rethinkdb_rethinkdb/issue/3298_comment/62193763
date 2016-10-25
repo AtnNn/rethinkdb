@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-07) 19 : 09 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62193763"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-62193763"
+  , issueCommentCreatedAt = 2014 (-11) (-07) 18 : 55 : 42 UTC
+  , issueCommentBody =
+      "Oh, and to add the example for the second possible solution that I posted earlier:\r\n\r\n```python\r\nfeedA = r.table('a').changes(someFlag=True).run(conn)\r\nfeedB = r.table('b').changes(someFlag=True).run(conn)\r\nwhile True:\r\n    for a in feedA: # would get StopIteration error if there is nothing available at that moment\r\n        print(a)\r\n    for b in feedB: # would get StopIteration error if there is nothing available at that moment\r\n        print(b)\r\n```\r\n\r\nImportant to note here is that even though they emit `StopIteration` errors (how iterators signal they are done), both `feedA` and `feedB` would still be capable of returning further results. This would be very non-standard behavior in Python, but it is an elegant solution.\r\n\r\nEdit: the major problem here is how do we signal when a changefeed is satisfied? (e.g.: one with a `limit`)"
+  , issueCommentId = 62193763
+  }

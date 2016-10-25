@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-15) 21 : 19 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43266462"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2285#issuecomment-43266462"
+  , issueCommentCreatedAt = 2014 (-05) (-15) 21 : 19 : 15 UTC
+  , issueCommentBody =
+      "More precisely the guarantee appears to be in the wrong line:\r\n```\r\n   if (exists) {\r\n        mod_info->deleted.first = get_data(kv_location.value.get(),\r\n                                           buf_parent_t(&kv_location.buf));\r\n        kv_location_delete(&kv_location, key, timestamp, deletion_context, mod_info);\r\n    }\r\n    guarantee(!mod_info->deleted.second.empty() && mod_info->added.second.empty());\r\n```\r\n\r\nshould be \r\n\r\n```\r\n   if (exists) {\r\n        mod_info->deleted.first = get_data(kv_location.value.get(),\r\n                                           buf_parent_t(&kv_location.buf));\r\n        kv_location_delete(&kv_location, key, timestamp, deletion_context, mod_info);\r\n        guarantee(!mod_info->deleted.second.empty() && mod_info->added.second.empty());\r\n    }\r\n```"
+  , issueCommentId = 43266462
+  }

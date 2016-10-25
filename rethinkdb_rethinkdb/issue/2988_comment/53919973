@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 19 : 27 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53919973"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-53919973"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 19 : 27 : 48 UTC
+  , issueCommentBody =
+      "Thank you for the additional info @victorquinn .\r\n\r\nSorry I missed the info about `r.js`/`r.http` in your original post.\r\nI'm not quite sure how the high memory usage could be surviving the restart of the RethinkDB server. That's very interesting.\r\nThe fact that the restarted RethinkDB server was able to bind to the ports indicates that the old process had been terminated indeed. At the same time the fact that it decided to use a small cache size on startup shows that the memory was indeed still in use. The only thing other than `r.js` and `r.http` that uses external worker processes is general disk i/o. Could that mean that we have a memory leak in the i/o worker? Why did the RethinkDB process not wait for the workers to terminate, before terminating itself? (I assume the init script works correctly and doesn't timeout waiting for the process to terminate or anything like that. Note to myself: Check that too)\r\n\r\nRegarding the cursor question: Thanks for checking. `toArray()` actually makes sure that the cursor gets completely consumed, which deallocates it on the server. So left-open cursors shouldn't be an issue with your code, even if there were long running connections."
+  , issueCommentId = 53919973
+  }

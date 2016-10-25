@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-04) 02 : 26 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48003522"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2642#issuecomment-48003522"
+  , issueCommentCreatedAt = 2014 (-07) (-04) 02 : 26 : 26 UTC
+  , issueCommentBody =
+      "Update on what I've found so far:\r\n\r\nThe VM I'm running on runs with `--cores 2` by default.  I'm not sure how tied into the problem this is, but when I run with `--cores 8`, I get much better performance on these queries (by a factor of about 4).\r\n\r\nI am not convinced the `error: worker process failed to resynchronize with main process` is a real problem aside from just a side-effect of poor performance.\r\n\r\nAn individual `r.js` call with a row is taking about 30ms, which means we should be able to complete this query on the order of 3 seconds on this hardware (not stellar performance, there may be more things to look into).  Instead, tests with `--cores 1` and `--cores 2` were taking ~30 and ~25 seconds, respectively.\r\n\r\nThe `r.js` source, which in an ideal world would only be compiled 8 times (once per hash-shard), is in fact being compiled between 250 and 300 times.  This may be due to batching combined with recent changes regarding `env_t` construction with streams, I will look into it tomorrow."
+  , issueCommentId = 48003522
+  }

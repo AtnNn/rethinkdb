@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-10) 04 : 24 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91424846"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3163#issuecomment-91424846"
+  , issueCommentCreatedAt = 2015 (-04) (-10) 04 : 24 : 33 UTC
+  , issueCommentBody =
+      "Null bytes are now supported in the branch `daniel_rapidjson` as far as the JSON side is concerned (will be merged as part of https://github.com/rethinkdb/rethinkdb/issues/3844).\r\n\r\nHowever datums still disallow null bytes, and we need to escape strings when converting them to btree keys similar to what we do with binary data.\r\nThe slightly tricky thing will be how to migrate old primary keys that contain strings with 1 bytes (these would need to be escaped too, since the escaping mechanism uses 1 bytes as escape bytes to escape null bytes).\r\nI think we can get away with continuing to disallow null bytes in primary keys of existing tables, and require creating a new table to start using them.\r\n\r\nAnother minor thing left is that utf8 validation is currently called on a C-string in some places, but that should be easy to change (I believe the code already supports other string types)."
+  , issueCommentId = 91424846
+  }

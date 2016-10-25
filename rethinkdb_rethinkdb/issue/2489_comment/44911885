@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-03) 01 : 50 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44911885"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2489#issuecomment-44911885"
+  , issueCommentCreatedAt = 2014 (-06) (-03) 01 : 50 : 55 UTC
+  , issueCommentBody =
+      "Actually this was just a bug in our adaptation of the cJSON code. The original code is correct.\r\n\r\nNote that here\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/src/http/json/cJSON.cc#L185\r\nour code reads\r\n```\r\nlen=4;\r\nif (uc < 0x80) {\r\n    len = 1;\r\n} else if (uc < 0x800) {\r\n    len = 2;\r\n} else if (uc < 0x10000) {\r\n    len = 3;\r\n    ptr2 += len;\r\n}\r\n```\r\n\r\nThe original is:\r\n```\r\nlen=4;if (uc<0x80) len=1;else if (uc<0x800) len=2;else if (uc<0x10000) len=3; ptr2+=len;\r\n```\r\n\r\nNote how `ptr2 += len;` is *outside* of the if."
+  , issueCommentId = 44911885
+  }

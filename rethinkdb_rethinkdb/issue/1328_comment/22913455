@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-19) 23 : 54 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22913455"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1328#issuecomment-22913455"
+  , issueCommentCreatedAt = 2013 (-08) (-19) 23 : 54 : 04 UTC
+  , issueCommentBody =
+      "So, that's not quite what an `env_t` is supposed to do.  An `env_t` is supposed to handle one call to `eval` at a time, so that it can keep track of e.g. variable scope.\r\n\r\nThere are three ways we could do this:\r\n* Continue to only use one `env_t` per `eval`, and just create a bunch of copies in the `pmap`.  (Not sure how slow this is.)\r\n* Make an `env_t` be able to handle multiple `eval`s at once, by having functions like `push_var` take a uuid or something.\r\n* Break the `env_t` in two, an `eval_env_t` and a `query_env_t`, and have the former contain a pointer to the latter.  Have one `eval_env_t` per `eval`, and one `query_env_t` per query.\r\n\r\nI'm not sure which of these is best, but I think I like the second one least because it would make a bunch of interfaces more painful."
+  , issueCommentId = 22913455
+  }

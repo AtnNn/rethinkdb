@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-18) 04 : 07 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35350838"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1875#issuecomment-35350838"
+  , issueCommentCreatedAt = 2014 (-02) (-18) 04 : 07 : 43 UTC
+  , issueCommentBody =
+      "Here is a comparison of YCSB performance data between v1.11.x, next and sam_alt.\r\nWeirdly, the hard durability numbers are worse for all versions even in the read-only workload. Something with this test is not quite right. Have to investigate that later.\r\n\r\n\r\n__Soft Durability, Warm Cache, 10 Clients__\r\n\r\nYCSB Workload  | v1.11.x ops/s | next ops/s | sam_alt ops/s\r\n------------- | ------------- | ------------- | -------------\r\na (50/50 read/update)  | 7382 | 8006 | 719\r\nb (95/5 read/update) | 14584 | 15767 | 7337\r\nc (100 read) | 17909 | 18449 | 17373\r\nd (95/5 read/insert) | 15642 | 16478 | 15495\r\ne (95/5 scan/insert) | 517 | 1215 | 1283\r\nf (50/50 read/readmodifywrite) | 5825 | 6577 | 678\r\n\r\n__Hard Durability (SSD), Warm Cache, 10 Clients__\r\n\r\nYCSB Workload  | v1.11.x ops/s | next ops/s | sam_alt ops/s\r\n------------- | ------------- | ------------- | -------------\r\na (50/50 read/update)  | 764 | 711 | 580\r\nb (95/5 read/update) | 6111 |6084 | 5296\r\nc (100 read) | 5710 | 5827 | 5686\r\nd (95/5 read/insert) | 5908 | 5591 | 5173\r\ne (95/5 scan/insert) | 547 | 1250 | 1307\r\nf (50/50 read/readmodifywrite) | 747 | 696 | 568\r\n\r\n\r\nThe alt cache has huge regressions with write workloads, especially in soft durability. The reasons for that are probably that it a) doesn't support blocks smaller than 4 KB yet (so it writes more data than necessary), and more importantly b) doesn't merge flushes from different transactions yet.\r\nI think @srh is working on these things."
+  , issueCommentId = 35350838
+  }

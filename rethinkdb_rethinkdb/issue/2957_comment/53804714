@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-28) 21 : 39 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53804714"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2957#issuecomment-53804714"
+  , issueCommentCreatedAt = 2014 (-08) (-28) 21 : 37 : 06 UTC
+  , issueCommentBody =
+      "> There used to be a field me in the semilattice. Could we put it back? Or can we add a command to know to which server a user is connected to?\r\n\r\nSounds like a good idea. New issue: #2979.\r\n\r\n> Can we have a table `server_status`? To know if a server is down or not?\r\n\r\nThis is already planned. See #2923.\r\n\r\n> `r.table(\"foo\").info()` should return more data\r\n\r\n~~We don't have such a command. Do you mean `r.table_config(\"foo\")` or `r.table_status(\"foo\")`?~~ EDIT: We do have this commend. I never knew it existed. In any case, it predates the ReQL admin changes.\r\n\r\nWhat data would you like to see?\r\n\r\n> `table_config` is reported as a table, not a pseudo type\r\n\r\nThe commands `r.table_config()` and `r.table_status()` are porcelains that return single-row or multi-row selections on the `rethinkdb.table_config` and `rethinkdb.table_status` tables. So I think this behavior is OK.\r\n\r\n> It's really hard to get the list of director and their state and I don't expect users to be able to write the appropriate query. Can we change it to: `shards: [{ 'name': <server_name>, 'role': <role>, 'state': <state> }, ...]`\r\n\r\nSince the format of `table_status` has generated a lot of discussion, I've opened #2983 to track it.\r\n\r\n> Can `table_config` returns the split points? I need them to get the number of documents per shard. Or are we replacing the `namespace_distribution` too?\r\n\r\nWe'd like to avoid exposing split points to the user. I propose that `table_status` (or `table_stats`, or something) should include the number of documents per shard. I opened #2980.\r\n\r\n> Calling reconfigure without argument should do something like @coffeemug said. I would expect it to rebalance my shards. A command rebalance would be better though.\r\nAlso I would expect to move replicas from a dead machine (and maybe the director too?)\r\n\r\nIf a server is missing but not permanently removed, `reconfigure()` will throw an error. If it is permanently removed, `reconfigure()` will move data off of it. Currently `reconfigure()` will only rebalance shards if the number of shards has increased. I opened #2981 for a way to rebalance shards.\r\n\r\n> I have 5 servers, and I would expect all of them to be used.\r\n\r\nOops, this is my fault. I opened #2982.\r\n\r\n> `table_status` doesn't tell me if a table is ready or not. We should have a field at the top level for that. We should have \"ready\", \"readable-only\", \"down\".\r\n>\r\n> ...\r\n>\r\n> The state \"missing\" is a bit strange to me (maybe because English is not my mother tongue?). Would \"disconnected\" or \"not available\" make more sense?\r\n\r\nI've copied these comments to #2983.\r\n\r\n> I find weird to have more than one director per shard. We should have a unique director and another field like vice-director maybe?\r\n\r\nWe're planning to replace the `directors` field with a `director` field. I opened #2984 to make sure it doesn't slip through the cracks.\r\n"
+  , issueCommentId = 53804714
+  }

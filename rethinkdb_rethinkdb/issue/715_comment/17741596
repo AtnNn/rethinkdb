@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-10) 20 : 06 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17741596"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/715#issuecomment-17741596"
+  , issueCommentCreatedAt = 2013 (-05) (-10) 20 : 06 : 21 UTC
+  , issueCommentBody =
+      "This option is fairly unique in that it needs to be interpreted correctly by both the server and the driver. To my knowledge, we don't convert values to booleans anywhere else in the drivers that booleans are expected. This is mostly because we don't actually know the expected type of arguments within the driver. The spec only semi-formally gives argument types.\r\n\r\nTheoretically, the driver doesn't know the type of the `noreply` option either yet needs to interpret it to decide whether or not to wait for a response. This is extra tricky in that the driver will ignore any error response provided by the server if the driver interprets the value as truthy but the server does not.\r\n\r\nHere are what I see as the options:\r\n* be as liberal in the server as we are in the drivers\r\n* be as conservative in the drivers as we are in the server\r\n* interpret values as we will in the drivers and coerce to boolean to satisfy the server\r\n\r\nThe first doesn't work because different host languages have different conventions. But what's wrong with the third? If we're going to do it here, then, to be consistent, we should do it everywhere we accept boolean parameters. But, as already mentioned, the driver can't formally know which parameters are boolean parameters. Driver writers would be responsible for for maintaining in the code an implicit set of parameters that must be converted to booleans before being sent to the server rather than being passed as is. This seems extremely fragile. If the driver gets it wrong for a given parameter then at best the server responds with a confusing type error which the user is powerless to do anything about. At worst there is a silent failure. Then there are potential consistency problems. Buggy drivers might convert some parameters to booleans but forget others, especially as the API changes and commands and options are added.\r\n\r\nThus it is smart that we leave these questions up to the server and make the drivers as passive as possible. But, again, this case is unique so perhaps it makes sense to perform automatic conversion in this one case only. The API for noreply is not likely to change and this one off behavior should be easy to maintain correctly. Still, since we need to do something specific for this case, I'd rather stick with the principle of being as conservative and consistent as possible, especially considering the consequences of incorrect noreply use."
+  , issueCommentId = 17741596
+  }

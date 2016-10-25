@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-01) 23 : 11 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47720030"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47720030"
+  , issueCommentCreatedAt = 2014 (-07) (-01) 23 : 11 : 40 UTC
+  , issueCommentBody =
+      "Regarding the question of how to represent compound queries:\r\n* I originally assumed that in the existing interface for non-geo indexes, doing a `getAll([a])` would retrieve all of `[a], [a, b], [a, b, c], ...` but that's not the case. Instead one always has to use `between()` with appropriate boundaries (though for example `[a]-[b]` also includes `[a, b], [a, b, c], ...`). So I can see that the syntax of allowing omitting some of the compound index parameters in terms such as `getIntersecting()` is not actually that consistent with what we already have for non-geo indexes.\r\n* @neumino's proposal is very flexible and allows us to represent a wide range of queries in ReQL, though some of them would probably not actually be supported for the time being. I think if we introduce such a syntax for querying compound geo indexes, we should also support things like `getAll('a', {index: \"a_b_compound\"}).getAll('b')` for non-geo indexes. That seems like a bigger redesign which we should discuss separately.\r\n* Finally, the \"tag\" API is very easy to implement, and we avoid the issue of subtle inconsistencies with how non-geo compound indexes are queried. Right now I prefer this API. It's simple and we can later provide an alternative by allowing index-using terms to be chained. Now we just need a good name for the opt arg."
+  , issueCommentId = 47720030
+  }

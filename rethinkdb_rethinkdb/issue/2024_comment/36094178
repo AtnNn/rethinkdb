@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-26) 06 : 14 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36094178"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2024#issuecomment-36094178"
+  , issueCommentCreatedAt = 2014 (-02) (-26) 06 : 14 : 54 UTC
+  , issueCommentBody =
+      "> Let's say you do `r(SOME_ARRAY).group('a')` -- you get back GROUPED_DATA, where the data are arrays.  We want `r(SOME_ARRAY).group('a').count` to call count *on those arrays*, not count the number of groups, because that's what `tbl.group('a').count` does.\r\n\r\nThis is orthogonal to the issue. I agree with you that this is exactly what you want, but I don't think you should get that by having `r(SOME_ARRAY).group('a')` return `GROUPED_DATA` and defining things on that in a certain way. We should have `GROUPING<STREAM>` and `GROUPING<ARRAY>` instead.\r\n\r\nThis way:\r\n\r\n*  `table.group` returns `GROUPING<STREAM>`\r\n* `array.group` returns `GROUPING<ARRAY>`\r\n* a reduction on `GROUPING<*>` returns `GROUPED_DATA`\r\n\r\nThat would get everything behaving properly.\r\n\r\n> Also, automatically coercing GROUPED_DATA to its array form would be incredibly confusing.  ([...] if you're using Ruby it's crazy -- `r.table('test').group('a').count` returns an object, but `r.table('test').group('a').map{...}` return an array?)\r\n\r\nI'm not sure what you mean. Assuming we automatically coerce grouped streams to arrays, both of the examples above return an object in Ruby.\r\n\r\n> Another example where you want to act on the values of the groups\r\n\r\nThat would do exactly what you want because `grouped_data.map(...) -> grouped_data`."
+  , issueCommentId = 36094178
+  }

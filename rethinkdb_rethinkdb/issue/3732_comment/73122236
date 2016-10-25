@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 20 : 38 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73122236"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3732#issuecomment-73122236"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 20 : 38 : 57 UTC
+  , issueCommentBody =
+      "@larkost, I think there's a bug in `regression/issue_3732.test`. You have this line:\r\n```python\r\nfeed = utils.NextWithTimeout(self.table.get(1).\8203changes().run(feedConn), timeout=0.1)\r\n```\r\nI think it should be `table` instead of `self.table`. As far as I can tell, it's opening the changefeed on the real table after writing to the artificial table. So this explains why the changefeed returns `{'new_val': None}`.\r\n\r\nHowever, when I fix this, I get a different error:\r\n```\r\n.E\r\n======================================================================\r\nERROR: test_virtual (__main__.Issue3732)\r\nInital value should always exist, even if preceded by a delete on virutal tables\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"../regression/issue_3732.test\", line 47, in test_virtual\r\n    self.helper(table=self.r.db('rethinkdb').table('_debug_scratch'))\r\n  File \"../regression/issue_3732.test\", line 40, in helper\r\n    self.assertEqual(next(feed), {'new_val':{'id':1, 'version':2}})\r\n  File \"/home/tim/rethinkdb/test/regression/../common/utils.py\", line 599, in next\r\n    raise Exception('Timed out waiting %d seconds for next item' % self.timeout)\r\nException: Timed out waiting 0 seconds for next item\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 4.831s\r\n\r\nFAILED (errors=1)\r\n```\r\nThis is clearly caused by #3723. So I think this issue can be closed."
+  , issueCommentId = 73122236
+  }

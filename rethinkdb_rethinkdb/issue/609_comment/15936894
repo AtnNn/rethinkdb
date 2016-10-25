@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 03 : 04 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15936894"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-15936894"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 03 : 04 : 58 UTC
+  , issueCommentBody =
+      "@wmrowan -- one could interrupt a query without killing the thread by sending ctrl-c on the repl. You send a long query, hit ctrl-c, and then send another query. It breaks. I was just able to reproduce it pretty easily:\r\n\r\n```python\r\n# INTERRUPT LONG QUERY VIA CTRL-C HERE\r\n# THEN:\r\nr.table('test').order_by('id').run()\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/local/lib/python2.7/site-packages/rethinkdb/ast.py\", line 27, in run\r\n    return c._start(self, **global_opt_args)\r\n  File \"/usr/local/lib/python2.7/site-packages/rethinkdb/net.py\", line 109, in _start\r\n    return self._send_query(query, term)\r\n  File \"/usr/local/lib/python2.7/site-packages/rethinkdb/net.py\", line 168, in _send_query\r\n    raise RqlClientError(message, term, frames)\r\nrethinkdb.errors.RqlClientError: RqlClientError: Token 6 not in stream cache. in:\r\nr.table('test').order_by('id')\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```\r\n\r\nOn a different note, this issue has an adversarial feel. Could you please keep it collaborative? (http://www.defmacro.org/2013/04/03/issue-etiquette.html -- see EG8) Concerns over quality and functionality are an indication of care. They are to be welcomed, not to be defended against.\r\n"
+  , issueCommentId = 15936894
+  }

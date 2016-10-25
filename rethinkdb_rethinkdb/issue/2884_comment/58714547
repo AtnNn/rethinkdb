@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-10) 20 : 51 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58714547"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2884#issuecomment-58714547"
+  , issueCommentCreatedAt = 2014 (-10) (-10) 20 : 51 : 10 UTC
+  , issueCommentBody =
+      "After some discussion last night, we came to the conclusion that this could be feasible given a few constraints:\r\n\r\n* The `server_logs` table would be indexed by the timestamp of the log statement\r\n* The artificial table interface would be changed to always return a stream rather than `ql::datum_t`s.  This would probably make things a little more efficient for stuff like the issues table, as well.\r\n* A table scan would be in-order of the primary index (timestamp).  This could be either ascending or descending.\r\n\r\nThat should allow us to provide most of the use cases except indexing statements by an integer.  Some of them may be fairly inefficient at the initial implementation, but could be optimized later.\r\n\r\nHere is a proposed row for the table:\r\n```\r\n{\r\n  \"timestamp\": <TIME>, // Time the log statement was created at\r\n  \"uptime\": <NUMBER>, // Seconds since the start of the process that the log statement was created at\r\n  \"server\": <STRING>, // Name of the server the log statement is from\r\n  \"server_id\": <UUID>, // ID of the server the log statement is from\r\n  \"level\": <STRING>, // The level of the log statement (\"info\", \"notice\", \"warning\", \"error\")\r\n  \"message\": <STRING> // The log statement itself\r\n}\r\n```\r\n\r\nThere might be other pieces of information we could add on, but this is everything we currently log."
+  , issueCommentId = 58714547
+  }

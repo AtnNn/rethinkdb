@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 01 : 56 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105718709"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4282#issuecomment-105718709"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 01 : 53 : 12 UTC
+  , issueCommentBody =
+      "The benchmark numbers are completely wrong for both databases.\r\n\r\n* The \"Read/Find\" section states that MongoDB performed 100,000 read operations sequentially in 0.5s. For that to be true, the average latency for each read would have to be 5 *micro*seconds, which is implausible -- a single context switch into the kernel would take ~1-2us, so it would take 5us just for the query to reach the server.\r\n* The \"Read/Find\" section also states that RethinkDB performed 100,000 sequential unindexed read operations in 1.4 seconds. That's far too fast for us, and I think the reason is that the author forgets to add `.run()` to the query, so nothing actually gets executed. The number measures the time it takes to build the query object, not the time for the query to be executed (but that doesn't explain the impossibly fast MongoDB numbers).\r\n* The \"Updates\" section states that 10 RethinkDB updates take 61 seconds and 100,000 MongoDB updates take 22 seconds (so RethinkDB is 30,000 times slower). The reason is that the code uses an indexed scan on MongoDB and an unindexed one on RethinkDB. So RethinkDB is scanning the entire table from start to finish for each update. The benchmark should use an indexed read (`.get_all(random_timestamp(), index=\"last_update\")` instead of `.filter({\"last_update\": random_timestamp()})`).\r\n* The benchmark is running the queries sequentially from a single thread, so this is basically a test of latency under no load. But the article reports throughput numbers, not latency numbers (to measure throughput one would need to run queries concurrently from multiple threads, or to use asynchronous driver functions).\r\n\r\nThe benchmarking code needs a lot of work before it can report real numbers.\r\n\r\nAlso, the article states that there is no way to get stats, which isn't true. RethinkDB provides programmatic access to stats data through the `rethinkdb.stats` system table. Documentation for stats access is on http://rethinkdb.com/docs/system-stats/."
+  , issueCommentId = 105718709
+  }

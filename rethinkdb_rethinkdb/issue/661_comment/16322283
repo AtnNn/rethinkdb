@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 23 : 12 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16322283"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/661#issuecomment-16322283"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 23 : 12 : 22 UTC
+  , issueCommentBody =
+      "**tl;dr** There are multiple (better) solutions to the \"first latency\" problem, and only one (ugly) solution to the throughput/\"spiky latency\" problem.\r\n\r\n---\r\n\r\nSo something like:\r\n```ruby\r\ntbl.run($c).each {|x|\r\n  send_to_client(tbl2.get(x[:tbl2_id]).run($c))\r\n}\r\n```\r\n?\r\n\r\nIn this particular case the effect of prefetching is to roughly double the time before the first `tbl2` get completes.  There are, however, multiple ways around this (let's call it the \"first latency\" problem).\r\n\r\nOne is to reduce the batch size (which can give you more than a 2x \"first latency\" decrease).  We currently don't support user-specified batch sizes, but I definitely think we should (for cases just like this one).\r\n\r\nAnother is to just issue the `tbl2` gets on a second connection.  This has the best latency characteristics of all, because if you turn off prefetching you will occasionally get spiky latency when you request the next batch from `tbl`:\r\n```ruby\r\ntbl.run($c).each {|x|\r\n  send_to_client(tbl2.get(x[:tbl2_id]).run($c2))\r\n}\r\n```\r\n\r\nBy contrast, prefetching helps with two problems:\r\n* Throughput when processing a row on the client takes roughly as long as generating it on the server.\r\n* Spiky latency when requesting the next batch of `tbl` from the server.\r\n\r\nBoth of which have only one workaround that I know of, which is to have the user force prefetching with ugly multithreaded code.\r\n\r\nPrefetching also seems like the right solution if we change the server to be able to respond out-of-order on one connection, which I think we might well do.\r\n\r\n---\r\n\r\nI think prefetching + giving users a way to specify batch sizes is probably the way to go."
+  , issueCommentId = 16322283
+  }

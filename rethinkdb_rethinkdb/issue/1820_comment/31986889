@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-10) 02 : 28 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31986889"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1820#issuecomment-31986889"
+  , issueCommentCreatedAt = 2014 (-01) (-09) 23 : 04 : 54 UTC
+  , issueCommentBody =
+      "Quick update: There are probably different things at play here. One of them is related to https://github.com/rethinkdb/rethinkdb/issues/1385 . I've seen that problem (that is the flush lock blocking things) account for delays in the range of close to a second, sometimes 2 seconds in the scenario described here. That in itself is already too much, but it doesn't explain query times in the minutes.\r\nCurrently I'm looking into scheduler messages being delayed for too long. Internally, RethinkDB splits up query execution as well as all internal processes into a number of such messages. Each message can be thought of as an item on a todo-list, and they are processed one at a time (per CPU core). So it seems that the time between such a message being put on this \"todo list\" and the moment it is getting processed is pretty long. The delay I could measure is only in the range of few seconds, but these delays could very well accumulate and delay a given query for much longer. I'm now looking into what causes these scheduling delays."
+  , issueCommentId = 31986889
+  }

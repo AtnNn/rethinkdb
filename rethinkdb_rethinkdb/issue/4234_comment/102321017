@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-15) 08 : 47 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/102321017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4234#issuecomment-102321017"
+  , issueCommentCreatedAt = 2015 (-05) (-15) 08 : 47 : 27 UTC
+  , issueCommentBody =
+      "OK, so here's what happened: Initially, both servers (let's call them X and Y) were replicas, and X was the Raft leader. The table was reconfigured so that X was no longer a replica. X and Y both committed a joint consensus configuration. Then X wrote the final configuration (with only Y) to its own log, but it was interrupted somehow before it could send the new configuration to Y. (I'm not sure what interrupted X. Maybe Y timed out and started an election?) In our current implementation, a server will not stand for election unless it believes that it is a voter; since X had already written the final configuration to its log, it did not stand for election. Y stood for election but failed because it thought it needed a vote from X, and X refused to grant the vote because Y didn't have the latest log entry.\r\n\r\nThe solution is for servers to stand for election whether or not they believe that they are leaders. This detail is not explicitly mentioned in the original Raft paper, but Diego Ongaro's [dissertation](http://ongardie.net/dev/var/blurbs/pubs/dissertation.pdf) explicitly describes this scenario and how to fix it. I've fixed it in my branch that will go up for code review after CR 2882."
+  , issueCommentId = 102321017
+  }

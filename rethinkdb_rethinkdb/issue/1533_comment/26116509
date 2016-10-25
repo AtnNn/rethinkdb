@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 06 : 08 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26116509"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1533#issuecomment-26116509"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 06 : 08 : 48 UTC
+  , issueCommentBody =
+      "I'm a bit confused about what you mean about the `multi` argument to `eq_join` affecting the input while the others affect the output. I think they all affect the output and they all affect it in exactly the same way. Consider the following:\r\n\r\nFor any `f` the following holds:\r\n\r\n```Python\r\nstream.map(f, multi=True).count() ==\r\nstream.eq_join(f, table, multi=True).count() == \r\nstream.group(f, multi=True).count() == # this doesn't exist but it could\r\ntable.order_by(index=\"multi_index_on_f\").count() # this is kind of a hack but you get the idea \r\n```\r\nAssuming that you don't hit the error cases such as the `f` erroring or the corresponding row not existing.\r\n\r\nI think trying to come up with a primitive for this is not going to yield good results (there's some obvious problems with both the ones you proposed) but also I think you'll wind up with a primitive that's impossible to describe to users unless you show them how it interacts with these functions."
+  , issueCommentId = 26116509
+  }

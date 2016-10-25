@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 06 : 02 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72998838"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-72998838"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 06 : 02 : 59 UTC
+  , issueCommentBody =
+      "`cursor.next(wait=False)` is ... awkward in an event loop scenario, although it could be done.  The most awkward bit is that `conn.poll()` requires making some sort of decision as to which event loop we are using, because it amounts to `loop.run_forever()` if and only if the user is using an `asyncio` event loop.  If the user is using, say, gevent, then they need to get a `Greenlet` object and call `gevent.joinall(connections)`.\r\n\r\nBTW the way I would put them is like this.  For `cursor.next(wait=False)`:\r\n```python\r\nfeedA = r.table('a').changes().run(conn)\r\nfeedB = r.table('b').changes().run(conn)\r\nwhile True:\r\n  if feedA.hasData(): print(feedA.next(wait=False))\r\n  if feedB.hasData(): print(feedB.next(wait=False))\r\n  # Wait for something to happen. The next time we loop either feedA or feedB should have data.\r\n  conn.poll()\r\n```\r\nAnd for the callback scenario:\r\n```python\r\nfeedA = r.table('a').changes().run(conn).on(lambda a: print(a))\r\nfeedB = r.table('b').changes().run(conn).on(lambda b: print(b))\r\n\r\nwhile True: conn.poll()\r\n```\r\n@larkost's proposal is very similar to a `select` loop in C, but clumsier because we are not returning the cursors that saw activity and so we must poll each one each time.  These are not easy to do for nontrivial amounts of work\8212for example in our simple demo here it has a bug wherein if `print` blocks (which it can because the other end is e.g. a pipe that is slow) responsiveness on the system goes to zero.  These \"little problems\" are *massively* irritating, and led in part to things like Node and its baroque callback system.\r\n\r\n@coffeemug's solution at least has the benefit of using some kind of event loop situation\8212no polling loop, for one thing.  But we still have the problem where `conn.poll()` has to intuit whatever event system the user is proposing to use.  The proposals above appear to say \"well, if the user doesn't specify an event loop then we should use our own (probably awful) hacked version\".  Not 100% sure I like this, I think we would be better off picking something (probably Trollius because it offers an upgrade path in 3.3 and 3.4) and running with it, and then offering adapters for `gevent` and Tornado and whatever other thing crawls out of the woodwork."
+  , issueCommentId = 72998838
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-09) 16 : 28 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/155113513"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3930#issuecomment-155113513"
+  , issueCommentCreatedAt = 2015 (-11) (-09) 16 : 24 : 38 UTC
+  , issueCommentBody =
+      "@tyth \r\n> Type boundaries on method parameters (ex: how can r.table(Object tableName) method take any Object? Why can't we state that it can be only a String?)\r\n\r\nThis is due to the flexibility of ReQL. It's not that `r.table` accepts a string, it's that it accepts a term that evaluates to a string. For example:\r\n\r\n```java\r\nr.table(r.expr(\"Foo-\").add(r.uuid()))\r\n```\r\nis a valid expression. In general, since the type of a ReQL query may depend on the data in your database, and we have no guarantees about the type or structure of that data, only a subset of ReQL can be statically typed, and my guess is you would be disappointed by how small that subset is.\r\n\r\nWe actually have a similar issue with return types:\r\n\r\n> tableList.contains(table) would return Boolean\r\n\r\nIt actually doesn't return a Boolean, it returns a reql expression that evaluates to a boolean. We'd need to add some tricky generic stuff to our expression types to pass around the \"expected return type\".  So `.contains(foo)` would return a `ReQLExpr<Boolean>`. You could conceivably get pretty far doing it this way. There are tricky bits around `r.js`, and `.coerceTo` that would need special handling, and I expect some parts of ReQL would just not work (I'm looking at `.getField` which depends on the data that field contains in the document). This isn't a basic kind of driver though, it's a pretty big undertaking, and right now it's beyond the scope of what the Java driver is attempting to do.\r\n\r\nThere is definitely a place for an ODM or a 3rd party driver to either allow you to make additional assumptions about the schema (with the ODM) or to restrict the driver to ReQL expressions that can be statically typed. But the official driver aims to cover all of ReQL, and it also aims to be maintainable, so I didn't go with the fancy typing route or restricting ReQL. \r\n\r\n(As an aside, to my knowledge, the only legal expression you can create with other drivers that you can't with the java driver is something like `r.branch(foo, bar, r.db(\"dbname\"))` where a branch returns a database instead of a ReQLExpr (sub-aside, and `r.row`, but you know, we don't need that...))\r\n\r\n@mattias800 \r\n> I could see it automatically populating (and returning) data objects given a class as a parameter (like GSON does with deserialization).\r\n\r\nGood news! Thanks to @igorlukanin's hard work in #4889 this is possible (I don't remember if this made it into the snapshot, but I'll upload it again later today to be sure). There's no docs yet, but you should be able to do:\r\n\r\n```java\r\nMyClass foo = someReqlExpr.run(conn, MyClass.class);\r\n```\r\n\r\nAnd it will do the coercion for you. For cursors, (I believe) it looks like:\r\n\r\n```java\r\nCursor<MyClass> foo = someReqlExpr.run(conn, MyClass.class);\r\n```"
+  , issueCommentId = 155113513
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-04) 01 : 08 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54391302"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2983#issuecomment-54391302"
+  , issueCommentCreatedAt = 2014 (-09) (-04) 01 : 08 : 10 UTC
+  , issueCommentBody =
+      "OK, I've restructured `table_status` as @neumino proposed, and also added new fields indicating if it's available for reads and writes. The changes are in `tim_table_status_2`, CR 2060. Here's a sample document:\r\n```python\r\n{'db': 'test',\r\n 'name': 'foo',\r\n 'ready_completely': True,\r\n 'ready_for_outdated_reads': True,\r\n 'ready_for_reads': True,\r\n 'ready_for_writes': True,\r\n 'shards': [[{'role': 'director',\r\n              'server': 'companion_cube_9qz',\r\n              'state': 'ready'}]],\r\n 'uuid': 'ba55780f-f3b7-4370-852e-89624a69f52d'}\r\n```\r\nThe `ready_*` fields always go in order; that is, `ready_completely` implies `ready_for_writes` implies `ready_for_reads` implies `ready_for_outdated_reads`. The field `ready_completely` might be `False` even if the other three are `True` when there is a server still backfilling or something, but it's not preventing the table from being available. I'm not really happy with the `ready_completely` name.\r\n\r\nAlso, this doesn't distinguish between a table that's unavailable because it needs user intervention, and a table that's unavailable but will eventually become available on its own (e.g. when a backfill finishes). I think we probably want to present those differently in the web UI."
+  , issueCommentId = 54391302
+  }

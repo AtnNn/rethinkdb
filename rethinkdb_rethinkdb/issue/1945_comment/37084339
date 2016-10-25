@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-08) 01 : 14 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37084339"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1945#issuecomment-37084339"
+  , issueCommentCreatedAt = 2014 (-03) (-08) 01 : 14 : 20 UTC
+  , issueCommentBody =
+      "I got the same rather unhelpful message, with different values:\r\n```\r\ninfo: Server ready\r\nVersion: rethinkdb 1.11.3-1987-g8ac659-dirty (CLANG 3.2 (tags/RELEASE_32/final))\r\nerror: Error in ../src/arch/types.cc at line 28:\r\nerror: I/O operation failed.  (Unknown error -239925288) (offset = 2152128512, count = 16384)\r\n```\r\n\r\nWhen running in debug mode, it's not much better:\r\n```\r\nVersion: rethinkdb 1.11.3-1989-gdebdbd-dirty (debug) (GCC 4.6.3)\r\nerror: Error in ../src/arch/io/disk/pool.hpp at line 85:\r\nerror: Assertion failed: [io_result < 0] \r\nerror: Backtrace:\r\nerror: Fri Mar  7 16:50:58 2014\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:101\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:202\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:282\r\n       4: format_backtrace(bool) at backtrace.cc:197\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       6: pool_diskmgr_action_t::get_errno() const at pool.hpp:85\r\n       7: pool_diskmgr_action_t::run() at pool.cc:71\r\n       8: blocker_pool_t::event_loop(void*) at blocker_pool.cc:68\r\n       9: /lib/x86_64-linux-gnu/libpthread.so.0(+0x7e9a) [0x7f26f530ae9a] at 0x7f26f530ae9a (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       10: clone+0x6d at 0x7f26f50373fd (/lib/x86_64-linux-gnu/libc.so.6)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\nIt appears that an error occurred, and the io_result is positive, which the code doesn't expect.\r\n"
+  , issueCommentId = 37084339
+  }

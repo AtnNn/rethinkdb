@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-16) 19 : 17 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22787730"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1041#issuecomment-22787730"
+  , issueCommentCreatedAt = 2013 (-08) (-16) 19 : 17 : 23 UTC
+  , issueCommentBody =
+      "Currently implemented in sam_1041 and in code review 837.\r\n\r\nThis is \"done\" -- we only convert from datum_t to cJSON when talking to a Javascript process (possibly with little to no convenience benefit, I haven't investigated how we create objects for v8) and we convert from cJSON to datum_t when reading from `r.json`, presumably.  Also we convert to cJSON in parser.cc when doing some HTTP request/response thing.\r\n\r\nIn other words, I haven't implemented direct json string <-> datum_t conversion.\r\n\r\nWe still have the streams.hpp and datum_streams.hpp files -- we still have lazy_json_stream_t wrapping the old stream type.  The type json_stream_t and everything in streams.hpp now deals with `counted_t<datum_t>` objects instead of `boost::shared_ptr<scoped_cJSON_t>`.\r\n\r\nI've also changed the vestigial uses of `boost::shared_ptr<scoped_cJSON_t>` to `std::shared_ptr<const scoped_cJSON_t>`."
+  , issueCommentId = 22787730
+  }

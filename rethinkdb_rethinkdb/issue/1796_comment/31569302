@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-04) 02 : 35 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31569302"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1796#issuecomment-31569302"
+  , issueCommentCreatedAt = 2014 (-01) (-04) 02 : 35 : 11 UTC
+  , issueCommentBody =
+      "So, this turns out to be something super dumb that I did.  The class `reader_t` in `datum_stream.cc` has a member variable `finished` that we use to determine when to send `SUCCESS_SEQUENCE` instead of `SUCCESS_PARTIAL` in the protobuf `Response`.  (It's also used for other logic internally in `reader_t`.)  The problem is that this member variable doesn't mean \"the stream is exhausted\", it means \"the shards are exhausted\".  Normally these are identical, because we try not to keep things hanging around in memory, but in the specific case of a an `order_by` on both an indexed and non-indexed field we do some clever shenanigans to get the sorting right and the two meanings diverge.\r\n\r\nI think we can fix this by changing that one predicate (and renaming the variable to be less confusing).\r\n\r\nI'm going to work on writing a unit test to reproduce this in our test system, which is arguably the more challenging part of this issue <.< ."
+  , issueCommentId = 31569302
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-20) 11 : 05 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18142168"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/846#issuecomment-18142168"
+  , issueCommentCreatedAt = 2013 (-05) (-20) 11 : 05 : 17 UTC
+  , issueCommentBody =
+      "Hi @fuwaneko -- thanks for submitting this!\r\n\r\n> Can we use the \"default\" connection, saved internally on connect()/reconnect() and use simplified API?\r\n\r\nIn Python and Ruby drivers you can say `r.connect(...).repl()` and then call `.run()` without passing a connection. However, this is done for convenience in the repl, and shouldn't be used in production applications. The reason for this is that if you call `connect()` from multiple threads, you can end up with thread2 changing the global connection, and switch it for other threads. It's a really pernicious source of bugs, so we decided to take default global connections out. It also makes dealing with multiple connections significantly more error-prone, as it's easy to lose track of which connection is global.\r\n\r\nYou *can* hack the driver to do it, but for the reasons above we don't recommend it (and it's generally discouraged in the node.js world AFAIK). We used to have this functionality, but we took it out because it confused too many users.\r\n\r\n> Proper events: connect, error, disconnect\r\n\r\n@wmrowan -- can you comment on how this works right now?\r\n\r\n> Mongoose-like query calls\r\n\r\nThis is difficult because ReQL is chainable -- you can follow up any query with an addition query (e.g. `t.filter(...).filter(...).groupBy(...).limit(...)` etc. It's a really powerful way to construct queries, but has the downside that it requires ending each query with `.run()`. We're looking forward to porting Mongoose to RethinkDB (and would *love* any help with this, if you have the time)\r\n\r\n> Automatic cursor \8594 array conversion\r\n\r\nCurrently, you can use the same API on both arrays and cursors. E.g., regardless of whether you get a cursor or an array, we define methods like `.each` on the object. You can also call `toArray` on a cursor to get an array if you like -- http://rethinkdb.com/api/#js:accessing_rql-toArray. Is this sufficient?"
+  , issueCommentId = 18142168
+  }

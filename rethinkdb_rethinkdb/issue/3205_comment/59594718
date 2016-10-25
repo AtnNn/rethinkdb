@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-18) 01 : 33 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 525534
+        , simpleUserLogin = N "timjrobinson"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/525534?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timjrobinson"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59594718"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3205#issuecomment-59594718"
+  , issueCommentCreatedAt = 2014 (-10) (-18) 01 : 33 : 55 UTC
+  , issueCommentBody =
+      "@danielmewes \r\n1. I'm not sure what queries were being run at the time, it crashed in the middle of the night unfortunately. \r\n2. I had 2 servers die a month or two ago (https://github.com/rethinkdb/rethinkdb/issues/3077). I also upgraded rethinkdb on the servers a day or two after 1.15 was released but other than that nothing has been restarted. \r\n3. I don't know how many change feeds I have open at a time, best guess is somewhere between 50 and 300. \r\nI have change feeds for 3 different tables: users, queuers and lobbies. All are accessed with the following code on the model that corresponds to each table. This looks the same for all 3 tables just with different Model name substituted in. \r\n\r\n```\r\nUser.changes = (id, callback) ->\r\n  User.closeChangesConnection(id)\r\n  db.onConnect (err, conn) =>\r\n    if err then return callback(err)\r\n    User.table.changes().filter(db.row('new_val')('id').eq(id)).run conn, (err, cursor) =>\r\n      if err then return callback(err)\r\n      User.changeConnections[id] = conn\r\n      cursor.each (err, data) ->\r\n        if err then return callback(err)\r\n        callback(null, new User(data['new_val']))\r\n\r\nUser.closeChangesConnection = (id) ->\r\n  if User.changeConnections[id]?\r\n    User.changeConnections[id].close()\r\n    delete User.changeConnections[id]\r\n```\r\n\r\nIn posting this I just realized there's a bug in this code if connections attempt to listen to the same user / lobby / queuer ID it will close the existing connection -_-. \r\n\r\nI use this function like so:\r\n\r\n```\r\nUser.changes userId, (err, user) =>\r\n            if err then return log.error(\"User changes encountered error\", {err})\r\n            log.info(\"User details changed, new user is: \", user.getInfo())\r\n            socket.emit('user.details', user.getInfo())\r\n```\r\n\r\nIt closes the connection like so:\r\n```\r\nsocket.on 'disconnect', ->\r\n      User.closeChangesConnection(userId)\r\n```\r\n\r\n4. All three of these tables have 8 shards and 3 replicas. I'm running on 6 nodes each with 8GB of ram and 4CPU's .\r\n"
+  , issueCommentId = 59594718
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-23) 00 : 10 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16831950"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/690#issuecomment-16831950"
+  , issueCommentCreatedAt = 2013 (-04) (-23) 00 : 10 : 30 UTC
+  , issueCommentBody =
+      "I'm having trouble reproducing this.  Here's what I'm running:\r\n```ruby\r\nr.table('test').insert((0...10000).map{|x| {:x => x}}).run\r\nr.table('test').sindex_create('x') {|row| row[:x]}.run\r\n# C-c server\r\n```\r\n\r\nI took a look at `post_construct_and_drain_queue`, and I don't really know enough about that chunk of the code to guess what parts of it might be throwing interrupted_exc_t.  I could throw a try/catch around the whole thing but I'm not actually sure it's safe to do that without doing cleanup.\r\n\r\n@Tryneus -- Can you reproduce this reliably in next?  If so, what index are you constructing, and on how large a table?\r\n\r\n@jdoliner -- Do you know off the top of your head what parts of `post_construct_and_drain_queue` might be throwing the exception and whether it's safe to just catch it and return?"
+  , issueCommentId = 16831950
+  }

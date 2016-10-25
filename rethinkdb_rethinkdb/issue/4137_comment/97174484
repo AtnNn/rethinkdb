@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 19 : 18 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97174484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4137#issuecomment-97174484"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 19 : 18 : 24 UTC
+  , issueCommentBody =
+      "Hi @digi604, sorry you're running into this problem.\r\nJust to make sure I understand:\r\n- you started constructing 10 indexes (all on one table? multiple tables?)\r\n- overall throughput of the index constructions was around 8k reads + 8k writes\r\n- then you ran some write queries other than the index construction\r\n- reads and writes become much slower\r\n\r\nIs this correct?\r\n\r\nA few questions: When you talk about read/writes dropping to 200-500, do you mean the secondary index reads/writes? Or is this number from separate queries that you are running?\r\nAre the writes you are doing also slow?\r\n\r\nSecondary index construction generally runs at a pretty low priority, so it's expected that it's throughput decreases if there is other load on the server.\r\n\r\nThat being said write queries definitely have additional overhead while secondary index construction is proceeding, especially towards the end of the construction (we are working on fixing that, but it's a bigger project and it hasn't made it in yet, see https://github.com/rethinkdb/rethinkdb/issues/2134 )\r\n\r\n\r\nWhat is the hardware you are using? Are you using rotational HDDs or SSDs?"
+  , issueCommentId = 97174484
+  }

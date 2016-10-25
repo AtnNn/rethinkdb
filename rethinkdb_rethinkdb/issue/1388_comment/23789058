@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-04) 13 : 33 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23789058"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23789058"
+  , issueCommentCreatedAt = 2013 (-09) (-04) 13 : 33 : 43 UTC
+  , issueCommentBody =
+      "I was saying that i dont want my writes to fail if i close my connection \"too soon\" - and I'm okay with blocking on connection close to make sure that happens.\r\n\r\nmy use case writing in a tight loop. i need to be responsive and the (low) latency of the write matters more than throughput (or even the success of the write).\r\n\r\ni don't mind waiting for open writes to finish while the connection closes (because that happens outside my loop), and I typically code for open/close of any resource having higher overhead than the use of the same unless its explicitly documented as being very low overhead and the preferred pattern (like sqlalchemy's session objects). \r\n\r\nthat being said, a timeout is always a nice option to have, but i would like to know what failed on timeout if that is to be added.\r\n\r\ni like what @jdoliner said about adding a `sync` method during implementation of a fix for this issue. i would also like to ask for some information about what happened during a sync (or even for the life of the connection) - especially for noreply writes - like number of failed writes at the very least, but other data may be beneficial or useful in some way as well. it seems to me if you are able to wait for writes that would die if this connection were to close it might be possible to get some information about what happened after they finished.\r\n\r\nreally noreply would look a lot better to me for mission critical data if i had a way of knowing if any writes failed - and possibly a way to retry or recover from failure. i don't mind using callbacks for failure handling even though my language of choice is python rather than javascript."
+  , issueCommentId = 23789058
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 20 : 00 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27807005"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1606#issuecomment-27807005"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 20 : 00 : 04 UTC
+  , issueCommentBody =
+      "A few things above don't seem quite right to me.\r\n\r\n> it's pretty rare to do reads and writes on the same connection (seeing as it's apparently pretty rare to even do multiple transactions with the same connection)\r\n\r\nThat's the opposite of my experience. To render a single webpage people tend to do at least half a dozen database calls because it's much easier to write applications this way. (E.g. they might do a query to read the user profile, another query to read product information, another query to read comments on the product, etc.) For POST requests it's pretty common to do a couple of writes (to record the data), and then a couple of reads (to render the page).\r\n\r\n> I'm really not sure what benefits it has over just using outdated reads.\r\n\r\nFor rendering webpages after POST requests, not seeing your own writes would be a problem. But most importantly, outdated reads are an optimization that most people won't use when it fits. It's something they'll likely discover and optimize for later (when there is a need for it), but we can be sure they'll benchmark *before* they use this optimization. Getting them good numbers on that benchmark will side step a whole slew of \"why is this slow\" questions.\r\n\r\nThat being said, I don't know if we should do this (I don't understand the implications from the OP -- I'd have to talk to folks to understand it better), just wanted to make sure we're reasoning from correct assumptions."
+  , issueCommentId = 27807005
+  }

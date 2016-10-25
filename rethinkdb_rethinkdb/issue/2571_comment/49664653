@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-21) 20 : 58 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49664653"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-49664653"
+  , issueCommentCreatedAt = 2014 (-07) (-21) 20 : 58 : 58 UTC
+  , issueCommentBody =
+      "@AtnNn I'm not sure. If you connect two points that differ only either in their longitude or latitude but not both you will get a straight line in the Mercator projection. That's what `r.rectangle()` currently does: it constructs a rectangle like the ones in this picture http://en.wikipedia.org/wiki/File:Mercator_projection_SW.jpg given two opposing corners of the rectangle.\r\nIf you consider the shortest path between two points that differ in both latitude and longitude, I'm not sure if the Mercator projection still projects that to a straight lines.\r\n\r\nThe semantics of all polygons and lines (including those constructed by `r.rectangle()`) with respect to intersection/inclusion in ReQL is that we connect vertices by the shortest path along the earth's surface. A perfectly spherical earth is assumed for this. In contrast we use an ellipsoid model for distance calculations, to improve accuracy.\r\n\r\nOne problem with `r.rectangle()` is that it stops working when you reach the poles or try to cross them. Also the \"rectangles\" it constructs are only rectangles in the Mercator projection, as their angles are not actually 90 degrees otherwise."
+  , issueCommentId = 49664653
+  }

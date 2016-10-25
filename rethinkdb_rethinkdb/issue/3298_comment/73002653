@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 06 : 55 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73002653"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-73002653"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 06 : 55 : 06 UTC
+  , issueCommentBody =
+      "This isn't minimal, but it's sort of minimally interesting.\r\n```python\r\nimport asyncio\r\nimport rethinkdb as r\r\n\r\n\r\nqueue = asyncio.Queue()\r\n\r\n\r\n@asyncio.coroutine\r\ndef adder(change):\r\n    current = 0\r\n    while True:\r\n        value = yield from change.next()\r\n        current += value\r\n        yield from queue.put(('adder', current))\r\n\r\n\r\n@asyncio.coroutine\r\ndef multiplier(change):\r\n    current = 1\r\n    while True:\r\n        value = yield from change.next()\r\n        current *= value\r\n        yield from queue.put(('multiplier', current))\r\n\r\n\r\n@asyncio.coroutine\r\ndef combiner:\r\n    best_adder = 0\r\n    best_multiplier = 1\r\n    while True:\r\n        component, value = queue.get()\r\n        if component == 'adder':\r\n            best_adder = max(best_adder, value)\r\n            yield (best_adder, best_multiplier)\r\n        elif component == 'multiplier':\r\n            best_multiplier = max(best_multiplier, value)\r\n            yield (best_adder, best_multiplier)\r\n\r\n\r\n@asyncio.coroutine\r\ndef printer:\r\n    seen = 0\r\n    for adder, multiplier in combiner():\r\n        seen += 1\r\n        print \"Saw adder, multiplier pair %d, %d\" % (adder, multiplier)\r\n        if seen > 20:\r\n            loop.stop()\r\n\r\n\r\nloop = asyncio.get_event_loop()\r\nasyncio.async(adder(r.table('a').count().changes().arun(conn)))\r\nasyncio.async(multiplier(r.table('b').count().changes().arun(conn)))\r\nloop.call_soon(printer, loop)\r\ntry:\r\n    loop.run_forever()\r\nfinally:\r\n    loop.close()\r\n```\r\n(minimally interesting because it actually processes things, etc).  This is more obnoxious in the callback case because of the need to maintain intermediate state.\r\n\r\nIf you just wanted to listen on two feeds it would look like this.\r\n```python\r\n@asyncio.coroutine\r\ndef a(change):\r\n    while True:\r\n        value = yield from change.next()\r\n        pass\r\n\r\n\r\n@asyncio.coroutine\r\ndef b(change):\r\n    while True:\r\n        value = yield from change.next()\r\n        pass\r\n\r\n\r\nloop = asyncio.get_event_loop()\r\nasyncio.async(a(r.table('a').count().changes().arun(conn)))\r\nasyncio.async(b(r.table('b').count().changes().arun(conn)))\r\nloop.run_forever()\r\n```"
+  , issueCommentId = 73002653
+  }

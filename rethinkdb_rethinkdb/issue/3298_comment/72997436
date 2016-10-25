@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 06 : 07 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72997436"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-72997436"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 05 : 42 : 19 UTC
+  , issueCommentBody =
+      "As far as the basic interface is concerned, we currently have two slightly different proposals:\r\n\r\n1. Proposed by @larkost (+ `poll` added)\r\n  ```Python\r\n  feedA = r.table('a').changes().run(conn)\r\n  feedB = r.table('b').changes().run(conn)\r\n  while True:\r\n    try:\r\n        print(feedA.next(wait=False))\r\n    except Empty: pass\r\n    try:\r\n        print(feedB.next(wait=False))\r\n    except Empty: pass\r\n\r\n    # Wait for something to happen. The next time we loop either feedA or feedB should have data.\r\n    conn.poll()\r\n  ```\r\n2. Proposed by @coffeemug \r\n  ```Python\r\n\r\n  # Pass callbacks into on()\r\n  feedA = r.table('a').changes().run(conn).on(lambda a: print(a))\r\n  feedB = r.table('b').changes().run(conn).on(lambda b: print(b))\r\n  while True:\r\n    # Wait for something to happen. This will call at least one of the callbacks\r\n    conn.poll()\r\n  ```\r\n\r\nMy impression from earlier comments in this thread is that callbacks are not very pythonic. However it might still be fine as a baseline interface.\r\n\r\nAnother question is whether one of the variants works better with event loop implementations. @gchpaco posted some sketches above that used @coffeemug's interface. @gchpaco since you've put some thought into this, do you think it would be similarly easy, easier or more difficult to do the same with the `cursor.next(wait=False)` interface?\r\n\r\n(Edit: Fixed the scope of the while loop)"
+  , issueCommentId = 72997436
+  }

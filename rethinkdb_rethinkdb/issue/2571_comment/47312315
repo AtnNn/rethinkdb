@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-27) 06 : 38 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47312315"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47312315"
+  , issueCommentCreatedAt = 2014 (-06) (-27) 06 : 38 : 18 UTC
+  , issueCommentBody =
+      "I've been thinking more about Michel's idea.\r\n\r\nI was originally against it because it would involve making our type system even more complicated, but I actually think we could take this as an opportunity to plug another hole in our type system.\r\n\r\nRight now we sort of cheat to support `r.table('test').between(..., index: idx).order_by(..., index: idx)`.  We treat the result of the `between` as a table even though it definitely isn't:\r\n```rb\r\nirb(main):117:0> r.table('test').between(1, 2).typeof.run\r\n\"TABLE\"\r\n```\r\n\r\nI think we should fix this by adding a `slice` type to the language, where a slice allows slightly more operations than a selection (in particular, `order_by`).  A `slice` is basically a selection using an index.\r\n\r\nI think that you should be able to chain other operations that use an index onto a `slice` **as long as they use the same index as the slice**.  (We already enforce this with `.between(...).order_by(...)` in a hacky one-off way.)\r\n\r\n---\r\n\r\nBy analogy, we could make these geo operations like `.get_intersecting` return a `geo_slice`, which is a slice on a geo-index (which I think should be distinct from a normal index in our type system).  I think that a slice on a geo-index should be a selection with a few more legal operations.\r\n\r\nI think you should be able to chain a `get_nearest` (if we call it that) onto a geo slice the same way you can chain an `order_by` onto a normal slice, and I think you should also be able to call something like `get_all` on the end to query on a normal index inside of the geo index (basically what Michel proposed).\r\n\r\nI don't like using `get_all` for that task, though, because outside of equality comparison it doesn't actually make sense.  As we're defining things now, `.get_all(['chinese'])` actually means `.between(['chinese'], ['chinese', r.maxval])`.\r\n\r\nI'm also still skeptical of using normal compound index syntax for creating the geo index with the sub-index.  I would still prefer a tags-like interface (although we can change the name).  So something like:\r\n\r\n---\r\n\r\nSo, if we go that route I think the syntax should be something like this:\r\n\r\n```rb\r\nr.table('test') # format: {pos: GEO_POSITION, cuisine: SOME_CUISINE, rating: [1-5]}\r\n# Simple sub-index\r\nr.table('test').index_create('pos', geo: true, sub_index: 'cuisine')\r\nr.table('test').get_intersecting(CIRCLE, index: 'pos').get_all('chinese')\r\n# Compound sub-index\r\nr.table('test').index_create('pos', geo: true, sub_index: ['cuisine', 'rating'])\r\nr.table('test').get_intersecting(CIRCLE, index: 'pos').get_all(['chinese', 1])\r\nr.table('test').get_intersecting(CIRCLE, index: 'pos').between(['chinese', 3], ['chinese', 5])\r\n```"
+  , issueCommentId = 47312315
+  }

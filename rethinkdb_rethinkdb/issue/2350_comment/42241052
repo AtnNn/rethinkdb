@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-05) 21 : 20 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/42241052"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2350#issuecomment-42241052"
+  , issueCommentCreatedAt = 2014 (-05) (-05) 21 : 20 : 01 UTC
+  , issueCommentBody =
+      "I think that this isn't a bug, although maybe we should change the semantics.  My guess is that the key `'123'` doesn't exist.\r\n\r\nIf you write `tbl.get('123').update({})`, it issues a point-update for the key `123`, and since that key isn't there, you get back `skipped`.\r\n\r\nIf you write `tbl.get_all('123', index: 'id').update({})`, we first do a read on the index to get the primary keys for all the rows we have to update.  In the case where you're using the primary key as the index, we don't really *need* to do this, but for secondary indexes we do.  Since there are now rows with that key, you get back an empty array, and update does a batched update on no elements, which doesn't actually issue a point update, meaning that no rows are skipped.\r\n\r\nIf the document with key `'123'` existed when the `get_all` did its read but was deleted before the point update got to the shard, then you'd get `{skipped: 1}` in the `get_all` update as well."
+  , issueCommentId = 42241052
+  }

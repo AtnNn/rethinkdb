@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-12) 00 : 15 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51858243"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2888#issuecomment-51858243"
+  , issueCommentCreatedAt = 2014 (-08) (-12) 00 : 15 : 25 UTC
+  , issueCommentBody =
+      "Copied @mlucy's comment from #2853:\r\n\r\n> \"name\": \"db_name.table_name\"  # this is the primary key\r\n\r\nI can see why we'd have to do this if we want the name to be the primary key.  It has the distinct problem, though, that you can't then write `r.db(...).table(...)` without doing a `split` or something.\r\n\r\nA few other options:\r\n* `table_config` and `table_status` are both defined on databases rather than the toplevel.  (I.e. you write `r.db('test').table_status()`.)  This is also consistent with how we currently do `index_status` (`r.db('test').table('test').index_status()`).\r\n* We include the name for indexing purposes, but also include `db_name` and `table_name` fields to make it easier for people to get at those.  (Yes, this is duplicate information, which sucks.)\r\n* We make the primary key be the UUID.\r\n\r\nI like the first one the best, honestly.  We tend to think of databases as dumb namespaces internally, but whenever I talk to people who don't work here they tend to think of them as much more \"real\" objects, so it would make sense to get the status of all the tables in a particular database rather than all the tables in all databases."
+  , issueCommentId = 51858243
+  }

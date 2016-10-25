@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-26) 16 : 19 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 91193
+        , simpleUserLogin = N "mglukhovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mglukhovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/76207845"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3840#issuecomment-76207845"
+  , issueCommentCreatedAt = 2015 (-02) (-26) 16 : 19 : 35 UTC
+  , issueCommentBody =
+      "You can configure one auth key to access the cluster -- there is no way to set an auth key to be specific to a database or table.\r\n\r\nThe auth key is stored in a system table called `cluster_config`, in the system `rethinkdb` database. You can read more about how system tables are used for cluster administration tasks here: http://rethinkdb.com/docs/system-tables/\r\n\r\nSupposing no auth key has been set, if I run this query to see the contents of the `cluster_config` table:\r\n\r\n```js\r\nr.db('rethinkdb').table('cluster_config')\r\n```\r\n\r\n...then I can see no auth key has been set.\r\n\r\n```json\r\n{\r\n    \"auth_key\": null ,\r\n    \"id\":  \"auth\"\r\n}\r\n```\r\n\r\nOnce I've set the auth key (by updating the `auth_key` document):\r\n\r\n```js\r\nr.db('rethinkdb').table('cluster_config').update({'auth_key': 'hunter22'})\r\n```\r\n\r\n...the `cluster_config` table will show that a key has been set (but will hide the actual auth key for security purposes):\r\n\r\n```json\r\n{\r\n    \"auth_key\": {\r\n        \"hidden\": true\r\n    } ,\r\n    \"id\":  \"auth\"\r\n}\r\n```\r\n\r\nIf I try to connect to the cluster now (using the default values), I should get an error:\r\n\r\n```py\r\n>>> import rethinkdb as r\r\n>>> r.connect()\r\nTraceback (most recent call last):\r\n...\r\nRqlDriverError: Server dropped connection with message: \"ERROR: Incorrect author\r\nization key.\"\r\n```\r\n\r\nUsing the new auth key, I can connect successfully:\r\n\r\n```py\r\n>>> r.connect(auth_key='hunter22')\r\n<rethinkdb.net.Connection object at 0x10f333fd0>\r\n```"
+  , issueCommentId = 76207845
+  }

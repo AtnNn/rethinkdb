@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-27) 01 : 34 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23307709"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1333#issuecomment-23307709"
+  , issueCommentCreatedAt = 2013 (-08) (-27) 01 : 34 : 43 UTC
+  , issueCommentBody =
+      "@fform -- alright, I have some information for you:\r\n* The original bug under discussion -- not being able to chain `orderby` after `between` -- will be fixed in the 1.9 release (which should be really soon; either later this week or early next).\r\n  - This won't fix your problem, since ordering by an index after a `get_all` will be forbidden for technical reasons.\r\n  - Fortunately, in your particular case, you could re-write your query to use `.between(a, a, {'right_bound':'closed'})` instead of `.get_all(a)`, and you will be able to chain an efficient indexed orderby after it.\r\n* Chaining an inefficient orderby after your `get_all` is slow for two reasons:\r\n  - There were some unrelated performance problems (e.g. #1041) that will also be fixed in 1.9.  Performance on this workload is much better for me in `next`.\r\n  - Doing an inefficient orderby turns your stream into an array (since it has to load the whole thing into memory), which means that it tries to send you all the results at once rather than given you a cursor in the client.  If your `get_all` is returning 1500 or 600 300k results, this is a LOT of data to push over the network to the client at once, and our clients still have some trouble deserializing that many huge protobufs in a reasonable amount of time."
+  , issueCommentId = 23307709
+  }

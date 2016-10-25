@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-20) 00 : 16 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52718506"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2718#issuecomment-52718506"
+  , issueCommentCreatedAt = 2014 (-08) (-20) 00 : 16 : 21 UTC
+  , issueCommentBody =
+      "This appears to only happen when `profile=True`.  Here is the Response protobuf in each case:\r\n\r\n`profile=False`:\r\n```\r\n{\r\n  type: SUCCESS_ATOM,\r\n  response: {\r\n    type: R_JSON\r\n    r_str: \"{\\\"deleted\\\":0,\\\"errors\\\":0,\\\"inserted\\\":0,\\\"replaced\\\":100000,\\\"skipped\\\":0,\\\"unchanged\\\":0}\"\r\n  }\r\n}\r\n```\r\n\r\n`profile=True`:\r\n```\r\n{\r\n  type: RUNTIME_ERROR,\r\n  response: {\r\n    type: R_JSON\r\n    r_str: \"{\\\"deleted\\\":0,\\\"errors\\\":0,\\\"inserted\\\":0,\\\"replaced\\\":100000,\\\"skipped\\\":0,\\\"unchanged\\\":0}\"\r\n  },\r\n  response: {\r\n    type: R_STR\r\n    r_str: \"Array over size limit `100000`.\\nFailed assertion: (*data.r_array).size() <= _limit.array_size_limit()\\nAt: ../src/rdb_protocol/datum.cc:112\"\r\n  },\r\n  backtrace: { },\r\n  profile: { }\r\n}\r\n```\r\n\r\nThe error is happening because the response has a profile in it at the same time as an error, which `json_shim::write_json_pb` assumes can't happen.  At the moment I assume this happens because the error occurs while adding the profile data to the response."
+  , issueCommentId = 52718506
+  }

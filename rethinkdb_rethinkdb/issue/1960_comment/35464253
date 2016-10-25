@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-19) 04 : 06 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35464253"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1960#issuecomment-35464253"
+  , issueCommentCreatedAt = 2014 (-02) (-19) 04 : 06 : 26 UTC
+  , issueCommentBody =
+      "@neumino @mglukhovsky can you explain what you mean about the Python driver? It doesn't seem related to #1010.\r\n\r\nI think there are four different classes of issues here.\r\n\r\n#### Improving the process of upgrading rethinkdb and migrating data.\r\n\r\nThis is the topic of #1010. The current process has disadvantages:\r\n\r\n* It is very tedious and fragile.\r\n* It loses secondary indexes and cluster configuration.\r\n* All the data gets duplicated and goes through a single machine.\r\n\r\n#### Compatibility between a newer rethinkdb server and older versions.\r\n\r\nThere are many ways in which servers can be compatible:\r\n\r\n* Can they connect to each other? Even if both servers have the same version, the answer is often no (#239, #240)\r\n* Do they use the same on-disk format?\r\n\r\nI think that finding an elegant solution to one of those problems would be the ideal solution for simplifying the migration process.\r\n\r\n#### Compatibility between new rethinkdb versions and older drivers (and code bases using those drivers).\r\n\r\nI strongly believe that old-client-new-server compatibility should be maintained forever if possible, but at least for one or two major releases. The RethinkDB community, users and third-party libraries are essential components of RethinkDB. They can benefit from this in a lot of ways:\r\n\r\nSituation | Compatible | Non-compatible\r\n---- | ---- | ----\r\nAfter upgrading rethinkdb|my application still works, I can update it at my leisure|my application does not work anymore. I have to update it all at once.\r\nI use third-party rethinkdb libraries|my application still works|I have upgrade both my code and the libraries I use\r\nThe third-party library is not actively maintained|my application still works|my application doesn't work anymore\r\nI maintain a rethinkdb-related library|I can update it at my leisure and it is easier for me to support multiple versions of rethinkdb|I cannot easily support multiple versions of rethinkdb. My library is useless who users who upgrade. And once updated, it is useless to users who haven't upgraded yet.\r\nI use a dynamically typed language|my application still works|I hope I have good test coverage\r\nI want to test an unstable version of rethinkdb|I can easily get my code to work|no such luck\r\n\r\nAnother advantage is that we could more easily move the client drivers out of the main repo, which would make it easier to get outside contributors.\r\n\r\n@coffeemug thinking about branches as unstable or stable seems wrong to me. The unstable branch will one day become stable, and we have to address the backwards compatibility between it and the previous stable branch.\r\n\r\n#### Have multiple versions of the API docs on the website.\r\n\r\nThis will also have to be addressed after the LTS."
+  , issueCommentId = 35464253
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-03) 19 : 27 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77015874"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3864#issuecomment-77015874"
+  , issueCommentCreatedAt = 2015 (-03) (-03) 19 : 27 : 29 UTC
+  , issueCommentBody =
+      "Hi @donpdonp \r\nthe problem are indeed floating point rounding discrepancies. Different platforms and libcs round certain floating point operations (e.g. sine) slightly differently. Geospatial operations are generally affected by this.\r\nIn the case of `r.geojson` the part that might potentially diverge is the validation that it performs. Depending on rounding `r.geojson` might reject a piece of geometry on one server, but accept it on another.\r\n\r\nIf an update is considered atomic, the update operation will be applied independently on all replicas of the table. Now if some of them have different libraries and/or CPUs, they might update the same document with different data. In that case you end up having divergent data on different replicas, which can lead to inconsistent query results and other weird effects.\r\n\r\nThe long-term solution to this is https://github.com/rethinkdb/rethinkdb/issues/3009\r\n\r\nThe work-around for now is to run the update with `{nonAtomic: true}` (see http://rethinkdb.com/api/javascript/update/ for details). This will make sure that the update function with the `r.geojson` term is only evaluated once on a single server, before having its result distributed to the replicas."
+  , issueCommentId = 77015874
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-17) 20 : 30 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18083999"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/831#issuecomment-18083999"
+  , issueCommentCreatedAt = 2013 (-05) (-17) 20 : 22 : 11 UTC
+  , issueCommentBody =
+      "I'm not sure if I understand correctly what you mean when you talk about the Json object. The driver's between() function always took two arguments, the left bound and the right bound. Starting from 1.5, you can optionally pass an index as the third argument, but that is not required.\r\n\r\nThe error message that you see which is complaining about the wrong number of arguments is actually not referring to the arguments that you are passing when you call between, but to what the driver is internally sending to the server. I see that it is somewhat confusing here.\r\n\r\nThe 1.5 driver does *not* work with any server of version smaller than 1.5.0 when it comes to the between command. It is simply not compatible. Usually you should get an error message that tells you about this incompatibility, and maybe the RethinkDB people can improve on this (i.e. checking in the server if the client is passing a left_bound optional argument or the like <-- PS: Silly me, how could the 1.4 server know about this? Really the version magic should have been changed in the 1.5 protocol but that's too late now).\r\n\r\nIf possible, update the RethinkDB server. Do not forget to migrate your data before installing the new server version https://github.com/rethinkdb/rethinkdb/tree/next/scripts/migration .\r\n\r\nAlternatively you can downgrade the driver to version 1.4."
+  , issueCommentId = 18083999
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-24) 01 : 04 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33188134"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1084#issuecomment-33188134"
+  , issueCommentCreatedAt = 2014 (-01) (-24) 01 : 04 : 00 UTC
+  , issueCommentBody =
+      "Let me add a third different backtrace to the list, because we only have two different ones so far:\r\n```\r\nerror: Error in ./src/containers/intrusive_list.hpp at line 47:\r\nerror: Guarantee failed: [empty()] \r\nerror: Backtrace:\r\nerror: Fri Jan 24 01:48:16 2014\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:99\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:202\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:282\r\n       4: format_backtrace(bool) at backtrace.cc:197\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:76\r\n       6: intrusive_list_t<perfmon_membership_t>::~intrusive_list_t() at intrusive_list.hpp:47\r\n       7: perfmon_collection_t::~perfmon_collection_t() at core.cc:41\r\n       8: btree_store_t<rdb_protocol_t>::~btree_store_t() at btree_store.cc:92\r\n       9: rdb_protocol_t::store_t::~store_t() at protocol.cc:1287\r\n       10: unittest::run_sindex_interruption_via_drop_test() at rdb_btree.cc:480\r\n[...]\r\nerror: Exiting.\r\n```\r\n\r\nWhy is that interesting? Because it might hint at a possible problem with the destructor ordering in this unit test, or a place where we don't wait for a destructor to finish. I got this on CentOS with a modification that artificially & randomly delays io operations."
+  , issueCommentId = 33188134
+  }

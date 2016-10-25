@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-11) 17 : 31 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51812686"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2848#issuecomment-51812686"
+  , issueCommentCreatedAt = 2014 (-08) (-11) 17 : 31 : 28 UTC
+  , issueCommentBody =
+      "Hi @wereHamster,\r\nthe first thing to check is whether the data is in memory. Can you tell us how large your table is (rough average size of document, number of documents)? Could you also check the RethinkDB log/output for a line like \"Using cache size of ...MB\" and tell me how many MB are listed? You could also run a tool like `iostat -d 2 -m` while running the query to see if any data is being read from disk.\r\n\r\nIf everything is in the cache, my suspicion is that decoding the large documents just takes a lot of CPU. I have seen that having a very significant impact on similarly sized documents before, especially when they have nested arrays and/or documents. We are working on improving our efficiency in that respect as part of https://github.com/rethinkdb/rethinkdb/issues/1915 .\r\n\r\nIf you could send me some example data and the query you are running, I can profile your query locally to find out what exactly makes it slow. If your data is small enough, you can just email it to daniel@rethinkdb.com. Otherwise we can arrange for a secure upload site."
+  , issueCommentId = 51812686
+  }

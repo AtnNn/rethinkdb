@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-01) (-26) 19 : 58 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/175200774"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1716#issuecomment-175200774"
+  , issueCommentCreatedAt = 2016 (-01) (-26) 19 : 58 : 02 UTC
+  , issueCommentBody =
+      "@juancampa: as @coffeemug hinted at above there is a much larger potential cost to enforcing uniqueness on a secondary index. This is because what server (or more specifically: shard) manages the data is decided based on the primary key. So a record with a primary key of `4` will always go to the same server. So when you go to add a second record with that same primary key the single server knows that it already has that record, and can immediately take action.\r\n\r\nIn contrast a secondary index does not have any bearing on where the record is stored. So when a new record comes in the server storing that value would have to ask every other primary shard-holder if it had a value with the same value. Not only is there a cost in terms of time in making all of those requests, but there is also a large complexity cost in guaranteeing that this sort of thing works reliably in a complex environment. This complexity is the reason you will probably not find distributed systems that offer unique secondary indexes."
+  , issueCommentId = 175200774
+  }

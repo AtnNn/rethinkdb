@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-27) 01 : 20 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47298975"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2612#issuecomment-47298975"
+  , issueCommentCreatedAt = 2014 (-06) (-27) 01 : 20 : 26 UTC
+  , issueCommentBody =
+      "Good point, I wasn't thinking about the fact that you need to check UTF-8 for JSON anyway. The python JSON library will raise an exception if you don't have valid unicode (though it assumes ascii encoding).\r\n\r\nI agree that `r.binary` definitely shouldn't try to figure out if the binary secretly contains a text string. I just meant in the case you get a python `unicode` type, it should fail and refuse to silently convert it to a binary.\r\n\r\nHere's what I'm thinking explicitly:\r\n\r\nPython 2\r\n```python\r\nr.binary(\"hi\") # perfectly ok, not going to infer text\r\nr.binary(b\"hi\") # identical to above, b prefix is a dummy for compatibility\r\nr.binary(u\"hi\") # should fail, this is the unicode type which is unambiguously text and never binary\r\n```\r\n\r\nPython 3\r\n\r\n```python\r\nr.binary(\"hi\") # should fail, default strings are unicode\r\nr.binary(u\"hi\") # identical to above, u prefix is a dummy for compatibility\r\nr.binary(b\"hi\") # perfectly ok"
+  , issueCommentId = 47298975
+  }

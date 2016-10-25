@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-05) 01 : 20 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29863573"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1731#issuecomment-29863573"
+  , issueCommentCreatedAt = 2013 (-12) (-05) 01 : 20 : 32 UTC
+  , issueCommentBody =
+      "There are different optimizations which can be disabled selectively to make this work.\r\n\r\nOne of them is global common subexpression elemination (-fgcse). Probably that optimization is responsible for the fact that GCC eliminated recomputing the TLS pointer after the (masked) thread-switch.\r\n\r\nThis is the minimal set of optimiization flags I found which still exhibits the problem:\r\n`-O1 -fgcse -finline-small-functions`\r\n\r\nI have not (yet) expanded the `-O1` so see which of its optimization are actually necessary to exhibit this.\r\n\r\nI'm pretty sure that the inline-small-functions here is just needed to allow gcse to work properly in this specific case (the access to the TLS structure *in this specific case* is hidden in the `coro_t::self()` function).\r\n\r\nNow it would be nice if we could somehow tell the compiler to not fold expressions across our context switches. I tried adding `volatile` to the thread-local pointers to the structure involved here, but that didn't help."
+  , issueCommentId = 29863573
+  }

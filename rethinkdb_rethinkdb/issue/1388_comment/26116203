@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 05 : 57 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26116203"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-26116203"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 05 : 57 : 49 UTC
+  , issueCommentBody =
+      "@jdoliner: With the current implementation, the timeout would definitely be implemented in the clients. It could only work with `close()` and `reconnect()`, not with the user-facing `noreply_wait()` (because it would leave the connection in a bad state). Third-party driver developers can decide whether they want to support it or not, so I don't see a huge issue with that.\r\nAlso, now that I think about it, the timeout would likely only make sense for drivers which are asynchronous in general. And there it is usually easy to implement.\r\nIn the PHP driver for example I would probably not implement the timeout. No other operation has a timeout except for r.js and I don't think there are many a use-cases which never need timeouts except suddenly when closing a connection. (in the PHP driver, there actually is a general per-connection timeout when reading from the socket, and that one would already work for close automatically)\r\n\r\nSo, here is the current semantics as implemented for the Python driver (others are similar):\r\n* there is a new function `conn.noreply_wait()`. This function returns once all noreply operations on that connection have been processed by the server. For the JavaScript driver, this also includes pending non-noreply operations.\r\n* if the connection is terminated because the client crashes, is killed, loses its network connection, or the connection object is destructed (we should discuss whether noreply_wait should be called on destruction of the connection object btw.), all pending noreply operations are aborted.\r\n* if `conn.close()` is called on the client and the connection has not been closed before, `conn.close()` does not return before all pending operations are completed.\r\n* the same for `conn.reconnect()`, it does not terminate the old connection before all operations are done.\r\n* the user can instead call `conn.close(noreply_wait=False)` or  `conn.reconnect(noreply_wait=False)`. The former does not block, and in both cases all pending noreply operations are aborted."
+  , issueCommentId = 26116203
+  }

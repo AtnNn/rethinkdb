@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-30) 18 : 40 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23581271"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-23581271"
+  , issueCommentCreatedAt = 2013 (-08) (-30) 18 : 40 : 08 UTC
+  , issueCommentBody =
+      "@underrun -- there is one thing I didn't understand about the issue. At even 5k/minute peak, that's about ~83 docs per second. How could performance go up to 800 docs/sec if the clients are only inserting an order of magnitude fewer docs at peak?\r\n\r\nAlso a few more questions:\r\n\r\n* How are you measuring RethinkDB performance? If you're looking at the admin page graph, there is a known issue with the graph underreporting performance. The performance monitoring code currently has a lower priority than query code, so RethinkDB drops some performance statistics requests at high load due to timeouts. The web UI then underreports performance because it treats missing data as zero. I'm wondering if this could be the culprit -- what happens if you measure the number of requests on the clients themselves?\r\n* How much memory is on the machine? at 30M 2kb docs, that's about 57GB of data. RethinkDB currently sets the cache size to 1GB by default, so running out of cache space might be the cause of the performance drop off (this will be fixed soon via #97). Could create your table with, say, 10GB of cache (see http://rethinkdb.com/api/#js:manipulating_tables-table_create) and rerun your tests? I'd love to know what happens under this setup."
+  , issueCommentId = 23581271
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 22 : 35 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46625777"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2574#issuecomment-46625777"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 22 : 35 : 31 UTC
+  , issueCommentBody =
+      "I agree.  However, I think the name `map` should not be overloaded for either of these things.  Also, I think the parallel-mapping version shouldn't be variadic -- it should only take two sequences.  This is to keep things simple.  It could be painlessly extended later to support variadic arguments.\r\n\r\nI think, also, an `r.range(begin, end)` command would be nice to have (especially as a developer inserting dummy test data into tables).  It might be gross if it supported infinite ranges, though, and a finite-range-emitting version of the command would not, in combination of a parallel-mapping map command, be enough to implement the map-with-index command you've asked for.\r\n\r\nHowever, if we wanted an infinitely-generating `r.range` command (that produces the ordered sequence `0, 1, 2, 3, ...`), and if we had parallel-map, that would be one reason *not* to add map-with-index functionality (because it's redundant).  (I think infinite sequences would be okay as long as we disallow a query from *returning* an infinite sequence.  Perhaps unless the user says they're explicitly allowed.)\r\n\r\nAlso, `sequence.mapWithNumericPosition(function(idx, elem){...})` is a bit more convenient than `sequence.doAParallelMapPlease(r.range(0), function(elem, idx){...})`.  (We need some non-bogus ideas for what these commands would be named, too.)\r\n\r\nAlso, note that parallel-map only makes sense on arrays and other ordered sequences, but not on unordered result sets like an `r.table('foo')` that doesn't have an orderBy attached."
+  , issueCommentId = 46625777
+  }

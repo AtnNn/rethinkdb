@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 17 : 40 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26074605"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/728#issuecomment-26074605"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 17 : 40 : 21 UTC
+  , issueCommentBody =
+      "Short answer yes those semantics are fine.\r\n\r\nLonger answer:\r\nThese semantic violations are independent of snapshotting. We generally allow txns to acquire the stat block in whatever order they want so a read, whether snapshotted or not may or may not see the changes made by the currently running write txns. The 2 risks that exist with violating a DAG locking structure are deadlocks and inconsistent data. The first is solved by adhering to the rule that while you have the stat block acquired you can't acquire any other blocks so it's in essence a completely separate tree. The second is (mostly) solved by the fact that the only operations permitted on the stat block are `increment` and `decrement` which commute. This means that unlike with other blocks writes can happen in any order and eventually result in the same value. This does allow you to see the effects of some of the currently running writes but not others. We just live with that for now and only use the stat block as an out of date count on the tree."
+  , issueCommentId = 26074605
+  }

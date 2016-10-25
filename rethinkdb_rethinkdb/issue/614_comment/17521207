@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-07) 03 : 17 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17521207"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/614#issuecomment-17521207"
+  , issueCommentCreatedAt = 2013 (-05) (-07) 03 : 17 : 48 UTC
+  , issueCommentBody =
+      "It has nothing to do with debug mode versus release mode, that error.  Apply the following diff to next and run the rql tests.\r\n\r\n```\r\ndiff --git a/src/btree/keys.cc b/src/btree/keys.cc\r\nindex c71525c..c1c45c6 100644\r\n--- a/src/btree/keys.cc\r\n+++ b/src/btree/keys.cc\r\n@@ -83,7 +83,10 @@ key_range_t::key_range_t(bound_t lm, const store_key_t& l, bound_t rm, const sto\r\n             unreachable();\r\n     }\r\n \r\n-    rassert(right.unbounded || left <= right.key, \"left_key=%.*s, right_key=%.*s\", left.size(), left.contents(), right.key.size(), right.key.contents());\r\n+    guarantee(right.unbounded || left <= right.key,\r\n+              \"left_key(%d)=%.*s, right_key(%d)=%.*s\",\r\n+              left.size(), left.size(), left.contents(),\r\n+              right.key.size(), right.key.size(), right.key.contents());\r\n }\r\n \r\n bool key_range_t::is_superset(const key_range_t &other) const {\r\n```"
+  , issueCommentId = 17521207
+  }

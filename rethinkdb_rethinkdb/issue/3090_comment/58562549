@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-09) 19 : 17 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58562549"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3090#issuecomment-58562549"
+  , issueCommentCreatedAt = 2014 (-10) (-09) 19 : 17 : 08 UTC
+  , issueCommentBody =
+      "Thank you for the great report @gato and for running these tests.\r\nI can see two issues here, both of which seem to be independent of the original data corruption crash:\r\n- RethinkDB going into swap, which in turn causes it to have heartbeat timeouts and time out when you run `rethinkdb import`. In case it's not already at a low value, I recommend reducing the cache size to see if that improves things. See http://rethinkdb.com/docs/memory-usage/ for details.\r\n  May I ask how many tables you have in your database? There currently is a relatively large overhead (of several MB) per existing table. Not sure if that's an issue in this case though.\r\n  Finally, we also have at least one other report (#2988) of excessive memory usage after running RethinkDB for a while. It's theoretically possible that your import process triggers the same behavior much quicker, though I don't want to draw any premature conclusions.\r\n- The second issue is that we give a bad error message when trying to insert strings that contain a null character. This is likely the cause of the \"buggy client\" error you've been seeing. See issue #3164 for that."
+  , issueCommentId = 58562549
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-03) 21 : 17 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 660139
+        , simpleUserLogin = N "victorquinn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/660139?v=3"
+        , simpleUserUrl = "https://api.github.com/users/victorquinn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54368838"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-54368838"
+  , issueCommentCreatedAt = 2014 (-09) (-03) 21 : 17 : 21 UTC
+  , issueCommentBody =
+      "1. Documenting this mostly for posterity: I sent my data along to @mglukhovsky a couple days ago. After some tweaks, I included\r\n  * tarballs of the data directories from RethinkDB from each of the 3 nodes in the cluster after shutting down RethinkDB\r\n  * tarballs of the RethinkDB logs\r\n  * a RethinkDB dump (created using `rethinkdb dump`) just in case\r\n1. As promised, I have also written a sample app that approximates the load and type of queries we are doing. [Available here](https://github.com/socialradar/simulated-rethinkdb).\r\n  * It includes the [same code we are using for connection pooling in our production environment](https://github.com/socialradar/simulated-rethinkdb/blob/master/rethinkdb.js) in case that's helpful for tracking the number of connections or whatever.\r\n  * It also includes some actual queries that I pulled and cleaned up. These account for roughly half of our queries but >90% of our volume.\r\n  * I also approximate the volume of each call, so there are many more `get()` calls for each `insert()` just as we have in the real world.\r\n  * Note, running this will fill the database with a bunch of garbage data and it does not do any cleanup. But it should help approximate what we are doing.\r\n  * I included instructions in the README but do let me know if you have questions\r\n1. We are continuing to see this memory leak, restarting RethinkDB regularly. Here is a graph of the memory usage of our cluster over the past week:  \r\n  ![je-4o4ffves-nneruqgogtjylnjvxip1zv9z21slo8k](https://cloud.githubusercontent.com/assets/660139/4141489/ca46ad42-33ae-11e4-8e12-5c535d04eeef.png)  \r\n  Unsurprisingly, the top graph with the greater sloped sawtooth is the master node. We have been restarting it daily to ensure we do not run into the out of memory issue and generally restart all three at the same time (though only the master is the one in danger of running out of memory).\r\n\r\nThank you all for being awesome and responsive and please let me know if there is anything more I can do to help track this down!"
+  , issueCommentId = 54368838
+  }

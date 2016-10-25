@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-22) 03 : 32 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32990618"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1888#issuecomment-32990618"
+  , issueCommentCreatedAt = 2014 (-01) (-22) 03 : 32 : 04 UTC
+  , issueCommentBody =
+      "Well, it appears that interruption for all `http_app_t` classes was not actually implemented.  Basically, the server was blocking on the destruction of the `http_server_t` because there was still an open connection.  This connection was currently in `protob_server_t::handle(...)`, which was only interruptible by the destruction of the `protob_server_t` itself (more specifically, its member variable of the `http_conn_cache_t` type).\r\n\r\nI changed the behavior to pass down the `auto_drainer_t`'s drain signal of the original `http_server_t` to any `http_app_t::handle(...)` calls so that they will be properly interrupted when we try to destruct the `http_server_t`.  Because of this, `routing_http_app_t`, `combining_http_app_t`, `distribution_app_t`, `log_http_app_t`, `progress_app_t`, `stat_http_app_t`, and `query_http_app_t` should now be interruptible when handling a request.\r\n\r\nGoing to do a bit more testing to see if there's anything else I can do or if something is blatantly broken, after which I will put it up for review."
+  , issueCommentId = 32990618
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-15) 23 : 57 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16418671"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/663#issuecomment-16418671"
+  , issueCommentCreatedAt = 2013 (-04) (-15) 23 : 57 : 27 UTC
+  , issueCommentBody =
+      "Here's what's actually happening here. The driver attempts to convert any native values passed to it into a RQL datum. Since it doesn't know how to convert `undefined` into a datum, it throws an error. I see a few options here.\r\n\r\n1 this error is sufficient, do nothing\r\n2 try to provide a better error in context (object key 'foo' is undefined)\r\n3 silently ignore `undefined` as if it didn't exist\r\n\r\nWe already do something like option 2 in the case of a lambda function returning undefined. We could add other common cases to help people understand where the error is coming from (in this case because that property isn't set on the original object. This change would actually require more work than the other two options but helps people uncover situations that are mostly likely errors as in this case.\r\n\r\nMichel's right that the last option is must more javascript-y. Fields whose value is `undefined` are treated as if they don't exist. This might better match user expectations / fit with the user's data model better and is easy to implement. \r\n\r\nI'm not actually sure where my personal opinion falls on this. I do agree that the place to handle this situation is probably not within the datum constructor where we've lost all context for the error."
+  , issueCommentId = 16418671
+  }

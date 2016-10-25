@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-04) 14 : 51 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23795398"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1127#issuecomment-23795398"
+  , issueCommentCreatedAt = 2013 (-09) (-04) 14 : 51 : 41 UTC
+  , issueCommentBody =
+      "api changes for the better don't bother me - you are coming up on a 2.0 release right? great time to drop the variadic interface to getAll :-)\r\n\r\nfor python, inline generators in function calls are really nice. so i could do some craziness like this:\r\n\r\n    data = { ... } # some dict or other with table id as values\r\n    r.table('whatever').get_all(v for k, v in data.items() if some_test(k))\r\n\r\nbut to do this with a variadic call i've got to wrap my generator in another set of parens and put a star in front:\r\n\r\n    r.table('whatever').get_all(*(v for k, v in data.items() if some_test(k)))\r\n\r\ni know it's not really a \"big deal\" but this does two things unpythonically: it looks horrible and it fully exhausts a generator materializing the entire thing into a tuple before the function call.\r\n\r\nin reality, even if you didn't require me to unpack some unknown quantity of data into a function call, you may or may not materialize my generator inside your code. the point is, if your code works for what i want to do, i don't care how you do it - BUT, i don't want you to force me to write fragile code even if your API is fragile.\r\n\r\nwhen i say fragile here i mean in the sense of big data.\r\n\r\npart of the reality of working with big data is getting in the habit of coding things that execute lazily, don't create copies of themselves, and that operate on one thing at a time. the more things that treat this approach nicely the better.\r\n\r\nnot that a call to get_all should be expected to handle an entire tables worth ids ... or should it? anyway, that's not the point.\r\n\r\nthe point is, variadic functions are great for things like closures especially for decorators or methods in abstract base classes, things where your function/method's signature will not be known until runtime, or to support a sort of polymorphic behavior (if you're into that kind of thing). but for passing variable length data it just doesn't feel right\r\n\r\n"
+  , issueCommentId = 23795398
+  }

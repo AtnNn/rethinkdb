@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 22 : 13 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18311598"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18311598"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 22 : 13 : 05 UTC
+  , issueCommentBody =
+      "So it seems like we actually have 3 different uses cases here. \r\n\r\n- Recover from finding an unexpected `null` value. \r\n- Recover from an non existant value.\r\n- Recover from another kind of error, (division by 0, table already exists, etc.)\r\n\r\n@mlucy if I understand correctly is saying that `default` should work for cases 1 and 2. I'd agree with that but I think it's bad for it to work on case 3 because that gives users the potential to miss a bad error message and they probably won't realize that `default` catches all error messages.\r\n\r\nSuppose someone has some generic code they use to write things to the database and they want to keep track of all of the generated keys. This could easily happen in an ORM. In that case they might write:\r\n\r\n```Python\r\ndef insert_models(self, docs):\r\n    self.generated_ids += table.insert(docs)[\"generated_ids\"].default([]).run()\r\n```\r\n\r\nthis looks like perfectly reasonable code and it will work fine until a master dies and the write throws an error which they miss because of the `default`.\r\n\r\nI think we might be well served by looking at the behavior of throwing when an attribute is missing. Could we instead return something other than an error in that case which `default` would also handle? Maybe we could just return `null` in that case.\r\n\r\nEdit: added `run()`"
+  , issueCommentId = 18311598
+  }

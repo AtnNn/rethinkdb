@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-17) 16 : 49 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40735906"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2262#issuecomment-40735906"
+  , issueCommentCreatedAt = 2014 (-04) (-17) 16 : 49 : 43 UTC
+  , issueCommentBody =
+      "If there's a good place to improve performance from, it's in btree_store_t::update_metainfo, which is just insane, calling set_superblock_metainfo over and over again, key-by-key, in a loop (after calling clear_superblock_metainfo before the loop).  That creates O(n^2) performance, but fortunately the typical value of n would be 1, and sometimes 2 (the number of key-range shards the machine has).\r\n\r\nOf course that's probably better than having two different functions that touch the serialization format of the metainfo.  But right now we don't actually use any key-by-key behavior.  (We could optimize the key-by-key behavior if we wanted to.  There's some good CPU optimizations that could be had.)"
+  , issueCommentId = 40735906
+  }

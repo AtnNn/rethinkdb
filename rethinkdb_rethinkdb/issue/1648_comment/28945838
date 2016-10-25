@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-21) 00 : 05 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28945838"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1648#issuecomment-28945838"
+  , issueCommentCreatedAt = 2013 (-11) (-21) 00 : 05 : 29 UTC
+  , issueCommentBody =
+      "I had some troubles benchmarking this properly due to excessive memory usage of the RethinkDB server (up to 18 GB per node). Turns out this was a consequence of the fact that I created a lot of tables at once. This allocated a high number of temporary coroutines and other temporary data structures all at once, driving up memory consumption. Plus the `chunk_t`s in `two_level_array_t` are somewhat large for scenarios with many tables but little data per table.\r\n\r\nAfter changing the `wait_for_rdb_table_readiness()`, the numbers for 200 existing tables on 32 nodes are as follows:\r\n```\r\nTime create: 5642.5117492676 ms\r\nTime drop: 868.3762550354 ms\r\nCombined: 6510.888004303 ms\r\n```\r\n\r\nNot as much improvement as I had hoped. I'm going to profile this again...\r\n\r\nTesting this with 500 tables on our local machines is still out of reach unfortunately due to memory constraints."
+  , issueCommentId = 28945838
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-25) 03 : 40 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33280203"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1907#issuecomment-33280203"
+  , issueCommentCreatedAt = 2014 (-01) (-25) 03 : 40 : 53 UTC
+  , issueCommentBody =
+      "A partial fix to this is in CR 1156 by @mlucy. The change removes the need to construct a `cow_ptr_t::change_t` in the `table_t` constructor as well as in `db_term_t::eval_impl()`.\r\n\r\nThe `cluster_semilattice_metadata_t` type has the following fields:\r\n```\r\ncow_ptr_t<namespaces_semilattice_metadata_t<mock::dummy_protocol_t> > dummy_namespaces;\r\ncow_ptr_t<namespaces_semilattice_metadata_t<memcached_protocol_t> > memcached_namespaces;\r\ncow_ptr_t<namespaces_semilattice_metadata_t<rdb_protocol_t> > rdb_namespaces;\r\n\r\nmachines_semilattice_metadata_t machines;\r\ndatacenters_semilattice_metadata_t datacenters;\r\ndatabases_semilattice_metadata_t databases;\r\n```\r\n\r\nWe now avoid copying the `rdb_namespaces` field. That was the one which previously had the `change_t` created for it. However we still copy the remaining fields `machines`, `datacenters` and `databases` in `db_term_t::eval_impl()`. Copying those is cheaper, but still might become relevant if the number of machines or databases gets large. Getting rid of that copy is a bit more work. Leaving that for later."
+  , issueCommentId = 33280203
+  }

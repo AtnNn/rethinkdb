@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-13) 10 : 50 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19384531"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-19384531"
+  , issueCommentCreatedAt = 2013 (-06) (-13) 10 : 50 : 06 UTC
+  , issueCommentBody =
+      "For the action to be meaningful it must have a side effect. The only side effects we allow are write queries to tables. Though I've never tried to write an `r.js` query that had a side effect, I don't think we do anything to prevent them.\r\n\r\nIn short, doing any meaningful action would be quite clunky. Most of the time it would mean trying to create an XMLHttpRequest from within a `r.js` term, yuck.\r\n\r\nHere's an alternative suggestion:\r\n\r\n```python\r\n# on_insert produces lazy stream of all new rows that match the predicate\r\n# This loop blocks until the event is triggered and a new value is returned to the cursor\r\nfor new_user in r.table('users').on_insert(lambda new_user: new_user['age'] > 20).run():\r\n   # Now control is returned to the client, and the application can perform the action\r\n   stop = go_do_some_action(new_user)\r\n   if stop:\r\n      break # This causes the loop to exit and the cursor to be deleted\r\n               # Thus the trigger is \"canceled\" when the cursor is closed\r\n\r\n# Since we only support triggers on insert, replace, and delete, we just\r\n# have on_insert, on_replace, on_delete, rather than on(event, ...)\r\n# This is also necessary because different events have different types.\r\n# Here `on_replace` takes a binary function and produces results of the form {'old':..., 'new':...}\r\n# Note that the application is only interested in the new values so it does a map on\r\n# the results to select just that field.\r\ncursor = r.table('user').on_replace(\r\n      lambda old_val, new_val: old_val['age'] != 18 & new_val['age'] == 18\r\n).map(r.row['new']).run()\r\n\r\nfor new_user in cursor:\r\n   do_something(new_user)\r\n\r\n# We can do our side effecting in the query as well.\r\n# This query blocks the client thread indefinitely, the trigger is \"deleted\" when this query\r\n# exits, i.e. when the client thread is interrupted or the connection is closed\r\nr.table('user').on_delete(lambda dead_user: dead_user['age'] < 5).for_each(lambda du: r.table('dead_children').insert(du)).run()\r\n```\r\n\r\n"
+  , issueCommentId = 19384531
+  }

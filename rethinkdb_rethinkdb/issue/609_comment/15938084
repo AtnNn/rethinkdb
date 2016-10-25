@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 04 : 07 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15938084"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-15938084"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 04 : 07 : 33 UTC
+  , issueCommentBody =
+      "@coffeemug This feels like a special case. The repl is a special environment which is capable of receiving external user input (in this case a Ctrl-C from the shell) and interrupting the thread without destroying the environment in which the connection is defined. In a production setting, similarly interrupting the running script would kill the process and destroy the connection. Of course, at this stage, it seems like playing with RethinkDB in the Python repl is one of the main uses of the Python driver. For particularly long queries I can see users choosing to interrupt the query and plausibly running into this problem.\r\n\r\nWith the current fix, subsequent queries will get an error on the response. The solution to this situation will be to call `reconnect` on the connection to reset the connection state.\r\n\r\nI can think of two other possible fixes. The first would be to catch the keyboard exception when waiting for a response and in the handler reset the connection. This has the added benefit of actually cancelling the offending query on the server which perfectly matches the intentions of a frustrated user cancelling a query because it's taking too long.\r\n\r\nThe second would be to rewrite the Python driver connection object to asynchronously make requests and handle responses similar to how the JS and apparently Ruby drivers do it. This would still need to be wrapped in a blocking API to preserve the sanity of repl users. I'm thinking that even if we do this we may still want to explicitly cancel (by resetting the connection) any query explicitly canceled by a Ctrl-C in the REPL by the user. In this case, the extra complexity of this solution doesn't buy us anything over the previous proposal.\r\n\r\nWith all this being said I think the best solution is solution 2."
+  , issueCommentId = 15938084
+  }

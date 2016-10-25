@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-10) 01 : 53 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91399309"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3882#issuecomment-91399309"
+  , issueCommentCreatedAt = 2015 (-04) (-10) 01 : 53 : 46 UTC
+  , issueCommentBody =
+      "We have to decide how to summarize and present table status. The biggest issue is how to combine information across different \"sub-shards\" of the same user-visible shard. These \"sub-shards\" could be hash shards, or they could be smaller range shards within the user-visible range shard.\r\n\r\nFor each sub-shard, we have the following information:\r\n* The server ID that's supposed to be acting as primary; this is normally the user's designated primary, but might be different during auto-failover.\r\n* A set of \"voting\" server IDs; we need a quorum of them to perform writes.\r\n* For each server, one of the following states:\r\n    * `primary` - The server is accepting queries as primary for the table.\r\n    * `secondary` - The server is acting as secondary for the table and streaming up-to-date queries from the primary.\r\n    * `backfilling` - The server is backfilling data from the primary, but not ready for queries.\r\n    * `looking_for_primary` - The server would like to be a secondary, but it can't find the primary\r\n    * `disconnected` - the server cannot be reached.\r\n    * `nothing` - the server has no data or is erasing its data.\r\n    * `transitioning` - a temporary state indicating that the server is unavailable for some other reason\r\nThe sub-shard is ready for outdated reads if any server is `primary`, `secondary`, `backfilling`, or `looking_for_primary`. It's ready for regular reads if any server is `primary`. It's ready for writes if the server that's \"supposed to be acting as primary\" is `primary`, and a quorum of the \"voting\" servers are `secondary`. (Calculating if the sub-shard is fully ready is straightforward but would take more space to describe, so I'll leave it out here.)\r\n\r\nThe hard part is combining sub-shard readinesses and sub-shard server states in a way that's consistent. Presumably the user-shard readiness should be the minimum of its sub-shards' readinesses. Suppose we make the user-shard state for a given server be the minimum of the sub-shard states for a given server. Then we could end up with a paradoxical situation where each server is apparently a secondary, but the table as a whole is ready for writes."
+  , issueCommentId = 91399309
+  }

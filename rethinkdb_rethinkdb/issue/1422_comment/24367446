@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-13) 01 : 19 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24367446"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1422#issuecomment-24367446"
+  , issueCommentCreatedAt = 2013 (-09) (-13) 01 : 19 : 03 UTC
+  , issueCommentBody =
+      "@nu11gravity -- I have a hypothesis.  One reason `pthread_create` can return `EAGAIN` is if there isn't enough memory available.  The VPS you're using only has 256MB of memory, no swap, and is configured to use 10MB of stack space per thread according to ulimit -a.  I don't know how many threads we spawn, but I think it's a lot.\r\n\r\nIn a sense this is expected -- RethinkDB will almost certainly crash from something when that little memory is available.  (We recommend at least 2 gigs for running it right now, but we're working on better support for low-memory systems.)\r\n\r\nThis is still really strange, though, because the kernel should be perfectly happy to overcommit; normally RethinkDB fails on low-memory instances because the OOM killer snipes it.\r\n\r\nDoes it work for you on a VPS with more memory?\r\n\r\n(Also, sorry you ran into this!  We're hoping to fix the large memory requirements, but we should also fail more nicely on low-memory systems in the meantime.)"
+  , issueCommentId = 24367446
+  }

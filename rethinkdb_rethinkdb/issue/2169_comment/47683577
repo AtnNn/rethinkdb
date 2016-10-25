@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-01) 17 : 11 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47683577"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-47683577"
+  , issueCommentCreatedAt = 2014 (-07) (-01) 17 : 11 : 33 UTC
+  , issueCommentBody =
+      "Providing a ReQL API to manage a cluster of RethinkDB server is a wonderful thing, but I would tend to think that now is not a good time to fix it.\r\n\r\nThis issue seems way bigger than just setting replicas/shard/primary.\r\n- How do we deal with `unsatisfiable goals` when one occurred? Actually how do we report them first?\r\n- How do we fix a name conflict? How do we access the uuid of something in the cluster?\r\n- How does someone knows if there is an issue in the cluster? Will the server compute a friendly user when a replica is out of date? Or will the user have to compare blueprint and directory?\r\n- How do we call `universe` in the API?\r\n- Can I open a feed on issues?\r\n- How do you pin a shard? Because we currently pin a table to datacenter only, not to a machine. The underlying question is how to access a shard? `r.table(name).shard(uuid1, uuid2)`?\r\n\r\nBeyond the complexity of this issue, we probably want to fix https://github.com/rethinkdb/rethinkdb/issues/1812 first.\r\nThe way we treat `universe` now is confusing, and sometimes lead to errors where the cluster has multiple choices to solve the issue (like https://github.com/rethinkdb/rethinkdb/issues/1815).\r\nI would expect people to easily end up with unsatisfiable goals if we don't change the behavior of universe. Now the web interface does a lot of work to make sure that the users won't break things.\r\n\r\nI would also tend to think that issues like #2119 (not routing everything to the master) or #2039 (fixing the way ack work - or at least the message sent back to the user) are really really more important than adding a nicer syntax to manage your cluster. \r\n\r\nNote that I would probably be the most person who would enjoy the new API the most since it would let me remove sooooo much (messy) code from the web interface, but that I still think we should first fix a few other things."
+  , issueCommentId = 47683577
+  }

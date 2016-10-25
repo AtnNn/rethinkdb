@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-03) 21 : 25 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25659491"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-25659491"
+  , issueCommentCreatedAt = 2013 (-10) (-03) 21 : 25 : 00 UTC
+  , issueCommentBody =
+      "@coffeemug: Thanks for the suggestion. I had discussed that before with @jdoliner and we decided that splitting batches was the easier solution for the moment.\r\nThis judgement was not without flaw as it turned out.\r\nIn the end it took me longer to implement than expected, which however was mostly due to my unfamiliarity with the query processing code and some of the assumptions on how transactions behave. My initial test implementation violated those assumptions. The other thing I did not fully consider at that time is that splitting the batches does have an impact on single-client performance because it adds latency. Due to this we cannot make the \"sub batches\" too small, making the solution less effective with respect to reducing flush lock waits.\r\n\r\nWe should certainly change the cache sooner or later. Acquiring locks in b-tree order is one option to remove the flush lock. I have also discussed another one with @srh which would actually allow us to flush individual transactions even if data got subsequently modified by another later transaction. This can have advantages if some of the writes have hard durability while other long-running write transactions are active. The basic idea is to take a pro-active snapshot whenever a write transaction releases a block, or alternatively before it acquires a block.\r\nSay we have two transactions t1 and t2, and t1 comes in first, followed by t2.\r\nt1 modifies a block b, followed by t2 modifying the same block b.\r\nThen t1 finishes, but t2 is not yet done and still holds locks in the tree (it might want to modify more blocks).\r\nWith both our current flush lock as well as with acquiring blocks in b-tree order during the writeback, we would now have to wait until t2 finishes before we can flush the changes made by t1. However if we have a snapshot of b just after t1 released it (or just before t2 acquired it, which is the same semantically), we can write exactly the state after t1's completion. t2 will be included in a later writeback once it is done, but it will not block flushing any earlier transactions.\r\n\r\nI think it makes sense to plan, implement and test this very carefully. This unfortunately will take some time. Until then the batch-splitting work-around should do the job in many use cases."
+  , issueCommentId = 25659491
+  }

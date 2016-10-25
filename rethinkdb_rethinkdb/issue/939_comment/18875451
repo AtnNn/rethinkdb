@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-03) 22 : 01 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18875451"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-18875451"
+  , issueCommentCreatedAt = 2013 (-06) (-03) 22 : 01 : 10 UTC
+  , issueCommentBody =
+      "I just had another thought, making me think that having variable-sized blocks is even more useful, even from the performance perspective (not that it matters too much anymore, as Sam is already on it anyways).\r\n\r\n-- Background: --\r\nDue to its initial focus on SSDs, RethinkDB does not make much effort to have on-disk data locality. Thus on rotational disks, I would expect it to be quite slow under read-heavy out-of-memory workloads. Back when we tested point gets with the memcached protocol, this wasn't much of a disadvantage. If you do a random point get, every database system has to perform at least one read, and it was the same with RethinkDB (to acquire the one leaf node that contained the value). However with somewhat larger documents, values would currently be split over multiple blocks that could in theory end up being scattered all over the disk. Depending on which order they are processed by the serializer, they will still be sequential, but I consider that to be more like a lucky coincidence of the current implementation, than a conceptual property.\r\n-- /Background --\r\n\r\nWith variably sized blocks, we could increase the maximal block size somewhat (say to 128 KB), so relatively large documents would still fit into a single contiguous block. At the same time, btree nodes could keep the 4 KB size to maintain the advantages of more fine-grained locking, caching and CoW.\r\nThis will give us lots of opportunities for tuning in the future. :-)"
+  , issueCommentId = 18875451
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 18 : 33 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53913887"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-53913887"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 18 : 33 : 15 UTC
+  , issueCommentBody =
+      "One more question and two comments I'd like to add:\r\n* Are you using `r.js` queries and/or `r.http` queries? If yes, how do they look like? I'm asking about these ones specifically because they use external worker processes and you mention that the memory wasn't freed even after restarting the server.\r\n* On the application side, a potential source of memory leaks is not closing and not fully consuming cursors. If you can't rule that out straight away, this would be something to check. A cursor (like what you get from a `r.table('test').filter({a: 'value'})` query for example) allocates some memory on the server, which is only freed if either the `close()` function is called on the cursor, or all data is read from it, or the connection that the cursor was created on is closed. Since you're using a connection pool, I guess some connections might stay open for a very long time?\r\n* This is unrelated to the issue, but your cache size setting doesn't seem to be working. You say that you specify a 1024 MB cache size. However RethinkDB doesn't adjust an explicitly specified cache size down by itself, even if there's not enough RAM available. Maybe there is a typo in the configuration or something like that?"
+  , issueCommentId = 53913887
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-15) 20 : 58 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26371625"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-26371625"
+  , issueCommentCreatedAt = 2013 (-10) (-15) 20 : 58 : 35 UTC
+  , issueCommentBody =
+      "So just looking at global statistics of how long a round trip of the message queue takes, it seems that the number of messages / active coroutines is not the sole cause of sluggish response times. Instead there seem to be some messages which take long to process.\r\n\r\nFor example:\r\n```\r\n221 messages, took 145.45 ms\r\n438 messages, took 677.542 ms\r\n415 messages, took 1360.31 ms\r\n514 messages, took 1039.63 ms\r\n382 messages, took 158.861 ms\r\n201 messages, took 145.479 ms\r\n```\r\nI made the message hub print this line whenever processing all messages takes longer than 100 ms. You can see that there are situations in which we have 382 messages, but a *relatively* reasonable round trip of ~160 ms. At another time, with just slightly more messages (415), it took 1360ms to process those messages.\r\nThese timings were during resharding. \r\n\r\nA bit later I got an even more extreme case:\r\n```\r\n5 messages, took 122.66 ms\r\n```\r\n\r\nEvery of my tries to follow the trace of the watchdog so far ended in dead ends. The only thing I found is that sometimes doing a serializer index write is slow (`log_serializer_t::index_write()`). Unfortunately the part which takes a lot of CPU is in a section where we cannot yield without additional locking."
+  , issueCommentId = 26371625
+  }

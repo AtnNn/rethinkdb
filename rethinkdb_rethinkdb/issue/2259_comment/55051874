@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-09) 23 : 29 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55051874"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2259#issuecomment-55051874"
+  , issueCommentCreatedAt = 2014 (-09) (-09) 23 : 29 : 29 UTC
+  , issueCommentBody =
+      "Alright, here's what I think should happen:\r\n* `r.table` should use a timeout, which defaults to 5 seconds and is configurable with an optarg `timeout`.  So `r.table('test').get(5)` will wait up to 5 seconds for `test` to be ready, and if it isn't return the error we use now.  `r.table('test', timeout:1).get(5)` will wait only 1 second.\r\n* We should add a command `r.table_wait` (and `r.db(...).table_wait(...)`) that behaves the same as `index_wait` does now:\r\n  - If called with no arguments, it waits for all the tables in the database to be ready.\r\n  - If called with 1 or more arguments, it waits for the specified tables to be ready.\r\n  - It returns a reasonable status object for the table, the same thing `r.table_status` would return.  (@timmaxw, what should this be?)\r\n* We should add a `timeout` optarg to `table_wait` and `index_wait` that does what you'd expect.  The default timeout should be 0, which means no timeout."
+  , issueCommentId = 55051874
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-24) 21 : 42 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60453426"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2885#issuecomment-60453426"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 21 : 42 : 30 UTC
+  , issueCommentBody =
+      "With respect to which stats to include, I'd like to defer to @danielmewes and @wojons -- they seem to understand what is and isn't needed really well and have done a lot more research than I have (especially @wojons, since he actually built a RethinkDB monitoring product and was responsible for operating infrastructures before).\r\n\r\nMy only guidance is to include as few metrics as possible, give them good names, and clearly include units into the names in a consistent way to avoid any confusion.\r\n\r\nHowever, I don't like the idea of a `table_stats` and `server_stats` tables. I think we should have a single table `stats`. Whenever possible we'd add a stat per table per server and include `db_name/table_name/server_name` into the document. For stats that only makes sense per server but not per table we'd not include `db_name/table_name` in the document, and for stats that only make sense per table but not per server we'd not include `server_name` in the document.\r\n\r\nThis way the user can use `group` and aggregations to slice data any way they want (per server, per table, per table/server, per cluster, per set of servers in a tag, etc.) I think that would be dramatically better than including two tables."
+  , issueCommentId = 60453426
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-30) 07 : 20 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29547420"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29547420"
+  , issueCommentCreatedAt = 2013 (-11) (-30) 07 : 18 : 20 UTC
+  , issueCommentBody =
+      "> ```Python\r\ntable.group(...).sample(5) #returns 5 elements from each group in an array.\r\n```\r\n\r\nWow, that's mindblowingly cool. For some reason I didn't make the leap that we automagically get to overload anything that works on streams to work on groups. Awesome!\r\n\r\n> ```Python\r\n# with stream splitting you could do\r\ntable.group(...).do(lambda s: {\"sum\": s.sum(\"foo\"), \"members\" : s.sample(5)})\r\n```\r\n\r\nOne obvious disadvantage of this approach is that stream-splitting is currently a hypothetical feature and will take time to sort it out, while if we added an opt-arg, users could get this now. But I do think that getting this to work elegantly is more important than shipping it soon, so I agree we should wait until we sort out #1725.\r\n\r\n> I think we should take a serious look at what we can do with the representations of the `grouped_atoms` [...] I think that's really a much cleaner solution and being able to access groups using the bracket operator would be so cool.\r\n\r\nReading back through my concerns, I have two that are still valid (and I feel pretty strongly about):\r\n\r\n* Different interpretations between JS and other languages is a drawback (especially since data explorer runs JS).\r\n* Returning a native data structure that doesn't easily jsonify/doesn't look like json unless it's absolutely necessary might be taking our users further than they're willing/able/find useful to go.\r\n\r\nHere is an alternative proposal. Firstly, we can (and probably should regardless) overload the bracket operator on groupings on the server so `table.group(\"district\").sum(\"points\")[0]` would still return `56` in the example above. This would require doing #1179, which we wanted to do anyway.\r\n\r\nSecondly, we can add a client-side helper function to convert the data structure into a client-friendly datastructure:\r\n\r\n```python\r\n> table.group(\"district\").sum(\"points\")\r\n[{'group': 0, 'sum': 56}, {'group': 1, 'sum': 100},  {'group': 2, 'sum': 85}]\r\n> table.group(\"district\").sum(\"points\")[0]\r\n56\r\n> table.group(\"district\").sum(\"points\").run().as_native()\r\n{0: 56, 1: 100, 2: 85}\r\n> table.group(\"district\").sum(\"points\").run().as_native()[0]\r\n56\r\n```\r\n\r\nDo you think this would get most of the benefits of returning a proper data structure? (it alleviates all of my concerns)"
+  , issueCommentId = 29547420
+  }

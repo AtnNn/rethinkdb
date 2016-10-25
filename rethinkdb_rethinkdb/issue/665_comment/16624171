@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-19) 02 : 16 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16624171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/665#issuecomment-16624171"
+  , issueCommentCreatedAt = 2013 (-04) (-19) 02 : 16 : 59 UTC
+  , issueCommentBody =
+      "You can also get it by running a simple two-element batched insert in the data explorer.\r\n\r\n```\r\nr.table('test').insert([{'id':1},{'id':4}])\r\n```\r\n\r\nThe reason we get it is because batched inserts can get sharded into empty batched inserts, if the region is in the middle.  For example, suppose you have four shards, with hash regions split up evenly into groups [0, 1/4), [1/4, 1/2), [1/2, 3/4), and [3/4, 1).  (We really use integers from 0 to a large power of 2, not floating point numbers from 0 to 1, but the point is the same.)\r\n\r\nNow suppose your two-key batched insert has a key A from [1/4, 1/2) and a key B from [3/4, 1).  The shard operation will be called with three regions (in terms of hash value):  [1/4, 1/2), [1/2, 3/4), and [3/4, 1).  This is because the batched insert's region, in the hash value dimension, gets calculated as [monokey_region(A), monokey_region(B)], the minimal region that contains all the keys.  There's no way to have a hash region that has a \"hole\".\r\n\r\nThis means that write operations and results with _empty_ regions will need to be supported or otherwise discarded.\r\n"
+  , issueCommentId = 16624171
+  }

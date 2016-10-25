@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-16) 00 : 14 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19505631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/861#issuecomment-19505631"
+  , issueCommentCreatedAt = 2013 (-06) (-16) 00 : 07 : 44 UTC
+  , issueCommentBody =
+      "Random sampling with replacement from a stream shouldn't be too hard to implement. Here's some example code, based on [this paper](https://www.siam.org/proceedings/datamining/2004/dm04_053parkb.pdf):\r\n\r\n```cpp\r\nstd::vector<Thing> take_sample_with_replacement(int n_samples, ThingStream *stream) {\r\n    std::vector<Thing> results(n_samples);\r\n    int counter = 0;\r\n    while (!stream->is_done()) {\r\n        Thing current_thing = stream->next();\r\n        counter++;\r\n        for (int i = 0; i < n_samples; i++) {\r\n            if (rand() % counter == 0) {\r\n                results[i] = current_thing;\r\n            }\r\n        }\r\n    }\r\n    return results;\r\n}\r\n```\r\n\r\nBasically, for each thing in the stream, for each slot in the reservoir, you replace whatever's currently in that slot with the new thing with probability 1/N, where N is the number of things read off the stream by that point, including the current thing.\r\n\r\nEdit: Oops, I didn't read the thread very carefully. This isn't actually relevant right now."
+  , issueCommentId = 19505631
+  }

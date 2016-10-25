@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-24) 00 : 05 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24965635"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-24965635"
+  , issueCommentCreatedAt = 2013 (-09) (-24) 00 : 05 : 05 UTC
+  , issueCommentBody =
+      "Small update: So we do in fact perform hard throttling in writeback_t::begin_transaction through the dirty_block_semaphore. The dirty block limit appears to be set to half the cache size (in btree_store_t).\r\n\r\nThe details of how dirty_block_semaphore is used appear a bit dubious to me. In theory, it looks like dirty_block_semaphore is used in a way such that write queries are progressively unthrottled as soon as the writeback writes some block to disk. Based on this I would not expect to see the pattern of relatively long lasting low-throughput phases described above, but a smoother behavior. However there might be something going on here which I don't fully understand.\r\n\r\nI also don't fully understand yet how exactly the garbage collector gets affected by throttled transactions.\r\n\r\nWe had a temporary problem with obtaining the perfmon stats mentioned above, but will now check if the throttling hypothesis can be confirmed."
+  , issueCommentId = 24965635
+  }

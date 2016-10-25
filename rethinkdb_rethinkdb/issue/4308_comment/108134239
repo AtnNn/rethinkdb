@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 23 : 54 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/108134239"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4308#issuecomment-108134239"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 23 : 52 : 03 UTC
+  , issueCommentBody =
+      "I've updated my PR based on our discussion. I added support for translating `\\u` and `\\c` escape sequences to the `\\x{...}` supported by RE2. It turns out that both of these are actually type (2):\r\n\r\n- `\\u`: has different meaning but is currently unsupported\r\n- `\\c`: has same meaning but is currently unsupported\r\n\r\nSo given our rule of thumb we don't really *need* either of these rewrites, but I would say we should at least keep the `\\u` since it's fairly common and would future-proof ourselves against RE2 updates (since it would have different meaning if supported). I don't have strong opinions on keeping the `\\c` one though.\r\n\r\nI've also confirmed that backreferences are definitely type (2), just note that error messages in type (2) cases might be a little hit-or-miss:\r\n\r\n```js\r\nr.expr(\"hello world\").match(/((hello) (world)) \\2/)\r\n// SyntaxError: Octal literals are not allowed in strict mode.\r\n```"
+  , issueCommentId = 108134239
+  }

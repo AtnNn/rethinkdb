@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-30) 00 : 58 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21763017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-21763017"
+  , issueCommentCreatedAt = 2013 (-07) (-30) 00 : 58 : 56 UTC
+  , issueCommentBody =
+      "So, a new issue has arisen: Ruby's time library (at least in 1.8.7) doesn't seem to let you create a time in any timezone except UTC and local time.  (This seems completely insane to me, so it's entirely possible that I'm just misreading the documentation.)\r\n\r\nSo, we have a few options:\r\n* Translate time objects on the server into native time objects in either UTC or local time.\r\n  - This has the **extremely** undesirable property that we lose information, and if you insert the same time back into the server it will evaluate to something different.\r\n* Use an external library like `ActiveSupport` that provides a time-with-timezone type.\r\n  - People running rails should already have this.\r\n* Don't translate RQL times into native time objects at all -- people can get the `epoch_time` field out themselves if they want to.\r\n  - This would be slightly more painful for users, but would be the least magical.\r\n  - This would also make life easier on users who want to serialize the results of queries to JSON.  (If we don't do this, we should probably overload `to_json` on the time we create so that it serializes the way we want.)\r\n\r\n@coffeemug -- which of those options do you hate the least?\r\n\r\n@jdoliner, @wmrowan -- do you know whether there will be similar problems in Python and JS?"
+  , issueCommentId = 21763017
+  }

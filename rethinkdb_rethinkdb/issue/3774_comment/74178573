@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-12) 23 : 49 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74178573"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3774#issuecomment-74178573"
+  , issueCommentCreatedAt = 2015 (-02) (-12) 23 : 49 : 23 UTC
+  , issueCommentBody =
+      "Can you try adding a `.coerceTo('ARRAY')` after the value for `routines` like this:\r\n```\r\nr.db('mydb').table('workouts').get('0e4c4970-cd9d-47e4-b14f-e85c66a4db7d').merge(function (workout) {\r\n  return {\r\n    routines: r.db('mydb').table('routines').filter(function (routine) {\r\n      return workout('routines').contains(routine('id'));\r\n    }).coerceTo('ARRAY')\r\n  }\r\n})\r\n```\r\n\r\nI think the problem is that `r.table(...).filter(...)` returns a stream, which cannot directly be stored into the field of an object unless it's first converted into an array.\r\n\r\nI think this is probably going to be addressed by https://github.com/rethinkdb/rethinkdb/issues/2721 eventually."
+  , issueCommentId = 74178573
+  }

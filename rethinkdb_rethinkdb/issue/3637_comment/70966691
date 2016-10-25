@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-22) 03 : 42 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70966691"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3637#issuecomment-70966691"
+  , issueCommentCreatedAt = 2015 (-01) (-22) 03 : 35 : 26 UTC
+  , issueCommentBody =
+      "We could also use smart (i.e. non-lexicographical) key comparison functions in the btree to make -0 and 0 be considered equal, and thereby making ReQL equality consistent with btree key equality again. There's a risk that doing so for the primary key will have an impact on performance, but that's just speculation and we could test it pretty easily.\r\n\r\nIt seems like we want to use custom comparison functions for the btree soonish anyway (e.g. to implement collation-aware secondary indexes), so it wouldn't add that much development cost overall.\r\n\r\nThe disadvantage is that this would break existing tables if they contain a -0 primary key (because it would now sort to a slightly different location). We could efficiently detect this though by keeping an implementation of the old comparison semantics for this purpose and doing a get for -0, and could even offer users to fix the issue by re-inserting the problematic document to its new location in the tree. Only if there was both a -0 and +0 key we could not migrate the table automatically. In that case we could potentially just change the primary key of that document to something like `\"THIS_USED_TO_BE_NEGATIVE_0_<UUID>\"`, re-insert it, and tell the user about the conflict.\r\n(*Edit*: I realized the automatic detection wouldn't work if the -0 is hidden in an array element. We could do a full table scan to check for that if users think they might be affected. Users could do the scan before updating the server, so this wouldn't cause any downtime for them.)"
+  , issueCommentId = 70966691
+  }

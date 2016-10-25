@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-11) 02 : 45 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48688926"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2680#issuecomment-48688926"
+  , issueCommentCreatedAt = 2014 (-07) (-11) 02 : 45 : 50 UTC
+  , issueCommentBody =
+      "__Stuff I'm on board with:__\r\n\r\n(I've updated the proposal to reflect the points below.)\r\n\r\n> For consistency with the term `elect`, I suggest `candidate_directors` for the list of machines that could possibly act as directors.\r\n\r\n:+1: although I like `director_candidates` instead. It reads better.\r\n\r\n> For table names, I like the `\"db.table\"` syntax, on practical grounds (it's easy to implement). But, do we forbid using `.` in table and DB names?\r\n\r\nYes, we forbid periods in table and db names. I like this for usability too. :+1: \r\n\r\n__Stuff I disagree with but have an alternative proposal:__\r\n\r\n> What happens when the user renames a table or server? We should consider using UUIDs as primary keys for both tables and servers.\r\n\r\nExposing UUIDs is deadly to usability. I propose to solve this problem by storing UUIDs internally, but converting them to the name when the user reads the document. Conversely, we should accept only names, but convert them to UUIDs when they're stored. This way if a user renames a database, a table, or a server, the new name will automatically will be reflected in all the documents, but the system won't have to \"modify\" configs for that to happen.\r\n\r\n> Consider indexing the shards by key, even if just \"shard0\", \"shard1\", etc. or \"0\", \"1\", etc. This will make it easier for the user to match shards in `table_config` to shards in `table_status`. \r\n\r\nI've always disliked this kind of syntax. I'd prefer to stick with arrays -- if the users want to match shards, they should just use the same index in two tables. Another alternative is to add an `'id'` field to each shard which is just a monotonically increasing integer. It would add some extra clarity to users, but would basically just be the index in the array. I'll think about whether that's worth doing.\r\n\r\n__Stuff I disagree with but don't have a good alternative yet:__\r\n\r\n> `elect_directors` should be of the form `r.db(\"my_db\").table_elect_directors(\"my_table\")`\r\n\r\nPutting the method on the database feels odd to me. I'll think of a better option.\r\n\r\n__Stuff I'm ignoring for now:__\r\n\r\n> Some basic stats about the server, like CPU utilization. (Or maybe this belongs in `server_stats`)\r\n\r\nA set of stats tables is way better, but let's keep that out of this proposal. I'll add a separate proposal for stat tables later.\r\n\r\n> `server_status` should also contain [...] `table_status` should contain\r\n\r\nI'm going to leave this out of the proposal for now. When you get to the point in the implementation when we need to expose these documents, we should sit down and spec them out. (Alternatively, I might look at the current directory in a few days, and adapt it to the new API).\r\n\r\n> There should be a table `r.db(\"rethinkdb\").table(\"server_config\")`.\r\n\r\nAlso leaving this out for now. Tags are a higher level API feature, so I think we shouldn't think about it here. (Also, I don't think the whole command-line/runtime tag proposal is a good idea now, but we should talk about that when we talk about the higher level API)."
+  , issueCommentId = 48688926
+  }

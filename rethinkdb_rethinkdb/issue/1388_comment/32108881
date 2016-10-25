@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 22 : 18 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32108881"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-32108881"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 22 : 17 : 47 UTC
+  , issueCommentBody =
+      "Actually do you have a source for `close()` on sockets discarding written data? From what I have found it does guarantee that data is sent. Unless the `SO_LINGER` flag has been explicitly disabled. Just interested.\r\nE.g. http://www.faqs.org/faqs/unix-faq/socket/ :\r\n> Closing a socket: if SO_LINGER has not been called on a socket, then close() is not supposed to discard data\r\n\r\n.\r\n\r\n> Then don't let the database know that you won't listen to the reply?\r\n\r\nThat is somewhat tricky to do, but it might work. Basically it could cause the send buffer on the server to fill up, and I'm not sure if that would stall subsequent operations for that connection on the server or not. I expect that it would, so noreply couldn't be used to issue long sequences of operations. Unless the client periodically reads back from the socket to discard the messages. Another disadvantage is the overhead associated with encoding, sending, receiving and decoding the responses. Especially the decoding overhead is often very significant.\r\nI don't think we will change how noreply operations work at this point. However we might revisit this option if we overhaul the session code on the server side at some point (e.g. if we want to make it able to run multiple queries from the same connection in parallel).\r\n\r\n> Perhaps on files, but not sockets.\r\n\r\nSee above. I think it only is not the case on sockets if you explicitly tell it to not care. I've always used sockets expecting this to work like on files, but I might be wrong.\r\n\r\n> I don't understand.\r\n\r\nWell, you can already have `close` and `reconnect` not wait on noreply operations if you like. You just have to call them with a special argument (e.g. `conn.reconnect(:noreply_wait => false)` in Ruby). In that case, unless you have called `conn.noreply_wait()` explicitly before, pending noreply operations might get discarded. Did I understand you correctly that this is basically the behavior that you want?\r\n\r\n> But why document complexity when complexity can be avoided by having the user call noreply_wait at some point if he uses noreply queries?\r\n\r\nBecause I personally think that it is unexpected to have noreply operations aborted when calling `close()`. That's just my opinion of course. Not sure how others see it."
+  , issueCommentId = 32108881
+  }

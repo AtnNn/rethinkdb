@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-03) 16 : 55 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18854710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/940#issuecomment-18854710"
+  , issueCommentCreatedAt = 2013 (-06) (-03) 16 : 51 : 25 UTC
+  , issueCommentBody =
+      "For what's much much worse, I actually cannot find any place where this is checked.\r\n\r\nThe cache's free list seems to happily generate higher and higher block ids (see array_free_list_t::gen_block_id()). The segmented_vector, for which the MAX_BLOCK_ID is actually used, has an rassert, but no guarantee to check for illegal resizing values either (see segmented_vector_t::set_size()), so it will happily write into unallocated or otherwise-allocated memory (say a dirty data page in the cache, *shudder*. Even though probably, it will just overwrite the size variable of the segmented_vector_t, with potentially other serious side-effects) .\r\n\r\nWhile checking for this in the cache might not be trivial due to the serializer multiplexing layer, the log serializer should at least panic if this condition occurs."
+  , issueCommentId = 18854710
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-11) (-18) 08 : 18 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/157641498"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2873#issuecomment-157641498"
+  , issueCommentCreatedAt = 2015 (-11) (-18) 08 : 18 : 59 UTC
+  , issueCommentBody =
+      "@ntquyen If you want to remove a live server, you might want to make sure that it doesn't host any table replicas before shutting it down.\r\n\r\nAn easy way for accomplishing this is as follows:\r\n1. Remove the `\"default\"` tag from the server you want to remove: `r.db('rethinkdb').table('server_config').get(<server id>).update({tags: []})`\r\n2. Reconfigure all tables through the web UI or the `reconfigure` command to the desired number of replicas and shards\r\n3. Wait for all tables to reach a stable state (until all of them are \"green\" in the web UI)\r\n\r\nBoth the web UI and the `reconfigure` command (by default) only assign servers that have the `\"default\"` tag. Hence, after following the above steps, the server that's to be removed will no longer be assigned for any table and you can shut it down safely."
+  , issueCommentId = 157641498
+  }

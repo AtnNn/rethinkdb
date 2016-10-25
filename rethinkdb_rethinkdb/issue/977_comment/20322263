@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 01 : 58 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20322263"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20322263"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 01 : 58 : 37 UTC
+  , issueCommentBody =
+      "> The P and T prefixes are optional for durations. One can write \"1M\" or \"1:30\" instead of \"P1M\" and \"PT1:30\". Durations can also be represented simply as a number of seconds.\r\n\r\nThis is ambiguous.  In ISO8610 `P1M` means one month and `PT1M` means one minute.\r\n\r\n> \"23:60\" is considered equal to \"23:59\".\r\n\r\nWhat's the motivation for this?  That sound wacky.\r\n\r\n> `duration.totalSeconds() => number`\r\n\r\nCould we call this `dur_seconds` for consistency?\r\n\r\n> r.sunday = 0\r\n> r.january = 1\r\n\r\nWhy is sunday numbered from 0 when january is numbered from 1?\r\n\r\n> `time.epoch_time() => number`\r\n\r\nThis name sounds slightly off to me.  See below for discussion of how I think we should handle ISO8601 vs. epoch time.\r\n\r\n> Format and parse times like strftime and strptime.\r\n\r\nThis seems strange to have in the server.  Shouldn't people be doing this in the clients once they've retrieved the date?  Also, we'd be violating the standard unless we want the clients to send the whole locale to the server.\r\n\r\n> `with_time_zone`\r\n\r\nCould we call this `in_time_zone`?  It seems less ambiguous to me.\r\n\r\n---\r\n\r\n> Instead of using iso8601 string representation, times could instead be represented as a number of seconds since epoch and durations as a number of seconds.\r\n\r\nI think this is the biggest thing left to decide.  Here's what I think we should do (although I need to think about it more):\r\n* Store everything internally as seconds since epoch.  People know how to deal with this, it's easy, and it always sorts correctly.  Use negative numbers for dates before 1970.\r\n* Have the functions `dur_to_iso8601` and `time_to_iso8601` for when people want to do regexp matching or something.  Have the functions `dur_to_epoch` and `time_to_epoch` for when people have an ISO8601 string that they want in seconds.  (Maybe with better names?)\r\n* Make all the functions (`date_add`, `dur_sub`, etc.) polymorphic, and let them accept either numbers (which are interpreted as seconds) or ISO8601 strings, but have them always return seconds since epoch."
+  , issueCommentId = 20322263
+  }

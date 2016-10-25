@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 01 : 47 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26023392"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/728#issuecomment-26023392"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 01 : 46 : 36 UTC
+  , issueCommentBody =
+      "So it turns out that this can be worked around in the cache rather easily.\r\n\r\n\r\nHowever, with the implementation I have in mind, snapshotting semantics would be violated for the affected blocks.\r\n\r\nLet's look at an example with three transactions. First let's say that everything happens in order, and we do not run into the conflict that this issue is about:\r\n\r\n1. trx-write-1 acquires superblock (version is initialized)\r\n2. trx-read-2 acquires superblock (version is initialized) and is snapshotted\r\n3. trx-write-3 acquires superblock (version is initialized)\r\n4. trx-write-1 acquires stat block, modifies it\r\n5. trx-write-3 acquires stat block, modifies it\r\n6. trx-read-2 acquires stat block. **It can see the changes made by trx-write-1, but it cannot see the changes made by trx-write-3.** This is the correct behavior.\r\n\r\nNow let's swap steps 4 and 5. Our current implementation has undefined behavior in this case. The adapted one would do the following:\r\n...\r\n4. trx-write-3 acquires stat block, modifies it\r\n5. trx-write-1 acquires stat block, modifies it\r\n6. trx-read-2 acquires stat block. **It can see neither the changes made by trx-write-1 nor trx-write-3.** It should see the changes made by trx-write-1. This behavior is incorrect. And it is theoretically impossible to behave correctly in this scenario without making additional assumptions on what kinds of operations the write transactions can perform. trx-read-2 can either see none of the changes, or both of them (or deadlock, which I guess would be correct). After all trx-write-1 might have modified the stat block depending on changes previously made by trx-write-3.\r\n\r\n\r\n@jdoliner Would such a behavior be acceptable for the stats block? For a snapshotted read transaction, the stats block would (occasionally) appear inconsistent with the rest of the btree."
+  , issueCommentId = 26023392
+  }

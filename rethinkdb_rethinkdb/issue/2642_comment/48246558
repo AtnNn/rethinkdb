@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-08) 00 : 00 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48246558"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2642#issuecomment-48246558"
+  , issueCommentCreatedAt = 2014 (-07) (-07) 21 : 55 : 53 UTC
+  , issueCommentBody =
+      "Queries used:\r\n```py\r\nr.table('stress').map(r.js('(function(row){return row.prop3.length > 5})'))\r\nr.table('stress').orderBy('prop3').map(r.js('(function(row){return row.prop3.length > 5})'))\r\nr.table('stress').map(r.js('(function(row){return row.prop3.length > 5})')).count()\r\nr.table('stress').map(r.js('(function(row){return row.prop3.length > 5})')).coerceTo('array')\r\n```\r\n\r\nHere are the evaluation times for the given queries with different `batch_conf`s.  The number in parentheses is the number of `r.js` compilations performed.  Keep in mind this is for a data set of 100 rows.\r\n\r\n| query | `{}` | `{max_dur: 10}` | `{max_dur: 100}` | `{max_dur: 1000}` | `{max_dur: 10000}` |\r\n| ---- | ---- | ---- | ---- | ---- | ---- |\r\n| plain map | 23s (212) | 2.5s (17) | 2.4s (17) | 2.5s (17) | 47s (435) |  \r\n| order_by.map | 3.5s (1) | 3.7s (1) | 3.2s (1) | 3.4s (1) | 3.6s (1) |\r\n| map.count | 2.1s (9) | 2.3s (9) | 2.7s (9) | 2.3s (9) | 1.9s (9) |\r\n| map.coerce | 2.1s (9) | 2.0s (9) | 1.9s (9) | 2.8s (9) | 1.9s (9) |\r\n\r\n| query | `{}` | `{min_els: 1}` | `{min_els: 5}` | `{min_els: 25}` | `{min_els: 125}` |\r\n| ---- | ---- | ---- | ---- | ---- | ---- |\r\n| plain map | 23s (212) | 29s (248) | 33s (240) | 26s (224) | 28s (263) |\r\n| order_by.map | 3.5s (1) | 3.6s (1) | 3.5s (1) | 3.6s (1) | 3.4s (1) |\r\n| map.count | 2.1s (9) | 2.0s (9) | 2.4s (9) | 2.2s (9) | 2.5s (9) |\r\n| map.coerce | 2.1s (9) | 2.7s (9) | 2.2s (9) | 2.4s (9) | 2.4s (9) |\r\n\r\n| query | `{}` | `{max_dur: 10, min_els: 1}` | `{max_dur: 100, min_els: 5}` | `{max_dur: 1000, min_els: 25}` | `{max_dur: 10000, min_els: 125}` |\r\n| ---- | ---- | ---- | ---- | ---- | ---- |\r\n| plain map | 23s (212) | 2.8s (17) | 2.7s (17) | 2.8s (17) | 51s (470) |\r\n| order_by.map | 3.5s (1) | 3.4s (1) | 4.0s (1) | 4.3s (1) | 3.4s (1) |\r\n| map.count | 2.1s (9) | 2.4s (9) | 2.6s (9) | 2.3s (9) | 2.3s (9) |\r\n| map.coerce | 2.1s (9) | 2.3s (9) | 2.3s (9) | 2.3s (9) | 2.4s (9) |\r\n\r\nGranted, the sample sizes for these are extremely small, but this is the general trend."
+  , issueCommentId = 48246558
+  }

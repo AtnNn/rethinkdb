@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-12) 20 : 08 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22521275"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1276#issuecomment-22521275"
+  , issueCommentCreatedAt = 2013 (-08) (-12) 20 : 06 : 56 UTC
+  , issueCommentBody =
+      "I can't get `rethinkdb proxy` to crash using the given parameters, but I can in two other ways:\r\n\r\n1. Specify `--log-file \"\"`\r\n - This causes the base_path_t for the `log_writer_t` to be invalid, as we don't check for this at command-line parsing.\r\n2. Move the `!path_.empty()` guarantee to the `base_path_t` constructor\r\n - This breaks all `rethinkdb proxy`, since we use `base_path_t(\"\")` for the `base_path` argument to `do_serve(...)`\r\n - If, somehow, the `base_path` were to be used in proxy mode, it would exhibit this problem, though that will take some time to determine if it is possible.\r\n\r\nSo, I'll add a check at command-line parsing to make sure we aren't passed an empty string for paths, and look into whether `proxy` can accidentally use its `base_path` argument.  As a workaround, we can pass a `base_path` of `\".\"`, although we really shouldn't need to, and this failure may indicate a larger problem. It's all rather ugly since `proxy` and `serve` share the same `do_serve(...)` function."
+  , issueCommentId = 22521275
+  }

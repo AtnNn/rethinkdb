@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-22) 22 : 01 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60162943"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2259#issuecomment-60162943"
+  , issueCommentCreatedAt = 2014 (-10) (-22) 22 : 01 : 07 UTC
+  , issueCommentBody =
+      "A couple open questions that have come up during implementation/testing:\r\n\r\n1\\. What kind of availability should `table_wait` wait for?  I currently have it waiting for the table to be writable, which is not the same as `ready_completely=True`.  Perhaps we should instead have an optarg for what kind of readiness we should wait for.  Perhaps something like:\r\n\r\n```\r\nr.table_wait('foo', state='outdated_readable')\r\nr.table_wait('foo', state='readable')\r\nr.table_wait('foo', state='writable')\r\nr.table_wait('foo', state='complete')\r\n```\r\n\r\nObviously these names suck, but this could be very important for different use-cases.  The last example, `state='complete'`, would wait until the table is available for writes *and* all shards are done backfilling.\r\n\r\n2\\. There is currently a discrepency in return-type based on how many tables `table_wait` is run against.  If only one table is specified, you get back an OBJECT containing the `table_status` of that table.  Running against multiple tables will return an ARRAY containing the `table_status` of each table.  This becomes more of a problem when people are running queries with `r.args`, and they don't necessarily know how many tables they're waiting for.  Perhaps we should just always return an ARRAY.\r\n\r\n@coffeemug, any opinions?"
+  , issueCommentId = 60162943
+  }

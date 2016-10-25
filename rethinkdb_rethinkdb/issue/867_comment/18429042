@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-24) 20 : 49 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18429042"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/867#issuecomment-18429042"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 20 : 46 : 13 UTC
+  , issueCommentBody =
+      "Also, let's think about drivers other than the Ruby driver.  What we're really talking about is\r\n\r\n```\r\nr(\"abcd\").match(\"([ab])([cd])\", function(groups) { ... })\r\n```\r\n\r\nAlso, I noticed that some examples here have regular expression objects being passed to the API.  They should not be written that way, because (1) what's really being passed there is a string, and (2) even if you can extract the uncompiled string from a Regexp object in your driver language, the server's Regexp language is going to be different from the driver's Regexp language, and allowing users to pass driver Regexps will be a source of confusion, and (3) we'd also need to take care to pass regexp options like case insensitivity, how to treat newlines, and the like.\r\n\r\nSpeaking of which, this proposal omits such options.  We need options for case insensitivity, whether `.` should match newlines, and the like.\r\n\r\nThis proposal also omits the ability to get *all* matches of a regex.  Suppose you want to extract words from a document.\r\n\r\n`r(\"abc def ghi.\").match_all(\"\\w+\")` should return `[[\"abc\"], [\"def\"], [\"ghi\"]]` (or an array of whatever we use to represent captures).  There might be a better name than `match_all`.\r\n\r\nThis proposal doesn't define the behavior when a capturing group matches multiple times.\r\n\r\nThe `str.search` API in the original proposal is bad because it only returns the starting index.  What about the ending index?  If we return both, why not just return a general MatchGroup object?\r\n\r\nAlso, `match` should not return a bool in one circumstance and then behave entirely differently in the circumstance that we pass a function.  You don't even know until run time whether it's being passed a function or not.  Such an API would make it harder to optimize queries in the future.\r\n\r\nEdit: ^^ namely, this is the case if we support case-insensitive flags and the like.  Or am I misunderstanding how optional arguments in the query language work?  I might be."
+  , issueCommentId = 18429042
+  }

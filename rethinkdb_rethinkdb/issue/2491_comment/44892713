@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-02) 21 : 18 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44892713"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2491#issuecomment-44892713"
+  , issueCommentCreatedAt = 2014 (-06) (-02) 21 : 18 : 10 UTC
+  , issueCommentBody =
+      "@srh: No it was 64 bit.\r\n\r\nOne thing I've noticed is that the logic in `adjust_ref(ls_block_token_pointee_t *p, int adjustment)` in `log_serializer.cc` is quite fragile.\r\nIt distinguishes between two cases:\r\n1. If the reference count is adjusted on the serializer thread, it adjusts the count immediately and checks if it is 0. It it's 0, the token gets destroyed.\r\n2. If the reference count is adjusted from another thread, it puts a message on the serializer thread that does the same as 1. when executed.\r\n\r\nAssume we have a reference counted block token with a reference count of 1.\r\nLet's say the reference count is then incremented on a different thread (not the one that has the serializer). E.g. because a `counted_t` on the token is copied. An ordered thread message is placed on the serializer thread to actually increase the reference count.\r\nSuppose that whoever incremented the reference count, then makes a thread switch to the serializer thread using a non-ordered message (`on_thread_t` is ordered, so it would have to be something else). Once on the serializer thread, it decrements the reference count.\r\n\r\nNow what could happen here is that the unordered thread switch bypasses the ordered one done by `adjust_ref()` being called from the other thread.\r\nSo the decrement would be processed first, the reference count would reach 0, and the token would be destroyed. A little later the increment comes in, but it is already too late.\r\n\r\nI've not found an instance where this scenario would actually happen yet, so that might not actually be the cause of this crash though."
+  , issueCommentId = 44892713
+  }

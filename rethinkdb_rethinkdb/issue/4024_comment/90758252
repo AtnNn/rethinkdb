@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-07) 23 : 20 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/90758252"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4024#issuecomment-90758252"
+  , issueCommentCreatedAt = 2015 (-04) (-07) 23 : 20 : 23 UTC
+  , issueCommentBody =
+      "Hi @niieani ,\r\n\r\nIn the first case you're generating a very deeply nested query that's probably breaking something on the server (maybe https://github.com/rethinkdb/rethinkdb/issues/2639 ?).  We should detect those queries and reject them, probably.  (Putting this into 1.16.x since hanging forever on a query seems like a bug to me even if it's really deeply nested like that.)\r\n\r\nIn the second case you're actually recursing forever in the JS client; the `r.branch` gets run on the server, but to construct it the JS client is recursing right away to try and generate one of the branches.  We've talked about adding first-class functions to the server, which would make this possible, but it isn't on the roadmap right now.\r\n\r\nUnfortunately I don't think there's anything to do on this except to keep the number of recursions small for now."
+  , issueCommentId = 90758252
+  }

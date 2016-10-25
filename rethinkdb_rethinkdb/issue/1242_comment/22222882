@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-07) 00 : 52 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22222882"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1242#issuecomment-22222882"
+  , issueCommentCreatedAt = 2013 (-08) (-07) 00 : 52 : 26 UTC
+  , issueCommentBody =
+      "I ended up with a slightly different conception of where our discussion ended up.\r\n\r\nFirstly, it should be made clear that all transformation here is happening in the client. The server will always return a full ReQL date object to the client (including microsecond precision and timezone offset). From this point there are several different choices in converting this opaque value to something useable in the client.\r\n\r\n* native date/time value\r\n* richer, driver defined date value that doesn't discard information\r\n* seconds since epoch with microsecond precision\r\n* native object of form `{$reql_type$:...}`\r\n* ISO8601 formatted string\r\n\r\nThe primary open questions are:\r\n\r\n* Which should be the default?\r\n* How do you select among the options?\r\n* What's the best implementation?\r\n\r\nNot yet mentioned is the important invariant that `(r.expr(date) == r.expr(date).run()).run()` should always return true, that is, whatever solution we choose, it shouldn't lose information by default. Related is the invariant that `(r.json(r.expr(date).run().to_json()) == r.expr(date)).run()` should always return true.\r\n\r\n---\r\n\r\nI was left with the impression that we more or less agreed on something like the following to meet these goals.\r\n\r\nTime values are always returned to the driver as `{$reql...`. The driver normally converts this to a special subclass of the native date type that supports microsecond precision and timezones. Since it's a subclass of the native type, it can be transparently used *at* the native date type but since it stores all the original information from the server it can be reinserted without loss of information. The `to_json` method (or equivalent) is overloaded on this class to produce output that doesn't discard information.\r\n\r\nThough objects of this class can always be explicitly converted to other formats, @coffeemug would like the ability to specify in one place that all dates be automatically converted to a specific format on the client. To do this @coffeemug proposes an option to run. Since the conversion happens on the client and not on the server though, I'd prefer that this were not a run option (it has no effect on how the server executes the query so why send it to the server?) though there is some precedent for run options affection driver behavior in the case of no reply.\r\n\r\nI actually see the options here as falling into two distinct groups, the choice to convert rql time values to a number, string, or object (`{$reql...}`) rather than to a client side date type, and specifying how that any client side date type should serialize itself to JSON. It is possible that we deal with each of these configurations separately."
+  , issueCommentId = 22222882
+  }

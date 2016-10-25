@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-21) 23 : 13 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43826303"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2391#issuecomment-43826303"
+  , issueCommentCreatedAt = 2014 (-05) (-21) 23 : 13 : 06 UTC
+  , issueCommentBody =
+      "The biggest concern I have with the limit is OOM conditions - extprocs can have rather unpredictable memory consumption (depending on the workload).  We could add a new command-line parameter, but I'm not sure if that's worth it.  We could have no (or a very high) limit, and that might be fine, as long as users are conscious of the memory impact of their workloads.  Regardless, a changed limit is the easier part of this issue.\r\n\r\nI think for the deallocation window, we should aim for an algorithm that primarily minimizes the number of extprocs we need to create for a given workload, but also minimizes the number of unused extprocs at any given time.  These goals are somewhat contradictory, but the first goal is probably the most important.  As long as the number of extprocs decays over time due to lack of use, it should be fine.\r\n\r\nIt might not be too hard to add a timer to the `extproc_pool_t` that would run every few seconds, and record the maximum number of utilized extprocs since the last time the timer ran.  We can then use this number to deallocate extprocs (if necessary).  Something like: `deallocate_count = (tick_count[-1] - tick_count[0]) / 2`, where tick_count[-1] is the result from the previous timer routine, and tick_count[0] is the result from the current timer routine.  Obviously, we would only deallocate if the result is positive.\r\n\r\nThis should result in an asymptotically decaying extproc pool, that can be sustained by active use.\r\n\r\nIf you are going to implement this, you would probably want to use a `repeating_timer_t` object from `arch/timing.hpp`.  Thanks for looking into this!"
+  , issueCommentId = 43826303
+  }

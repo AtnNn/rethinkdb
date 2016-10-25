@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 00 : 25 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26020390"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1526#issuecomment-26020390"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 00 : 25 : 05 UTC
+  , issueCommentBody =
+      "Preliminary results after profiling: In the first query, we seem to spend significant time on constructing in-memory secondary index data structures over and over.\r\n\r\nMore specifically, the `rdb_read_visitor_t::operator(const rget_read_t &)` in protocol.cc, line 1127 appears to be relatively expensive.\r\nInside of this operator, most time is spent in the call to `acquire_sindex_superblock_for_read()`, and in deserializing the `ql::wire_func_t` for the sindex function. Additional time is spent on destructing the `~reql_func_t()` again and in `rdb_rget_secondary_slice()`.\r\n\r\nApart from an analogon to `rdb_rget_secondary_slice()`, we have none of this overhead when using the primary key in the eq_join.\r\n\r\nIt seems that the problem here is that we call the operator over and over for each document that we want to join. We should change the code to keep the in-memory structures around instead of deserializing them over and over again for each single document in the eq_join."
+  , issueCommentId = 26020390
+  }

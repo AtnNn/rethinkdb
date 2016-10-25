@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-09) 12 : 19 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 622337
+        , simpleUserLogin = N "joaojeronimo"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/622337?v=3"
+        , simpleUserUrl = "https://api.github.com/users/joaojeronimo"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/110336235"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4361#issuecomment-110336235"
+  , issueCommentCreatedAt = 2015 (-06) (-09) 12 : 19 : 49 UTC
+  , issueCommentBody =
+      "That's a feature that your javascript VM must have, not RethinkDB. If you're running iojs or node with --harmony (I tested the following code on the latest stable with --harmony) you already get working arrow functions :)\r\n\r\n```js\r\nvar r = require('rethinkdb');\r\nvar conn = undefined;\r\n\r\nr.connect(onConnect);\r\nfunction onConnect (err, connection) {\r\n    if (err) {\r\n        throw new Error(err);\r\n    }\r\n    conn = connection;\r\n    r.table('test').insert({}).run(conn, onInsert);\r\n}\r\n\r\nfunction onInsert (err) {\r\n    if (err) {\r\n        throw new Error(err);\r\n    }\r\n\r\n    // ARROW FUNCTION YAY\r\n    r.table('test').filter(doc => true).run(conn, onFilter);\r\n}\r\n\r\nfunction onFilter (err, cursor) {\r\n    if (err) {\r\n        throw new Error(err);\r\n    }\r\n    cursor.toArray(onResults);\r\n}\r\n\r\nfunction onResults(err, results) {\r\n    if (err) {\r\n        throw new Error(err);\r\n    }\r\n\r\n    console.log(results);\r\n    conn.close();\r\n}\r\n```"
+  , issueCommentId = 110336235
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 01 : 55 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75349799"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-75349799"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 01 : 54 : 45 UTC
+  , issueCommentBody =
+      "From reading http://www.tornadoweb.org/en/stable/guide/async.html it sounds like the recommended interface for async APIs are futures.\r\n\r\nSo I imagine it would look something like this:\r\n```py\r\n# returns a tornado.concurrent.Future on the result of run\r\nrun_ft = r.table(...).changes().run(conn, future=True)\r\n\r\n# throws an exception on error, otherwise returns the run result (in this case a cursor)\r\nfeed = run_ft.result()\r\n\r\nwhile True:\r\n  next_ft = feed.next(future=True)\r\n  print next_ft.result()\r\n```\r\n\r\nYou can also specify a timeout when calling `result()` on the future. See http://www.tornadoweb.org/en/stable/concurrent.html#tornado.concurrent.Future for details.\r\n\r\nThere also is a `Future.add_done_callback()` method that can be used if you prefer using a callback."
+  , issueCommentId = 75349799
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-26) 01 : 06 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105344748"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3893#issuecomment-105344748"
+  , issueCommentCreatedAt = 2015 (-05) (-26) 00 : 59 : 55 UTC
+  , issueCommentBody =
+      "I'm updating this issue to reflect offline discussion over the past few weeks.\r\n\r\nThere are three operations we can potentially do to fix a broken shard of the table:\r\n\r\n* Demote one or more voters to non-voters, but leave at least one valid voter.\r\n\r\n* Demote all of the voters to non-voters and promote one or more non-voters to voter.\r\n\r\n* Demote all of the voters to non-voters and promote one or more unrelated servers to voter. (This will cause the loss of all data for the shard.)\r\n\r\nAfter the user has done one of these three operations, they can use the regular reconfiguration mechanism to follow up. For example, they might use the hard override mechanism to demote a voter to non-voter, then use a regular reconfiguration to remove it completely and add a new voter to replace it.\r\n\r\nThe operations that can be done via hard override are deliberately constrained to be as safe as possible. For example, it wouldn't be safe to demote one or more voters to non-voter and promote one or more unrelated servers to voter in the same step; this might result in the system discarding the data on the existing voters in favor of the lack-of-data on the new voters. This is why we force users to use the regular reconfiguration mechanism to do the second step: it doesn't suffer from the same problem.\r\n\r\nHowever, this causes a problem with the `.update(new_config, override=True)` syntax: if the user is trying to run hard override on a table that's stuck in the middle of a reshard, it's sometimes difficult or impossible to express the new configuration correctly. For example, suppose the user has a table with two shards, one on server A and one on server B. They reconfigure the table so that there is only one shard, on server C. At the moment when both shards are in the middle of the hand-over to add server C as a new replica (so `temp_voters` is set to `{C}`) server C goes down. Now the table is unavailable. In theory the user wants to demote server C to non-voting status, while leaving server A as voter for the first shard and leaving server B as voter for the second shard. What should the user set `new_config` to? The old config says that there's only one shard and server C is the only replica; the status says that servers A and B are involved somehow, but it's not obvious how. Even if the user somehow remembers that A was hosting the first shard and B was hosting the second shard, so they try to hard-override to a two-shard state, the hard override mechanism would have to somehow figure out the split point. This seems impractical.\r\n\r\nSo I think we should go with a syntax like `table.reconfigure(emergency_recovery=True)`. This syntax would automatically demote/promote voters to fix each shard, according to which servers are unavailable. It won't make changes that would cause data loss unless the user adds `data_loss=True`. If the user specifies `dry_run=True` it will return the proposed new value of the config without applying it."
+  , issueCommentId = 105344748
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 11 : 46 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36234017"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36234017"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 11 : 46 : 38 UTC
+  , issueCommentBody =
+      "The automatic option is easier. In both cases, we need code to detect the issue and code to fix it; but if we do it automatically, we don't need code to display the issue to the user.\r\n\r\nFixing the issue would require changes not only to `reactor_be_primary.cc`, but also to `reactor_be_secondary.cc` and `reactor_be_nothing.cc`, because the incoherent latest version might reside on a machine that isn't trying to be primary. For example, suppose we have a cluster of three machines: A is a primary, and B and C are idle. We increase the replica count, so B and C start backfilling from A. B starts backfilling slightly earlier, and it finishes earlier. But immediately after B finishes, A crashes and is declared dead. Then B is set as primary. So C has the most up-to-date version, and its data is incoherent, so the conditions for the bug are met; but C isn't trying to be a primary.\r\n\r\nSo I think the solution is to add logic to:\r\n1. detect that our version is incoherent; we can see all other nodes; and the latest coherent version of any other node is earlier than our second `version_t`\r\n2. when this is detected, automatically blow away or re-tag our own data\r\nThis logic should run whenever we have data, no matter if we are a primary, secondary, or `nothing_when_safe_t`. This is a little tricky to implement. In particular, the interaction between step 2 and the reactor code is a little awkward, because the reactor needs to notice that the data has been blown away or re-tagged and update its `reactor_business_card_t` to match. However, consulting the system administrator has all the same problems.\r\n\r\nThere's also a subtle problem with re-tagging data. After we re-tag a block of data, it becomes the most up-to-date version, so we need to backfill it to all the other nodes. However, it may be missing keys that are present on other nodes, and also missing deletion entries for those keys. Or, it might have keys that differ from other nodes, but the timestamps on those keys could be earlier than the timestamps on those other nodes. I think we can fix this by walking the B-tree and resetting the `tstamp_cutpoint` on every block so that the backfill code will just re-transfer the entire block. This is awkward because it means re-backfilling the entire tree, even though the differences might be small, but I think it's the best we can do.\r\n\r\nIf you're looking for the easiest thing to implement, we could blow away the data instead of re-tagging it. However, this is potentially very nasty to the users. Suppose that the user has a two-node cluster, with a primary and a secondary. The cluster is running smoothly until the network connection drops for a few minutes. When the network re-connects, the secondary starts a backfill to fetch the writes that it missed while the network was down. Then the primary experiences a hard-drive crash. The secondary has almost all of the data, but its version is incoherent. Would we blow away the data as soon as the primary is declared dead? This seems like a nasty surprise for the system administrator."
+  , issueCommentId = 36234017
+  }

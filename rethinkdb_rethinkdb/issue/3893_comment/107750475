@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 00 : 07 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/107750475"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3893#issuecomment-107750475"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 00 : 07 : 59 UTC
+  , issueCommentBody =
+      "> `emergency_repair='unsafe_rollback'` or `emergency_repair='unsafe_rollback_or_erase'` or omitting the optarg entirely. I agree we should reject `emergency_repair=False`.\r\n\r\nSounds fine. I have no strong opinion on whether or not to allow `False` except that it should be\r\na) consistent with what we do elsewhere and\r\nb) that there should be *some* value that you can pass in to mean the default (could be `nil` or `False`)\r\n\r\nI think b) is a good idea because it makes scripting `reconfigure` queries easier. Say you write an ORM and encapsulate the call to `reconfigure` into a method on the schema object. If the only way to specify the default behavior is by omitting the `emergency_repair` optarg completely, you might need to distinguish two cases somewhat like this:\r\n```\r\nfunction reconf(config, repair = UNDEFINED) {\r\n    if (repair == UNDEFINED)\r\n        table.reconfigure(config).run(conn);\r\n    else\r\n        table.reconfigure(config.merge({emergency_repair: repair})).run(conn);\r\n}\r\n```\r\nOtherwise you can just do\r\n```\r\nfunction reconf(config, repair = false) {\r\n        table.reconfigure(config.merge({emergency_repair: repair})).run(conn);\r\n}\r\n```\r\n\r\nSo I think we should allow either `null` or `false` as a value to make it equivalent to the default."
+  , issueCommentId = 107750475
+  }

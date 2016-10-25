@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-30) 11 : 21 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31341814"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1799#issuecomment-31341814"
+  , issueCommentCreatedAt = 2013 (-12) (-30) 11 : 21 : 28 UTC
+  , issueCommentBody =
+      "There are at least three immediate issues that we need to fix. In decreasing order of importance:\r\n\r\n* A crash (Uncaught exception of type \"multiple_choices_exc_t\"\\n  what(): Multiple choices exists for this json value (probably vector clock divergence).) as reported by @wojons. It will likely go away when the extra replica bug is fixed, but we still need to fix it.\r\n* A vector clock conflict that results in an ajax error and no issue (as reported by @wojons -- I haven't tried to reproduce this yet)\r\n* The bug where adding and then removing a primary datacenter leaves an extra replica.\r\n\r\nAlso, I think we should consider a few more issues in the longer term:\r\n\r\n* The confusing interaction of cluster-wide and per-datacenter replicas and the cost/benefit analysis of having this feature\r\n* A more informative error message than \"master not available\" when running queries on a table in a weird state\r\n* I'm not entirely sure that our current strategy of refusing to compile blueprints when all goals can't be met is a good idea. For example, if the user manages to get into a state where they've asked for two replicas and one ack, but have only one machine, we might want to compile a blueprint that gives them availability and show an issue they can solve later. I don't know if we have enough real-world devops feedback yet to make a good call on this yet.\r\n\r\nBasically we want the error states to be predictable and understandable, and while we've done *a lot* of really good work on it, I don't think we're quite there yet.\r\n\r\nI'll open separate github issues for these as we investigate further. I haven't had the chance to replicate some of the more nuanced flows @wojons talked about (or the chance to think more about the longer-term ones I ran into).\r\n"
+  , issueCommentId = 31341814
+  }

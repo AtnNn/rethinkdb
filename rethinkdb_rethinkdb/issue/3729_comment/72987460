@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 03 : 16 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72987460"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3729#issuecomment-72987460"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 03 : 16 : 24 UTC
+  , issueCommentBody =
+      "Ok I found the reason for why this is happening.\r\nIn the web UI we're emulating ReQL connections over HTTP. To open such a \"virtual\" connection, we send a request to the server first. The server then assigns a connection ID to the virtual connection and sends that back to us. For all future requests on this virtual connection we submit the connection ID so the server can associate the request with the right virtual connection.\r\n\r\nWhat's happening now is that sometimes the browser caches the initial request, so the \"establish connection\" request never goes to the server. Instead multiple virtual connections will use the same connection ID, with all sorts of bad consequences."
+  , issueCommentId = 72987460
+  }

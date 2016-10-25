@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-24) 22 : 28 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/64276893"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3365#issuecomment-64276893"
+  , issueCommentCreatedAt = 2014 (-11) (-24) 22 : 28 : 45 UTC
+  , issueCommentBody =
+      "It looks like there's a lot of support for this, but I still think `.table.status`/`.index_status` is really terrible.  Here's an alternate proposal that feels consistent to me and solves the \"waiting on multiple tables\" issue:\r\n\r\n* `table.status()` -- gets the status of a table\r\n* `db.status()` -- gets the status of all tables in the database\r\n* `db.status('a', 'b') -- gets the status of tables `a` and `b` in the database.\r\n* `table.config()`, `db.config()`, `db.config('a', 'b')` -- as `status` above\r\n* `table.wait()`, `db.wait()`, `db.wait('a', 'b')` -- as `status` above\r\n* Introduce `table.index()`.\r\n  - If nothing is chained after it, `table.index('a')` returns the opaque representation of `a`.\r\n    * This lets us duplicate indexes by writing `r.table('test').index_create('a_dup', r.table('test').index('a'))` rather than having to pull the information out of `index_status`.\r\n  - Add `table.index('a').status()`, `table.index('a').wait` by analogy to the `table.X` commands.\r\n\r\n---\r\n\r\nIf people don't like that, another possibility would be `r.table('test').status(index:'a')` rather than `index_status`."
+  , issueCommentId = 64276893
+  }

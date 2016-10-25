@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-22) 21 : 39 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/104782872"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4268#issuecomment-104782872"
+  , issueCommentCreatedAt = 2015 (-05) (-22) 21 : 39 : 55 UTC
+  , issueCommentBody =
+      "Hi @xpepermint this is expected. `indexCreate('identity.key')` looks for a top level document like `{\"identity.key\": \"foo\"}`, so it won't do what you want. Instead you can use a function to define the index:\r\n\r\n```js\r\nr.db('miner').table('tracks').indexCreate('identity.key', r.row('identity')('key'))\r\n```\r\n\r\nNote that `identity.key` is just a name we gave the index so we can refer to it later, it can be any string you like.\r\n\r\nThen you can do queries for it with:\r\n\r\n```js\r\nr.db('miner').table('tracks').getAll('2' {index: 'identity.key'})\r\n```\r\n\r\nAnd it will do what you expect.\r\n\r\nIncidentally, a normal key index is really just a function index underneath. These two are identical:\r\n\r\n```js\r\nr.table('foo').indexCreate('bar')\r\nr.table('foo').indexCreate('bar', r.row('bar'))\r\n```\r\n\r\nHope that helps. I'm closing this since it's not a bug, but feel free to ask any more questions you want here and we'll answer them for you."
+  , issueCommentId = 104782872
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-25) 21 : 48 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53339825"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2954#issuecomment-53339825"
+  , issueCommentCreatedAt = 2014 (-08) (-25) 21 : 46 : 21 UTC
+  , issueCommentBody =
+      "@coffeemug, @danielmewes \r\n\r\nThanks for your time and the detailed responses. The tests were the least I could do for myself and for you guys, after opening up this half-baked issue.\r\n\r\nVery interesting to know about the batches and reading through all those issues. Critical knowledge, but I suspect it'll be more important when my table has real (lots of) data and the queries are for larger sets of IDs.\r\n\r\nA bit more about my use-case:\r\n\r\nI'm using Rethink to model and traverse a graph. I know we have these things called \"graph databases\", but from my research they seem to [provide semantic sugar](http://s3.thinkaurelius.com/docs/titan/0.5.0/multiquery.html) (\"However, if v has many friends, this requires executing many identical queries independently.\"), and less so actually optimized traversal. I could be wrong, but anyway, right now I'm using Rethink and it's awesome.\r\n\r\nBut that's the origin of the `r.expr()` example on this thread: that array of IDs comes from a document that points to other documents that need to be retrieved and mapped over top of those IDs, and then so on, recursively. To my delight I've managed to program this quite tersely and simply with ReQL and Promises, but 80ms to emanate out one layer is hairy, considering that with further recursion would be amplified. Also, that 80ms is just for the `getAll()` I excised for this issue; `map()`ing and `merge()`ing adds a bunch more milis. Currently my application only has one layer of traversal, but I really want to provide more depth, at least one more layer soon, to accommodate structure necessary for a feature central to the application.\r\n\r\nThis array of IDs that need to be retrieved is at the heart of my application. I will be adding a caching layer for these objects anyway, but I look forward to all the optimizations in the tickets you guys mentioned.\r\n\r\nThank you again for Rethink, and for you time!"
+  , issueCommentId = 53339825
+  }

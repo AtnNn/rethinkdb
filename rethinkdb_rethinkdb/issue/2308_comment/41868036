@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-01) 00 : 32 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41868036"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2308#issuecomment-41868036"
+  , issueCommentCreatedAt = 2014 (-05) (-01) 00 : 32 : 54 UTC
+  , issueCommentBody =
+      "@srh: What I did in daniel_2308 is to add a 16 bit version to every object that has its serialization/deserialization routines defined through one of the RDB_MAKE_(ME_)SERIALIZABLE macros, and a handful of other similarly complex types.\r\nDatums are versioned, but integers or strings are not.\r\n\r\nThe advantage of having versions locally in as many types as possible is that they can also be handled locally. If we change the format of an address_t, we only have to write special code to handle the multiple versions for address_t. All other types are unaffected.\r\n\r\nHow it would work right now is that one would implement an own `deserialize()` method in cases where multiple versions should be handled. We can definitely make that more convenient in the future.\r\n\r\nA versioned_t would be an alternative. I'm not sure which one I'd prefer, though I tend towards having versions almost everywhere rather than only where someone explicitly thought of having a version. The reason is that once you have some serialized data that doesn't have a version, it becomes more difficult to handle multiple versions later without breaking compatibility. Unless you change the version at some (grand-)parent object that is already versioned, and somehow pass that information through when deserializing the unversioned thing. I guess that would work too.\r\n\r\nCan you explain a bit more what your idea is with the `serialization_trait_t`? We already have to put a MAKE_SERIALIZABLE macro into or next to types that should be serializable. Isn't the trait kind of redundant then?"
+  , issueCommentId = 41868036
+  }

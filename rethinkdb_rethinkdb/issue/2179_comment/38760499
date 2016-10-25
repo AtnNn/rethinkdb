@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-27) 01 : 32 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38760499"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2179#issuecomment-38760499"
+  , issueCommentCreatedAt = 2014 (-03) (-27) 01 : 32 : 17 UTC
+  , issueCommentBody =
+      "Hi @nviennot, thanks for the great report.\r\n\r\nI might have found the problem. When retrieving the status of secondary indexes, we first retrieve the index status from each shard (even if you have only one range shard, as visible in the web UI, there are 8 internal \"CPU\" shards). Then we merge all those status together. The merging works such that if any of the per-shard status results says that a given index is not ready, the merged result will say that it is not ready.\r\nThis is all ok. Except for the case where one of the shards hasn't even begun creating the secondary index. In that case, the status message from that shard will not have any entry for that sindex. As long as the shard result doesn't explicitly say that some sindex is not ready, the merge will not make its status be not ready.\r\nThe fix is to treat non-existence of a secondary index in a single-shard status result as being equivalent to a not ready status, as long as the index shows up in at least one of the single-shard results.\r\nI will implement this fix and see if it solves the problem."
+  , issueCommentId = 38760499
+  }

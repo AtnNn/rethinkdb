@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 20 : 16 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18368836"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18368836"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 20 : 16 : 21 UTC
+  , issueCommentBody =
+      "@jdoliner -- I'm really leaning away from `catch`, for a few reasons:\r\n* It's confusing when you pass a value instead of a function -- `row[:key].catch(0)` looks like you're catching `0`, not errors.\r\n* I think the name very strongly implies that it doesn't handle NULL, which I think we want it to.\r\n* It doesn't read as well.\r\n\r\nIs there a name that isn't `rescue` or `catch` that you like?\r\n\r\n---\r\n\r\nUnder my proposal:\r\n```ruby\r\n> r({:a => nil})[:a].eq(nil)\r\ntrue\r\n> r({})[:a].eq(nil)\r\nERROR\r\n> r({:a => nil})[:a].eq(nil).default(5)\r\n5\r\n> r({})[:a].eq(nill).default(5)\r\n5\r\n```\r\n\r\nThe point of using conditions is that they allow us to handle the case where we access a NULL field inside a `default` **before** the NULL propagates upward, without us having to change the semantics of NULL field access in general.  (This is because exception handlers operate in the context where they're established, which means that we have to choose whether to throw to them OR return a value without consulting them, whereas the condition handler operates in the context where the error occurs, so we can just establish restarts for the two behaviors we want and then let the handler pick.)"
+  , issueCommentId = 18368836
+  }

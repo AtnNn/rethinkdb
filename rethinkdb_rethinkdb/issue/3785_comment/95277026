@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-22) 17 : 30 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95277026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3785#issuecomment-95277026"
+  , issueCommentCreatedAt = 2015 (-04) (-22) 17 : 30 : 55 UTC
+  , issueCommentBody =
+      "@RaitoBezarius, a few things:\r\n\r\nYou're right that `_maybe_fetch_batch` receives a future in an async environment, but at the moment it is always immediately available, so it doesn't cause any problems.  The CONTINUE query is sent with `noreply=True`, and it returns `None`.  We don't wait on these futures when sending the CONTINUE query because the user should only wait when consuming items from the cursor, not when creating it.\r\n\r\nThe `DefaultCursor` implements iteration, but we had problems getting iteration to work on `TornadoCursor` because Tornado coroutines are generators - and a `StopIteration` means that the coroutine is finished and has no more futures to process.  I couldn't find a safe way to have an iterator implemented in terms of a Tornado coroutine.\r\n\r\nLooking forward to your PR, let me know if you have any questions!"
+  , issueCommentId = 95277026
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-13) 21 : 23 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46061484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2542#issuecomment-46061484"
+  , issueCommentCreatedAt = 2014 (-06) (-13) 21 : 23 : 57 UTC
+  , issueCommentBody =
+      "> Is this any different from applying a .filter(r.row('id').eq(id))?\r\n\r\nLike Slava said, scalability.  We could theoretically do this by just having a better query optimizer, but that's a whole thing.\r\n\r\n> You do the changes call first and then do a get.\r\n\r\nYes, but that's a pain, and still doesn't quite do what you want.  What you really want is to know the most recent version of the document at any point in time.  OK, so you've called changes and gotten back a stream, and done a `get`.  Is the value of the `get` the most recent version of the document?  Well, you'd have to look at what's in the stream, but that can block.  So you have to set the value to the object you got back from `get`, then consume the stream and only start replacing the value with the objects in the stream when you see `old_val:VALUE_RETURNED_FROM_GET`.  People can definitely do that, but it sucks.\r\n\r\nYou can't set the value to `get` and then replace from the stream without checking `old_val` unless you're OK with the value maybe changing from a newer value to and older value and back (which might be confusing depending on the use case)."
+  , issueCommentId = 46061484
+  }

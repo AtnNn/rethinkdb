@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-28) 20 : 57 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53796544"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2957#issuecomment-53796544"
+  , issueCommentCreatedAt = 2014 (-08) (-28) 20 : 53 : 19 UTC
+  , issueCommentBody =
+      "A few comments/suggestions/remarks after playing a few minutes:\r\n\r\n- There used to be a field `me` in the semilattice. Could we put it back?\r\nOr can we add a command to know to which server a user is connected to?\r\n\r\n- Can we have a table `server_status`? To know if a server is down or not?\r\n\r\n- `r.table(\"foo\").info()` should return more data\r\n\r\n- `table_config` is reported as a table, not a pseudo type\r\n\r\n- It's really hard to get the list of director and their state and I don't expect users to be able to write the appropriate query. Can we change it to:\r\n```\r\nshards: [\r\n  { 'name': <server_name>, 'role': <role>, 'state': <state> },\r\n  ...\r\n]\r\n```\r\n\r\n- In `table_config`, can we split the database and the table? Or add 2 fields for that. Having to call `split('.')` is really not fiendly\r\n\r\n- Same comments as @coffeemug's for sharding when the table is empty, and for the result returned from `reconfigure`\r\n\r\n- Can `table_config` returns the split points? I need them to get the number of documents per shard. Or are we replacing the `namespace_distribution` too?\r\n\r\n- Calling `reconfigure` without argument should do something like @coffeemug said. I would expect it to rebalance my shards. A command `rebalance` would be better though.\r\nAlso I would expect to move replicas from a dead machine (and maybe the director too?)\r\n\r\n- While testing things, I ended up with this configuration:\r\n```\r\n>>> pprint.pprint(r.db('test').table('test').reconfigure(3,2).run())\r\n{u'shards': [{u'directors': [u'Ananke', u'Apollo'],\r\n              u'replicas': [u'Ananke', u'Apollo']},\r\n             {u'directors': [u'Apollo', u'Ananke'],\r\n              u'replicas': [u'Ananke', u'Apollo']},\r\n             {u'directors': [u'Asteria', u'Lapetus'],\r\n              u'replicas': [u'Asteria', u'Lapetus']}]}\r\n```\r\n\r\nI have 5 servers, and I would expect all of them to be used.\r\n\r\n- `table_status` doesn't tell me if a table is ready or not. We should have a field at the top level for that. We should have \"ready\", \"readable-only\", \"down\".\r\n\r\n- I find weird to have more than one director per shard. We should have a unique director and another field like `vice-director` maybe?\r\n\r\n- The state \"missing\" is a bit strange to me (maybe because English is not my mother tongue?). Would \"disconnected\" or \"not available\" make more sense?\r\n"
+  , issueCommentId = 53796544
+  }

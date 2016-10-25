@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-20) 01 : 03 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1456118
+        , simpleUserLogin = N "jamescostian"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1456118?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jamescostian"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46635143"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2115#issuecomment-46635143"
+  , issueCommentCreatedAt = 2014 (-06) (-20) 01 : 03 : 04 UTC
+  , issueCommentBody =
+      "## Server Info\r\n```bash\r\n$ node -v\r\nv0.10.29\r\n$ rethinkdb -v\r\nrethinkdb 1.13.0-0ubuntu1~trusty (GCC 4.8.2)\r\n$ cat node_modules/rethinkdb/package.json | head -n 3\r\n{\r\n  \"name\": \"rethinkdb\",\r\n  \"version\": \"1.13.0-0\",\r\n```\r\n\r\nServer 1 is in New York, Server 2 is in Amsterdam\r\n\r\nBoth servers are running a clean installation of Ubuntu 14.04, and neither of them have any traffic directed at them.\r\n\r\nI made 1 database (test) and 1 table (ex). I set the replicas to 2. I then ran the following on one of the servers: `r.db('test').table('ex').insert({key1: 'data', key2: 'moar data', key3: 'even moar data, but still not that much'})`\r\n\r\n## Benchmarks\r\n### From Web Admin Interface\r\nI just went to port 8080 of each server and ran `r.db('test').table('ex')` a couple of times and these are the average results I got:\r\n\r\nServer 1: 282ms roundtrip, 1ms server time. [Profile](https://gist.github.com/jamescostian/35a6e544dcd153b3fece)\r\nServer 1: 676ms roundtrip, 79ms server time. [Profile](https://gist.github.com/jamescostian/50ad0531ddfea601fbf5)\r\n\r\n### From Node\r\nI'm using [this script](https://gist.github.com/jamescostian/b8a076947f93b87af7b6). It's basically equivalent to running `r.db('test').table('ex')`.\r\n\r\nServer 1: ~5ms with or without useOutdated. [Log](https://gist.github.com/jamescostian/6a1ede691da89db30142)\r\n\r\nServer 2: ~83ms but it goes down to ~5ms with useOutdated. [Log](https://gist.github.com/jamescostian/4675b76d2d7169a3a8cf)\r\n\r\n## Conclusion\r\nAs long as useOutdated is turned on, execution times stay low and everything is fine (even in production, where I have *real data*). So I'm going to close this issue because I think that it's not really an issue anymore."
+  , issueCommentId = 46635143
+  }

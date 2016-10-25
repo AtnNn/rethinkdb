@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-11) 23 : 47 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40264605"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2226#issuecomment-40264605"
+  , issueCommentCreatedAt = 2014 (-04) (-11) 23 : 47 : 52 UTC
+  , issueCommentBody =
+      "@neumino -- `r.table_create` already has those semantics (unless there is a bug). I recall @danielmewes mentioning a possible bug where `table_create` returns before the table is accessible, but I can't find it now (may be he remembers it).\r\n\r\nThat's not what this issue is about, though. The table has already been created; you just try to query it after some change and get the `No master available` error right away if there is no master available.\r\n\r\nI'm not sure if it's better to make an attempt to find the master, or return the error. For example, when we implement resharding without loss of availability, there will be a period where the handoff happens between servers. In that case it's possible the users would prefer higher latency on queries for a while and no errors, or they'd prefer to have explicit errors. I think we should wait a bit until we handle this issue to learn more about what's better for users."
+  , issueCommentId = 40264605
+  }

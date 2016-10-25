@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-03) 08 : 43 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72613697"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3714#issuecomment-72613697"
+  , issueCommentCreatedAt = 2015 (-02) (-03) 08 : 43 : 44 UTC
+  , issueCommentBody =
+      "I added a new issue for the `ORDERED_FEED` thing, since that's pretty easy.  Returning the index is a little bit harder because of squashing.  Consider the case where the row `A` at position 5 is deleted, then the row that is now at position 5 is updated from `B` to `B'`.  Right now the queued up changes look like `[{old_val: A, new_val: nil, old_position: 5}, {old_val: B, new_val: B', old_position: 5, new_position: 5}]`.  Now if a new row `A'` is inserted that takes position 5, we squash it onto the first change, and we need to produce `[{old_val: A, new_val: A', old_position: 5, new_position: 5}, {old_val: B, new_val: B', old_position: 6, new_position: 6}]`.  I.e. the new change being squashed onto the first change requires us to update the positions in the second change.  We could get around that by keeping a snapshot of the pre-batch ordered set around in memory and adding the position tags when the batch is sent, but that would double memory usage in the worst case and be a bit of implementation effort."
+  , issueCommentId = 72613697
+  }

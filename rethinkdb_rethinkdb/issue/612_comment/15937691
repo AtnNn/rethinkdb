@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 03 : 45 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15937691"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/612#issuecomment-15937691"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 03 : 45 : 10 UTC
+  , issueCommentBody =
+      "The Ruby driver loads batches in the background.  That's the whole reason we attach tokens to queries and responses in the first place.  You don't need any fancy multi-threading or connection pool logic; you just need to issue the `CONTINUE` query before you start processing the batch instead of afterward, then block on its arrival after processing the batch the same way you do now.\r\n\r\n(The Ruby driver is actually a bad example here because it **is** designed to be totally asynchronous, which is unnecessary since the server doesn't process queries asynchronously on a per-connection basis, but that's just because the network logic was written back when we thought we **were** going to be asynchronous on a per-connection basis.  Actually, now that I think about it, we should probably rip out some of the Ruby driver's connection code that isn't exercised.)\r\n\r\nWe only load one batch in advance in the Ruby client; it doesn't lead to unbounded memory usage.  And you literally get a 2x speedup if the cost of processing a result on the client is roughly proportional to the cost of computing it on the server and sending it over the network.\r\n\r\nAll that said, if we want to put this off in favor of more pressing optimizations I'm fine with that."
+  , issueCommentId = 15937691
+  }

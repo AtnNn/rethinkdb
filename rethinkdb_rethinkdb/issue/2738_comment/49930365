@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-23) 20 : 28 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49930365"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2738#issuecomment-49930365"
+  , issueCommentCreatedAt = 2014 (-07) (-23) 20 : 28 : 15 UTC
+  , issueCommentBody =
+      "So, if I force a vector clock conflict in the web UI, I see the following in `/ajax/semilattice` (along with two issues):\r\n```json\r\n{\r\n  \"rdb_namespaces\": {\r\n    \"5eacb85f-1601-46a5-b884-8803c3c40fb9\": {\r\n      \"ack_expectations\": \"VALUE_IN_CONFLICT\",\r\n      \"blueprint\": {},\r\n      \"database\": \"2a002a42-ceaf-4d28-845d-050e553d4399\",\r\n      \"name\": \"test\",\r\n      \"primary_key\": \"id\",\r\n      \"primary_pinnings\": {},\r\n      \"primary_uuid\": \"00000000-0000-0000-0000-000000000000\",\r\n      \"replica_affinities\": \"VALUE_IN_CONFLICT\",\r\n      \"secondary_pinnings\": {},\r\n      \"shards\": []\r\n    }\r\n}\r\n```\r\n\r\nWhen I make the change to replicas through `rethinkdb admin`, I see the following:\r\n```\r\nnewton:41295> ls issues\r\nThe namespace with UUID 340ca53a-e09b-4510-8937-0f3471e7914e has a vector clock conflict in its field 'replica_affinities'.\r\nnewton:41295> ls stress\r\ntable 'stress' 340ca53a-e09b-4510-8937-0f3471e7914e\r\nprimary datacenter 00000000-0000-0000-0000-000000000000\r\nin database 'test' d3489a36-e9a1-4c1a-97b0-dd0ce9579587\r\nwith primary key 'id'\r\n\r\nTried to access a vector clock protected value that was in conflict.\r\n```\r\n\r\nAdmittedly, that printout isn't very helpful, so I would suggest checking if you have any 'VALUE_IN_CONFLICT' strings in your `http://<host>:<web ui port>/ajax/semilattice`.\r\n\r\nAlso, to explain why this happened:\r\n\r\nWe currently do not have a consensus algorithm in our cluster (although things are in the works to change that), so if conflicting changes are made from two places at the same time, a conflict arises which requires user intervention to resolve.  This sort of situation is more likely to arise if you are changing the same fields in quick succession.  `rethinkdb admin` makes some attempt to pick a consistent peer, but that doesn't hold if connectivity is incomplete or changing.  The best way to avoid this is to keep from making rapid metadata changes to the same fields (based on the latency in your environment)."
+  , issueCommentId = 49930365
+  }

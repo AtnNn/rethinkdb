@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-11) 06 : 53 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55226798"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3030#issuecomment-55226798"
+  , issueCommentCreatedAt = 2014 (-09) (-11) 06 : 53 : 54 UTC
+  , issueCommentBody =
+      "I just digged a little more.\r\n\r\nStarting a cluster of 2 servers, I created one table, set 2 shards and 2 replicas.\r\n\r\nThen I rename a server to \"Asteria\" to \"foo\".\r\nMy table is now unavailable.\r\n\r\nThat's the content of `table_status`\r\n```\r\n[\r\n   {\r\n      \"db\":\"test\",\r\n      \"name\":\"test\",\r\n      \"ready_completely\":false,\r\n      \"ready_for_outdated_reads\":true,\r\n      \"ready_for_reads\":true,\r\n      \"ready_for_writes\":true,\r\n      \"shards\":[\r\n         [\r\n            {\r\n               \"role\":\"director\",\r\n               \"server\":\"foo\",\r\n               \"state\":\"ready\"\r\n            },\r\n            {\r\n               \"role\":\"replica\",\r\n               \"server\":\"Asteria\",\r\n               \"state\":\"missing\"\r\n            },\r\n            {\r\n               \"role\":\"replica\",\r\n               \"server\":\"Phanes\",\r\n               \"state\":\"ready\"\r\n            }\r\n         ],\r\n         [\r\n            {\r\n               \"role\":\"director\",\r\n               \"server\":\"Phanes\",\r\n               \"state\":\"ready\"\r\n            },\r\n            {\r\n               \"role\":\"replica\",\r\n               \"server\":\"Asteria\",\r\n               \"state\":\"missing\"\r\n            },\r\n            {\r\n               \"role\":\"nothing\",\r\n               \"server\":\"foo\",\r\n               \"state\":\"offloading_data\"\r\n            }\r\n         ]\r\n      ],\r\n      \"uuid\":\"23b4efda-464e-4781-b202-1116670d8afd\"\r\n   }\r\n]\r\n```\r\n\r\nThe content of `table_config` is \r\n```\r\n[\r\n   {\r\n      \"db\":\"test\",\r\n      \"name\":\"test\",\r\n      \"shards\":[\r\n         {\r\n            \"directors\":[\r\n               \"Asteria\",\r\n               \"Phanes\"\r\n            ],\r\n            \"replicas\":[\r\n               \"Asteria\",\r\n               \"Phanes\"\r\n            ]\r\n         },\r\n         {\r\n            \"directors\":[\r\n               \"Phanes\",\r\n               \"Asteria\"\r\n            ],\r\n            \"replicas\":[\r\n               \"Asteria\",\r\n               \"Phanes\"\r\n            ]\r\n         }\r\n      ],\r\n      \"uuid\":\"23b4efda-464e-4781-b202-1116670d8afd\"\r\n   }\r\n]\r\n```\r\n\r\nSo I have to run this query to make things consistent:\r\n\r\n```\r\nr.db(\"rethinkdb\").table(\"table_config\").update(function(table) {\r\n  return {\r\n    shards: table(\"shards\").map(function(shard) {\r\n      return {\r\n        directors: shard(\"directors\").map(function(director) {\r\n          return r.branch( director.eq(\"Asteria\"), \"foo\", director)\r\n        }),\r\n        replicas: shard(\"replicas\").map(function(replica) {\r\n          return r.branch( replica.eq(\"Asteria\"), \"foo\", replica)\r\n        })\r\n      }\r\n    })\r\n  }\r\n})\r\n```\r\nIt means that when issues will be available, users will get a \"server_down\" issue when all they did is renamed a server.\r\n\r\n\r\nThis is extremely disturbing. This issue is a show-stopper to me.\r\n"
+  , issueCommentId = 55226798
+  }

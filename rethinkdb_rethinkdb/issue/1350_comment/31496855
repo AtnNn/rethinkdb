@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-03) 00 : 21 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31496855"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1350#issuecomment-31496855"
+  , issueCommentCreatedAt = 2014 (-01) (-03) 00 : 19 : 53 UTC
+  , issueCommentBody =
+      "I patched the Python driver to tell me why it cannot connect. This is the error:\r\n`[Errno 99] Cannot assign requested address`\r\n\r\nOn first sight, this does not seem to make much sense as we are not trying to bind an address or anything. So here is what's actually seems to be going on:\r\n\r\nAfter running the stress client with frequent re-connects for a while, `netstat` shows a high number of connections in the TIME_WAIT state, about 28,000 when the connects begin to fail.\r\nA connection is held in TIME_WAIT for a certain amount of time after it has been closed. The purpose of the TIME_WAIT state apparently is to block the TCP port from being used by new connections for a while. From http://www.isi.edu/touch/pubs/infocomm99/infocomm99-web/ :\r\n\"The purpose of TIME-WAIT is to prevent delayed packets from one connection being accepted by a later connection.\"\r\nWhat then seems to happen here is that the client machine runs out of TCP ports to create a new connection, or exhausts some other related resource.\r\n\r\nHow to verify this:\r\n`echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle`\r\n\r\nFrom the Linux kernel documentation:\r\n```\r\ntcp_tw_recycle - BOOLEAN\r\n    Enable fast recycling TIME-WAIT sockets. Default value is 0.\r\n    It should not be changed without advice/request of technical\r\n    experts.\r\n```\r\n\r\nFor me, the problem is completely gone with this flag set, and `netstat` reports a stable ~1200 connections in the TIME_WAIT state,\r\n\r\nTo sum things up: This is a configuration problem with the client, when it establishes new connections extremely frequently. Doesn't seem to be a server problem. Closing again."
+  , issueCommentId = 31496855
+  }

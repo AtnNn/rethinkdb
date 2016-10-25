@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-12) 22 : 20 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55467993"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3044#issuecomment-55467993"
+  , issueCommentCreatedAt = 2014 (-09) (-12) 22 : 20 : 22 UTC
+  , issueCommentBody =
+      "@anatol, could you please post the full compiler output? The `no known conversion` lines are all part of a single very long compiler error. When GCC fails to find a match for an overloaded function, it lists every overload that it tried; and we have dozens of overloads for `apply_json_to`, so the result is very long. I'd like to see the beginning of the compiler error.\r\n\r\n@mlucy: I agree that it's not a GCC bug. It should be able to find `render_as_json()` for `boost::variant` through [argument-dependent name lookup](http://en.wikipedia.org/wiki/Argument-dependent_name_lookup). And unless I'm misinterpreting this message, it considered and rejected the overload of `apply_json_to` for `boost::variant`. Look at these lines:\r\n\r\n```\r\nIn file included from ./src/http/json/json_adapter.hpp:586:0,\r\n                 from ./src/clustering/reactor/metadata.hpp:16,\r\n                 from ./src/clustering/reactor/reactor_json_adapters.hpp:5,\r\n                 from src/clustering/reactor/reactor_json_adapters.cc:2:\r\n./src/http/json/json_adapter.tcc:380:6: note: template<class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20> void boost::apply_json_to(cJSON*, boost::variant<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>*)\r\n void apply_json_to(cJSON *, boost::variant<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> *) {\r\n      ^\r\n./src/http/json/json_adapter.tcc:380:6: note:   template argument deduction/substitution failed:\r\nIn file included from ./src/http/json/json_adapter.hpp:586:0,\r\n                 from ./src/clustering/reactor/metadata.hpp:16,\r\n                 from ./src/clustering/reactor/reactor_json_adapters.hpp:5,\r\n                 from src/clustering/reactor/reactor_json_adapters.cc:2:\r\n./src/http/json/json_adapter.tcc:38:82: note:   candidate expects 19 arguments, 7 provided\r\n```"
+  , issueCommentId = 55467993
+  }

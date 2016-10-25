@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-12) 17 : 59 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22512336"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1270#issuecomment-22512336"
+  , issueCommentCreatedAt = 2013 (-08) (-12) 17 : 59 : 31 UTC
+  , issueCommentBody =
+      "Having slept on this, I think that the theoretical benefits of supporting times without time zones is outweighed by the fact that it's been universally confusing.  If we leave that in there, someone's going to get confused and possibly screw themselves.\r\n\r\nI think we should require all times to have a time zone.\r\n\r\nThere are two ways to do this:\r\n* Have everything that currently defaults to \"no time zone\" default to \"UTC\".\r\n* Have everything that currently defaults to \"no time zone\" default to the client's time zone (this would require the clients to send extra information to the server).\r\n\r\nAdvantages of the first:\r\n* Easy to implement, requires no changes to clients.\r\n* Behavior is consistent in third-party clients that don't send time zone information to the server.\r\n  - We could have the server error if someone tries to use the default timezone and that information wasn't sent, telling them to explicitly specify the time zone until their driver is updated.\r\n  - We should add a field to `r.now` that lets people explicitly specify the time zone if we do the above.\r\n\r\nAdvantages of the second:\r\n* Probably what people expect.\r\n* Makes `r.time(...)` and `r(Time.now)` behave similarly.\r\n* Makes `r.iso8601(time_string_without_timezone)` and `r(Time.iso8601(time_string_without_timezone))` behave identically (since the latter parses it as a local time)."
+  , issueCommentId = 22512336
+  }

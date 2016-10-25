@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-26) 19 : 49 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25198026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-25198026"
+  , issueCommentCreatedAt = 2013 (-09) (-26) 19 : 49 : 44 UTC
+  , issueCommentBody =
+      "Internal note: The \"flush lock\" is the next hot candidate. During times of slow throughput, acquiring it in exclusive mode takes an average of between 50 and 100 ms. This is done up to 10 times per second by the writeback process. The problem is that no new write transactions are accepted while the writeback process is trying to obtain the lock.\r\n\r\nFor lock acquisition to take this long, there must be some ongoing write queries which take a long time. A possible explanation could be that those queries have to read data from disk because the cache is full. This is likely not our primary issue here. Slow write transactions should not slow down the whole database.\r\n\r\nI am not sure why we see periods of fast followed by periods of slow throughput and vice versa. "
+  , issueCommentId = 25198026
+  }

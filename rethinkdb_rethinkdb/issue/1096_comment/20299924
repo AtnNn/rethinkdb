@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-01) 18 : 16 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20299924"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-20299924"
+  , issueCommentCreatedAt = 2013 (-07) (-01) 18 : 16 : 25 UTC
+  , issueCommentBody =
+      "I really like this syntax. \r\n```javascript\r\nr.table('users').group('location').reduce({sum_age: r.sum('age'),\r\n                                          average_age: r.avg('age'),\r\n                                          whatever_name: function(i, j) { return ...; } })\r\n\r\n```\r\nAnd I would force users to pass an object when using `reduce` on a groupedstream object.\r\n\r\n\r\nIf we introduce a groupedstream object, would it be possible to have something like this:\r\n```javascript\r\nr.table(\"comments\").group(\"id_post\", {name: id_post}).orderBy(\"date\").limit(10)\r\n    .eqJoin(\"id_post\", r.table(\"posts\").zip()\r\n```\r\nWhich would be currently written as\r\n```javascript\r\nr.table(\"posts\").map( function(post) {\r\n    doc.merge({ comments: r.table(\"comments\").filter( function(comment) {\r\n        comment(\"id_post\").eq(post(\"id_post\"))\r\n    }),orderBy(\"date\").limit(10)\r\n})\r\n```\r\n\r\nI know that it can break because we have to keep things in memory (and that it probably require a lot of work), but that would be __so cool__ to have this syntax -- since it's a common operation."
+  , issueCommentId = 20299924
+  }

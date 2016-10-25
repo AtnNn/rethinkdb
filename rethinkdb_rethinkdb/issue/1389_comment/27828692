@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-06) 00 : 47 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27828692"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1389#issuecomment-27828692"
+  , issueCommentCreatedAt = 2013 (-11) (-06) 00 : 47 : 52 UTC
+  , issueCommentBody =
+      "It seems that I am responsible for the fact that we encountered this bug more often recently. I introduced a bug with https://github.com/rethinkdb/rethinkdb/commit/b4a68487cddd8ad913ace91d9d3a484bb489fa85 . The problem is that I changed the buf_writers which the cache uses to commit data to the serializer to release the buffer on the modified block as soon as its data has been written to disk. However at that point the serializer index has not been updated, meaning that the new block is not actually accessible yet. If the cache then evicts the block and reloads it soon after, it can get an old version of the block. That change is only in next, and was not part of 1.10.\r\nSo the original issue probably still exists."
+  , issueCommentId = 27828692
+  }

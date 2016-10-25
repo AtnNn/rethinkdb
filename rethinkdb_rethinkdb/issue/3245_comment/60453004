@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-26) 10 : 03 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 488554
+        , simpleUserLogin = N "gotlium"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/488554?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gotlium"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60453004"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60453004"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 21 : 38 : 45 UTC
+  , issueCommentBody =
+      "@danielmewes \r\n\r\n1 I'm understand, but SQL can be shard. Why not?:) I'm understand that is not easy, but is real:)\r\n\r\n2\r\n\r\n    {\r\n        \"date\": Tue Sep 02 2014 00:00:00 GMT-04:56 ,\r\n        \"f1\": 1 ,\r\n        \"id\":  \"09cba8f3-e5a3-4c36-a78d-e8e07df66985\" ,\r\n        \"name\":  \"Example\" ,\r\n        \"f2\":  \"d4436de862fbc706d76608a8818a1158\" ,\r\n        \"f3\": 2 ,\r\n        \"f4\": 3\r\n    }\r\n\r\n* 153 documents\r\n* I run multiple times, difference a 20 sec with my previous results. vs. 0,3ms on MySQL(with cached result)\r\n\r\n\r\n3 yes, on MB I have a SSD. On RethinkDB: 100 records write per second (single row). On MySQL I test only bulk insert. On RethinkDB I test bulk and simple(by one row).\r\n\r\n4 I think that DB only for user who have a deepness knowledge how it work:) Why if I do not defined the index, it can not be optimized or selected automatically? I'm understand,that is NoSQL, but why not?) If so, I can use a Redis for store, for pagination and for optimization. Because it's really faster, and scalable, with high performance and low-level. And Redis use a Lua. So Lua be faster, if we compare it with js.\r\n\r\n5 How I can optimize a simple query for test best performance for this query:\r\n\r\n    SELECT SQL_NO_CACHE `name`,\r\n           SUM(`f1`),\r\n           SUM(`f2`),\r\n           SUM(`f3`)\r\n    FROM table\r\n    WHERE slug = 'd4436de862fbc706d76608a8818a1158'\r\n      AND `date` BETWEEN '2014-01-01' AND '2014-12-01' GROUP BY `name`; \r\n    -- MySQL results: 1,4 ms\r\n\r\nAt this time I'm search best NoSQL at first: for aggregation, and a second: for quick look big tables without columns.\r\nI found first solution. But just for test, I'm testing many SQL and NoSQL systems.\r\n\r\n@mlucy , pagination at is the second what I want. I need a system for store user leads with unknown fields.\r\n\r\nPS - on my benchmark, PostgreSQL write is a 16k+ on single row without Goroutines\r\n\r\nThat a MySQL and MariaDB benchmarks, for aggregation request above on 5:\r\n\r\n    READONLY TEST\tInnoDB NoCache\tMyISAM NoCache\tInnoDB DbCache\tMyISAM DbCache\tInnoDB DbCache+Qcache\tMyISAM DbCache+Qcache\tMemory DbCache+Qcache\r\n    MariaDB 10.0.14\t982,6078412\t788,6124364\t1213,665878\t918,1893306\t4485,310608\t4278,265939\t4766,217054\r\n    MySQL 5.6.21\t966,1835749\t703,8783698\t1208,60527\t798,1164452\t4420,86649\t4488,733279\t4432,820604\r\n\r\nTested on Golang"
+  , issueCommentId = 60453004
+  }

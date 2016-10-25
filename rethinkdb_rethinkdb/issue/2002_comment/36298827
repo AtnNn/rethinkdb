@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 22 : 19 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36298827"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36298827"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 22 : 19 : 20 UTC
+  , issueCommentBody =
+      "> Can you explain in more detail how to use snapshotting to recover the state at the beginning of the backfill?\r\n\r\nNever mind, that doesn't work (and would require a lot of additional effort). I just wasn't sure if you're referring to some magic snapshot technology I didn't know about. Let's proceed under the assumption that we blow away all the data.\r\n\r\n> Suppose the user has a primary and many secondaries, and they want write acks from every secondary. The primary gets cut off from the secondaries, but a client continues sending writes to the primary. The primary applies the writes to its local copy. It can't send the writes to other nodes, so the client will get an error message \"not enough replicas responded\"; but that doesn't matter, since the write has already been applied to the primary's copy.\r\n\r\nDoes that mean that if the client gets a \"not enough acks\" error the write always still goes through? \r\n\r\n> If the primary dies while the secondaries are all backfilling, then there will be no coherent copies of the data in existence, so all the data will be blown away.\r\n\r\nOk, that's indeed pretty bad. I take back my original assertion that we should just do that.\r\n\r\n@Tryneus -- can you weigh in?"
+  , issueCommentId = 36298827
+  }

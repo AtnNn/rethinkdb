@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-14) 19 : 07 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1731633
+        , simpleUserLogin = N "ifraixedes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1731633?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ifraixedes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52228640"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2852#issuecomment-52228640"
+  , issueCommentCreatedAt = 2014 (-08) (-14) 19 : 06 : 51 UTC
+  , issueCommentBody =
+      "Hi, \r\n\r\nAfter thinking on it, I'm not quite sure if `rethink` approach is to report those errors to the callback and promise, so they are related with a wrong function call.\r\n\r\nMy thought are after I've read [Error Handling in Node.js](https://www.joyent.com/developers/node/design/errors)\r\n\r\nI reported it because when we faced that error, it was quite difficult to identify from where the error came due how we launch the process which involved the rethink `run`, and if the error had been reported to the promise we found it straightaway; however our error wasn't because we passed wrong parameters to the function, it was because we have to `nodejs modules`, one which create the rethink `connection` and another that call `rethink` API using the provided connection and `net#isConnection` failed due its implementation.\r\n\r\nLet's see a silly example of how we got into that issue:\r\n\r\n```javascript\r\n// module A: /some/a/index.js\r\n\r\nvar r = require('rethinkdb');\r\n\r\nmodule.exports.getSillyConnection = function () {\r\n  return r.connect();\r\n}\r\n```\r\n``` javascript\r\n// module B: /some/b/index.js\r\n\r\nvar r = require('rethinkdb');\r\nvar moduleA = require('a');\r\n\r\nmoduleA.getSillyConnection().then(conn) {\r\n  return r.table('heroes').get(3).run(conn);\r\n}).then(function (doc) {\r\n  console.log(doc);\r\n}, function (e) {\r\n  console.error(e);\r\n});\r\n```\r\n\r\nIn this silly implementation we got the `console.error` with the error reported for the second `run` method's condition `net.isConnection is false`, so we would get the message `throw new err.RqlDriverError \"First argument to `run` must be an open connection.\"`\r\n\r\nThe error was confusing due that the parameter was a rethink connection and to find it I had to check the implementation and figure out that the `instanceof` checking was failing due that the `Connection` function constructor is not the same instance.\r\n\r\nNot sure if use rethink in that way is appropriated, and if rethink has to deal with connections instantiated for different \"constructor instances\" or not, but perhaps it is worthwhile to change the error message to warn about it.\r\n\r\nMy apologies to report right now, I got this idea 4 hours ago, but I was busy, and when I started to write it here, you merged it."
+  , issueCommentId = 52228640
+  }

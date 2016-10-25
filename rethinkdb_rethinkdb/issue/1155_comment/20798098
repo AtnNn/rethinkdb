@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-11) 08 : 46 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20798098"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1155#issuecomment-20798098"
+  , issueCommentCreatedAt = 2013 (-07) (-11) 08 : 46 : 51 UTC
+  , issueCommentBody =
+      "Alright, I think I've tracked this down.  (I'll grab Etienne tomorrow and test my theory.)\r\n\r\nThe bug occurs when a query is handled on a different server than the one storing the data.  We turn the insert into a `batched_replaces_t` and serialize it over the network.  The `batched_replaces_t` contains an `std::vector<std::pair<int64_t, point_replace_t> >`.  The `point_replace_t` contains a `wire_func_t` nested deep inside it.\r\n\r\nThe problem comes from the interaction of the deserialization functions for `std::vector` and `wire_func_t`.  The deserialization function for `std::vector` calls `resize` to size the vector appropriately.  As far as I can tell (and this seems wacky to me), when you resize a vector to a larger size, the CentOS build invokes the default constructor to build a reference object, then uses the copy constructor to move copies of it into all the new positions.  Cursory googling (http://stackoverflow.com/questions/7413876/does-the-vector-resize-method-calls-the-default-elements-contructors-when-resi) seems to suggest that this is legal.\r\n\r\nThe deserialization function for `wire_datum_t` assumed that each `wire_datum_t` would be default-constructed before `rdb_serialize` was called on it.  (Copying it is legal, but only after it's been initialized.)  If this isn't the case, we end up with two separate `wire_func_t` objects that share pointers to the same `Term` in `source` **before** either one has been deserialized.  Shenanigans ensue.\r\n\r\nThis is easy(ish) to fix.  I'll do it tomorrow once I get a working CentOS build environment to test whether it fixes the problem."
+  , issueCommentId = 20798098
+  }

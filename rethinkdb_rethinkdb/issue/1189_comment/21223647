@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 00 : 01 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21223647"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1189#issuecomment-21223647"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 00 : 01 : 42 UTC
+  , issueCommentBody =
+      "If you can't overload `-` you we should let people say `r.neg` that's more intuitive than `r.sub(1)`\r\n\r\nPeople not using common lisp won't expect this behavior, one sec let me figure out what percentage of our users that is... carrying the one... move the decimal point over... 99% is what I got. Check my math on that though. Adding something because it will make things more comfortable for CL users is not a good reason to add something to ReQL. Especially when there are much more useful (and safer) things which `r.sub(1)` could be used for.\r\n\r\nI don't follow your logic on this last point, presumably what you're saying is that\r\n`r.add(*arr)` should be equivalent to `r(arr).reduce{|a,b| a+b}`.\r\nTherefore `r.sub(*arr)` should be equivalent to `r(arr).reduce{|a,b| a+b}`. Which means:\r\n\r\n```\r\nr.sub(1) == r.sub([1]) == r.expr([1]).reduce{|a,b| a+b} == 1\r\n```\r\n\r\nWhich is actually in many ways a more sane behavior than `r.sub(1) = -1` but it contradicts your thesis so I doubt that's what you meant. \r\n\r\n---\r\n\r\nNow what would be really cool is if `r.sub(1)` or `r.add` returned functions like they do in haskell. This is infinitely more useful. In one case we get a synonym for `r.neg` and make common lisp users (mostly just you) happy. While screwing over people that make the wrong typo. In the other you get a powerful and intuitive way to write map reduce queries. For example:\r\n\r\n```\r\nusers[\"points_lost\"].map(lambda x: base_points - x).reduce(lambda x,y: x + y)\r\nusers[\"points_lost\"].map(sub(base_points)).reduce(add)\r\n```"
+  , issueCommentId = 21223647
+  }

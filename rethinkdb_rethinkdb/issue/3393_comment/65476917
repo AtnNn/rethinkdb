@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-03) 19 : 56 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583701
+        , simpleUserLogin = N "internalfx"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583701?v=3"
+        , simpleUserUrl = "https://api.github.com/users/internalfx"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65476917"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3393#issuecomment-65476917"
+  , issueCommentCreatedAt = 2014 (-12) (-03) 19 : 53 : 05 UTC
+  , issueCommentBody =
+      "I will check on the possibility of giving data...\r\n\r\nI can at least give you the script that was running....\r\n\r\n\r\n```coffeescript\r\n\r\n\r\nsync = require('synchronize')\r\nasync = require('async')\r\n_ = require('lodash')\r\nr = require('rethinkdb')\r\nmoment = require('moment')\r\nnumeral = require('numeral')\r\ninflect = require('inflection')\r\ndeep = require('deep-diff')\r\n\r\nmodule.exports = (grunt) ->\r\n  grunt.registerTask('devsync', '', ->\r\n    done = this.async()\r\n    process.maxTickDepth = 9999999\r\n\r\n    json_deserializer = (key, value) ->\r\n      if _.isString(value)\r\n        regexp = /^\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d.\\d\\d\\dZ$/.exec(value)\r\n        if regexp\r\n          return new Date(value)\r\n      return value\r\n\r\n    sync.fiber(->\r\n      conn = sync.await(r.connect({host: 'localhost', db: 'aamcrm'}, sync.defer()))\r\n\r\n      #Create Tables\r\n      table_list = sync.await(r.db('aamcrm').tableList().run(conn, sync.defer()))\r\n      table_list_dev = sync.await(r.db('aamcrm_dev').tableList().run(conn, sync.defer()))\r\n\r\n      for table in table_list\r\n        if _.contains(table_list_dev, table)\r\n          sync.await(r.db('aamcrm_dev').tableDrop(table).run(conn, sync.defer()))\r\n\r\n      table_list_dev = sync.await(r.db('aamcrm_dev').tableList().run(conn, sync.defer()))\r\n\r\n      console.log \"REBUILDING TABLES...\"\r\n      for table in table_list\r\n        unless _.contains(table_list_dev, table)\r\n          sync.await(r.db('aamcrm_dev').tableCreate(table).run(conn, sync.defer()))\r\n\r\n      console.log \"REBUILDING INDEXES...\"\r\n      for table in table_list\r\n        indexes = sync.await(r.db('aamcrm').table(table).indexList().run(conn, sync.defer()))\r\n        for index in indexes\r\n          indexes_dev = sync.await(r.db('aamcrm_dev').table(table).indexList().run(conn, sync.defer()))\r\n          unless _.contains(indexes_dev, index)\r\n            index_obj = _.first(sync.await(r.db('aamcrm').table(table).indexStatus(index).run(conn, sync.defer())))\r\n            sync.await(r.db('aamcrm_dev').table(table).indexCreate(\r\n              index_obj.index, index_obj.function, {geo: index_obj.geo, multi: index_obj.multi}\r\n            ).run(conn, sync.defer()))\r\n\r\n      for table in table_list\r\n        console.log \"CLONING DATA:\", table\r\n        sync.await(r.db('aamcrm_dev').table(table).insert(r.db('aamcrm').table(table)).run(conn, sync.defer()))\r\n\r\n      sync.await(conn.close(sync.defer()))\r\n\r\n      done()\r\n    )\r\n\r\n  )\r\n\r\n````\r\n\r\nIt died on cloning one of tables...I'm sure I just overloaded something. It had to flood the feed like crazy."
+  , issueCommentId = 65476917
+  }

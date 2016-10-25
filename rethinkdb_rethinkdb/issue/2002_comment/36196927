@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 00 : 39 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36196927"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36196927"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 00 : 39 : 10 UTC
+  , issueCommentBody =
+      "So, I think there is only really one option we have in this case:\r\n\r\nWhen a reactor is starting a `primary` role, it has a list of latest branch versions it needs to backfill before it can begin serving data (this is the `primary_when_safe` state).  I propose that if both:\r\n * All machines in the cluster (not just those connected to) have been checked for which version they have\r\n * The latest versions cannot be found elsewhere in the cluster\r\n\r\nThen there is no way to recover that data and we can go ahead with blowing away the data that we cannot find.  The only foreseeable problem I can think of is that there may be other secondaries which contain metainfo saying that this missing 'latest version' exists somewhere, and we may need to clear that somehow (I'm mostly worried about this causing problems with branch history or something like that).\r\n\r\nI'll go ahead and implement this, then do some testing (it shouldn't be hard to trip that situation), and see what comes up."
+  , issueCommentId = 36196927
+  }

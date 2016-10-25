@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-04) 22 : 40 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23831503"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1127#issuecomment-23831503"
+  , issueCommentCreatedAt = 2013 (-09) (-04) 22 : 40 : 38 UTC
+  , issueCommentBody =
+      "This interface has bothered a lot of people in both directions, and I think part of the problem is that we picked a bad name.  Some people think `get_all` means \"get the values for ALL of the keys I provide\", and expect to pass an array of keys, while some people think it means \"get ALL the values for the key I provide\" and expect to pass a single key (this was our original intended meaning, and `get_all` originally wasn't variadic; we tacked that on later because people wanted it).\r\n\r\nMaking `get_all` take an array is nice in lots of ways, but it doesn't match anything else in our API that I can think of except maybe our pattern matching syntax for `pluck` et. al, so I think people would probably get confused by it if they have an array as their secondary index key.  (Also, that's a particularly bad failure mode because they wouldn't get an error; they'd just get back an empty array.)\r\n\r\nOne advantage of the `*` thing is that it makes eager code look eager -- it's extremely obvious that you're exhausting the generator immediately, and that if the generator's really big you'd have to do something more clever, like iterate over it and issue multiple queries to RethinkDB.  I think there's something to be said for that.  (It is ugly as sin, though.)\r\n\r\nAnyway, those are my thoughts; I'm not sure what we should do with this interface."
+  , issueCommentId = 23831503
+  }

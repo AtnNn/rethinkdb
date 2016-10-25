@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-22) 22 : 23 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49807711"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2723#issuecomment-49807711"
+  , issueCommentCreatedAt = 2014 (-07) (-22) 22 : 02 : 43 UTC
+  , issueCommentBody =
+      "Update:\r\n\r\n* I successfully extracted data from the corrupted database files and sent the results to @phase5. The solution was to comment out the calls to `guarantee()` that the server was crashing on; once those checks were bypassed, the server was able to load and read the data files without any issues. @coffeemug or @danielmewes note that this method has also worked on other corrupted data files in the past. The specific lines that I commented out were `guarantee(state_ != state_in_use || extent_use_refcount == 0);` and `guarantee(info->state() == extent_info_t::state_in_use);` in `serializer/log/extent_manager.cc`.\r\n\r\n* More information about the environment: @phase5 reports that the server was not running with `--no-direct-io`, but it was running inside a VM with a host OS that operates a writeback cache, and that writeback cache is not battery-backed.\r\n\r\n* Either `fdatasync()` is broken on @phase5's system, or RethinkDB has a bug. @danielmewes notes that there have been problems with the Linux kernel drivers for `ext4` in the past, so it's likely that `fdatasync()` is broken. Depending on how much we care about this, maybe we should try to figure out exactly how the data files were corrupted and try to match this against a known `ext4` bug."
+  , issueCommentId = 49807711
+  }

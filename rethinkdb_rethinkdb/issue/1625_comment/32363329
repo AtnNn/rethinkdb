@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-15) 14 : 05 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1478120
+        , simpleUserLogin = N "davidthomas426"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1478120?v=3"
+        , simpleUserUrl = "https://api.github.com/users/davidthomas426"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32363329"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/1625#issuecomment-32363329"
+  , issueCommentCreatedAt = 2014 (-01) (-15) 14 : 00 : 28 UTC
+  , issueCommentBody =
+      "Now that a fix for issue #1731 is merged into next (that's the issue that caused a SegFault on ARM, too), I merged next with this branch to test it out. There was a conflict involving some changes this branch made to the watchdog code, which is completely removed in next. The way to resolve the conflict is to remove the code in question, since it doesn't get use anymore anyway. I want to point out that I only did the merge in my local repository since I didn't know if the team would want me to merge next into this pull request.\r\n\r\nAnyway, after doing the merge, it now runs and works whether I compile it in debug mode or in release mode. \r\n\r\nI don't get the \"Illegal Instruction\" error that @neumino mentioned when I run it with `--bind all`. I'm running on a Samsung XE303C12 ARM Chromebook in Ubuntu (using Crouton). Here's the beginning of the output I get when I run it:\r\n\r\n    $ ./build/release/rethinkdb --bind all\r\n    info: Running rethinkdb 1.11.2-260-g339467 (GCC 4.8.1)...\r\n    info: Running on Linux 3.4\r\n\r\nNotice that was with `--bind all`. It runs fine. I was able to connect to the admin HTTP interface from a browser on localhost. I connected from the javascript client driver on localhost and created a table and inserted some data. I started a second server on the same computer listening on different ports, clustering with the first one, and they both handled it correctly. From a different machine (a Macbook Pro, though that shouldn't be relevant), I then was able to use the javascript client driver to connect to both of the servers on the cluster and query for data. All of this worked just fine with no errors at all. I thought about trying to start a cluster with a server on the Chromebook and a server on the Macbook, but unless something has changed, that is not supported (I might try it anyway later :) ).\r\n\r\nAlso, I compiled the unit tests in both debug and release mode, and the results were the same:\r\n\r\n    [==========] 231 tests from 59 test cases ran. (572414 ms total)\r\n    [  PASSED  ] 229 tests.\r\n    [  FAILED  ] 2 tests, listed below:\r\n    [  FAILED  ] RDBProtocol.OverSizedKeys\r\n    [  FAILED  ] RDBProtocol.OvershardedOverSizedKeys\r\n    \r\n    2 FAILED TESTS\r\n\r\nIf I scroll up to those two tests, here's the output from when those were run:\r\n\r\n    [ RUN      ] RDBProtocol.OverSizedKeys\r\n    src/unittest/rdb_protocol.cc:423: Failure\r\n    Value of: stream->size()\r\n      Actual: 8\r\n    Expected: i + 1\r\n    Which is: 9\r\n    [  FAILED  ] RDBProtocol.OverSizedKeys (582 ms)\r\n    [ RUN      ] RDBProtocol.OvershardedOverSizedKeys\r\n    src/unittest/rdb_protocol.cc:423: Failure\r\n    Value of: stream->size()\r\n      Actual: 8\r\n    Expected: i + 1\r\n    Which is: 9\r\n    [  FAILED  ] RDBProtocol.OvershardedOverSizedKeys (632 ms)\r\n\r\nI haven't looked into why those unit tests are failing.\r\n\r\n@neumino, can you give more details about the Illegal Instruction? Maybe run it under gdb so you can see what the instruction was. Also, what version of ARM were you running on? It seems like I'm not the only one who's curious now."
+  , issueCommentId = 32363329
+  }

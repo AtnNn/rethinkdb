@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-05) 22 : 03 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36799930"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1984#issuecomment-36799930"
+  , issueCommentCreatedAt = 2014 (-03) (-05) 22 : 03 : 31 UTC
+  , issueCommentBody =
+      "@srh: If we never had replicas, counting the number of documents in a table through the stats block would be very easy: Go to all nodes (yes nodes, not shards), let them get the current number of documents in the btree from the stats block, and sum all of those numbers up. That's the number of documents in the table.\r\nBecause we can have replication, documents can be on multiple nodes at the same time. So they would be counted multiple times.\r\nEven worse if one of the replicas is currently backfilling. Then we don't even know how many documents of a shard are on the node being backfilled to (and we can't just ignore that node, because it might have the only consistent copy of some other shard at that time).\r\n\r\nTo account for this, we would need one count per shard in the stat block. But then we have to maintain that when changing the shard boundaries."
+  , issueCommentId = 36799930
+  }

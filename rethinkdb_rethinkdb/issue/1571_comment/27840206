@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-06) 03 : 39 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27840206"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1571#issuecomment-27840206"
+  , issueCommentCreatedAt = 2013 (-11) (-06) 03 : 39 : 47 UTC
+  , issueCommentBody =
+      "Being in 1.11 now, how would we encode this in the protobuffers?\r\n\r\nIf we accept breaking all existing clients, we could just replace the Response.response field (currently a repeated Datum) by a repeated string. But that would of course be very bad.\r\n\r\n* How about this one?\r\n  1. Add the field Response.json_response (repeated string) in addition to the existing Response.response.\r\n  2. The client can set a global_optarg in the Query, let's say `json_response`. If this optarg is set to true, the server replies with the data in Response.json_response as json strings. Otherwise it sends it as Datum objects in the Response.response field just as it does now.\r\n  This would maintain compatibility to existing clients and it would allow clients to select one option or the other depending on how fast their protobuf implementation vs. json_decode implementation is.\r\n\r\n* Another alternative\r\n  1. Add the field Response.json_response (repeated string) in addition to the existing Response.response.\r\n  2. Add a new Version value (VersionDummy.Version) that newer clients can send.\r\n  3. If the client connected with an old version, we put the data into Response.response as (a) Datum(s). If the client used the new version, we can put the data into Response.json_response instead.\r\n  \r\n  This assumes that as long as the client supports it, sending the data as a json string is always preferable over sending it as a Datum. That sounds like a stupid assumption to me, and I dislike this alternative for that reason."
+  , issueCommentId = 27840206
+  }

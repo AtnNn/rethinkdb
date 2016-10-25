@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-22) 17 : 23 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56407773"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3081#issuecomment-56407773"
+  , issueCommentCreatedAt = 2014 (-09) (-22) 17 : 23 : 21 UTC
+  , issueCommentBody =
+      "Looking at the .pkg BOM it seems that the problem is that the `/usr/local`, `/usr/local/share` and `/usr/local/share/rethinkdb` entries are incorrect (`/usr/local/bin` is correct):\r\n\r\n```\r\n$ lsbom rethinkdb.pkg/Bom -p fMU -d\r\n.\tdrwx------ \troot\r\n./usr\tdrwx------ \troot\r\n./usr/local\tdrwx------ \troot\r\n./usr/local/bin\tdrwxr-xr-x \troot\r\n./usr/local/share\tdrwx------ \troot\r\n./usr/local/share/rethinkdb\tdrwx------ \troot\r\n./usr/local/share/rethinkdb/web\tdrwxr-xr-x \troot\r\n...\r\n```\r\n\r\nSo anything that the installer creates along this path for us is going to get the wrong permissions (usually this is only going to be `/usr/local/share/rethinkdb`). All of the files look correct, so the only problem is those directories. I am tracing exactly where this goes wrong now."
+  , issueCommentId = 56407773
+  }

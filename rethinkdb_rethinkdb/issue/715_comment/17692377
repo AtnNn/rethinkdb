@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-09) 21 : 53 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17692377"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/715#issuecomment-17692377"
+  , issueCommentCreatedAt = 2013 (-05) (-09) 21 : 53 : 17 UTC
+  , issueCommentBody =
+      "> If users really did not care about write errors, we could simply implement noreply writes by discarding the query\r\n\r\n@atnnn -- your overall point (that giving people the option to specify a callback is better than not giving them this option) is well taken, and we'll do callbacks when we can. However, I feel like your specific argument here is reductio ad absurdum, or as we native latin speakers say, absurdum exaggeratum.\r\n\r\nThere's a huge qualitative difference between providing an _optional_ no-reply capability and sending people's data to /dev/null to speed up writes. Here are at least three examples where a no-reply option is useful in real-life scenarios:\r\n\r\n1. There is a huge space of datasets where people are ok with losing some information in exchange for drastic speed increases. Network log samples, clickthrough samples, sensor data, etc. In those scenarios it's often acceptable to lose data in case of system issues (and there are other means to periodically verify that data is still being recorded), and it's in fact valuable to trade off such guarantees for throughput increases.\r\n2. Another example of this is caching scenarios (that are a common usecase for nosql systems). If someone wants to use Rethink as a json cache, it might be totally acceptable to dump data into it at high speed, even if sometimes the process silently fails.\r\n3. Finally, it can be very useful in controlled benchmarking scenarios where people want to find out the speed of the system in the absence of network latency, to compare RethinkDB performance in this scenario to, say, Memcached noreply. It's not necessarily useful in production, but it *is* a valuable use case, and in fact the one we're shooting for (if people say \"why is RethinkDB slow\", we can say \"here's what you do to make it comparable to system X you're using\").\r\n\r\nI mean, Mongo people turned on noreply *by default* and people still found it useful. We're not doing anything nearly as egregious here."
+  , issueCommentId = 17692377
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-29) 13 : 47 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 588857
+        , simpleUserLogin = N "wuub"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/588857?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wuub"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23490298"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1380#issuecomment-23490298"
+  , issueCommentCreatedAt = 2013 (-08) (-29) 13 : 47 : 49 UTC
+  , issueCommentBody =
+      "Sooo :) more crashes this time on 64-bit Centos6.4 and rethinkdb **1.8.1**\r\n\r\nVagrantfile, installation script and instance configuration can be found here:\r\nhttps://gist.github.com/wuub/bb6322eadd6330a8443f\r\n\r\nSame data: 150k rows/400b, mostly flat {attr: string|number} JSONs with one {attr: small_list}.\r\nImported using `rethinkdb restore`\r\n\r\nI was being unreasonable with admin panel again:\r\n - resharding \r\n - changing replication factors\r\n - adding and dropping indexes\r\n - trying to run memory intensive queries .orderBy('ip').limit(100) while rebalancing/indexing was in progress. \r\n\r\nCluster was extremely unstable during those tests:\r\n - connection between servers was lost several times w/o servers actually going down (`Heartbeat timeout, killing connection to peer: f669c627-9bf1-40da-8b6e-a7319be550b7`)\r\n - I'm pretty sure index creation deadlocked for one of the fields, after 1h+ it was still not ready (CPU utilization 35%+ per rethinkdb process)\r\n\r\n\r\nI don't remember if I added another index OR changed number of replicas from 2 to 3, but the whole cluster crashed instantly after the change (all 3 nodes, at the same time, with the same error/stack):\r\n\r\n```\r\nVersion: rethinkdb 1.8.1 (GCC 4.4.7)\r\nerror: Error in src/buffer_cache/mirrored/mirrored.cc at line 1019:\r\nerror: Guarantee failed: [!token_pair->sindex_write_token.has()]\r\nerror: Backtrace:\r\nerror: Thu Aug 29 13:07:57 2013\r\n\r\n       1: rethinkdb() [0x492d7d]\r\n       2: rethinkdb() [0x493fe4]\r\n       3: rethinkdb() [0x60297a]\r\n       4: rethinkdb() [0x96e486]\r\n       5: rethinkdb() [0x4d8648]\r\n       6: rethinkdb() [0x4e0c28]\r\n       7: rethinkdb() [0x6ea635]\r\n       8: rethinkdb() [0x6c99a7]\r\n       9: rethinkdb() [0x4af88c]\r\nerror: Exiting.\r\n```\r\n"
+  , issueCommentId = 23490298
+  }

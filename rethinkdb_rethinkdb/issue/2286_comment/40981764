@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-21) 21 : 56 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40981764"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2286#issuecomment-40981764"
+  , issueCommentCreatedAt = 2014 (-04) (-21) 21 : 56 : 04 UTC
+  , issueCommentBody =
+      "> You guys want to move away from protobuf, but keep using definitions from ql2.proto?\r\n\r\nWe're moving off of protobufs for a very specific reason: the protobuf libraries available for client languages tend to be slow.  We get faster reads and writes across the board sending JSON instead.\r\n\r\nWe're continuing to use numeric constants for terms because it's faster than sending the term names (less space on the wire), and it will let us make backwards-compatible changes in the future.\r\n\r\nWe specify those numeric constants in the protobuf file because it lets us specify them in one machine-readable place for both new drivers and old drivers that haven't moved off the protobuf format yet.  (Reading the constants out of the protobuf file is easy, and you do it only once, so the speed concerns from the first paragraph don't apply.)\r\n\r\n> And what's with this 4 bytes little-endian up and down?\r\n\r\nThat was a bad decision someone made that we haven't changed yet because it would break compatibility and nobody finds it too annoying.  In a perfect world we would, of course, be using network byte order.\r\n\r\n> I strongly suggest you define a JSON to open the connection with, it can hold the version magic and auth key now, and options and tweaks late\r\n\r\nAs @Tryneus notes, we can't change the way we send the magic number because we use it to detect old clients.  When we drop protobuf support (we plan to support it until most third-party clients have moved off of it), it might be worth revisiting the post-magic-number handshake and making it use JSON."
+  , issueCommentId = 40981764
+  }

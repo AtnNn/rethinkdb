@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 18 : 42 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19704794"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1028#issuecomment-19704794"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 18 : 42 : 38 UTC
+  , issueCommentBody =
+      "@Tryneus would you mind looking at the script `/test/interface/conflict-util.py`?\r\nThe servers stop when I try to split the cluster\r\n\r\n```\r\nSpinning up two processes...\r\nLaunching: \r\n['../../build/debug/rethinkdb', 'serve', '--directory', '/tmp/tmpxmWFEf/0', '--port-offset', '7150', '--client-port', '36165', '--cluster-port', '0', '--driver-port', '0', '--http-port', '0', '--bind', 'all']\r\ninfo: Running rethinkdb 1.6.0-13-gc774d5 (debug) (GCC 4.6.3)...\r\ninfo: Running on Linux 3.2.0-48-generic x86_64\r\ninfo: Loading data from directory /tmp/tmpxmWFEf/0\r\ninfo: Our machine ID is 61423e0e-dc3f-4359-98b2-d2d9e5bd2f80\r\ninfo: Listening for intracluster connections on port 41189\r\ninfo: Listening for client driver connections on port 50992\r\ninfo: Listening for administrative HTTP connections on port 50889\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1, 192.168.0.7, 192.168.1.7\r\ninfo: Server ready\r\nLaunching: \r\n['../../build/debug/rethinkdb', 'serve', '--directory', '/tmp/tmpxmWFEf/1', '--port-offset', '7151', '--client-port', '36166', '--cluster-port', '0', '--driver-port', '0', '--http-port', '0', '--bind', 'all', '--join', 'localhost:41189']\r\ninfo: Running rethinkdb 1.6.0-13-gc774d5 (debug) (GCC 4.6.3)...\r\ninfo: Running on Linux 3.2.0-48-generic x86_64\r\ninfo: Loading data from directory /tmp/tmpxmWFEf/1\r\ninfo: Our machine ID is 6c911b21-2451-4d4e-a990-59b2c47c832f\r\ninfo: Listening for intracluster connections on port 56085\r\ninfo: Attempting connection to 1 peer...\r\ninfo: Connected to server \"node_0\" 61423e0e-dc3f-4359-98b2-d2d9e5bd2f80\r\ninfo: Listening for client driver connections on port 59590\r\ninfo: Listening for administrative HTTP connections on port 43712\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1, 192.168.0.7, 192.168.1.7\r\ninfo: Server ready\r\ninfo: Connected to server \"node_1\" 6c911b21-2451-4d4e-a990-59b2c47c832f\r\nHit enter to split the cluster\r\n\r\nSplitting cluster...\r\n\r\nPlease start resunder process in test/common/resunder.py (as root)\r\n\r\ninfo: Server got SIGINT; shutting down...\r\ninfo: Shutting down client connections...\r\ninfo: All client connections closed.\r\ninfo: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)\r\ninfo: Storage engine shut down.\r\ninfo: Disconnected from server \"node_1\" 6c911b21-2451-4d4e-a990-59b2c47c832f\r\nTraceback (most recent call last):\r\n  File \"conflict-util.py\", line 40, in <module>\r\n    metacluster.move_processes(cluster1, cluster2, [proc2])\r\n  File \"/home/ssd0/michel/rethinkdb/next/rethinkdb/test/common/driver.py\", line 108, in move_processes\r\n    source._block_process(process)\r\n  File \"/home/ssd0/michel/rethinkdb/next/rethinkdb/test/common/driver.py\", line 154, in _block_process\r\n    block_path(process.cluster_port, other_process.local_cluster_port)\r\n  File \"/home/ssd0/michel/rethinkdb/next/rethinkdb/test/common/driver.py\", line 20, in block_path\r\n    assert False\r\nAssertionError\r\n```\r\n\r\nI took a quick look at the file `test/common/driver.py`, but I feel like it's going to take me forever to figure out why a server says that it got SIGINT.\r\n\r\nI would need this script just to test that the resolution of vector clock conflicts still work fine on the web ui."
+  , issueCommentId = 19704794
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-28) 00 : 29 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 877936
+        , simpleUserLogin = N "marshall007"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/877936?v=3"
+        , simpleUserUrl = "https://api.github.com/users/marshall007"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135591621"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4308#issuecomment-135591621"
+  , issueCommentCreatedAt = 2015 (-08) (-28) 00 : 29 : 25 UTC
+  , issueCommentBody =
+      "@deontologician I didn't realize this before, but that particular error is actually being thrown on the client before the query executes. It has something to do with `strict` mode in JS. I wasn't able to reproduce it by pulling out the relevant code, so I'm not really sure what's going on here.\r\n\r\n```js\r\n(function() {\r\n  'use strict';\r\n  \r\n  var translateRegex = function(pattern) {\r\n    var flags, source;\r\n    flags = pattern.toString().match(/[im]*$/)[0];\r\n    source = pattern.source.replace(/\\\\u([0-9A-F]{4})/gi, '\\\\x{$1}').replace(/\\\\c([A-Z])/g, function(match, char) {\r\n      var hex;\r\n      hex = (char.charCodeAt(0) - 64).toString(16);\r\n      return \"\\\\x{\" + hex + \"}\";\r\n    });\r\n    if (flags) {\r\n      return \"(?\" + flags + \")\" + source;\r\n    } else {\r\n      return source;\r\n    }\r\n  };\r\n  \r\n  return translateRegex(/((hello) (world)) \\2/);\r\n}());\r\n``` "
+  , issueCommentId = 135591621
+  }

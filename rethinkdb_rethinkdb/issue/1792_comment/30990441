@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-20) 05 : 54 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 371348
+        , simpleUserLogin = N "jakcharlton"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/371348?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jakcharlton"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30990441"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1792#issuecomment-30990441"
+  , issueCommentCreatedAt = 2013 (-12) (-20) 05 : 54 : 47 UTC
+  , issueCommentBody =
+      "Hi Joe ...\r\n\r\nWe are intending to have one master database, contain our schema, user and\r\nproject definition information. We will then have one database per customer\r\nproject.\r\n\r\nEach of those project databases will have 30-40 tables\r\n(Contacts/Companies/Events/Products/etc)\r\n\r\nWhen a new customer signs up, we add their account info to the master\r\ndatabase, and create a new Database for them, along with all the tables in\r\nour schema\r\n\r\n\r\n\r\nTwo parts to the problem:\r\n\r\nI have a database on cluster/datacentre \"East Coast\" and I want it\r\nreplicated to cluster/datacentre \"West Coast\" for redundancy purposes (when\r\nAmazon East goes down like it often does, I want my app to keep running).\r\n This is how we have it now with Postgres (and how I would architect pretty\r\nmuch any database solution)\r\n\r\nI have accepted no automated failover (which is a pain, but is a 5 minute\r\nfix if the worst happens).\r\n\r\nBut with no automated replicas, when our \"Create New Project\" code creates\r\na new database, and creates 30-40 new tables ... we then have to go in and\r\nmanually set each table to replicate. This is my absolute nightmare\r\nscenario.\r\n\r\nSecond part:\r\n\r\nThe same as above but with shards to properly utilise each machine in each\r\ncluster (pointless having 3 servers in a cluster if two of them aren't\r\ntaking load)\r\n\r\n\r\n\r\nIn a pre-defined schema, or one heavily managed, the granularity of table\r\nlevel replication and sharding might be a bonus - but in most real world\r\napplications I have been involved in, you dont want to be manually\r\nresponsible for load balancing and disaster recovery\r\n\r\n\r\nI would expect at the minimum to have a rule that says \"All new tables\r\nshard to here and here and here\" or \"all new databases, replicate to here\r\nand here\"\r\n\r\n\r\nI may well be missing something magic about Rethink that makes this\r\nunnecessary, and if I am I would appreciate any pointers - because right\r\nnow I just convinced this client that Rethink was the right solution (from\r\na database perspective), he just authorised the work involved to switch\r\nfrom Postgres, and I cannot go to him and say \"I just found out you have no\r\npractical redundancy or load balancing that doesn't involve manual\r\ninteraction\"\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nOn Fri, Dec 20, 2013 at 4:41 PM, Joe Doliner <notifications@github.com>wrote:\r\n\r\n> Do you want to actually change the number of shards of each table or just\r\n> have them use the new machines?\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/1792#issuecomment-30990085>\r\n> .\r\n>"
+  , issueCommentId = 30990441
+  }

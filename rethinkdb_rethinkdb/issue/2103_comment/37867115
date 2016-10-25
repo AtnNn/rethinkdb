@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-17) 20 : 40 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37867115"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2103#issuecomment-37867115"
+  , issueCommentCreatedAt = 2014 (-03) (-17) 20 : 40 : 05 UTC
+  , issueCommentBody =
+      "@josephglanville -- thanks!\r\n\r\nLooking at all three of the clients, there's some inconsistency in what errors inherit from what.  Our type hierarchy looks like this:\r\n* Ruby:\r\n```\r\nRqlError\r\n  RqlRuntimeError\r\n    RqlConnectionError\r\n  RqlDriverError\r\n  RqlCompileError\r\n```\r\n* Python:\r\n```\r\nRqlError\r\n  RqlClientError\r\n  RqlCompileError\r\n  RqlRuntimeError\r\nRqlDriverError\r\n  RqlConnectionError\r\n```\r\n* Javascript:\r\n```\r\nRqlServerError\r\n  RqlRuntimeError\r\n  RqlCompileError\r\n  RqlClientError\r\nRqlDriverError\r\n  RqlConnectionError\r\n```\r\n\r\nI think as part of this change we should standardize the three type hierarchies.\r\n\r\n* It looks like the Python and JS drivers are distinguishing between `CLIENT_ERROR`s produced by the server and `RqlDriverError`s produced by the client.  I don't think we should do that; from the user's perspective, they both mean the same thing, i.e. the driver is behaving incorrectly.\r\n* It looks like the Python and JS drivers don't have a global `RqlError` type that all other ReQL errors inherit from.  This seems bad to me, because it doesn't give users an easy way to catch all ReQL errors.\r\n* I think RqlConnectionError shouldn't inherit from RqlDriverError because the error isn't produced by a misbehaving client, it's produced by a misbehaving network or server.  I also think it shouldn't inherit from RqlRuntimeError, because it isn't a runtime error on the server.\r\n\r\nBasically, I think we should have this type hierarchy in all the clients:\r\n```\r\nRqlError\r\n  RqlRuntimeError    # server or query is misbehaving, can only be produced by server\r\n  RqlCompileError    # query is malformed, can only be produced by server\r\n  RqlDriverError     # driver is misbehaving, can be produced either by driver or server\r\n  RqlConnectionError # network or server is misbehaving, can only be produced by driver\r\n```\r\n\r\nDoes anyone object to that?"
+  , issueCommentId = 37867115
+  }

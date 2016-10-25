@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-28) 03 : 25 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33448169"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1774#issuecomment-33448169"
+  , issueCommentCreatedAt = 2014 (-01) (-28) 03 : 24 : 20 UTC
+  , issueCommentBody =
+      "Here's a solution which highly reduces the downtime. There would still be something like a second of downtime, depending on the speed of the nodes and the network.\r\n\r\nThis is what we could do:\r\n1. Split shards, without changing their node assignment. Everything remains available\r\n2. Make the machines which should end up holding the shards secondaries for those shards. The node that currently has the data remains the primary, everything remains available.\r\n3. Once a shard has been backfilled, we initiate a \"hand over\" procedure:\r\n    The primary places a special \"take over\" message at the end of the write queue. At the same time, it stops accepting new queries (except outdated_ok reads). The shard is unavailable until the write queue has drained. That should usually be pretty fast, but can take a moment if the network or disk i/o is very slow.\r\n4. When the secondary receives the \"take over\" message, it updates the blueprint and makes itself the new primary for the shard. The new primary is promoted through the directory and the shard becomes fully available again.\r\n5. Merge shards on the new primaries if necessary\r\n\r\nThere are a few details that need to be sorted out, e.g. what happens if a node crashes in the middle of the hand over. Overall it sounds like it could be relatively easily implemented within our current clustering system.\r\n\r\nI'm not sure if it is possible to avoid the last moment of downtime. It seems (theoretically) tricky, because one way or the other any existing gap (in terms of processed writes) between the old primary and the new one has to be closed before we can switch over to a new primary."
+  , issueCommentId = 33448169
+  }

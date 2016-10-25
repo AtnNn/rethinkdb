@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-20) 06 : 11 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70609169"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3020#issuecomment-70609169"
+  , issueCommentCreatedAt = 2015 (-01) (-20) 06 : 11 : 00 UTC
+  , issueCommentBody =
+      "The bug in `interpolate_key()` might be in this loop:\r\n```c++\r\n/* Append the interpolated value onto `out_buf` */\r\nfor (size_t k = 0; k < num_interp; ++k) {\r\n    uint8_t c = (out_tail >> (8 * (num_interp - k))) & 0xFF;\r\n    if (i + k < MAX_KEY_SIZE) {\r\n        out_buf[i + k] = c;\r\n    }\r\n}\r\n```\r\nI tihnk it should be `8 * (num_interp - k - 1)` instead of `8 * (num_interp - k)`. Currently, it will shift `out_tail` by 32, then 24, then 16, then 8 bits. It should be shifting by 24, then 16, then 8, then 0 bits. So the first byte of the interpolated block will be derived from shifting a 32-bit value by 32 bits, which is an undefined operation. I think this is consistent with the pattern of errors that you posted."
+  , issueCommentId = 70609169
+  }

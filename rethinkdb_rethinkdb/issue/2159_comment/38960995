@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-28) 19 : 51 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6124
+        , simpleUserLogin = N "barkerja"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6124?v=3"
+        , simpleUserUrl = "https://api.github.com/users/barkerja"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38960995"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2159#issuecomment-38960995"
+  , issueCommentCreatedAt = 2014 (-03) (-28) 19 : 51 : 49 UTC
+  , issueCommentBody =
+      "> How much memory to you allocate and how many cores?\r\n\r\n4GB and 4 cores\r\n\r\n> @barkerja what settings are you using with Vagrant?\r\n\r\n```ruby\r\n# -*- mode: ruby -*-\r\n# vi: set ft=ruby :\r\n\r\nVAGRANTFILE_API_VERSION = \"2\"\r\n\r\nVagrant.configure(VAGRANTFILE_API_VERSION) do |config|\r\n  config.vm.box = \"precise64\"\r\n  config.vm.box_url = \"http://files.vagrantup.com/precise64.box\"\r\n\r\n  config.vm.synced_folder \"./\", \"/vagrant\", :nfs => true\r\n  config.vm.network :private_network, ip: \"10.11.12.13\"\r\n\r\n  # Forward ports so that we can work with them externally\r\n\r\n  # Rails Server\r\n  config.vm.network :forwarded_port, guest: 5000, host: 5000\r\n\r\n  # MySQL\r\n  config.vm.network :forwarded_port, guest: 3306, host: 3306\r\n\r\n  # Memcached\r\n  config.vm.network :forwarded_port, guest: 11211, host: 11211\r\n\r\n  # Redis\r\n  config.vm.network :forwarded_port, guest: 6379, host: 6379\r\n\r\n  # Elasticsearch\r\n  config.vm.network :forwarded_port, guest: 9200, host: 9200\r\n\r\n  # RethinkDB\r\n  config.vm.network :forwarded_port, guest: 8080, host: 8080\r\n  config.vm.network :forwarded_port, guest: 28015, host: 28015\r\n  config.vm.network :forwarded_port, guest: 29015, host: 29015\r\n\r\n  config.vm.provider :virtualbox do |vb|\r\n    vb.customize [\r\n      'modifyvm', :id,\r\n      '--memory', '4096',\r\n      '--cpus', '4'\r\n    ]\r\n  end\r\n\r\n  # Load dockers\r\n  config.vm.provision :docker do |d|\r\n    d.run 'dockerfile/rethinkdb',\r\n          args: '-d -name rethinkdb -p 8080:8080 -p 28015:28015 -p 29015:29015 -v /data/rethinkdb:/rethinkdb',\r\n          cmd: \"--bind all --machine-name `hostname | sed 's/-/_/g'`\"\r\n    d.run 'dockerfile/redis',\r\n          args: '-d -name redis -p 6379:6379'\r\n    d.run 'dockerfile/elasticsearch',\r\n           args: '-d -name elasticsearch -p 9200:9200 -p 9300:9300 -v /data/elasticsearch:/usr/share/elasticsearch/data'\r\n    d.run 'orchardup/mysql',\r\n            args: '-d -p 3306:3306 -v /data/mysql:/var/lib/mysql -e MYSQL_DATABASE=pulse_db'\r\n    d.run 'ehazlett/memcached',\r\n          args: '-d -name memcached -p 11211:11211'\r\n  end\r\n\r\n  # Run needed commands to finalize setup. Script should also be indempotent.\r\n  config.vm.provision :shell, path: 'vagrant_scripts/after_script.sh', privileged: false\r\n\r\nend\r\n```"
+  , issueCommentId = 38960995
+  }

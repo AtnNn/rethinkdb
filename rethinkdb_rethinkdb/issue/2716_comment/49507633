@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-19) 12 : 17 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 573768
+        , simpleUserLogin = N "barosl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/573768?v=3"
+        , simpleUserUrl = "https://api.github.com/users/barosl"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49507633"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2716#issuecomment-49507633"
+  , issueCommentCreatedAt = 2014 (-07) (-19) 12 : 07 : 48 UTC
+  , issueCommentBody =
+      "I suggest we should not rely on the existence of `.` and `..`. Reading the spec, it is not guaranteed that there are always those two entries.\r\n\r\n> The directory entries for dot and dot-dot are optional. This volume of IEEE Std 1003.1-2001 does not provide a way to test a priori for their existence because an application that is portable must be written to look for (and usually ignore) those entries. Writing code that presumes that they are the first two entries does not always work, as many implementations permit them to be other than the first two entries, with a \"normal\" entry preceding them.\r\n>\r\n> Source: http://pubs.opengroup.org/onlinepubs/009695399/functions/opendir.html\r\n\r\nIt also says,\r\n\r\n> If entries for dot or dot-dot exist, one entry shall be returned for dot and one entry shall be returned for dot-dot; otherwise, they shall not be returned.\r\n>\r\n> Source: http://pubs.opengroup.org/onlinepubs/009695399/functions/readdir.html\r\n\r\nSo rather than checking if `count` is 2, we should explicitly ignore `.` or `..` in the loop. Something like this:\r\n\r\n```c\r\ndp = opendir(..);\r\nif (dp == NULL) return false;\r\nwhile (...) {\r\n    if (!strcmp(ep->d_name, \".\") || !strcmp(ep->d_name, \"..\")) continue;\r\n    closedir(dp);\r\n    return false;\r\n}\r\nclosedir(dp);\r\nreturn true;\r\n```\r\n\r\nUsing the method above, we don't even have to utilize the `count` variable. If any of the non-dot files are found, the check is done immediately and `false` is returned. Instead, we must check the special case for the `opendir()` failure."
+  , issueCommentId = 49507633
+  }

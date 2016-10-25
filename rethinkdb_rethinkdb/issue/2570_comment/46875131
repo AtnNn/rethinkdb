@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-23) 17 : 24 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46875131"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2570#issuecomment-46875131"
+  , issueCommentCreatedAt = 2014 (-06) (-23) 17 : 24 : 23 UTC
+  , issueCommentBody =
+      "So `net.connect` returns immediately a connection, but this connection may not be ready yet (we still have to do a handshake with the server).\r\n\r\nSo while this is doable, there are a few problems:\r\n- If the connection can emit a driver (if the handshake fails for example), you need to be able to catch it. In the end you will still have to write\r\n```\r\nvar conn  = r.connect();\r\nconn.on('error', function(err) {\r\n    // handle error\r\n})\r\nquery.run(conn).then(...)\r\n```\r\nWhich is pretty close to\r\n```\r\nr.connect().then(function(conn) {\r\n   query.run(conn);\r\n}).error(function(err) {\r\n    // handle error\r\n})\r\n```\r\n\r\n- If you don't emit errors and only emit some when a query is run, you cannot maintain a pool with valid connections, which defeats the purpose of the pool (for latency performance). It would also make tricky to know if the query failed because of some malformed document, or because the connection is not available.\r\n\r\n\r\nAlso, now the current behavior is pretty close to what other drivers do like Mongo or Postgres\r\nhttp://mongodb.github.io/node-mongodb-native/driver-articles/mongoclient.html\r\nhttps://github.com/brianc/node-postgres\r\n\r\n\r\nBut like @vvo said, a pool is definitively better in term of developer experience since you basically don't have to deal with connections."
+  , issueCommentId = 46875131
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 23 : 52 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47173424"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2608#issuecomment-47173424"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 23 : 52 : 50 UTC
+  , issueCommentBody =
+      "Hi @cultofmetatron,\r\n\r\nIf by \"remove that field in the map\" you mean you don't want it in the output stream, you can use `without`:\r\n```js\r\nr.table('users').hasFields(query).without('field')\r\n```\r\n\r\nIf you want to remove the field so that it's no longer stored in your table, you have to use `replace` or `update` to do that:\r\n\r\n```js\r\nr.table('users').filter(r.row.hasFields(query)).replace(r.row.without('field'))\r\n```\r\n\r\nYou need to do a `filter` rather than just calling `hasFields` because right no `hasFields` returns a stream rather than a selection.  (I think this is a bug, I'll open a separate issue for that.)\r\n\r\n"
+  , issueCommentId = 47173424
+  }

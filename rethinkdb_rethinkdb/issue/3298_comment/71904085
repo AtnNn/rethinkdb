@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-28) 19 : 57 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/71904085"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-71904085"
+  , issueCommentCreatedAt = 2015 (-01) (-28) 19 : 57 : 17 UTC
+  , issueCommentBody =
+      "I don't like the `.on` interface as a solution to this problem. It is just moving the blocking problem to a different location and imposing its own async style. For example, I can't do the following without going into threads:\r\n\r\n1. start a changefeed\r\n2. check if there is data available\r\n3. do something in the case that there is no data available\r\n4. loop back to 2\r\n\r\nThe `get_nowait` solution that I talked about above does solve this problem, without trying to shoehorn an async model into this problem (which I think is a separate issue). Since I suggested this I actually have re-thought the command, and think we should just modify our existing `.next()` command to add an optarg such as `wait` that defaults to `True`, but can also take `False` or a float value (seconds to wait for something to be available). The rest of the suggestion still stands: if nothing arrives raise a subclass of `Queue.Empty`."
+  , issueCommentId = 71904085
+  }

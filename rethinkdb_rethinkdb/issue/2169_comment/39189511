@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-01) 10 : 14 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39189511"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-39189511"
+  , issueCommentCreatedAt = 2014 (-04) (-01) 10 : 09 : 25 UTC
+  , issueCommentBody =
+      "This is a great list, thanks @neumino! A few questions/comments.\r\n\r\n> We currently compress the data, and won't be able to do it with ReQL\r\n\r\nI thought we'll be able to do way better with ReQL than we do with compression for a few reasons:\r\n\r\n- We can easily filter and pluck for _exactly_ what we need and not pull all the data. For example, we can pull down a list of tables when all we need is a list of tables, or details on a table when all we need is details on a table.\r\n- We can easily aggregate when we need to, so instead of pulling everything to the client and doing some computation, we can compute on the server and just pull the final numbers.\r\n\r\nWe'd have to see how this does, though. It might be a good argument for ReQL compression (which we had some plans for, but never got around to them).\r\n\r\n> The web interface sometimes need to query the directory by machine, and sometimes by table, so we'll still have to pull the whole directory.\r\n\r\nPresumably we'd be able to write a ReQL query that transforms a machine-oriented directory to a table-oriented directory. If ReQL doesn't easily allow for doing that, it's a flaw in ReQL that we should fix, no? For example, you could say:\r\n\r\n```javascript\r\nr.db('system').table('directory').map(function(machine) {\r\n  return machine('tables').map(function(table) {\r\n    return table.merge(machine);\r\n  })\r\n})\r\n```\r\n\r\nThere should arguably be a command to make something like this easier, but you could easily work around that with ReQL.\r\n\r\nOne other option would be to have separate directory tables that represent machines and tables, and allow the user to join them as desired, but that seems less no-sqly to me than arrays. I think we could add a command or two to make such array manipulation super-natural, which would solve this problem. (It would also be relevant if we convert join commands to be more no-sqly and return arrays instead of multiple left/right pairs)\r\n\r\n> We may want to flatten everything and let people do filter/joins to create some hierarchy?\r\n\r\nCould you elaborate on what you mean by \"flatten everything\"? Do you mean normalize?\r\n\r\n> We should aggregate things\r\n\r\nHmm, I thought a better option would be to expose them as is. The user could then easily write a query to aggregate things as needed.\r\n\r\nEDIT: actually, may be we should aggregate purely internal things the user shouldn't know anything about... I'm not entire sure what's better here. I'd be inclined to leave changes like this to stage 2, though (i.e. post 1.14 as we work on clustering). I think the first stage should just be about converting the terrible `/ajax` to something equivalent but less terrible in ReQL without too many changes.\r\n\r\n> We can still have uuid for keys but have descriptive documents.\r\n\r\nErr, I really can't imagine that being user friendly. Can you give an example of when it's more convenient?"
+  , issueCommentId = 39189511
+  }

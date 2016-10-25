@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-27) 00 : 05 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25213710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-25213710"
+  , issueCommentCreatedAt = 2013 (-09) (-27) 00 : 05 : 46 UTC
+  , issueCommentBody =
+      "The easiest way to solve this issue for us is to change how batched inserts/replaces work. Currently we start a single write transaction and then perform all the changes to the database. We can change it to starting an individual transaction for each write. In a hard-durability setting, we would only need hard durability on the final write. The additional overhead for stopping and starting a lot of transactions should be acceptable.\r\nThe effect of this change is that individual write transactions finish a lot faster, avoiding the flush lock to starve a lot of writes while we try acquiring it.\r\nThe alternatives, which would allow us to get rid of the global flush lock, are a lot more difficult to implement.\r\n\r\nUsing a temporary implementation of this change, I have verified that the stalls / periods of reduced performance indeed go away.\r\n\r\nI yet have to check that this does not make batched inserts significantly slower in general. Once that is done, we can probably get this into the next point release."
+  , issueCommentId = 25213710
+  }

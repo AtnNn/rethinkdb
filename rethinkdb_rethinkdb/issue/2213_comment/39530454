@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 04 : 16 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39530454"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2213#issuecomment-39530454"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 04 : 16 : 06 UTC
+  , issueCommentBody =
+      "So, I think it would help you make this decision if I remind you how the whole `two_level_array_t` business came along. The short version is that I did it back when I was a bad programmer and it stuck around.\r\n\r\nThe longer version is that I thought `vector` would stall the core for too long when it grows (which turned out to be true and really important), and `map` would cause too many cache misses due to pointer indirection and significantly slow down performance. The latter, of course, is utter nonsense because before you start optimizing for cache misses due to pointer indirection you have to make sure all of the following is true:\r\n\r\n- People want what you're building\r\n- What you've built actually does the thing you claim it's supposed to do \r\n\r\nThe problem with things like `two_level_array` is that they break the second predicate -- instead of just letting the software do the thing it's supposed to do, they introduce showstoppers like eating a ton of RAM, so people can't actually use your software.\r\n\r\nTL;DR: move to `map`, don't look back, and curse the 2010 @coffeemug for his silly naive mistakes."
+  , issueCommentId = 39530454
+  }

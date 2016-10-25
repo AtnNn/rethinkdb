@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 03 : 35 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26112118"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1533#issuecomment-26112118"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 03 : 35 : 17 UTC
+  , issueCommentBody =
+      "@coffeemug it's awkward to do with a `concat_map`. So in my example the document representing a blog post might look like:\r\n\r\n```Python\r\n{\r\n    \"comment_ids\" : [0,1,2,3]\r\n}\r\n```\r\n\r\nto join this to the comment table I'd have to do:\r\n\r\n```Python\r\nr.table(\"blog_posts\")\r\n.concat_map(lambda x: x[\"comment_ids\"].map(lambda y: x.merge(\"comment_id\" : y)))\r\n.eq_join(\"comment_id\", r.table(\"comments\"))\r\n```\r\n\r\nwhich I think is tricky enough that it's worth having a shorthand for. Why does it seem weird to you? I think it's pretty analogous to our other `multi`s."
+  , issueCommentId = 26112118
+  }

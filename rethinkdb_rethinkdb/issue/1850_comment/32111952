@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-12) 00 : 51 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32111952"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1850#issuecomment-32111952"
+  , issueCommentCreatedAt = 2014 (-01) (-12) 00 : 49 : 51 UTC
+  , issueCommentBody =
+      "Thanks for the suggestion.\r\n\r\nScheduling this for subsequent because I think it's an important API consideration, but isn't as important as the performance work for the LTS release.  (It would be pretty easy to do in the Ruby driver because most of the infrastructure for out-of-order token retrieval is already there, but I don't know about the other drivers.)\r\n\r\nIn the meantime, I think you can work around this by doing:\r\n```ruby\r\nuuid = `cat /proc/sys/kernel/random/uuid`.chomp\r\nrql_query.do{|res| r.table('results').insert({id: uuid, res: res}).run(noreply:true) # run query\r\n...\r\nr.table('results').get(uuid).replace(nil, return_vals:true)['old_val']['res'].run # retrieve result\r\n```\r\n\r\nBasically, you insert the result of your query into a RethinkDB table, then later do an atomic update to remove and return the result.  (In practice you'd probably want a better way of generating uuids.)\r\n\r\n"
+  , issueCommentId = 32111952
+  }

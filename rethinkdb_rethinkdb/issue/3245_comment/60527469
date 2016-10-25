@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-26) 18 : 50 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60527469"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60527469"
+  , issueCommentCreatedAt = 2014 (-10) (-26) 18 : 50 : 09 UTC
+  , issueCommentBody =
+      "Thanks for the additional info @gotlium .\r\n\r\nI used your my.cnf and installed MySQL 5.6 from the repository you mentioned.\r\nI'm not sure why your MySQL numbers are so much better. I still cannot quite reproduce them. In fact the select and selectGroup queries even run 10-20% slower now. The group over the whole table is more or less unchanged. Especially for the group.php query your setup seems to be 10x faster than mine on MySQL.\r\nCould it really be an OS X vs Linux thing? That would surprise me though.\r\n\r\nNote that I'm still connecting to MySQL over TCP, not Unix socket. That cannot really explain the differences in for example the group over the whole table query though. (also it makes the results more comparable, since RethinkDB also uses TCP).\r\n\r\nTwo more notes:\r\n* Everything in these tests is in memory, so the SSD / HDD difference between our machines shouldn't be responsible for the different numbers (except for the insert part).\r\n* Clearly if you use MySQL's built in query cache, you will get much faster results since our of the 10 runs of the query, MySQL will only evaluate it once. I expect that if you put a memcached in front of RethinkDB, you will get similar performance (though admittedly that's more work to set up).\r\n\r\nIndependent of the MySQL numbers, I think we have seen two weak spots in RethinkDB's performance here that cannot be attributed to the difference between a relational and a (schemaless) document store.\r\nSpecifically: the fact that it takes relatively long to transfer results to the client, and secondly that RethinkDB is significantly slower doing batch inserts on SSDs than MySQL (on HDDs it appears there is no difference).\r\nWe will look into these and try to improve them."
+  , issueCommentId = 60527469
+  }

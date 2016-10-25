@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-07) 04 : 01 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22228410"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1242#issuecomment-22228410"
+  , issueCommentCreatedAt = 2013 (-08) (-07) 04 : 01 : 14 UTC
+  , issueCommentBody =
+      "I was under the impression that the time_format flag would be handled client-side too.  Technically speaking, it must be handled client-side -- there's no way for the server to send back a different value in `native` and `raw` modes (short of echoing run's parameter back at the client in a separate protocol buffers field), so at least the client has to specifically handle that.\r\n\r\nThe idea of time_format being supplied as `native`, `raw`, `iso8601`, and `epoch`, with the server handling the latter two cases, fudges two distinct notions together.  \r\n\r\n`iso8601` and `epoch` are really functions applied to a stream or value.  They recursively traverse the entire object or objects in the stream and replace every date value with a different value.\r\n\r\n`native` and `raw` are client-side settings.  They don't apply universally -- they're language-specific.  A ReQL client that doesn't use a native time type would only support `raw`.  A ReQL client that might want to offer the option of using a third time type (such as Ruby on Rails's date type) would really want three client-side options: `native`, `raw`, and, uh, `rails`, or whatever you want to name it.\r\n\r\nI don't think we should have `run` parameters that apply actual ReQL transformations to values.  If we want to support recursively converting times to ISO 8601 or epoch values or anything else, I would recommend making specific functions that recursively traverse and do that (but see below).\r\n\r\nA higher-order pre-order traversal function could be a good idea.  Its argument would be a function that either succeeds in computing a replacement object, or errors, indicating the need for deeper traversal.  What we want for `iso8601` and `epoch` is equivalent to `query.traverse {|x| x.to_iso8601()}` and `query.traverse {|x| x.to_epoch()}`.  (Can we not write `query.traverse(r.to_iso8601)`?)\r\n\r\nSpeaking of which, having a special feature that converts all date values to a nondescript integer is quite sketchy.  Maybe they'd want an object that looks like `{epoch: 1234}` instead, and the same for iso8601 conversion, or some other way of wrapping it.  People using `epoch` or `iso8601` as proposed (via an actual ReQL function)  will end up having to redesign around the feature, if they're using documents with a somewhat pliable schema.\r\n\r\nI don't think we need to offer mass time format `iso8601` or mass `epoch` conversion at all, right now.  Let the client drivers offer `raw`, `native`, `rails`, or other client-side modes, and don't let the server know about this at all."
+  , issueCommentId = 22228410
+  }

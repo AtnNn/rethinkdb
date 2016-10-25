@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-22) 23 : 21 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53133184"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2244#issuecomment-53133184"
+  , issueCommentCreatedAt = 2014 (-08) (-22) 23 : 21 : 16 UTC
+  , issueCommentBody =
+      "This is in next https://github.com/rethinkdb/rethinkdb/commit/05b14bba31ef1236e68217e97b6b9caded45c031\r\n\r\nImmediate changes for code using `datum_t`:\r\n* Write `datum_t` instead of `counted_t<const datum_t>`.\r\n* `datum_t` is copyable, movable and assignable, with costs similar to those of `counted_t<const datum_t>`.\r\n* The type `wire_string_t` has been renamed to `datum_string_t`\r\n* Field names / keys of datum_t objects are now of type `datum_string_t`, not `std::string` as they used to be. A `datum_string_t` can be converted to an `std::string` through its `to_std()` method. That should be avoided though, because it copies the string. In the other direction, you can construct a `datum_string_t` from a C-string or from an `std::string` through the matching `datum_string_t(...)` constructor.\r\n* To access a field of a datum object, use `d.get_field(key)`. This has been renamed from the previous `get()` method, that was overloaded for both field access into an object and element access into an array.\r\n\r\nFor a transitional phase, you can still write things like\r\n```\r\ndatum_t d;         // Construct an uninitialized datum\r\nrassert(!d.has()); // has() with the same semantics as for counted_t\r\nrassert(!d);       // Cast d to a bool, with the same value as d.has()\r\n...\r\ndatum_string_t str = d->as_str();   // Note the pointer dereference, equivalent to d.as_str()\r\ndatum_string_t str = (*d).as_str(); // Note the pointer dereference, equivalent to d.as_str()\r\n```\r\nSo `datum_t` still emulates a `counted_t<const datum_t>` on the outside. I plan to remove that interface in the next weeks, and it shouldn't be used for new code anymore.\r\n\r\n(mentioning @Tryneus @gchpaco @srh @timmaxw because this might be relevant for you)"
+  , issueCommentId = 53133184
+  }

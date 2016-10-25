@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-04) 20 : 45 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72935086"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3714#issuecomment-72935086"
+  , issueCommentCreatedAt = 2015 (-02) (-04) 20 : 44 : 32 UTC
+  , issueCommentBody =
+      "Since we don't currently support `r.table(\"foo\").orderBy(...).changes()` without a `limit(...)`, I don't think we have to worry too much about that now. In the future I think throwing an error when it's impractical to compute positions will work fine.\r\n\r\nFor small result sets #3719 might indeed be an alternative. One thing to note though is that it doesn't save any computations (not asymptotically at least) compared to iterating through the current results set on the client and finding out the positions of the old value and new value that way.\r\n@neumino what do you think about that?\r\n\r\nFor making this work with `squash`, we could only keep the primary keys of entries around in the pre-batch ordered set to avoid too much memory overhead. Of course that wouldn't make it any easier to implement. \r\n\r\n@neumino The idea of adding subtree sizes to the btree has been suggested a few times, mostly in the context of making `count()` on ranges efficient. However the problem is that we would need to update those counts, which would mean that whenever inserting or deleting a document into a leaf, we would have to rewrite O(log n) blocks up to the top of the btree. That's impractical. We could keep the counts in the LBA, which is more efficient for those sorts of things, but that comes with some memory overhead."
+  , issueCommentId = 72935086
+  }

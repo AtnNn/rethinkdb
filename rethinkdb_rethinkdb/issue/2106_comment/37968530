@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-18) 18 : 15 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37968530"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2106#issuecomment-37968530"
+  , issueCommentCreatedAt = 2014 (-03) (-18) 18 : 15 : 35 UTC
+  , issueCommentBody =
+      "Hey,\r\n\r\nI like @josephglanville idea. It should be clear what can be retried and not retried.\r\n\r\nOn https://github.com/rethinkdb/rethinkdb/pull/2103 you mention:\r\n\r\n```\r\nRqlError\r\n  RqlRuntimeError    # server or query is misbehaving, can only be produced by server\r\n  RqlCompileError    # query is malformed, can only be produced by server\r\n  RqlDriverError     # driver is misbehaving, can be produced either by driver or server\r\n  RqlConnectionError # network or server is misbehaving, can only be produced by driver\r\n```\r\n\r\nThe cluster state error is an important distinction. if one rethinkdb server lose its connection to the cluster, the client should know that he should reconnect to another rethinkdb server. Which is why I don't really like the \"can only be produced by driver\" statement for connection errors.\r\n\r\nRqlDriverError does not mean much to me. What errors could the driver have? serialization/deserialization issues? What else?\r\n\r\nTo me, RqlRuntimeError and RqlDriverError still sound like base abstract classes. Not actual exceptions. I'd like to have meaningful exceptions classes. I would think that ConnectionError is a RuntimeError.\r\n\r\nI don't think we should have an exception class per error (database not found, table already created, index not found, etc.) because it might be harder to maintain even though it would be nice. But we should have a stable API when it comes to error strings, since parsing stuff like \"index not found\" might be a common use case with ORMs.\r\n\r\nSide Note: With Ruby `Term::TermType::UPDATE` is in the global namespace. It should belong in the `RethinkDB` namespace. Because the class `Term` is global, the user cannot have his own class `Term` and that's a little sad.\r\n\r\nHere's what I would advocate (but maybe it's too much):\r\n\r\n```\r\nRqlError\r\n  RqlServerError\r\n    RqlClusterError\r\n    RqlQueryCompileError\r\n    RqlQueryExecutionError\r\n  RqlDriverError\r\n    RqlParsingError\r\n    RqlConnectionError\r\n```\r\n\r\nAlso, if we add error codes for generic errors like \"database XX not found\", then it makes sense to have one class per error since we'll have to name the error constant anyway."
+  , issueCommentId = 37968530
+  }

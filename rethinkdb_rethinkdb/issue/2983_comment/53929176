@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 20 : 59 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53929176"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2983#issuecomment-53929176"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 20 : 59 : 15 UTC
+  , issueCommentBody =
+      "We used values for keys in a few places in the current implementation of `/ajax`, and they are ridiculously annoying to manipulate (shards bound, hash shard, etc.).\r\n\r\n#2574 and #2990 would make things slightly better, but things would still be annoying to manipulate. I don't want to do pivot/unpivot operations everywhere.\r\nSuppose I just want to select all the directors of a table\r\n```\r\nr.db('rethinkdb').table('table_status')[0]['shards'].filter(lambda shard:\r\n   shard.map(lamba key, value:\r\n      r.branch(\r\n         shard[key]['role'] == \"director\"\r\n      )\r\n   ).contains(True)\r\n)\r\n```\r\n\r\nvs\r\n\r\n```\r\nr.db('rethinkdb').table('table_status')[0]['shards'].filter(lambda shard:\r\n   shard['role'] == 'director'\r\n)\r\n```\r\n\r\n\r\nI'm still strongly opposed of having a value used as a key (everywhere, not just in `table_status`)."
+  , issueCommentId = 53929176
+  }

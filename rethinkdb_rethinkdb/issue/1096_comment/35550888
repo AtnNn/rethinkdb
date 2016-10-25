@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-19) 21 : 26 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35550888"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-35550888"
+  , issueCommentCreatedAt = 2014 (-02) (-19) 21 : 26 : 31 UTC
+  , issueCommentBody =
+      "The server sends this to the clients:\r\n```ruby\r\nirb(main):3876:0> PP.pp r.table('test').group('time').coerce_to('array').run(grouped_data_format:'raw', time_format:'raw')\r\n\r\n{\"$reql_type$\"=>\"GROUPED_DATA\",\r\n \"data\"=>\r\n  [[{\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844797.106, \"timezone\"=>\"-08:00\"},\r\n    [{\"id\"=>0, \"time\"=>{\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844797.106, \"timezone\"=>\"-08:00\"}},\r\n     {\"id\"=>1, \"time\"=>{\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844797.106, \"timezone\"=>\"-08:00\"}},\r\n     {\"id\"=>2, \"time\"=>{\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844797.106, \"timezone\"=>\"-08:00\"}}]],\r\n   [{\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844805.225, \"timezone\"=>\"-08:00\"},\r\n    [{\"id\"=>3, \"time\"=> {\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844805.225, \"timezone\"=>\"-08:00\"}},\r\n     {\"id\"=>5, \"time\"=> {\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844805.225, \"timezone\"=>\"-08:00\"}},\r\n     {\"id\"=>4, \"time\"=> {\"$reql_type$\"=>\"TIME\", \"epoch_time\"=>1392844805.225, \"timezone\"=>\"-08:00\"}}]]]}\r\n```\r\n\r\nAnd the Ruby driver turns it into this:\r\n```\r\nirb(main):3866:0> PP.pp r.table('test').group('time').coerce_to('array').run\r\n\r\n{2014-02-19 13:19:57 -0800=>\r\n  [{\"id\"=>0, \"time\"=>2014-02-19 13:19:57 -0800},\r\n   {\"id\"=>1, \"time\"=>2014-02-19 13:19:57 -0800},\r\n   {\"id\"=>2, \"time\"=>2014-02-19 13:19:57 -0800}],\r\n 2014-02-19 13:20:05 -0800=>\r\n  [{\"id\"=>3, \"time\"=>2014-02-19 13:20:05 -0800},\r\n   {\"id\"=>5, \"time\"=>2014-02-19 13:20:05 -0800},\r\n   {\"id\"=>4, \"time\"=>2014-02-19 13:20:05 -0800}]}\r\n```\r\n\r\nWhich you can iterate over like so:\r\n```ruby\r\nirb(main):003:0> x = r.table('test').group('time').coerce_to('array').run\r\nirb(main):005:0> x.map{|k,v| [k, v.size]}\r\n[[2014-02-19 13:19:57 -0800, 3], [2014-02-19 13:20:05 -0800, 3]]\r\n```\r\n\r\nWe return an array of key-value pairs rather than a `{group: ..., reduction: ...}` object because it's faster to serialize and deserialize, especially for things like `table.group('a').count`, where the names `group` and `reduction` are actually a majority of the data returned."
+  , issueCommentId = 35550888
+  }

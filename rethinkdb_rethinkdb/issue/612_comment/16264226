@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-11) 21 : 54 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16264226"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/612#issuecomment-16264226"
+  , issueCommentCreatedAt = 2013 (-04) (-11) 21 : 54 : 39 UTC
+  , issueCommentBody =
+      "There are two notions of what constitutes a single `Query` that we need to disentangle. I'll use the word \"request\" to refer to a single communication to the server and \"query\" to refer to the sequence of requests necessary to get a full result set from the server.\r\n\r\nEvery query has a unique token and begins with a `START` request being sent to the server. The server will eventually respond with either a full or partial set of results, echoing the token assigned in the start request.\r\n\r\nBoth the Python and Ruby drivers block after issuing a request so it is impossible in a single threaded environment  (the connection object is explicitly not thread safe) to get a response for a different request than the one just issued.\r\n\r\nAfter the first part of the response is received it is incumbent on the client to request the next piece with a `CONTINUE` request quoting the original token. In the meantime, the query remains open and in a partially executed state on the server until the last batch is served or a `STOP` request is issued.\r\n\r\nThus while it's not possible to mix up the responses to different requests, request-response pairs associated with different queries may be interleaved as desired.\r\n\r\nIn JavaScript of course, the networking API does not permit blocking and tokens are needed to associate responses with request callbacks."
+  , issueCommentId = 16264226
+  }

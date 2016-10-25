@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-18) 23 : 25 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 69432
+        , simpleUserLogin = N "kmcgrady"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/69432?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kmcgrady"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74970842"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3796#issuecomment-74970842"
+  , issueCommentCreatedAt = 2015 (-02) (-18) 23 : 25 : 23 UTC
+  , issueCommentBody =
+      "Thanks for the fast reply @danielmewes !\r\nWe use the node driver. We load using `r.connect`. And yes I mean the rethinkdb driver.\r\n\r\nIn our library:\r\n```coffeescript\r\nr = require 'rethinkdb'\r\n\r\nmodule.exports = class RethinkDb\r\n  constructor: (@host, @port) ->\r\n    @connection = null\r\n\r\n  @r: r\r\n\r\n  getRethinkConnection: (callback) ->\r\n    return callback null, @connection if @connection\r\n\r\n    r.connect {@host, @port}, (err, conn) =>\r\n      return callback err if err\r\n\r\n      conn.on 'close', =>\r\n        @connection = null\r\n\r\n      @connection = conn\r\n      callback null, conn\r\n\r\n  ensureConnectionMiddleware: ->\r\n    (req, res, next) =>\r\n      @getRethinkConnection (err, conn) ->\r\n        return next err if err\r\n\r\n        req.rethinkConnection = conn\r\n        next()\r\n```\r\n\r\nIn our webservice (the host, port, and query is irrelevant):\r\n```coffeescript\r\nRethinkDb = require 'library/rethinkdb'\r\nr = require 'rethinkdb'\r\n\r\ndb = new RethinkDb host, port\r\nensureRethink = db.ensureRethinkConnection()\r\n\r\nexports.routes = (app) ->\r\n  app.get '/foo', ensureRethink, (req, res, next) ->\r\n    r.db('foo').query().run(req.rethinkConnection, next)\r\n```\r\n\r\nI can tell you, that `req.rethinkConnection` is valid AND open, but we get this error\r\n\r\n```\r\nPossibly unhandled RqlDriverError: First argument to `run` must be an open connection.\r\n  at new RqlDriverError (/home/vagrant/deploy/webservice/node_modules/rethinkdb/errors.js:14:13)\r\n  at Get.TermBase.run (/home/vagrant/deploy/webservice/node_modules/rethinkdb/ast.js:135:15)\r\nFrom previous event:\r\n  at Get.TermBase.run (/home/vagrant/deploy/webservice/node_modules/rethinkdb/ast.js:142:16)\r\n  at /home/vagrant/deploy/webservice/lib/controllers/push_failures.coffee:21:20, <js>:26:80\r\n  at callbacks (/home/vagrant/deploy/webservice/node_modules/express/lib/router/index.js:160:37)\r\n  at /home/vagrant/deploy/webservice/node_modules/library/rethinkdb.coffee:27:9, <js>:43:18\r\n  at /home/vagrant/deploy/webservice/node_modules/library/rethinkdb.coffee:19:7, <js>:31:16\r\n  at TcpConnection.<anonymous> (/home/vagrant/deploy/webservice/node_modules/library/node_modules/rethinkdb/net.js:86:16)\r\n  at TcpConnection.g (events.js:180:16)\r\n  at TcpConnection.emit (events.js:92:17)\r\n  at Socket.handshake_callback (/home/vagrant/deploy/webservice/node_modules/library/node_modules/rethinkdb/net.js:525:23)\r\n  at Socket.emit (events.js:95:17)\r\n  at Socket.<anonymous> (_stream_readable.js:764:14)\r\n  at Socket.emit (events.js:92:17)\r\n  at emitReadable_ (_stream_readable.js:426:10)\r\n  at emitReadable (_stream_readable.js:422:5)\r\n  at readableAddChunk (_stream_readable.js:165:9)\r\n  at Socket.Readable.push (_stream_readable.js:127:10)\r\n  at TCP.onread (net.js:528:21)\r\n```\r\n\r\nInstead, we need to do the following:\r\n\r\n```coffeescript\r\nexports.routes = (app) ->\r\n  app.get '/foo', ensureRethink, (req, res, next) ->\r\n    RethinkDb.r.db('foo').query().run(req.rethinkConnection, next)\r\n```\r\nwhere we refer to the rethinkdb driver loaded in our library."
+  , issueCommentId = 74970842
+  }

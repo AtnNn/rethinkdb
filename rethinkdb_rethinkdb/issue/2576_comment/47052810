@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 02 : 02 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47052810"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2576#issuecomment-47052810"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 02 : 02 : 13 UTC
+  , issueCommentBody =
+      "I think I see the problem -- some of the read/write calls in `val.cc` aren't wrapped in the appropriate catch statement.  I think we should be catching above that anyway, since there are so many and it's easy to miss one.\r\n\r\n@larkost -- I'd like to reproduce this from the test to make sure my fix works, but I'm having trouble running it.  I get this:\r\n```\r\n~/rethinkdb $ test/run split_workloads.rebalance-2-multi-serial-mix           \r\nTraceback (most recent call last):                                            \r\n  File \"test/run\", line 89, in <module>                                       \r\n    run(tests, groups, lambda reqs: configure(reqs, args), args)              \r\n  File \"/home/ssd2/mlucy/rethinkdb/test/common/test_framework.py\", line 103, \\\r\nin run                                                                        \r\n    abort_fast=args.abort_fast)                                               \r\n  File \"/home/ssd2/mlucy/rethinkdb/test/common/test_framework.py\", line 234, \\\r\nin __init__                                                                   \r\n    self.view = TermView(total = len(self.tests) * self.repeat)               \r\n  File \"/home/ssd2/mlucy/rethinkdb/test/common/test_framework.py\", line 387, \\\r\nin __init__                                                                   \r\n    TextView.__init__(self)                                                   \r\n  File \"/home/ssd2/mlucy/rethinkdb/test/common/test_framework.py\", line 348, \\\r\nin __init__                                                                   \r\n    self.red = curses.tparm(setf, 1) + bold                                   \r\nTypeError: must be string, not None                                           \r\n```"
+  , issueCommentId = 47052810
+  }

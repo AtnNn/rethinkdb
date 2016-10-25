@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-17) 18 : 06 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63253435"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3345#issuecomment-63253435"
+  , issueCommentCreatedAt = 2014 (-11) (-17) 02 : 34 : 32 UTC
+  , issueCommentBody =
+      "If RethinkDB does not apply `distinct` by itself, the documentation in http://www.rethinkdb.com/docs/secondary-indexes/ruby/ is misleading/wrong:\r\n\r\n\r\n> Use a multi index and a mapping function to speed get_all/contains\r\nIf your program frequently executes a get_all followed by a contains, that operation can be made more efficient by creating a compound multi index using a mapping function on the field that contains the list.\r\n> \r\n> ```ruby\r\n> # Create the index\r\n> r.table(\"users\").index_create(\"user_equipment\", {:multi => true}) { |user|\r\n>     user['equipment'].map { |equipment| [user['id'], equipment] }\r\n> }.run(conn)\r\n> \r\n> # Query equivalent to:\r\n> # r.table(\"users\").get(1).filter { |user|\r\n> #     user['equipment'].contains('tent')\r\n> # }.run(conn)\r\n> r.table(\"users\").get_all([1, \"tent\"], {:index =>\"user_equipment\"}).run(conn)\r\n> ```\r\n\r\n1) `get(1)` should be `get_all(1)` (otherwise the filter coming after makes no sense)\r\n2) Assuming `get(1)` is fixed with `get_all(1)`, if the equipment list has duplicated element, the two queries are not equivalent, unless we add a `distinct` term on the sindexed query."
+  , issueCommentId = 63253435
+  }

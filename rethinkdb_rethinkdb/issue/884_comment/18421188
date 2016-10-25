@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-24) 18 : 15 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18421188"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18421188"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 18 : 15 : 02 UTC
+  , issueCommentBody =
+      "So the behavior:\r\n\r\n```\r\n> r({:a => nil})[:a].eq(nil).default(5)\r\n5\r\n```\r\n\r\nis really counter intuitive to me. Would anyone else be expecting this?\r\n\r\n---\r\n\r\nI'd like to propose an entirely alternate way of accomplishing this that I think is a lot simpler and gives us everything we want.\r\n\r\n# Proposal\r\nWe extend our exceptions in ReQL evaluation to include type rather than just text. This is a bit of leg work but I think it's going to be less than having a condition handling scheme. Also people have asked for more granular exceptions and this will be a step toward that. Among these new exceptions there will be 2 particular types that we care about: `MISSING_ATTRIBUTE` which arises when you try to access an attribute of an object that doesn't exist. And `UNEXPECTED_NULL` which arises when you try to convert `null` to another type of datum. I think both of these are pretty easy to add because they each only arise from a single place (`datum_t::get` and `datum_t::check_type`).\r\n\r\nNext we add a term called `default` which takes an expression to evaluate and a default value:\r\n\r\n```\r\nexpr.default(default_expr)\r\n```\r\n\r\n`default` evaluates the expression. If the result of the evaluation of `expr` is `null`, an exception of type `MISSING_ATTRIBUTE` or an exception of type `UNEXPECTED_NULL` it returns the `default_expr`. Otherwise it returns `expr`.\r\n\r\nI think we can actually skip implementing a generic `catch`. Have we had anyone actually ask to be able to catch other types of exceptions in RethinkDB? It seems like these exceptions fall in to a few categories and I'm having trouble thinking of a case where it'd be really inconvenient to not be able to catch these serverside.\r\n\r\n- Typos, for example the exception you get if you forget parentheses around your `r.js` function. No one will ever want to catch these.\r\n- Server failures, for example the master down exceptions. Someone could conceivably want to handle this serverside but that seems pretty rare to me and if they have to come back to their driver to do it I don't think we'd be making things a lot worse.\r\n- Runtime errors, for example dividing by `0`. This seems like the most likely kind of error you'd want to catch and in fact `MISSING_ATTRIBUTE` and `UNEXPECTED_NULL` are this type of error. However I have a feeling that excluding the `null` related exceptions all the other exceptions in this category are rare enough that we're okay discounting them."
+  , issueCommentId = 18421188
+  }

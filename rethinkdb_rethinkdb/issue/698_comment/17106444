@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-26) 23 : 58 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17106444"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/698#issuecomment-17106444"
+  , issueCommentCreatedAt = 2013 (-04) (-26) 23 : 58 : 49 UTC
+  , issueCommentBody =
+      "So, the interface to `optarg` has you specify the default value as the second argument (e.g. `optarg(\"db\", pointer_to_default_database)`).  If we actually used this interface, it would be great (and greppable; you could just grep for `optarg`).  Right now, though, we aren't actually using that interface; we're just passing NULL as the second argument and branching.  For example, we might write:\r\n\r\n```c\r\nbool val = false;\r\nif (val_t *v = optarg(\"val\", NULL)) {\r\n  val = v->as_bool();\r\n}\r\n```\r\n\r\nwhen it should be:\r\n\r\n```c\r\nbool val = optarg(\"val\", new_val_bool(false));\r\n```\r\n\r\n@jdoliner -- how would you feel about just switching to using the interface the way it was intended?"
+  , issueCommentId = 17106444
+  }

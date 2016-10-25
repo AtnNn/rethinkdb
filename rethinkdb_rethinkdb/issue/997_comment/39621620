@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 23 : 38 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39621620"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39621620"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 23 : 38 : 01 UTC
+  , issueCommentBody =
+      "> Feeds are infinite and streams are not.\r\n\r\nThere's no guarantee that a stream is finite.  If you write `r.table('test')` and someone is inserting at the end of table `test` faster than you're reading, you have an infinite stream.  (We don't hold a snapshot of the whole table or anything while you read.)\r\n\r\nAlso, changefeeds aren't always infinite -- if the table is dropped, the changefeed ends.\r\n\r\n> Feeds always have an ordering and streams sometimes don't.\r\n\r\nThat doesn't mean feeds aren't streams; it means they're streams which happen to always be ordered.  `changes` is no different than `order_by` in this respect; they both produce ordered streams.\r\n\r\n> \"Streams\" in ReQL do not have to processed in any particular order, even when they do have an ordering.\r\n\r\nI'm not 100% sure what this means, but if you're talking about what the client can do with the results of the stream, there's no iron law of nature saying you have to process changes in a particular order either.  (For example, the client might just want to count the number of changes to get a sense of load, although that's probably a bad use-case.)\r\n\r\nIt's probably a good idea, the same way it's probably a good idea to process other ordered streams in order, because presumably there's a reason why the stream is ordered.\r\n\r\n> The ReQL type system does not allow feeds to be streams.\r\n\r\nI don't follow.  What part of the type system disallows it?"
+  , issueCommentId = 39621620
+  }

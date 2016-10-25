@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-19) 07 : 40 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75010066"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3795#issuecomment-75010066"
+  , issueCommentCreatedAt = 2015 (-02) (-19) 07 : 40 : 58 UTC
+  , issueCommentBody =
+      "Ok, my last comment was a little misleading as I hadn't had a chance to fully test it.  At this point, I'm willing to accept this as a solution (up in code review 2630).\r\n\r\nThe new `Connection::send` function is:\r\n```rb\r\ndef send packet\r\n  written = 0\r\n  while written < packet.length\r\n    written += @socket.syswrite(packet.slice(written, packet.length))\r\n  end\r\nend\r\n```\r\n\r\nIt seems that JRuby's `IO::write` has a hanging problem with waiting on the socket to become writable again.  If we use JRuby's `IO::syswrite`, it will not hang, but it may return partial writes.  MRI does not appear to have either of these problems.\r\n\r\nTested with extremely large rows, resulting in many partial writes on JRuby, everything seems to be in working order.\r\n\r\nTested with JRuby 1.7.19 (built from source) and Ruby 2.0.0."
+  , issueCommentId = 75010066
+  }

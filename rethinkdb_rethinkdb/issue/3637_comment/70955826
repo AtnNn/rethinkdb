@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-22) 01 : 23 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70955826"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3637#issuecomment-70955826"
+  , issueCommentCreatedAt = 2015 (-01) (-22) 01 : 23 : 50 UTC
+  , issueCommentBody =
+      "Alright, so here's the current state of things:\r\n* You can have two values which compare equal but serialize to different things.  I'm pretty sure our code was written assuming that this *isn't* true, and that if you actually have data like that in one of your tables it's going to trip an assert somewhere.\r\n* Ruby and JS both discard information on whether 0 is negative in some circumstances (Ruby parses \"-0\" incorrectly but \"-0.0\" correctly, for example), which means that currently you can have two rows in your table which are different but which are indistinguishable in the client with our current JSON serialization.  It also means that `x = r.table('test').get(key).run; r.table('test').get(key).delete.run; r.table('test').insert(x).run` is no longer a no-op, and we've worked very hard to preserve that property in the past.\r\n\r\nWe need to fix that, but it's not clear what the correct behavior is."
+  , issueCommentId = 70955826
+  }

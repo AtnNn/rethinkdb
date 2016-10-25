@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-13) 18 : 29 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22586710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1271#issuecomment-22586710"
+  , issueCommentCreatedAt = 2013 (-08) (-13) 18 : 28 : 47 UTC
+  , issueCommentBody =
+      "I feel like #1118 might be a bit of an overkill here for a few reasons:\r\n\r\n* People would have to register map/reduce queries to do fast counts. These would also be map/reduce queries that would require inverse functions (we could probably abstract it out, though).\r\n* Doing incremental map/reduce requires UI/CLI support (so people can list/add/delete jobs), and ReQL support (for same reason, but also to register jobs).\r\n* It's a non-trivial feature, and adding features before 2.0 worries me.\r\n\r\nAn alternative solution might be to implement constant time count for two cases:\r\n\r\n* `r.table('foo').count()`\r\n* `r.table('foo').between(null, null, index='bar').count()`\r\n\r\nThis seems relatively easy to do, and the way to speed up the type of queries mentioned by @dbettin (and many other queries) is to just create a secondary index, and do count on that.\r\n\r\n@jdoliner -- would this be hard? Is this schedulable for 1.9?\r\n\r\nAlso, I'm going to go to CVS and buy a surgical mask so I don't get people sick, so we may be able to hash this out in person."
+  , issueCommentId = 22586710
+  }

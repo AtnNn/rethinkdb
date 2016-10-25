@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-20) 00 : 48 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43575528"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2402#issuecomment-43575528"
+  , issueCommentCreatedAt = 2014 (-05) (-20) 00 : 48 : 51 UTC
+  , issueCommentBody =
+      "@chrisguidry The trade-off is roughly the same in 1.12 as in 1.11.\r\nComputing exact memory requirements for documents is not so straightforward.\r\n\r\nAt least two different cases must be distinguished:\r\n\r\n1. documents < 250 bytes. These are stored in-line in a tree, and have very low memory overhead (a very small fraction of the number of documents)\r\n\r\n2. documents > 250 bytes. These are stored in blocks of their own. Each block comes with a little bit of memory overhead (that's where the 1/20th of total data size overhead comes from in above list). All documents > 250 bytes and < 4 KB use one block. So if you have a lot of documents in the lower section of that range, you have a relatively high overhead relative to the data size. If most documents are close to 4 KB, the overhead per data is smaller. If documents are larger than 4 KB, they will use multiple blocks with corresponding additional overhead.\r\n\r\nSo if you can split up for example 400 bytes documents into two 200 byte documents the memory requirements will get lower. If on the other hand you split up 4 KB documents into two 2 KB documents each, you will get a higher memory overhead.\r\nFor documents significantly over 4 KB, the overhead is essentially proportional to data size and splitting/combining documents shouldn't make much difference.\r\n\r\nHope this makes sense. I can explain it more if you are interested."
+  , issueCommentId = 43575528
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-09) 04 : 32 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20650831"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20650831"
+  , issueCommentCreatedAt = 2013 (-07) (-09) 03 : 09 : 21 UTC
+  , issueCommentBody =
+      "Alright, settling this:\r\n\r\n* Times will be a pseudo-type of the form:\r\n```ruby\r\n{:$__reql_type__ => 'time', :epoch_time => 1908201939, :timezone => '-06:00'}\r\n```\r\n(Note that epoch time is in UTC.  We will use negative numbers for\r\nsufficiently ancient dates.)\r\n\r\n* Durations will be a pseudo-type of the form:\r\n```ruby\r\n{:$__reql_type__ => 'duration', :iso8601 => 'P0003-06-04T12:30:05'}\r\n```\r\n(If we can get our ISO 8601 library to 0-pad, which will make sorting\r\neasier.  Otherwise they will be not zero-padded.)\r\n\r\nWe will implement the following functions:\r\n* Arithmetic\r\n  - `time + duration => time`\r\n  - `duration + duration => duration`\r\n  - `time - time => duration`\r\n  - `time - duration => time`\r\n  - `duration - duration => duration`\r\n\r\n* Comparisons\r\n  - `time {</<=/>/>=/==/!=} time => bool`\r\n  - `duration {</<=/>/>=/==/!=} duration => bool`\r\n\r\n* Predicates\r\n  - `time.during(start_time, end_time) => bool`\r\n  - `time.during(start_time, duration) => bool`\r\n  - `time.during(duration, end_time) => bool`\r\n\r\n* Time Zone Manipulation\r\n  - `time.in_timezone(iso8601_timezone) => time` (The same actual\r\n  time, just in a different time zone.  Does not change the\r\n  `epoch_time` field.)\r\n  - `time.in_timezone(nil) => time` (strips the time zone)\r\n  - All operations involving more than one time are valid if all times\r\n  have a time zone, or if no time has a time zone.  If some but not all\r\n  times have a time zone, we return an error to the user recommending\r\n  that they use `in_timezone`.\r\n\r\n* Portion Retrieval\r\n  - `time.date() => time`\r\n  - `time.time_of_day() => duration`\r\n  - `time.timezone() => {string/null}`\r\n  - `time.year => number`\r\n  - `time.month => number` (1-12)\r\n  - `time.day => number` (1-366)\r\n  - `time.weekday => number` (1-7, starting on Monday per. ISO 8601)\r\n  - `time.hour => number` (0-23)\r\n  - `time.minute => number` (0-59)\r\n  - `time.second => number` (0-59.999, double)\r\n\r\n* Construction\r\n  - `r.time(year, month, day, hour, minute, second, timezone) => time`\r\n  - `r.time(year, month, day, hour, minute, second) => time`\r\n  - `r.time(year, month, day) => time`\r\n  - I expect 99% of users to use native time types, and 99% of drivers\r\n  to send native time types to the server with `r.iso8601`, so I'm not\r\n  sure how important these are.\r\n\r\n\r\n* Convenience\r\n  - `r.monday ... r.sunday`\r\n  - `r.january ... r.december`\r\n  - `r.now => time` (current time with client's time zone)\r\n  - `r.now(:timezone => timezone) => time` (current time with\r\n  arbitrary time zone)\r\n  - `r.now(:timezone => nil) => time` (current time with no time zone)\r\n  - Clients will also be responsible for converting native time\r\n  objects to the most appropriate time type.\r\n\r\n* Conversion\r\n  - `time.to_iso8601() => string`\r\n  - `duration.to_iso8601() => string`\r\n  - `time.to_epoch_time() => number`\r\n  - `r.iso8601(string) => {time/duration}` (modeled after `r.json`)\r\n  - `r.epoch_time(number) => time`\r\n\r\n* Notes on ISO 8601.\r\n  - We will treat dates ending with 60 seconds as one second after 59\r\n  seconds, despite the drawbacks.\r\n  - We will try to be as liberal as the parser we find allows, except\r\n  where this results in ambiguity.\r\n  - We should try to 0-pad when we print, especially for durations."
+  , issueCommentId = 20650831
+  }

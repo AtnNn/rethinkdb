@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-28) 00 : 54 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36311025"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2039#issuecomment-36311025"
+  , issueCommentCreatedAt = 2014 (-02) (-28) 00 : 54 : 02 UTC
+  , issueCommentBody =
+      "By @danielmewes:\r\n\r\nAnother option would be to not send any response to the client if the write might have been partially performed.\r\n\r\nThere would be three cases:\r\n1. The broadcaster receives enough acks (I'm assuming that the broadcaster is the component that checks this, correct me if I'm wrong). We send back a success response to the client.\r\n2. We determine based on the metadata that not enough replicas are available. We send back a \"not enough acks\" error to the client, and don't perform any write.\r\n3. The metadata tells us that there are enough replicas. We begin writing, but it turns out that for some reason we don't get enough acks (e.g. a replica just went down and we hadn't noticed it yet, or it goes down in the middle of the process). We return nothing to the client. This situation would be indistinguishable to the response message to the client getting lost, except that the client's TCP connection would stay up.\r\n\r\nIn practice we would probably replace the \"not send anything\" by sending a different type of error message. E.g. we could have something along the lines of \"not enough acks, write aborted\" for case 2, and \"not enough acks, write not guaranteed\" for case 3.\r\n\r\n... oh and \"metadata\" here would more likely be the actual status of the intracluster TCP connections."
+  , issueCommentId = 36311025
+  }

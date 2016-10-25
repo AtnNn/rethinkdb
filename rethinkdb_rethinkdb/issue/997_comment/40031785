@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-10) 00 : 27 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40031785"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-40031785"
+  , issueCommentCreatedAt = 2014 (-04) (-10) 00 : 26 : 44 UTC
+  , issueCommentBody =
+      "> Pinging @timmaxw -- Tim do you think this would be ok to bake this assumption in?\r\n\r\nI don't think that assumption breaks anything.\r\n\r\n<bikeshedding> But I don't think it's a useful assumption. Unless I'm misunderstanding something, the only reason to serve change feeds from the master is that if we serve change feeds from a secondary, then the secondary can die while writes continue to happen, so the client will miss some changes. But there are a lot of other things that can go wrong and cause the client to miss changes. For example, the client-server connection can be lost; the parser; or the connection between the master and the parser can be lost; or the master can go down, then back up, and writes can happen before the parser can reinstall the change feed. The long-term solution is to implement the `since` option and version tokens. The short-term solution of serving change feeds from the master only improves the functionality slightly, and we'll want to tear it out when we implement the long-term solution; so I don't see the point. In other words, I agree with Sam's comment two hours ago. I suggest that for the prototype, every replica should be able to serve change feeds. </bikeshedding>\r\n\r\n@mlucy: On a completely unrelated note, consider using the existing `registrar_t` and `registrant_t` types in your implementation of change feeds. These generic types are designed for the case where one \"registrar\" needs to provide some service to zero or more \"registrants\" on other machines in the cluster. The `registrant_t` will automatically notify the `registrar_t` in its constructor and destructor. They also will detect when the connection is lost. This might save you some boilerplate.\r\n"
+  , issueCommentId = 40031785
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-07) 22 : 41 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39792709"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39792709"
+  , issueCommentCreatedAt = 2014 (-04) (-07) 22 : 41 : 01 UTC
+  , issueCommentBody =
+      "> Why? The only reason we ban nondeterminism in updates is that you might get different results on the replicas, which would lead to data divergence, but there's no need to evaluate a changefeed transformation on multiple replicas.\r\n\r\nTo keep the user from doing something stupid, and because even \"fast\" nondeterministic functions have severe caveats.  Also, it's more work for us.  For example, `r.now` is utterly useless to evaluate in a change feed function if it's whatever the time is \"now\", because then you just get batches of rows with the same time.  And we'd also have to extra work, changing our `r.now` code to special-case the change feed behavior.  Also, anybody that wants to do some crazy slow nondeterministic operation on a change feed can just do it from the client.  The only legitimate reason to manipulate changefeeds in the query is to pare down their size to save storage or bandwidth."
+  , issueCommentId = 39792709
+  }

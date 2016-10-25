@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 15 : 29 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 829493
+        , simpleUserLogin = N "jipperinbham"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/829493?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jipperinbham"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94839095"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/4080#issuecomment-94839095"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 15 : 29 : 05 UTC
+  , issueCommentBody =
+      "I agree that trying to optimize `readFileSync` is not necessary and connections should be reused not constantly opened/closed.\r\n\r\n@joaojeronimo the connection options have been updated to look like:\r\n```javascript\r\nr.connect({ host: 'localhost',\r\n            port: 28015,\r\n            db: 'marvel',\r\n            authKey: 'hunter2' },\r\n            ssl:{\r\n              caCerts: '/path/to/ca.crt'\r\n            }\r\n          function(err, conn) { ... })\r\n```\r\n\r\nSo, if I'm understanding right, you'd want to just have the `ssl` hash accept the arguments `tls.connect`? And the example above would become:\r\n\r\n```javascript\r\nr.connect({ host: 'localhost',\r\n            port: 28015,\r\n            db: 'marvel',\r\n            authKey: 'hunter2' },\r\n            ssl:{\r\n              ca: [ fs.readFileSync('/path/to/ca.crt') ]\r\n            }\r\n          function(err, conn) { ... })\r\n```"
+  , issueCommentId = 94839095
+  }

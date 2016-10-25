@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 02 : 16 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20322687"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1099#issuecomment-20322687"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 02 : 16 : 03 UTC
+  , issueCommentBody =
+      "@jdoliner: that isn't how `split` works in Ruby.  In Ruby if you write `.split(\", \")` it means \"split on the string ', '\", not \"split on either the string ',' or ' '\".  Instead, `split` takes a regexp to handle that case:\r\n```ruby\r\nirb(main):3898:0> \"a b, c,d\".split(\", \")\r\n[\"a b\", \"c,d\"]\r\nirb(main):3899:0> \"a b, c,d\".split(/[, ]/)\r\n[\"a\", \"b\", \"\", \"c\", \"d\"]\r\n```\r\n\r\nSlava's proposed behavior seems more intuitive to me.  Here's what I would propose:\r\n* `split()` does a normal whitespace split\r\n* `split(', ')` means \"split on the string ', '\"\r\n* `split(',', ' ')` means \"split on either the string ',' or ' '\"\r\n* We skip the length limit, it doesn't seem terribly useful to me.\r\n* We add `.join`."
+  , issueCommentId = 20322687
+  }

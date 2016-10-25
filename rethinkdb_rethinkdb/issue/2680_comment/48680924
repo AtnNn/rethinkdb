@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-11) 00 : 15 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48680924"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2680#issuecomment-48680924"
+  , issueCommentCreatedAt = 2014 (-07) (-11) 00 : 15 : 05 UTC
+  , issueCommentBody =
+      "* For consistency with the term `elect`, I suggest `candidate_directors` for the list of machines that could possibly act as directors.\r\n\r\n* `elect_directors` should be of the form `r.db(\"my_db\").table_elect_directors(\"my_table\")`\r\n\r\n* For table names, I like the `\"db.table\"` syntax, on practical grounds (it's easy to implement). But, do we forbid using `.` in table and DB names?\r\n\r\n* Consider indexing the shards by key, even if just \"shard0\", \"shard1\", etc. or \"0\", \"1\", etc. This will make it easier for the user to match shards in `table_config` to shards in `table_status`. \r\n\r\n* `server_status` should also contain:\r\n    * A list of issues the server is currently experiencing\r\n    * Some basic stats about the server, like CPU utilization. (Or maybe this belongs in `server_stats`.)\r\n\r\n* There should be a table `r.db(\"rethinkdb\").table(\"server_config\")`. It should contain the server's tag list, as well as anything else that can be configured on a per-server basis. Anything that can be set on the server's command line and altered at runtime will appear here.\r\n\r\n* `table_status` should contain:\r\n    * For each shard:\r\n        * The acting director for the shard, if any.\r\n        * The status of the replicas: ready, backfilling, needs-a-director, inaccessible.\r\n        * If backfilling, where the server is backfilling from and the progress of the backfill.\r\n        I don't mean that the information should necessarily be indexed by shard.\r\n    * Perhaps a summary of the table's health as a boolean, which could be computed from the other information, but which is presented separately for usability.\r\n    * A list of issues the table is currently experiencing\r\n    * Some basic stats about the table (or maybe this belongs in `table_stats`)\r\n\r\n* What happens when the user renames a table or server? We should consider using UUIDs as primary keys for both tables and servers. Then we can expose the table/server name as a field that can be edited (in the config) and is also present in the status so users can filter on it. I'm not quite sure how to store server references in the table config. One option is to use server IDs rather than server names. Another option is to show server names to the user, but internally store server IDs."
+  , issueCommentId = 48680924
+  }

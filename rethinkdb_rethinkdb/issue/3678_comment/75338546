@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-20) 23 : 28 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75338546"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-75338546"
+  , issueCommentCreatedAt = 2015 (-02) (-20) 23 : 28 : 23 UTC
+  , issueCommentBody =
+      "Oh I was about to write how I preferred\r\n```\r\nr.table('foo').changes().run(conn).on(k, :foo)\r\n```\r\nover\r\n```\r\nr.table('foo').changes().run(conn, StreamHandler)\r\n```\r\n, but actually the `on` syntax might be bad because it requires that we get some return value from `run` even before we've received the first batch.\r\n\r\nThis will also affect https://github.com/rethinkdb/rethinkdb/issues/2622 and https://github.com/rethinkdb/rethinkdb/issues/3785 (the current proposal relies on `on` as well). We could make `run` return a promise that you can call `on` on, but that sounds unnecessarily complicated. We might still want to support that eventually, but I don't think we should do it now.\r\n\r\nIn the Ruby case, we could call that variant of `run` `arun` to make the distinction clear and to make it more discoverable than just having an overloaded variant of `run` that takes a second argument. What do you think?\r\n\r\n\r\n...Also this looks great\r\n```\r\n# A simple interface for the common case\r\nEventMachine.run {\r\n  r.table('foo').changes().run(conn) {|change|\r\n    # do something with `change`\r\n  }\r\n}\r\n```\r\n\r\n@gchpaco comments?"
+  , issueCommentId = 75338546
+  }

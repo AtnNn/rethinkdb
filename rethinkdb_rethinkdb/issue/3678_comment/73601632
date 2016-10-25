@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-09) 22 : 12 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73601632"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-73601632"
+  , issueCommentCreatedAt = 2015 (-02) (-09) 22 : 12 : 09 UTC
+  , issueCommentBody =
+      "I've been thinking about this, and I think we should:\r\n1. Provide our own API that's as easy as possible to implement and reason about.\r\n2. Integrate with EventMachine for people who want event-style programming.\r\n\r\nIt's obvious how to do (2); it's just a pain.  For (1) I think we should do something like @coffeemug mentioned in #3298 -- we should offer a way to merge multiple lazy streams into a single lazy stream, and offer a way to figure out which .  To use @coffeemug's `r.join` syntax:\r\n\r\n```rb\r\nc1 = r.table('test').changes.run\r\nc2 = r.table('test2').changes.run\r\nboth = c1.join(c2) # also legal: `r.join(c1, c2)`\r\nboth.each {|change|\r\n  # do something with change\r\n}\r\nboth.each {|change, cursor|\r\n  if cursor == c1 # also legal: cursor.query == q1\r\n    # do something with changes from q1\r\n  else if cursor == c2\r\n    # do something with changes from q2\r\n  end\r\n}\r\n```\r\n```"
+  , issueCommentId = 73601632
+  }

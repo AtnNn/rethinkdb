@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-18) 01 : 24 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59594430"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3205#issuecomment-59594430"
+  , issueCommentCreatedAt = 2014 (-10) (-18) 01 : 24 : 26 UTC
+  , issueCommentBody =
+      "@AtnNn -- thanks!\r\n\r\nThat line is the end of the second `if` statement in `mailbox_cb`, which suggests that it's the `rwlock_in_line_t` destructor causing the problem.  Nothing looks wrong with the logic, though.  We can't get there without, in order:\r\n* Checking that we aren't detached.\r\n* Acquiring a drainer lock.\r\n* Waiting for the queues to be ready.\r\n\r\nThere are no obvious race conditions that we might be falling afoul of.\r\n\r\n@danielmewes -- is it plausible for destroying an `rwlock_in_line_t` to cause that guarantee to trigger?  Can you glean any information from the fact that that guarantee in particular triggered?\r\n\r\n@timjrobinson -- thanks for reporting this!  Is there any chance you have a core dump from the crash?"
+  , issueCommentId = 59594430
+  }

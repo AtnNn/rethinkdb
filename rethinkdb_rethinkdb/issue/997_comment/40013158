@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-09) 20 : 36 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40013158"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-40013158"
+  , issueCommentCreatedAt = 2014 (-04) (-09) 20 : 36 : 10 UTC
+  , issueCommentBody =
+      "> I really don't understand the clustering code as well as I should. If you get time, would you mind giving me advice on how you think we should split up the feed-serving duties among the replicas, and what to do if one goes down (/ how to detect it)?\r\n\r\nYou don't need to understand the clustering code beyond what was said.  The clustering abstraction as far as queries go is simple and defined in protocol_api.hpp (with namespace_interface_t that parsers use to send reads and writes), the new file store_view.hpp (with the store_view_t type that shows the interface the cluster uses to write to a store), and protocol.hpp (for read_t and write_t objects, shard and unshard functions, etc).\r\n\r\nQueries from a parser, sent through a namespace_interface_t are sharded, pieces sent to the respective masters, which send them to the stores, which send responses, which are then sent back to the parser, the responses are unsharded, and returned to the parser."
+  , issueCommentId = 40013158
+  }

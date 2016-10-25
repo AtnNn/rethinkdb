@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-30) 19 : 30 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23584131"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1383#issuecomment-23584131"
+  , issueCommentCreatedAt = 2013 (-08) (-30) 19 : 28 : 14 UTC
+  , issueCommentBody =
+      "We should probably hold off the discussion on this until we schedule this feature as per our regular process, but this is far too much fun, so...\r\n\r\n> One this introduces a huge security flaw in to RethinkDB.\r\n\r\nI don't think it's a huge security flaw. The admins would only have to open an outbound http port, so people couldn't just connect to Rethink from outside. It does mean that the command itself would have to be bulletproof, but there are many ways to make it secure (for example, run it in extprocs, or implement it in terms of Javascript and run it in V8). It's definitely something to look out for, but I don't think it's a huge problem if we do it right.\r\n\r\n```Python\r\ntable.insert(r.json(r.wget(...))\r\n# instead of\r\ntable.insert(json.loads(curl(...)))\r\n```\r\n\r\nThere are a few reasons why a native command is better than this example. Most of them aren't that big a deal on their own, but I think it makes a huge difference in aggregate:\r\n\r\n1. The example would be different in every client driver, which makes it a lot less pleasant to perform these kinds of queries.\r\n2. Javascript makes this sufficiently unpleasant that it's a pain to do this sort of thing in the data explorer.\r\n3. Many APIs return objects that include URLs to follow to get more data (for example, see https://api.github.com/repos/rethinkdb/rethinkdb/stargazers). So if I insert such an array of objects into a table I have to pull it back out into the client in order to merge in additional data if I want to follow some URLs.\r\n4. I've noticed that most people who have a certain set of skills often drastically underestimate how difficult it is for other people who don't have these skills to acquire them. When things are really simple in one's mind, it's often really, really, really hard to imagine how they can be difficult to other people. I think that the leap you make between `r.wget` and `json.loads` might be an example of this phenomenon. There are many, many, many, many people in our target audience that I think wouldn't easily make such a leap. Making things easy for them could bring enormous rewards.\r\n\r\n> Tacking this feature on does seem to run the risk that some people start to thinking of us as a data ingestion system which I think would be a mixed message which distracted from the things we're really good at.\r\n\r\nA constant source of internal struggle I have is that there already are tools that are pretty good at what we're good at. Even if we could waive a magic wand and fix all scalability issues right now, RethinkDB would be an incremental improvement over existing tools (a really, really, really good improvement, but still an incremental one). Given that that's the case, anything we can do to improve the experience can have a huge impact on adoption. That does run the risk of getting into feature creep land, but I don't think it's the case here: I've learned to be extremely sensitive to this issue over the past few years. I do agree that it would get Rethink into new domains, but in this specific case, I think it's a very, very good thing. That being said,\r\n\r\n> I think it's a much better idea to focus on getting things we already have and are good at to a salable state rather than delving in to new categories of products.\r\n\r\nI agree with this wholeheartedly."
+  , issueCommentId = 23584131
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 10 : 38 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20338459"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20338459"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 10 : 38 : 25 UTC
+  , issueCommentBody =
+      "Implementing a native date type seems like the right solution to me. We've talked about supporting more types for a long time and, as @atnnn mentioned above, now seems like as good time to finally address this question. However we decided the date type question now will influence how we solve the integer question etc.\r\n\r\nFor any custom type, I'd say that there are at least three different representation choices that have to be made: on disk format, in memory format during processing, and the wire format as defined by the protobuf spec that driver developers (and not necessarily users) will see. These can all be distinct. A new datum type in the wire spec gives us the most freedom with the first two by hiding implementation details behind the third. The drivers then serve as another buffer between this format and the values manipulated by user programs, giving some flexibility there as well.\r\n\r\nThe right way for drivers to handle this type is almost certainly to convert it to a native date type in the host language (or perhaps as a user facing class with host language friendly behavior). Users who wish to have a value that can be serialized as JSON can then make that decision for themselves according to the rules of their host language. The default node behavior if I call `JSON.stringify(new Date())` is to return a string encoded in ISO format for example.\r\n\r\nThis seems much better than leaking a representation like `{\"__reql_type__\": ...}` which limits both our's and driver developer's freedom to provide a more natural representation."
+  , issueCommentId = 20338459
+  }

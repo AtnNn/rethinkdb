@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-09) 07 : 15 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/119853041"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4149#issuecomment-119853041"
+  , issueCommentCreatedAt = 2015 (-07) (-09) 07 : 15 : 48 UTC
+  , issueCommentBody =
+      "I thought a little bit more about the correct behavior for this, and I think my note to myself above is incorrect.  (Or, rather, it's impossible to satisfy that constraint without things behaving really weirdly.)\r\n\r\nI think the most intuitive behavior is this:\r\n```\r\nirb(main):107:0> tm = Time.now\r\n2015-07-09 00:14:29 -0700\r\nirb(main):108:0> r(tm).run\r\n2015-07-09 00:14:29 -0700\r\nirb(main):109:0> r(tm).date.run\r\n2015-07-09 00:00:00 -0700\r\nirb(main):110:0> r(tm).in_timezone('-08:00').run\r\n2015-07-08 23:14:29 -0800\r\nirb(main):111:0> r(tm).in_timezone('-08:00').date.run\r\n2015-07-08 00:00:00 -0800\r\n```\r\n\r\nThis makes comparing dates in different time zones not work, but it's the only way of doing things (short of introducing a separate date type) that actually makes times that occur on the same day in a particular time zone produce the same output from `date`.  (It also makes `time_of_day` accurate.)"
+  , issueCommentId = 119853041
+  }

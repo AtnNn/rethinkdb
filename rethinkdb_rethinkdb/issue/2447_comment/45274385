@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-05) 21 : 02 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45274385"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2447#issuecomment-45274385"
+  , issueCommentCreatedAt = 2014 (-06) (-05) 21 : 02 : 24 UTC
+  , issueCommentBody =
+      "@coffeemug:\r\n\r\n> Passing { depaginate: 'link-header' } always results in an error when you get to the end of the stream.\r\n\r\nYou're right, `link-header` should be more along the lines of:\r\n```py\r\ndepaginate = lambda p,h,b: r.branch(h['link'].has_fields('rel=\"next\"'), { 'url': h['link']['rel=\"next\"'] }, None)\r\n```\r\n\r\n\r\n> The return value for depaginate should be more flexible\r\n\r\nSo, I had it that you could return `{ 'url': None }` to indicate the end of depagination, but I now realize that's silly, and `None` should be how it's done.\r\n\r\nI am also up for allowing just returning a string if you only want to specify the URL.\r\n\r\n\r\n> We should rename depaginate and depaginate-limit. \r\n\r\nI am concerned that other names will not be very clear.  I am thinking we should rename `link-header` to `link-next`, but I don't think `next` is a better name for `depaginate`.  At least `depaginate` indicates an action is being taken, so it makes sense that it's a function.  I would not expect `next` to be a function.\r\n\r\n\r\n> Arguments to depaginate (or next if we agree on that name):\r\n\r\nI am OK with allowing a user to disable depaginate through `False` or `None`, but if we allow `False`, then we would have to allow `True`, which I don't think is a good idea.\r\n\r\n\r\n> The camel case for depaginateLimit (or nextLimit, see above) doesn't work in the JS driver.\r\n\r\nThis is a one-line fix, I'll take care of it in the review.\r\n\r\n\r\n> Do you think it would be better or worse to instead take one argument, which is an object with three fields?\r\n\r\nI am ambivalent about this.  If you guys like it, it's easy enough to do.\r\n"
+  , issueCommentId = 45274385
+  }

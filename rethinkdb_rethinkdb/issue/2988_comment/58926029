@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-13) 17 : 25 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58926029"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-58926029"
+  , issueCommentCreatedAt = 2014 (-10) (-13) 17 : 25 : 35 UTC
+  , issueCommentBody =
+      "Memory profiling didn't show any significant increase in allocated objects over a period of approximately two days.\r\n\r\nIt seems that actual memory usage remains stable if we force TCMalloc (the allocator we're using on Linux) to return free memory to the operating system regularly.\r\nSpecifically I added the line\r\n```\r\nMallocExtension::instance()->ReleaseFreeMemory();\r\n```\r\nto the function `coro_t::maybe_evict_from_free_list()` and memory consumption remained unchanged after ~36 hours of running the test script @victorquinn gave us. (it also needs an include file, `#include <google/mallox_extension.h>`.\r\n\r\nWe still have to figure out when the best time for running this is, and that it doesn't have a bad \r\nimpact on performance. There's also a configuration parameter for TCMalloc that controls how often TCMalloc returns memory to the OS by itself. Maybe it's sufficient to simply tune that one.\r\n\r\nI would like to test this work-around under real conditions. @victorquinn If I compiled a custom rethinkdb binary for you, would you be able to roll that out on your servers so we can see if it fixes the issue?"
+  , issueCommentId = 58926029
+  }

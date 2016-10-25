@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-25) 00 : 07 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/64288561"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3365#issuecomment-64288561"
+  , issueCommentCreatedAt = 2014 (-11) (-25) 00 : 07 : 26 UTC
+  , issueCommentBody =
+      "There are many interesting ideas here. As far as the index interface is concerned, @larkost raises an interesting question: Are indexes conceptually an integral part of the table or separate entities?\r\nIf we want to present it as the former, @mlucy's alternative proposal `r.table('test').status(index:'a')` together with @larkost's `r.table('test').wait(indexes=['a'])` make a lot of sense I think.\r\nIf we want to present them as separate entities, @mlucy's proposal using `r.table('test').index('a').status()` / `r.table('test').index('a').wait()` sounds very nice.\r\n\r\nI would like to avoid discussing these for 1.16 however. We can possibly sneak them in for 2.0 shortly afterwards if we really want to. I agree with @timmaxw 's concern that introducing the `table.index()` term with all the changes that we have to make around it is going to be too much for 1.16.\r\n\r\nOn a more specific note: @mlucy There is one problem with `db.status()` to get the status of all tables in the db:\r\n  It will be inconsistent in a bad way with `db.config()`. `db_config` is going to return a selection on the configuration of the database itself, not on the tables inside that database.\r\nI think it's fine to not have a direct way built in to get the status and configuration of multiple tables at once. You can always still write a filter on `r.db('rethinkdb').table('table_status')` etc. if you really need it (or use a `foreach`)."
+  , issueCommentId = 64288561
+  }

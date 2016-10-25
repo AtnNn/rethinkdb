@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-25) 20 : 25 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36053799"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36053799"
+  , issueCommentCreatedAt = 2014 (-02) (-25) 20 : 25 : 56 UTC
+  , issueCommentBody =
+      "Ok, so I have been able to reproduce this without too much trouble.  For reference, here are the steps:\r\n\r\n1. Spin up a cluster with two nodes\r\n2. Populate a table with `stress`, 50k rows should be fine\r\n3. Set the replicas from 1 to 2\r\n4. Kill the server hosting the primary before backfilling completes\r\n5. Declare the killed server dead\r\n6. Set the replicas from 2 to 1\r\n\r\nAt this point, the reactors for the shards should be observed to be stuck in the `primary_when_safe` state.\r\n\r\nIt was not necessary to cyanide the server or `kill -KILL` it, a SIGINT followed by orderly shutdown worked fine.  Any shards which have finished backfilling will properly enter the `primary` state."
+  , issueCommentId = 36053799
+  }

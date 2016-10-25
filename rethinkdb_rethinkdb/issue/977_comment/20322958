@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 02 : 27 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20322958"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20322958"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 02 : 27 : 12 UTC
+  , issueCommentBody =
+      "Sorry to complicate matters, but I must. First, a few random thoughts:\r\n\r\n* I think that if we implement things like `time_sub`, instead of adding a proper `time` type and making `sub` polymorphic, we will very quickly grow to regret this decision.\r\n* I also think that on the driver side people should be able to operate with standard time/date types. E.g. `r.expr(datetime.now())` should work in Python. They should be able to say `table.insert({time: datetime.now()})`, and get a native Python `datetime` object if they get the row back IMO. (at the very least, we should consider this carefully)\r\n\r\nI propose the following:\r\n\r\n* Store time object like this on the server: `{ __reql_type__: 'time', ms_since_epoch_utc: X }`\r\n* Whenever possible, use existing operations for math and logic (i.e. make `add`, `gt`, etc. polymorphic on time)\r\n* In the drivers, convert `__reql_type__: 'time'` back to native object (e.g. `datetime` in Python, `Date` in JS, etc.)\r\n* On the server, implement all reasonable time functions (e.g. things listed here: http://www.tutorialspoint.com/javascript/javascript_date_object.htm -- stuff like `getYear` and `setYear`)\r\n* I think the server shouldn't ever store timezone information, just milliseconds since epoch in UTC. When the user says something like `r.row('time_field').getDay.eq('Monday')` they either pass the timezone they want via `run` (which the drivers would default to local timezone), or the server assumes they're speaking in UTC if the driver passes nothing.\r\n* The user can translate things to string representations on the server and store it in attributes, but those are strings, not times. They can't run time ops on it unless they call `r.parse_time`."
+  , issueCommentId = 20322958
+  }

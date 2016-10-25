@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-13) 03 : 34 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55480522"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2574#issuecomment-55480522"
+  , issueCommentCreatedAt = 2014 (-09) (-13) 03 : 34 : 32 UTC
+  , issueCommentBody =
+      "The problem of having `map` being variadic to solve iterating over a sequence with an index is that it cannot handle streams.\r\nExcept if we can pass a stream to `do`?\r\n\r\n\r\nConsider:\r\n\r\n```js\r\nr.table(\"users\").orderBy({index: \"score\"}).map(function(user, index) {\r\n   return user.merge({prize: r.table(\"prizes\").get(index) })\r\n})\r\n```\r\n\r\n\r\nWith range we would have to do\r\n```js\r\nr.table(\"users\").orderBy({index: \"score\"}).coerceTo(\"ARRAY\").do(function(users) {\r\n  return r.map(users, r.range(users.count(), function(user, index) {\r\n    return user.merge({prize: r.table(\"prizes\").get(index) })\r\n  }\r\n})\r\n```\r\nNote that using `r.table(\"users\").count()` will not yield the same result as `users.count()` since we don't store all values in secondary indexes. In a general case, we whether have to coerce the sequence to an array, or compute it twice.\r\n\r\n\r\nIn the end, it wouldn't make things that much better compared to what we have now.\r\n```js\r\nr.table(\"users\").orderBy({index: \"score\"}).coerceTo(\"ARRAY\").do(function(users) {\r\n  return users.indexesOf(function() { return true }).map(function(index) {\r\n    return users.nth(index).merge({prize: r.table(\"prizes\").get(index) })\r\n  }\r\n})\r\n```"
+  , issueCommentId = 55480522
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-25) 19 : 52 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53318500"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2954#issuecomment-53318500"
+  , issueCommentCreatedAt = 2014 (-08) (-25) 19 : 52 : 14 UTC
+  , issueCommentBody =
+      "Thanks for the detailed test!\r\n\r\nJust to explain what's going on a bit more, there is a fundamental tradeoff between throughput and latency. Most RethinkDB queries are lazy, which means the server executes the computation only when the user requests it. If you're only getting the first few elements on the cursor but not the rest, the rest of the resultset will not be computed on the server whenever possible.\r\n\r\nWhich presents the implementation with a question. We could only compute one result document at a time and send it right away to minimize latency, or we could compute multiple results at a time and send them together in a batch to maximize throughput. The current implementation optimizes for latency for the first batch (the very first batch sent to the driver is quite small -- that's why it takes only 4ms to get the cursor), but as you keep reading the following batches are larger to start optimizing for throughput.\r\n\r\nThere are a number of undocumented settings to control this behavior. We've tuned them extensively internally, but will be exposing and documenting them to give database users more control (see #2185). There are also separate issues in the works to make latency lower in general by optimizing the deserialization and evaluation code (#1915, #2652).\r\n\r\nFor now I'd say the numbers look right, but they should get significantly better soon because of latency optimization work, and can be optimized even further once batch configuration is exposed explicitly.\r\n\r\nCC'ing @danielmewes, in case something I said is wrong."
+  , issueCommentId = 53318500
+  }

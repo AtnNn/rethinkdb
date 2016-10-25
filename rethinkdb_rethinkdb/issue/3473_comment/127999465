@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-05) 13 : 39 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/127999465"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3473#issuecomment-127999465"
+  , issueCommentCreatedAt = 2015 (-08) (-05) 13 : 39 : 49 UTC
+  , issueCommentBody =
+      "Sorry for the late reply. I'm adding a comment now because this issue came up in #2230.\r\n\r\n> What flags would we want used in compiling RethinkDB that we would not want the libraries we are compiling not to use as well?\r\n\r\nSome examples are optimisation and debugging flags such as `-O`, `-fsanitize`, `-p` and `-flto`.\r\n\r\nI consider it a bug in older versions of clang that it linked will a crippled standard library by default, requiring us to pass `-stdlib=libc++`. If the need arose, the small block of code that sets this flag in the packages that need it could be replaced by a set of `CXXFLAGS` and `LDFLAGS` set in the `configure` script that are shared with the fetched dependencies and are separate from those specifically used to build RethinkDB.\r\n\r\n> we need to make that the special case, not the default one\r\n\r\nI think flags passed on the command line, such as `./configure CXXFLAGS=-p` should not be shared with the fetched dependencies by default.\r\n\r\nPerhaps my disagreement with the ideas in this issue stems from seeing the fetched dependencies differently. To me they are just a hack, a tacked on mess whose purpose is to make it easier to build RethinkDB on systems in which the dependencies are unavailable or hard to install. They are designed to be built separately and independently from RethinkDB, and this is reflected in the design. For example, after re-running `./configure`, the dependencies are not rebuilt. Making changes such as sharing some `CXXFLAGS` would make me want to reconsider that decision and others.\r\n\r\nI realise however that these scripts that were originally designed to build optional, fetched dependencies are now used to build mandatory, checked-in dependencies such as v8 and re2. I'm ashamed to say that the [v8 build script](https://github.com/rethinkdb/rethinkdb/blob/next/mk/support/pkg/v8.sh#L21) still looks like a big hack. I'm amazed it has worked so well so far. "
+  , issueCommentId = 127999465
+  }

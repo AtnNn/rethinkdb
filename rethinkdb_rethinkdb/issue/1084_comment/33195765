@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-24) 04 : 00 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33195765"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1084#issuecomment-33195765"
+  , issueCommentCreatedAt = 2014 (-01) (-24) 04 : 00 : 09 UTC
+  , issueCommentBody =
+      "Hmm so we rely on the destruction order of function arguments in `post_construct_and_drain_queue()`. The arguments have both an `auto_drainer_t::lock_t` as well as a `boost::shared_ptr<internal_disk_backed_queue_t>`. The latter must be destructed first. I don't know, it seems like either that doesn't work when compiling on CentOS, or a copy of the shared_ptr survives in the boost::function object for longer than the copy of the lock_t.\r\n\r\nIf I remove the shared_ptr and instead use a regular pointer and wrap it into a scoped_ptr_t at the beginning of the function it works.\r\nThere is also another related place where we don't hold an `auto_drainer_t::lock_t` for long enough."
+  , issueCommentId = 33195765
+  }

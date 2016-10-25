@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 08 : 40 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60724099"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2643#issuecomment-60724099"
+  , issueCommentCreatedAt = 2014 (-10) (-28) 08 : 40 : 00 UTC
+  , issueCommentBody =
+      "Here's my plan.\r\n\r\n1. Move the logic for handling query results out of the `Container` class and into a new `QueryResult` class. The `QueryResult` class will have a `Backbone.Events` mixin that it uses to trigger events for errors or new cursor rows. This is in review and in branch `atnnn/2643`. This change does not affect the `ResultView` class.\r\n\r\n2. Refactor the monolithic `ResultView` and `SharedResultView` classes into `TreeView`, `TableView`, `RawView` and `ProfileView` classes, a `TabbedResultView` that wraps those four classes, and a `ResultView` as a parent of these five classes, with the common code. This should be a straightforward change and will make the following steps, and future enhancements, easier to implement.\r\n\r\n3. The logic in `Container` for taking changes out of the `QueryResult` object and handing them to the `ResultView` will be removed. `Container` will just pass the `QueryResult` object to the active `ResultView`.\r\n\r\n4. It should then be easy to adapt each `ResultView` to listen for new rows itself and display each group of 40 rows as they are received instead of all at once.\r\n\r\n5. The UI should then be in a very usable state. We can test it and see how well it works and what it is missing.\r\n\r\n@neumino Do you have any opinion or advice? It will take a lot more time before I get to know the code as well as you do."
+  , issueCommentId = 60724099
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-06) 01 : 01 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23912617"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1403#issuecomment-23912617"
+  , issueCommentCreatedAt = 2013 (-09) (-06) 01 : 01 : 09 UTC
+  , issueCommentBody =
+      "cJSON isn't just slow because we added that sscanf.  Parsing an array seems to be roughly quadratic, regardless of whether it's an array of numbers or an array of strings (our cJSON only uses sscanf for parsing numbers).\r\n```ruby\r\nirb(main):3990:0> tm { r.json(([1]*1000).to_json).do(1).run }\r\n0.009060884\r\nirb(main):3991:0> tm { r.json(([1]*10000).to_json).do(1).run }\r\n0.901341708\r\nirb(main):3993:0> tm { r.json((['1']*1000).to_json).do(1).run }\r\n0.016261804\r\nirb(main):3994:0> tm { r.json((['1']*10000).to_json).do(1).run }\r\n0.908803813\r\n```\r\n\r\nMore importantly, this isn't the first issue we've had with cJSON.  We've been fixing problems with it for literally years now.\r\n\r\nYajl's build system mostly seems to be there to support installing, testing, generating docs, etc.  I can compile everything with a 4-line Makefile.  Our build system is a little beyond my comprehension at this point, but I think it would be really easy to fit in.  (It's ANSI C, no external dependencies.)\r\n\r\nI'm open to suggestions for other JSON parsers, but yajl seems pretty good to me.\r\n\r\nIt's also pretty small -- about 4k lines for all the .c and .h files, counting the tree logic which we won't be using.  That's only about twice the size of what cJSON would be if it didn't cram multiple logical lines into one actual line."
+  , issueCommentId = 23912617
+  }

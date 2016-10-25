@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-02) 21 : 24 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39385700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1227#issuecomment-39385700"
+  , issueCommentCreatedAt = 2014 (-04) (-02) 21 : 24 : 29 UTC
+  , issueCommentBody =
+      "There is no way to take advantage of two pre-existing indexes and use them for retrieving by one index and sorting by the other.  After retrieving by the first index, you'd have to resort to traversing the entire sorting index in order, looking for the documents you've retrieved from the first index.\r\n\r\nYou can write that query already.  If you want to get a document whose values in `field1` are one of the values in the array `['x', 'y', 'z']`, and then order them by `field2`, the best way to do that is with an `table.order_by({'index': 'field2'}).filter(r.expr(['x', 'y', 'z']).contains(r.row('field1')))`.\r\n\r\nOne difference in semantics to look out for, though, is that `order_by` returns a different set of documents when you use an index (for now, and this is a bug or misdesign that should be fixed -- see the later comments in #1032) -- it will omit documents that lack the field 'field2' or have it set to null, instead of ordering them a certain way."
+  , issueCommentId = 39385700
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-12) 18 : 13 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22513246"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1260#issuecomment-22513246"
+  , issueCommentCreatedAt = 2013 (-08) (-12) 18 : 13 : 24 UTC
+  , issueCommentBody =
+      "Alright, having slept on it:\r\n* I think we should keep normal types and pseudotypes in separate namespaces, because it feels cleaner and because it means I have to think about fewer things when writing e.g. `pt_to_str_key`.  (What if you do if you have a pseudotype that you can use as a primary key that starts with an `S`?  You'd have to somehow shim it in before or after `String` without changing the way string pkeys are formatted, probably by starting it with a `T` or an `R`, but wait `T` starts `Time` so...)\r\n* I don't think anyone is going to stop using the product because they have to type `PSEUDOTYPE(TIME)` or `PTYPE<TIME>` instead of `TIME`.\r\n* I don't really care whether we do `PSEUDOTYPE(TIME)` or `PTYPE<TIME>` or whatever.\r\n\r\n---\r\n\r\nSince we're releasing soon, here's my understanding of the tally:\r\n* Joe, Mlucy: Want separate namespace, don't care too much about the precise name.\r\n* Slava: Wants one namespace, but OK with two namespaces if we have something nicer than `PSEUDOTYPE(TIME)`.\r\n* Srh: not sure, probably wants one namespace.\r\n\r\nSince we're shipping soon, I'm going to call this settled with the name `PTYPE<TIME>` (partially just because I don't want to have to re-implement comparisons and key printing this close to release).  If this turns out to be especially irritating to people, we can always change it later.  (I think there's already another issue somewhere to lower-case our type names; maybe we could roll it into that?)"
+  , issueCommentId = 22513246
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-05) 03 : 34 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 44855
+        , simpleUserLogin = N "chrisvariety"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/44855?v=3"
+        , simpleUserUrl = "https://api.github.com/users/chrisvariety"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39627810"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1854#issuecomment-39627810"
+  , issueCommentCreatedAt = 2014 (-04) (-05) 03 : 34 : 16 UTC
+  , issueCommentBody =
+      "Here's some real use cases where I struggle with this every day using rethinkdb (which I :heart:, thx y'all) -- super psyched it is slated for 1.13.\r\n\r\n```js\r\nvar purchasedCourseIds = [1,2,3]; // dynamic array loaded from somewhere\r\nr.table('courses').getAll.apply(r.table('courses'), purchasedCourseIds)\r\n```\r\n\r\nI think this could be written as:\r\n\r\n```js\r\nr.table('courses').getAll(r.args(purchasedCourseIds))\r\n```\r\n\r\nSimilarly, but a bit more complex:\r\n\r\n```js\r\nr.table('courses').getAll(courseIds).map(function(course) {\r\n  return course.merge({\r\n    sections: course('sectionIds').map(function(sectionId) {\r\n      return r.table('sections').get(sectionId);\r\n    })\r\n  });\r\n});\r\n```\r\n\r\nRe-written as:\r\n\r\n```js\r\nr.table('courses').getAll(courseIds).map(function(course) {\r\n  return course.merge({\r\n    sections: r.table('sections').getAll(r.args(course('sectionIds')))\r\n  });\r\n});\r\n```\r\n\r\nIs that right? If so, \127881"
+  , issueCommentId = 39627810
+  }

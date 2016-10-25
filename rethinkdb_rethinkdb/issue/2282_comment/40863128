@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-19) 07 : 35 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40863128"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2282#issuecomment-40863128"
+  , issueCommentCreatedAt = 2014 (-04) (-19) 07 : 30 : 00 UTC
+  , issueCommentBody =
+      "Got the bug.\r\n\r\nIf you `require 'active_support/core_ext'` (included in all Rails applications), then you get that funny behavior.\r\n\r\nHere's a relevant stack trace:\r\n```\r\n  [14] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/core_ext/object/json.rb:159:in `block in as_json'\",\r\n    [15] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/core_ext/object/json.rb:159:in `each'\",\r\n    [16] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/core_ext/object/json.rb:159:in `map'\",\r\n    [17] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/core_ext/object/json.rb:159:in `as_json'\",\r\n    [18] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/json/encoding.rb:34:in `encode'\",\r\n    [19] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/json/encoding.rb:21:in `encode'\",\r\n    [20] \"/home/pafy/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.0/lib/active_support/core_ext/object/json.rb:37:in `to_json_with_active_support_encoder'\",\r\n    [21] \"/home/pafy/opt/rethinkdb/drivers/ruby/lib/shim.rb:108:in `to_json'\",\r\n    [22] \"/home/pafy/.rvm/rubies/ruby-2.1.1/lib/ruby/2.1.0/json/common.rb:223:in `generate'\",\r\n    [23] \"/home/pafy/.rvm/rubies/ruby-2.1.1/lib/ruby/2.1.0/json/common.rb:223:in `generate'\",\r\n    [24] \"/home/pafy/.rvm/rubies/ruby-2.1.1/lib/ruby/2.1.0/json/common.rb:394:in `dump'\",\r\n    [25] \"/home/pafy/opt/rethinkdb/drivers/ruby/lib/shim.rb:73:in `dump_json'\",\r\n```\r\n\r\nJSON.dump ends up calling \"to_json\" on your objects, which is hooked by active_support. On RethinkDB::RQL there is no behavior specified, so it just dumps the instance variables (in my case body and bitop).\r\nYou can define the method `as_json(options={})` to return the JSON representation that you want for that object. You have to return a ruby object (as opposed to a string)."
+  , issueCommentId = 40863128
+  }

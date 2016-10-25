@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-22) 22 : 36 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23131600"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1337#issuecomment-23131600"
+  , issueCommentCreatedAt = 2013 (-08) (-22) 22 : 36 : 39 UTC
+  , issueCommentBody =
+      "So, there's a minor subtlety here that I don't think we have documented anywhere: a `selection` can be either an `array` or a `stream` underneath (a `selection` is any sequence, but with extra information so that we can do writes on it).  So you see this behavior:\r\n```ruby\r\nirb(main):15098:0> r.table('test').get_all(0).eq_join('id', r.table('test')).typeof.run\r\n\"ARRAY\"\r\nirb(main):15099:0> r.table('test').filter{true}.eq_join('id', r.table('test')).typeof.run\r\n\"STREAM\"\r\n```\r\nBecause `get_all` returns an array selection and `filter` returns a stream selection.\r\n\r\nWe should document this somewhere, and probably expose it in `type` -- we could have `SELECTION<ARRAY>`, `SELECTION<STREAM>`, and `SELECTION<OBJECT>` as our three selection types (the last being a single-row selection like what `get` returns)."
+  , issueCommentId = 23131600
+  }

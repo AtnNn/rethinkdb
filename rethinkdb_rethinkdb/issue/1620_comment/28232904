@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-11) 19 : 55 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28232904"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1620#issuecomment-28232904"
+  , issueCommentCreatedAt = 2013 (-11) (-11) 19 : 55 : 13 UTC
+  , issueCommentBody =
+      "@bahadir Ok, I managed to reproduce the issue now. I first couldn't get it, but then I switched to a slightly slower machine and setting the number of replicas to 4 while having 32 shards did the trick for me.\r\nWhat happened in my case is that nodes started getting heartbeat timeouts. Then they reconnected, just to time out again while trying to get synced with the rest of the cluster. The last part repeated itself.\r\n\r\nThe good news is: This seems to be fixed by the changes in branch 'daniel_backfill_latency_tweaks', and is hopefully going to be a thing of the past with version 1.11.\r\n\r\n@bahadir If building from source is acceptable, you can checkout the v1.10.1 branch and increase the heartbeat timeout by editing the file 'src/rpc/connectivity/heartbeat.hpp'. Change the line `static const uint32_t HEARTBEAT_TIMEOUT_INTERVALS = 5` to something like `static const uint32_t HEARTBEAT_TIMEOUT_INTERVALS = 20`. You could also build from 'daniel_backfill_latency_tweaks', but I don't recommend that for anything but evaluation purposes, as it is an unsupported branch. \r\nSorry you had to run into this."
+  , issueCommentId = 28232904
+  }

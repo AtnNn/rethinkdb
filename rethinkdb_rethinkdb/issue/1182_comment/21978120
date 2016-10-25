@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-01) 23 : 49 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21978120"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1182#issuecomment-21978120"
+  , issueCommentCreatedAt = 2013 (-08) (-01) 23 : 49 : 57 UTC
+  , issueCommentBody =
+      "Whoops, sorry it took so long to get to this, been working on a bunch of different things the past couple weeks.  As for finding the symbols from the backtrace, it would be nice to know which version of rethinkdb you were running.  I just brute-forced it with some symbol files, until I got a stack trace that made sense, and it looks like the exception was occuring in `protob_server_t` when trying to write the description of an authentication failure.\r\n\r\nThere is indeed a place in `protob_server_t::handle_conn` where it writes to the connection without a try...catch block, so that's probably what happened here.  For that situation to arise, you would a client to connect, have a problem with authorization, and then the client immediately closes the connection before we can respond, as far as I can tell.\r\n\r\nAnyway, I have a fix for the uncaught exception up in review 780."
+  , issueCommentId = 21978120
+  }

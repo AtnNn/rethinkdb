@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 22 : 58 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47169721"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47169721"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 22 : 58 : 19 UTC
+  , issueCommentBody =
+      "@mlucy: Basically it all depends on which part of the compound index is more selective. If the geo part is highly selective, it makes sense to have it first.\r\n\r\nFor non-geo compound indexes, we always get a contiguous key range for `between()` and `getAll()` queries, even with some of the compound index's components omitted. So that's always pretty efficient.\r\n\r\nThat is not true for geospatial indexes. You can basically think of a geospatial compound index as two nested trees.\r\n\r\nIf the geometry is the first component, you have a quad-tree-like tree on the outside. If selectivity on the geometry is poor in your query, you have to go into a lot of the inner btrees, many of which might not contain any results at all (if selectivity on the remaining index parts is high).\r\n\r\nHere's an extreme case: Let's say you have a database of company offices. Each entry has a position and the name of the company. We create a compound index on `[position, company]`. Now you want to look up \"RethinkDB\" offices and you don't want to limit the location. In that case you get close to O(n) run time, because there will be *some* office almost at any location (= quad tree node), but almost none of them will match your criteria.\r\n\r\nHowever the same is true the other way around. If you put the geo index in the last place (i.e. `[company, position]`), and want to search for offices within 100 feet of 156 E Dana Street, but don't care about the company, you get a similar effect:\r\nYou have an outer btree on the company. You have to go to every single node in that tree, since you cannot filter out anything. Then you have to traverse the \"inner\" quad trees at each of those nodes, though only extremely few will actually yield results. Again you get essentially linear complexity.\r\n\r\n\r\nI just talked to @coffeemug, and we basically concluded that having selective geospatial criteria is the more common case for most applications.\r\nSo I think we will only allow geometry as the first component in a compound index at this point."
+  , issueCommentId = 47169721
+  }

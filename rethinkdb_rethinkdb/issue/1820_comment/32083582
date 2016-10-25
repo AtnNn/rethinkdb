@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 01 : 58 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32083582"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1820#issuecomment-32083582"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 01 : 58 : 54 UTC
+  , issueCommentBody =
+      "I finally found out where the stalls on the message queue come from. There are actually three different places which take in the order of multiple seconds to process without yielding, all in the serializer. Two of them become increasingly severe with an increasing table size. They are:\r\n\r\n1. `log_serializer_t::index_write()`. This one might be difficult to break into smaller tasks. I think we can work around the issue with the new cache though. We would simply adjust the merger_serializer_t to launch a new index_write as soon as a certain number of index operations has accumulated, rather than never launching more than one at a time. With the current cache this wouldn't be effective, because the cache itself already accumulates multiple write transactions into a single huge index_write().\r\n\r\n2. LBA garbage collection: This one re-generates the whole on-disk LBA without yielding as far as I can see. If the database is large, this can take a while. I think we also garbage-collect the LBA unreasonably often, but that's a different issue.\r\n\r\n3. LBA reconstruction: This one is definitely not the cause of this issue, but still an annoyance. It only affects the phase when a node with existing large tables is restarted. I've seen reconstruction times of up to 15 seconds with a table of ~60M documents, during which the process doesn't yield. I already have a fix for this.\r\n\r\nThese things are something that definitely have to be fixed. Whether they are the sole cause of this issue remains to be seen."
+  , issueCommentId = 32083582
+  }

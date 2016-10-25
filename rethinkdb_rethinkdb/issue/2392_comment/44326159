@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-27) 19 : 51 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44326159"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2392#issuecomment-44326159"
+  , issueCommentCreatedAt = 2014 (-05) (-27) 19 : 51 : 22 UTC
+  , issueCommentBody =
+      "Increasing the capacity of the `chunk_processing_semaphore` increases backfill throughput a lot. on SSDs, it goes from 6K writes/s up to 21K writes/s when increasing it from 1 to 8 (11K at 2, 15K at 4).\r\n\r\nIn the more interesting case of rotational disks, I tested the backfill throughput between two nodes, in comparison to the impact that backfilling has on a single client inserting documents into the table.\r\n![chunk processing semaphore](https://cloud.githubusercontent.com/assets/505365/3096762/cd60c578-e5d7-11e3-945d-8c0004ebeb89.png)\r\n\r\nWithout backfilling, the insert throughput (soft durability, small documents) is roughly 400 documents/s. At capacities for the `chunk_processing_semaphore` of 1 and 2, the effect on the inserts is minimal, while a value of 2 almost doubles the backfill throughput. At 4 concurrently processed chunks, the impact on the insert queries is still quite reasonable, with backfill throughput now being three times the speed of what we had for a value of 1.\r\n\r\nI think the best compromise is a value of 4. Unless we want to be really conservative, in which case we should set it to 2."
+  , issueCommentId = 44326159
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-05) 02 : 24 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45174656"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2457#issuecomment-45174656"
+  , issueCommentCreatedAt = 2014 (-06) (-05) 02 : 23 : 57 UTC
+  , issueCommentBody =
+      "Here's the performance analysis for making GC run concurrently as implemented in branch `daniel_concurrent_gc` (in code review 1584 by @srh):\r\n\r\n__Inserting data as fast as possible__\r\nIn this test, 1,000,000 small documents of approximately 128 bytes were inserted at the highest possible speed into a table (noreply + soft durability + batching).\r\n\r\nBranch / Drive  | Time for inserting 1M docs | Size of table on disk\r\n------------- | ------------- | -------------\r\nnext  / HDD | 3m 13s | 1,100 MB\r\ndaniel_concurrent_gc  / HDD | 8m 20s | 400 MB\r\nnext  / SSD | 0m 42s | 1,100 MB\r\ndaniel_concurrent_gc  / SSD | 0m 58s | 400 MB\r\n\r\nThe impact of a more aggressive garbage collector on SSDs is relatively low. On hard disks it takes approximately twice as long to insert the documents.\r\n\r\n__YCSB mixed read/write work load__\r\nIn this experiment I ran the YCSB benchmark with workload 'a' and 10 concurrent clients. It does 50% updates and 50% reads with medium-sized documents.\r\nThe main question here is whether GC remains unintrusive in typical real-world workloads.\r\n\r\nBranch / Drive  | Overall ops/sec | Avg. latency read | 99th percentile latency read | Avg. latency write | 99th percentile latency write\r\n------------- | ------------- | ------------- | ------------- | ------------- | -------------\r\nnext  / HDD | 941 | 9.5 ms | 1 ms | 11.6 ms | 3 ms\r\ndaniel_concurrent_gc  / HDD | 955 | 9.7 ms | 1 ms | 11.2 ms | 3 ms\r\nnext  / SSD | 9730 | 0.5 ms | 1 ms | 1.5 ms | 2 ms\r\ndaniel_concurrent_gc  / SSD | 9494 | 0.5 ms | 1 ms | 1.5 ms | 2 ms\r\n\r\nNote that the average latency as well as ops/s numbers on HDDs are somewhat meaningless because of #2507. The 99th percentile is the relevant piece of information here.\r\n\r\nThere is no measurable difference between `daniel_concurrent_gc` and `next` in this experiment."
+  , issueCommentId = 45174656
+  }

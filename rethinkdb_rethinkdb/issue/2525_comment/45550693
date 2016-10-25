@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-09) 22 : 08 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45550693"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2525#issuecomment-45550693"
+  , issueCommentCreatedAt = 2014 (-06) (-09) 22 : 08 : 48 UTC
+  , issueCommentBody =
+      "Notably, we can get this (sorry for the contrived reduction function):\r\n\r\n```\r\nirb(main):039:0> r.table('foo').run\r\n=> #<RethinkDB::Cursor:69834929207340 (enumerable): r.table(\"foo\")\r\n[{\"a\"=>[1, 2, 3, 4, 5], \"id\"=>\"0410f77a-0d27-4090-a537-ca9e4e95fa34\"},\r\n {\"a\"=>[6, 7, 8, 9, 0], \"id\"=>\"bf602ba9-41e6-4412-8ea9-8289efb263e9\"}]>\r\nirb(main):040:0> r.table('foo').map{|x| x[:a]}.reduce{|x, y| (x + y).slice(1,3, :left_bound => 'open')}.run\r\n=> [3]\r\nirb(main):041:0> r.table('foo').map{|x| x[:a]}.reduce{|x, y| (x + y).slice(1,3)}.run(:left_bound => 'open')\r\n=> [2, 3]\r\n```\r\n\r\nAlso, the `batched_replace_t` and `rget_read_t` operations, which use an `env_t` for evaluation purposes, *do* initialize the global optargs.\r\n\r\nThe function `rdb_update_single_sindex` does not initialize the global optargs, and that is *good* because we want secondary index function behavior to be deterministic.  (However, it's weird that the global optargs specified when creating the index would be ignored by the index function.)"
+  , issueCommentId = 45550693
+  }

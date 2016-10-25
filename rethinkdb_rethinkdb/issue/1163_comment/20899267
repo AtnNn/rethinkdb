@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 19 : 33 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20899267"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1163#issuecomment-20899267"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 19 : 32 : 52 UTC
+  , issueCommentBody =
+      "@HorizonNet if that can help you, here are some docs on how to set a reverse proxy with apache2.\r\nI haven't written how to do it with nginx yet.\r\n\r\n\r\n======================================\r\n\r\n### Secure the web interface ###\r\n\r\nYou also have to make sure to protect access to the web interface. Run the following commands to ensure that the web interface can only be accessed from the local machine running RethinkDB:\r\n\r\n```\r\nsudo iptables -A INPUT -i eth0 -p tcp --dport 8080 -j DROP\r\nsudo iptables -I INPUT -i eth0 -s 127.0.0.1 -p tcp --dport 8080 -j ACCEPT\r\n```\r\n\r\nYou can also use apache to allow access (with a basic authentication) to the web interface from other machines:\r\n\r\n```\r\nsudo apt-get install libapache2-mod-proxy-html\r\nsudo a2enmod proxy\r\nsudo a2enmod proxy_http\r\n```\r\n\r\nThen create a new virtual host:\r\n\r\n```\r\n<VirtualHost *:80>\r\n    ServerName domain.net\r\n\r\n    ProxyRequests Off\r\n\r\n    <Proxy *>\r\n        Order deny,allow\r\n        Allow from all\r\n        AuthType Basic\r\n        AuthName \"Password Required\"\r\n        AuthUserFile password.file\r\n        AuthGroupFile group.file\r\n        Require group dbadmin\r\n    </Proxy>\r\n\r\n    ProxyErrorOverride On\r\n    ProxyPass   /rethinkdb_admin/   http://localhost:8080/\r\n    ProxyPassReverse   /rethinkdb_admin/   http://localhost:8080/\r\n\r\n</VirtualHost>\r\n```\r\n\r\nCreate the password file in `/etc/apache2/`:\r\n\r\n```\r\nhtpasswd.exe -c password.file username\r\n```\r\n\r\nThen create a file `group.file` with this content:\r\n\r\n```\r\ndbadmin: username\r\n```\r\n\r\nYou can now access the web interface with `http://<ip_machine>/rethinkdb_admin`.\r\n"
+  , issueCommentId = 20899267
+  }

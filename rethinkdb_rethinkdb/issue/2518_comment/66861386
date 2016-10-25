@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-13) 02 : 21 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66861386"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2518#issuecomment-66861386"
+  , issueCommentCreatedAt = 2014 (-12) (-13) 02 : 21 : 15 UTC
+  , issueCommentBody =
+      "It's actually very easy to do this by hand (UTF-8 is a self synchronizing format, and it's very easy to know when you're past a code point).  I can actually do it if you think it valuable, but I think it would be better to use ICU's version when/if we include ICU into the rest of the system.\r\n\r\nYou'll still have a different issue, which is that we will split combining characters away from their root code point.  This is a *much* bigger issue to handle\8212you basically need a lookup table telling you whether the character in question is in the \"M\" category (most are Mn, some Indic scripts have Mcs, and then there's weird things like U+20DD for making 2\8413).  This isn't difficult\8212the Unicode consortium have done all the intellectual spadework, which is represented in UnicodeData.txt and SpecialCasing.txt\8212but it would be better to use somebody else's library for this (probably ICU).\r\n\r\nIf you want an example of what this looks like, consider the following query: `r.expr(\"\\u006f\\u0301a va\").split('o')` which yields\r\n> [\r\n> \"\" ,\r\n> \"\769a va\"\r\n> ]\r\n\r\nand yes, that is an accented quotation mark."
+  , issueCommentId = 66861386
+  }

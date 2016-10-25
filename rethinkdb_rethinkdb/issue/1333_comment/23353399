@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-27) 17 : 09 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23353399"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1333#issuecomment-23353399"
+  , issueCommentCreatedAt = 2013 (-08) (-27) 17 : 09 : 28 UTC
+  , issueCommentBody =
+      "1)\r\n`get_all` isn't equivalent to a `between` when you use multiple values. It's equivalent to a union of several `between`s but it gets kind of tough to desugar with our current system.\r\n\r\nHere's what you'd need:\r\n\r\n```Python\r\ntable.get_all(args, index=\"foo\").order_by(index=\"foo\")\r\n# desugars to\r\nunion(args.order_by(lambda x: x)\r\n    .map(lambda x: table.between(x, x, index=\"foo\").order_by(index=\"foo\")))\r\n```\r\n\r\nbut that's really tough with our current system.\r\n\r\n2) Milestones are far too complicated at this point for me to understand their meaning. In my mind they're just cosmetic additions to the issue pages. So I wouldn't object to you spiffying things up however you see fit.\r\n\r\n3) #971 would make the query fail more quickly. But obviously it won't make this query work."
+  , issueCommentId = 23353399
+  }

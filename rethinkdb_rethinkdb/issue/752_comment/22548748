@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-13) 07 : 58 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22548748"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/752#issuecomment-22548748"
+  , issueCommentCreatedAt = 2013 (-08) (-13) 07 : 58 : 30 UTC
+  , issueCommentBody =
+      "So it actually turns out this is a lot easier than we initially thought. The key to this is that we use a `blob_t` to store values in the btree. I feel like you (Mr. Mug) know how these work but for those who don't know a `blob_t` basically gives you an abstracted way to store arbitrarily large values in btree nodes. The way it does this is you give it a chunk of space in a node (normally 250 bytes), if the value you're trying to store in it fits within 250 bytes then it just inlines it* otherwise it allocates more blocks to fit the data and stores references to them in the leaf node (I'm going to call the raw data stored in the leaf node the *basic value*).\r\n\r\nThe key insight here is that we can copy the basic value byte for byte into another node and it will act as a reference to the data and ensure that the added overhead from value duplication is capped at 250 bytes per value which we can definitely live with.\r\n\r\nSo the answer to all of your questions is no. The first 2 just don't apply and I don't think the 3rd one does either because this method is strictly better than the existing method.\r\n\r\n\r\n*We truncate so we're not using 250 bytes to store 10 byte values.\r\n\r\n---\r\n\r\nThe implementation of this is actually incredibly simple here's how the basic btree operations change:\r\n\r\n### Insert\r\n\r\n#### Old Algorithm\r\n\r\n```\r\nfind location in primary btree\r\nconvert to blob_t and insert in primary btree\r\nfor each index:\r\n    find location in index btree\r\n    convert to blob_t and insert in index btree\r\n```\r\n\r\n#### New Algorithm\r\n\r\n```\r\nfind location in primary btree\r\nconvert to blob_t and insert in primary btree\r\nstore basic value of blob_t in B\r\nfor each index:\r\n    find location in index btree\r\n    insert B in index btree\r\n```\r\n\r\n### Update\r\n\r\n#### Old algorithm\r\n\r\n```\r\nfind location in primary btree\r\ncompute new value\r\nclear blob_t stored in primary btree\r\nconvert new value to blob_t and store in primary btree\r\nfor each index:\r\n    find location in index btree\r\n    clear blob_t stored in index btree\r\n    convert new value to blob_t and store in index btree\r\n```\r\n\r\n#### New Algorithm\r\n\r\n```\r\nfind location in primary btree\r\ncompute new value\r\nstore basic value of blob_t stored in primary btree in B_delete\r\nconvert new value to blob_t and store in primary btree\r\nstore basic value of new blob_t in B\r\nfor each index:\r\n    find location in index btree\r\n    insert B in index btree\r\nclear B_delete\r\n```\r\n\r\n### Delete\r\nDelete is just like update without the insertions."
+  , issueCommentId = 22548748
+  }

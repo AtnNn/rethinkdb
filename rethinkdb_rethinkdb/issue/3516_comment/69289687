@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-09) 03 : 47 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69289687"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3516#issuecomment-69289687"
+  , issueCommentCreatedAt = 2015 (-01) (-09) 03 : 47 : 26 UTC
+  , issueCommentBody =
+      "I think the problem is that Linux has a limit on the number of contiguous mmapped areas (or something like that). Jemalloc prior to version 3.0.0 appears to use `munmap` to return pages to the OS, which fragments the mapped memory space into a lot of discontiguous areas.\r\n\r\nI was able to avoid the issue on newton by setting `echo 131060 > /proc/sys/vm/max_map_count` (the default is 65530).\r\n\r\nThe Jemalloc developers have disabled the use of `munmap` on Linux by default starting with Jemalloc 3.0.0 (https://github.com/jemalloc/jemalloc/commit/59ae2766af88bad07ac721c4ee427b171e897bcb). Even if I explicitly enable `munmap` use at Jemalloc compile time, I'm not getting the error with Jemalloc 3.6.0 anymore though, so there must have been some additional changes as well.\r\n\r\nThe reason we don't get a crash from this is that the error happens in `free()` rather than during an allocation.\r\n\r\nGenerally this appears to be a problem with Jemalloc and not in RethinkDB.\r\nWe should avoid linking with old versions of Jemalloc for our official packages though. @AtnNn can we do that?"
+  , issueCommentId = 69289687
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-05) 08 : 15 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45192503"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2447#issuecomment-45192503"
+  , issueCommentCreatedAt = 2014 (-06) (-05) 08 : 14 : 56 UTC
+  , issueCommentBody =
+      "Depagination is implemented and up in code review 1587.  Available in the branch `grey_issue_2447` if you want to try it out.\r\n\r\nThere are two optargs involved with this issue, `depaginate` and `depaginate_limit`.\r\n\r\n## depaginate\r\n`depaginate` - STRING or FUNCTION\r\n \r\n### As a Function\r\nAs a function, `depaginate` takes three arguments\r\n * the `params` from the last request as a Datum\r\n * the HTTP header of the last response as a Datum\r\n * the HTTP body of the last response - in whatever format `result_format` specifies\r\n\r\nThe function should return an object with either or both of `url` and `params`.\r\n* `url` - specifies the new URL to issue the next request for\r\n* `params` - specifies a new set of URL parameters, to be merged with the old params (newer taking precedence)\r\n\r\n### As a String\r\nAs a string, `depaginate` specifies a built-in function to use rather than a lambda.  At the moment, the only valid choice is `link-header`, which is equivalent to the following:\r\n```py\r\ndepaginate=lambda p,h,b: { 'url': h['link']['rel=\"next\"'] }\r\n```\r\n\r\n## depaginate_limit\r\n`depaginate_limit` - NUMBER\r\n\r\nThis optarg specifies how many times to continue to the next page (using the `depaginate` function).  A value of `-1` is unlimited, and a value of `0` will perform only the first request (no subsequent requests)."
+  , issueCommentId = 45192503
+  }

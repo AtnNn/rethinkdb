@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-14) 06 : 09 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48866528"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2244#issuecomment-48866528"
+  , issueCommentCreatedAt = 2014 (-07) (-14) 05 : 26 : 12 UTC
+  , issueCommentBody =
+      "In preparation for some of these changes (e.g. using a flat variant type), I have implemented some changes in sam_2244_no_uninitialized which does the following:\r\n\r\n- Removes the UNINITIALIZED state from datum_t.\r\n\r\n- Splits datum_ptr_t into datum_array_builder_t and datum_object_builder_t, which have mutually disjoint subsets of its interface.  (This lets us move some of the logic outside the core type.)\r\n\r\n- Reduces the prevalence of \"partially constructed\" datum_t's in some form or another. (Splitting datum_ptr_t into datum_array_builder_t and datum_object_builder_t, which have mutually disjoint subsets of the datum_ptr_t interface, making things safer with respect to forgetting to call maybe_sanitize_ptype, and potentially safer with respect to remembering to check array size limits, though it deliberately maintains the same bug exposed in #2697 for secondary index compatibility.  The reason being that stuff necessarily gets channeled through the datum_t constructor that does such checks.\r\n\r\nThis also moves us closer to having date representations (and binary?) that don't have heinous \"pseudotype\" representations built on top of a std::map.\r\n\r\nEdit: Review 1776 (God Bless America) has these changes."
+  , issueCommentId = 48866528
+  }

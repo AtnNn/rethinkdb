@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 00 : 36 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18317049"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18317049"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 00 : 36 : 30 UTC
+  , issueCommentBody =
+      "I guess I think of `default` as a more general operation than just one meant to substitute for a particular missing attribute.  For instance, I think it's really important for people to be able to write:\r\n\r\n```\r\ntable.filter {|row|\r\n  some_expression(row).default(false)\r\n}\r\n```\r\n\r\nAnd have it drop all rows where `some_expression` doesn't make sense.  (Several people have asked for this behavior, sometimes even as the default for `filter`, because the data in their tables is often sufficiently unstructured that writing `some_expression` to never produce an error is extremely difficult.)\r\n\r\nEven if you have well-structured data, it can be very useful to have `default` work like that.  For example, if you want all the users whose average response times are greater than 500 ms:\r\n```\r\ntable.filter {|user|\r\n  user[:response_times].do {|response_times|\r\n    response_times.reduce{|a,b| a+b} / response_times.count > 500\r\n  }.default(false)\r\n}\r\n```\r\n\r\nWill work if `response_times` is non-existent, NULL, or empty, which is the behavior I would want.\r\n\r\nWe also want people to be able to use `default` for `reduce` operations that don't make sense on empty streams rather than having to provide a base (which has confused so many people that I feel very strongly that we should remove it):\r\n```ruby\r\npossibly_empty_stream.reduce{|a,b| a+b}.default(0)\r\n```\r\n---\r\n\r\nI think there's a lot to be said for making `NULL` act even more like non-existence, but removing it entirely as a user value would require rethinking a LOT of stuff in the query language.  For example, `get` returns NULL if the row you try to get doesn't exist, returning NULL from `replace` deletes the row, `replace` is passed `NULL` if you replace a row that doesn't exist, etc. etc."
+  , issueCommentId = 18317049
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-04) 23 : 19 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27733200"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1543#issuecomment-27733200"
+  , issueCommentCreatedAt = 2013 (-11) (-04) 23 : 19 : 52 UTC
+  , issueCommentBody =
+      "So, I've been doing some tests on this.  At @coffeemug's request I added latency caps for operations, but they turn out to not be very useful (at least in Ruby), because 95% of the time is spent parsing protobufs.\r\n\r\nHere's what the user-facing latency looks like in Ruby with a 30ms latency cap:\r\n```ruby\r\n# First we do it normally.\r\nirb(main):083:0> tm { r.table('big').limit(1000).run(batch_conf:{max_dur:30*1000}).instance_eval(\"@results\").size }\r\n176\r\n9.874030309\r\n\r\n# Now we do it with JSON encoding and parsing on the client.\r\nirb(main):084:0> tm { r.table('big').limit(1000).map{|x| x.coerce_to(\"string\")}.run(batch_conf:{max_dur:30*1000}).instance_eval(\"@results\").map{|x| JSON.parse(x)}.size }\r\n177\r\n0.346196737\r\n```\r\n\r\nIn both cases the server actually takes about 300ms to run the query despite the 30ms latency cap because of overhead that's difficult to measure when we're building the batches on the shards (which means we should probably set the actual latency caps lower than we need, or resort to size caps instead).  In the first case where Ruby's protobuf-parsing library comes into play, though, we take another 9.5 seconds just parsing things.  (And yes, I checked to make sure we're actually sending and parsing the correct JSON.)\r\n\r\nIn my mind, this makes #1571 absolutely necessary for this release.  (I just moved it into 1.11.)"
+  , issueCommentId = 27733200
+  }

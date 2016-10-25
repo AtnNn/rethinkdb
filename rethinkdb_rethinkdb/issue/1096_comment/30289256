@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-11) 02 : 38 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30289256"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-30289256"
+  , issueCommentCreatedAt = 2013 (-12) (-11) 02 : 38 : 38 UTC
+  , issueCommentBody =
+      "@jdoliner -- for the following query:\r\n\r\n```Python\r\nr.table(\"foo\").order_by(index = \"data\")\r\n              .coerce_to(\"ARRAY\")\r\n              .group(lambda x: x[\"data\"].date())\r\n```\r\n\r\nI think you're making a new assumption we didn't discuss -- that `group` on an array returns all elements for each group, and `group` on a stream does not. Is this what you're thinking? It's an interesting idea, but I think we should discuss it explicitly. I think changing the actual content of the output of the command depending on whether the function is an array or stream is a little odd.\r\n\r\nI think the solution here is to move `coerce_to` to the end:\r\n\r\n```Python\r\nr.table(\"foo\").order_by(index = \"data\")\r\n              .group(lambda x: x[\"data\"].date())\r\n              .coerce_to(\"ARRAY\")\r\n```\r\n\r\nIn this case I think things like `coerce_to` and `type_of` should run on the grouping itself, not each group.\r\n\r\nAs to @neumino's query, I don't understand why we need to use `group` at all? Why not just create a secondary index and call `get_all`?"
+  , issueCommentId = 30289256
+  }

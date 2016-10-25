@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-04) 04 : 06 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36590161"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2047#issuecomment-36590161"
+  , issueCommentCreatedAt = 2014 (-03) (-04) 04 : 01 : 35 UTC
+  , issueCommentBody =
+      "@bobbrodie -- unfortunately `groupBy` isn't powerful enough to do what you want.  You need to use `groupedMapReduce`.  Something like this should work:\r\n```js\r\nr.db('collector_production').table('events').groupedMapReduce(\r\n  function (event) { return event('created_at').day(); },\r\n  function (event) { return 1; },\r\n  function (a, b) { return a.add(b); } // was a+b, which is wrong, no operator overloading in JS\r\n)\r\n```\r\n\r\nThis interface is sort of terrible (you aren't the first person who's had trouble doing something like this), so we're actually changing it in the upcoming 1.12 release.  Once that's out (hopefully pretty soon) you'll be able to write:\r\n ```js\r\nr.db('collector_production').table('events')\r\n  .group(function(event) { return event('created_at').day(); })\r\n  .count()\r\n```"
+  , issueCommentId = 36590161
+  }

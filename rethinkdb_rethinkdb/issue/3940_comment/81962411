@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-16) 22 : 05 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/81962411"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3940#issuecomment-81962411"
+  , issueCommentCreatedAt = 2015 (-03) (-16) 22 : 05 : 59 UTC
+  , issueCommentBody =
+      "I was debugging this with some log statements in the server, and this is what I saw:\r\n\r\n```\r\n2015-03-16T12:27:03.142123944 Thread 0: running start (1):\r\n    r.dbDrop(\"foo\")\r\n2015-03-16T12:27:03.153230451 Thread 0: done (1): 1 responses\r\n2015-03-16T12:27:03.165968317 Thread 0: running start (2):\r\n    r.dbCreate(\"foo\")\r\n2015-03-16T12:27:03.172351445 Thread 0: done (2): 1 responses\r\n2015-03-16T12:27:03.184884684 Thread 0: running start (3):\r\n    r.db(\"foo\").tableCreate(\"foo\")\r\n2015-03-16T12:27:03.900592487 Thread 0: done (3): 1 responses\r\n2015-03-16T12:27:03.901738091 Thread 0: running start (4):\r\n    r.db(\"foo\").table(\"foo\").wait()\r\n2015-03-16T12:27:03.915559979 Thread 0: done (4): 1 responses\r\n2015-03-16T12:27:03.917292822 Thread 0: running start (5):\r\n    r.db(\"foo\")\r\n        .table(\"foo\")\r\n        .insert([{\"id\": 0}, {\"id\": 1}, {\"id\": 2}, {\"id\": 3}, {\"id\": 4}])\r\n2015-03-16T12:27:03.935294970 Thread 0: done (5): 1 responses\r\n2015-03-16T12:27:03.936927541 Thread 1: running start (1):\r\n    r.db(\"foo\").table(\"foo\")\r\n        .orderBy({\"index\": r.desc(\"id\")})\r\n        .limit(10)\r\n        .changes({\"squash\": 2})\r\n2015-03-16T12:27:03.968251585 Thread 1: done (1): 0 responses\r\n2015-03-16T12:27:03.968943936 Thread 1: running continue (1)\r\n2015-03-16T12:27:05.969243185 Thread 1: done (1): 5 responses\r\n2015-03-16T12:27:05.969976883 Thread 1: running continue (1)\r\n```\r\n\r\nThe query that comes in at 12:27:03.93 is the orderby-limit, and you can see the immediate response with 0 items, followed by an immediate CONTINUE.  The next response doesn't happen until 2 seconds later, though."
+  , issueCommentId = 81962411
+  }

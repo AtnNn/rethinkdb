@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 18 : 52 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46601577"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2570#issuecomment-46601577"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 18 : 52 : 40 UTC
+  , issueCommentBody =
+      "I was going to approve @AtnNn changes, but I just thought about something problematic.\r\n\r\n\r\n```\r\nvar c = r.connect();\r\nquery.run(c, function(err, result) {\r\n   // handle error or result\r\n   c.close(); // Things break here: `close` is not defined on a promise\r\n})\r\n```\r\n\r\nSo people have to do\r\n```\r\nvar c = r.connect();\r\nquery.run(c, function(err, result) {\r\n   // handle error or result\r\n   c.then(function(conn) {\r\n      conn.close();\r\n  })\r\n})\r\n```\r\n\r\nBasically users still must know that `r.connect` returned a promise and not a [net.Socket](http://nodejs.org/api/net.html#net_class_net_socket).\r\n\r\nSo while I'm not strongly opposed of adding this syntax, I think it's a bad idea because:\r\n- Promises are still something relatively new (or at least it became trendy not so long ago), so people are definitively going to be confused and run into unexpected errors.\r\n- It still feels like this behavior is a non intended use of promises, and that we would confuse people with what a promise is.\r\n\r\nImplementing `close`, `noreplyWait` on top of a promise seems like a bad idea too. It's just going to make things more and more confusing.\r\n\r\n\r\nTo improve `run`, we should just add a default connection pool in the driver like in rethinkdbdash.\r\nThat seems like a better solution to me."
+  , issueCommentId = 46601577
+  }

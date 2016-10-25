@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-20) 08 : 59 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28872117"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1613#issuecomment-28872117"
+  , issueCommentCreatedAt = 2013 (-11) (-20) 08 : 59 : 32 UTC
+  , issueCommentBody =
+      "I've been looking at this, and as far as I can tell profiling just doesn't work correctly on most streams.  In particular, any aggregations on streams that are forced onto the query-hosting server (like `r.table('test').limit(5).map{...}.reduce{...}`), or any streams that are entirely in memory (like `r([1,2,3,4,5]).map{...}.count`) produce extremely large profiles.  This is relatively easy to fix by just adding samplers.\r\n\r\nA larger problem is that non-aggregating queries also don't behave properly on those streams, and this is harder to fix.  Queries like `r.table('test').limit(10).filter{false}` are extremely large.  Queries like `r([1,2,3,4,5]).filter{false}` are small, but lack any information about how long the filter took, and if more complicated filter functions are used the function bodies aren't present in the profile at all:\r\n```rb\r\nirb(main):2212:0> PP.pp r([1,2,3,4,5]).filter{r(1).do{true}}.run(profile:true)\r\n{\"profile\"=>\r\n  [{\"description\"=>\"Evaluating filter.\",\r\n    \"duration(ms)\"=>0.269909,\r\n    \"sub_tasks\"=>\r\n     [{\"description\"=>\"Evaluating make_array.\",\r\n       \"duration(ms)\"=>0.044443,\r\n       \"sub_tasks\"=>\r\n        [{\"description\"=>\"Evaluating elements in make_array.\",\r\n          \"mean_duration(ms)\"=>0.001145,\r\n          \"n_samples\"=>5}]},\r\n      {\"description\"=>\"Evaluating func.\",\r\n       \"duration(ms)\"=>0.009919,\r\n       \"sub_tasks\"=>[]},\r\n      {\"description\"=>\"Evaluating as_array elements.\",\r\n       \"mean_duration(ms)\"=>0.145471,\r\n       \"n_samples\"=>1}]}],\r\n \"value\"=>[1, 2, 3, 4, 5]}\r\n```\r\n\r\nI've been attempting to fix these problems for most of today.  The ones that can be fixed by adding samplers are tractable but tedious; the problems with profiles missing information, however, have been baffling me.  I don't really understand the profiling well enough to know whether I'm missing something obvious, or whether there are deeper problems.\r\n\r\nI don't think I can fix this class of problems without JD around to pair-program with (or, at least, I don't think I can fix them easily)."
+  , issueCommentId = 28872117
+  }

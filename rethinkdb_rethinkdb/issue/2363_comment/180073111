@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-02) (-04) 22 : 09 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 507299
+        , simpleUserLogin = N "mbains"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/507299?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mbains"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/180073111"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2363#issuecomment-180073111"
+  , issueCommentCreatedAt = 2016 (-02) (-04) 22 : 08 : 22 UTC
+  , issueCommentBody =
+      "@AtnNn \r\nI pinged the opensuse IRC and they recommend that I look at /etc/ld.so.conf.\r\n\r\nHere are the contents:\r\n\r\n```\r\n/usr/local/lib64\r\n/usr/local/lib\r\ninclude /etc/ld.so.conf.d/*.conf\r\n# /lib64, /lib, /usr/lib64 and /usr/lib gets added\r\n# automatically by ldconfig after parsing this file.\r\n# So, they do not need to be listed.\r\n```\r\n\r\n\r\nStackoverflow thread: http://stackoverflow.com/questions/9922949/how-to-print-the-ldlinker-search-path\r\n\r\nPerforming one of the recommendations on my machine:\r\n\r\n```\r\ngcc -print-search-dirs | sed '/^lib/b 1;d;:1;s,/[^/.][^/]*/\\.\\./,/,;t 1;s,:[^=]*=,:;,;s,;,;  ,g' | tr \\; \\\\012\r\nlibraries:\r\n  /usr/lib64/gcc/x86_64-suse-linux/4.8/:/usr/x86_64-suse-linux/lib/x86_64-suse-linux/4.8/:/usr/x86_64-suse-linux/lib64/:/usr/lib64/x86_64-suse-linux/4.8/:/usr/lib64/:/lib/x86_64-suse-linux/4.8/:/lib64/:/usr/lib/x86_64-suse-linux/4.8/:/usr/lib64/:/usr/x86_64-suse-linux/lib/:/usr/lib64/:/lib/:/usr/lib/\r\n```\r\n\r\n*Another solution*:  the rethinkdb scripts could add something to jemalloc's configure to set libdir to /lib explicitly as you pointed out. \r\n\r\n"
+  , issueCommentId = 180073111
+  }

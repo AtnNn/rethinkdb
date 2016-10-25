@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 21 : 57 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32108285"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-32108285"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 21 : 51 : 30 UTC
+  , issueCommentBody =
+      "Thank you for your thoughtful post @nviennot.\r\n\r\nHaving the client aware of pending noreply operations would be nice, but is not possible the way RethinkDB's noreply operations work. Noreply operations never generate responses to the client, so the client has no chance to keep track on their status.\r\nI have a slight preference for calling noreply_wait as part of close and reconnect, simply because I would expect a write (even if it is noreply) followed by properly closing the connection to not be lost. That is the same semantics that one has with files on Unix and probably any other OS that supports files.\r\nI'm not sure how common the assumption is that closing (or reconnecting) a connection which is not actually open does not error. Closing a closed connection in itself doesn't make much sense. Of course one cannot always know whether a connection is closed or open and still functional. But then again if one makes a decision to not handle lost connections, one can always call `close`/`reconnect` with the `noreply_wait=false` argument. We certainly have to make the semantics of `close`/`reconnect` with respect to already closed connections clearer in the documentation.\r\n\r\n@nviennot: Regarding POSIX `close()` on a socket and buffered writes: That is interesting. Are these buffers from the operating system? Do you know if the OS would still complete sending the buffers before actually closing the connection?"
+  , issueCommentId = 32108285
+  }

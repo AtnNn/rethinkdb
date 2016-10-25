@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-18) 01 : 21 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46386507"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2542#issuecomment-46386507"
+  , issueCommentCreatedAt = 2014 (-06) (-18) 01 : 21 : 58 UTC
+  , issueCommentBody =
+      "(Note that it covering the exact set of documents wouldn't be a great idea because (I think) it would require an up-front traversal of the entire table.  Actually, maybe not, if we send exact per-row timestamps to the parser and use that detect which documents were part of the set, the first time they come through?)  I still don't like that behavior either, because it doesn't seem like what people would want -- the set of documents as defined by a filter sounds like the sort of thing you'd want to include any new documents inserted into the database too, in most applications.\r\n\r\nI think maybe `seq.filter(x).changes()` might also want to be equivalent to `seq.changes().filter(lambda row: x(row['new_val']).or(x(row['old_val'])))` ???\r\n\r\nOr maybe, when `x` runs on new_val and old_val, and fails on one of them, that entry is null.  If it fails on both of them, the document's not part of the changefeed at all.  That way, the changefeed can see what enters and removes the given selection.  I think this might be what you really want and it seems to generally make sense.\r\n\r\nBut with that, things would get dicey with a `.filter(...).map(...).changes()`.  We've got a general sort of query transformation in play.\r\n\r\n(On that note, it *might* not be so bad internally -- I think `datum_stream_t` should have its role replaced in much of query evaluation with `selection_t` or something that merely describes a table and the operations that have been attached to in in order to form a selection, without that dreadful state related to streaming actual data.)"
+  , issueCommentId = 46386507
+  }

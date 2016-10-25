@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-04) 01 : 32 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31567776"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1239#issuecomment-31567776"
+  , issueCommentCreatedAt = 2014 (-01) (-04) 01 : 31 : 38 UTC
+  , issueCommentBody =
+      "I've written a few scripts to test backfilling performance. They can be found in the branch daniel_bench_backfilling https://github.com/rethinkdb/rethinkdb/tree/daniel_bench_backfilling/bench/daniel/backfilling .\r\n\r\nThere are two different data sets:\r\n1. A table with 3.7 million small rows of ~16 bytes each\r\n2. A table with 32k large rows of ~16 KiB each\r\n\r\nI'm measuring how long it takes to backfill the table from one node to another by increasing the replica count to 2. The measurements were taken on a two-node cluster running on magneto and electro.\r\nThe measurement is made four times. The first one is a test run to warm any caches. The second one is on an idle cluster. The third one has 32 clients doing reads against a second (unrelated) table throughout the backfilling process, and the fourth one has 32 clients insert rows into a second (unrelated) table. Clients run locally on magneto.\r\n\r\nTo get a comparison, the script also measures how long it takes to insert the data in the first place. The inserts are done from 32 concurrent clients with soft durability. Note that I hand-tuned the batch size for the small and large values respectively for maximum throughput. The batch size is 5,000 for the small values and 200 for the large values.\r\n\r\n1. Small values, in-memory (2 GB cache size):\r\n```\r\n  Inserting values took 26 s\r\n  Backfilling (idle) took 31 s\r\n  Backfilling (read load) took 35 s\r\n  Backfilling (write load) took 40 s\r\n```\r\n\r\n2. Small values, out-of-memory on an SSD (64 MB cache size):\r\n```\r\n  Inserting values took 832 s\r\n  Backfilling (idle) took 243 s\r\n  Backfilling (read load) took 242 s\r\n  Backfilling (write load) took 388 s\r\n```\r\n\r\n3. Large values, in-memory (2 GB cache size):\r\n```\r\n  Inserting values took 5 s\r\n  Backfilling (idle) took 6 s\r\n  Backfilling (read load) took 7 s\r\n  Backfilling (write load) took 8 s\r\n```\r\n\r\n4. Large values, out-of-memory on an SSD (64 MB cache size):\r\n```\r\n  Inserting values took 7 s\r\n  Backfilling (idle) took 28 s\r\n  Backfilling (read load) took 10 s\r\n  Backfilling (write load) took 55 s\r\n```\r\nThis is an odd one because backfilling under reads appears to be faster than on an idle cluster. The effect is reproducible. If I invert the order of those two scenarios in the test the difference remains unchanged. Not sure what's going on there.\r\n\r\n\r\n\r\nI think backfilling performance is really not that bad. It sometimes is slightly slower than (hand-tuned) data insertion, and sometimes a bit faster.\r\n\r\nAre there objections to closing this issue?"
+  , issueCommentId = 31567776
+  }

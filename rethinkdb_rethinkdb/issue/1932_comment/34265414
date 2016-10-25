@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-05) 22 : 38 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/34265414"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1932#issuecomment-34265414"
+  , issueCommentCreatedAt = 2014 (-02) (-05) 22 : 38 : 53 UTC
+  , issueCommentBody =
+      "So, there looked to be a few problems here.  First, the http server (after my changes) did not gracefully handle noreply queries or multiple queries on the same session at the same time.  Secondly, it appears that it is possible for the web UI to send a query while one is already being processed, which I think should not be possible.\r\n\r\nI've fixed the server-side behavior such that if a session is already running a query, new queries will be rejected with HTTP_BAD_REQUEST.  These changes are up in review 1188.\r\n\r\nAs a side effect, it appears that the web UI needs to be updated for this behavior.  Before, it was possible to have multiple requests running at once by hitting run in quick succession.  Now in that situation, the web UI will not display the result of the first command.\r\n\r\nI think we should change the interface slightly so that the 'Run' button is disabled while a query is running, and add a 'Cancel' button to interrupt a running query (this would require some more support in the server, I believe).  @neumino, thoughts?"
+  , issueCommentId = 34265414
+  }

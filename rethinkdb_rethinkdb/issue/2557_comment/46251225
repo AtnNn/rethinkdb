@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-16) 23 : 34 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46251225"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2557#issuecomment-46251225"
+  , issueCommentCreatedAt = 2014 (-06) (-16) 23 : 34 : 33 UTC
+  , issueCommentBody =
+      "I think you're right.\r\n\r\nI'm not sure if this problem will actually show up in practice. Because the metadata version is set to zero before we start deleting, it will re-backfill from the beginning after restarting. Depending on the details of the backfilling algorithm, this might produce the correct result even though the original data was never deleted.\r\n\r\nI suggest that we modify the `reset_data()` algorithm so that it erases the B-tree incrementally and sets the metadata version for each range to zero in the same cache-transaction in which it actually deletes the part. This will require modifying the `store_view_t` abstraction slightly, but it's no worse than the changes we would make to implement incremental backfilling."
+  , issueCommentId = 46251225
+  }

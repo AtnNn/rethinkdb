@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-25) 01 : 21 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21527860"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1200#issuecomment-21527860"
+  , issueCommentCreatedAt = 2013 (-07) (-25) 01 : 21 : 19 UTC
+  , issueCommentBody =
+      "Hum, that may be an interesting fact.\r\n\r\nThis query takes about 8 seconds.\r\n\r\n```js\r\nr.table('county_stats').eqJoin('Stname', r.table('polls'))\r\n    .zip() \r\n    .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\r\n    .filter(function(doc) { return doc('Dem').lt(doc('GOP')).and(doc('GOP').sub(doc('Dem')).lt(15)) })\r\n    .groupedMapReduce(\r\n        function(doc){ return doc('Stname') }, \r\n        function(doc){ return doc('POPESTIMATE2011').mul(doc(\"GOP\").sub(doc(\"Dem\")).div(100)) }, \r\n        function(acc, val) {return acc.add(val)})\r\n    .orderBy('reduction')\r\n```\r\n\r\nThis query takes between 10 and 12 seconds\r\n```js\r\nr.table('county_stats').eqJoin('Stname', r.table('polls'))\r\n    .zip() \r\n    .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\r\n```\r\n\r\n\r\nI tried it with the python driver, I get the same results."
+  , issueCommentId = 21527860
+  }

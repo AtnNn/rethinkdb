@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-09) 03 : 26 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91105009"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4029#issuecomment-91105009"
+  , issueCommentCreatedAt = 2015 (-04) (-09) 03 : 26 : 10 UTC
+  , issueCommentBody =
+      "@nviennot -- I didn't realize `wait` offered that guarantee in Ruby, I'll remove the 10% hack.\r\n\r\nI think that switching to checking `is_open()` instead of `!@waiters.has_key?(token) && !@data.has_key?(token)` doesn't work unfortunately because of the behavior of `reconnect` (specifically, if you open a cursor on `conn`, call `conn.reconnect`, and then try to consume data from the cursor, I think it will hang rather than producing an error).  We don't repeat tokens even if you reconnect, which is why the other predicate works.\r\n\r\nThere's also a small bug that was in my first version too where if you're woken up by a signal partway through the timeout you sleep for longer than intended (e.g. if you're woken up by a signal at `0.8t` you'll end up sleeping `1.8t` total).\r\n\r\nAside from those, though, that logic looks identical to me; I'll change the code to look like that unless @Tryneus objects."
+  , issueCommentId = 91105009
+  }

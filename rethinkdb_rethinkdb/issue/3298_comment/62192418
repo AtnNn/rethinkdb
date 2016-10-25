@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-07) 18 : 48 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62192418"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-62192418"
+  , issueCommentCreatedAt = 2014 (-11) (-07) 18 : 46 : 36 UTC
+  , issueCommentBody =
+      "[`asyncio`](https://docs.python.org/3/library/asyncio.html) is new in Python3.4, and is subject to much change even there. Additionally it is an event-loop based system, so would be a very different model than our current driver. If that was the direction we want to go then we would be better off going with something that is more portable like `twisted` (call back based) or [`greenlets`](http://greenlet.readthedocs.org/en/latest/)(would non standard package with monkey-patching). But either of those would be almost complete driver re-writes, and so would be better to have a either community or secondary drivers.\r\n\r\nBut I don't see how the `get_nowait()` method does not solve the problem blocking operations. To illustrate...\r\n\r\nCurrent version:\r\n``` python\r\nfeedA = r.table('a').changes().run(conn)\r\nfeedB = r.table('b').changes().run(conn)\r\nprint(next(a))\r\nprint(next(b))\r\n```\r\nSo the problem illustrated is that with the next/iterator model you will not see any change in `b` until you see one in `a`. This is of course a problem.\r\n\r\nWith a `get_nowait()`:\r\n```python\r\nfeedA = r.table('a').changes().run(conn)\r\nfeedB = r.table('b').changes().run(conn)\r\ntry:\r\n    print(a.get_nowait())\r\nexcept Empty: pass\r\ntry:\r\n    print(b.get_nowait())\r\nexcept Empty: pass\r\n```\r\nHere you will see a value from either, both, or neither depending on what is already available. In a real example you would wrap this in a `while` block with some appropriate sleeps depending on where you got data.\r\n\r\nNow I believe that there are more problems lurking below the surface in how the server actually fulfills these requests, but am a little foggy about the conversation I had with @mlucy about that a while ago."
+  , issueCommentId = 62192418
+  }

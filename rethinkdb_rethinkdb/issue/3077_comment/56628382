@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-24) 06 : 04 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/56628382"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3077#issuecomment-56628382"
+  , issueCommentCreatedAt = 2014 (-09) (-24) 06 : 03 : 33 UTC
+  , issueCommentBody =
+      "Ok, after a little research into `cluster_message_handler_t`s, I have come to the conclusion that the `Guarantee failed: [handler != __null]` error is impossible (at least according to the code).\r\n\r\nAll `cluster_message_handler_t`s are constructed on the stack after the `connectivity_cluster_t` but before the `connectivity_cluster_t::run_t`.  This means that there is no race condition: all client connections will have been terminated before the message handlers are destroyed, and so there should never be a tag missing from the `message_handlers` map.  The best explanation at this point is corruption.\r\n\r\nIf it's not too much trouble, @timjrobinson, I'd suggest you check `db-6` for bad RAM or network interfaces (which could possibly have resulted in (some of) the other errors being observed)."
+  , issueCommentId = 56628382
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-29) 20 : 47 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57227132"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3112#issuecomment-57227132"
+  , issueCommentCreatedAt = 2014 (-09) (-29) 20 : 47 : 54 UTC
+  , issueCommentBody =
+      "After a little more investigation, there are two solutions to this:\r\n\r\n1. Build on MacOS using `--dynamic curl`, the system version of `curl` is already built to use the Keychain implicitly (and Apple's SecureTransport on 10.9+).\r\n2. When building `curl` in statically we should replace `--with-ssl` with `--with-darwinssl`. This will switch it over to use SecureTransport (only available on MacOS), which uses the Keychain for all of its CA lookups.\r\n\r\nI think we should allow either one to work as expected. This does leave a few open questions:\r\n1. Choose which of these two solutions we will ship in binaries. My first thought is to use dynamic `curl`, but either is good.\r\n2. Do we want to replace our MacOS .pkg with a re-built version using one of these strategies?\r\n3. Auditing other supported platforms to make sure we are covered in all cases."
+  , issueCommentId = 57227132
+  }

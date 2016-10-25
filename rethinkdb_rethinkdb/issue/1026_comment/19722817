@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 23 : 48 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19722817"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1026#issuecomment-19722817"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 23 : 48 : 06 UTC
+  , issueCommentBody =
+      "I have a pretty good idea now for why the driver is still slow. Actual protobuf serialization is fast. There are two processes that still take a long time.\r\n\r\nThe first is the processes of converting the native python types into a tree of RQL datum instances. This basically means copying the whole object with some blowup. On the test object I used this process took 18x the time to serialize the query.\r\n\r\nThe second is the process of converting the tree of RQL datum instances into a tree of protobuf nodes (these are the objects that can directly serialized). This again involves creating another copy of the data (possibly with some blowup). This process takes 94x the time to serialize the query.\r\n\r\nWhile it would actually be pretty easy to get rid of the first part by skipping the redundant copy, the second copy is necessary as it is built into the protobuf library's API. There does not appear to be another way to construct protobuf strings without copying all the data into a protobuf structure first.\r\n\r\nSince the main performance goal of this sprint it to improve insert speed, @coffeemug has proposed a workaround that doesn't involve trying to optimize this code further. After implementing `r.json` (#887) we would try to convert any document (or array of documents) to a json string with `r.json` before falling back to the expensive process of converting a potentially large native object to a large protobuf structure."
+  , issueCommentId = 19722817
+  }

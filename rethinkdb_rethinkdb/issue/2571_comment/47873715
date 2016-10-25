@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 07 : 08 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47873715"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47873715"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 07 : 07 : 30 UTC
+  , issueCommentBody =
+      "I talked to @mlucy. The only large remaining open question is how to deal with compound indexes. We came up with the following API that we were both happy with:\r\n\r\n```js\r\n// create a geospacial index\r\nr.table('restaurants').indexCreate('idx1', { geo: r.row('location') })\r\n\r\n// create a compound geospacial index\r\nr.table('restaurants').indexCreate('idx2', [r.row('cuisine'), r.row('rating')],\r\n                                   { geo: r.row('location') })\r\n\r\n// query the index\r\nr.table('restaurants').getIntersecting(polygon, { index: 'idx2' })\r\n\r\n// query the index + compound\r\n// compound part is the same as current compound querying\r\nr.table('restaurants').getIntersecting(polygon, { index: 'idx2' }).between(...)\r\n\r\n// error\r\nr.table('restaurants').getAll(polygon, { index: 'idx2' })\r\n\r\n// to get an exact polygon add an optarg to getIntersecting,\r\n// or may be a new command for exact querying\r\nr.table('restaurants').getIntersecting(polygon, { index: 'idx2', exact: true })\r\n```\r\n\r\nI really like this API. @danielmewes @neumino -- would you be ok with that?\r\n\r\nOne other nitpick -- I think we should just support `toJSON` and overload for all relevant types. I don't think we should support `toGeoJSON`."
+  , issueCommentId = 47873715
+  }

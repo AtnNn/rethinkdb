@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-20) 09 : 22 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30997578"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-30997578"
+  , issueCommentCreatedAt = 2013 (-12) (-20) 09 : 21 : 23 UTC
+  , issueCommentBody =
+      "I have a few use cases that I think would be really nice to solve with `group`.\r\n\r\nI think that one of the reasons people like noSQL databases, it's because you can retrieve your data in a \"natural\" format. Like for a blog post with its comments, you get back:\r\n\r\n```\r\n{\r\n    id: ...\r\n    title: ...\r\n    content: ...\r\n    comments: [ ... ]\r\n}\r\n```\r\n\r\nOne way to do that now if you schemas are\r\n```\r\n// post\r\n{\r\n    id: ...\r\n    title: ...\r\n    content: ...\r\n}\r\n\r\n// comment\r\n{\r\n    id: ...\r\n    idPost: ...\r\n    comment: ...\r\n}\r\n```\r\n\r\n```\r\nr.table(\"post\").map( function(post) {\r\n    return post.merge({\r\n        comments: r.table(\"comments\").getAll(post(\"id\"), {index: \"postId\"}).coerceTo(\"ARRAY\")\r\n   })\r\n})\r\n```\r\n\r\nI think it would be really really nice to be able to write something like that\r\n\r\n```\r\nr.table(\"posts\")\r\n    .eqJoin(\"id\", r.table(\"comments\"), { index: \"idPost\"})\r\n    .group(\"left\").coerceTo(\"ARRAY\")\r\n```\r\n\r\nBecause the groups are already done after `eqJoin`, we could even return a steam (by adding an opt_arg?), which would be really useful.\r\nIf we can drop `coerceTo(\"ARRAY\")` that would be cool too and naturally convert a grouped<stream> to a stream.\r\n\r\nRelated to https://github.com/rethinkdb/rethinkdb/issues/1168"
+  , issueCommentId = 30997578
+  }

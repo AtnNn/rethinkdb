@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 21 : 34 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18309484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/885#issuecomment-18309484"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 21 : 34 : 31 UTC
+  , issueCommentBody =
+      "I think that having one command with a flag is better for two reasons:\r\n* We can use the same flag in other places -- for example, I think `with_fields` should also take the `including_nulls` flag.\r\n* When we thought about having two different commands (I proposed `has_fields` and `has_keys`), we ran into the problem that it's hard to remember which one does what, and it isn't obvious to new users which one they should use.\r\n\r\nI think that we're different from JS here for two reasons:\r\n* People use JS much more frequently and for longer durations than they use RQL, so it makes sense for them to make tradeoffs that let you write shorter code in exchange for being more confusing and having a steeper learning curve.\r\n* I think that people will very, very rarely want to specify `including_nulls` to be `true`.\r\n\r\n---\r\n\r\nI'm becoming less certain of the stream behavior I proposed because you aren't the only one who's found it confusing.  (Your interpretation is exactly correct.)\r\n\r\nThe rule in my head is roughly:\r\n* If a function modifies a RQL value, it's polymorphic with respect to map.\r\n* If a function is a predicate on a RQL value, it's polymorphic with respect to filter.\r\n\r\nSo:\r\n```ruby\r\ntbl.pluck('a')\r\n# <=>\r\ntbl.map{|x| x.pluck('a')}\r\n```\r\n```ruby\r\ntbl.has_fields('a')\r\n# <=>\r\ntbl.filter {|x| x.has_fields('a')}\r\n```\r\n\r\n@coffeemug -- what do you think about this behavior?  I think you have a better sense than I do what sort of behavior makes sense to users who haven't written the language."
+  , issueCommentId = 18309484
+  }

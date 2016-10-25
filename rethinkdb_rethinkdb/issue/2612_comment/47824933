@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-02) 19 : 35 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47824933"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2612#issuecomment-47824933"
+  , issueCommentCreatedAt = 2014 (-07) (-02) 19 : 35 : 18 UTC
+  , issueCommentBody =
+      "It's not well defined yet.  None of the operations are defined.  Here is what I propose:\r\n\r\nSupported operations:\r\n\r\n`eq`, `ne`, `gt`, `ge`, `lt`, `le` -- lexicographic comparison (using unsigned octets).\r\n\r\n`binary.typeOf()` -> `\"binary\"`\r\n\r\n`binary.info()` -> something appropriate, presumably.  the type?  the length?\r\n\r\nThe \"raw\" representation:  `{\"$reql_type$\":\"binary\", \"data\":\"aB_-bc\"}`, for example, where the data uses [base64url](https://tools.ietf.org/html/rfc4648#section-5) with *no* padding (and no unrecognized characters).  As long as the wire protocol actually uses this \"raw\" representation, any deviation from this precise format should be rejected.\r\n\r\n`string.coerceTo(\"binary\")` -> encodes the UTF-8 representation of the string into the binary value.\r\n`binary.coerceTo(\"string\")` -> decodes the binary value in the UTF-8 format.  It is an error if it's not valid UTF-8.\r\n`value.coerceTo(\"binary\")` -> an error for any other type.\r\n\r\n**`binary.length()`** -> number.  A new command!  Returns the length in bytes.\r\n\r\n`binary.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}])` -> binary.  This is possible (unlike with strings where it's kind of messed up to want such a thing, and they're UTF-8 encoded).  We could wait for users to ask for this.  This would be useful, for example, if you wanted to retrieve all the ID3 tags from a bunch of MP3's.  (Which, in this case, might actually be file objects.)"
+  , issueCommentId = 47824933
+  }

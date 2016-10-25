@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-09) 02 : 17 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48422462"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2663#issuecomment-48422462"
+  , issueCommentCreatedAt = 2014 (-07) (-09) 02 : 15 : 33 UTC
+  , issueCommentBody =
+      "Ok, I've been trying to reply since yesterday and failed because there is a lot of stuff, so I'm going to do it piecemeal.\r\n\r\n__Parts I agree with:__\r\n\r\n* Reading a conflicted value should give an exception. Writing a conflicted value should resolve the conflict. (Until we get a consensus algorithm into the codebase).\r\n* The low-level API should never accept or refer to tag names, only machine names.\r\n* Any function that manipulates machines should have a `r.machine_` prefix (in general :+1: for consistent naming; we already have a style for things like `table_create`/`index_create`, we should stick to it as much as possible).\r\n* The Web UI should display the full current configuration and make a good effort to allow a user-friendly way of changing some (but almost certainly not all) aspects of it.\r\n* We should pick exactly one term for the master/primary and exactly one term for replicas/secondaries, and ban alternatives everywhere including the Web UI (:+1: for consistent naming again). The jury's still out on which terms to pick so things aren't confusing, but I think we want a noun for replicas/secondaries/copies/mirrors and an adjective for masters/primaries. It's the only way I can think of to avoid confusion.\r\n* `divest` is a terrible name.\r\n\r\n__Some minor parts I'm iffy about:__\r\n\r\n* Tag management proposal. On the one hand it's really nice and simplifies stuff, but on the other hand it feels like we're shifting the burden onto users. That may or may not be ok. We should think about that more, but I think we should worry about that later.\r\n\r\n__Minor open questions/opinions:__\r\n\r\n* I think we should forbid tags in `replicas` overlapping when calling `suggest_config()`-like function.\r\n\r\n__Parts I'm going to ignore until later (because they don't seem that important now):__\r\n\r\n* The `machine_status()` function.\r\n* A \"machine\" type to organize things.\r\n* Things that aren't per-table or per-machine.\r\n* Whether we should drop `divest`-like function entirely.\r\n* The whole status thing (other than cluster configuration).\r\n\r\n__Parts I don't like (this is most important):__\r\n\r\n* Modifying a big document to do things. It's strictly worse than small functions.\r\n* Having to say `r.table('foo').update(r.table('foo').suggest_config(...))`. Imagine putting that in a \"5m clustering administration\" tutorial...\r\n* Having one big function with lots of optargs. It's strictly worse than having small, well-defined functions.\r\n\r\nI see the elegance in these things, but I think that results in a poor user experience. We could probably marginally decrease how elegant things are and dramatically increase the usability of the API.\r\n\r\nI'm going to post an alternative proposal shortly. (Breaking things up like that somehow makes it more manageable for me)."
+  , issueCommentId = 48422462
+  }

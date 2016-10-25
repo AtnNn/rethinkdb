@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 10 : 01 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36226814"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2034#issuecomment-36226814"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 10 : 01 : 04 UTC
+  , issueCommentBody =
+      "@danielmewes -- most of the below is FYI. Hope it helps you.\r\n\r\n> However it doesn't modify the inner nodes of the btree at all! It doesn't maintain the btree invariants, and the tree becomes broken.\r\n\r\nThis was by design. The idea was that `erase_range` will break some of the invariants, but in such a way that doesn't break the invariants expected by other code. The thought process was that during later point insert/update/delete operations the code will walk over the broken invariants and lazily patch them.\r\n\r\nOf course I believe you that it's not what happens. There are two plausible possibilities:\r\n\r\n* It never worked properly\r\n* It worked properly, but then we started changing the code and didn't account for this\r\n\r\nPerhaps it's still salvageable?\r\n\r\n> We could only collect a set of keys to be deleted in the parallel traversal, and then erase one of them at a time through the usual process that takes care of re-balancing the tree. It would be slower, but then again this happens only in backfilling and when a node looses its role as a replica.\r\n\r\nWouldn't it also happen during resharding? If I add a node and shard a table into two, wouldn't the first node range erase half of its data? That's a pretty common operation. I think the problem with converting to point erases is that it might be unacceptably slow. If we shard a 100M document table in half, how long would it take to point-delete 50M documents? (It might be ok, I'm not sure; we should probably test and see) \r\n\r\nAnother thing to keep in mind is #364. If we replace range sharding with hash sharding, range erase might become a lot less valuable (depending on how the consistent hashing algorithm works during a reshard). So perhaps lots of point deletes is a better solution than biting the bullet and implementing a proper range erase operation (or may be not -- I don't know how much work that is to support such a thing).\r\n\r\nAlso see #1762. Perhaps these are worth considering together."
+  , issueCommentId = 36226814
+  }

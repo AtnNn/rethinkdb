@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 19 : 46 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73113230"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3737#issuecomment-73113230"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 19 : 46 : 51 UTC
+  , issueCommentBody =
+      "@esatterwhite, it looks like there is a conflict between the network configurations you are providing for docker and the server.\r\n\r\nYou should be providing a `--canonical address` option for every container, which should correspond to the host machine's ip:port for a given node's intracluster port.  In the given example:\r\n\r\n* Machine 1 / Node 1 - appears to have the correct canonical address `192.168.0.2:29015`\r\n* Machine 1 / Node 2 - does not have a statically available port - it looks like the port will be assigned to a random host port on each run.  The `-p 28015 -p 29015` options should instead bind these to a static host port, like `-p 28016:28015 -p 29016:29015`.  Then, the canonical address should be `192.168.0.2:29016`.\r\n* Machine 2 / Node 1 - should have a canonical address based on the host's IP: `<ip>:29015`\r\n\r\nThis configuration is important because even if nodes can connect to each other at startup, one of the connections may go down during operations, and both peers should know the proper `ip:port` to reconnect to.\r\n\r\nLet me know if this solves your problem or if you have any questions or suggestions."
+  , issueCommentId = 73113230
+  }

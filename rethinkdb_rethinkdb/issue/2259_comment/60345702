@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-24) 05 : 19 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60345702"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2259#issuecomment-60345702"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 05 : 19 : 14 UTC
+  , issueCommentBody =
+      "Assume you want your application to tolerate a temporary failure of a server in your cluster, or an occasional shard rebalance.\r\n\r\nCurrently you have to implement a relatively complex retry logic to do this:\r\nYou have to run a given query and see if it fails due to a missing replica (e.g. a master being unavailable, or in case of a write query with num_acks > 1 the unavailability of a certain number of secondaries). If it fails - and this is where it gets complicated - you have to implement some backing off logic with increasing sleep times etc. to retry the query periodically until it succeeds.\r\n\r\nWith `tableWait()`, you can simplify this logic a lot. If the query fails due to a missing replica, you simply run `tableWait()` with the appropriate availability level (i.e. the right `wait_for` opt arg). When it returns, you retry the query. You don't have to roll your own backing off logic.\r\n\r\nIf `tableWait()` always waits for *all* shards to be available, you cannot really use it for this scenario. The problem is that as long as at least one replica remains down, your application would be stuck even if the query could actually be executed just fine."
+  , issueCommentId = 60345702
+  }

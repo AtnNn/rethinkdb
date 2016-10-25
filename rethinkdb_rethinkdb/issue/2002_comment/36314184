@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-28) 01 : 46 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36314184"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36314184"
+  , issueCommentCreatedAt = 2014 (-02) (-28) 01 : 46 : 59 UTC
+  , issueCommentBody =
+      "@timmaxw 's suggestion about doing a continuous backfill in key-order sounds really good.\r\n\r\nCurrently we have two relevant types of backfill chunks. key/value pairs and erase_range chunks. The erase_range ones are used if the backfiller encounters a leaf node and doesn't know for certain if some keys might have been deleted from it that the backfillee still has in its table. Then it sends the erase_range to delete essentially all keys in that leaf, followed by a couple of key/value chunks to restore all of the current key/value pairs in the leaf.\r\n\r\nWe would have to combine both of them into a single (semantic) chunk. The backfillee would not process the erase_range before it hasn't got all relevant key/value pairs that are required to restore the correct content. Then it would execute both the erase followed by the key/value inserts in a single transaction.\r\nThat way, we can make sure that the backfillee always has a consistent data state up to a certain well defined key."
+  , issueCommentId = 36314184
+  }

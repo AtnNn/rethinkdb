@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-22) 01 : 41 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32985872"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1043#issuecomment-32985872"
+  , issueCommentCreatedAt = 2014 (-01) (-22) 01 : 41 : 04 UTC
+  , issueCommentBody =
+      "I've done some performance tests. Increasing the number of CPU shards has essentially the following impact on performance (simplified):\r\n- hard-durability writes become slower, at least on rotational disks\r\n- concurrent point reads, soft-durability writes and analytical queries become faster\r\n- meta operations slow down a little, but not terribly\r\n- the constant per-table memory overhead increases (most relevant if somone has a lot of small tables)\r\n\r\nHere are the numbers:\r\n```\r\n#shards\tYCSB a-32 hard\t      YCSB a-32 soft\tMeta 16N 1M 150T\r\n4\t        214\t                      8238\t                 4.29\r\n8\t        201\t                      9011\t                 3.96\r\n16\t        183\t                      9646\t                 4.98\r\n```\r\n\r\nYCSB a-32 hard/soft is the YCSB workload a (50/50 point reads/writes) with 32 concurrent clients with either hard or soft durability writes. The number is operations per second (higher = better). Meta 16N 1M 150T is the table creation time in seconds on a cluster with 16 nodes, all running on 1 machine, having 150 tables already existing (I couldn't do more because it would run out of memory). Smaller is better.\r\n\r\nI did not measure speed improvements for analytical and range queries again, but they should improve close to linear in the #shards. This is the main motivation for changing this setting after all.\r\n\r\nNow the only question is what to change this to. 8 would be the conservative value, and probably work well enough on today's common machines. 16 would scale yet a bit better, but hard durability writes suffer slightly more and there is a small risk that it will impact meta operations and the performance of the web UI on large clusters negatively. Due to the increased memory overhead this is a bit tricky to test unfortunately. I've done another subjective test at 16 CPU shards on a 32 node cluster where I created only 10 tables. I then configured them to have 32 range shards each. I could reshard four of the tables fine until the machine (electro) ran out of memory when resharding the fifth one. Resharding felt a bit slower than usual, but was ok.\r\n\r\nI suggest we set it to 8."
+  , issueCommentId = 32985872
+  }

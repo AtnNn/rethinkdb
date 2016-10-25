@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 12 : 32 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 488554
+        , simpleUserLogin = N "gotlium"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/488554?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gotlium"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60472659"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60472659"
+  , issueCommentCreatedAt = 2014 (-10) (-25) 05 : 45 : 48 UTC
+  , issueCommentBody =
+      "I increase ``cache size`` up to 4GB\r\n\r\n``r.table(\"table\").getAll('a2874dd56b20b8277a6606520c75fef1', {index: \"slug\"}).coerceTo(\"ARRAY\")`` - 60ms.\r\n``r.table(\"table\").getAll('a2874dd56b20b8277a6606520c75fef1', {index: \"slug\"}).coerceTo(\"ARRAY\").count()`` - 50ms.\r\n\r\nbut is still slow up to x120\r\n\r\n    r.table(\"table\").between(\r\n      ['d4436de862fbc706d76608a8818a1158', r.time(2014, 1, 1, 'Z')], \r\n      ['d4436de862fbc706d76608a8818a1158', r.time(2014, 12, 1, 'Z')], \r\n      {index: 'slug_data', rightBound: 'closed'}\r\n    )\r\n81ms vs 0,6ms - x135\r\n\r\nWhat your OS? Maybe on OS X RethinkDB is slower?)\r\n\r\n\r\n**Aggregate Benchmarks** (``go test -test.benchmem=true -test.parallel=10 -test.benchtime=10s  -test.bench Bench``):\r\n\r\n    gotlium@::o) db-tests/rethinkdb# ./run.sh 1\r\n    >>> r.table(\"table\").between(\r\n        ['d4436de862fbc706d76608a8818a1158', r.time(2014, 1, 1, 'Z')],\r\n        ['d4436de862fbc706d76608a8818a1158', r.time(2014, 12, 1, 'Z')],\r\n        {index: 'slug_data', rightBound: 'closed'}\r\n    ).group('name').sum('f1')\r\n    BenchmarkRethinkdb\t    2000\t  11724641 ns/op\t  450150 B/op\t    7986 allocs/op\r\n    ok  \t_db-tests/rethinkdb/rethinkdb\t24.547s\r\n\r\n    gotlium@::o) db-tests/mysqld# ./run.sh 1\r\n    >>> SELECT `name`, SUM(`f1`) AS `f1`, SUM(`f2`) AS `f2`, SUM(`f3`) AS `f3` FROM table WHERE slug = \"d4436de862fbc706d76608a8818a1158\" AND `date` BETWEEN \"2014-01-01\" AND \"2014-12-01\" GROUP BY `name`;\r\n    BenchmarkMysqld\t  100000\t    236721 ns/op\t    7127 B/op\t      53 allocs/op\r\n    ok  \t_db-tests/mysqld/mysqld\t25.973s\r\n\r\n    gotlium@::o) db-tests/mongod# ./run.sh 1\r\n    >>> db.table.aggregate([\r\n    { $match: { slug: 'd4436de862fbc706d76608a8818a1158', date: { $gte: ISODate(\"2013-02-01T20:00:00Z\"), $lte: ISODate(\"2014-12-01T20:00:00Z\") } } },\r\n    { $group: { _id: \"$name\", f1: { $sum: \"$f1\" }, f2: { $sum: \"$f2\" }, f3: { $sum: \"$f3\" } } }]);\r\n    BenchmarkMongod\t   10000\t   1967879 ns/op\t   21515 B/op\t     424 allocs/op\r\n    ok  \t_db-tests/mongod/mongod\t19.868s\r\n\r\nResult: MySQL x50 faster RethinkDB and MongoDB 10x faster RethinkDB\r\n\r\n**Dump/Restore utils benchmarks**\r\n\r\nRethink import(``rethinkdb restore``): 2m38.267s, CPU: 800%\r\nMongo import (``mongoimport``): 2m12.210s, CPU: 86-96%\r\nMySQL import(``mysql``): 0m20.850s, CPU: 75-85%\r\n\r\nRethink dump(``rethinkdb dump``): 1m46.315s, CPU: 250-400%\r\nMongo dump (``mongodump``): 0m2.006s, CPU: 13-62%\r\nMySQL dump(``mysqldump``): 0m5.633s, CPU: 45-55%\r\n\r\n**Possible bug**\r\nI'm getting very strange bug on charts when run benchmarks. I do not see all my read requests, but when I listen my requests by ngrep(``ngrep -d lo0 port 28015``) or tcpdump, all requests are sent and given as a json to client. Very strange behavior. Maybe all reading from cache not be shown?\r\n\r\nThanks for all. I think that's all. Next test on version 2.0, when it will be released. Good luck:)"
+  , issueCommentId = 60472659
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-19) 07 : 55 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38025389"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2115#issuecomment-38025389"
+  , issueCommentCreatedAt = 2014 (-03) (-19) 07 : 55 : 19 UTC
+  , issueCommentBody =
+      "@jamescostian -- thanks for the very detailed report!\r\n\r\nThere are two issues I can think of that might be causing this problem:\r\n\r\n* Range query latency issues (many of which were addressed in 1.12)\r\n* Connecting to a non-master node from the client (which would require routing to a different datacenter -- a slow operation, and the reason why `useOutdated` results in better performance)\r\n\r\nCould you rerun your Node test with the following changes:\r\n\r\n* Use `r.table('ex').get(YOUR_DOC_ID)` instead of `r.table('ex')`? If this query is faster, it suggests that the batching fixes made in 1.12 might dramatically improve performance on this.\r\n* Make sure the node client is connected to the master machine, not the replica (so you don't have to deal with internal datacenter hopping)\r\n\r\nWe'll definitely retest this internally after 1.12 is out, but it'd be great help if you could run these tests in the meantime.\r\n\r\nAlso, sorry you ran into this, we'll work hard to fix this!\r\n"
+  , issueCommentId = 38025389
+  }

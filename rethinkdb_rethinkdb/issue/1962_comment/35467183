@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-19) 05 : 19 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35467183"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1962#issuecomment-35467183"
+  , issueCommentCreatedAt = 2014 (-02) (-19) 05 : 19 : 10 UTC
+  , issueCommentBody =
+      "The [0] / limit(1) regression is caused mostly by the fact that we increased the number of CPU shards. \r\n\r\nThe remaining ones seems to be a result of the changed batching code.\r\nIf I increase the `max_size` batch parameter to give me batches more similar in size to the ones from 1.11, the performance of next (pre sam_alt) is essentially the same as the one of 1.11.\r\n\r\n\r\nI expect that if there are multiple concurrent clients, the peak throughput wouldn't be affected by this regression.\r\nStill we should maybe increase the default maximum batch size? @mlucy: By which criteria did you pick the current default of 1/4 MB? In this specific scenario, 1 MB seems to yield significantly better throughput. The latency of the first batch will be a little higher of course.\r\n\r\nI wonder if it would make sense to use different parameters for the first batch than for the subsequent ones? That way we could make sure that the first results are returned very quickly, while optimizing throughput if the application actually needs all of the data."
+  , issueCommentId = 35467183
+  }

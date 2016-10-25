@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-08) 19 : 11 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54871213"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2957#issuecomment-54871213"
+  , issueCommentCreatedAt = 2014 (-09) (-08) 19 : 09 : 25 UTC
+  , issueCommentBody =
+      "* The reason for the value `nothing` for `role` is to indicate that the server is still involved in the table. The state `offloading_data` indicates that it is holding onto its data while it waits for all of the replicas to be ready. For example, if server `a` is a replica and then you change the config such that server `b` is a replica, then you will get `{server: \"a\", role: \"nothing\", state: \"offloading_data\"}` and `{server: \"b\", role: \"replica\", state: \"backfilling_data\"}`. I think the fact that a server is still holding data for the table, and possibly providing a backfill, is important information for the user, so I'm reluctant to hide all servers that are in the `nothing` state.\r\n\r\n* Yes, it should be safe to retrieve secondary indexes once all of the masters are ready.\r\n\r\n* I'm reluctant to store the number of replicas/shards in `table_config` because then users will have to keep it in sync manually. For example, it should be legal to write:\r\n    ```python\r\nr.table_config(\"foo\").update({\r\n    \"shards\": [\r\n        {\"replicas\": [\"a\", \"b\"], directors: [\"a\"]},\r\n        {\"replicas\": [\"a\", \"b\"], directors: [\"b\"]}]\r\n})\r\n```\r\n    I don't want people to have to write:\r\n    ```python\r\nr.table_config(\"foo\").update({\r\n    \"num_replicas\": 2,\r\n    \"num_shards\": 2,\r\n    \"shards\": [\r\n        {\"replicas\": [\"a\", \"b\"], directors: [\"a\"]},\r\n        {\"replicas\": [\"a\", \"b\"], directors: [\"b\"]}]\r\n})\r\n```\r\n    There's also the question of what we would display if different shards had different numbers of replicas.\r\n    \r\n    What's wrong with `r.table_config(\"foo\")[\"shards\"].count()` and `r.table_config(\"foo\")[\"shards\"].nth(0)[\"replicas\"].count()`?\r\n\r\n* Slava wants to support reconfiguration while a server is down, but this is a fair amount of work. The plan is for me to work on this after the ReQL admin API is feature-complete. There's a good chance we'll be able to support it, but there's no guarantee.\r\n\r\n* :+1: to letting people overshard\r\n\r\n* :+1: to a field giving the index of each shard, but I'd call it `id`\r\n\r\n* Could you be more specific about what information you want about tables in `server_status`? Could you give an example document?"
+  , issueCommentId = 54871213
+  }

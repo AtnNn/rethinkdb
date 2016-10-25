@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-02) 03 : 15 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/76653093"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3843#issuecomment-76653093"
+  , issueCommentCreatedAt = 2015 (-03) (-02) 03 : 15 : 24 UTC
+  , issueCommentBody =
+      "I actually run some tests this week end with rethinkdbdash. For a document `doc` with about 30k field, all strings, with a total size of about 1MB:\r\n\r\n```js\r\nr.table('data').insert(r.json(docStr)) // ~10ms for the driver\r\nr.table('data').insert(r.json(JSON.stringify(doc))) // ~300ms for the driver\r\nr.table('data').insert(doc) // ~500ms for the driver\r\n```\r\n\r\nAnd this also takes 500 ms (the loop just checks if all keys are an instance of something, which is similar to what `r.exprJSON` would have to do):\r\n```\r\nfunction Foo() {}\r\nvar keys = Object.keys(doc);\r\nfor(var i=0, len=keys.length; i<len; i++) {\r\n    if (doc[keys[i]] instanceof Foo) { process.exit(1) }\r\n}\r\nr.table('data').insert(r.json(JSON.stringify(doc)))\r\n```\r\n\r\nIt may work better in Python/Ruby as this may be tied to the fact that v8 doesn't handle well big objects. But it's not obviously better to re-instantiate `r.exprJSON` at least in JavaScript."
+  , issueCommentId = 76653093
+  }

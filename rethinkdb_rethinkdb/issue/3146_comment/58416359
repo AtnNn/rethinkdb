@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-08) 19 : 51 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58416359"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/3146#issuecomment-58416359"
+  , issueCommentCreatedAt = 2014 (-10) (-08) 19 : 51 : 00 UTC
+  , issueCommentBody =
+      "Unfortunately this change does not pass our tests on Python2.6 or Python2.7, specifically failing `./test-runner polyglot/datum/string.py` and one other (both for the same reason). From one perspective this is actually uncovering a bug (more exactly a sub-optimal path) in that we have been treating unicode strings in those versions essentially as \"other\" and stuffing them in a Datum. But with this change the `collections.Iterable` test catches them one step earlier and rather tries to turn them into an array.\r\n\r\nLuckily this is an easy fix, just changing line 60 (new version) from:\r\n\r\n```    elif isinstance(val, str):```\r\nto\r\n```    elif isinstance(val, (str, unicode)):```\r\n\r\nWe already have the coverage to make `unicode = str` above to handle Python3.x cases.\r\n\r\n@grandquista could you make that change and resubmit?"
+  , issueCommentId = 58416359
+  }

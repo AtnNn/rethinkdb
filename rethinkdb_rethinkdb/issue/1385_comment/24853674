@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-21) 01 : 31 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24853674"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-24853674"
+  , issueCommentCreatedAt = 2013 (-09) (-21) 01 : 31 : 58 UTC
+  , issueCommentBody =
+      "@jdoliner 's explanation sounds reasonable.\r\nIf the throttling is indeed not properly functioning (anymore), the size of cache writebacks will just get larger and larger as modified pages accumulate faster than the disk can handle it.\r\nWe probably still have some kind of hard throttling in effect somewhere, which then kicks in suddenly and reduces the write rate (or stalls writes completely on some of the shards). At that point, the size of the latest writeback is already large enough to take considerable time to finish. Only when it is completed, writes can continue at their original pace.\r\n\r\nI remember that there were a number of mechanisms involved in the old product to avoid such conditions. I don't remember what they were exactly right now...\r\n\r\nAccording to this theory, the issue should only show up if the write rate is higher than what the disks can absorb."
+  , issueCommentId = 24853674
+  }

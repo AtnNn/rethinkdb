@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 02 : 17 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15935865"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-15935865"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 02 : 17 : 49 UTC
+  , issueCommentBody =
+      "There have been at least 3 suggested situations where we might get interleaving of requests and responses on a single connection in the python driver:\r\n\r\n1. The same connection is used from multiple threads making concurrent queries.\r\n2. A query is interrupted on the python side without reading the response off the wire and a later query is then run on the connection.\r\n3. While iterating over a result set a second query is run, possibly iterating over it's own result set.\r\n\r\nThe Connection object in the python driver is explicitly *not* thread safe. Attempting to run multiple queries on the same connection from different threads can easily result in interleaved queries. The logic behind throwing an error when we detect out of sync tokens is that this is a clear indication of an attempt to use the connection from multiple threads and it's better to alert the user that this is incorrect usage than to fail in more pernicious ways. If we were to throw out responses with incorrect tokens in this case we can cause deadlock, a far worse problem.\r\n\r\nBut what about situations 2 and 3? Neither of these situations are actually possible unless you're again running queries on the connection from multiple threads. For situation 3 this is because immediately after sending a query, any query, we block the entire thread on the response. Because the thread is blocked, no other query can be run on the connection until the response is received.\r\n\r\nIn situation 2 the idea is that the first query is canceled without reading it's response off the socket and a subsequent query is then run. Canceling a query before receiving a response would mean interrupting the waiting thread while it's blocked on more data on the socket. I don't know how this is possible without killing the thread or closing the connection. In either case, of course, it is impossible to run subsequent queries on that connection."
+  , issueCommentId = 15935865
+  }

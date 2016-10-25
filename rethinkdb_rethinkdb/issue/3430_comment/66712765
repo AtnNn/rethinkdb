@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-12) 00 : 11 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66712765"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3430#issuecomment-66712765"
+  , issueCommentCreatedAt = 2014 (-12) (-12) 00 : 11 : 48 UTC
+  , issueCommentBody =
+      "There appears to be some problem with `decltype`.\r\nIf I replace line 1471\r\n```\r\nstd::multimap<datum_t, decltype(pairs)::iterator,\r\n```\r\nby\r\n```\r\nstd::multimap<datum_t, std::vector<std::pair<datum_t, datum_t> >::iterator,\r\n```\r\n\r\nthis issue goes away and reveals a second problem:\r\n```\r\nsrc/rdb_protocol/changefeed.cc: In member function \8216virtual void ql::changefeed::limit_sub_t::note_data_wait()\8217:\r\nsrc/rdb_protocol/changefeed.cc:1489:47: error: expected initializer before \8216pairs_it\8217\r\nsrc/rdb_protocol/changefeed.cc:1492:25: error: \8216pairs_it\8217 was not declared in this scope\r\nsrc/rdb_protocol/changefeed.cc:1494:25: error: \8216pairs_it\8217 was not declared in this scope\r\nsrc/rdb_protocol/changefeed.cc:1498:70: error: \8216pairs_it\8217 was not declared in this scope\r\n```\r\n\r\nwhich again can be resolved by replacing line 1489\r\n```\r\ndecltype(pairs)::iterator pairs_it;\r\n```\r\nby\r\n```\r\nstd::vector<std::pair<datum_t, datum_t> >::iterator pairs_it;\r\n```\r\n\r\nWith those two changes the compilation works."
+  , issueCommentId = 66712765
+  }

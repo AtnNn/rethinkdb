@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 23 : 19 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18314460"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18314460"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 23 : 19 : 23 UTC
+  , issueCommentBody =
+      "The problem with this is that if we want `default` to work on arbitrary expressions (which is really nice), we aren't 100% sure what error we'll get.\r\n\r\nSo e.g.:\r\n```ruby\r\ntable.filter {|user| \r\n  (user[:score] * user[:bonus]).default(0)\r\n}\r\n```\r\n\r\nIf `score` is `NULL` then the error we get is a type error from trying to multiple `NULL` and an integer, but we would still want the default to trigger.\r\n\r\nOr:\r\n```ruby\r\ntable.get(obj[:attr]).default{...}\r\n```\r\nIf `obj` doesn't contain `attr` the error we get is that `NULL` isn't a valid value for a primary key.\r\n\r\nWe spent a bit of time discussing limiting the set of errors that `default` catches before, and every time the problem was that we couldn't come up with a sufficiently restrictive set that didn't have any edge cases we'd forgotten.  If we can come up with a set that we can prove is actually sufficient (and which is reasonably easy to implement), I'd be down with making `default` catch only a subset of errors and implementing a separate `catch` command.\r\n\r\n---\r\n\r\nI'm not sure users will actually think to write this, but in the case you give you could implement that correctly as:\r\n```ruby\r\ntable.insert(docs).do {|res|\r\n  res[:generated_keys].default([])\r\n}\r\n```\r\n\r\n---\r\n\r\nI have very mixed feelings about the idea of accessing a missing attribute returning `NULL`.  On the one hand, Ruby and Common Lisp do this, and it works reasonable well (although Common Lispers generally consider it a mistake).  On the other hand, suddenly you can clobber data by accident:\r\n```ruby\r\ntable.get(:user1).do {|user1|\r\n  table.get(:user2).update {:partner => user1[:name]}\r\n}\r\n```\r\n\r\nCurrently if `user` is malformed and missing `name` we produce an error; the new behavior would be to clobber `partner` in `user2` and continue silently.\r\n\r\nI think we probably shouldn't do this (not least because it would be a major change to existing semantics).\r\n\r\n---\r\n\r\nI agree on adding `rethrow` to the language.\r\n"
+  , issueCommentId = 18314460
+  }

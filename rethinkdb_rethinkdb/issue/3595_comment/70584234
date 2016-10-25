@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-20) 00 : 20 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70584234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3595#issuecomment-70584234"
+  , issueCommentCreatedAt = 2015 (-01) (-20) 00 : 20 : 51 UTC
+  , issueCommentBody =
+      "The problem turned out to be in `test-runner` specifically in the line:\r\n\r\n```python\r\nself.envVariables = copy.copy(os.environ)\r\n```\r\n\r\nThat looks like it does the right thing, but `os.environ` is actually an interface, so what it is actually copying is the function pointer. So there was a space between that and when it was used by `subprocess.Popen` (some 10 lines later) that the multiple threads could interrupt each other and get the wrong env variables. including the server connection information.\r\n\r\nThis caused one test to get a connection to the server of another, and from there anything was possible. The fix was simple:\r\n\r\n```python\r\nself.envVariables = os.environ.copy()\r\n```\r\n\r\nThis was review in CR 2496, from branch `larkost/3595-inconsitent-table-availability`, and went into `next` with 031c172."
+  , issueCommentId = 70584234
+  }

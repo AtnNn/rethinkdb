@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 05 : 25 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 72652
+        , simpleUserLogin = N "skizzerz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/72652?v=3"
+        , simpleUserUrl = "https://api.github.com/users/skizzerz"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16276495"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/652#issuecomment-16276495"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 05 : 25 : 00 UTC
+  , issueCommentBody =
+      "After further poking, I believe this is happening because the server is running out of RAM trying to iterate through all of the documents. Running htop side-by-side with the sample code had it print this exception exactly when the memory filled up.\r\n\r\nSample code/trace:\r\n```python\r\nimport rethinkdb as r\r\nr.connect().repl()\r\nres = r.db('league').table('players').run()\r\nfor row in res:\r\n    print len(row['games'])\r\n\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/local/lib/python2.7/dist-packages/rethinkdb/net.py\", line 32, in __iter__\r\n    self._read_more()\r\n  File \"/usr/local/lib/python2.7/dist-packages/rethinkdb/net.py\", line 23, in _read_more\r\n    other = self.conn._continue(self.query, self.term)\r\n  File \"/usr/local/lib/python2.7/dist-packages/rethinkdb/net.py\", line 115, in _continue\r\n    return self._send_query(query, orig_term)\r\n  File \"/usr/local/lib/python2.7/dist-packages/rethinkdb/net.py\", line 139, in _send_query\r\n    raise RqlDriverError(\"Connection is closed.\")\r\nrethinkdb.errors.RqlDriverError: Connection is closed.\r\n```\r\n\r\nIf I make use of skip() and limit() when selecting results to manually batch only 100 results per query, I am able to successfully iterate through every row.\r\n\r\nSample row: http://pastebin.com/AtFs5GU9\r\n"
+  , issueCommentId = 16276495
+  }

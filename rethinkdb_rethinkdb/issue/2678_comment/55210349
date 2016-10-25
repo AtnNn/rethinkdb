@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-11) 02 : 14 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55210349"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2678#issuecomment-55210349"
+  , issueCommentCreatedAt = 2014 (-09) (-11) 02 : 05 : 05 UTC
+  , issueCommentBody =
+      "OK, here's a proposal that @coffeemug and I worked out:\r\n\r\n* The user can designate a subset of their replicas as \"priority replicas\". There would be a field `\"priority_replicas\": [\"replica1\", \"replica2\", ...]` in each shard of `table_config`, but it would default to all the replicas if omitted. (By the way, \"priority replicas\" is a terrible name.)\r\n\r\n* There are two write ack modes. In `quorum` mode, the cluster sends an ack to the client when more than half of the \"priority replicas\" for the shard have committed the write to disk. In `immediate` mode, the cluster sends an ack to the client when at least one replica has committed the write to disk.\r\n\r\n* We haven't decided if the write ack mode should be set per-query or per-table.\r\n\r\n* Eventually, we will provide the following guarantee: If the user runs a write in `quorum` mode and the write is acknowledged, then every future read will see that write, unless the user runs a \"dangerous\" administrative command. \"Dangerous administrative command\" is defined to be a command that violates this guarantee; we'll clearly document under what circumstances a command is dangerous, and we might do something like requiring them to pass a `i_acknowledge_this_is_dangerous=True` optarg if they run a command in a way that is dangerous. (The term \"dangerous\" is bad.)\r\n\r\n* We'll put the following guidelines in the documentation: Use `immediate` mode if your app can tolerate dropping write operations occasionally if a server crashes. Use `quorum` mode if you need to be sure that a write, once acknowledged, will not be lost. Normally, you shouldn't have to specify priority replicas; but if you are using `quorum` mode and you have many replicas in remote datacenters, you can set `priority_replicas` to the set of replicas in your primary datacenter to avoid the latency cost of contacting the remote datacenter.\r\n\r\n* `priority_replicas` must contain at least two replicas. If the user specifies only one replica for a table, then `priority_replicas` must be `null` and it's illegal to run writes in `quorum` mode."
+  , issueCommentId = 55210349
+  }

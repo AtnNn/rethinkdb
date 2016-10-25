@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-11) 04 : 15 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19242037"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/889#issuecomment-19242037"
+  , issueCommentCreatedAt = 2013 (-06) (-11) 04 : 15 : 47 UTC
+  , issueCommentBody =
+      "So it actually seems like there's now a huge number of ways to perform a `pluck` and I fear it may wind up a bit confusing. I'm having a lot of trouble wrapping my head around all the different behaviors. A few things that seem weird to me:\r\n\r\n- mapping to `true` to mean \"include this\" seems really weird. In particular it's weird that at the top level I say:\r\n```\r\nobj.pluck(\"foo\", \"bar\")\r\n```\r\nbut if it's a level down I say:\r\n```\r\nobj.pluck({\"foo\" : {\"foo\" : True, \"bar\" : True}})\r\n```\r\nI'd much prefer if the syntax looked like this:\r\n```\r\nobj.pluck({\"foo\" : [\"foo\", \"bar\"]})\r\n```\r\nit's more concise and it means nested pluck looks very similar to unnested pluck. In fact this might be an argument for replacing variadic pluck with pluck on an array (i.e `pluck([\"foo\", \"bar\"])` instead of `pluck(\"foo\", \"bar\")`) which would make them look identical.\r\n\r\n- Your use of arrays here doesn't make any sense to me there aren't any examples of a multi element array does that have any meaning in this scheme? When you call `pluck` on an array at the top level it automatically maps the `pluck` over the array. Why can't we do the same thing for sub arrays? Rewriting a relevant example:\r\n```\r\nobj.pluck({:a => true, :d => [{:e => true, :f => false}]})\r\n```\r\nWould become\r\n```\r\nobj.pluck(\"a\", {\"d\" : \"e\"})\r\n```\r\n- The whole functional syntax seems like it might be a bit too complicated. It's also unclear to me how this works if you're running pluck on a sequence. It seems like all of your examples hinge on having the object in scope to execute the function. What would it look like executed on a sequence?"
+  , issueCommentId = 19242037
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-16) 22 : 07 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26463195"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-26463195"
+  , issueCommentCreatedAt = 2013 (-10) (-16) 22 : 07 : 22 UTC
+  , issueCommentBody =
+      "Having implemented #1471 and #1470 and also temporarily disabling garbage collection to reduce the number of involved factors, our scalability is now as follows:\r\n```\r\n  1 client:      55 qps\r\n 10 clients:    131 qps\r\n100 clients:    840 qps\r\n```\r\n\r\nThis is a lot better than what we had initially. Still, scalability under the given conditions should receive some more love in the long term.\r\n\r\nHere's a small preview on what sort of improvements we might expect with additional tuning:\r\nWith the additional trick of delaying serializer index writes by 10 ms so a higher number of index writes can be merged together, this is what performance looks like:\r\n```\r\n  1 client:      45 qps\r\n 10 clients:    192 qps\r\n100 clients:    788 qps\r\n```\r\nThis improves things further for a medium number of concurrent clients.\r\nWe might not want to do that specific optimization, because it only works on rotational drives and slows down writes on SSDs as well as single-client setups. However there might be smarter ways to achieve similar results when it comes to scalability."
+  , issueCommentId = 26463195
+  }

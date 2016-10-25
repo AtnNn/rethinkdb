@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-03) 01 : 18 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39403184"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1383#issuecomment-39403184"
+  , issueCommentCreatedAt = 2014 (-04) (-03) 01 : 18 : 28 UTC
+  , issueCommentBody =
+      "Ok, here's my proposal:\r\n\r\nFirst of all, I suggest we use `libcurl` as the backend, within the extprocs.  `libcurl` supports a ton of features, is MIT licensed, is fairly well-known and supported, and has an API that gives us enough control.  By putting the evaluation in the extprocs, we can sandbox it and kill runaway processes in case anything goes wrong, with no risk to the main process.  This will add some overhead.\r\n\r\n## Syntax\r\n\r\nRather than have separate commands for `GET` and `POST`, I think we should have a single command, but allow the user to change the method with an optarg, which would force them to explicitly choose the method (between `PUT`, `POST`, and `DELETE`):\r\n\r\n`r.curl(<STRING>, <STRING>) => <STRING>`\r\n\r\nFirst parameter: URL to access - I think we should support HTTP and HTTPS.  There may be a valid case for allowing other protocols, and it shouldn't be hard with `libcurl`.  We should explicitly whitelist protocols.\r\n\r\nSecond parameter (optional): the body of the request \r\n\r\nReturn value: a string corresponding to the body of the response\r\n\r\n## Optargs\r\n\r\nI've picked a few optargs that should allow for the majority of use cases:\r\n - `timeout=<NUMBER>`: seconds before aborting the operation (similar to `r.js`), defaults to 30 seconds\r\n - `header=<STRING>`, `header=[<STRING>, <STRING>]`: contains a string or array of strings for the header lines\r\n - `method=(GET | PUT | POST | DELETE)`: the HTTP method to use, defaults to `GET`\r\n - `rate_limit=<NUMBER>`: KB/s to limit download or upload rate, defaults to unlimited\r\n - `reattempts=<INTEGER>`: amount of reattempts to issue if a connection error or other temporary error occurs\r\n\r\nRegarding production systems not having HTTP access to the greater internet, `libcurl` supports HTTP proxies.  This can be set by an environment variable or an API call, so we should include an option in the rethinkdb config file for this.\r\n\r\n## Open Questions\r\n - Protocols to support: should we add FTP or LDAP?\r\n - Should we worry about CRLF or ASCII/Binary transfer issues?\r\n - Is there a use case for returning the response headers?"
+  , issueCommentId = 39403184
+  }

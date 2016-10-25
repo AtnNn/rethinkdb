@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-20) 20 : 53 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31040822"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1794#issuecomment-31040822"
+  , issueCommentCreatedAt = 2013 (-12) (-20) 20 : 53 : 41 UTC
+  , issueCommentBody =
+      "Ah, it's true that we support lambdas. I tried `r.row` and that didn't work, so I assumed lambdas don't work. We should fix `r.row` then:\r\n\r\n```javascript\r\nr.table('messages')\r\n    .eqJoin('senderId', r.table('senders'))\r\n    .without({right: {id: true}})\r\n    .orderBy(r.row('left')('msg'))\r\n    .eqJoin(function (row) { return row('left')('receiverId') }, r.table('receivers'))\r\n```\r\n\r\nThat works. But this throws:\r\n\r\n```javascript\r\nr.table('messages')\r\n    .eqJoin('senderId', r.table('senders'))\r\n    .without({right: {id: true}})\r\n    .orderBy(r.row('left')('msg'))\r\n    .eqJoin(r.row('left')('receiverId'), r.table('receivers'))\r\n```\r\n\r\n> your keys would have to be of the form `{senderInfo: {senderId : value}}`.\r\n\r\nI was thinking `{ senderInfo: 'senderId' }` would be equivalent to `r.row('senderInfo')('senderId)` in this context, which is pretty intuitive. Why wouldn't that work? (We could also do the same thing in `orderBy` but that's a separate discussion)."
+  , issueCommentId = 31040822
+  }

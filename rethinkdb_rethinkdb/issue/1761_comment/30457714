@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-12) 20 : 18 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 292681
+        , simpleUserLogin = N "nergdron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/292681?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nergdron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30457714"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1761#issuecomment-30457714"
+  , issueCommentCreatedAt = 2013 (-12) (-12) 20 : 17 : 05 UTC
+  , issueCommentBody =
+      "Seems to work with Python, so it must just be the webUI's connection to the backend. Other testing info from IRC:\r\n\r\n```\r\n<neumino> Can you open the web console\r\n<neumino> And see if there are javascript error there?\r\n<unit3> sure\r\n<neumino> (when you run a query)\r\n<unit3> Fully reloaded the page and re-ran the query, the only js message is a jquery warning which says:\r\n<unit3> 11:30:35.005 Use of getPreventDefault() is deprecated.  Use defaultPrevented instead. jquery-1.7.2.min.js:3\r\n<unit3> No errors.\r\n\ETX\STX\b<\bneumino\b>\b\SI\ETX unit3, can you try to run r.expr(1)\r\n\ETX\b<\b\ETXneumino\b>\b\SI And see if you can a result back\r\n\ETX\b<\bunit3\b>\b\SI\ETX yeah, that returns 1.\r\n\ETX\b<\bunit3\b>\b\SI\ETX r.db('test').info() works too, actually.\r\n\ETX\b<\bunit3\b>\b\SI\ETX but r.db('test').table('test').info() hangs.\r\n\ETX\b<\b\ETXneumino\b>\b\SI Hum, that's strange\r\n\ETX\b<\bunit3\b>\ETX yeah. especially since from other nodes the queries against the table works.\r\n\ETX\b<\bunit3\b>\b\SI\ETX the table's set to 3 primaries x 2 replicas, and all the primaries are on the other 2 nodes. this node that's having problems just has 2 of the replicas.\r\n\ETX\STX\b<\bneumino\b> unit3, did you insert your data with soft durability?\r\n\ETX\b<\b\ETXneumino\b>\b\SI I guess your machine is not swapping right?\r\n\b<\bunit3\b> No, lots of RAM. these boxes have 128GB, and the dataset on disk is ~3.5GB on each node.\r\n\ETX\b<\bunit3\b>\b\SI\ETX Rows were inserted by: resp, err := r.Table(\"test\").Insert(rows, r.InsertOpts{Upsert: true}).RunWrite(session)\r\n\ETX\b<\bunit3\b>\b\SI\ETX I don't think that's soft by default? lemme check the API docs.\r\n\ETX\b<\b\ETXhaploid\b>\b\SI what does iostat show ?\r\n\ETX\b<\bunit3\b>\b\SI\ETX on my boxes? nothing. they're idle right now.\r\n\ETX\b<\b\ETXneumino\b>\b\SI The default is hard durability, so that's not the problem I guess\r\n```"
+  , issueCommentId = 30457714
+  }

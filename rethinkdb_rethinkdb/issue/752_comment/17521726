@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-07) 03 : 39 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17521726"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/752#issuecomment-17521726"
+  , issueCommentCreatedAt = 2013 (-05) (-07) 03 : 39 : 23 UTC
+  , issueCommentBody =
+      "Do we duplicate large values when re-inserting rows into the secondary index b-tree? It's been awhile since I last played with the b-tree code but I think I remember that we only stored the first 256 bytes or so of the row in the b-tree leaf itself. For rows larger than that we stored only a large value reference that pointed to an on-disk list of blocks containing the row.\r\n\r\nI think we'd get close to ideal behavior if we always copied whatever we stored in the leaf of the main b-tree, copying large value references but not the actual large values being referenced. For rows less than 256 bytes the cost of duplication is low and we avoid the extra disk seeks needed to lookup the row in the main b-tree. For rows larger than 256 bytes we'd only be duplicating the large value reference (again only a few bytes) and again avoid unnecessary disk seeks"
+  , issueCommentId = 17521726
+  }

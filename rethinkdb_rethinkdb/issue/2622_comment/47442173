@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-02) 13 : 04 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 419606
+        , simpleUserLogin = N "v3ss0n"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/419606?v=3"
+        , simpleUserUrl = "https://api.github.com/users/v3ss0n"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47442173"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-47442173"
+  , issueCommentCreatedAt = 2014 (-06) (-29) 00 : 12 : 17 UTC
+  , issueCommentBody =
+      "Thanks a lot for code example AtnNn.\r\nThat would work , but wouldn't that  waste everything Tornado tried to avoid? \r\nIt won't block Tornado's IOLoop but create new thread for every new requests that needs rethinkdb features.\r\nThis will nullify c10k problem that Tornado addressed, solved well. \r\n\r\nOn asynchronous Mortor ,MongoDB driver equivilant can be done without using threads :\r\n```python\r\n@gen.coroutine\r\ndef tail_example():\r\n    results = []\r\n    collection = db.my_capped_collection\r\n    cursor = collection.find(tailable=True, await_data=True)\r\n    while True:\r\n        if not cursor.alive:\r\n            now = datetime.datetime.utcnow()\r\n            # While collection is empty, tailable cursor dies immediately\r\n            yield gen.Task(loop.add_timeout, datetime.timedelta(seconds=1))  ##Giving Control back to tornado IOLoop \r\n            cursor = collection.find(tailable=True, await_data=True)  ##<< This will block on normal Pymongo Driver\r\n\r\n        if (yield cursor.fetch_next):\r\n            results.append(cursor.next_object())\r\n            print results  \r\n```\r\n\r\nMotor driver uses Greenlets to address this problem, without modifying any line of code of mongodb's PyMongo Driver, very interesting approach.\r\nhttps://github.com/mongodb/motor/blob/master/motor/__init__.py (just over 2600 lines of code).\r\n\r\nHis approach is detailed on this video and slide , and should be able to apply to any Blocking NetworkIO drivers without much modification - Thats what i am talking about :) .\r\n\r\nhttp://emptysqua.re/blog/video-slides-and-code-about-async-python-and-mongodb/\r\nhttps://speakerdeck.com/mongodb/asynchronous-mongodb-with-python-and-tornado-a-jesse-jiryu-davis-python-evangelist\r\n\r\nIt will be very good feature for rethinkdb to have it build in. I will also look into rethinkdb's python driver when i get time. \r\n\r\n"
+  , issueCommentId = 47442173
+  }

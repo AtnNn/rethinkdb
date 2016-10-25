@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-26) 02 : 12 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27137223"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-27137223"
+  , issueCommentCreatedAt = 2013 (-10) (-26) 02 : 12 : 28 UTC
+  , issueCommentBody =
+      "The coroutine profiler is implemented and I've been using it for the past few days (I have to do a bit more wrapping-up work before I can submit it into code review). While it shows very well where time is spent, it turns out that there is not really a straight-forward solution to make those processes less intrusive on a cluster's overall latency.\r\n\r\nWhat makes it worse, some of the code paths, for example the btree parallel traversal code, are used both for background as well as for foreground tasks. Making them yield all the time would make the background tasks less intrusive, but would also slow down a lot of queries that users would be waiting for.\r\n\r\nI therefore concluded that a more explicit tool was needed to control which tasks should be given priority over others and have implemented an extension of the message hub which uses priority-based scheduling. The code is currently in code review 995 (branch daniel_message_scheduler). The system works by assigning a priority (currently between -2 (lowest) and 2 (highest) with a default of 0) to a coroutine. If a coroutine spawns new coroutines, those new coroutines inherit the priority from their parents. That way, if we for example say that secondary index creation should run at a lower priority, we just have to set it to that priority in one place and the parallel btree traversal and everything else it triggers will magically run with that lower priority as well.\r\nThe effect of the priorities is that coroutines with a higher priority can bypass those with a lower one in the message hub (unless they are enqueued with ordering guarantees, as in `coro_t::spawn_later_ordered()`). Note that low-priority coroutines are not actually slowed down at all, unless there are other higher-priority coroutines around to bypass them. If the database is idle with only background tasks running, those will still run as fast as if they were foreground tasks.\r\n\r\nThe priority-based message hub still relies on coroutines yielding often enough. A low-priority coroutine which never yields will still hog the CPU. We seem to have a few places were coroutines run for relatively long times uninterrupted. So far I could identify the buffer cache's writeback code (which will be replaced soon anyway) and some parts of the directory and cluster metadata code."
+  , issueCommentId = 27137223
+  }

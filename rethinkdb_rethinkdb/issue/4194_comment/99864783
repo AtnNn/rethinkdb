@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-07) 13 : 27 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 10041338
+        , simpleUserLogin = N "StevenPerez"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/10041338?v=3"
+        , simpleUserUrl = "https://api.github.com/users/StevenPerez"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/99864783"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4194#issuecomment-99864783"
+  , issueCommentCreatedAt = 2015 (-05) (-07) 13 : 27 : 09 UTC
+  , issueCommentBody =
+      "Mike - I think you are right in terms that it is ambiguous, in the other hand, it is more syntax clear to have the action, for example:\r\n\r\n```javascript\r\n// Current\r\nr.table('t1').changes().run(conn, function(err, cursor) {\r\n   cursor.each(function(n, el){\r\n      if (el.old_val == null && el.new_val != null) // Do something if Inserted\r\n         // Do something\r\n      else if (el.old_val != null && el.new_val != null) // Do something if Updated\r\n         // Do something\r\n      else if (el.old_val != null && el.new_val == null) // Do something if Deleted\r\n         // Do something\r\n   });\r\n});\r\n\r\n// If action\r\nr.table('t1').changes().run(conn, function(err, cursor) {\r\n   cursor.each(function(n, el){\r\n      if (el.action == 'Inserted')\r\n         // Do something\r\n      else if (el.action == 'Updated')\r\n         // Do something\r\n      else if (el.action == 'Deleted')\r\n         // Do something\r\n   });\r\n});\r\n```\r\n\r\nMaybe there are more critical features :), so this issue can be made in the future."
+  , issueCommentId = 99864783
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-24) 21 : 00 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60448360"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60448360"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 20 : 58 : 44 UTC
+  , issueCommentBody =
+      ">  skip/limit: maybe, but tests is tests. now on internet nosql is touted as a high-performance system, but on real is bullshit.\r\n\r\nWe will definitely make this specific query faster (see the linked issue for example). Every database system has some queries that are inefficient and others that are efficient.\r\n\r\nA quick side-note on NoSQL vs. SQL performance: NoSQL is primarily about scalability, not single-server performance. It is a lot easier to scale most NoSQL solutions (and definitely RethinkDB) over multiple servers than it is for SQL databases. A schema-less DB can essentially never be as fast as a DB with a fixed schema on a single server. That being said RethinkDB is definitely bad for `skip(<some_high_number>)` queries right now, and scalability cannot quite make up for that.\r\n\r\n> Simple select: yes, I create the index. With filter executed in 4.92s. 0,5 sec different. With getAll executed in 100ms. But MySQL is for x40 faster.\r\n\r\nThat sounds like something might be wrong. May I ask a few more questions:\r\n- how big are the documents you are storing approximately? Could you give us an example document?\r\n- how many results are returned by the `getAll` query?\r\n- If you run the same query multiple times (to warm up the cache), does that change the performance?\r\n\r\n> Insert: I insert by one row a 2 million records and result is 3 hour +. Bulk insert+indexing is a 20 minutes. When I insert more then 100.000 records, I'm getting socket error. When I insert 50.000 records - all is working fine. I'm using Python app.\r\n\r\nOh actually I misunderstood what you meant when you wrote \"by 50K rows\". So that was the batch size right? Usually you will get the highest throughput from using batches of roughly 100-1000 documents each, so that might be worth a try. Are you using soft durability?\r\n\r\nIf my math is right now your numbers are equivalent to 1,961 inserts/s. That is at least in the right ball park. It's interesting to see that MySQL is so much faster in this. Are you using a regular INSERT query with MySQL for this test? \r\n\r\nAre you using an SSD?\r\n\r\n> On question: why index not used automatically?\r\n\r\nThis is difficult in ReQL because `filter` for example can take an arbitrary filter predicate. So figuring out when an index can be used is not completely trivial. We will eventually look into writing an automatic query optimizer to handle cases like this, but for now we've decided to make performance as predictable and explicit as possible rather than relying on some \"magic\" algorithm to figure things out for you."
+  , issueCommentId = 60448360
+  }

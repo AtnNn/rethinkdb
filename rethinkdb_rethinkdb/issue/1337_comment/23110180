@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-22) 17 : 34 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1951912
+        , simpleUserLogin = N "flipchart"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1951912?v=3"
+        , simpleUserUrl = "https://api.github.com/users/flipchart"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23110180"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1337#issuecomment-23110180"
+  , issueCommentCreatedAt = 2013 (-08) (-22) 17 : 34 : 13 UTC
+  , issueCommentBody =
+      "Thanks everyone for chiming in - the comments were very helpful! I\8217m very busy at the moment, but trying to dedicate some time to writing the driver. I first started back before the proto spec changed to its current form (and the proto RFC was still hanging around). I\8217m writing a .Net driver. Yes I know there is one already, but that doesn\8217t mean we don\8217t need another :D I\8217m trying to reduce the number of runtime errors by ensuring (as much as possible) that only valid operations are chained together. Thus I\8217m going to be a bit pedantic on the signatures of the methods. \r\n\r\nI\8217ve been trying to reconcile what you\8217ve said with the docs and with what RethingDB is spitting out at me using type_of (thanks!). There are a few nuances which the docs don\8217t take into account. See below for example:\r\n\r\n<b>inner_join</b>\r\n_docs:_\r\nsequence.inner_join(other_sequence, predicate) \8594 stream \r\narray.inner_join(other_sequence, predicate) \8594 array\r\n\r\n_type_of:_\r\ntable,table -> inner_join ->  STREAM\r\ntable,selection -> inner_join ->  STREAM\r\ntable,array -> inner_join ->  STREAM \r\n\r\nselection,table -> inner_join ->  ARRAY\r\nselection,selection -> inner_join ->  ARRAY\r\nselection,array -> inner_join ->  ARRAY\r\n\r\narray,array -> inner_join ->  ARRAY\r\narray,array -> inner_join ->  ARRAY\r\n\r\nHere the issue is that with the first argument of selection, the result maps to array, not stream. Is this a bug in RethinkDb, or in the docs? Should I be taking what the docs say over what the existing drivers are giving me?\r\n"
+  , issueCommentId = 23110180
+  }

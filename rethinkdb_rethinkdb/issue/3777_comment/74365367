@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-14) 07 : 21 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74365367"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3777#issuecomment-74365367"
+  , issueCommentCreatedAt = 2015 (-02) (-14) 07 : 21 : 44 UTC
+  , issueCommentBody =
+      "I don't think we should make this a bigger change than necessary.\r\n\r\nThe scenario where this came up was just running `rethinkdb import -f ...` where all the documents already existed in the table. It caused a lot of server load and slowed other reads down significantly, but didn't show up in the QPS graph.\r\n\r\nI think this is all we should change. Either counting such queries as writes or as reads would be better than what we have now. Either seems ok, though I think always counting write queries as writes even if they actually degrade to only a read is more intuitive.\r\n\r\nAbout `table.get.delete`: While I can't say that doing otherwise would be strictly \"wrong\", I think `table.get.delete`, `table.get.update` and `table.get.replace` should count only as a write and not as a read as well. If nothing else, it makes it easier to plot the graph because you don't have to worry about the read and write lines being exactly the same with one hiding the other."
+  , issueCommentId = 74365367
+  }

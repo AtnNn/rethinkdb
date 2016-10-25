@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-09) 22 : 34 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22427072"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1258#issuecomment-22427072"
+  , issueCommentCreatedAt = 2013 (-08) (-09) 22 : 34 : 49 UTC
+  , issueCommentBody =
+      "So, we have a nested `r.row` context problem with: `r.table('foo').orderBy(r.desc(r.row('f'))` as both `orderBy` and `desc` enter function contexts.\r\n\r\nObviously in this case we should prefer the interpretation `r.table('foo').orderBy(r.desc(function(row) { return row('f'); })` because `r.table('foo').orderBy(function(row) { return r.desc(row('f')); })` is otherwise disallowed but this is  specific to orderBy and violates the general rule.\r\n\r\nWhat if we made it so that only `r.asc` and `r.desc` accepted functions? If you want to do `t.orderBy(function(row) { return row('i'); })` then you just have to make the `r.asc` explicit, i.e. `t.orderBy(r.asc(function(row) { return row('i'); }))`"
+  , issueCommentId = 22427072
+  }

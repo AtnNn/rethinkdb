@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 22 : 10 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27818121"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1389#issuecomment-27818121"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 22 : 10 : 59 UTC
+  , issueCommentBody =
+      "Actually that statement was premature. It didn't say anything when crashing in the first place. But now if I try to restart the cluster, one of the nodes fails as follows:\r\n\r\n```\r\nerror: Error in ./src/serializer/semantic_checking.tcc at line 227:\r\nerror: Guarantee failed: [bit == (state == scs_block_info_t::state_deleted)] serializer returned incorrect delete bit for block id 134441\r\nerror: Backtrace:\r\ninfo: Disconnected from server \"Witchdoctor\" 4884f8b4-871b-4b5b-916d-7885a47a04d1\r\nerror: Tue Nov  5 14:08:05 2013\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at thread_stack_pcs.cc:151\r\n       2: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:250\r\n       3: format_backtrace(bool) at backtrace.cc:197\r\n       4: report_fatal_error(char const*, int, char const*, ...) at errors.cc:68\r\n       5: semantic_checking_serializer_t<log_serializer_t>::get_delete_bit(unsigned long) at semantic_checking.tcc:225\r\n       6: merger_serializer_t::get_delete_bit(unsigned long) at merger.hpp:73\r\n       7: translator_serializer_t::get_delete_bit(unsigned long) at translator.cc:275\r\n       8: array_free_list_t::array_free_list_t(serializer_t*, mc_cache_stats_t*) at free_list.cc:15\r\n       9: mc_cache_t::mc_cache_t(serializer_t*, mirrored_cache_config_t const&, perfmon_collection_t*) at mirrored.cc:1238\r\n       10: scc_cache_t<mc_cache_t>::scc_cache_t(serializer_t*, mirrored_cache_config_t const&, perfmon_collection_t*) at semantic_checking.tcc:182\r\n       11: btree_store_t<rdb_protocol_t>::btree_store_t(serializer_t*, std::string const&, long, bool, perfmon_collection_t*, rdb_protocol_t::context_t*, io_backender_t*, base_path_t const&) at btree_store.cc:44\r\n       12: rdb_protocol_t::store_t::store_t(serializer_t*, std::string const&, long, bool, perfmon_collection_t*, rdb_protocol_t::context_t*, io_backender_t*, base_path_t const&) at protocol.cc:1108\r\n       13: void do_construct_existing_store<rdb_protocol_t>(std::vector<threadnum_t, std::allocator<threadnum_t> > const&, int, store_args_t<rdb_protocol_t>, serializer_multiplexer_t*, scoped_array_t<scoped_ptr_t<rdb_protocol_t::store_t> >*, store_view_t<rdb_protocol_t>**) at file_based_svs_by_namespace.cc:54\r\n    .... [boost function stuff]\r\n```\r\n\r\nThere is a comment in the semantic checker serializer above the place where this guarantee is verified:\r\n```\r\n// FIXME: tests seems to indicate that this code is broken. I don't know why, but it is. @rntz\r\n```\r\n\r\nIt might be that the semantic checking serializer just has a bug there. But maybe not."
+  , issueCommentId = 27818121
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-28) 01 : 23 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36312765"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36312765"
+  , issueCommentCreatedAt = 2014 (-02) (-28) 01 : 23 : 16 UTC
+  , issueCommentBody =
+      "> We could do it by storing the information from the backfill on a secondary separately, and then either just dropping it all, or applying it all to the btree in a batch.\r\n\r\nThis is easy if the backfill is small. If the backfill is large, we'll need another solution. We might be able to start by buffering the backfill, then revert to the current behavior if the buffer gets too big. Unfortunately, this only reduces the probability of the worst case; we still have to handle it if it happens. Another option is to implement persistent snapshotting (which would probably require serializer support): take a snapshot before starting the backfill, then revert to that snapshot if the backfill is cut short. There are also other solutions, like having the backfill and the old data coexist in the B-tree until the backfill is over, then deleting the old data.\r\n\r\nPerhaps a better approach is #1944. Suppose that we implement incremental backfilling that's guaranteed to proceed in lexicographical order. Then there's no such thing as an incoherent state; if the backfill is interrupted, some keys are in a coherent old state while the rest are in a coherent new state. There's no danger of randomly losing rows from a year ago. This can still lead to problems if there are rows that cross-reference each other, but the problems are now equivalent to #2039.\r\n"
+  , issueCommentId = 36312765
+  }

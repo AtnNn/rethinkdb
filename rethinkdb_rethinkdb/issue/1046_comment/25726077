@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-04) 19 : 57 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25726077"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1046#issuecomment-25726077"
+  , issueCommentCreatedAt = 2013 (-10) (-04) 19 : 57 : 38 UTC
+  , issueCommentBody =
+      "The `branch` is artificial but there are much better examples. Consider:\r\n\r\n```Python\r\n[\"foo\", \"bar\", \"buzz\"]\r\n.for_each(\\x -> [table(x).insert(...), table(x).update(...), table(x).sync()])\r\n```\r\n\r\nNow if I want to do those 2 writes (and it could of course be 100 writes) in a soft durability mode you could make me write\r\n\r\n```Python\r\n[\"foo\", \"bar\", \"buzz\"]\r\n.for_each(\\x -> [table(x).insert(..., durability=\"soft\"), table(x).update(..., durability=\"soft\"), table(x).sync(durability=\"hard\")])\r\n```\r\n\r\nor you could make my life easier and let me write:\r\n\r\n```Python\r\n[\"foo\", \"bar\", \"buzz\"]\r\n.for_each(\\x -> [table(x).insert(...), table(x).update(...), table(x).sync()])\r\n.run(durability=\"soft\")\r\n```\r\n\r\nGenerally I think the idea that doing a soft durability write is a guarantee that we won't put this data on disk before we acknowledge it is kind of ridiculous. It's pretty accepted practice that the underlying system is free to ignore performance hints like this. The `inline` keyword in C/C++ is a good example of this."
+  , issueCommentId = 25726077
+  }

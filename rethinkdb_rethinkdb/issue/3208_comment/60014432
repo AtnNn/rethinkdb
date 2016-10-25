@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-21) 23 : 17 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60014432"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3208#issuecomment-60014432"
+  , issueCommentCreatedAt = 2014 (-10) (-21) 23 : 17 : 44 UTC
+  , issueCommentBody =
+      "To clarify: The individual objects that we are doing accounting for need to have a pointer to *something* that they should inform when they get destructed. That pointer can be an `std::function`, or it can be a custom `struct` or some other kind of unique identifier to find the thing that it has to report to on deletion.\r\n\r\nThis is because every query that we run will have its own entity somewhere that counts the number of bytes currently allocated as part of its evaluation (on a per-node basis at least).\r\nSo when an object is destructed, it has to know which query it belongs to and who it should inform about the amount of memory it's freeing.\r\nThis is assuming that we don't want to hook into every single place where an accounted object could get destructed to explicitly take care of subtracting its memory usage from the query's account."
+  , issueCommentId = 60014432
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-24) 23 : 57 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27044601"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1371#issuecomment-27044601"
+  , issueCommentCreatedAt = 2013 (-10) (-24) 23 : 57 : 17 UTC
+  , issueCommentBody =
+      "Alright, I've got some changes up in code review to improve export speed.  First of all, there's the python cursor buffering change (#1364), which should reduce the impact of latency between the machine running export and the server.\r\n\r\nWhile testing this change, I noticed that the export script is CPU-bound, so the best step to take is to use the cpp python protobuf implementation, which can cut the export time nearly in half.  I also threw a profiler at the python driver and made a few simple changes that resulted in about a 15 to 30% throughput increase.\r\n\r\nTo test, I made a script that simply iterates through an entire table using a cursor.  In this example, the table is only about 40k rows, and I didn't perform the test dozens of times or anything, so this isn't super scientific.  The server I was using was `next` in release mode.\r\n\r\n| branch | protobuf | time (s) | throughput (rows/s) |\r\n|-----|-----|-----|-----|\r\n| next | py | 169.2 | 222 |\r\n| next | cpp | 96.4 | 390 |\r\n| grey_py_cursor | py | 150.9 | 249 |\r\n| grey_py_cursor | cpp | 93.8 | 510 |\r\n\r\nThese changes are up in review 992.\r\n\r\nI would also like to point out that in `next`, export is actually slower than import.  I did not expect this, possibly a result of our recent write improvements.  I'm not sure how long it has been like this, though, and it would take some time to track it down.  Rather, if we wanted to increase export speed, we would need it to be parallelized like import.  For this to work, we would want to do primary-key range gets using multiple cursors in parallel in the client.\r\n\r\nUnfortunately, there is not enough information available to clients to effectively do this.  The web UI has distribution gets available to it, and if we were to have those implemented in the query language, that is all we need.  Then, knowing where to place our range gets, we can parallelize export.\r\n\r\nAside from spending more time on the CPU efficiency of the python driver, this is the only other thing I can think of to speed up export."
+  , issueCommentId = 27044601
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-30) 03 : 04 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44610518"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2457#issuecomment-44610518"
+  , issueCommentCreatedAt = 2014 (-05) (-30) 03 : 04 : 30 UTC
+  , issueCommentBody =
+      "Making multiple GC \"threads\" run in parallel is enough to keep the garbage ratio low.\r\nThe file size after inserting ~100 MB of data in 1 million documents is then approximately 400 MB (vs. 1.9 GB without that modification).\r\n\r\nThere's more potential for optimization, though making GC actually be fast enough to keep up with writes would be a good first step.\r\n\r\n\r\nPreferring GC collection at the end of the file to make file truncation more likely might be a good next step. Though that still couldn't give any guarantees with that. It would work sometimes, but not work other times. What if an extent close to the end of the file is some long-living LBA extent? It would still take a long time until that one would be GCed (by the LBA GC).\r\nWe could probably detect such cases and trigger LBA GC early (or \"kick out\" live extents, in case a data extent is stopping us from truncating a file). The criteria for doing that could be based on the ratio between file size and used extents."
+  , issueCommentId = 44610518
+  }

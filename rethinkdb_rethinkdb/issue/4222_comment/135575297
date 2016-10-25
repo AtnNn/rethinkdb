@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-08) (-27) 22 : 39 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/135575297"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4222#issuecomment-135575297"
+  , issueCommentCreatedAt = 2015 (-08) (-27) 22 : 39 : 55 UTC
+  , issueCommentBody =
+      "On storing the tag for non-multi indexes: the code is doing something pretty weird, it looks like it isn't including the tag in the non-multi-index case, but it's still using the length of the tag to calculate how much of the sindex key it needs to truncate.  I think that's just a mistake, but the key printing code is absurdly complicated and has a history of breaking in subtle ways, so I'd want to think about it a little more before changing it.  (So, yeah, as of right now I don't see any reason why we can't stop storing the tag for non-multi indexes.)\r\n\r\nOn backwards compatibility: I think we can make this backwards-compatible without too much work.  We already store the tag offset in the sindex, and we have a fixed 2-byte chunk after the tag, so we can determine the length of the tag easily whenever we have a key.  Our range get logic is already designed to work if you truncate an sindex key too far (since we don't know how long the primary key is and we truncate less for short primary keys), so I think it should just continue working even if the entries in an index have a mix of sindex keys truncated to different lengths."
+  , issueCommentId = 135575297
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 22 : 52 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15985038"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/602#issuecomment-15985038"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 22 : 52 : 35 UTC
+  , issueCommentBody =
+      "I like `get` and `get_all`. I like `index_create`, `index_drop`, and `index_list`, coupled with static value sugar proposal in #595.\r\n\r\nAs for the actual controversy, here's a thought experiment. Suppose we introduce an operation `scanning_eq_join` that does exactly the same thing as `eq_join` but for right table attributes that have no index. Do we want `scanning_eq_join` and `eq_join` to have the same interface? I claim that we do.\r\n\r\nTo me the `.index(...)` proposal has all of the following disadvantages:\r\n\r\n* It introduces a new concept users have to learn\r\n* It's unfamiliar (coming from the SQL background, this will seem *very* off at first)\r\n* It's harder to do and think through for us (i.e. it introduces a new type we have to deal with, etc.)\r\n* It violates the less is more principle. That's cool, but I think for cases when we choose to do the \"grander\" thing, we need *really* strong evidence that the thing we're doing has overwhelmingly greater value. I don't believe we meet this standard of evidence here.\r\n* It breaks denotational semantics of ReQL. Right now ReQL can be treated as a program (hey db, just run the query as is) or a set of demands (hey db, here's the data I want, please figure out how to run it). Until we get an optimizer, we'll execute queries via the former method, but I'd like to keep the door open for the latter method. Adding things like `.index()` break that forever.\r\n\r\nI think we should follow less is more philosophy here. Just add an extra attribute everywhere that looks for an index name, and be done with it. This has all of the following advantages:\r\n\r\n* It's easy for us to implement\r\n* It's easy for users to think about\r\n* It's familiar\r\n* It's incremental as opposed to grand\r\n* It maintains the possibility of treating ReQL as a declarative program later\r\n* Everyone understands all implications\r\n\r\n(BTW, I think we should treat the primary key name as the name of the index, so one could do `table.get_all(5, 'id') => [obj]`)"
+  , issueCommentId = 15985038
+  }

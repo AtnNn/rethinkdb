@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-20) 22 : 53 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28940188"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1670#issuecomment-28940188"
+  , issueCommentCreatedAt = 2013 (-11) (-20) 22 : 53 : 39 UTC
+  , issueCommentBody =
+      "Here's a possible fix, but it needs more testing and a little refactoring.\r\nJust putting it here because I'm too lazy to create a branch for it right now...\r\n\r\n```\r\n--- a/src/arch/runtime/coroutines.cc\r\n+++ b/src/arch/runtime/coroutines.cc\r\n@@ -142,8 +142,13 @@ coro_t::coro_t() :\r\n #endif\r\n }\r\n \r\n+#define COROUTINE_FREE_LIST_SIZE 100\r\n void coro_t::return_coro_to_free_list(coro_t *coro) {\r\n-    cglobals->free_coros.push_back(coro);\r\n+    if (cglobals->free_coros.size() < COROUTINE_FREE_LIST_SIZE) {\r\n+        cglobals->free_coros.push_back(coro);\r\n+    } else {\r\n+        delete coro;\r\n+    }\r\n }\r\n \r\n coro_t::~coro_t() {\r\n@@ -190,8 +195,19 @@ void coro_t::run() {\r\n         // Destroy the Callable object which was either allocated within the coro_t or on the heap\r\n         coro->action_wrapper.reset();\r\n \r\n-        /* Return the context to the free-contexts list we took it from. */\r\n-        do_on_thread(coro->home_thread(), boost::bind(coro_t::return_coro_to_free_list, coro));\r\n+        /* Return the context to the free-contexts list we took it from.\r\n+        We have to wait until after the context_switch though, because\r\n+        that still uses `coro`. */\r\n+        struct return_coro_t : public linux_thread_message_t {\r\n+            void on_thread_switch() {\r\n+                // TODO! Rename the return_coro_to_free_list function\r\n+                do_on_thread(coro->home_thread(), boost::bind(coro_t::return_coro_to_free_list, coro));\r\n+                delete this;\r\n+            }\r\n+            coro_t *coro;\r\n+            explicit return_coro_t(coro_t *_coro) : coro(_coro) { }\r\n+        };\r\n+        call_later_on_this_thread(new return_coro_t(coro));\r\n         --pm_active_coroutines;\r\n \r\n         if (cglobals->prev_coro) {\r\n```"
+  , issueCommentId = 28940188
+  }

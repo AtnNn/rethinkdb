@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-23) 18 : 12 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60283038"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3235#issuecomment-60283038"
+  , issueCommentCreatedAt = 2014 (-10) (-23) 18 : 12 : 46 UTC
+  , issueCommentBody =
+      "Hi @timjrobinson, this is indeed by design.\r\nTo clarify on @nviennot 's branch in the update hint: You can write something like this\r\n```\r\nr.table('queuers')\r\n          .getAll(Queuer.STATES.searching, {index: 'state'})\r\n          .filter(db.row('userIds').count().eq(2))\r\n          .limit(2)\r\n          .update(\r\n              r.branch(\r\n                  r.row(\"state\").eq(\"Queuer.STATES.searching\"),\r\n                  {state: Queuer.STATES.waiting, matchId: matchId},\r\n                  {}),\r\n              {returnChanges: true})\r\n          .run conn, (err, result) =>\r\n            done(err, result)\r\n```\r\n\r\nThe expression inside the update will be evaluated atomically. If the branch condition (the first argument to `branch`) evaluates to true, the update will be performed as before. If it evaluates to false, the update will not change the document."
+  , issueCommentId = 60283038
+  }

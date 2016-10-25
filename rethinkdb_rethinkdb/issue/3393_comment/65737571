@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-05) 02 : 10 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65737571"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3393#issuecomment-65737571"
+  , issueCommentCreatedAt = 2014 (-12) (-05) 02 : 10 : 11 UTC
+  , issueCommentBody =
+      "Alright, this is a bug similar to other bugs we've had in the past: the `feed_t` is being destroyed, but there are a couple of ongoing operations so the `auto_drainer`'s destruction blocks, then a change comes in, we try to acquire an auto drainer lock partway through processing the change, and things blow up.\r\n\r\nWhat makes this bug different from the last few is that the lock we're acquiring is superfluous.  It looks like we're correctly acquiring an auto drainer lock *without* crashing in `feed_t::mailbox_cb` (because we check first that we aren't detached), but then we do some blocking work and later try to acquire *another* superfluous lock in `feed_t::each_sub_in_vec`, which causes us to crash because we started destroying ourselves in-between the two events.\r\n\r\n(In other words, this bug can't just be solved by moving the mailbox below the `auto_drainer`, unlike the last similar bug we encountered.)\r\n\r\nThe immediate solution is probably to make `each_sub_in_vec` take a lock rather than acquiring a lock, so that `mailbox_cb` can just thread its legally-acquired lock down to prove we have one.\r\n\r\n---\r\n\r\nLonger-term, I think it might be nice to have an alternate interface to auto drainers.  I understand why we don't let people acquire a lock on a draining drainer; the chance of infinitely delayed destruction is too high (and this is especially the case when the drainer is protecting a callback that can spawn jobs).  But it would be really nice if I could write `if (maybe_lock_t = drainer.maybe_lock()) { do_work(); }`, and if this interface were encouraged.  90% of the time the behavior I want is \"acquire a drainer lock and execute this code if you can, otherwise do nothing\" rather than \"acquire a drainer lock and execute this code if you can, otherwise crash the server\".  @danielmewes, @timmaxw -- any thoughts on this?\r\n\r\n---\r\n\r\n@larkost -- How hard would it be to write a test to duplicate this scenario (high write load, all of it going to a changefeed, and then the changefeed gets disconnected in a variety of different ways)?"
+  , issueCommentId = 65737571
+  }

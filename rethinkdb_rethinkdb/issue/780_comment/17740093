@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-10) 19 : 32 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17740093"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/780#issuecomment-17740093"
+  , issueCommentCreatedAt = 2013 (-05) (-10) 19 : 32 : 57 UTC
+  , issueCommentBody =
+      "I did a brief audit of the places where this might be a problem.  It looks like both `do_a_replace_from_batched_replace` and `rdb_update_single_sindex` are spawned in coroutines, which means there's nothing above them to catch the `interrupted_exc_t`, but `rdb_update_single_sindex` uses a dummy interruptor, so we probably only have to fix `do_a_replace_from_batched_replace`.  (I looked at the other places where we're catching `ql` exceptions, and they looked fine, but I might have missed something.)\r\n\r\nI'm not sure about where the interruptor is getting pulsed from.  I would bet if we fix this bug and reproduce the error we'll be able to tell from the new failure mode."
+  , issueCommentId = 17740093
+  }

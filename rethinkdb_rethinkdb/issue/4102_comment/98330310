@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-02) 15 : 09 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/98330310"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4102#issuecomment-98330310"
+  , issueCommentCreatedAt = 2015 (-05) (-02) 08 : 24 : 00 UTC
+  , issueCommentBody =
+      "Another option might be to copy the data from the blue to the green cluster through the `rethinkdb export` and `rethinkdb import` tools. This has lower consistency guarantees than backfilling if the data is being written to while `rethinkdb export` is running, but wouldn't require taking down the blue cluster while copying out the data. By lower consistency guarantees I mean that it might miss some of the changes that happen during the export but have others that happen after those.\r\n\r\nAs a third option, I'd suggest using LVM or file system snapshots (for example with BTRFS). If you make sure that server A is an up to date replica for all tables at a given moment, you can just take a file system / or LVM snapshot of the data partition. Then you can copy over the rethinkdb data directory from the snapshot to server 1 in the green cluster without taking the blue cluster down. In this scenario you should make sure that the green and blue cluster never connect to each other, or you will get issues with duplicate server IDs."
+  , issueCommentId = 98330310
+  }

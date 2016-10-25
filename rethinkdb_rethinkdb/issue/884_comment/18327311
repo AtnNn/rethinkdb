@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 07 : 20 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18327311"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18327311"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 07 : 20 : 51 UTC
+  , issueCommentBody =
+      "Firstly, I think that we need to make a commitment to treat `null` values as non-existence by default, and provide a consistent flag to commands where it matters to modify this behavior. So `x.default(y)` should return `y` if `x` is either `null` or doesn't exit. Also, `x.default(y, ignore_nulls=True)` (name open for debate, but let's leave it for now), returns `y` iff `x` doesn't exist.\r\n\r\nSecondly, I agree with @jdoliner that it makes complete sense for default to handle nulls and non-existence, but is weird to handle other errors.\r\n\r\nThirdly, I think that having a `catch` command that also deals with nulls for some reason is odd.\r\n\r\nFourthly, I agree with @mlucy that we need a way to specify a default value for an arbitrary expression and have it work.\r\n\r\n-----\r\n\r\nSo here's what I propose:\r\n\r\n* `x.default(y, [ignore_nulls=False]`\r\n  - Always returns 'y' if `x` doesn't exist\r\n  - Returns 'y' if `x` is `null` and `ignore_nulls` is set to `False` (which I strongly believe should be default throughout the language)\r\n* `x.catch(fn)`\r\n  - returns the return value of `fn` if `x` throws\r\n  - doesn't deal with nulls\r\n* `x.catch_all(y, [ignore_nulls=False])` (name open for debate)\r\n  - A combination of `default` and `catch` so people don't have to chain them\r\n  - Equivalent to x.default(y, ignore_nulls).catch(lambda z: y)\r\n\r\nI don't think we can do a good job on this with less than three commands.\r\n"
+  , issueCommentId = 18327311
+  }

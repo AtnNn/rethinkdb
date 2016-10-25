@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-28) 15 : 47 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33490534"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1913#issuecomment-33490534"
+  , issueCommentCreatedAt = 2014 (-01) (-28) 15 : 47 : 23 UTC
+  , issueCommentBody =
+      "> Here is a different idea. What if we threw out the C++ administration code, and exposed the reactor API via ReQL?\r\n\r\nWhat's wrong with having the high-level administrative code on the \"outside\"? E.g. the user runs the Python code which calls the C++ code, as opposed to the other way around? It feels much better to me, although I'm having trouble articulating why.\r\n\r\n> could you propose ReQL'ish user-facing Python API for the reactor code?\r\n\r\nIt's pretty simple:\r\n\r\n* `reactor_create(namespace_id, file_path)` creates a C++ `reactor_t`, with initially empty blueprint, and stores it in a table indexed by `namespace_id`. Note that the Python code picks the file path; it would also be responsible for creating the `rethinkdb_data` directory.\r\n\r\n* `reactor_destroy(namespace_id)` does the obvious\r\n\r\n* `reactor_set_blueprint(namespace_id, blueprint)` sets the reactor's blueprint. We might modify the format of the blueprint slightly. Perhaps we would allow it to specify which other machine to backfill from, for example.\r\n\r\n* `reactor_set_ack_expectations(namespace_id, ack_expectations)` sets how many acks the reactor will expect from secondaries before returning if it's a primary. I'm not sure exactly what `ack_expectations` would be. My first guess was a map from datacenter IDs to integers, but ideally the engine wouldn't know about the concept of a datacenter.\r\n\r\n* `reactor_set_resource_limits(namespace_id, ...)` sets memory (and/or CPU and/or disk?) limits for that namespace\r\n\r\nOne big question is how to manage metadata:\r\n\r\n* I think that the Python code should have its own metadata file, which it would use to persist the semilattices; this makes sense because the semilattices would become opaque to the engine (except for possibly datacenters and/or databases). The C++ code would still need a metadata file to store the branch history, but that's OK.\r\n\r\n* The Python components need to communicate with each other to propagate metadata and to implement automatic failover. We could have each Python component form a network connection to each other Python component, but it might be better for the C++ code to expose an API for the Python code to send and receive messages, which would be opaque byte-strings.\r\n\r\nIn the long term I think we should move as much as possible into the Python component. In order to support that, the Python code would also have access to APIs for the following:\r\n\r\n* Fetch stats; ask the engine if there are any outstanding issues; read (and maybe route) log messages\r\n\r\n* Order the engine to make or break a network connection with another engine. If a connection is lost, the C++ component would notify the Python component, which would then tell the C++ component to reconnect at its discretion."
+  , issueCommentId = 33490534
+  }

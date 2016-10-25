@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-21) 23 : 30 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60015726"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3208#issuecomment-60015726"
+  , issueCommentCreatedAt = 2014 (-10) (-21) 23 : 30 : 54 UTC
+  , issueCommentBody =
+      "I could certainly be talked into removing support for deleters from `data_buffer_t`\8212if someone can convince me that its memory should never ever be charged to a query.  Ditto `shared_buffer_t`.  But the `std::function`s, or something very much like them, are needed for `slow_atomic_countable_t` and for `single_threaded_countable_t`, because we now do two things:\r\n\r\n1. We permit upcasting; that is, a `counted_t<derived_t>` can be transparently turned into a `counted_t<base_t>`.\r\n2. We need to keep some data around to know what to do when the object is deallocated.\r\n\r\nThe problem here is that whatever piggyback structure that knew it was working on a `derived_t` still has to know it's working on a `derived_t` (or the decrement machinery won't work right), but cannot be cast to anything helpful on the `base_t`.  We need to perform type erasure.  @VeXocide tells me that the Boost and then the standards committee does something indescribably evil involving small object optimization to make this work for `std::shared_ptr`; I can't understand what they did, and I sure can't maintain it.  The official standards approved way to do type erasure is with `std::function`, which is what we do."
+  , issueCommentId = 60015726
+  }

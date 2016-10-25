@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-04) 04 : 39 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72789629"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3296#issuecomment-72789629"
+  , issueCommentCreatedAt = 2015 (-02) (-04) 04 : 39 : 38 UTC
+  , issueCommentBody =
+      "I've complained in person that we shouldn't re-use tokens, like, at all; it just invites bugs.  If we're bumping the protocol magic *anyway* we could put something else in like \"when you send a `CONTINUE` request, you supply in addition the token you're going to query next\" or alternatively the server sends back a different token, or something similar.  The idea being that it should be impossible to send two `CONTINUE`s to the server before getting a response back from either one, and then trying to make sense of the resulting situation.  My intent here is that the server will send back information from one and then go \"we already did this\" with the other.  If the server sends back the token to use for the next request, it's actually impossible to submit two valid read requests on the wire before a response is gotten back from either one.\r\n\r\nThat said I do agree that we should worry about how much of it should be automatically parallelizable.  Changefeeds seem like an obvious instance where the default should be YES, parallelize.  Presumably if we made an option to `.run` that said \"please run me in parallel\" that would work too.  Are there any other default-YES situations we should worry about?"
+  , issueCommentId = 72789629
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-21) 00 : 21 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/84201850"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3959#issuecomment-84201850"
+  , issueCommentCreatedAt = 2015 (-03) (-21) 00 : 21 : 30 UTC
+  , issueCommentBody =
+      "Hi @Xrave,\r\n\r\nThe function you pass to `do` is actually called once to generate a sub-query which is then sent to the server, so you can't put complicated JS logic in there.  `subdoc.map` doesn't run any code; it just generates a sub-query, so when you return `c1` you aren't returning a value that was set while executing something, you're returning a sub-query (which happens to contain a variable which was introduced in the `map`, but that introduction was thrown away because you didn't return the `map`).  That's where the `var_26` comes from.\r\n\r\n(If that wasn't clear, you can read more about it at http://rethinkdb.com/blog/lambda-functions/ .)\r\n\r\nBasically, if you're doing variable assignment inside a ReQL function then what you're doing is probably incorrect.\r\n\r\nClosing as not-a-bug, but feel free to ask more questions here."
+  , issueCommentId = 84201850
+  }

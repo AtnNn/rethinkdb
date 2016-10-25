@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-04) 01 : 13 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61578503"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-61578503"
+  , issueCommentCreatedAt = 2014 (-11) (-04) 01 : 13 : 07 UTC
+  , issueCommentBody =
+      "I like this proposal.\r\n\r\n\r\n> Should `table.reconfigure()` set `write_acks`? \r\n\r\nThere appear to be four different options:\r\n1. `reconfigure()` doesn't touch the current `write_acks` settings. If the write acks were non-trivial, it would sometimes leave the table in an unavailable state. It would also have to patch them to at least a level where they are valid again (i.e. not contain any servers that aren't also replicas).\r\n2. `reconfigure()` always resets the table to `\"majority\"` `write_acks`. If the user wants different write acks, they would have to follow up each `reconfigure()` call by another write to `table_config`. Or they would have to modify the configuration suggested by `reconfigure(..., dry_run=True)` before writing it to `table_conf`.\r\n3. `reconfigure()` accepts a simplified `write_acks` opt arg that can only be `\"majority\"` (default) or `\"single\"`. Only if the user wants non-trivial write-acks, they would have to go through the separate step described in 2.\r\n4. Allow specifying non-trivial `write_acks` by having them expressed in terms of server tags when passed into `reconfigure()`. This would only be allowed in combination with custom replica tag settings. For example `reconfigure(replicas = {\"us_east\": 2, \"us_west\": 2}, write_acks={\"us_east\":2, \"us_west\":1}, primary_tag = \"us_east\")`. There is also the question of whether more than one tags should be usable in a single ack group: `reconfigure(replicas = {\"us_east\": 2, \"us_west\": 2}, write_acks={[\"us_east\", \"us_west\"]:3}, primary_tag = \"us_east\")`.\r\n\r\nObviously 4 is the most powerful, and actually I think it would be really good to have. The problem with 1-3 is that none of them allows for easily reconfiguring a table once you use non-trivial `write_acks`. This is especially true if you want to run the reconfiguration automatically using some script."
+  , issueCommentId = 61578503
+  }

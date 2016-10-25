@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-31) 06 : 04 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50716270"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1915#issuecomment-50716270"
+  , issueCommentCreatedAt = 2014 (-07) (-31) 06 : 04 : 06 UTC
+  , issueCommentBody =
+      "I'm going to make deserialization of `datum_t`s lazy.\r\nA given field of a ReQL object will only be deserialized when it's first accessed, while remaining in a serialized binary representation until then.\r\nWhen handling big documents of which not all fields are needed (e.g. when doing a filter on a table), or when transferring documents unchanged to a different cluster node, this can potentially provide substantial performance gains.\r\n\r\nA first hacky implementation is promising, yielding a ~40% QPS improvement in one user's analytical query.\r\n\r\nThe query `r.table(...).map(function(x){return x;}).count()` where our usual optimization of `table.count()` that avoids loading the data doesn't work, gets faster by a factor of 30 on a table with large complex documents (assuming everything is in the cache). Down from 4.7 s to 150 ms.\r\n\r\nIt might also help a little with https://github.com/rethinkdb/rethinkdb/issues/2750 , though the documents in that case are much simpler and the only thing that we would avoid to deserialize would be the embedded array."
+  , issueCommentId = 50716270
+  }

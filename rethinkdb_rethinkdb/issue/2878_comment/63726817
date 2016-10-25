@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-19) 22 : 31 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63726817"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2878#issuecomment-63726817"
+  , issueCommentCreatedAt = 2014 (-11) (-19) 22 : 31 : 43 UTC
+  , issueCommentBody =
+      "@neumino Thanks for chiming in.\r\nTo some extent we have to deal with that issue for the job control table (#3115), which is going to generate a progress between 0 and 1 for backfills. More specifically, it's going to generate that progress per (sender, receiver, table) triple individually. If multiple shards are backfilled for a given table between the same pair of servers, we will have to generate an overall progress for those shards. We will need some logic in the server to generate the progress correctly, and handle the cases that you have mentioned.\r\nI believe @VeXocide is planning to base the first implementation on directory data, which only has per-shard granularity. I think this is fine for 1.16, though we might refine that later.\r\n\r\nOn the side of the web UI, it would be nice to use the `jobs` table for getting the overall backfill progress. That way we can automatically benefit from improvements to the `jobs` progress implementation. If the current code is working ok, switching it over to the new API can wait until after 1.16 though."
+  , issueCommentId = 63726817
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-01) 23 : 04 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50944218"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2794#issuecomment-50944218"
+  , issueCommentCreatedAt = 2014 (-08) (-01) 23 : 04 : 44 UTC
+  , issueCommentBody =
+      "Looks fine. I'm not sure whether we really want to have the `overwrite` flag (and whether this is the right name, given that there will be a brief period during which the index will be unavailable), but I'm fine with it.\r\n\r\nWe should make sure that this works correctly with backfilling.\r\nI believe if we don't do anything special what will happen is that if you backfill from the primary to a secondary that has missed an `index_rename()` the secondary will drop the current index and recreate a new one under the new name.\r\nThat could be ok, but it is a bit problematic because rebuilding the index like that will also affect other shards that are on the same machines.\r\nThe logic for this is in `rdb_receive_backfill_visitor_t::operator(const backfill_chunk_t::sindexes_t &)` in `store.cc` and `store_t::set_sindexes(...)` in `btree_store.cc`.\r\n\r\nThis is also very remotely related to https://github.com/rethinkdb/rethinkdb/issues/2477, in the sense that if we wanted to rewrite that code (which we probably shouldn't at this point) we would probably want to fix both."
+  , issueCommentId = 50944218
+  }

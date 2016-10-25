@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 18 : 20 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53912270"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2987#issuecomment-53912270"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 18 : 20 : 50 UTC
+  , issueCommentBody =
+      "Hi @hden\r\nYou can create a compound index with `foo` and `group_size` first, followed by `dt` - assuming that `foo` is not too long (if it gets close to ~100 bytes, the secondary index will become inefficient).\r\n\r\nLike this:\r\n`r.table('records').indexCreate(\"foo_group_dt\", [r.row(\"foo\"), r.row(\"group_size\"), r.row(\"dt\")])`\r\n\r\nAnd then query with\r\n`r.table('records').between([\"bar\", 2, new Data(\"2014-09-01\")], [\"bar\", 2, new Data(\"2014-09-15\")], {index: \"foo_group_dt\"})`\r\n\r\nRegarding geospatial indexes: The first version will not support compound indexes, so you will have to revert to `filter` for that. We will probably add that feature later. You can follow https://github.com/rethinkdb/rethinkdb/issues/2855 for updates."
+  , issueCommentId = 53912270
+  }

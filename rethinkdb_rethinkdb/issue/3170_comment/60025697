@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-22) 01 : 44 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60025697"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3170#issuecomment-60025697"
+  , issueCommentCreatedAt = 2014 (-10) (-22) 01 : 44 : 49 UTC
+  , issueCommentBody =
+      "Let's do this asap:\r\n\r\n- Distinguish between two different version requests:\r\n  1. Version check only (used by the web UI and on startup by the server, this one should remain compatible to our current request)\r\n  2. Version check with statistical data submission\r\n- Make the server check the version once on startup using a request of type 1 (version check only).\r\n- In addition, make the server recheck the version once every 24 hours using a request of type 2 (submit statistics). The first such check should happen 24 hours after the server was started.\r\n- If one of the checks returns a version that is bigger than the current one, print an info message to the log. The server should then remember the version (in RAM) and only print another message if a yet newer version becomes available (or the server is restarted).\r\n- When sending a request of type 2, also send the following data:\r\n  1. RethinkDB version\r\n  2. Number of servers in the cluster\r\n  3. uname -ps output (e.g.: Linux x86_64)\r\n  4. Number of tables in the cluster, rounded to `2^(round(log_2(num_tables)))`\r\n  5. Accumulated size of all shards on this machine (in bytes), rounded to `2^(round(log_2(size)))`\r\n- Add a server parameter to disable all version checks (though unless it's easy to do this would not affect the web UI's version check)\r\n- Keep the web UI unchanged"
+  , issueCommentId = 60025697
+  }

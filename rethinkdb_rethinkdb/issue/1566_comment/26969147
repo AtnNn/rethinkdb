@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-24) 06 : 22 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26969147"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1566#issuecomment-26969147"
+  , issueCommentCreatedAt = 2013 (-10) (-24) 06 : 21 : 35 UTC
+  , issueCommentBody =
+      "Hmm. Apparently the docs also say that `distinct` returns an array (http://rethinkdb.com/api/#py:aggregation-distinct). Somehow I didn't expect this. I don't think we ever intended to use the type system to denote operations that require loading data into RAM on the server. It doesn't necessarily mean it's a bad idea, but it's not immediately obvious to me that we should be doing this. Here are reasons *not* to do it:\r\n\r\n* It's inconsistent. I believe unindexed `order_by` currently requires loading all data into RAM, but it doesn't return an array.\r\n* There may be operations that must load all data into RAM to complete, but can't return an array because they have to return a selection (like `order_by`). This suggests that using arrays to denote operations that have to load all data into RAM isn't the right paradigm.\r\n* Returning things as arrays vs. streams has impact on the interface the end user has to program against in the drivers. If we have indexed operations (like distinct) return streams and unindexed ones return arrays, we'd change the driver interface depending on whether the command is indexed. I don't think it's a good idea.\r\n* Returning streams has additional advantages -- users can stream data to the clients without waiting for the whole dataset to be sent over the network. Additionally, large result-sets encoded as arrays would probably hit protobuf limits, while streams would not. (For the same reason I think `groupBy` should also return a stream)\r\n\r\nThat being said, it's definitely not a point release issue, so moving it into backlog."
+  , issueCommentId = 26969147
+  }

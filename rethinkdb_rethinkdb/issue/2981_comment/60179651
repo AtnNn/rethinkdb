@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-23) 01 : 12 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60179651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2981#issuecomment-60179651"
+  , issueCommentCreatedAt = 2014 (-10) (-23) 01 : 07 : 57 UTC
+  , issueCommentBody =
+      "I think we should conceptually distinguish between `reconfigure` and `rebalance`. The former should generally replace the configuration of the table completely, without caring about the current configuration too much (apart for maybe picking servers such that backfilling and therefore loss of availability is minimized, see below).\r\n`rebalance` in my opinion should be a separate command. It should not change any server assignments, but *only* shift the boundaries between the existing shards to make them balanced.\r\n\r\nAnother confusing thing here is that `reconfigure` sometimes does cause loss of availability (like `rebalance` would), but generally makes an attempt to not do so if it's avoidable.\r\nI think we should make this difference explicit.\r\n\r\nI propose we add an opt arg `maintain_availability` to `reconfigure`.\r\nPossible values are `null`, `\"outdated_read\"`, `\"read\"`, `\"write\"`.\r\nIf that opt arg is `null`, I think `reconfigure` should imply rebalancing shards. Generally it should not care about maintaining availability in this case.\r\nIf the user specifies an availability level through that opt arg, `reconfigure` would make an attempt to maintain availablity by keeping a necessary number of replicas where they are. If it cannot derive a configuration that fulfills the given constraints, it should fail.\r\nThe definition of these availability levels would have to depend on the ack configuration.\r\n\r\nI think this would give the best user experience, but it might be too complicated to implement?"
+  , issueCommentId = 60179651
+  }

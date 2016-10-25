@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-04) 04 : 06 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36590289"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2047#issuecomment-36590289"
+  , issueCommentCreatedAt = 2014 (-03) (-04) 04 : 04 : 51 UTC
+  , issueCommentBody =
+      "Hi! The problem is that `groupBy` currently doesn't accept arbitrary functions to evaluate the group. The next release (1.12 -- should be out in the next week or two) has a new implementation (called `group`, see #1096 for more details) that supports this, so you'll be able to say `blah.group(r.row('created_at').day()).count()`. That will make things really nice and easy.\r\n\r\nIn the meantime, you'd have to use the `groupedMapReduce` command to accomplish the same thing. Here is what you would write to execute your query:\r\n\r\n```javascript\r\nr.db('collector_production').table('events').groupedMapReduce(\r\n  function (event) { return event('created_at').day(); },\r\n  function (event) { return 1; },\r\n  function (i, j) { return i.add(j); }\r\n)\r\n```\r\n\r\nSorry you ran into that! The 1.12 release will make this go away forever.\r\n\r\n> It would be amazing to add a .month() function to dates. It would return the week number.\r\n\r\nYou mean `.week()` right? Would you mind opening a separate issue for that so we can track it properly?"
+  , issueCommentId = 36590289
+  }

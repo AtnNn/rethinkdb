@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-21) 19 : 41 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1923532
+        , simpleUserLogin = N "janih"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1923532?v=3"
+        , simpleUserUrl = "https://api.github.com/users/janih"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43804174"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2410#issuecomment-43804174"
+  , issueCommentCreatedAt = 2014 (-05) (-21) 19 : 40 : 01 UTC
+  , issueCommentBody =
+      "@danielmewes I'm inserting documents one at a time to the ```blog_item``` table, occasionally update some documents and also do queries like these:\r\n* r.table('blog_item').get('36a4307a-5987-49d6-a2cf-70b486a9bc80')\r\n* r.table('blog_item').getAll('36a4307a-5987-49d6-a2cf-70b486a9bc80', {index: 'feed_id'})\r\n* r.table('blog_item').getAll('cf0c31b6-efe6-4ae3-b383-a94cc5d3feae', {index: \"feed_id\"}).filter( function(item) {\r\n\treturn item(\"link\").match(\"something$\")\r\n\t })\r\n\r\nHere is a couple of other unusual things that I did before this data corruption happened: \r\n\r\n* I removed all the leading and trailing whitespace from the text values in ```blog_item``` table (= a small piece of code that iterated the table and trimmed and updated documents)\r\n* The previous code had a bug that left a certain field empty after the update. I didn\8217t have a fresh backup, but I had a backup that was quite new. I didn't just want load the old dump I had so here is what I did: \r\n\r\n1. dump the current database to a file\r\n2. drop the database\r\n3. load the old dump and create indices (It is not possible to define the target database name for rethinkdb restore ?)\r\n4. rename the ```blog_item``` table to ```blog_item_old```\r\n5. delete the other tables\r\n6. load the dump back that I made in the first step (created indices too)\r\n7. write small piece of code that loads the field from ```blog_item_old``` and updates it to the same document in ```blog_item```\r\n8. finally delete ```blog_item_old``` table\r\n\r\nI hope this is of any help :)\r\n\r\n"
+  , issueCommentId = 43804174
+  }

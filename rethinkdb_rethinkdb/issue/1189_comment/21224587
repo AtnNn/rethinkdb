@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 00 : 27 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21224587"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1189#issuecomment-21224587"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 00 : 27 : 20 UTC
+  , issueCommentBody =
+      "I'm still skeptical of automatic currying as a language feature, especially because it doesn't work very well for variadic functions (which is why it's popular in languages like Haskell and OCaml that don't have variadic functions, but not in languages like Lisp or Ruby that do).  `seq.map(r.sub(n))` is only marginally shorter than `seq.map(r.row - n)` (or `seq.map{|x| x-n}` in ruby), and it's much less clear IMO, especially for people without a functional language background who might not have seen that behavior before.  I think that we should continue using anapahora to let people define short functions rather than introducing automatic currying.  (I do wholeheartedly support letting people use both 0-ary arithmetic terms like `add` and data aggregators like `sum` in reduce, though, which is more like having first-class functions than like having automatic currying.)\r\n\r\nAs for the question of lisp's behavior -- people in languages like Python that have infix `-` are probably going to want to write their queries using infix `-`, in which case they will always be providing two arguments.  People who encounter the variadic nature of `r.sub` are way more likely than normal to be coming from languages with prefix subtraction, like Common Lisp or Clojure.  (And at one point, at least, having a good Clojure driver was a long-term goal of ours.)  There are, of course, exceptions like JS that don't allow operator overloading.\r\n\r\nI literally don't know of a *single* language other than ReQL that has variadic subtraction and doesn't support 1-ary subtraction.  It seems like we should support 1-ary subtraction just by the principle of least surprise.  (And it surprised Etienne in #1184, which seems like an indication that it isn't just my CL background that makes it seem surprising.)\r\n\r\nMy comment on `reduce` was only for addition and multiplication; expressing `-` in terms of our `reduce` doesn't make much sense because it isn't associative.\r\n\r\nAnyway, we should hold off discussion on this until it's scheduled for a sprint, since there appear to be strong feelings on the matter."
+  , issueCommentId = 21224587
+  }

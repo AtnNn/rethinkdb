@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-17) 22 : 39 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7032
+        , simpleUserLogin = N "anatol"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7032?v=3"
+        , simpleUserUrl = "https://api.github.com/users/anatol"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32658617"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1872#issuecomment-32658617"
+  , issueCommentCreatedAt = 2014 (-01) (-17) 22 : 39 : 46 UTC
+  , issueCommentBody =
+      "Hmm... Neither ``--assume-old support/build/v8/libv8.a`` nor ``--assume-old support/build/v8`` helps. I still see the same issue....\r\n\r\nBut using order-only prerequisite helps here\r\n\r\n```\r\n--- a/mk/support.mk\r\n+++ b/mk/support.mk\r\n@@ -189,7 +189,7 @@ $(V8_SRC_DIR):\r\n           find v8 -type f -exec sed -e 's_^#!/usr/bin/env python$$_&2_; s_^#!/usr/bin/python$$_&2_' -i {} \\; && \\\r\n           sed 's/\\bpython\\b/python2/' -i v8/Makefile v8/build/gyp/gyp ) $(SUPPORT_LOG_REDIRECT)\r\n \r\n-$(V8_INT_LIB): $(V8_INT_DIR)\r\n+$(V8_INT_LIB): | $(V8_INT_DIR)\r\n        $P MAKE v8\r\n        $(EXTERN_MAKE) -C $(V8_INT_DIR) native CXXFLAGS='-Wno-error' $(SUPPORT_LOG_REDIRECT)\r\n        $P AR $@\r\n```"
+  , issueCommentId = 32658617
+  }

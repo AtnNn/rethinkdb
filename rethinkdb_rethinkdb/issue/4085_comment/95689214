@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-23) 19 : 14 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95689214"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4085#issuecomment-95689214"
+  , issueCommentCreatedAt = 2015 (-04) (-23) 19 : 14 : 27 UTC
+  , issueCommentBody =
+      "@rchukka This is expected behavior, since RethinkDB uses range-based shards on the primary key.\r\nIn your example, RethinkDB will see that all documents are in the key range 0 to 1499 when you run the `r.table(\"test\").reconfigure({replicas: 2, shards: 2})`.\r\n\r\nTo create to balanced shards, it will split the shards so that everything below (approximately) 750 will go into the first shard, and everything above it will go into the second shard.\r\nThen when you insert more documents with keys from 1500 to 2999, they will all end up in the second shard.\r\n\r\nTo make your shards balanced again, you can run\r\n`r.table(\"test\").rebalance()`\r\n\r\nThis will shift the split point between the shards to make them approximately the same size again.\r\nNot that at the moment rebalancing make the table unavailable while it is shifting the data between the shards. We're already working on changing that, but it will take until version 2.2 for this to ship (it's part of a bigger change, and we want to do enough testing before putting it out)."
+  , issueCommentId = 95689214
+  }

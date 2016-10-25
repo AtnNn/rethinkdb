@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 02 : 26 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53830631"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2864#issuecomment-53830631"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 02 : 26 : 28 UTC
+  , issueCommentBody =
+      "* Overall this looks pretty good.\r\n\r\n* > These are only the existing issues we have in /ajax/issues (minus vector_clock_conflict). Should we add more\r\n\r\n    Obviously we need to do `table_config_bad_server` and the others before we ship, but I think we should handle those as separate projects.\r\n\r\n* > How is this expected to be architected? I'm ok with having this just collect the issues from the issue_aggregator like /ajax/issues does, I don't see any big problems with that.\r\n    \r\n    I think that's the right way to go. Do you see any problems at all with that (even if not big ones)?\r\n\r\n* Any time we mention a table, we should present the database's name as a separate `db` field. This is relevant for `outdated_index`, `invalid_config`, and `name_conflict`.\r\n\r\n* The old `invalid_config` issue will go away, because the old \"goals\" don't exist anymore. The closest equivalent is some combination of `table_config_bad_server` and `server_down`.\r\n\r\n* We usually want to hash something slightly different than what we show to the user. Specifically:\r\n    * For `server_down` and `server_ghost`, we want to hash the UUID but not the name, so that we get sane behavior if a name is changed or there's a name conflict.\r\n    * For `name_conflict`, we should hash the type and the colliding name, but not the list of UUIDs. Suppose the user has three conflicting UUIDs, and they rename one of them; if the issue hash changes, they might think the issue has been resolved. If the name in conflict is a table name, we should also hash the UUID of the database that the tables live in.\r\n    * For `outdated_index`, we should hash nothing, so that the `outdated_index` issue's hash doesn't change as the indexes are rebuilt.\r\n\r\n* We currently don't have the server-side infrastructure to figure out what time an issue first appeared (I think). I propose that we leave out the `time` field for now, and we can add it later as a separate project.\r\n\r\n* We should consider hiding UUIDs everywhere except on the `name_conflict` issue.\r\n\r\n* DB and table name collisions will cause loss of availability for that table. Server name collisions might cause loss of availability depending on how we handle the case where a conflicted name appears in a table's config.\r\n\r\n* Minor name nit-picking suggestions:\r\n    * `id` -> `uuid` everywhere\r\n    * For `server_down` and `server_ghost`: `id` -> `server_uuid`, `name` -> `server` or `server_name`\r\n    * For `name_conflict`: `name` -> `conflicted_name` (maybe)\r\n    * `name_conflict` -> `name_collision` to be more specific"
+  , issueCommentId = 53830631
+  }

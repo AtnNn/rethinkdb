@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-18) 21 : 10 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46494605"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2570#issuecomment-46494605"
+  , issueCommentCreatedAt = 2014 (-06) (-18) 21 : 10 : 10 UTC
+  , issueCommentBody =
+      "My bad, I made a mistake.\r\n\r\nI thought that you could call `then` only once a promise, but I just tried and it's not the case, you can call `then` multiple times. Looking at [the specs](http://promises-aplus.github.io/promises-spec/) (2.2.6) it's expected.\r\n\r\nSo what I wrote works fine and I actually don't have any strong objection left.\r\nI still thinks it's weird, and I'm worried that we are doing something strange (we basically hide some asynchronous operations).  \r\nBut I can implement it since it's pretty easy to do.\r\n\r\nThere is one last little things that I'm not sure about.\r\nIf you do something like\r\n```\r\nvar c = r.connect();\r\nsetImmediate(function() { // or any async operation\r\n   query.run(c)\r\n})\r\n```\r\nAnd suppose that `r.connect` fails (like if you connect to the wrong port), you get a log `Possibly unhandled RqlDriverError. Could not connect to localhost:28015.\r\nconnect ECONNREFUSED` printed in the console.\r\nBut that's kind of an edge case, so we could probably ignore it.\r\n\r\n\r\n"
+  , issueCommentId = 46494605
+  }

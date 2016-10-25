@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-30) 00 : 11 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72130566"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-72130566"
+  , issueCommentCreatedAt = 2015 (-01) (-30) 00 : 09 : 08 UTC
+  , issueCommentBody =
+      "Re: @coffeemug's proposal: if we permit `.on` to take a Python function, then we could make it a method on an object.  So this would be as follows:\r\n```python\r\nclass Foo(object):\r\n   # blah blah blah\r\nf = Foo()\r\nfeed1 = r.table('foo').changes().run(conn).on(f.foo)\r\nfeed2 = r.table('bar').changes().run(conn).on(f.bar)\r\nconn.poll(wait=True)\r\n```\r\nThis would look (with perhaps some suitable glue code) like this in Tulip/asyncio:\r\n```python\r\n@asyncio.coroutine\r\ndef foo(change):\r\n    while True:\r\n        # some computation\r\n        yield from asyncio.sleep(1)\r\n@asyncio.coroutine\r\ndef bar(change):\r\n    while True:\r\n        # some computation\r\n        yield from asyncio.sleep(1)\r\nloop = asyncio.get_event_loop()\r\ntasks = [\r\n    r.table('foo').changes().run(conn).on(foo),\r\n    r.table('bar').changes().run(conn).on(bar)\r\n]\r\nloop.run_until_complete(asyncio.wait(tasks))\r\nloop.close()\r\n```"
+  , issueCommentId = 72130566
+  }

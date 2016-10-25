@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-12) 19 : 50 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28326683"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1633#issuecomment-28326683"
+  , issueCommentCreatedAt = 2013 (-11) (-12) 19 : 50 : 05 UTC
+  , issueCommentBody =
+      "Even if we assume that limiting operations on bigger datasets is a good idea. I really don't think we should limit these. These joins are only `O(N^2)` if you evaluate the whole thing. However because they're evaluated lazily you get back the first batch of results pretty quickly and then that `O(N^2)` time is interlaced with the driver code. This seems like a very reasonable performance characteristic that we should allow.\r\n\r\nThe only time you're going to hit the `O(N^2)` runtime is if you chain an aggregation to the end. But I think we should just consider long running aggregations in general, rather than special casing joins.\r\n\r\nFinally I think the risk with these queries is much lower than the others. They store a constant amount in memory and it can never stay in memory between calls. They also won't block out other coros because they go to disk so frequently."
+  , issueCommentId = 28326683
+  }

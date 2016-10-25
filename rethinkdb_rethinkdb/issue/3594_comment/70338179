@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-16) 23 : 15 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70338179"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3594#issuecomment-70338179"
+  , issueCommentCreatedAt = 2015 (-01) (-16) 23 : 15 : 13 UTC
+  , issueCommentBody =
+      "I think the first side effect is a fairly serious problem.  I'm positive some of our users have scripts that will run something along the lines of:\r\n\r\n```py\r\nif 'foo' not in r.table_list().run(c):\r\n  r.table_create('foo').run(c)\r\n# Do work on the table 'foo'\r\n```\r\n\r\nI see two options for these users under this changed behavior:\r\n\r\n1. They have to be very aware of which servers are hosting the tables and which servers their scripts are connecting to.\r\n2. They have to change their provisioning strategy to create all tables ahead of time and recognize that `Table \"foo\" does not exist.` means that there is an availability issue.\r\n\r\nBoth of these options seem counter to what we're trying to achieve, but perhaps there is some other way to solve this.\r\n\r\nI don't think the second side-effect is a huge deal, the biggest problem would be if a user loses some server data directories, resulting in a table that can never be reconfigured (though we should absolutely fix #3520 so they could possibly copy the table in this case)."
+  , issueCommentId = 70338179
+  }

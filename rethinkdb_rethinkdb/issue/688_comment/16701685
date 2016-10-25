@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-20) 10 : 05 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16701685"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/688#issuecomment-16701685"
+  , issueCommentCreatedAt = 2013 (-04) (-20) 10 : 05 : 54 UTC
+  , issueCommentBody =
+      "I got it to work. Thanks for your efforts :D\r\n\r\n```\r\ninfo: Running rethinkdb 1.4.3-940-gf8fb58-dirty (CLANG 3.1 ((branches/release_31 156863)))...                                                                                           \r\ninfo: Running on FreeBSD 9.1-RELEASE amd64\r\n```\r\n\r\nIt's nice to see all your commits, you seem to know what you are doing very well.\r\n\r\nHere are the dependencies I had to install on FreeBSD 9.1:\r\n\r\n```\r\npkg_add -r wget gcc48 protobuf protobuf-c v8 openjdk7 boost-all gmake bash clang\r\npkg_add -r node npm py-yaml\r\nnpm install -g less coffee-script handlebars\r\n```\r\n\r\nI tried with gcc48, but there seemed to be a lot of #include's missing, so I stuck with clang.\r\n\r\nI had a few troubles getting the test suite to run, I put a few changes in 6fe0a1a5268121c218e39d4ef008812ad2cfaa4f.\r\n\r\nI only saw four unit tests fail:\r\n\r\nClusteringBranch.Backfill:\r\n\r\n```\r\nsrc/unittest/clustering_branch.cc:246: Failure\r\nValue of: store2.store.values[it->first]\r\n  Actual: \"7\"\r\nExpected: it->second\r\nWhich is: \"12\"\r\n```\r\n\r\nRPCDirectoryTest and RPCMailboxTest:\r\n\r\n```\r\nerror: Error in src/arch/io/io_utils.cc at line 21:\r\nerror: Guarantee failed: [res == 0]  (errno 54 - Connection reset by peer) error returned by close(2)\r\nerror: Backtrace:\r\n1: 0x18d6e53 <format_backtrace(bool)+51> at /usr/home/teapot/rethinkdb/build/debug_clang_notcmalloc/rethinkdb-unittest\r\n2: 0x2046821 <report_fatal_error(char const*, int, char const*, ...)+625> at /usr/home/teapot/rethinkdb/build/debug_clang_notcmalloc/rethinkdb-unittest\r\n3: 0x18a8c1a <scoped_fd_t::reset(int)+218> at /usr/home/teapot/rethinkdb/build/debug_clang_notcmalloc/rethinkdb-unittest\r\n4: 0x18a6986 <scoped_fd_t::~scoped_fd_t()+22> at /usr/home/teapot/rethinkdb/build/debug_clang_notcmalloc/rethinkdb-unittest5: 0x18914e5 <scoped_fd_t::~scoped_fd_t()+21> at /usr/home/teapot/rethinkdb/build/debug_clang_notcmalloc/rethinkdb-unittest                     \r\n```\r\n\r\nAnd the SnapshotsTest took too long, so I killed it."
+  , issueCommentId = 16701685
+  }

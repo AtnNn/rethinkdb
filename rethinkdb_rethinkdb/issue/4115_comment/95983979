@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 16 : 21 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95983979"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4115#issuecomment-95983979"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 16 : 21 : 30 UTC
+  , issueCommentBody =
+      "@jezzball -- thanks for reporting this, but this is done by design.\r\n\r\nWhen you run `r.table('test')` the database returns a stream of data (it would be a cursor to your drivers). Cursors are pageable, so the data explorer can go through documents batch by batch.\r\n\r\nWhen you call `orderBy` without specifying an index, the database has to load the whole table in memory to sort the data. When that happens, the database server returns an array of documents instead of a stream to indicate that there are different memory and performance implications involved. Arrays aren't pageable, so the data explorer presents them all at once.\r\n\r\nTo get a stream of data instead, try ordering with an index like this: `r.table('users').orderBy({index: 'id'})`. The data explorer will be able to paginate the data.\r\n\r\nThe reason you don't see the formatting is that on large arrays such complex DOM elements dramatically slow down the browsers, so we turn formatting off. If you set the limit to a smaller value (say, 40 rows), you should be able to see the formatting again."
+  , issueCommentId = 95983979
+  }

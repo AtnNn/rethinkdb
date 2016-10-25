@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-28) 02 : 12 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18521297"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18521297"
+  , issueCommentCreatedAt = 2013 (-05) (-28) 02 : 12 : 48 UTC
+  , issueCommentBody =
+      "For this query\r\n```ruby\r\nr.table(\"users\").filter{ |row| row[:name].eq(\"Michel\") }\r\n```\r\n\r\nCould you tell me if the predicate return true, false or throws an error\r\nDocument 1:\r\n```ruby\r\n{\r\n     :id => 1\r\n     :name => nil\r\n}\r\n```\r\n\r\nDocument 2:\r\n```ruby\r\n{\r\n     :id => 2\r\n}\r\n```\r\n\r\n\r\nSame question for this query\r\n```ruby\r\nr.table(\"users\").filter{ |row| row[:contact][:email].eq(\"user@domain.com\") }\r\n```\r\nAnd these documents\r\nDocument 1\r\n```ruby\r\n{\r\n     :id => 1\r\n     :contact => {\r\n         :email => nil\r\n     }\r\n}\r\n```\r\nDocument 2\r\n```ruby\r\n{\r\n     :id => 1\r\n     :contact => {\r\n     }\r\n}\r\n```\r\nDocument 3\r\n```ruby\r\n{\r\n     :id => 1\r\n     :contact => nil\r\n}\r\n```\r\nDocument 4\r\n```ruby\r\n{\r\n     :id => 1\r\n}\r\n```\r\n\r\n\r\nThen are these results right?\r\n```ruby\r\nr.expr(null).eq(\"blabla\").default(5) // returns false\r\nr.expr(null).eq(null).default(5) // returns true\r\nr.expr({ :id => 1})[:name].eq(\"blabla\").default(5) // returns 5\r\nr.expr({ :id => 1 })[:contact][:email].eq(\"blabla\").default(5) // throws an error?\r\nr.expr({ :contact => { :email => \"user@domain.com\" } })[:contact][:phone].eq(\"blabla\").default(5) // returns 5\r\nr.expr({ :id => 1 })[:contact].default(3)[:email].eq(\"blabla\").default(5) // returns 5\r\nr.expr({ :id => 1 })[:contact].default(null)[:email].eq(\"blabla\").default(5) // returns 5\r\n```\r\n\r\n\r\n-------\r\nMy apologies for any ruby error syntax : )"
+  , issueCommentId = 18521297
+  }

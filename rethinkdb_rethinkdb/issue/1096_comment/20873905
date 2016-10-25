@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 12 : 43 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20873905"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-20873905"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 12 : 38 : 19 UTC
+  , issueCommentBody =
+      "I had a phone call with a user today, and the following use case came up. I'd like to document it here so we can get back to it when we discuss the `group` command for 1.9.\r\n\r\nSuppose you have a `users` table that keeps information on users, including their location. You want to get an average salary per location, and then display locations on a webpage along with an average salary and a list of users in each location.\r\n\r\nCurrently people have to do `groupBy`, and then run a separate query to get the actual users per location. What Allen wanted is to get the actual documents in each group along with the reduction. E.g. (obviously invented syntax):\r\n\r\n```javascript\r\nr.table('users').groupBy('location', r.avg('salary'), { include_records: true })\r\n[{ group: 'U.S.', reduction: 50000, records: [US_user1, US_user2, ...]}, ...]\r\n```\r\n\r\nThis is actually an extremely common use case for short datasets. SQL doesn't do this because they have no way to effectively return an array of records along with each group, but we do. Allowing this would save people from doing an additional join, and would probably be much more performant too. For the record, here's how one could do it in a single query now:\r\n\r\n```javascript\r\nr.table('users').groupBy('location', r.avg('salary')).map(function(row) {\r\n    return row.merge({ users: r.table('users').filter(function(user) {\r\n        return user('location').eq(row('group'));\r\n    }).coerceTo('array')});\r\n})\r\n```\r\n\r\nI'm not sure what syntax we should adopt, but I wanted to document this here for later discussion."
+  , issueCommentId = 20873905
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-02) 07 : 02 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 419606
+        , simpleUserLogin = N "v3ss0n"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/419606?v=3"
+        , simpleUserUrl = "https://api.github.com/users/v3ss0n"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/88780044"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-88780044"
+  , issueCommentCreatedAt = 2015 (-04) (-02) 07 : 00 : 24 UTC
+  , issueCommentBody =
+      "No problem now , this code works well. \r\n\r\n```python\r\ncon = yield conn\r\ncurs = yield evt.run(con)\r\nmessages = []\r\nwhile (yield curs.fetch_next()):\r\n    item = yield curs.next()\r\n    messages.append(item)\r\n```\r\n\r\nBut i have a few other questions.\r\n\r\nRight now Insert performance is not good with async , it takes 200-400 ms , locally , small document of < 2KB each (chat messages). \r\n\r\n\r\ntake a look at this code , i may be doing something wrong:\r\n\r\n``` python\r\nimport logging\r\nimport tornado.escape\r\nimport tornado.ioloop\r\nimport tornado.web\r\nimport os.path\r\nimport uuid\r\nimport rethinkdb as r\r\nfrom tornado.concurrent import Future\r\nfrom tornado import gen\r\nfrom tornado.options import define, options, parse_command_line\r\nr.set_loop_type(\"tornado\")\r\ndefine(\"port\", default=8080, help=\"run on the given port\", type=int)\r\ndefine(\"debug\", default=False, help=\"run in debug mode\")\r\nconn = r.connect(\"localhost\")\r\nevt = r.db(\"rechat\").table(\"events\")\r\n# Making this a non-singleton is left as an exercise for the reader.\r\n\r\n\r\nclass MainHandler(tornado.web.RequestHandler):\r\n\r\n    @gen.coroutine\r\n    def get(self):\r\n        con = yield conn\r\n        curs = yield evt.run(con)\r\n        messages = []\r\n        while (yield curs.fetch_next()):\r\n            item = yield curs.next()\r\n            messages.append(item)\r\n\r\n        self.render(\"index.html\", messages=messages)\r\n\r\n\r\nclass MessageNewHandler(tornado.web.RequestHandler):\r\n\r\n    @gen.coroutine\r\n    def post(self):\r\n        con = yield conn\r\n        message = {\r\n            \"body\": self.get_argument(\"body\")\r\n        }\r\n        # to_basestring is necessary for Python 3's json encoder,\r\n        # which doesn't accept byte strings.\r\n        messages = (yield evt.insert(message).run(con))\r\n        message['id'] = messages['generated_keys'][0]\r\n        message[\"html\"] = tornado.escape.to_basestring(\r\n            self.render_string(\"message.html\", message=message))\r\n        if self.get_argument(\"next\", None):\r\n            self.redirect(self.get_argument(\"next\"))\r\n        else:\r\n            self.write(message)\r\n\r\n```"
+  , issueCommentId = 88780044
+  }

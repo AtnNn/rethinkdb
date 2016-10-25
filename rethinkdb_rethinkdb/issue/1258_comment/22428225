@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-09) 23 : 05 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22428225"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1258#issuecomment-22428225"
+  , issueCommentCreatedAt = 2013 (-08) (-09) 23 : 05 : 45 UTC
+  , issueCommentBody =
+      "So here's the essence of the issue.\r\n\r\n```python\r\nr.expr(1).do(r.expr(2).do(r.row)).run()\r\n# Fails with\r\nRqlCompileError: Cannot use r.row in nested queryies in:\r\nr.expr(1).do(lambda var_2: r.expr(2).do(lambda var_1: r.row))\r\n# See how we wrap both the inner and outer expressions with a lambda?\r\n# This ends up not mattering because we fail on the nested r.row anyway\r\n\r\n# But the same situation in an orderby is treated differently\r\nr.table('foo').order_by(r.desc(r.row('id'))).run()\r\n# Fails with\r\nRqlCompileError: DESC may only be used as an argument to ORDERBY in:\r\nr.table('foo').order_by(lambda var_2: r.desc(lambda var_1: r.row('id')))\r\n# Now the double lambda wrapping matters because the query doesn't otherwise\r\n# trigger the normal nested context problem but does trigger a false r.desc\r\n# context problem.\r\n```"
+  , issueCommentId = 22428225
+  }

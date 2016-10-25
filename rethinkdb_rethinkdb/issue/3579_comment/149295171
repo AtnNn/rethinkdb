@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-19) 17 : 48 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/149295171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3579#issuecomment-149295171"
+  , issueCommentCreatedAt = 2015 (-10) (-19) 17 : 48 : 42 UTC
+  , issueCommentBody =
+      "@tatsujin1 If you just do an `orderBy({index: ...}).changes({includeInitial: true})`, changes will not necessarily arrive after all initial results, but you can start seeing some changes before you have received all initial results.\r\n\r\nThere are two work-arounds:\r\n- If you also specify `{includeStates: true}`, you will receive a special document `{state: \"ready\"}` once all initial results (plus possibly a few changes) have been transmitted. If you delay rendering in your application until you see that document, you get essentially the desired behavior where the first view that's rendered represents the initial results at the time of the `ready` document, and from that point on you receive changes to it. Note that at no point you will see a change for a document that you haven't seen the initial result for yet.\r\n- If you attach a `limit` to the query, i.e. `table.orderBy({index: ...}).limit(...)`, I believe you will get the behavior you describe where all initial results will be transmitted first, followed by any updates.\r\n\r\nThe reason for why unlimited changefeeds with `include_initial` can send changes before they've sent all initial results is for memory consumption. If we had to somehow keep track of all changes until we're done sending *all* initial results, that would mean that we would need to use an unbounded amount of memory (depending on the number of changes happening during the time where we stream the initial results)."
+  , issueCommentId = 149295171
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-28) 11 : 06 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33469051"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1913#issuecomment-33469051"
+  , issueCommentCreatedAt = 2014 (-01) (-28) 11 : 06 : 01 UTC
+  , issueCommentBody =
+      "> Make it possible for external programs to bypass/replace the C++ cluster administration code [...] This idea could also be taken a lot further by moving the existing cluster administration code, including the web UI, out of the C++ executable and into an official external program written and maintained by the RethinkDB team.\r\n\r\nI think it's a delightfully wonderful idea for all of the following reasons:\r\n\r\n* Write complex, non inner-loop code in a high level, garbage collected language? Sign me up!\r\n* Public interfaces usually mean better abstractions and better delineated components. That's wonderful.\r\n* A small, better abstracted codebase is also wonderful.\r\n* Currently making changes is very hard. People don't want to touch the code because it's complex, and large changes get pushed back. Rewriting the code in a high-level language means we have a chance in hell to fix these issues in a very reasonable timeline.\r\n* We made many clustering administration design decisions that we know now to be bad. We can throw these out and do it right.\r\n* External contributors have a chance in hell to understand the code and contribute to it.\r\n\r\nNow, here are some things I disagree with:\r\n\r\n> So, if the normal RethinkDB high-level clustering code didn't handle a particular use case properly, then third parties could write an external program to replace it.\r\n\r\nThis won't happen for a while (if ever). Before people would write code like that, RethinkDB has to be an extremely useful and scalable system in and of itself. By the time it does that, people will have little reason to hack the administration code. This is a very long term thing (i.e. half a decade), while we have to make our immediate fixes within six months.\r\n\r\n> The Python program would \"wrap\" the C++ engine\r\n\r\nHere is a different idea. What if we threw out the C++ administration code, and exposed the reactor API via ReQL? The user starts the (C++) RethinkDB engine as they do now, the nodes start up, and connect to each other. Each node then calls a Python/JavaScript/Ruby piece of code that connects to the node and drives the administration? If we wanted to let users make changes to this code we could allow them to specify code to load over a command line argument, but I'm less concerned about that because a) we can figure it out, and b) the important part is to let *us* write administration code in a high level language.\r\n\r\n@timmaxw -- could you propose ReQL'ish user-facing Python API for the reactor code? What would that look like?"
+  , issueCommentId = 33469051
+  }

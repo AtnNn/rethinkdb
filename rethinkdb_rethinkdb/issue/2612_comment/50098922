@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-25) 01 : 31 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50098922"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2612#issuecomment-50098922"
+  , issueCommentCreatedAt = 2014 (-07) (-25) 01 : 31 : 50 UTC
+  , issueCommentBody =
+      "Ok, `r.binary` has been approved and merged to `next` in commits b878582, d7730a5, b0285bc, a0f0973, and 9f7247b.  Review was 1799.  Will be in release 1.14.\r\n\r\nA few notes about the final state of the feature:\r\n\r\n* base64 is only used on the wire; as soon as it is converted to a `datum_t`, the base64 is translated to a `wire_string_t`.  The reverse applies when sending `r.binary` to a client.\r\n* We support the common subset of RFC 3548 and RFC 2045, but not base64url.\r\n* The `r.binary` term is client-only.  There is no use case I could find for running `r.binary` on existing data that is not fulfilled by using `coerce_to('binary')`.\r\n* `count` works on `r.binary` objects, similar to arrays.\r\n* `slice` works on `r.binary` objects, with the same semantics as when used on an array.\r\n* `info`, `type_of`, and `coerce_to` are all implemented (the type string is `BINARY`).\r\n\r\nDrivers:\r\n* The python driver will implicitly convert `bytes` to `r.binary` unless `bytes` is the same as `str` (in python2).\r\n* The python driver will return `r.binary` objects as a thin wrapper of `bytes` (to allow implicit conversion when re-inserting in python2).\r\n* The javascript driver will implicitly convert `Buffer` to `r.binary`.\r\n* The javascript driver will return `r.binary` objects as `Buffer`s.\r\n* The ruby driver does not implicitly convert data to `r.binary`, like python2.\r\n* The ruby driver will return `r.binary` objects as a thin wrapper of `String` (to allow implicit conversion when re-inserting)."
+  , issueCommentId = 50098922
+  }

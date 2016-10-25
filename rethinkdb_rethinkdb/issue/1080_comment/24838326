@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-20) 23 : 31 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24838326"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-24838326"
+  , issueCommentCreatedAt = 2013 (-09) (-20) 20 : 15 : 31 UTC
+  , issueCommentBody =
+      "Here's a summary of some experiments I've done:\r\n\r\n* Reducing LBA_SHARD_FACTOR to 1 does not solve this for 10 clients. I think it is still a good idea though.\r\n\r\n* Reducing CPU_SHARDING_FACTOR from 4 to 1 improves throughput for 10 clients to 177 (from 90). Apart from the fact that disabling CPU sharding is not really an option, this is still much less than what MongoDB achieves.\r\n\r\n* Just not writing the LBA at all (which corrupts the on-disk database) gives the following throughputs:\r\n  1 client: 46\r\n  10 clients: 185\r\n  \r\n  This was with a CPU_SHARDING_FACTOR of 1. (There was little improvement in not writing the LBA for a sharding factor of 4)\r\n\r\n* More extremely, not even writing the metablock gives\r\n  1 client: 248\r\n  10 clients: 1200\r\n  100 clients: 1500\r\n\r\n  Still with CPU_SHARDING_FACTOR = 1. This test is relatively useless, because it not only eliminates the random seek for writing the metablock to the metablock extent, but it also eliminates an i/o wait cycle which we probably cannot easily get rid of. However I wanted to find out if there were non-i/o related issues involved in the bad scalability. Indeed, we still do not scale linearly with the number of clients. I have to think about this a bit more. It could be that we are just saturating disk throughput at this point\r\n\r\n* It turns out that about half of the i/o operations in the previous no-metablock no-lba configuration were reads. Disabling GC gives:\r\n  1 client: 570\r\n  10 clients: 3200\r\n\r\n  This is basically the same factor of improvement as with garbage collection (~6). This is ok-ish but not great. Looking at the number of disk write operations (iostat), I can see that the 3200 btree writes/s caused around 700 disk writes/s, indicating that roughly 4-5 writes were merged into one serializer write."
+  , issueCommentId = 24838326
+  }

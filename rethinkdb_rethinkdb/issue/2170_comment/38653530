@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-26) 06 : 29 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38653530"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2170#issuecomment-38653530"
+  , issueCommentCreatedAt = 2014 (-03) (-26) 06 : 29 : 31 UTC
+  , issueCommentBody =
+      "Ok so the 10 seconds duration is because that's the polling interval for `indexWait()`.\r\n\r\nFrom src/rdb_protocol/terms/sindex.cc:\r\n```\r\n/* We wait 10 seconds between polls to the indexes. */\r\nint64_t poll_ms = 10000;\r\n[...]\r\nclass sindex_wait_term_t : public op_term_t {\r\n    [...]\r\n    virtual counted_t<val_t> eval_impl(scope_env_t *env, UNUSED eval_flags_t flags) {\r\n        [...]\r\n        for (;;) {\r\n            counted_t<const datum_t> statuses =\r\n                table->sindex_status(env->env, sindexes);\r\n            if (all_ready(statuses)) {\r\n                return new_val(statuses);\r\n            } else {\r\n                nap(poll_ms, env->env->interruptor);\r\n            }\r\n        }\r\n    }\r\n    [...]\r\n```"
+  , issueCommentId = 38653530
+  }

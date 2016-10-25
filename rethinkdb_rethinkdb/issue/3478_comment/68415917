@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-31) 01 : 08 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68415917"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3478#issuecomment-68415917"
+  , issueCommentCreatedAt = 2014 (-12) (-31) 01 : 08 : 45 UTC
+  , issueCommentBody =
+      "Thinking about the options,\r\nI think we should remove replicas with `nothing` roles in the `table_status` replica list, redefining `all_replicas_ready` to correspond to state 6 and up of @timmaxw 's list.\r\n\r\nThis would make it easy to get a 1:1 correspondence between the `table_status` data and the information shown in the web UI.\r\n\r\nLater we can show erasing_data jobs in the `jobs` table instead.\r\n\r\nThe `all_replicas_ready` state ignoring erasing replicas is relevant to users because it means that their configured replication settings are met, while the difference between states 6 and 7 is only relevant for reasons unrelated to the specific table (namely load monitoring, which doesn't really belong in `table_status`).\r\n\r\n> What should the status booleans in rethinkdb.table_status show?\r\n\r\nIt should be `true` for states 6 and 7, `false` otherwise. No renaming required then.\r\n\r\n> What text should we display next to the status indicator in the table list in each of these states?\r\n\r\nMy suggestion:\r\n1. Unavailable\r\n2. Unavailable (?)\r\n3. Read-only (?)\r\n4. Ready A/N\r\n5. Ready A/N\r\n6. Ready N/N\r\n7. Ready N/N\r\n\r\nwith A being the number of available replicas, and N being the total number of replicas excluding those with role `nothing`. I think this is mostly what's implemented now, with the possible exception that  `nothing` replicas might not be ignored currently.\r\n\r\n> Presumably the table detail page will show per-server information,\r\n\r\nThis is not currently planned for 1.16. If we do it later, I agree that we should make it consistent with the same color codes and messages.\r\n\r\n\r\n@deontologician How is the \"primary replicas are online\" data under \"Availability\" on the Dashboard currently computed by the way? In a configuration that only had primary replicas (no secondaries), I once had a case were it disagreed with the \"replicas are online\" count under \"Redundancy\".  The UI showed all primary replicas as online, but the table wasn't actually available for queries, which was confusing. \"Redundancy\" showed the same replicas as unavailable (which would have been correct)."
+  , issueCommentId = 68415917
+  }

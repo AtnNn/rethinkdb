@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-04) 20 : 45 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15922694"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/602#issuecomment-15922694"
+  , issueCommentCreatedAt = 2013 (-04) (-04) 20 : 45 : 38 UTC
+  , issueCommentBody =
+      "Having slept on it a bit, I'd like to update the proposal with a more well thought out set of names. Hopefully this will address some of Joe's concerns.\r\n\r\n```python\r\n# How we presently create, list, destroy, and reference tables\r\ndb.table_create(name, options...)\r\ndb.table_list()\r\ndb.table_drop(name)\r\ndb.table(name)\r\n\r\n# How we should create, list, destroy, and reference indices\r\ntable.index_create(name, function)\r\ntable.index_list()\r\ntable.index_drop(name)\r\ntable.index(name)\r\n\r\n# Reference the primary index. While essentially an identity operation\r\n# it allows the primary index to be treated as just another index\r\ntable.index(\"primary\")\r\n\r\n# Indices (including the primary one) support the following operations\r\nindex.get(key) => null | SingleSelection\r\nindex.get_all(key) => StreamSelection\r\nindex.between(lower, upper) => StreamSelection\r\n# Part of a future proposal, included here for completeness\r\nindex.ordered() => StreamSelection\r\n```\r\n\r\nI agree that `get_set` was a bad name. I think that `get_all` is much better. Remember also, that whatever we do with secondary index support I'd like to add `get_all` to primary indices too.\r\n\r\n-----\r\n\r\nRethinkDB table references support three conceptually distinct sets of operations.\r\n\r\nOne set treats a table as a set of rows on disk. These objects can be modified, added to, or removed from the table with `update`, `replace`, `delete`, and `insert`.\r\n\r\nAnother treats a table as a Sequence of rows that can be manipulated with `map`, `reduce`, `limit`, etc.\r\n\r\nAnd yet another treats a table as a btree that can be queried in sublinear time with `get` and `between`, and which supports linear sorting with `ordered`. The `index` method on tables is how we refer to other indices defined on that table. These other indices are like separate views on the table that can also be queried in the same manner as the primary view but through distinctly constructed btrees thus offering different performance characteristics.\r\n\r\nThe core reasoning behind this proposal is simply that secondary indices, themselves btrees that behave very similarly to the primary index, should be presented to the user in the same way that their primary index brethren are. RQL users already know how to leverage btree operations with `get` on a primary index. This understanding should translate directly to secondary index access.\r\n\r\n@danielmewes RQL already handles primary index access in a completely different fashion from SQL. An SQL `WHERE` clause may be accelerated by any index (including the primary one) that happens to be relevant to that query. RQL already requires the programer to explicitly make use of the primary index by calling `get` on the table rather than relying on the optimizer to speed up a `filter` operation. I actually see this as a feature, not a bug, for it makes the performance characteristics of queries much more transparent. It would be weird in RQL to require explicit use of the primary index while relying on magical optimizer behavior for access to secondary indices."
+  , issueCommentId = 15922694
+  }

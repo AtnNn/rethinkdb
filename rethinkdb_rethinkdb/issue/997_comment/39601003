@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 19 : 15 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39601003"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39601003"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 19 : 15 : 38 UTC
+  , issueCommentBody =
+      "> Basically does the server push data to the feed (to the client) as soon as it sees a change?\r\nOr does it keep track of it and send the change only when the user call next on a feed?\r\n\r\nThe latter (kinda).  It's the same as any other stream; the client asks the server for batches of changes using any algorithm it wants.  In practice, the official clients read one batch ahead so that the user doesn't see latency spikes.  When the client asks for a batch, the server blocks until it has at least one change to send back, then sends back all the changes it has.  (This is exactly the same as the behavior for rows from a table, the main difference being that getting the next change is sometimes very slow and getting the next row is almost never very slow.)\r\n\r\nThis way seems better because in the case where the number of changes produced outpaces the client's ability to handle those changes, you don't just fill up memory on the client -- you fill up memory on the server, where we can de-dup rows (multiple cursors can all have counted pointers to the same datum) and keep track of things (kill the query if too much data gets backed up).  In the case where the client outpaces the server, it should be identical to push case because the client will always be blocking when the server sees a change, so it will always be sent immediately.  (This also has the nice property that if network overhead becomes a non-negligible portion of overall running time, the server will automatically begin batching changes because the client will be slower to ask for more -- which is the behavior you want.)"
+  , issueCommentId = 39601003
+  }

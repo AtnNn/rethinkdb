@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-29) 18 : 38 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21741293"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1097#issuecomment-21741293"
+  , issueCommentCreatedAt = 2013 (-07) (-29) 18 : 37 : 38 UTC
+  , issueCommentBody =
+      "In the course of investigating this problem, I discovered some major problems with how we do extprocs.  In light of that, I decided to refactor them and solve a bunch of problems at once.  The refactor is done and up in review 761.\r\n\r\nThere are a few notable changes:\r\n* The extproc pool group has been removed and replaced with a single pool for the entire process.  Before, each thread only had a pool of 2 workers to use, and that was it, which could lead to query starvation under the right circumstances.  Now, all threads take workers from the same global pool (which is still sized the same, `get_num_threads() * 2`.\r\n * In order to do this, I added a new concurrency primitive, `cross_thread_semaphore_t`, which is implemented using an eventfd on linux and a pipe on everything else, and includes proper coroutine queueing per-thread without requiring thread-switching, which can kill performance.\r\n* Query interruption was practically non-existent (see issue #1106).  Now, interruptors are built-in and tested thoroughly in unit tests.\r\n* JS timeouts were only half-implemented.  This would work for the initial `eval(...)` on some js code, but not the subsequent `call(...)`.  This meant that if you provided a js function rather than a flat evaluation, timeouts would not come into play (I believe other users have noticed this, but we thought it was fixed).\r\n* Errors in js worker processes now throw a new exception, `js_worker_exc_t`, and this is caught and handled by the protocol layer.  God knows what was happening before.  In addition, we now properly clean up the javascript environment (i.e., kill the worker and clear all relevant data), which was likely the thing that *wasn't* being done to cause this issue.\r\n* Many new unit tests have been added into the ExtProc.* and JSProc.* tests to verify all of this behavior.\r\n* Now someone understands our extproc code and I can handle future bugs discovered in it.\r\n\r\nAll-in-all, it was a pretty fun week."
+  , issueCommentId = 21741293
+  }

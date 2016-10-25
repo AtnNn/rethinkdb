@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-09) 23 : 50 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58595404"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2884#issuecomment-58595404"
+  , issueCommentCreatedAt = 2014 (-10) (-09) 23 : 50 : 56 UTC
+  , issueCommentBody =
+      "I've been thinking and can't come up with a way to implement a `server_log` table without special-casing a bunch of stuff and remaining cpu/memory efficient.\r\n\r\nIdeally we would support these use cases:\r\n* Get all the log statements between two timestamps\r\n* Index log statements using a positive or negative integer\r\n* Filter log statements by keywords or a regex\r\n* Filter log statements by their log level (error, info, warning, notice)\r\n* Changefeed notification for new log statements\r\n\r\nMost of these use cases clash with the idea that `server_logs` is a pseudo-table.  We would almost certainly want a stream of log statements for each server in the table, to avoid huge allocations of memory.  If we had a custom datum stream for log statements, we could probably make a lot of this work, but pseudo-tables return `ql::datum_t`s at the moment, which can't contain a stream as far as I know.  Maybe we could add a new interface for pseudo-tables, or some other shenanigans, but it would probably be a lot of work.\r\n\r\nAt this point I tend to agree with @timmaxw's suggestion to go with option 1 or 3.  I would be pleased to get rid of `/ajax` entirely, but unless we have some other method for log statements in the web UI (such as adding the last few log statements to the `server_status` table), we may need to leave it in for now."
+  , issueCommentId = 58595404
+  }

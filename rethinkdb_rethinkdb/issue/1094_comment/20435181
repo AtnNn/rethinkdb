@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-03) 18 : 21 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20435181"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1094#issuecomment-20435181"
+  , issueCommentCreatedAt = 2013 (-07) (-03) 18 : 21 : 48 UTC
+  , issueCommentBody =
+      "So having thought about this a bit I think we should just drop the nested syntax from `order_by` the main reason is that it can potentially be very confusing since the order of the arguments matters in `order_by` but doesn't in other functions where we're applying this such as `pluck`. Specifically:\r\n\r\n```\r\ntable.order_by(\"foo\", \"bar\")\r\n# might be expected to be equivalent to\r\ntable.order_by([\"foo\", \"bar\"])\r\n# which we could conceivably make be equivalent but then what of\r\ntable.order_by({\"foo\" : True, \"bar\" : True})\r\n# which is by definition equivalent to\r\ntable.order_by({\"bar\" : True, \"foo\" : True})\r\n```\r\n\r\nThe pattern matching syntax also doesn't play great with `r.desc` and `r.asc`. \r\n\r\nI think a better thing to do would be to just have `order_by` accept a function in which one can use `pluck`."
+  , issueCommentId = 20435181
+  }

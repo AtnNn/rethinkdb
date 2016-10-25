@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-07) 18 : 29 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39765997"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2222#issuecomment-39765997"
+  , issueCommentCreatedAt = 2014 (-04) (-07) 18 : 29 : 16 UTC
+  , issueCommentBody =
+      "The assembler code of the crash point in `current_page_acq_t::current_page_for_read()` looks like this (the line with the `=>` is where the crash happens):\r\n```\r\n...\r\n   0x00000000010cc390 <+48>:\tcallq  0xb20f40 <_ZNK8signal_t19wait_lazily_orderedEv>\r\n   0x00000000010cc395 <+53>:\tmov    %rbp,%rdi\r\n   0x00000000010cc398 <+56>:\tcallq  0x10dfea0 <_ZNK3alt22timestamped_page_ptr_t3hasEv>\r\n   0x00000000010cc39d <+61>:\ttest   %al,%al\r\n   0x00000000010cc39f <+63>:\tjne    0x10cc410 <_ZN3alt18current_page_acq_t21current_page_for_readEP15cache_account_t+176>\r\n   0x00000000010cc3a1 <+65>:\tmov    0x10(%rbx),%r13\r\n   0x00000000010cc3a5 <+69>:\tmov    0x28(%rbx),%r12\r\n   0x00000000010cc3a9 <+73>:\tmov    0x30(%rbx),%rbx\r\n=> 0x00000000010cc3ad <+77>:\tcmpb   $0x0,0x10(%rbx)\r\n   0x00000000010cc3b1 <+81>:\tjne    0x10cc3f0 <_ZN3alt18current_page_acq_t21current_page_for_readEP15cache_account_t+144>\r\n   0x00000000010cc3b3 <+83>:\tcmpq   $0x0,0x8(%rbx)\r\n   0x00000000010cc3b8 <+88>:\tlea    0x8(%rbx),%r15\r\n   0x00000000010cc3bc <+92>:\tje     0x10cc440 <_ZN3alt18current_page_acq_t21current_page_for_readEP15cache_account_t+224>\r\n   0x00000000010cc3c2 <+98>:\tmov    %r15,%rdi\r\n   0x00000000010cc3c5 <+101>:\tmov    0x8(%rsp),%rbx\r\n   0x00000000010cc3ca <+106>:\tmov    0x10(%rsp),%rbp\r\n   0x00000000010cc3cf <+111>:\tmov    0x18(%rsp),%r12\r\n   0x00000000010cc3d4 <+116>:\tmov    0x20(%rsp),%r13\r\n   0x00000000010cc3d9 <+121>:\tmov    0x28(%rsp),%r14\r\n   0x00000000010cc3de <+126>:\tmov    0x30(%rsp),%r15\r\n   0x00000000010cc3e3 <+131>:\tadd    $0x38,%rsp\r\n   0x00000000010cc3e7 <+135>:\tjmpq   0x10dfdf0 <_ZNK3alt10page_ptr_t17get_page_for_readEv>\r\n...\r\n   0x00000000010cc410 <+176>:\tmov    %rbp,%rdi\r\n   0x00000000010cc413 <+179>:\tmov    0x8(%rsp),%rbx\r\n   0x00000000010cc418 <+184>:\tmov    0x10(%rsp),%rbp\r\n   0x00000000010cc41d <+189>:\tmov    0x18(%rsp),%r12\r\n   0x00000000010cc422 <+194>:\tmov    0x20(%rsp),%r13\r\n   0x00000000010cc427 <+199>:\tmov    0x28(%rsp),%r14\r\n   0x00000000010cc42c <+204>:\tmov    0x30(%rsp),%r15\r\n   0x00000000010cc431 <+209>:\tadd    $0x38,%rsp\r\n   0x00000000010cc435 <+213>:\tjmpq   0x10dfed0 <_ZNK3alt22timestamped_page_ptr_t17get_page_for_readEv>\r\n```\r\n\r\nFor comparison the source code of that function with asserts removed (those don't get compiled in release mode):\r\n```\r\npage_t *current_page_acq_t::current_page_for_read(cache_account_t *account) {\r\n    read_cond_.wait();\r\n    if (snapshotted_page_.has()) {\r\n        return snapshotted_page_.get_page_for_read();\r\n    }\r\n    return current_page_->the_page_for_read(help(), account);\r\n}\r\n```\r\n\r\nOne can see the call to `<_ZNK8signal_t19wait_lazily_orderedEv>` in the assembly, as well as a call to `<_ZNK3alt22timestamped_page_ptr_t3hasEv>`. It seems that if the `snapshotted_page_.has()` call returns, the program continues at `<+176>` of the disassembly, where the call to `<_ZNK3alt22timestamped_page_ptr_t17get_page_for_readEv>` is visible.\r\nIn this case however, `snapshotted_page_.has()` was apparently false.\r\nNow it seems that the call to `current_page_->the_page_for_read(help(), account)` has been inlined here, so I'm not sure where this fails exactly. My suspicion would be that `current_page_` is NULL somehow.\r\n\r\n@atnnn do we have a full symbol file for the builds somewhere?"
+  , issueCommentId = 39765997
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-18) 21 : 07 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37988491"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1868#issuecomment-37988491"
+  , issueCommentCreatedAt = 2014 (-03) (-18) 21 : 07 : 41 UTC
+  , issueCommentBody =
+      "I have a jury-rigged version of this (the Ruby driver supports it but is half-broken) in the branch `mlucy_json_api`.  Here are the performance results from Daniel's RubyDatabaseBenchmarks script on `next`:\r\n\r\n* Old driver:\r\n```\r\nTotal insert time: 3.66 seconds (546.0 inserts/second)\r\nTotal read time: 2.78 seconds (718.7 reads/second)\r\nTotal update time: 8.71 seconds (229.5 updates/second)\r\n```\r\n* New driver:\r\n```\r\nTotal insert time: 1.91 seconds (1049.6 inserts/second)\r\nTotal read time: 1.16 seconds (1724.2 reads/second)\r\nTotal update time: 6.35 seconds (314.9 updates/second)\r\n```\r\n\r\nWe can probably get the results even better than that.  There are lots of bits of the driver that we didn't bother optimizing before because serialization was taking up so much time.  (We could also move to a faster JSON serialization library, fiddle with the JSON format to make it less verbose, add an optional gzip compression step, move to a faster JSON library on the server, and cut out the intermediate protobuf representation on the server.  Basically there's lots of green-grass optimization left to do.)\r\n\r\nI'm planning to fix the bugs that I'm sure are lurking, make the JSON API on the server a little less bare-bones, get the ruby driver back to full functionality, and then profile it again and see what the new bottlenecks are."
+  , issueCommentId = 37988491
+  }

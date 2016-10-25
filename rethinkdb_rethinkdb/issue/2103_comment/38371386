@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-23) 02 : 49 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38371386"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2103#issuecomment-38371386"
+  , issueCommentCreatedAt = 2014 (-03) (-23) 02 : 49 : 05 UTC
+  , issueCommentBody =
+      "Alright, this issue got sort of tangled.  Here's what I'd like to do:\r\n\r\n* I'd rather not change the type of errors in a point-release, so I'd like to make this part of the 1.12 release if possible.\r\n* I think we should change all the errors to have a consistent type hierarchy in the three drivers.  (I'm actually shocked that this wasn't already the case.)  This is also a breaking change, so I'd like to get it done for 1.12 too if possible.\r\n* I don't think we can get the other stuff mentioned in #2106 (e.g. distinguishing cluster availability errors on the server) in before 1.12.  I think we should make that part of 1.13 if it fits in the schedule.\r\n\r\nAnyway, if nobody objects strongly by the end of Monday, I think that for the 1.12 release we should change the type hierarchy in all the drivers to:\r\n\r\n```\r\nRqlError\r\n  RqlRuntimeError    # server or query is misbehaving, can only be produced by server\r\n  RqlCompileError    # query is malformed, can only be produced by server\r\n  RqlDriverError     # driver is misbehaving, can be produced either by driver or server\r\n  RqlConnectionError # network or server is misbehaving, can only be produced by driver\r\n```\r\n\r\nand merge this.  @coffeemug, @Tryneus, any thoughts?"
+  , issueCommentId = 38371386
+  }

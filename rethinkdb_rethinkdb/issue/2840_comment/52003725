@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-13) 02 : 44 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52003725"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2840#issuecomment-52003725"
+  , issueCommentCreatedAt = 2014 (-08) (-13) 02 : 44 : 45 UTC
+  , issueCommentBody =
+      "Backtrace of the failed allocation:\r\n```\r\nerror: Error in src/errors.cc at line 31:\r\nerror: OOM\r\nerror: Backtrace:\r\nerror: Tue Aug 12 19:42:47 2014\r\n       \r\n       1: format_backtrace(bool) at 0xcf4d43 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       2: report_fatal_error(char const*, int, char const*, ...) at 0x7ad2f4 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       3: crash_oom() at 0x7ad48a (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       4: /home/daniel/rethinkdb/build/release/rethinkdb() [0x7ad499] at 0x7ad499 ()\r\n       5: operator new(unsigned long) at 0xd4091a (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       6: void std::vector<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*, std::allocator<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*> >::_M_insert_aux<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*>(__gnu_cxx::__normal_iterator<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t**, std::vector<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*, std::allocator<segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*> > >, segmented_vector_t<alt::current_page_t*, 16384ul>::segment_t*&&) at 0x7d0f69 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       7: alt::page_cache_t::page_for_block_id(unsigned long) at 0x7cb1fb (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       8: alt::current_page_acq_t::current_page_acq_t(alt::page_cache_t*, unsigned long, read_access_t) at 0x7cdb8e (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       9: buf_lock_t::help_make_child(cache_t*, unsigned long) at 0x7bd492 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       10: buf_lock_t::help_construct(buf_parent_t, unsigned long, access_t) at 0x7bdaf2 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       11: buf_lock_t::buf_lock_t(buf_parent_t, unsigned long, access_t) at 0x7bde0e (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       12: callable_action_instance_t<pmap_runner_one_arg_t<blob::region_tree_filler_t, int> >::run_action() at 0x7b8069 (/home/daniel/rethinkdb/build/release/rethinkdb)\r\n       13: coro_t::run() at 0x7ee3ee (/home/daniel/rethinkdb/build/release/rethinkdb)\r\nerror: Exiting\r\n```\r\n\r\nThis is characteristic for corruptions (either memory or on disk) where a blob contains a reference to a block id that's too high, because it's either uninitialized or was overwritten by something else."
+  , issueCommentId = 52003725
+  }

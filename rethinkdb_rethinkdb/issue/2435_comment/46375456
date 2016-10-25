@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-17) 22 : 43 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46375456"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2435#issuecomment-46375456"
+  , issueCommentCreatedAt = 2014 (-06) (-17) 22 : 43 : 07 UTC
+  , issueCommentBody =
+      "Finally found it, the problem arises when the resulting query gets put in the stream cache.  When the `rdb_protocol_t::env_t` is moved into the stream cache, it contains a `js_runner_t`.  This `js_runner_t` will contain a `wait_any_t` for combining interruptors (if it had been used for `r.js` terms).  This means that when the HTTP client finishes, its interruptor is still being used by the `js_runner_t`, and it crashes.\r\n\r\nI have a fix where the `js_runner_t` is cleared upon adding to the stream cache and after every batch.  We probably should have been doing this anyway if just to not hold onto extprocs while the stream isn't processing.\r\n\r\nInvestigating some performance/memory concerns before putting up for review."
+  , issueCommentId = 46375456
+  }

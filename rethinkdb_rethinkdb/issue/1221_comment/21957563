@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-01) 18 : 08 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21957563"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1221#issuecomment-21957563"
+  , issueCommentCreatedAt = 2013 (-08) (-01) 18 : 08 : 36 UTC
+  , issueCommentBody =
+      "I somehow found a workaround -- it's not super pretty, but it works for me\r\n\r\n```\r\nr.dbList().forEach(function(db) {\r\n  return r.expr({\r\n    tables: r.db(db).tableList().map(function(table) {\r\n      return r.expr({\r\n        db: db,\r\n        table: table\r\n      })\r\n    })\r\n  })\r\n})(\"tables\").groupedMapReduce(\r\n  function(row) { return row(\"db\") },\r\n  function(row) { return r.expr([row(\"table\")])},\r\n  function(left, right) { return left.union(right)}\r\n).map(\r\n  r.expr({\r\n    db: r.row(\"group\"),\r\n    tables: r.row(\"reduction\")\r\n  })\r\n)\r\n```"
+  , issueCommentId = 21957563
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-18) 23 : 37 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16619752"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/666#issuecomment-16619752"
+  , issueCommentCreatedAt = 2013 (-04) (-18) 23 : 36 : 01 UTC
+  , issueCommentBody =
+      "It wasn't constructed on the wrong thread, and putting that line `token_pair->sindex_read_token.reset()` after the distribution get operation with a bunch of `coro_t::yield()` in between still allows the crash.\r\n\r\nWhat's more, I added some more info to the debug output:\r\n\r\n```\r\nVersion: rethinkdb 1.4.3-904-g14873d-dirty (debug) (CLANG 4.0 ((tags/Apple/clang-421.0.57)))\r\n2013-04-18T16:33:40.527690000 Thread 0: leaving mrcc (no exception) 0x1110e4314\r\n2013-04-18T16:33:40.531430000 Thread 2: leaving mrcc (no exception) 0x112b24314\r\nerror: Error in src/rdb_protocol/btree.cc at line 306:\r\n2013-04-18T16:33:40.569894000 Thread 1: leaving mrcc 0x10f06c314\r\n2013-04-18T16:33:40.569903000 Thread 0: leaving mrcc 0x1110e4314\r\n2013-04-18T16:33:40.569920000 Thread 2: leaving mrcc 0x112b24314\r\nerror: Guarantee failed: [*sttr.mod_report_call_count == 0] mrcc was 0x111024314, value 1, thread 3\r\nerror: Backtrace:\r\nerror: Thu Apr 18 16:33:40 2013\r\nerror: Exiting.\r\nVersion: rethinkdb 1.4.3-904-g14873d-dirty (debug) (CLANG 4.0 ((tags/Apple/clang-421.0.57)))\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [initialization_attempts_ == 0] initialization attempts was 1, thread 3Trace/BPT trap: 5\r\n```\r\n\r\nHow does this happen?  How can we \"crash while already crashed\" with a guarantee failing that suggests we *continued* execution after the first guarantee failed?  They're both on the same thread.\r\n\r\nEdit: That behavior was seen on 08698bf437ecc1d220d072a6c7c3e8315d619f10 btw."
+  , issueCommentId = 16619752
+  }

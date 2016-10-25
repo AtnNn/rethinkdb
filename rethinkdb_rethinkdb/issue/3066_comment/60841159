@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 22 : 17 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60841159"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-60841159"
+  , issueCommentCreatedAt = 2014 (-10) (-28) 22 : 13 : 19 UTC
+  , issueCommentBody =
+      "The `mode` field seems odd to me. I'd like to propose something slightly different:\r\n\r\n```js\r\n{\r\n    wait_on_disks: true,\r\n    write_ack_mode: \"majority\",   // or \"one\"\r\n    shards: [{\r\n        replicas: [\"us_east_1\", \"us_east_2\", \"us_east_3\", \"us_west\"],\r\n        primary_replica: \"us_east_1\",\r\n        write_ack_replicas: [\"us_east_1\", \"us_east_2\", \"us_east_3\"]\r\n        }]\r\n}\r\n```\r\nThere are two main differences here:\r\n\r\n* `write_ack_mode` is per-query; the setting in the above document is just the default if the user doesn't specify a write mode for a particular query. The `write_ack_replicas` setting only matters when `write_ack_mode` is majority. If the user sets `write_ack_mode` to `one` in this document, then `write_ack_replicas` can still matter because they could set `write_ack_mode` to `majority` for a query. \r\n\r\n    When we ship Raft, `write_ack_replicas` will be the core set of replicas for ensuring consistency; you'll need a majority of them to reconfigure the table. (We should come up with a better name than `write_ack_replicas`, given that it will get new meaning when Raft ships.)\r\n\r\n* The format of `write_ack_replicas` here is simpler than what you suggested. Do we really need the amount of flexibility that your solution implied? If so, I think we need to continue discussing the format. In particular, I find `mode: \"majority\"` confusing, because it's not clear what else could go there. Could you give some more examples of how to encode different ack settings?\r\n\r\n    Raft will need `write_ack_replicas` to be set up such that no two disjoint sets of replicas can approve an ack. So for example, \"one machine from `us_east` and one machine from `us_west`\" is not OK."
+  , issueCommentId = 60841159
+  }

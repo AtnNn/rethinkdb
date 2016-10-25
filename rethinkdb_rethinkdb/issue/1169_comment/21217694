@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-18) 21 : 51 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21217694"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1169#issuecomment-21217694"
+  , issueCommentCreatedAt = 2013 (-07) (-18) 21 : 51 : 44 UTC
+  , issueCommentBody =
+      "Ok, I have a little more info about this, after spending some time debugging (at least with regards to backfilling).  It looks like this might not directly be a coroutine issue, although I feel like we do some pretty stupid things with coroutines and flow control, especially with regards to backfilling.\r\n\r\nThe heartbeat failures I'm seeing are initiated by the node receiving the backfill.  Adding a sufficiently small coroutine pool to parallel traversal on the sending side *may* have reduced the probability of the disconnect (it takes a while to test, so I haven't gotten anything rigorous).\r\n\r\nThe behavior is super strange.  By logging when reads/writes are done, it looks like the receiving side has plenty of data on the line, but it isn't reading it out.  Then, I ran across this:\r\n```\r\n2013-07-18T14:39:38.313112430 Thread 7: time spent on message in cluster: 8562 ms\r\n```\r\nThis was obtained by wrapping `connectivity_cluster_t::run_t::handle(...)`'s call to `message_handler->on_message(...)` with some timer arithmetic.  It appears that some messages take absurdly long to handle, and meanwhile block the connectivity cluster's coroutine from running.  This may still be a coroutine issue, but at this point I think it's more likely that either something should be parallelized and isn't, or something is implemented very stupidly.  Will continue investigating, this is my top priority right now.\r\n"
+  , issueCommentId = 21217694
+  }

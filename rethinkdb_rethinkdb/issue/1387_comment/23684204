@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-03) 00 : 32 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23684204"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1387#issuecomment-23684204"
+  , issueCommentCreatedAt = 2013 (-09) (-03) 00 : 32 : 28 UTC
+  , issueCommentBody =
+      "@vivekp -- it could well have to do with the large documents.  Although, if I read that right, 10 clients with 1 shard didn't produce 100% CPU utilization (we have four hash shards per \"real\" shard, so there's work for all the CPUs even with only one shard), so it looks like the shards are definitely contributing to the problem.\r\n\r\nDo you get 3-4 writes/sec from 10 clients regardless of the number of shards or the durability setting?  If not, what are you getting for the various configurations?\r\n\r\nThe 1.9 release (coming out this week, hopefully) has a couple of fixes that will probably help a lot with CPU utilization here (including #1041, which should be especially helpful for large documents).\r\n\r\nFor now I would recommend having `cores/4` shards for the table, not having any other tables in the DB (if that's possible, or else having as few shards as possible shards for them too), and re-running the numbers on 1.9 to see if they get good enough.  We'll look at this workload more internally and try to get a handle on why the throughput is so bad."
+  , issueCommentId = 23684204
+  }

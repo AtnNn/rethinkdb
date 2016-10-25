@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-13) 18 : 47 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52092545"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2906#issuecomment-52092545"
+  , issueCommentCreatedAt = 2014 (-08) (-13) 18 : 47 : 32 UTC
+  , issueCommentBody =
+      "Also, for the record, the problems above are very easy to solve.\r\n\r\n> It treats tables like top-level objects.\r\n- Everything else treats tables as being contained in databases.\r\n- It requires using 'db_name.table_name' as the primary key.\r\n- If you have a name from the configuration, and you want to get the table, you have to write `name.split('.').do{|x| r.db(x[0]).table(x[1])}`.\r\n- Per-db permissions become a problem when we want to implement them.\r\n\r\nWe could solve that by putting special tables `$table_config`/`$table_status` (or whatever syntax we want to use) under every user-defined database.\r\n\r\n> It introduces a bunch of questions, and doesn't act like a normal table.\r\n- Should you be able to create and drop tables by inserting and deleting into this table?\r\n- If not, why not?  It's yet another way this table doesn't act like a normal table.\r\n\r\nYou could do it either way, but let's just say no, because we defined it this way. It's different from a normal table, and that's ok -- people are used to this in the SQL world and it doesn't seem like a problem at all. You just get an error saying \"can't insert rows into a system table\". You'll get the same/similar error when we eventually implement permissions and you don't have permissions to insert a row into a normal table. So from a user's POV, it's just a permission issue and eventually won't be different from a permission issue on a normal table.\r\n\r\n> There are multiple ways to get to things.\r\n- Want to see what machines a table is sharded over?  You have to write `r.db('rethinkdb').table('table_config').get('db_name.table_name')['shards']` (or something).\r\n- Want to see what indexes exist on a table?  You have to write `r.db('db_name').table('table_name').index_list()`.\r\n- Want to see the status of a table?  You have to write `r.db('rethinkdb').table('table_status').get('db_name.table_name')`.\r\n- Want to see the status of the indexes on that table?  You have to write `r.db('db_name').table('table_name').index_status()`.\r\n\r\nI'd solve that by adding index/index status information to the pseudotables, and adding shortcut functions on a table to access the relevant record in the pseudotable. That gets you the following benefits:\r\n\r\n- Everything is consistent.\r\n- Everything is convenient.\r\n- There are two ways of doing things, but I think in this case it's ok. You just explain to people that the `_status()` commands are just convenience porcelain commands, and I think that would make perfect sense.\r\n"
+  , issueCommentId = 52092545
+  }

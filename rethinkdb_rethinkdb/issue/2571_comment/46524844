@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 05 : 25 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46524844"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-46524844"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 05 : 25 : 35 UTC
+  , issueCommentBody =
+      "Ah, OK.  So basically we don't define an ordering on geo data, and indexed operations that require an ordering would either fail or ignore geo data (or use some internal ordering we don't tell people about that keeps things copacetic but doesn't mean anything).\r\n\r\nGeo indexes seem different enough from other indexes (e.g. no ordering) that I'm not sure they should be the same thing.  Another option would be to forbid geo objects in normal indexes (the way we forbid NULL and objects now), and have people write `r.table('test').index_create('location', geo:true)` or something (by analogy to `multi`) to get a geo index, and access geo indexes with `r.table('test').intersects(...)` etc.  We could then add tags or something instead of piggybacking on compound indexes to support cases like the gas station example.\r\n\r\n(Actually, that's a question: how would a compound index `[foo, polygon]` be implemented?  Would it look the same on disk as current compound indexes (i.e. would it use the btree)?  If not, what would we use, and how would we detect when to use it?  Also, in either case, what operations would we do to implement \"look up all the gas stations in this area\" efficiently?)"
+  , issueCommentId = 46524844
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-18) 00 : 16 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55979873"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3060#issuecomment-55979873"
+  , issueCommentCreatedAt = 2014 (-09) (-18) 00 : 16 : 16 UTC
+  , issueCommentBody =
+      "Thinking about this more, I feel really strongly that we should switch for `long, lat` rather than changing the pseudotype to not be GeoJSON.\r\n\r\n* The pseudotype we return should be meaningful.  Otherwise we could just return an opaque blob.  And for geometric data, \"meaningful\" should mean \"follows an existing spec and is super easy to turn into GeoJSON in the client\".\r\n  - Saying \"you can call `.to_geojson` on it\" doesn't solve this problem.  What if the geo data is in a deeply nested document in the middle of a sequence?  It isn't reasonable to expect the user to write a query that explicitly converts all their geometric data into the form they want.  We have human-readable and user-parseable pseudotypes specifically to stop people from having to do that.  (And it also isn't reasonable to ask them to round-trip to the server again to turn our weird custom representation into GeoJSON.)\r\n* By using `long, lat` everywhere, the thing @neumino tried to do in the first post would still work -- you could copy-paste from the pseudotype into a query (as opposed to having to strip out the `lat:` and `long:` and remember which comes first).\r\n* It's super weird to follow GeoJSON except for this one thing.\r\n\r\nIs this issue the only one holding up the release right now?"
+  , issueCommentId = 55979873
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-13) 21 : 28 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58957565"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2642#issuecomment-58957565"
+  , issueCommentCreatedAt = 2014 (-10) (-13) 21 : 28 : 28 UTC
+  , issueCommentBody =
+      "@nickpoorman,  I can't reproduce this, but I'm not sure I need to.  I'll open a new issue for this, since `r.http` is unrelated to this issue, but first I'd like to know if these `r.http` queries are returning successfully or timing out, generally.\r\n\r\nThe error statement you're seeing is happening because we're attempting to get the worker process to acknowledge that it is done with its task, but it isn't responding to the request.  If it isn't responding, it could be stuck waiting for something, and it would be useful to track that down.\r\n\r\nIf it is responding, but just too slowly, we can work on how the resync is performed.  Right now it's synchronous with the coroutine running the query, and it probably shouldn't be.  I think we can push the releasing of worker processes into a coroutine pool, which would allow us to have a longer timeout and still speed up queries that use the extprocs.\r\n"
+  , issueCommentId = 58957565
+  }

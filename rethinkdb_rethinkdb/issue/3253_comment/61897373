@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-05) 22 : 56 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61897373"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3253#issuecomment-61897373"
+  , issueCommentCreatedAt = 2014 (-11) (-05) 22 : 56 : 53 UTC
+  , issueCommentBody =
+      "A little background: the settings for the appearance of a folder are stored in a .DS_Store file. This can either be in the folder itself, or in an enclosing folder. Since we have a .dmg ours goes at the root of the dmg. The settings that are going wrong here (text size, icon size, and background image) are stored in the `icvp` (icon view settings) record for this folder, and are formatted in a binary plist. Additionally the background image (key `backgroundImageAlias`) is stored as an alias (feature rich symlink).\r\n\r\nI found a number of differences between what we generate and what the Finder generates, mostly in possibly meaningless parts of the binary plist encoding. However fixing those has not corrected the problem. Similarly there was only two differences in the alias data, one which is very minor (it now generates an empty entry rather than omitting the entry) and the other is probably not problematic.\r\n\r\nI tried switching over to a background color, as that is a simpler format, but even that is not working. I have our tools producing binary plist output that is very close to that of the Finder (and have tried manual changes to get the complete issue), so I doubt that the (main) issue is in the `icvp` directly.\r\n\r\nThat seems to indicate that there is some problem in the .DS_Store file that we are generating. Sadly that is a much more complicated format, and thus far I have not found anything to fix there.\r\n\r\nI will be taking a short break from this issue to fix other things, and then will try to bypass part of this but using the Finder and AppleScript to generate the .DS_Store file as a work-around. This is not a great solution because it relies on the computer to be logged in to the same user as the process that runs this. Since we are actually running as a background process this is less than optimal.\r\n\r\nAnother solution would be to try to get a \"golden .DS_Store file\" and then copy that into place. Unfortunately since we have the version number in the name of our .pkg we need to modify that .DS_Store file with that information, and we currently can't round-trip the file without breaking it."
+  , issueCommentId = 61897373
+  }

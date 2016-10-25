@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 23 : 39 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27824983"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1562#issuecomment-27824983"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 23 : 39 : 04 UTC
+  , issueCommentBody =
+      "Here are my thoughts on the API.\r\n\r\nIs it possible to return the numerator and the denominator for the progress like the clustering API does? I always thought it was really neat and helpful, and it would be nice to do that here.\r\n\r\nI think we should roll all three readiness functions into one. I propose the following API:\r\n\r\n```python\r\n# While the index creation is in progress\r\nr.index_ready('foo')\r\n# => { 'blocks_finished': X, 'blocks_total': Y, 'ready': False }\r\n\r\n# When index creation is done and the index is ready to be used\r\nr.index_ready('foo')\r\n# => { 'ready': True }\r\n\r\n# A blocking call\r\nr.index_ready('foo', wait=True)\r\n# => { 'ready': True }\r\n```\r\n\r\nThis seems much simpler and just as powerful.\r\n\r\nAlso, I'm not sure if we get this for free, but I think it's important to be able to map `index_ready` over an array as follows:\r\n\r\n```python\r\nr.index_list().map(lambda x: r.index_ready(x))\r\n```\r\n\r\nThis would allow the web UI to get the status of all secondary indexes in a single query. It's really nice because we can show status/progress for the list of indexes on each table, which is something I'd really like as a user."
+  , issueCommentId = 27824983
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-30) 07 : 17 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31335724"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1799#issuecomment-31335724"
+  , issueCommentCreatedAt = 2013 (-12) (-30) 07 : 17 : 46 UTC
+  , issueCommentBody =
+      "I think the first confusing points are because of a web ui bug.\r\n\r\nWhen you kill the master, you get an unsatisfiable goal. The thing is that the web interface suggest to lower the number of replicas from 1 to 0 instead of picking another datacenter as primary.\r\nThe reason why there is a bug is that the web ui send `-1` for the number of replicas in this datacenter -- which is not a valid value.\r\n\r\nI can probably fix that by adding a `if` statement somewhere.\r\n\r\n\r\nAlso about the first point:\r\n- the UI doesn't add a replica -- The definition of replica in the UI is a copy of the data, including the master\r\n- I think what's confusing is setting replicas on the whole cluster and per datacenter. Last time we talked about that (pre 1.2), I think we agreed on forbidding user to use both mode at the same time (per datacenter, and on the cluster), but we didn't do it because we had to ship.\r\nI would tend to think that we still have more important thing to fix, but it's still something we should consider at some point."
+  , issueCommentId = 31335724
+  }

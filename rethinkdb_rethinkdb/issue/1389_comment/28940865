@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-20) 23 : 01 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28940865"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1389#issuecomment-28940865"
+  , issueCommentCreatedAt = 2013 (-11) (-20) 23 : 01 : 59 UTC
+  , issueCommentBody =
+      "I just ran into this again - i've hit it via the lazy_json and thread_pool routes and now i've hit it via this one:\r\n\r\n    2013-11-20T14:25:41.177053738 194124.930790s error: Error in src/buffer_cache/mirrored/mirrored.cc at line 178:\r\n    2013-11-20T14:25:41.177319144 194124.931055s error: Guarantee failed: [data_token.has()]\r\n    2013-11-20T14:25:41.177334924 194124.931071s error: Backtrace:\r\n    2013-11-20T14:25:42.083071099 194125.836807s error: Wed Nov 20 14:25:41 2013\r\n        1: +0x6a6167 at 0x7fd61ef2e167 (rethinkdb)\r\n        2: +0x13550b at 0x7fd61e9bd50b (rethinkdb)\r\n        3: +0x6f76f0 at 0x7fd61ef7f6f0 (rethinkdb)\r\n        4: +0x18239e at 0x7fd61ea0a39e (rethinkdb)\r\n\r\nThis happened after these steps:\r\n\r\n* install a 4 server cluster running 1.10.1\r\n* load a table with ~75M docs of about 6k in size average\r\n* wait a day\r\n* add a secondary index on a field (it's an iso date string) with low cardinality (hundreds of thousands of docs will have the same date)\r\n* wait 4 hours and then start inserting new data (at about 10 to 20 docs per second)\r\n* wait a few more hours and then it crashes\r\n\r\nplease let me know if any other details would help"
+  , issueCommentId = 28940865
+  }

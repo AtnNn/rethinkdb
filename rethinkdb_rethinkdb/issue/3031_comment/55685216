@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-16) 01 : 54 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55685216"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3031#issuecomment-55685216"
+  , issueCommentCreatedAt = 2014 (-09) (-16) 01 : 54 : 52 UTC
+  , issueCommentBody =
+      "I have rewritten the query as follows, and gotten better that table scan:\r\n```\r\nr.db(\"aidax\").table(\"hits\").indexCreate('compound_v3', [r.row(\"session_id\"), r.row(\"event\")])\r\nr.db(\"aidax\").table(\"sessions\").indexCreate(\"compound_v4\", [r.row(\"created_at\").date(), r.row(\"client_id\")])\r\nr.db(\"aidax\").table(\"sessions\").getAll([r.time(2014, 9, 9, 'Z'), \"0f338aa9-0d16-4e00-8301-f5ddabf313de\"], {index:\"compound_v4\"})\r\n    .concatMap(function(row) {\r\n    return r.db(\"aidax\").table(\"hits\")\r\n      .getAll([row(\"id\"), \"pageview\"], {index:\"compound_v3\"})\r\n      .map(function(v) { return {left:v, right:row}})}).count()\r\n```\r\nThat is basically by inverting the join.\r\n\r\nThis should not be necessary\8212we should do the right thing by default.  I fear doing that would require rewriting `eqJoin`."
+  , issueCommentId = 55685216
+  }

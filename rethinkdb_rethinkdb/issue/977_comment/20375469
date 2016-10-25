@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 20 : 53 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20375469"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20375469"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 20 : 53 : 55 UTC
+  , issueCommentBody =
+      "@jdoliner My point about flexibility is that we can actually choose different representations for the date type for each of four or so different stages. The on disk format doesn't need to be the same as the in memory format used by the query processing layer or the wire format consumed by the drivers or the format consumed by the end user. Given this independence, we're free to pursue different goals for each. We're also free to change the on disk format later without impacting driver developers or end users, or change the in-memory format without changing the on disk format. Since we will inevitably get this wrong now this flexibility will come in handy.\r\n\r\nRegardless of how we represent dates on the server I would prefer to hand dates to the driver using a separate datum type to the protobuf definition. This gives driver developers the most flexibility to easily convert the date type to whatever format makes most sense in the host language. If this means construction dictionaries like `{'__rethinkdb_custom_type___date_with_time_zone_data': true, '__timestamp_fortnights_since_trinity_test__':7819, '__server_default_timezone': 'UTC'}` then better that decision be made by the driver or user than by the server. However we do it internally, I'd really like to avoid leaking a representation like `{'__rql_type__: ...` to users or even driver developers since it's harder to work with and will inevitably be leaked to users. Making a hack like this part of the public ReQL specification limits or freedom going forward."
+  , issueCommentId = 20375469
+  }

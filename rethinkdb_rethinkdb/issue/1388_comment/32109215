@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 22 : 31 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32109215"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-32109215"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 22 : 31 : 10 UTC
+  , issueCommentBody =
+      "> But why document complexity when complexity can be avoided by having the user call `noreply_wait` at some point if he uses `noreply` queries?\r\n\r\nWhenever possible we try to follow the philosophy of least surprise to the user. People who use the `noreply` option for the first time typically write code like this:\r\n\r\n```python\r\nr.table('foo').insert([...]).run(conn, noreply=true)\r\nconn.close()\r\n```\r\n\r\nThis is a natural use of the API, and in the old versions of Rethink it had a nearly zero percent chance of getting all the documents in the batch to the server. People would run into this problem on weekly basis, and we'd get question after question about why their code doesn't work as expected. We *could* tell them to call `noreply_wait` manually every time they use `noreply`, but that would still surprise an overwhelming majority of first time users, and some percentage of experienced users who have forgotten about the behavior. We reasoned this would be a bad API design.\r\n\r\nThis of course has to be weighed with the implementation complexity, and we decided the complexity in this case is worth it. I still believe that after reading your arguments -- the complexity is relatively minor compared to the frequency of confusion encountered by first time users of this feature.\r\n\r\n> Then don't let the database know that you won't listen to the reply? If it's a driver concern, then implementing futures/promises will be awesome.\r\n\r\nThat would probably be better. If this is important to you, would you mind opening a separate issue to discuss it?"
+  , issueCommentId = 32109215
+  }

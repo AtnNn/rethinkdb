@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-16) 02 : 41 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 494012
+        , simpleUserLogin = N "kevincox"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/494012?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kevincox"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/148582500"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3151#issuecomment-148582500"
+  , issueCommentCreatedAt = 2015 (-10) (-16) 02 : 40 : 00 UTC
+  , issueCommentBody =
+      "> I think the pre-shared key might be the easiest option to do in practice for people who don't want to set up their own CA.\r\n\r\nFor sure, the CA system might be easier to maintain for larger deployments but that can always be added later as a progressive enhancement.\r\n\r\n> I'm not sure how well managing the certificates in a RethinkDB table would work, since tables can become unavailable and the table would need to be maintained. It's probably easier to specify the certificate file in the server configuration on each server.\r\n\r\nTBH I don't know all of the details about this. I think it would be very nice to do it this way but it might not be practical. It might be a situation where these can be cached locally so that \"fresh enough\" information is stored on a node during reboots. I imagine this could be similar to saving the IP's of other nodes so that rejoining works even if the original node used to join has since disappeared. I think I'm getting off topic but it seems like a useful mechanic that would solve the problem and a similar one.\r\n\r\n> That being said, your proposal of joining with a self-generated certificate that just needs to be confirmed through the web UI sounds like it would make for a great user experience when setting up a distributed cluster, since it removes the need to share any certificates prior to setup between the servers.\r\n\r\nThis is similar to how Puppet does it. When a node first checks in to the master it uses a freshly generated certificate. Then the server maintains a list of \"new\" certificates that can easily be accepted and then those clients can connect.\r\n\r\n> I think if we support TLS connections with a pre-shared certificate first, then adding this type of interactive join process could be the second step. It's a bit more involved since it requires us to dynamically manage and distribute keys throughout the cluster.\r\n\r\nI agree. It also follows the awesome methodology in Rethink of adding the base features then adding the icing on top. Also if the credentials aren't stored in RethinkDB itself this could be hard to implement well."
+  , issueCommentId = 148582500
+  }

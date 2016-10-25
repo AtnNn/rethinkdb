@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-26) 06 : 33 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38653699"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2170#issuecomment-38653699"
+  , issueCommentCreatedAt = 2014 (-03) (-26) 06 : 33 : 47 UTC
+  , issueCommentBody =
+      "The reason for why you didn't see it with 1.11 is very likely that sindex creation now uses hard durability (it was part of the fix for #2071). That means that it's waiting for i/o, which it didn't do in 1.11. As a consequence, when you run `indexWait()` immediately after the `indexCreate()`, it will have a much higher chance of not being finished constructing yet. And then `indexWait()` will wait for 10 seconds before trying again.\r\n\r\nI think we might want to change how the polling period works (poll more frequently initially, and then increase up to a maximum of 10s or something), but apart from that this doesn't seem to be a bug."
+  , issueCommentId = 38653699
+  }

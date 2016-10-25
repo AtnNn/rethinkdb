@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-12) 00 : 41 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48797363"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2159#issuecomment-48797363"
+  , issueCommentCreatedAt = 2014 (-07) (-12) 00 : 41 : 13 UTC
+  , issueCommentBody =
+      "@barkerja -- I have a few more questions for you:\r\n\r\n- If you use `:nfs => false`, do you still get timeout? Or a blank admin page?\r\n- On this screenshot, what do you get in the network tab? https://cloudup.com/cCRPpBENt5D\r\nAre they 50x errors? or 40x?\r\n- If you start rethinkdb inside Vagrant, do you still have the same problem? Running these commands should start a rethinkdb instance on the default port.\r\n```\r\nsource /etc/lsb-release && echo \"deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main\" | sudo tee /etc/apt/sources.list.d/rethinkdb.list\r\nwget -qO- http://download.rethinkdb.com/apt/pubkey.gpg | sudo apt-key add -\r\nsudo apt-get update\r\nsudo apt-get install rethinkdb\r\nrethinkdb --bind all\r\n```\r\n\r\n\r\nI did batch insert of 10.000 inserts of the same document that you pasted, and things are a little laggy, but I don't lose my connection to the http server.\r\nI also somehow couldn't set up `:nfs => true` (I tried on Linux this time).\r\n\r\nI found that nginx/apache use `sendfile` by default and that Vagrant doesn't handle that, which can truncated file, but I asked @Tryneus, and he told me that our HTTP server doesn't call this method.\r\n\r\nI'll fix https://github.com/rethinkdb/rethinkdb/issues/2460 for the time being."
+  , issueCommentId = 48797363
+  }

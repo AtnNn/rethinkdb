@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 19 : 00 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53917015"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2979#issuecomment-53917015"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 18 : 59 : 44 UTC
+  , issueCommentBody =
+      "A few things:\r\n\r\n- @neumino -- you wouldn't have to make two calls. The server's uuid would be transmitted to the driver during the connection handshake, and would be stored on the connection for its full lifetime. You'd then only have to query the cluster for the information on the machine. We can't return full machine info and cache it on the connection because server information might change, so it's necessary to do a call any time you want up-to-date information anyway.\r\n- I think we should call the command `conn.server_id()`, not `server_uuid`. Also, we should rename `uuid` to `id` in all system tables. It's easier to type, people already understand the notion of ids, and the name is strictly better from the UX perspective.\r\n- The whole proxy thing was a bad idea and we should remove it entirely. It's poorly documented (if at all), and most users don't know about it. I'd be surprised if there were more than a few people using it at all. It's a clunky idea and a bad design that will be replaced with #281, so we should just drop this functionality and not worry about it."
+  , issueCommentId = 53917015
+  }

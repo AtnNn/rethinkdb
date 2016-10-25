@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-07) 19 : 36 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58241920"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2998#issuecomment-58241920"
+  , issueCommentCreatedAt = 2014 (-10) (-07) 19 : 07 : 00 UTC
+  , issueCommentBody =
+      "Not wrapping the errors does not seem like a normal practice for libraries: `urllib2` wraps all of its errors with [`urllib2.URLError`](https://docs.python.org/2/library/urllib2.html), MongoDB with [`pymongo.errors.ConnectionFailure`](http://api.mongodb.org/python/current/api/pymongo/mongo_client.html#pymongo.mongo_client.MongoClient)\r\n\r\nAnd I think the reason they do this is to be developer friendly:\r\n\r\n1. It allows the user to have one class of errors to catch when they are writing good code. I don't think that we have the right balance for the Error classes yet (see #2106), but this is moving away from that (so we should kill that one if this is the direction).\r\n\r\n2. The end developer has to import other modules (`socket` in this case) in order to properly catch errors. This breaks the encapsulation of the driver. Note that I except built-in errors (e.g.: `ValueError`) from this.\r\n\r\n3. Separate error hierarchies very much complicate the developer documentation. As an example, currently our documentation says: [`If the connection cannot be established, a RqlDriverError exception will be thrown.`](http://rethinkdb.com/api/python/connect/). Instead if we allow the native errors to bubble up that is going to have to be much more complicated/nuanced. I think the complexity of the needed documentation is a good proxy for the cognitive load on the user.\r\n\r\n4. In many cases native errors are not obvious to people who don't have experience in that error. For example connecting a socket to a name that is not in DNS is `socket.gaierror: [Errno 8] nodename nor servname provided, or not known`. Non-experinced people are not going to get passed `socket.gaierror` and are just going to be frustrated. Our current error is pretty good on this count.\r\n\r\n5. Native errors like `socket.timeout` are generally not very descriptive/expressive about where in the code they happened (conceptually, rather than line number). In this case even given my previous knowledge of how our drivers work I would have difficulties knowing whether that meant that the connection timed out or the handshake timed out. So I would have to dive into the driver source code to figure out the error. Currently the second case is nicely handled by a wrapped error telling me what happened.\r\n\r\n6. Even where it is not ambiguous what sort of problem is being stated in a native error it is not easy to troubleshoot many of them because they don't include much (or any) context for what caused the error. For example if we unwrapped my second example we would go from:\r\n\r\n```rethinkdb.errors.RqlDriverError: Could not connect to nowhere.com:28015. Error: [Errno 8] nodename nor servname provided, or not known```\r\n\r\nto:\r\n\r\n```socket.gaierror: [Errno 8] nodename nor servname provided, or not known```\r\n\r\nThe latter is much less trouble-shoot-able."
+  , issueCommentId = 58241920
+  }

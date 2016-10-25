@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 21 : 36 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36294334"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36294334"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 21 : 35 : 39 UTC
+  , issueCommentBody =
+      "> we could look that up in the snapshot of the tree, if we wanted to\r\n\r\nOh, I wasn't aware of that.\r\n\r\nUnder my original plan, every node which had an incoherent copy of the data (which was later than the latest coherent copy) would delete its copy completely. So we would go all the way back to an empty database on those nodes. Then, if there existed a coherent copy somewhere, all the nodes would backfill from the latest coherent copy; if there was no coherent copy anywhere, all the data would be gone forever.\r\n\r\nThe reason why I thought we would have to do this is that I thought there was no way to recover the state that we had at the beginning of the backfill. If we can use snapshotting to recover that state, and if we can guarantee that that state is coherent (which it occasionally isn't), then we only have to rewind to there. But I don't understand how this would work. I thought that we only performed snapshotting on the node that is sending the backfill, not the node receiving it; and in this scenario the node sending the backfill is dead. Can you explain in more detail how to use snapshotting to recover the state at the beginning of the backfill?\r\n\r\nUnder my original assumption that the original state cannot be recovered from a snapshot, blowing away the data can be nasty no matter how many secondaries there are, no matter the number of write acks required. Suppose the user has a primary and many secondaries, and they want write acks from every secondary. The primary gets cut off from the secondaries, but a client continues sending writes to the primary. The primary applies the writes to its local copy. It can't send the writes to other nodes, so the client will get an error message \"not enough replicas responded\"; but that doesn't matter, since the write has already been applied to the primary's copy. When the secondaries re-connect, they will all need to perform a backfill, and they will all do it simultaneously. If the primary dies while the secondaries are all backfilling, then there will be no coherent copies of the data in existence, so all the data will be blown away. If one of the secondaries finishes the backfill before the primary dies, or doesn't get a chance to start the backfill before the primary dies, then its copy of the data will still be coherent; so after the other nodes blow away their data, they will all backfill from it.\r\n\r\nIf we can use snapshotting to rewind only to the beginning of the snapshot, then the user's safety guarantees are respected. Some writes will still be lost, but if the user requested at least one write ack, then they would have gotten an error message for the lost writes. We won't lose all the data back to the beginning of time."
+  , issueCommentId = 36294334
+  }

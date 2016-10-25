@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-28) 18 : 36 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/97164948"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4136#issuecomment-97164948"
+  , issueCommentCreatedAt = 2015 (-04) (-28) 18 : 36 : 11 UTC
+  , issueCommentBody =
+      "Hi @digi604, the reason that the limit isn't applied early enough is that `distinct()` - the way it's currently implemented - works by leading all rows first, then sorting them, and then filtering duplicates.\r\nSo the full result of `distinct` is computed first, and only then is the `limit` applied.\r\n\r\nIf you can use an index for distinguishing distinct rows, you can pass that index to `distinct` and it should work as expected.\r\n\r\nA more general question/comment:\r\nIs this the full query? The `distinct` here won't really do anything because every row will be distinct (at least their primary key will be different). You might want to add a `without('id')` before the `distinct` to only compare the remaining document fields. Or you can use an index over the property that you want to make distinct as mentioned before."
+  , issueCommentId = 97164948
+  }

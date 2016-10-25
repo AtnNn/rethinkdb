@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-30) 03 : 04 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17207290"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/734#issuecomment-17207290"
+  , issueCommentCreatedAt = 2013 (-04) (-30) 03 : 04 : 30 UTC
+  , issueCommentBody =
+      "I don't think we should remove the stress client. This seems to have a lot of downsides\r\n- we lose tests which takes effort to rewrite. and is unlikely to give us the same test coverage\r\n- we now have part of our tests running in Java which adds a whole new set of dependencies\r\n- adding a C++ driver has the added plus that we get to simplify a lot of our internal code.\r\n- We'd be putting our faith in someone else's code to do our testing so any limitations they have we'd inherit. \r\n\r\nExpanding on the final point: this isn't a tool that was made with testing in mind so it will probably have limitations. There are already 3 I suspect it has having read the source a bit:\r\n\r\n- It stores the keys it's inserting in memory; this makes it impossible to do tests at large scale which is something we did in the past and are going to want to do again. \r\n- It doesn't seem to do any correctness checking it just throws away the values it reads, this makes sense for performance but isn't great for testing.\r\n- It doesn't seem to let you record the inserted data and restart. This is also really useful for testing because we want to make sure that starting and stopping clusters works.\r\n\r\nI haven't read the code terribly closely so I could be wrong about any or all of these but I think it's generally unrealistic to expect a generic tool to meet our needs for testing.\r\n\r\n----\r\n\r\nI do think that it's a good idea to integrate with this so we can run comparable benchmarks I just don't like the idea of our tests depending on it. Furthermore it really doesn't make sense to do this before we're doing other benchmarking but something that's breaking our tests is worth fixing right now and this bug seems very easy to fix I suspect it's just an issue with the width of a long being different on different systems and can easily be fixed by changing the amount we're shifting by."
+  , issueCommentId = 17207290
+  }

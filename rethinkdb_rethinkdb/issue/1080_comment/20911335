@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-13) 00 : 21 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20911335"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-20911335"
+  , issueCommentCreatedAt = 2013 (-07) (-13) 00 : 21 : 54 UTC
+  , issueCommentBody =
+      "I think the original reason to have multiple shards was so that we didn't have to GC the entire LBA at once. Instead, we could GC it 1/16 at a time, or 1/4, or whatever. I think at the time we weren't thinking about hard-durability workloads, so we assumed each write would have enough new LBA entries that the rounding error from having to fill an entire block didn't matter.\r\n\r\nSome other comments:\r\n\r\n* If we write LBA information to datablock extents and nowhere else, then we have to scan every datablock extent to reconstruct the LBA. Right now the serializer can't do anything on startup until it has finished reading the LBA. So that's clearly impractical. But given that it's gonna be scanning a whole datablock extent to find the most recent metablock anyway, maybe we could only include the most recent extent's worth of LBA information in the datablock extent, and then every time we finish a whole extent, flush that extent's LBA information to the dedicated LBA extent. In fact, it's already possible to recover partial LBA information from the datablock extents, because each datablock is tagged on disk with its block ID.\r\n\r\n* Putting metablocks in the datablock extent will make the garbage ratio worse. I'm not sure by how much.\r\n\r\n* Are we still supporting `rethinkdb extract`?"
+  , issueCommentId = 20911335
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 21 : 27 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47160988"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-47160988"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 21 : 26 : 15 UTC
+  , issueCommentBody =
+      "You're raising some good points. It seems that in both cases (geometry first / geometry last) you can get inefficiencies depending on what you are querying for and what your data distribution is like.\r\n\r\nI guess we could just not enforce a certain position of the geometry in a compound index, but instead let the user pick a position on index creation. Nothing that comes in front of the geometry can be omitted in a query.\r\n\r\nHmm, probably `between()` is actually not any more inefficient than an inefficient use case where part of a compound index is omitted completely. That's true.\r\n\r\nAnother option, which I actually quite like, would be to not allow omitting *any* part of a compound geo index. Internally we would just have the non-geometry key as a prefix to the geometry indexing values. That would always be efficient (assuming we don't allow `between()`).\r\nIf users need to query by a prefix, they would have to create a second index over just the prefix.\r\nIf we did that, `getAll()` would indeed not be variadic in this case.\r\n\r\nOptimizing chains of `getAll`/`getIntersecting`/`between` etc.  would be neat I think. It just might be difficult to implement. Basically it would be a first step towards a cross-term query optimizer. Though it might be possible to represent the result of say a `getAll` as some special type (similar to the grouped stream type), that you can add more `getAll`s and related functions to and which is only evaluated using an index at the very end, or when you apply another term that \"breaks\" the chain and degrades the type to a regular selection. Not sure if that would actually work."
+  , issueCommentId = 47160988
+  }

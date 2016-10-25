@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-24) 21 : 39 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18431533"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18431533"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 21 : 39 : 38 UTC
+  , issueCommentBody =
+      "A few random thoughts:\r\n* It would be really nice if `default` could handle the case where you're trying to reduce over an empty stream.  Maybe we could have a generic `NON_EXISTENCE` error?\r\n\r\n---\r\n\r\nIt isn't really true that `UNEXPECTED_NULL` can only arise from `check_type` (although it arguably should be).  There are some places where we do more complicated type checking (because of our polymorphic functions, or operations like primary key printing which only make sense on some values).  I can't really enumerate all of these off the top of my head; I'd have to audit the terms to check for this behavior.\r\n\r\n---\r\n\r\nI think a generic `rescue` would be really really useful even if people only ever used it to drop bad rows from a filter.  I think that a lot of people have expressed a desire to write something like:\r\n```ruby\r\ntable.filter {|row|\r\n  some_complicated_expression(row).rescue(false)\r\n}\r\n```\r\nand just drop all the rows where `some_complicated_expressions` breaks for whatever reason.\r\n\r\nI'm sure there are other cases.  (If we decide that we don't want `default` to handle the \"reducing over an empty stream\" case, then that's another example.)  It also just seems like something a language should have, and it isn't hard to implement."
+  , issueCommentId = 18431533
+  }

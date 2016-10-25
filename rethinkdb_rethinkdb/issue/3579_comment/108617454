@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-03) 21 : 15 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/108617454"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3579#issuecomment-108617454"
+  , issueCommentCreatedAt = 2015 (-06) (-03) 21 : 12 : 33 UTC
+  , issueCommentBody =
+      ">  Defaulting to true on queries like r.table('foo').changes() is obviously bad because it makes this query useless by default in 95% of scenarios\r\n\r\n>    Defaulting to false on queries like r.table('foo').orderBy(index='bar').limit(5) is obviously bad because it makes this query useless by default in 95% of scenarios\r\n\r\nI think there's a difference though because the first is bad because you'll accidentally suck down your entire table. The second one is bad because it's a bit annoying to need to tack on \"return_initial\" when you almost always need to for that kind of query.\r\n\r\nBut! That's only because we support changefeeds on a limited subset of queries right now, and mentally we're translating `r.table('foo').orderBy(index='bar').limit(5)` into \"top five list\". If you think about a hypothetical (and hopefully real) future where changefeeds work on everything, suddenly there are all sorts of combinations and it's a lot less obvious that some type of query has a natural default for `return_initial`. (In other words, assuming it really is 95% for one query and 95% for the other, in the future it's very likely we'll need to make almost arbitrary decisions because there is no easy way to map a chain of terms to a developer's intent).\r\n\r\nIf you still aren't convinced, think about the costs of the second in terms of annoyance to the user. They're going to reason out naturally \"Ok, I want to get these users, and order them... then I guess I'll take the top 3. Ok changefeed that.\" then a bit later \"Oh whoops, I need the initial values. Do I need to do a separate query to get the initial values? [reads docs a bit] Ah, neat, there's an optarg that will give them to me\".\r\n\r\nMy contention being that instead of looking up in a big list of changefeedable queries \"Which one gets me a leaderboard?\", they're likely to reason it out for themselves, and in that case, they'll appreciate the regularity of `return_initial` s behavior"
+  , issueCommentId = 108617454
+  }

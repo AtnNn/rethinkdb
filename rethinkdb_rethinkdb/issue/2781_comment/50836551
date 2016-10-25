@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-01) 00 : 35 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50836551"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2781#issuecomment-50836551"
+  , issueCommentCreatedAt = 2014 (-08) (-01) 00 : 34 : 22 UTC
+  , issueCommentBody =
+      "In a quick test I could insert data into a database on a 10 GB BTRFS file system (kernel 3.13.0) up to a table size of 8 GB. At that point RethinkDB ran out of disk space. This test did not really follow a typical usage pattern though, since I just inserted data into a single table as quickly as possible.\r\n\r\nAfter the file system was full, I deleted the data and tried to create a new data directory. However each time I tried to create a new table, RethinkDB immediately reported that it had ran out of space, even though the file system was empty. Incidentally I could also not unmount the file system anymore (`umount` would just hang unkillable in some kernel code) at that point. Not sure if that was related or a different issue.\r\n\r\nI couldn't reproduce out of space errors on fresh file systems with smaller databases yet, though it seems to me that BTRFS might not be completely robust with respect to free space handling yet.\r\n\r\n@philips Two more questions:\r\n* Did you check `btrfs filesystem df <mount point>`? I read somewhere that the output of the regular `df` is nor reliable for BTRFS. Can you post the output of that command here?\r\n* There is a mount option for BTRFS to debug out of space issues. Can you mount/remount the file system with the `enospc_debug` option? According to https://btrfs.wiki.kernel.org/index.php/Mount_options that flag shouldn't come with any performance degradation. When an out of space condition occurs, that flag will cause BTRFS to print debug information into the syslog (`dmesg`). Maybe that output can help us to understand what's going on.\r\n\r\nThank you for your help!\r\n\r\nGenerally I recommend using ext3 with RethinkDB for optimal reliability."
+  , issueCommentId = 50836551
+  }

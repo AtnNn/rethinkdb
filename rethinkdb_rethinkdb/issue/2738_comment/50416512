@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-28) 23 : 30 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50416512"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2738#issuecomment-50416512"
+  , issueCommentCreatedAt = 2014 (-07) (-28) 23 : 30 : 02 UTC
+  , issueCommentBody =
+      "So, I figured out where the vector clock conflict is coming from. It turns out that whenever a client issues a `db_create()`, `db_drop()`, `table_create()` or `table_drop()` command, the server will generate a new blueprint for every table. In most cases the new blueprint will be the same as the old one, but it still generates a new version in the vector clock. This leads to a lot of spurious vector clock conflicts.\r\n\r\nI was able to reproduce this locally using the following procedure:\r\n1. Start a cluster of two servers and create a table.\r\n2. Run a script that repeatedly creates and drops a database.\r\n3. Start a second copy of the script, connected to the other server.\r\nAfter a minute or two the server will crash with an uncaught `in_conflict_exc_t`.\r\n\r\nI fixed the crash. Now, `namespace_repo_t` will ignore conflicting blueprints. When I run the same test again, it generates an issue in the web UI instead of a crash, which confirms the theory.\r\n\r\nI also changed the way blueprints are issued. Now, ReQL meta-operations will never issue blueprints, except that `table_create()` will issue a blueprint for the newly-created table. I don't expect these changes to have any major side-effects other than making vector clock conflicts less likely.\r\n\r\nThe changes are in internal review 1832."
+  , issueCommentId = 50416512
+  }

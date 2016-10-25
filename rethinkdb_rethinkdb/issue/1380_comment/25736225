@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-04) 23 : 15 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25736225"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1380#issuecomment-25736225"
+  , issueCommentCreatedAt = 2013 (-10) (-04) 23 : 10 : 48 UTC
+  , issueCommentBody =
+      "Ok also got the \"Guarantee failed: [!token_pair->sindex_write_token.has()]\" crash now. This happened when I tried to create a secondary index.\r\n\r\nThe cluster was busy resharding and reducing the number of replicas at the time where I created the index.\r\n\r\nBacktrace with symbols (on next):\r\n```\r\n       1: rethinkdb_backtrace(void**, int) at thread_stack_pcs.cc:150\r\n       2: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:250\r\n       3: format_backtrace(bool) at backtrace.cc:197\r\n       4: report_fatal_error(char const*, int, char const*, ...) at errors.cc:68\r\n       5: mc_transaction_t::~mc_transaction_t() at mirrored.cc:1020\r\n       6: scc_transaction_t<mc_cache_t>::~scc_transaction_t() at semantic_checking.tcc:127\r\n       7: scc_transaction_t<mc_cache_t>::~scc_transaction_t() at semantic_checking.hpp:127\r\n       8: scoped_ptr_t<scc_transaction_t<mc_cache_t> >::reset() at scoped.hpp:65\r\n       9: scoped_ptr_t<scc_transaction_t<mc_cache_t> >::~scoped_ptr_t() at scoped.hpp:29\r\n       10: scoped_ptr_t<scc_transaction_t<mc_cache_t> >::~scoped_ptr_t() at scoped.hpp:30\r\n       11: btree_store_t<rdb_protocol_t>::reset_data(hash_region_t<key_range_t> const&, region_map_t<rdb_protocol_t, binary_blob_t> const&, write_token_pair_t*, write_durability_t, signal_t*) at btree_store.cc:245\r\n       12: store_subview_t<rdb_protocol_t>::reset_data(hash_region_t<key_range_t> const&, region_map_t<rdb_protocol_t, binary_blob_t> const&, write_token_pair_t*, write_durability_t, signal_t*) at protocol_api.hpp:621\r\n       13: store_subview_t<rdb_protocol_t>::reset_data(hash_region_t<key_range_t> const&, region_map_t<rdb_protocol_t, binary_blob_t> const&, write_token_pair_t*, write_durability_t, signal_t*) at protocol_api.hpp:621\r\n       14: reactor_t<rdb_protocol_t>::be_nothing(hash_region_t<key_range_t>, store_view_t<rdb_protocol_t>*, clone_ptr_t<watchable_t<blueprint_t<rdb_protocol_t> > > const&, signal_t*) at reactor_be_nothing.cc:132\r\n       15: reactor_t<rdb_protocol_t>::run_cpu_sharded_role(int, reactor_t<rdb_protocol_t>::current_role_t*, hash_region_t<key_range_t> const&, multistore_ptr_t<rdb_protocol_t>*, signal_t*, cond_t*) at reactor.cc:196\r\n...\r\n```\r\n\r\n@jdoliner Any idea what this could mean? Could there be something special about reset_data() with respect to how it uses the transaction?"
+  , issueCommentId = 25736225
+  }

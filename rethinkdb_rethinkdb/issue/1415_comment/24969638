@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-24) 01 : 51 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/24969638"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1415#issuecomment-24969638"
+  , issueCommentCreatedAt = 2013 (-09) (-24) 01 : 51 : 02 UTC
+  , issueCommentBody =
+      "So, I'm taking a look at this.  Since import and export happen in parallel, reporting progress could be done in a few ways.\r\n\r\n#### Presentation\r\nI am planning on having a progress bar displayed in the console, plain text and no colors or formatting, nothing fancy:\r\n```\r\n[===================                     ] 49%\r\n```\r\nThis means that we can't increment the progress until we know the total size of the import or export operation, which is trivial for import, but can take some time on export.\r\n\r\n#### Export\r\nFor export, we can count the number of rows per table, and progress can be the current number of rows we've gotten from the database.  This could be presented in two ways, as far as I can tell:\r\n\r\n1. The progress shown is the percentage completion of all rows to be exported.\r\n2. The progress shows is the lowest percentage completion out of all tables being exported.\r\n\r\nBecause we have to count the sizes of the tables first to show progress, and `count()` is a relatively slow operation, this can cause some interesting behaviors.  If there is one large table and many small tables, it is entirely possible that all the small tables will be done exporting by the time we even know the size of the large table.  If we go with option 1, the user would observe a jump from `0%` to `20%` (for example) as soon as the final count completes.  If we go with option 2, the progress would be smooth, but would not represent the total work done.\r\n\r\nI am leaning toward option 2, as it seems like it would result in the smoothest progression, but I am open to discussion.\r\n\r\n#### Import\r\nWithout changing the file format, it is fairly tough to tell the number of rows in a json file (csv is easier), but both would require doing an entire pass of the file before importing it, which would be very wasteful.  It seems faster to just use the size of the files to import and compare our offset in each file being processed in order to report progress.  I'm not entirely sure how easy this is to do given how we parse the files, but it's worth a shot."
+  , issueCommentId = 24969638
+  }

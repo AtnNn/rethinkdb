@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-29) 19 : 39 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57216430"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3112#issuecomment-57216430"
+  , issueCommentCreatedAt = 2014 (-09) (-29) 19 : 39 : 11 UTC
+  , issueCommentBody =
+      "I think the issue is because of the following:\r\n\r\n1) We changed to statically link in OpenSSL, which is used for 2 things: bingnum support for S2 (geo), and support for https in curl (when this is linked in statically). This is different in that we used to link OpenSSL dynamically in MacOS[1].\r\n2) The way we build the MacOS package everything is static by default with only a couple of exceptions (termcap and libz). This means that OpenSSL and libcurl are built in statically.\r\n3) MacOS does not have a static Certificate Authority file (.pem), but rather gets things out of the KeyChain. This is a good approach, but it does not look like the mainstream OpenSSL can read the keychain, and since they ship without any CA files at all, we have effectively crippled libcurl's ability to do real SSL.\r\n\r\nWe should probably be linking against the system version of libcurl (since that uses the KeyChain appropriately), while still using the static bits of OpenSSL for S2. I tried a quick build to solve that, but it looks like our setup script needs just a little work to do that.\r\n\r\nWe should also audit all of our other supported platforms to make sure we are doing things correctly there (we probably are, but we should be explicit about it).\r\n\r\n[1] I do think that we should not be linking OpenSSL dynamically for our S2 reasons, since Apple recommends linking it statically and has not (and will not) updated the system version in a while."
+  , issueCommentId = 57216430
+  }

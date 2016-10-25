@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-04) 02 : 16 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29771837"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/874#issuecomment-29771837"
+  , issueCommentCreatedAt = 2013 (-12) (-04) 02 : 13 : 02 UTC
+  , issueCommentBody =
+      "Well, the question is how much we want to commit to doing string manipulation at all.\r\nIf we want to commit to that, we should do it properly and support Unicode. Otherwise those operations would be completely crippled for most applications I can think of (everything that deals with text on the web is usually expected to work with Unicode for example).\r\n\r\n`upcase` and `downcase` are basic enough that they can have some limited use cases, even when crippled like that (most of which I guess do not involve user-supplied data). But even comparing user-provided text in a case-insensitive way wouldn't work properly, except for the 5% of people in the world who use English as their first language and the few more who use primarily a language which uses the same alphabet. [1]\r\n\r\nI guess I would be ok with having `upcase` and `downcase` not properly support Unicode, but we should very clearly explain that fact in the documentation.\r\n\r\n\r\nHaving a change of encoding length doesn't seem to be a problem in our case, is it? I don't think we are going to use these functions for in-place manipulation, are we?\r\n\r\nBeing dependent on a locale would indeed be annoying. On the other hand we already support locales for our time functions, so it wouldn't be such a huge step. I'm also not sure in how far using a default locale would make these functions less useful. As far as I know most web services run with a fixed locale for their string processing, and they don't seem to run into problems due to it (but I might just not be aware of the cases where they do).\r\n\r\n[1] I know this is a bit biased. When dealing with computers, many more people use primarily English. However there's still a significant number of people for whom missing Unicode support would be an issue."
+  , issueCommentId = 29771837
+  }

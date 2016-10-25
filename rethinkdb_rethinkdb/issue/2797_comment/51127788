@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-04) 22 : 39 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51127788"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2797#issuecomment-51127788"
+  , issueCommentCreatedAt = 2014 (-08) (-04) 22 : 39 : 14 UTC
+  , issueCommentBody =
+      "There's a general problem with all these options which I'll go into later.\r\n\r\n1 is bad because r.eval is a horrible feature idea, and second, reql functions don't have \"code\".  We just serialize them, and they could even have captured variables too.  \"Code\" is not the right name.\r\n\r\n2 is ok, modulo the general problem, except we wouldn't get ourselves the nice ability to backup/clone secondary index definitions to another server.  So it's bad.\r\n\r\n3 is really the same as option 4 and option 5, only with the interface being non-public.  This has the same downside as option 2, in that users wouldn't have the ability to backup/clone secondary index definitions.\r\n\r\n4 is not so bad, except that optargs are bad.  This particular choice of optarg is bad.  It's a bad interface to have a function that takes a parameter, only the parameter is parsed completely differently given a certain optarg.  It is better than options 1, 2, and 3.\r\n\r\n5 is the option I mentioned in #2789, which is the same as option 4, only using `r.sindex_function(...opaque_representation...)` instead of passing an optarg.  This and option 4 are better than option 1 because they don't have \"eval\".  This is worse than option 4 because it would in fact involve a brand new type.  Maybe the type wouldn't be \"function\", it would be \"magic opaque value\" that has its binary data user accessible (so it can be transferred to another machine).  If that existed, the index_status type could return this \"opaque internal value\" data type directly.\r\n\r\n6 is another option:  It's like option 4 except without the optarg.  The opaque value of a sindex function would be a binary datum.  Passing a binary datum to index_create thus would have the appropriate meaning.  (We don't have any kind of \"constant values are constant functions\" logic anywhere, right?)\r\n\r\n\r\n\r\nI like option 6 the best, because it doesn't have the downsides of 4 or 5.\r\n\r\n\r\n\r\nThe general problem with all these options, which you must be aware of, is that when reql functions change, their meaning can change, not just their implementations.  I'm talking about things that are not bugfixes.  For example, if we add or remove an optarg from a reql term, or if we change the meaning of one to be different, then the opaque representation omitted by some v1.13 machine will not be accepted by the v1.14 machine (when compiled, or when evaluated under the v1.14 reql version).  Also, if the actual intentional meaning of a reql function does change, it's something we really do want the user to be informed of -- we want the user to be told \"Hey, you can't mindlessly import this secondary index function, because its meaning would change!\"\r\n\r\n"
+  , issueCommentId = 51127788
+  }

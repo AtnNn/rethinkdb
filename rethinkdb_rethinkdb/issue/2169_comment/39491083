@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-03) 19 : 00 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39491083"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-39491083"
+  , issueCommentCreatedAt = 2014 (-04) (-03) 19 : 00 : 40 UTC
+  , issueCommentBody =
+      "I have a few concerns.  First, I don't think having an automatic virtual table with special semantics available through the normal `r.table` syntax is appropriate.  I would much prefer having a special term for accessing system configuration, something like `r.system(<NAME>)`, `r.cluster(<NAME>)` or `r.admin(<NAME>)`.\r\n\r\nSecondly, I don't see any mention of vector clock conflicts, which is something we will have to handle (unless we replace the semilattices with logcabin or paxos).  The best suggestion I've heard so far for handling conflicts is to have an internal pseudo-type for vector clock conflicts that will propagate silently until either (1) something tries to operate on the value or (2) the value is returned to the user.  In those cases, a RqlRuntimeError should be returned that contains information about which object and field is in conflict, as well as the possible values.\r\n\r\nA few things to keep in mind:  this will (I think) prevent us from grouping machines into datacenters or tables into databases, because if a machine's datacenter field is in conflict, it would no longer be accessible in that way.\r\n\r\nHaving a cluster metadata API also presents a problem for the proposed change feeds, in that we do not have a dedicated master for metadata, and the methods for modifying metadata differ for each type of metadata, so we would need different implementations for each pseudo-table type.\r\n\r\nHere is what I am thinking of for the low-level API, that we can later build on to add useful commands like `table.shard(<COUNT>)` or whatever:\r\n - `r.admin(\"auth\")` - returns a read-only pseudo-table of auth metadata (I can only imagine there being one row here)\r\n - `r.admin(\"stats\")` - returns a read-only pseudo-table of stats, one row per machine\r\n - `r.admin(\"issues\")` - returns a read-only pseudo-table of issues, one row per issue\r\n - `r.admin(\"directory\")` - returns a read-only pseudo-table of directory entries, one row per machine\r\n - `r.admin(\"machines\")` - returns a pseudo-table of machine metadata, one row per machine, fully writable\r\n - `r.admin(\"tables\")` - returns a pseudo-table of table metadata, one row per table, fully writable\r\n - `r.admin(\"databases\")` - returns a pseudo-table of databases, one row per database, only name is writable (tables may be included in each row, but are read-only)\r\n - `r.admin(\"datacenters\")` - returns a pseudo-table of datacenters, one row per datacenter, only name is writable (machines may be included in each row, but are read-only)\r\n\r\nI could see `r.admin(\"blueprint\")` being useful at some point, but I don't think it is necessary in the first revision of this.  Allowing users to change the cluster configuration and goals through ReQL is a huge plus and I would like it keep it simple."
+  , issueCommentId = 39491083
+  }

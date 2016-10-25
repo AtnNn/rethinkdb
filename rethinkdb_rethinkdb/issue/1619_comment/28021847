@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-08) 00 : 46 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28021847"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1619#issuecomment-28021847"
+  , issueCommentCreatedAt = 2013 (-11) (-08) 00 : 46 : 03 UTC
+  , issueCommentBody =
+      "There were a number of problems I found:\r\n\r\n1. The server annotates queries with backtraces, but this had been moved to before the query protobuf was validated (through various means of code indirection and blame-shifting).  As it so happened, this it fine in the general case, but as soon as you have CONTINUE queries (or any non-START query), the server assumes the client fucked up the protobuf and errors.  Really, the server should only annotate START queries, so I juggled around where this is done, and that part works fine now.\r\n\r\n2. The python client was not handling errors on CONTINUE queries correctly.  This was my fault from the python cursor prebuffering issue, but now when an error occurs on CONTINUE, the response gets properly saved and should be returned to the user when they get to it in their cursor.\r\n\r\n3. A copy-paste error in the javascript driver broke streams that fit inside a single message.\r\n\r\nThe fixes for these are up in code review 1015."
+  , issueCommentId = 28021847
+  }

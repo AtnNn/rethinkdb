@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-05) 04 : 18 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/34136397"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1935#issuecomment-34136397"
+  , issueCommentCreatedAt = 2014 (-02) (-05) 04 : 18 : 12 UTC
+  , issueCommentBody =
+      "Sorry for the short description -- I wanted to catch my train :)\r\n\r\nSo looking at the history, I made a mistake in commit 15c9cf147e7deb1a39c9c1625f900854513ce777 when I was fixing https://github.com/rethinkdb/rethinkdb/issues/1879\r\n\r\n`node-protobuf` and `protobufjs` provide different types -- See https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/protobuf.coffee#L59\r\nAnd I thought that the comparison against `\"POS\"` (https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/util.coffee#L110) was to check if we were using `protobufjs` or `node-protobuf` when it was to check if the frame was for an argument or an optional argument.\r\n\r\nThere are two things here:\r\n- First when we were returning `frame.opt`, we were somehow ditching the fact that we should have highlighted an optional argument. So the backtrace was broken.\r\n- The commit 15c9cf147e7deb1a39c9c1625f900854513ce777 ditch the frame if it's an optoinal argument. So the backtrace for an optional argument is still broken (in a different way), but the usual backtrace with `protobufjs` works.\r\n\r\nTL;DR: Something was broken, and it is still broken, but in a different way.\r\n\r\nI didn't fix this in #1934 because it may be tricky to do.\r\nTagging as 1.11.x. I should be able to fix it before 1.12."
+  , issueCommentId = 34136397
+  }

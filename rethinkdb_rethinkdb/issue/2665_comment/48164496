@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-07) 10 : 50 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1430058
+        , simpleUserLogin = N "ntquyen"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1430058?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ntquyen"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48164496"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2665#issuecomment-48164496"
+  , issueCommentCreatedAt = 2014 (-07) (-07) 10 : 50 : 59 UTC
+  , issueCommentBody =
+      "Yes, you're right @coffeemug. I reproduce the error and that's not the problem of port conflict\r\n\r\nBefore starting rethinkdb, I had the Jenkins app running on port 8080. Some more output when I produce the crash:\r\n```\r\n$ ll /var/lib/rethinkdb/\r\ndrwxr-xr-x  4 root      root      4096 Jul  7 10:35 ./\r\ndrwxr-xr-x 52 root      root      4096 Jul  7 09:41 ../\r\ndrwxr-xr-x  3 rethinkdb rethinkdb 4096 Jul  7 10:36 default/\r\ndrwxr-xr-x  2 root      root      4096 Jun 30 19:30 instances.d/\r\n$ ll /var/lib/rethinkdb/default/\r\ndrwxr-xr-x 3 rethinkdb rethinkdb 4096 Jul  7 10:36 ./\r\ndrwxr-xr-x 4 root      root      4096 Jul  7 10:35 ../\r\n-rw-r--r-- 1 rethinkdb rethinkdb    0 Jul  7 10:35 metadata\r\ndrwxr-xr-x 2 rethinkdb rethinkdb 4096 Jul  7 10:36 tmp/\r\n```\r\nHowever, when I stop Jenkins and start Rethinkdb again, the crash dump was still there. I guess it maybe the problem of permission, so I removed the `/var/lib/rethinkdb/default`, chown the whole directory `/var/lib/rethinkdb` to rethinkdb user and start again, it worked!!"
+  , issueCommentId = 48164496
+  }

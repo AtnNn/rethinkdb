@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-24) 07 : 30 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26971650"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1566#issuecomment-26971650"
+  , issueCommentCreatedAt = 2013 (-10) (-24) 07 : 30 : 21 UTC
+  , issueCommentBody =
+      "We absolutely intended the type system to be used to denote operations that requires loading the stream in to RAM and it's the only paradigm that makes sense. This is in fact an issue @timmaxw and I spent quite a while hashing out. What you're suggesting here is incredibly dangerous. The fact that `order_by` returns a `stream` is a really really nasty bug that I didn't realize existed and should be fixed. Consider the following code, which is novice attempt at what a server that serves a high score list might look like:\r\n\r\n```Python\r\nclass high_scoring_users_paginator(n):\r\n    def __init__(self):\r\n        c = r.table(\"users\").order_by(\"score\").run()        \r\n    def get_next_page(self, n):\r\n        res = []\r\n        for user in c:\r\n            res += [user]\r\n            if (len(res) == n):\r\n                break\r\n```\r\n\r\nPerfectly reasonable code, in fact this is the recommended way to do pagination because `skip` and `limit` are inherently slow. However you've just really screwed yourself. `order_by` returns a `stream`, not an `array`. That means that anything you don't consume off of `c` is still in memory on the server. So per request for the high score list you'll be storing a copy of the users table in memory on the server and you will continue to do so until the connection is closed. Needless to say it's really really easy to hit the OOM killer this way. We should fix this ASAP I wouldn't be surprised if this is responsible for a few of our OOM killer related problems.\r\n\r\nI'll open a separate bug for this but I'm pretty sure this issue should be closed. There's no way for distinct to return anything other than an `array` and not be a gigantic memory leak waiting to happen.\r\n\r\nNote: I did actually just test this and it seems to behave exactly as this bug would predict. Running:\r\n\r\n```Python\r\nwhile True:\r\n    r.table(\"foo\").order_by(\"bar\").run()\r\n```\r\n\r\nwill make your server rapidly consume memory. That memory usage will go away if you kill the script (thus closing the connection)."
+  , issueCommentId = 26971650
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 03 : 44 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/95791262"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4083#issuecomment-95791262"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 03 : 44 : 39 UTC
+  , issueCommentBody =
+      "@gebrits thanks, that makes sense.\r\n\r\nAs things are now, one would probably create a secondary index over the timestamp, or use the timestamp as the primary key directly.\r\nKeys do not need to sit in RAM, but they are stored with each document of course and do increase storage overhead. However if you use the timestamp as the primary key, that would avoid that overhead because it's a piece of information that you need to store anyway.\r\nTwo things have to be considered when using the timestamps as primary keys:\r\n- the timestamps have to be unique. I imagine that this is already the case in this application because the events need to be ordered.\r\n- Since our sharding is based on key ranges, the shards will become unbalanced over time since new events will always be inserted at the end of the timestamp range. The table would need an occasional `rebalance()` to work around that (currently this makes the table unavailable for a moment, but that will change with RethinkDB 2.2). On a single server this isn't a problem of course.\r\n\r\nRethinkDB doesn't really use a write-ahead log. Its data format itself is based on append-only principles, but it currently doesn't keep a proper history (old data is garbage collected, and multiple changes might be written together). Changing that would be pretty complicated.\r\n\r\nI think if you need every bit of efficiency, I imagine there are more efficient specialized systems out there. RethinkDB should work well enough in other cases.\r\n\r\nAbout changefeeds: Yes, in fact we're currently discussing which API and guarantees we should provide in https://github.com/rethinkdb/rethinkdb/issues/3471 (it's a pretty long thread, no need to read it unless you're interested).\r\nOne thing which we will probably support eventually is indeed to resume from an arbitrary past timestamp. This sounds like it would require us to store every change in a log, but we would be making some compromises:\r\n- multiple changes to the same document/key will be squashed together: if at some point the document `{id: x, value: \"a\"}` was changed to {id: x, value: \"b\"} and then later to {id: x, value: \"c\"}, we would *not* replay the intermediate change, but instead just say that the document with ID `x` has been set to {id: x, value: \"c\"}.\r\n- occasionally we will lose pieces of history, and we will resend documents that had not actually changed.\r\n\r\nThe implementation would build on the infrastructure which we currently use for backfilling from one replica of a table to another. It uses timestamps internally, but makes the mentioned compromises to avoid storage overhead. It's designed to bring an outdated copy of a table (or a part of a table) back up to its current state with a reasonably small amount of traffic.\r\n\r\nSince it can lose parts of the history, I don't think that feature really helps with the case where you want to store arbitrary events, does it?"
+  , issueCommentId = 95791262
+  }

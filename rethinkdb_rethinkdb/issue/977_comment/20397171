@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-03) 05 : 59 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20397171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/977#issuecomment-20397171"
+  , issueCommentCreatedAt = 2013 (-07) (-03) 05 : 59 : 08 UTC
+  , issueCommentBody =
+      "I've been thinking about these type issues.  We could go back and forth more about the costs/benefits, but here's how I think everything shakes out:\r\n\r\n* I think that JSON equivalence is too useful to give up right now.  We shouldn't return anything to the drivers that doesn't have an easy and transparent JSON representation.\r\n* `__rql_type__` not only lets us add new types without violating JSON equivalence, but treating these as first-class entities in the server would allow us to do all sorts of cool things with user-defined types later.\r\n* From an implementation perspective, `__rql_type__` is much easier than adding new datum types.\r\n\r\nI think that we should make all new \"types\" that we add to the server just be objects with the `__rql_type__` field set unless we have a very, very good reason to do otherwise.\r\n\r\n---\r\n\r\nNow on to the separate question of how to handle dates.\r\n\r\nAdvantages of using a `__rql_type__` object:\r\n* We could use polymorphism on `-` and `+` instead of having `date_sub` and `dur_add` and stuff.\r\n* The type of the data is explicit rather than implicit (e.g. nobody will accidentally treat a date as a duration or vice-versa because they're both represented as numbers underneath.\r\n* Let's the drivers easily coerce to and from a native type when communicating with the server.\r\n* Extensible -- hypothetically, if we decided not to have time zones but then it turned out that people really want them, we could just add another field to this object.\r\n\r\nAdvantages of using epoch time with special functions:\r\n* Takes less space.\r\n* Probably easier to do, overall.  Treating `__rql_type__` objects as first-class types will take some architecture work, and we'd have to let people use objects as primary and secondary keys.\r\n\r\n---\r\n\r\nOverall, I think I prefer the `__rql_type__` proposal despite the fact that it might end up being a lot of work.  I also think that we could split it into multiple parts, as the person working on letting objects be primary keys doesn't have to be the same as the person working on other things."
+  , issueCommentId = 20397171
+  }

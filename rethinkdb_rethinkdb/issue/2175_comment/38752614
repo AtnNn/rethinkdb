@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-26) 23 : 18 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38752614"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2175#issuecomment-38752614"
+  , issueCommentCreatedAt = 2014 (-03) (-26) 23 : 16 : 40 UTC
+  , issueCommentBody =
+      "So, it seems that just creating 64 tables brings the server to about 1 GB of memory usage.  This probably depends on a few things such as number of threads, etc, but seems fairly consistent across a number of tests.  Judging by the log above, the server in question doesn't have 1 GB of free RAM (the default cache size was 443 MB, which should be half of the available RAM).\r\n\r\nI will look into where all this allocation is coming from, but it doesn't appear to be in the buffer cache, because the 1 GB happens before inserting data.  When I shutdown and restart a server with 64 empty tables, it is only using about 300 MB after startup.  I created another 64 empty tables and the memory usage jumped up by 1 GB again.\r\n\r\nNow for something really scary, I shutdown and restarted the server (using --cache-size 443 to replicate the original setup).  Then I ran this chunk of code, inserting one row in each of the 128 tables:\r\n```py\r\nfor i in range(128):\r\n    print r.table(\"stress%d\" % i).insert({\"value\":0}).run(c)\r\n```\r\nEach time I ran this query, the memory usage of the server jumped by dozens of MB.  I waited in-between runs for about 1-2 sec while I noted the memory usage.  In total, I inserted 16 rows in each table.\r\n\r\nFinally, I ran a count for each table:\r\n```py\r\nfor i in range(128):\r\n    print r.table(\"stress%d\" % i).count().run(c)\r\n```\r\nMemory usage went up by almost 250 MB when I ran these counts, to a final value of about 2.2 GB.  If I restart the server, then run just the counts again, I see the same total memory usage (2.2 GB), so I don't believe this is a memory leak necessarily.  Something is horribly inefficient here, and I will get to the bottom of this."
+  , issueCommentId = 38752614
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-28) 20 : 21 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/71908425"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-71908425"
+  , issueCommentCreatedAt = 2015 (-01) (-28) 20 : 21 : 44 UTC
+  , issueCommentBody =
+      "@larkost What I don't understand about the `get_nowait` model is how you would be waiting on multiple changefeeds without busy waiting, which isn't really a good option.\r\n\r\nMaybe we can do a combination of your suggestion and the `on`/`poll` interface. Namely we could keep the `poll`, but use a non-blocking `next` (or `get_nowait()`) instead of callbacks / `on`:\r\n```Python\r\nwhile True\r\n  feedA = r.table('a').changes().run(conn)\r\n  feedB = r.table('b').changes().run(conn)\r\n  try:\r\n      print(a.next(wait=False))\r\n  except Empty: pass\r\n  try:\r\n      print(b.next(wait=False))\r\n  except Empty: pass\r\n\r\n  # Wait for something to happen. The next time we loop either a or b should have data.\r\n  conn.poll()\r\n```"
+  , issueCommentId = 71908425
+  }

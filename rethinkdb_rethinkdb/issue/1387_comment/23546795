@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-30) 08 : 22 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 275772
+        , simpleUserLogin = N "vivekp"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/275772?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vivekp"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23546795"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1387#issuecomment-23546795"
+  , issueCommentCreatedAt = 2013 (-08) (-30) 08 : 16 : 20 UTC
+  , issueCommentBody =
+      "@mlucy , Thanks for asking useful questions. Please find my response inline.\r\n\r\n* What's your cluster setup?? How many nodes, how many shards, how many replicas, how many write acks?\r\n  * The cluster setup has just 1 node for now. There are two tables - one containing ~500 documents, and other containing ~20000 documents. The smaller table has 5 shards/replicas , and the bigger table has 10 shards/replicas. Replication settings for both the tables shows 1 replicas, 1 write acks (default values). Both the tables are growing very fast in case of my application.\r\n\r\n* Are you using hard or soft durability?\r\n  * For both update and insert: (durability=\"soft\", noreply=True). I don't need to ensure very high consistent write. \r\n\r\n* Are you issuing point writes or batch writes?\r\n  * point writes\r\n\r\n* How big are the documents you're inserting?\r\n * The document size varies from 10 KB to 5 MB. Most of the documents are between 100 KB to 500 KB. The documents being inserted for the graph shown in the issue report lies in this range.\r\n\r\n* What's your total write throughput when CPU utilization is at 100%?\r\n * Since the insert/update is in the noreply mode, how can I check the write throughput on rethinkdb server? Also, whenever the CPU utilization is at 100%, the read operation (filter/get/get_all, etc.) from rethinkdb gets extremely slow.\r\n\r\n* I don't know much about EC2; is there an SSD underneath RethinkDB, or a rotational drive?\r\n  * The disk is an IO optimized EBS provided by AWS - a rotational drive.\r\n\r\n* Are you opening one connection per write, or doing them all over the same connection? If the former, are you closing old connections?\r\n * Opening one connection per write, and then closing the connection each time. Though, I would love to explore or write some sort of connection pool for my work.\r\n\r\n* Are you running RethinkDB and the clients on separate machines? If not, what's the CPU usage of the clients?\r\n * The clients are running on a different machine.\r\n\r\n* What's the exact query the clients are running? An insert, an update, a replace?\r\n  * In my experiment and in most of the writes, there is an update. First, I check if the key is not present - in that case I do insert, otherwise I fallback to do update."
+  , issueCommentId = 23546795
+  }

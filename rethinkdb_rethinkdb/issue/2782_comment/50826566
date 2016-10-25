@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-31) 22 : 20 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50826566"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2782#issuecomment-50826566"
+  , issueCommentCreatedAt = 2014 (-07) (-31) 22 : 19 : 31 UTC
+  , issueCommentBody =
+      "@philips I took a look at the ajax output you had sent @neumino. Was this actually copied at the time where the small table was still down? In any case there were a hand full of backfills going on at that time, so it seems likely that our limit on concurrent backfills kicked in.\r\n\r\nFor your information: The limit is as follows:\r\n- A given node will backfill no more than 16 shards at a time. In addition, it will backfill no more than 4 shards from the same peer at a time.\r\nThe limit applies to incoming backfills, i.e. such where the node receives data from another up-to-date node.\r\nNote that \"shards\" here includes hash shards. Each range shard is further divided into 8 hash shards internally, so the 16 shard limit will typically mean that at most 2 tables get backfilled at once.\r\n\r\nThe reason for why these limitations exist in the first place is two-fold:\r\n* having fewer backfills concurrently typically reduces the overall time to complete all backfills. This is especially true on rotational drives.\r\n* each ongoing backfill consumes a certain amount of RAM. Having too many shards backfill at once could crash a server because it runs out of memory.\r\n\r\nWith #2732 we will get the option to prioritize certain tables over others, so they become available sooner. That issue is currently scheduled for one of the 2.x versions of RethinkDB.\r\nMay I ask how critical this scenario is for you? How important is it that small tables are made available earlier?"
+  , issueCommentId = 50826566
+  }

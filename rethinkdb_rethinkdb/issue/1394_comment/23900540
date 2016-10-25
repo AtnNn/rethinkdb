@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-25) 17 : 13 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23900540"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1394#issuecomment-23900540"
+  , issueCommentCreatedAt = 2013 (-09) (-05) 20 : 50 : 08 UTC
+  , issueCommentBody =
+      "here's what i had to do to get it to work on gentoo:\r\n\r\n    # first install protobuf librarires\r\n    sudo emerge protobuf\r\n    # then uninstall the python package - repeat as necessary\r\n    yes | sudo pip uninstall protobuf\r\n    # get the version of protobuf gentoo uses\r\n    wget https://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz\r\n    # unpack and build it but don't install\r\n    tar zxf protobuf-2.4.1.tar.gz\r\n    cd protobuf-2.4.1\r\n    ./configure; make\r\n    # go into the python dir\r\n    cd python\r\n    # export the cpp implemenation env var\r\n    export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=cpp\r\n    # build the python package with -I and -L flags (necessary for cpp impl)\r\n    python setup.py build build_ext -I ../src -L ../src/.libs\r\n    # install newly built protobuf python package with cpp extensiton\r\n    sudo python setup.py install\r\n    # go get rethinkdb and install python module\r\n    cd ../../\r\n    git clone git://github.com/rethinkdb/rethinkdb\r\n    git checkout v1.10.0\r\n    cd rethinkdb/drivers/python\r\n    make sdist\r\n    sudo pip install ../../build/packages/python/dist/rethinkdb-1.10.0-0.tgz\r\n\r\n"
+  , issueCommentId = 23900540
+  }

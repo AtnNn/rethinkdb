@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-17) 23 : 17 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59588303"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2884#issuecomment-59588303"
+  , issueCommentCreatedAt = 2014 (-10) (-17) 23 : 17 : 17 UTC
+  , issueCommentBody =
+      "@mlucy, it was more of a way to circumvent the problem of ensuring unique primary keys cross-cluster.  If we stream log statements from multiple servers, we need a deterministic way to tweak the timestamps so that they are unique.  Users then need to be able to use this timestamp to uniquely reference a log statement to get it by primary key later, and the query has to work the same if the client is connected to any server in the cluster.  This sounds pretty difficult to implement correctly, and I'd rather treat timestamps as a secondary index, which suits them much more since they are inherently not unique.\r\n\r\n> a primary key of [uuid, time] makes it really hard to say \"give me all the issues from the last day regardless of server\"\r\n\r\nThis is why we would have a secondary index of `timestamp`, so a user could run:\r\n```py\r\nr.db('rethinkdb').table('server_logs').between(time1, time2, index='timestamp').run(c)\r\n```"
+  , issueCommentId = 59588303
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-27) 00 : 42 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47296984"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2612#issuecomment-47296984"
+  , issueCommentCreatedAt = 2014 (-06) (-27) 00 : 42 : 00 UTC
+  , issueCommentBody =
+      "Well, the issue is you just don't know in python2 from the type alone. If\r\nyou insert a `str`, it'll just go in as a normal string value, there's\r\nnothing to tell us we need to raise an exception. You might try utf-8\r\nencoding and decoding first and if it fails assume they were trying to do a\r\nbinary, but you'd incur that cost on every string insert which doesn't\r\nsound like a good idea.\r\n\r\nI'd say just use `r.binary` in both python2 and 3, and then as a bonus in\r\nPython3 you can also infer it if they try to insert `bytes`. Then, as\r\n@AtNnn mentioned, you would raise an exception in `r.binary` if someone\r\ntried to pass it unicode string (in either 2 or 3).\r\n\r\n\r\nOn Thu, Jun 26, 2014 at 5:04 PM, Michael Lucy <notifications@github.com>\r\nwrote:\r\n\r\n> If it's easy to go from a unicode string to bytes, I wouldn't be that\r\n> opposed to leaving off r.binary in Python 3.\r\n>\r\n> If we do do things this way, we should make sure the error message you get\r\n> when you try to insert a binary string in Python 2 suggests using r.binary\r\n> .\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub\r\n> <https://github.com/rethinkdb/rethinkdb/issues/2612#issuecomment-47294906>\r\n> .\r\n>"
+  , issueCommentId = 47296984
+  }

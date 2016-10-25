@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-30) 13 : 18 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 583919
+        , simpleUserLogin = N "underrun"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/583919?v=3"
+        , simpleUserUrl = "https://api.github.com/users/underrun"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23560217"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-23560217"
+  , issueCommentCreatedAt = 2013 (-08) (-30) 13 : 18 : 46 UTC
+  , issueCommentBody =
+      "Not 2k/sec 2k docs/minute ('m tracking long term stats with minute resolution not second). Though when the table was clean I started with a backlog and was able to handle 1k writes/sec with no problem til the backlog cleared out.\r\n\r\nthe feeder queue rate actually varies between 2k docs/min and 5k docs/min ... looks like the average over the past week (I'm at 37M rows after almost 8 days) has been closer to 3.5k docs/min - just for the couple hours I was monitoring it yesterday it was about 2k docs/min ... so actually the 60 / sec case would definitely fit this workload. My docs are typically a bit smaller - most coming in under 1k and I have no secondary indexes. but that other ticket's workload description would probably cover this pretty well.\r\n\r\nSome answers:\r\n\r\n* SSD\r\n* soft\r\n* 1 node 1 shard 1 replica 1 ack (tried it after rebalancing to 16 shards but that didn't seem to help either)\r\n* server cpu utilization is fine. iostat tells me disk utilization is steady at about 94% with fine throughput and low wait\r\n* no client bottleneck. restarting them didn't help. \r\n* 4, 5 or 6 clients each have one connection they hold open and write one doc at a time. more clients seem to increase maximum throughput slightly during the 5 minute window of not crap performance. But 6 clients doesn't do any better than 1 for the 5 minutes window where performance tanks."
+  , issueCommentId = 23560217
+  }

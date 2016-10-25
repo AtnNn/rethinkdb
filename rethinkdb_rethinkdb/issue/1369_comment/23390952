@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-29) 00 : 24 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23390952"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1369#issuecomment-23390952"
+  , issueCommentCreatedAt = 2013 (-08) (-28) 04 : 52 : 43 UTC
+  , issueCommentBody =
+      "I wrote up a more specific summary of our initial workload after talking to Slava:\r\n\r\nHere's the initial setup:\r\n* 2 servers\r\n* 4 node cluster, 2 per server, each node has its own SSD\r\n* 1 table, hard durability, 4 shards, 2 replicas, 2 write acks\r\n* 1 billion documents, 2 kilobytes each\r\n  - autogen primary key\r\n  - customer_id -- about 1000 customers, Pareto distribution\r\n  - type -- about 10 types, Pareto distribution\r\n  - (Let's start with alpha ~1.161 (80-20), but we can fiddle with this.)\r\n  - datetime -- 5 million docs per day, so about 200 days of data, uniform distribution\r\n  - At least one nested document.\r\n  - At least one array.\r\n  - At least one big chunky string, say 500 bytes long.\r\n* 3 indexes\r\n  - tbl.index_create('customer_id')\r\n  - tbl.index_create('datetime')\r\n  - tbl.index_create('compound') {|row| [row['customer_id'], row['datetime']]}\r\n\r\nOur scenario is going to be a set of workloads, each doing X ops/sec\r\nwith Y clients.  We're first going to improve throughput until we can\r\nactually get X ops/sec for each workload (we may get that out of the\r\nbox), then we're going to improve latency until we hit our latency\r\ntargets for each workload.  (I'm not yet sure what latency targets are\r\nreasonable; we might end up adjusting them.)\r\n\r\n* `.insert(...)` # insert rows\r\n  - 60 per second total, one connection per insert\r\n  - 16 clients\r\n  - 95% of queryies have latency <10ms\r\n* `.get(...)` # retrieve rows\r\n  - 1000 per second total, one connection per 10 gets\r\n  - 32 clients\r\n  - 95% of queries have latency <5ms # counting 1/10th of connection\r\n* `.between([cid, t1], [cid, t2], :index => 'compound').filter{|row|\r\n  row['type'].eq(typ)}.reduce{...}` # Get all rows of type `typ` for\r\n  customer `cid` in a time period `t1...t2`\r\n  - `t1...t2` is one month (like start to end of January), so about 150m rows\r\n  - month is chosen by power law (Slava says last month ~80% of the time)\r\n  - `cid` and `typ` are chosen randomly, uniform distribution\r\n  - 1 per second, one connection per query\r\n  - 2 clients\r\n  - 95% of queries have latency <1s\r\n* `.get_all(cid, :index => 'customer_id').groupby('type', r.count)` #\r\n  get a summary of user activity over all time\r\n  - `cid` chosen randomly, uniform distribution\r\n  - 10 per second, one connection per query\r\n  - 8 clients\r\n  - 95% of queries have latency <1s\r\n* `.between(t1, t2, :index => 'datetime').count\r\n  - 1 per second, one connection per query\r\n  - 2 clients\r\n  - same time distribution as above\r\n  - 95% of queries have latency <1s\r\n\r\nWe also have the replica stuff that Slava mentioned, but we should get\r\neverything else working first."
+  , issueCommentId = 23390952
+  }

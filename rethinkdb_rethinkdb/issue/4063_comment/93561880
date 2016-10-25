@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-15) 20 : 36 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/93561880"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4063#issuecomment-93561880"
+  , issueCommentCreatedAt = 2015 (-04) (-15) 20 : 36 : 29 UTC
+  , issueCommentBody =
+      "@reidja Here's a quick work-around if you're building from source (instructions: <http://rethinkdb.com/docs/build/>). Apply this patch to the branch `v2.0.x`:\r\n```\r\ndiff --git a/src/rdb_protocol/terms/geo.cc b/src/rdb_protocol/terms/geo.cc\r\nindex 6c16acf..81a196c 100644\r\n--- a/src/rdb_protocol/terms/geo.cc\r\n+++ b/src/rdb_protocol/terms/geo.cc\r\n@@ -207,6 +207,7 @@ public:\r\n     intersects_term_t(compile_env_t *env, const protob_t<const Term> &term)\r\n         : geo_obj_or_seq_op_term_t(env, term, poly_type_t::FILTER, argspec_t(2)) { }\r\n private:\r\n+    bool is_deterministic() const { return true; }\r\n     scoped_ptr_t<val_t> obj_eval_geo(\r\n             scope_env_t *env, args_t *args, const scoped_ptr_t<val_t> &v0) const {\r\n         scoped_ptr_t<val_t> other = args->arg(env, 1);\r\n```\r\n\r\nAs long as you use a single server and you don't use `intersects` in a secondary index function (geo indexes and `getIntersecting` are ok), it should be safe."
+  , issueCommentId = 93561880
+  }

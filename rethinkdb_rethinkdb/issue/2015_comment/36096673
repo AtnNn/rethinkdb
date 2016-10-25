@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-26) 06 : 56 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36096673"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2015#issuecomment-36096673"
+  , issueCommentCreatedAt = 2014 (-02) (-26) 06 : 55 : 46 UTC
+  , issueCommentBody =
+      "Weirdly, there are some rather minor modifications to `rdb_receive_backfill_visitor_t::operator()(const backfill_chunk_t::key_value_pairs_t &kv)` that appear to avoid the issue reliably in my test:\r\n- Change the `spawn_now_dangerously()` into a `spawn_sometimes()` or `spawn_ordered`.\r\n- Add a `coro_t::yield()` `behind the spawn_now_dangerously()`\r\n\r\nThis sounds like the problem is with having multiple rdb_sets run concurrently. But that doesn't seem to be the case. If I don't use any spawn at all, but just call `backfill_chunk_single_rdb_set()` directly (thus running only one of it at a time, per CPU shard), the corruption still occurs.\r\nIt almost seems like yielding at least once after each modification is somehow important."
+  , issueCommentId = 36096673
+  }

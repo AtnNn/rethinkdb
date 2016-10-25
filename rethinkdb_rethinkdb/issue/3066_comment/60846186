@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 22 : 55 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60846186"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-60846186"
+  , issueCommentCreatedAt = 2014 (-10) (-28) 22 : 55 : 05 UTC
+  , issueCommentBody =
+      "With Raft, I think there are going to be two somewhat different scenarios to consider:\r\n- a minority of replicas goes down. In those cases we will elect a new primary automatically through auto failover. Two settings are relevant:\r\n  * majority (over the full set of participating replicas): I want all my writes to always survive an automatic failover\r\n  * don't care: Only have the primary ack my write. If the primary fails or there's a net split that leaves the primary in a minority partition, auto failover might cause those changes to be lost.\r\n- we get into a situation where user intervention is required, or an administrator choses to exercise control e.g. to keep a table available in a minority data center in the presence of a netsplit, at the cost of taking a majority data center down. This situation is more complicated. I think this could be addressed by allowing the following configurations:\r\n  * majority for *all* of the data centers (let's call them ack groups for now). That means that within each data center / ack group individually, you will always get acks from a majority. This allows an admin to take down a full data center (even if it had the majority of replicas of the shard overall), without losing any writes.\r\n  * \"don't care\", data loss is ok\r\n\r\nBoth of these would be addressed by having only a single global option that could be \"majority\" or \"primary_only\". In addition one would have to be able to specify multiple ack groups. If the mode is \"majority\", a majority of acks would be enforced for each of the ack groups.\r\n"
+  , issueCommentId = 60846186
+  }

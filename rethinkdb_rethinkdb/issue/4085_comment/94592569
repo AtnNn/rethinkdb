@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-20) 23 : 35 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94592569"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4085#issuecomment-94592569"
+  , issueCommentCreatedAt = 2015 (-04) (-20) 23 : 35 : 30 UTC
+  , issueCommentBody =
+      "As of RethinkDB 2.0, you can do `.between(r.minval, [\"53\\x1f\"])` and `.between([\"c\\xe2i\"], r.maxval)`.\r\n\r\nIn any case, it's clear that the shards are actually misbalanced; it's not just an error in the graph. I'd guess that the distribution of the data has changed since you sharded your table. RethinkDB won't automatically choose new shard boundaries unless you increase the number of shards. So if you sharded the table early on, but then inserted more data in a way that wasn't evenly distributed across the existing shards, you could get the situation you're seeing.\r\n\r\nYou can run the `r.table(...).rebalance()` command to force RethinkDB to pick new evenly-distributed shard boundaries, but you'll lose availability until RethinkDB finishes copying the data."
+  , issueCommentId = 94592569
+  }

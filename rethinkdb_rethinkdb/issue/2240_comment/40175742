@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-11) 06 : 59 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40175742"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2240#issuecomment-40175742"
+  , issueCommentCreatedAt = 2014 (-04) (-11) 06 : 57 : 55 UTC
+  , issueCommentBody =
+      "> Hum, actually shouldn't we just do 8 reads in this case? Why would we retrieve more than one document per internal shard?\r\n\r\nI assume it either has to do with the batching code, or some timing mismatch in the web UI that counts some queries from the next second.\r\n\r\n> How can I reduce the number of read for this simple query ?\r\n\r\nSince all you're doing is equality, you can create a compound index (see http://rethinkdb.com/docs/secondary-indexes/python/) and then just call `getAll`. For example:\r\n\r\n```javascript\r\nr.table('monitoring_v2').indexCreate('my_index', [r.row('minute_timestamp'),\r\n                                                  r.row('server_name'),\r\n                                                  r.row('app_name')])\r\nr.table('monitoring_v2').getAll([curr_timestamp, server_name, app_name],\r\n                                { index: 'my_index' })\r\n```\r\n\r\nHope this helps!"
+  , issueCommentId = 40175742
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-24) 22 : 40 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/96085898"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3458#issuecomment-96085898"
+  , issueCommentCreatedAt = 2015 (-04) (-24) 22 : 39 : 40 UTC
+  , issueCommentBody =
+      "@ravi It's a thin wrapper as far as the export functionality is concerned. The actual server is of course in the binary.\r\n\r\nWe'd like to change that in the future to make scenarios like this one easier, but for now the actual export script is a part of the Python driver and not the core server.\r\n\r\nUpdating your system-wide driver would indeed interfere with accessing your 1.11 DB, assuming you are using the Python driver for that. Even if you don't, it would make it very tricky to do a new export from your 1.11 DB later.\r\n\r\nHere's a work-around to use the 2.0 import script and driver directly without installing it system-wide.\r\nI assume that you are in the RethinkDB source directory.\r\n```bash\r\nrethinkdb$ cd drivers/python\r\nrethinkdb/drivers/python$ make\r\n    [1/3] CP ../../build/drivers/python/rethinkdb/\r\n    [2/3] CONVERT_PROTOFILE ../../build/drivers/python/rethinkdb/ql2_pb2.py\r\n    [3/3] CONVERT_PROTOFILE ../../drivers/python/rethinkdb/ql2_pb2.py\r\nrethinkdb/drivers/python$ cp rethinkdb/_import.py rethinkdb/_backup.py ./\r\nrethinkdb/drivers/python$ nano _import.py\r\n     ... look for the line \"from ._backup import *\" and replace it by \"from _backup import *\" ...\r\n     ... save the file and exit (of course you can use another editor) ...\r\nrethinkdb/drivers/python$ python _import.py -c 127.0.0.1:28016 -a ...... --format json -d /tmp/collectiondb\r\n     ... should now run the import script with the latest driver...\r\n```\r\nOnce you are done, you can delete the `_import.py` and `_backup.py` files in `rethinkdb/drivers/python`"
+  , issueCommentId = 96085898
+  }

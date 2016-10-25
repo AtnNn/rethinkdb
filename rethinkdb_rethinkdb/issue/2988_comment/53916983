@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-29) 18 : 59 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 660139
+        , simpleUserLogin = N "victorquinn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/660139?v=3"
+        , simpleUserUrl = "https://api.github.com/users/victorquinn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53916983"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2988#issuecomment-53916983"
+  , issueCommentCreatedAt = 2014 (-08) (-29) 18 : 59 : 33 UTC
+  , issueCommentBody =
+      "To answer the queries from @danielmewes : \r\n\r\n* No, r.js, r.http or anything more complex than an insert, get, or getAll. (I stated that in my last bullet point in the original issue.)\r\n* Interesting. Every time we do a query that returns multiple items, we follow it up with a toArray(). For example, a simplified version of one query we have (using the Node.js module) is:\r\n\r\n    ```js\r\n    r.db('Data').('PlacesIndex')\r\n        .getAll('dqcjqf6', { index: 'geoHash' })\r\n        .run(conn)\r\n        .then(function(place_cursor) {\r\n            return place_cursor.toArray();\r\n        })\r\n        .then(function(places) {\r\n            // do stuff with places as an array\r\n        });\r\n    ```\r\n    is there anything else we should be doing to \"close\" this cursor from the query perspective? Our connection pooling is using [this pooling module](https://github.com/coopernurse/node-pool) and we are using an idle timeout of 30s. Watching our logs I regularly see connections being added and removed from the pool (the removal does a `conn.close()`). So I don't think there is a runaway connection creating issue, but still something worth investigating. Is there some convenient way to see from the RethinkDB side how many connections are opened to it? (if not, that would be a nifty thing to add!)\r\n* Apologies, looks like my cache-size change was wiped from the con file at some point due to some chef scripts. So cache-size is not explicitly set in the `/etc/rethinkdb/instances/db.conf` file on any of these instances, hence the behavior you saw in the logs. So good catch there! I will fix it on our end."
+  , issueCommentId = 53916983
+  }

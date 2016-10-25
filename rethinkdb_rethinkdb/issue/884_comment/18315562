@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-22) 23 : 50 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18315562"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18315562"
+  , issueCommentCreatedAt = 2013 (-05) (-22) 23 : 50 : 44 UTC
+  , issueCommentBody =
+      "Hmm you are right, this is tricky. \r\nSomehow I feel like the current concept of default is still flawed, but I cannot quite pin it down at the moment.\r\n\r\nI guess the thing is that even if you write \r\n```\r\ntable.filter {|user| \r\n  (user[:score] * user[:bonus]).default(0)\r\n}\r\n```\r\nstill you basically just want to catch cases where one of the involved fields is missing. It is not really your intention to catch multiplications by null. This multiplication-failure is just a side effect of the thing that you actually want to catch, the missing value. (And if you actually want to catch problems with the multiplication, there should be a different command e.g. catch).\r\n\r\nMaybe the real problem is null here. If accessing a field which is null would trigger a very specific error, just as if it was absent, we wouldn't have this problem now. The multiplication could never happen, because the error would be thrown before it would be executed. default() could have the very straight-forward semantic of catching cases where at least one of the fields involved in the defaulted sub-expression is undefined.\r\n\r\nSo I think the first step is to clarify what null means. If null is made equivalent to non-existence, I think default will be a lot cleaner. If null is just a value, maybe default should *not* be triggered on null. To get back to the multiplication example: If the user tries to multiply a string with a number, I don't think it would be appropriate to use the default. The value wouldn't simply be absent, but the schema would clearly be broken if such a thing happened in a query. The same should then hold for null.\r\n\r\nConsidering null as non-existent would not even necessarily mean that setting a field to null should remove that field. If keys() is implemented, having fields which value you cannot access because it is non-existent might still make sense. Null in that sense would be somewhat similar to a null pointer in C. You can have such a pointer, but you can never dereference it. The field would have a name, but it wouldn't have a value. This would also be very close to the SQL interpretation of null I think."
+  , issueCommentId = 18315562
+  }

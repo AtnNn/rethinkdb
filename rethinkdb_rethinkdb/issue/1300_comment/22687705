@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-15) 06 : 38 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22687705"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1300#issuecomment-22687705"
+  , issueCommentCreatedAt = 2013 (-08) (-15) 06 : 38 : 50 UTC
+  , issueCommentBody =
+      "So this is what you are concerned about?\r\n\r\nJS\r\n```javascript\r\nvar d = new Date();\r\nd // Wed Aug 14 2013 20:14:15 GMT-0700 (PDT)\r\ntable.insert({id:1, time:d}).run()\r\n```\r\n\r\nPY\r\n```python\r\n>>> table.get(1)\r\n{'id':1, 'time': datetime.datetime(2013, 8, 15, 3, 16, 28, RqlTzinfo(\"+00:00\"))}\r\n```\r\n\r\nGiven the alternatives, this outcome seems fine to me. Firstly, JS doesn't actually provide you with direct access to its local time information. We might be able to hack an offset out by comparing iso format to local time format but smells really awful. More fundamentally, doing this means assuming that all JS times we're serializing are intended to be in local time as determined by the JS environment since JS doesn't give you a way to change or specify timezone. If we're going to assume any timezone to default to I'd much rather default to UTC than to whatever time zone the current JS environment believes itself to be in. If the user does want to explicitly set the timezone he or she can always use `.inTimezone` on the ReQL side."
+  , issueCommentId = 22687705
+  }

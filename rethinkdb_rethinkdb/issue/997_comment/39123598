@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-31) 18 : 27 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39123598"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39123598"
+  , issueCommentCreatedAt = 2014 (-03) (-31) 18 : 27 : 47 UTC
+  , issueCommentBody =
+      "> As a special case, trigger_create would create a temporary feed and return a sequence.\r\n\r\nWhen the triggered function uses `.feed_write()`.\r\n\r\n> You have not defined the notion of \"reader\" or \"writer\" and what their lifetimes are, so it is unclear.\r\n\r\nI purposely did not define semantics and left them open for discussion.\r\n\r\nA reader would I think be any query being run that is reading from the result of `feed_read`. A writer would be a query being run that is writing into a `feed_write`.\r\n\r\n> This \"after the first read\" switch of behavior sounds bad.\r\n\r\nI agree. Perhaps if no query reads from a feed, then it should get deleted when the client connection it was created on closes.\r\n\r\n> Wait, you can write sequences, as if they were some kind of value, to a feed, and then read them off as sequence objects?\r\n\r\nThat would be bad indeed. I have in mind something like the other operators that are polymorphic over sequences. `sequence.feed_write(...)` would write each item from the sequence onto the feed.\r\n\r\n> Why can't it be possible for there to be more than one reader, where items don't get dropped off the queue if there are no readers?\r\n\r\nThat limitation can be removed.\r\n\r\nthere is another related issue with feeds that I forgot to mention: should a write go to all readers or be distributed among readers?\r\n\r\n> `r.table('foo').feed_read(name);`\r\n\r\nIn my proposal, you can only call it as `r.feed_read(...)`\r\n\r\n> What about having only 'before' and 'after', and use null to represent the absence of a value?\r\n\r\nMany triggers are only meant to operate on inserts or deletes. Allowing to specify this earlier helps users avoid having to use `r.banch` for these common cases.\r\n\r\nWe could have 'before' and 'after' as shortcuts. `trigger_create` could also throw an error if `before` and `after` are used in the same query.\r\n\r\n> It makes no sense for the same function to be registered as both a \"before\" function and an \"after\" function.\r\n\r\n`create_trigger` can raise an error if both 'after' and 'before' are used for the same trigger."
+  , issueCommentId = 39123598
+  }

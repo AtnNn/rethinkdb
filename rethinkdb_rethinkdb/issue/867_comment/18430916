@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-31) 03 : 32 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18430916"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/867#issuecomment-18430916"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 21 : 26 : 31 UTC
+  , issueCommentBody =
+      "Alright, fair point about anonymous functions being ugly in some of the client languages.\r\n\r\nHere's an updated proposal which strays pretty wildly from the original one:\r\n\r\n---\r\n\r\n* We should have promiscuous truthiness.\r\n* We should have two functions: `match` and `match_all`.\r\n\r\n```ruby\r\n> r(\"abcd\").match(/b/).run\r\n{:str => \"b\", :groups => [], :start => 1, :end => 2}\r\n> r(\"abcd\").match(/e/).run\r\nnil\r\n> r(\"abcd\").match(/([ab])([cd])/)\r\n{:str => \"bc\", :groups => [\"b\", \"c\"], :start => 1, :end => 3}\r\n> r(\"abcd\").match(/([ab])d/)\r\nnil\r\n```\r\n```ruby\r\n> r(\"abcd\").match_all(/[bc]/).run\r\n[{:str => \"b\", :groups => [], :start => 1, :end => 2}\r\n {:str => \"c\", :groups => [], :start => 2, :end => 3}]\r\n> r(\"abcd\").match_all(/e/).run\r\n[]\r\n```\r\n\r\nI think that returning an object like this is good because:\r\n* It lets us roll `match` and `search` into one function, giving a cleaner API.\r\n* When people call `match_all`, they get back a sequence of objects, which is a data type we've privileged a lot in the query language (e.g. they could do a `grouby` on it to count how many of each different string they matched).\r\n* If people are already going to have to type `[0]` to get the matched string, typing `[:str]` isn't much harder and is much clearer.\r\n* If we don't manage to implement promiscuous truthiness, we could easily patch it for release by adding another attribute `successful` to the object."
+  , issueCommentId = 18430916
+  }

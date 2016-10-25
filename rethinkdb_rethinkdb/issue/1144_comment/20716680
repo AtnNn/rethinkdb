@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-10) 02 : 59 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20716680"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1144#issuecomment-20716680"
+  , issueCommentCreatedAt = 2013 (-07) (-10) 01 : 30 : 25 UTC
+  , issueCommentBody =
+      "Ok, so I've figured this out, and it's really stupid.\r\n\r\nFirst of all, we were using `nice_crash(...)` in these cases, which only writes the error to `stderr` and exits rethinkdb.  \"No problem,\"  you might say, \"just change that to `logERR(...)`.\"  Well, it turns out that if we call `nice_crash(...)` and it tries to write to the log, everything appears to work fine, but the log statement never shows up.  This is because it uses a coroutine to write to the log, which will never be run because we immediately exit the process before handling that coroutine.\r\n\r\nAt this point, you may think, \"Well, just yield in the current coroutine and let the `log_coro` run.\"  That raises another problem, which is that we can't switch coroutines in the middle of an exception handler.  At the moment, my plan is to only call `nice_crash(...)` once we get out of the exception handler.  This will be super ugly and awkward, but at least this is only done 3 times in our code."
+  , issueCommentId = 20716680
+  }

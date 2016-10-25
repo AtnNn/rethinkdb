@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 23 : 03 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20909088"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-20909088"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 23 : 03 : 28 UTC
+  , issueCommentBody =
+      "> The buffer cache blocks are concatenated on the serializer thread so that they can be written all squashed together.\r\n\r\nAh, I see. I think the serializer is being smarter than required (and preferable). A third option is to write on a 512 byte granularity (i.e. if a block is smaller than 512 bytes, we write 512 bytes anyway), which is the smallest block size disks allow. This wouldn't require any copying at all and would still be ~8x better from the space efficiency POV than we are. It would also allow the disk controller's DMA to transfer data without blowing the cache. Is there a reason not to do it this way? I think copying memory blocks before handing them to disk is a big show stopper in this case.\r\n\r\n> We still allocate 4KB blocks in RAM. Don't expect that to change soon. Unless we refactor the buffer cache.\r\n\r\nCan you explain what makes this is difficult?\r\n\r\n"
+  , issueCommentId = 20909088
+  }

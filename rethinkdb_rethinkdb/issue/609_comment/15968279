@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 17 : 08 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15968279"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-15968279"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 17 : 08 : 15 UTC
+  , issueCommentBody =
+      "I think automatically calling `reconnect` is always a bad idea because it invalidates cursors which leads to things breaking on the other side of the program. Interrupting the queries on `Ctrl+C` is a good idea but the fact that we have to call reconnect to do it is a really annoying limitation and I don't think it's worth breaking cursors to get that behavior.\r\n\r\nI have a pretty strong preference for just dropping the mismatched tokens because in most cases it will let you keep using the connection as you were and not fail in any unexpected ways.\r\n\r\nAnother question I have is how we deal with getting partial messages and then getting interrupted? For example what if we:\r\n - read the size of the incoming message off the wire but only get 2 bytes of it\r\n - read the rest of it off the wire and this time we get interrupted\r\n - Come back later and try to read 4 bytes of the wire for a new size\r\n - interpret garbage data as a pb size and read something too big\r\n\r\nLooking at the code I'm pretty sure that we don't deal with situations like that although we definitely should.\r\n\r\n----\r\n\r\nOn another note @wmrowan I think you might have some misconceptions about how signals and system calls work. I don't mean to be adversarial or pull an ad hominem argument but I think you should review your assumptions before you implement this code.\r\n\r\nOn that note I'd like to clear up something you said:\r\n\r\n> This feels like a special case. The repl is a special environment which is capable of receiving external user input (in this case a Ctrl-C from the shell) and interrupting the thread without destroying the environment in which the connection is defined. In a production setting, similarly interrupting the running script would kill the process and destroy the connection.\r\n\r\nThis just isn't true. Any application can install its own signal handlers and not die on signals (except SIGKILL). It's actually a very common practice."
+  , issueCommentId = 15968279
+  }

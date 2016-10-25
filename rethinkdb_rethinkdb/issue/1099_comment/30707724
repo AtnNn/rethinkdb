@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-16) 22 : 27 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30707724"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1099#issuecomment-30707724"
+  , issueCommentCreatedAt = 2013 (-12) (-16) 22 : 27 : 43 UTC
+  , issueCommentBody =
+      "So having looked this over a bit there's an edge case that I think is worth looking at. Consider the following 2 queries:\r\n\r\n```Python\r\nr.expr(\" \").split()\r\nr.expr(\" \").split(\" \")\r\n```\r\n\r\nThe strange thing here is that these queries return different results, the first returns `[]` while the second returns `[\"\", \"\"]`. In each case there's an argument for this being what you want. If you're using the first case to parse CSV files then you want that to split as a single empty string. If you're using the second case to tokenize some text than you don't want to get back an empty string.\r\n\r\nThis seems like a case of trading off between a simpler system that does what people expect a high percentage of the time but makes it hard to do something else in those cases where it isn't what you want. I think parsing CSV is actually a good example of how this can be annoying. Suppose I've got a full file of CSV, the obvious way to parse this is:\r\n\r\n```Python\r\nr.expr(csv).split(\"\\n\").map(lambda line: line.split(\",\"))\r\n```\r\n\r\nhowever that actually doesn't quite return the right result because CSV files end in a new line so you wind up with one extra line at the end, what you want here is to drop the empty strings in the first call to split and keep them in the second call.\r\n\r\nI think the most sane thing to do here is to add an optarg `filter_empty` which defaults to `true`. The only really compelling case I've heard in which you want to get empty strings back from `split` is when you're parsing a line of CSV. I suspect this will be a less common use case because we don't properly support the quoting in CSV. As a user if I have to choose between sanitizing my CSV data to make sure it won't trip up RethinkDB and just using the CSV library in my host language I'm probably going for the latter. But if I'm not having to type:\r\n\r\n```Python\r\nr.expr(csv).split(\"\\n\").map(lambda line: line.split(\",\", filter_empty=False))\r\n```\r\n\r\nisn't the end of the world."
+  , issueCommentId = 30707724
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-02) 18 : 15 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39364292"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1227#issuecomment-39364292"
+  , issueCommentCreatedAt = 2014 (-04) (-02) 18 : 14 : 19 UTC
+  , issueCommentBody =
+      "This wouldn't be too hard for a `get_all` on a single key.  (Actually, it wouldn't be too hard anyway, but we'd have to add some mergesorting logic to make it work for `get_all` with multiple keys.)\r\n\r\nAlso, the original description is incorrect; indexed `order_by` after an indexed `between` works fine as long as they both use the same index, it's the other way that doesn't work.\r\n\r\n@barkerja -- you can hack around this for now by replacing your `get_all` with a `between`.  I.e., instead of:\r\n```rb\r\ntbl.get_all(key, index:'idx').order_by(index:'idx')\r\n```\r\nYou can write:\r\n```rb\r\ntbl.between(key, key, {right_bound:'closed', index:'idx'}).order_by(index:'idx')\r\n```\r\nAnd that should work."
+  , issueCommentId = 39364292
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-06) 02 : 52 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27837426"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1562#issuecomment-27837426"
+  , issueCommentCreatedAt = 2013 (-11) (-06) 02 : 52 : 04 UTC
+  , issueCommentBody =
+      "* I like the idea of `r.table('foo').index_status()` returning the status of all the indexes on `foo`.  I don't like the idea of `r.index_status()` returning the status of all the indexes on all tables -- that seems unintuitive to me.\r\n* I can't see a good way to roll `index_wait` into `index_status` with an optarg.\r\n* I think showing users blocks is fine -- it gives them a sense of both the progress, and how slow one index creation will be relative to another.\r\n\r\n---\r\n\r\nActually, here's an alternative proposal:\r\n* `r.table('foo').index('foo').info` returns the status of the index.\r\n* `r.table('foo').index('foo').wait` waits on the index to finish creating.\r\n\r\nThis would let us do some other nice things, either now or later:\r\n* `r.table('foo').wait` waits until the table is ready -- there's currently no good way for the user to do this without polling.\r\n* I think at some point we want to make indexes first-class-ish values, so that people can see the source of their indexes and we can export them (or manipulate them internally between versions).  `r.table('foo').index('foo')` is a reasonable way of referring to the index.\r\n* Miscellaneous.\r\n\r\n---\r\n\r\nIf you don't like my alternative proposal, we could still move `wait` onto table like so:\r\n```\r\nr.table('foo').wait # wait on a table being ready\r\nr.table('foo').wait(index:'bar') # wait on an index being ready\r\n```"
+  , issueCommentId = 27837426
+  }

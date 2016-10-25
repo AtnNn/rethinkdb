@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-26) 00 : 29 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36077076"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1998#issuecomment-36077076"
+  , issueCommentCreatedAt = 2014 (-02) (-26) 00 : 29 : 24 UTC
+  , issueCommentBody =
+      "@srh: This *could* be related to #2015. Both happen when backfilling.\r\n\r\nI'm still testing, but so far I haven't been able to reproduce #2015 with anything before https://github.com/rethinkdb/rethinkdb/commit/e0b6856671b2bee59816cf604103fadeed60cf8d , while it can be reproduced quite easily after that commit.\r\nThere's the problem that before that change, backfilling was really slow in this scenario (~10 times slower). So it might just be a matter of being more difficult to reproduce because things are slower...\r\nThe only relevant change in that commit is probably `rdb_receive_backfill_visitor_t::operator()(const backfill_chunk_t::key_value_pairs_t &kv)` .\r\nBasically we are inserting multiple values into the tree in parallel there (though we still wait for the previous insert to be done with the superblock before spawning another one).\r\nIt should be the same as in the case of regular batch inserts, but maybe there's some small difference that causes problems..."
+  , issueCommentId = 36077076
+  }

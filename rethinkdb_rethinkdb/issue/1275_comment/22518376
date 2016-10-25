@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-12) 19 : 24 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22518376"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1275#issuecomment-22518376"
+  , issueCommentCreatedAt = 2013 (-08) (-12) 19 : 24 : 39 UTC
+  , issueCommentBody =
+      "I took a look at the old extproc spawner code, and it seems that the extproc spawner should only exit prematurely if `fork()` fails or there is a problem communicating with the main rethinkdb process.  These same conditions are true in the refactored extprocs (although there is half as much communication now).\r\n\r\n`fork()` failing would probably be the most likely scenario, and the man page indicates it can fail due to insufficient memory or reaching the limit of processes.  There may have been a bug in the old extproc code that would cause worker processes to hang around after erroring, so it could be that these caused the system to run out of resources.  In any case, this should only happen if you were running `r.js()` in your workload.\r\n\r\nThe refactored extprocs should not have the same problem, since I've taken steps to ensure that processes are being cleaned up correctly following errors.  In addition, there has been a recent fix to `r.js()` caching of functions, which should drastically decrease memory usage by our worker processes when running `r.js()` on multiple rows in a single query (see issue #1105).  All of these fixes are ready for release 1.8."
+  , issueCommentId = 22518376
+  }

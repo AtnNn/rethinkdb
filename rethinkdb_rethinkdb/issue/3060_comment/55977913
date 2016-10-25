@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-17) 23 : 50 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 91193
+        , simpleUserLogin = N "mglukhovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/91193?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mglukhovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55977913"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3060#issuecomment-55977913"
+  , issueCommentCreatedAt = 2014 (-09) (-17) 23 : 49 : 49 UTC
+  , issueCommentBody =
+      "[GeoTools](http://docs.geotools.org/latest/userguide/library/referencing/order.html) has a good writeup on this issue. They solve the problem by choosing a default and allowing users to specify otherwise.\r\n\r\nThis [StackOverflow answer](http://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples) also sums it up pretty well:\r\n\r\n> EPSG:4326 specifically states that the coordinate order should be latitude, longitude. Many software packages still use longitude, latitude ordering. This situation has wreaked unimaginable havoc on project deadlines and programmer sanity.\r\n\r\nFrom a historical context, the (lat,lng) order makes sense:\r\n\r\n> Accurate measurement of latitude came first as it was based on astronomical measurements. Longitude was not accurately measurable until a highly accurate time measuring device was developed.\r\n\r\n([source](http://gis.stackexchange.com/questions/7379/why-latitude-longitude-and-not-the-other-way-round))\r\n\r\nPostGIS chooses (lng/lat), WFS changed their policy from (lng/lat) to (lat/lng) between versions. I think that no matter which one we choose, it will be confusing to some users.\r\n\r\nPersonally, I think that @Tryneus' fix makes a lot of sense, and telling people to coerce it to GeoJSON to get a valid object out isn't onerous (and makes sense to me).\r\n"
+  , issueCommentId = 55977913
+  }

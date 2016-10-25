@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-19) 21 : 42 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75142374"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-75142374"
+  , issueCommentCreatedAt = 2015 (-02) (-19) 21 : 42 : 09 UTC
+  , issueCommentBody =
+      "Sorry I didn't get to this until today.\r\n\r\nI haven't used EM much, but here's roughly what I would expect:\r\n\r\n```rb\r\nrequire 'rethinkdb'\r\nrequire 'em-rethinkdb'\r\n\r\n# A simple interface for the common case\r\nEventMachine.run {\r\n  r.table('foo').changes().run(conn) {|change|\r\n    # do something with `change`\r\n  }\r\n}\r\n\r\n# A complicated interface for people who want more control\r\nclass StreamHandler < EventMachine::RethinkDB::StreamHandler\r\n  def on_open\r\n  end\r\n  def on_close\r\n  end\r\n  def on_error(err)\r\n  end\r\n  def on_val(val)\r\n  end\r\nend\r\n\r\nclass ChangeHandler < EventMachine::RethinkDB::ChangeHandler\r\n  def on_open\r\n  end\r\n  def on_close\r\n  end\r\n  def on_error(err)\r\n  end\r\n  def on_initial_val(val) # runs on every initial val\r\n  end\r\n  def on_change(change) # runs on every change\r\n  end\r\n  def on_ready # runs when all initial vals have been received\r\n  end\r\nend\r\n\r\nEventMachine.run {\r\n  conn = r.aconnect(...)\r\n  r.table('foo').changes().run(conn, StreamHandler)\r\n  r.table('foo').changes().run(conn, ChangeHandler)\r\n}\r\n```"
+  , issueCommentId = 75142374
+  }

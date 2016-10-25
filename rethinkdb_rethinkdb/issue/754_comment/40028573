@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-09) 23 : 27 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40028573"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/754#issuecomment-40028573"
+  , issueCommentCreatedAt = 2014 (-04) (-09) 23 : 27 : 26 UTC
+  , issueCommentBody =
+      "This problem should have become a lot less severe in version 1.12.x, and should disappear completely in 1.13.0 or 1.12.3 , whichever will be released first.\r\n\r\nI tried to reproduce the described scenario as closely as possible.\r\n6 small tables of 64MB each, one big table with 12 shards and 7 GB of data. I used documents of 1 KB each. There were 2 initial nodes, and each table was configured with 2 replicas. I set cache sizes to 128 MB per table on v1.11.x, and to 128 MB globally in 1.12 (I only actually accessed data from a single table in these tests, so those settings should be roughly equivalent).\r\n\r\nAll memory values were measured on one of the two initial nodes.\r\n\r\n```\r\nv1.11.x:\r\n    2 node cluster after data insertion & restart: 495 MB\r\n    after joining 3rd node: 494 MB\r\n    while resharding the big table: at first 1,120 MB, later more than 4,700 MB\r\n\r\nnext (including fix for #2211):\r\n    2 node cluster after data insertion & restart: 426 MB\r\n    after joining 3rd node: 431 MB\r\n    while resharding the big table: not more than 554 MB\r\n```\r\n\r\nWe definitely had problems with memory consumption under backfilling in 1.11. The nodes used multiple GBs of memory (4.7 GB in this case). Those problems don't exist in `next` anymore, and no more than 554 MB of memory were used in this scenario."
+  , issueCommentId = 40028573
+  }

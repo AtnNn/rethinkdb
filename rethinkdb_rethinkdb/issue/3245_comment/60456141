@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-24) 22 : 11 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60456141"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60456141"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 22 : 11 : 04 UTC
+  , issueCommentBody =
+      "> 1 I'm understand, but SQL can be shard. Why not?:) I'm understand that is not easy, but is real:)\r\n\r\nYou will see that a SQL database can become considerably slower when sharded, because it has to support atomic transactions and locking across multiple servers. You don't have these limitations with typical NoSQL systems.\r\n\r\n> 2 [...]\r\n\r\nThank you for the example document. We will run some tests locally and see if we can reproduce this.\r\n\r\n> I run multiple times, difference a 20 sec with my previous results\r\n\r\nDid you try that with the `getAll()` query too?\r\nAlso note that cached results in MySQL are something different from just having a warm block cache (which is the kind of cache we have in RethinkDB). As you know, MySQL also has a query cache (the one you can turn off with SQL_NO_CACHE) which actually stores the full results of the specific query rather than just caching disk access.\r\n\r\n> 3 [...] On MySQL I test only bulk insert. On RethinkDB I test bulk and simple(by one row).\r\n\r\nJust curious: How did you do the bulk insert in MySQL? Did you use a) a regular INSERT query with all documents in it, b) a couple of individual INSERTs but only committed the transaction at the end, or c) use a `LOAD DATA` query to import directly from a file?\r\n\r\n> 5 [...]\r\n\r\n```\r\nSELECT SQL_NO_CACHE `name`,\r\n       SUM(`f1`),\r\n       SUM(`f2`),\r\n       SUM(`f3`)\r\nFROM table\r\nWHERE slug = 'd4436de862fbc706d76608a8818a1158'\r\n  AND `date` BETWEEN '2014-01-01' AND '2014-12-01' GROUP BY `name`; \r\n```\r\n\r\nI recommend you first create a compound index on slug and date (JS syntax for the data explorer):\r\n`r.table('table').indexCreate('slug_data', function(x) { return r.expr([x('slug'), x('date')]); } )`\r\n\r\nThen you can translate the WHERE clause to the following:\r\n```js\r\nr.table('table').between(['d4436de862fbc706d76608a8818a1158', '2014-01-01'], ['d4436de862fbc706d76608a8818a1158', '2014-12-01'], {index: 'slug_data', rightBound: 'closed'})\r\n```\r\n\r\nFor the grouping: We are going to make computing multiple sums at the same time easier in the future (see https://github.com/rethinkdb/rethinkdb/issues/2078#issuecomment-55052279).\r\nAt the moment you can do it like this I think:\r\n```\r\nselection.group('name').reduce(function (left, right) { return r.expr({\r\n    f1: left('f1').add(right('f1')),\r\n    f2: left('f2').add(right('f2')),\r\n    f3: left('f3').add(right('f3')) }); } )\r\n```\r\n\r\nwhere `selection` is the `r.table().between()` query from above."
+  , issueCommentId = 60456141
+  }

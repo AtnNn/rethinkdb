@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-24) 22 : 15 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27036393"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1566#issuecomment-27036393"
+  , issueCommentCreatedAt = 2013 (-10) (-24) 22 : 15 : 14 UTC
+  , issueCommentBody =
+      ">> I think this is less of a problem than it appears because 99% of apps written with Rethink will open the connection, do some stufff, and close it for each web request\r\n\r\n> No this is just wrong up and down.\r\n\r\nI think saying it's \"just wrong up and down\" is a bit excessive. I agree that what I said isn't necessarily a viable long-term assumption, and that it isn't 100% true for *every* use case today, but it does hold for most use cases today. I agree that we should fix the underlying problem, but I do have concerns about this specific proposal. I was making an argument that this isn't urgent and that we shouldn't rush it into a point release without looking at this issue from various points of view.\r\n\r\n>> For `order_by`, what do we do about r.table(\"foo\").order_by(\"bar\").limit(5).delete()? It's a very common query, and returning an array would make it impossible (or much more complicated).\r\n\r\n> This isn't true. I'm not sure why you think it is.\r\n\r\nI was under the impression that you could only execute mutation operations on the original table via selections (which is why we have the type `selection` and `single_row_selection`. @mlucy -- could you chime in? There is no command in RethinkDB that I am aware of that allows you execute a mutation operation on an array (or any type other than selections). We can consider changing that, but I think it's a big change that we should discuss. I'm not sure what it would mean to call `delete` on an array.\r\n\r\n> On the last 2 points I'll concede that this does indeed make the APIs more complicated but it does so in a very consistent way that makes it much safer.\r\n\r\nAgreed, I retract this specific objection.\r\n\r\n>> I would much rather wait to implement per-query memory limit. I think it's a better solution to this problem than returning arrays.\r\n\r\n> This isn't even close to a solution to this problem. Whatever limit we select you can still leak that much memory per query.\r\n\r\nI think the word \"leak\" doesn't quite apply to what's going on here. Normally when I think of software leaking memory, I think of something unpredictable and uncontrollable. It isn't the case here -- there are very clear semantics on what to do to clean up the RAM (close the cursor).\r\n\r\n> This isn't how we write software, we're supposed to be the guys who don't leave landmines like this lying around to screw our users over.\r\n\r\nI agree that this is an issue that could screw people over and it would be great to fix it. But it's not a landmine in the way a BKL is a landmine. Pretty much every RDBMS handles this the way we do right now (they give you a cursor and the server holds on to the memory while the cursor is open). It's the status quo. I agree that to be a 10x product for ops we need to get rid of cases like this to the extent that we can, so ops people don't have to worry about running out of ram, or running into performance problems, etc. (Or, when we can't get rid of issues like this, we need to give people visibility into what happens in the cluster and an easy way to fix things via admin tools). I just have concerns about this specific proposal.\r\n\r\n(Actually, the only concern I have is the selection/mutation issue)"
+  , issueCommentId = 27036393
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-26) 07 : 40 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 495718
+        , simpleUserLogin = N "bitterjug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/495718?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bitterjug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41462460"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2304#issuecomment-41462460"
+  , issueCommentCreatedAt = 2014 (-04) (-26) 07 : 40 : 21 UTC
+  , issueCommentBody =
+      "OK this ran for a while and then threw Query Interrupted again, while I was _making tea_. The web interface doesn't report how long this took.\r\n\r\n```javascript\r\nr.table(\"BigLottery\").forEach( function (bl){\r\n  return r.table(\"t1\").insert({\r\n    a: bl(\"amount\"),\r\n    b: bl('APPLICANT_NAME'),\r\n    c: \"constant\"  \r\n  }, { durability: 'soft' });\r\n})\r\n```\r\n@coffeemug's suggestion gave me an 'aha moment':\r\n``` javascript\r\nr.table(\"t1\").insert(\r\n  r.table(\"BigLottery\").map( function (bl){\r\n    return {\r\n      a: bl(\"amount\"),\r\n      b: bl('APPLICANT_NAME'),\r\n      c: \"constant\"    \r\n    };\r\n  })\r\n)\r\n```\r\nComplete in 26.5 seconds. 21.6 s with soft durability:\r\n``` javascript\r\nr.table(\"t1\").insert(\r\n  r.table(\"BigLottery\").map( function (bl){\r\n    return {\r\n      a: bl(\"amount\"),\r\n      b: bl('APPLICANT_NAME'),\r\n      c: \"constant\"    \r\n    };\r\n  }), { durability: 'soft' }\r\n)\r\n```\r\n\r\nThis is what I should have been doing. Perhaps there is a way the docs might have better guided me.\r\n\r\nBut I think there is also an issue with the error message: \r\n\"Did you shut down the server?\", \r\n\"No\".\r\nCould this message suggest what resource might have been used up? I saw a thread on the google group that suggested this was due to memory use. It would be great if the message gave me a clue about what to try next. Maybe even a link to an online resource.\r\n\r\nPerhaps off topic, I notice in my log file:\r\n```\r\n2014-04-25T22:17:58.855876730 0.047131s info: Using cache size of 100 MB\r\n2014-04-25T22:17:58.856157213 0.047412s warn: Cache size does not leave much memory for server and query overhead (available memory: 198 MB).\r\n2014-04-25T22:17:58.856203937 0.047458s warn: Cache size is very low and may impact performance.\r\n```\r\nWhere does the 198 MB come from? I ran `rethinkdb` from the command line, but I seem to have plenty of memory\r\n```\r\n$ free -h\r\n             total       used       free     shared    buffers     cached\r\nMem:          3.8G       3.5G       235M       301M       7.4M       788M\r\n-/+ buffers/cache:       2.7G       1.0G\r\nSwap:         3.9G       2.0G       1.9G\r\n```\r\n(Ubuntu 14.04, rethinkdb 1.12.3-0ubuntu1~saucy (GCC 4.8.1))"
+  , issueCommentId = 41462460
+  }

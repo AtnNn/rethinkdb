@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 18 : 06 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19702177"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1038#issuecomment-19702177"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 18 : 06 : 24 UTC
+  , issueCommentBody =
+      "So I just poked around a little more and found why you couldn't reproduce it @coffeemug.\r\n\r\nThe driver has a class ArrayResults from which we copy some methods and add them to Array so people don't have to worry about getting back an array or a cursor.\r\n\r\nThe thing is when we were copying the methods, we were also copying the constructor, which means that if you run\r\n```\r\nr.expr( { ar: [1,2,3] } )\r\na = [1,2,3]\r\nconsole.log(a.constructor) // you get Array\r\nr.expr([ { ar: [1,2,3] } ])\r\na = [1,2,3]\r\nconsole.log(a.constructor) // you get ArrayResult\r\n```\r\n\r\nI fixed the driver so it won't copy the constructor.\r\n\r\nSo if you run for the first query\r\n```\r\nr.expr( { a: [1,2,3] } )\r\n```\r\nYou currently see on the table view `{ ... }` instead of [1, 2, 3].\r\n\r\n\r\nI fixed the driver, updated the code review, and added @wmrowan as a reviewer."
+  , issueCommentId = 19702177
+  }

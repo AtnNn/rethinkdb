@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-22) 15 : 10 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43901126"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2451#issuecomment-43901126"
+  , issueCommentCreatedAt = 2014 (-05) (-22) 15 : 10 : 22 UTC
+  , issueCommentBody =
+      "So, this is actually already done (in some cases).  Here is a full rundown of what it done with `data`.\r\n\r\n* `GET` or `HEAD` request - error\r\n* `PUT`, `PATCH`, or `DELETE` request - The data is converted to JSON, and the `Content-Type` is set to `application/json`\r\n* `POST` request - If the data is a string, it is put directly into the request body.  If the data is an object, it is converted to a string of form-encoded pairs.  In either case, the default `Content-Type` is `application/x-www-url-formencoded`.\r\n\r\nThis means that if a user wants to send a JSON object in a `POST` request, they should do `data=row.coerce_to('STRING')`, and `header={'Content-Type'='application/json'}`.  Perhaps this is too much magic, though, and too cumbersome or hard to discover.\r\n\r\nWhat if we replace `POST` with two different methods: `POST-JSON` and `POST-FORM`:\r\n* `POST-FORM` would have the current semantics\r\n* `POST-JSON` would have the semantics of `PUT`, `PATCH`, and `DELETE`"
+  , issueCommentId = 43901126
+  }

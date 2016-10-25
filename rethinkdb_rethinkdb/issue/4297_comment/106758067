@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-29) 09 : 33 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/106758067"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4297#issuecomment-106758067"
+  , issueCommentCreatedAt = 2015 (-05) (-29) 09 : 33 : 05 UTC
+  , issueCommentBody =
+      "@elfring -- there are many situations where `std::terminate` will be called.  One is an exception thrown without an appropriate exception handler, but it will also be called if you throw an exception in a destructor while another exception is active, or if if you throw an exception that violates a `noexcept` specification.  (All three of those are logic errors, obviously, and will only occur if there's a bug in RethinkDB, which unfortunately is a reality you have to deal with.)\r\n\r\nSince we don't want RethinkDB to behave poorly in the event of a logic error (an example of behaving poorly would be losing data), we have to code in such a way that `std::terminate()` behaves safely.  Specifically, we can't assume that stack unwinding occurs.\r\n\r\nIn practice, we would usually prefer that stack unwinding not occur because it allows us to print a better backtrace when we crash, which aids in later debugging, but it isn't essential to the correct operation of the system."
+  , issueCommentId = 106758067
+  }

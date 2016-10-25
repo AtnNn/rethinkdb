@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-03) 06 : 53 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25601783"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-25601783"
+  , issueCommentCreatedAt = 2013 (-10) (-03) 06 : 53 : 39 UTC
+  , issueCommentBody =
+      "@danielmewes -- here is one idea you might not have thought of (I discussed it with @srh at some point). We can get rid of the flush lock without huge changes to the cache. The only reason we need a flush lock is that on flushes the cache can't just take locks on dirty blocks since it has no notion of b-tree ordering and locking in random order can cause a deadlock. If we change the cache api to accept information about relationships between blocks, the cache could lock dirty blocks in order and we can completely get rid of the flush lock. This sounds like an ideal solution to me. (@jdoliner implemented some functionality to pass rough information to the cache about the node level, but right now we only use it for page replacement; I suspect this functionality isn't strict at all times, which is ok for page replacement but not ok for locking). This *might* be relatively simple to do and is probably worth looking into."
+  , issueCommentId = 25601783
+  }

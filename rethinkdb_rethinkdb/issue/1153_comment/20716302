@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-10) 01 : 16 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20716302"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1153#issuecomment-20716302"
+  , issueCommentCreatedAt = 2013 (-07) (-10) 01 : 16 : 49 UTC
+  , issueCommentBody =
+      "I don't quite understand what you mean, @neumino.  Here's the behavior I see:\r\n```ruby\r\nbegin; r.table_create('test').run; rescue Exception => e; end\r\nr.table('test').index_create('a').run\r\n$rows = [{:id => 0, :a => 0, :b => 0}, {:id => 1, :a => 0, :b => 0}]\r\nr.table('test').insert($rows).run\r\nr.table('test').eq_join('b', r.table('test')).run\r\n# [{\"right\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}},\r\n#  {\"right\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>1, \"a\"=>0, \"b\"=>0}}]\r\nr.table('test').eq_join('b', r.table('test'), :index => 'a').run\r\n# [{\"right\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}},\r\n#  {\"right\"=>{\"id\"=>1, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}},\r\n#  {\"right\"=>{\"id\"=>0, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>1, \"a\"=>0, \"b\"=>0}},\r\n#  {\"right\"=>{\"id\"=>1, \"a\"=>0, \"b\"=>0}, \"left\"=>{\"id\"=>1, \"a\"=>0, \"b\"=>0}}]\r\n```"
+  , issueCommentId = 20716302
+  }

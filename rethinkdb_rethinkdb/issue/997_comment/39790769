@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-07) 22 : 16 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39790769"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39790769"
+  , issueCommentCreatedAt = 2014 (-04) (-07) 22 : 16 : 56 UTC
+  , issueCommentBody =
+      "> Under the current proposal if somebody does a few large batched inserts, every change feed will disconnect.\r\n\r\nI'm not sure that's actually true.  Getting 100,000 writes through RethinkDB isn't instantaneous.  I agree that some sort of throttling would be reasonable though.\r\n\r\n> Allowing nondeterministic transformations will cause users to use slow transformations and wonder why RethinkDB change feeds are so broken, resulting in support requests that we have to apologize for.\r\n\r\nNondeterministic != slow .  What will happen is that people who consume cursors slowly (for *any* reason, which might include slow nondeterministic functions, slow deterministic functions, slow clients, slow network...) will get a reasonable error suggesting ways to solve it.  I'm not sure what else we can do unless we want to buffer changes indefinitely or flood clients and force *them* to buffer changes indefinitely.\r\n\r\n> Allowing nondeterministic transformations will force actual good implementations of change feeds to include special-case code for handling them.\r\n\r\nWhy?  The only reason we ban nondeterminism in updates is that you might get different results on the replicas, which would lead to data divergence, but there's no need to evaluate a changefeed transformation on multiple replicas.\r\n\r\n> Which replica will a change feed listen for changes from?\r\n\r\nThe master.\r\n\r\n> What's the behavior if that replica goes down but writes are happening to other replicas? \r\n\r\nIf the master goes down, writes aren't happening.\r\n\r\n> The behavior of r.now is still unspecified!\r\n\r\nIt's whatever it is now."
+  , issueCommentId = 39790769
+  }

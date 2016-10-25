@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-04) 21 : 50 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15926365"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/602#issuecomment-15926365"
+  , issueCommentCreatedAt = 2013 (-04) (-04) 21 : 50 : 54 UTC
+  , issueCommentBody =
+      "So, I have mixed feelings about this proposal, but overall I think I like it.\r\n\r\nThe downsides:\r\n* It complicates out data model (we have to introduce a new `index` type).\r\n* It might not match users' mental models as well as just making all the retrieval functions variadic.\r\n\r\nThe upsides:\r\n* We don't have to tack on this optional secondary index argument to everything that we want to work with secondary indices.  (For example, instead of trying to shim a fourth argument into `eq_join`, people would just write `tbl1.eq_join(:tbl1_attr, tbl2.index(:tbl2_index))`.)\r\n* I think `get` and `get_all` is much better than just giving `get` a different return type for primary and secondary indices.  (I'm extremely uncomfortable with `get` having multiple return types; that seems confusing to me.)  The addition of `get_all` would also make the implementations of e.g. `eq_join` simpler, and would allows us to use the same expanded code for both primary and secondary indices in places where we implement high-level terms by expansion to lower-level terms.\r\n\r\nEven if we decide not to complicate our data model, I think we should still try to have both `get` and `get_all`."
+  , issueCommentId = 15926365
+  }

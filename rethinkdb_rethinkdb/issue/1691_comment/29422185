@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-27) 21 : 36 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29422185"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1691#issuecomment-29422185"
+  , issueCommentCreatedAt = 2013 (-11) (-27) 21 : 36 : 23 UTC
+  , issueCommentBody =
+      "We make entries state_old when converting elements of reconstructed_extents from state_reconstructing to state_old, and we also make them state_old in remove_last_unyoung_entry, converting them from state_young to state_old.\r\n\r\nFor an entry in state_old to contain no live entries, it must have either at some point in state_reconstructing with no live entries or in state_young with no live entries.  An entry in state_reconstructing was either constructed in data_block_manager_t::mark_live or in data_block_manager_t::start_existing.  In mark_live, one of its entries gets marked live, and we know by guarantees that an entry in state_reconstructing could not have any of its blocks marked garbage, so such an entry was not created by mark_live.  In start_existing, we create an entry for the active extent if it was not already created.  That can only be the case if the active entry has no live data blocks in it.  A comment on line 442 says, \"It is (perhaps) possible to have an active data block extent with no actual data blocks in it. In this case we would not have created a gc_entry_t for the extent yet.\"  But then we call make_active on that extent, so that it is no longer in state_reconstructing.  As for state_young entries, we can see that after any call to mark an entry as garbage, we call check_and_handle_empty_extent.  In the case of state_young entries, we remove the entry from the young_extent_queue, which means it could not have gotten converted to state_old.  This means the only way a state_young entry on the young_extent_queue could be entirely garbage is if it was that way before it became young -- if it was that way when it was active.  Maybe it is also possible for the active extent to become fully garbage if we simply delete the blocks that reside in it.\r\n\r\nThe following debugf in data_block_manager.cc can be made to print that there are 0 live blocks, but that does not trigger the bug.\r\n\r\n```\r\n        if (!active_extent->new_offset(it->block_size,\r\n                                       &relative_offset, &block_index)) {\r\n            debugf(\"did not get new offset, with %u live blocks\\n\", active_extent->num_live_blocks());\r\n```\r\n\r\nSee the SerializerTest.AddDeleteRepeatedly test in serializer_test.cc in commit 75cca77 to see this behavior.\r\n\r\nWhile running this test I also got some curious `tcmalloc: large alloc 1073741824 bytes == 0x45385000 @`-style messages.  The size seems to approximately double with each of those messages in a given run of the test, so it's probably reallocating some large vector.  (This happens because we never call `consider_start_gc` because the test does not actually do any index writes.)\r\n\r\nI will write another test that performs actual index writes, so that gc is triggered and the code fails.  In any case we know what the problem is.\r\n\r\n\r\n"
+  , issueCommentId = 29422185
+  }

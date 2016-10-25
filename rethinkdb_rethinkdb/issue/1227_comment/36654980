@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-04) 18 : 09 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 72652
+        , simpleUserLogin = N "skizzerz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/72652?v=3"
+        , simpleUserUrl = "https://api.github.com/users/skizzerz"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36654980"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1227#issuecomment-36654980"
+  , issueCommentCreatedAt = 2014 (-03) (-04) 18 : 09 : 29 UTC
+  , issueCommentBody =
+      "Similarly, you cannot use an indexed ```order_by``` after a ```get_all```. I think the sanest way to implement this would be if a compound index was specified for the ```between```/```get_all```, then the same compound index would be used for the ```order_by``` (preferably implicitly, although if it makes things easier in the code to explicitly specify the index, that works too).\r\n\r\nPractical example, let's say I have docs that look like the following:\r\n```\r\n{\r\n  \"client_ip\": \"127.0.0.1\",\r\n  \"timestamp\": \"2014-03-04T12:00:00.000+00:00\",\r\n  \"from\": \"example@example.com\",\r\n  \"to\": \"example2@example.com\",\r\n  \"subject\": \"Buy my stuff\",\r\n  \"headers\": {\r\n    \"From\": \"Me <example@example.com>\",\r\n    \"To\": \"You <example2@example.com>\",\r\n    \"Content-Type\": \"text/html\"\r\n  },\r\n  \"spam\": {\r\n    \"score\": 13.22,\r\n    \"result\": \"spam\",\r\n    \"matched_rules\": {\r\n      \"html content type\": 5.02,\r\n      \"some other rule\": 8.2\r\n    }\r\n  }\r\n}\r\n```\r\n\r\nI then add a secondary compound index on ```[client_ip, timestamp]``` in hopes that I can perform a ```get_all``` on a particular ```client_ip``` and then order the results by ```timestamp``` (e.g. each part of the compound index is consumed in order, similar to how it works in SQL).\r\n\r\nHowever, because this is not currently possible, it is instead having to resort to a sorting algorithm to sort possibly millions of results, which likely has a pretty hefty performance impact versus being able to just look at the index which is already sorted."
+  , issueCommentId = 36654980
+  }

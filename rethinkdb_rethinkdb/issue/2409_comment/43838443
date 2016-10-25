@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-22) 01 : 23 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43838443"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2409#issuecomment-43838443"
+  , issueCommentCreatedAt = 2014 (-05) (-22) 01 : 23 : 48 UTC
+  , issueCommentBody =
+      "@eliangidoni, your commit is definitely a needed change, although I don't think it would be a complete solution for this issue.  We should handle the specific error happening here and provide a more-descriptive error message to the user.  I think returning false shouldn't really be done unless the extproc is put into an unrecoverable state (such as communication desynchronization with the parent process).\r\n\r\nIn this specific case, it appears that the `js_to_datum` call is resulting in a `ql::base_exc_t` exception with the message `Stray literal keyword found, literal can only be present inside merge and cannot nest inside other literals.`.  This could be solved by extending your try/catch statement to catch `std::exception` and set the `result` variable to the `std::exception::what()` of that exception.  This would pass the message up to the user and prevent the extproc from having to be killed and replaced.\r\n\r\nIn the general case of an unknown exception type, I usually just return an \"unknown error\" string in the result, although it could be a bit more descriptive for this situation.\r\n\r\nIf you want to implement this, let me know, otherwise I can take over."
+  , issueCommentId = 43838443
+  }

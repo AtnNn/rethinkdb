@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-09) 21 : 38 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20707419"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1097#issuecomment-20707419"
+  , issueCommentCreatedAt = 2013 (-07) (-09) 21 : 38 : 02 UTC
+  , issueCommentBody =
+      "May as well document this here, so it doesn't get lost.  These are the scripts I use to reproduce the error.  Does not always reproduce the error, and you need to disable javascript function caching from #1105, but here it is:\r\n\r\nPython script to populate a table:\r\n```py\r\n#!/usr/bin/env python\r\nimport sys\r\nimport rethinkdb as r\r\n\r\nconn = r.connect(\"newton\", 59435)\r\n\r\nif \"locations\" in r.db(\"test\").table_list().run(conn):\r\n    print \"Table already exists, recreating it\"\r\n    r.db(\"test\").table_drop(\"locations\").run(conn)\r\nr.db(\"test\").table_create(\"locations\").run(conn)\r\n\r\ncount = 20000\r\nbatch = 200\r\nrows = []\r\nfor i in xrange(count):\r\n    row = { }\r\n    row[\"lat\"] = \"000.0000000\"\r\n    row[\"long\"] = \"000.0000000\"\r\n    rows.append(row)\r\n    if len(rows) >= batch:\r\n        r.db(\"test\").table(\"locations\").insert(rows).run(conn)\r\n        rows = []\r\n    print (\"\\r[%6d/%6d]\" % (i, count)),\r\n    sys.stdout.flush()\r\n\r\nif len(rows) > 0:\r\n    r.db(\"test\").table(\"locations\").insert(rows).run(conn)\r\n    rows = []\r\n\r\nprint \"\\r[         DONE]\"\r\n```\r\n\r\nPython script to perform the js update:\r\n```py\r\n#!/usr/bin/env python\r\nimport sys\r\nimport rethinkdb as r\r\n\r\nconn = r.connect(\"newton\", 59435)\r\n\r\nif \"locations\" not in r.db(\"test\").table_list().run(conn):\r\n    print \"Table does not exist, run setup first\"\r\n\r\nr.db('test').table('locations').update(r.js('(function(row){return {lat:parseFloat(row.lat), long:parseFloat(row.long)};})'), {\"non_atomic\": True}).run(conn)\r\n```\r\n\r\nShell script to run a bunch of clients doing js at once (makes it much more likely we'll observe the bug):\r\n```sh\r\n#!/usr/bin/env bash\r\n\r\nfor i in {1..20}; do\r\n    ./issue_1097.py &\r\ndone\r\n\r\nfor job in `jobs -p`; do\r\n    wait $job\r\ndone\r\n```"
+  , issueCommentId = 20707419
+  }

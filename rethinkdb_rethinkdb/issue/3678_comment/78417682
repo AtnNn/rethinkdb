@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-12) 03 : 26 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/78417682"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-78417682"
+  , issueCommentCreatedAt = 2015 (-03) (-12) 03 : 26 : 55 UTC
+  , issueCommentBody =
+      "Been working on this.  There's good news and bad news.\r\n\r\nThe most unambiguous piece of good news is that EventMachine is kind enough to yield to other threads between ticks.  This means that we can keep most of the driver logic (where it spawns a listener in a separate thread), and that we don't have to have separate code paths where we sometimes use blocking IO and sometimes use EM-friendly IO.  This is maybe slightly sub-optimal, but I've been experimenting with it and it doesn't seem to hurt performance much or have large latency spikes or anything.\r\n\r\nThere's also a pice of hypothetically-good news coupled with a piece of bad news.  EventMachine has built-in support for integrating with libraries that block the thread using `EM.defer`, which made me think that maybe we could get away with barely touching the driver's internals.  Unfortunately if you use `EM.defer`, you're limited by the size of EM's threadpool, which defaults to size 20.  (The user can reconfigure this, but it has to happen before `EM.run`.)  If we used `EM.defer` and users tried to listen on more than 20 changefeeds, and the first 20 they listened on never returned results, they'd never return results from anything after those 20.\r\n\r\nI have a prototype working with `EM.defer`, but as-is I don't think it's usable because of the 20-feed problem.  There are two possibilities:\r\n* Keep track of how many feeds are spawned, warn the user if they've spawned more than 20 and recommend they increase the threadpool size.\r\n* Rework the internals of the driver to support either blocking on condition variables *or* calling a callback through EM.\r\n\r\nThe first is easy, and if we did that then we could ship this tomorrow (I even have moderately good tests).  The second is a little harder, but I think it's perfectly doable.  I'm probably going to go with the second option unless it turns out to be really hard for some reason and I'm holding up the release.  It will make the driver internals more complicated (and they're already a little too complicated IMO), but it will be a lot better, and it will be more performant than using `EM.defer` anyway."
+  , issueCommentId = 78417682
+  }

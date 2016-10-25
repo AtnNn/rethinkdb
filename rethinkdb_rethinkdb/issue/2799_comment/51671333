@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-09) 00 : 28 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51671333"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2799#issuecomment-51671333"
+  , issueCommentCreatedAt = 2014 (-08) (-09) 00 : 28 : 05 UTC
+  , issueCommentBody =
+      "How do people feel with this implementation?\r\n\r\nAn issue pops up if some old indexes are found.\r\nA list of all indexes are displayed, and you have one button \"rebuild\" per index.\r\nUsers can rebuild just one index at a time[1].\r\n\r\n\r\nIf you want to recreate all the indexes (sequentially, at once), you need to run a Node/Python/Ruby script.\r\n\r\n\r\nSequentially building the indexes on the interface leads to two issues\r\n- it's a non trivial amount of work[2]\r\n- if people close the web interface, once the index being built is available, we won't start building the next one.\r\n\r\nWith a script, we can dynamically build a query that will sequentially rebuild all indexes.\r\n\r\n\r\n\r\n[1] The reason why we should limit one index at a time is that if the OOM killer kill RethinkDB because too many indexes are being created, restarting RethinkDB will probably lead to another crash.\r\n\r\n[2] Mostly because it requires \"long\" testing\r\n\r\nThe other solution, is to have the web ui pull data every few minutes and rebuild an index if none is being rebuilt.\r\nIf we go for this solution, I plan to use a special key like $reql_index$<index> to detect indexes being built."
+  , issueCommentId = 51671333
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-15) 23 : 27 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43277030"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2285#issuecomment-43277030"
+  , issueCommentCreatedAt = 2014 (-05) (-15) 23 : 27 : 27 UTC
+  , issueCommentBody =
+      "Ok I could reproduce the crash by following this procedure:\r\n1. Create a table, insert documents (e.g. 1 million)\r\n2. Add a second node to the cluster, replicate the table\r\n3. Shut down secondary\r\n4. Delete a few documents all over the table (e.g. 5000): `r.table().sample(5000).delete()`\r\n5. Reconnect the secondary\r\n6. Interrupt the backfill close to its completion\r\n7. Reconnect the secondary\r\n8. That should trigger the guarantee failure\r\n\r\nOnce you get to a crashing state, the secondary conveniently crashes every time it's restarted.\r\n\r\nThe proposed fix of moving the guarantee into the `if` solves the issue."
+  , issueCommentId = 43277030
+  }

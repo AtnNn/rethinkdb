@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-27) 19 : 58 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38852181"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2083#issuecomment-38852181"
+  , issueCommentCreatedAt = 2014 (-03) (-27) 19 : 50 : 55 UTC
+  , issueCommentBody =
+      "I can reproduce this with just a simple filter.\r\n\r\n\r\nSettings:\r\nOne instance of RethinkDB on my desktop computer (fast machine)\r\nOne instance in a VM limited to 512 MB, 1 core capped at 70%.\r\n\r\nOne thousand documents like the one in this gist: https://gist.github.com/ydnax/58aa321a1d4b353acbe3\r\n\r\nI didn't look closely, but there shoudn't be latency issue (the VM is runnig on my desktop computer).\r\nAll the times mentioned are server time (reported on the profile)\r\n\r\n\r\nIf I run\r\n```\r\nr.db('test').table('test').filter({rarity: \"Mythical\"})\r\n```\r\n\r\nWith no replica, master on the fast machine, I always get something like 8ms.\r\n\r\nWith two replicas, I get values of 8ms or about 500ms.\r\nLooking at the stats on each machine, 8ms is when the master is used (fast machine), and 500ms is when the replica is used (slow machine).\r\n\r\n\r\nSo when the read is sent to the slow machine, well it's slower.\r\nThe more sub-queries you have, the more chance you have to hit the slow server, the slower your queries get in average.\r\n\r\nI guess this is an expected result.\r\nIs there something we can do to improve this? Or should we just close the issue?"
+  , issueCommentId = 38852181
+  }

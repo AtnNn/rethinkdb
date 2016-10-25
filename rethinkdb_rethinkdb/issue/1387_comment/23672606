@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-02) 18 : 02 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 275772
+        , simpleUserLogin = N "vivekp"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/275772?v=3"
+        , simpleUserUrl = "https://api.github.com/users/vivekp"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23672606"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1387#issuecomment-23672606"
+  , issueCommentCreatedAt = 2013 (-09) (-02) 18 : 00 : 43 UTC
+  , issueCommentBody =
+      "@mlucy I did some more experiments and found things really bizarre. First, thanks for giving heads up about the issue #1388 - it saved me a lot of hours.\r\n\r\nIndeed the throughput is low when the CPU usage is high. With 10 clients updating the rethinkdb, the throughput goes only as high as 3-4 writes/sec and almost the same number of reads/sec.\r\n\r\nFor experiments, I cloned my rethinkdb setup on an EC2 m1.xlarge box. It has 4 cores and 15 GB memory. When multiple clients are running on a *different machine*, the CPU usage of rethinkdb server went straight to 100%.\r\n\r\n![xlarge-high-cpu](https://f.cloud.github.com/assets/275772/1068709/407a067c-13f7-11e3-8e22-93b46d2066cc.png)\r\n\r\nIn the graph above, the first spike is with 10 clients, 10 shards. The second spike is with 10 clients, 5 shards. The immediate third spike is with 10 clients, 1 shard. The relatively lower spikes after that are with 1 client, 1 shard. Even after removing soft durability mode, the CPU usage remained almost similar. \r\n\r\nClearly, the spikes in CPU usage are there even with only one worker, but relatively less. Below is a snapshot of the machine with rethinkdb server having only one client connected, and writing **without** soft durability and noreply mode. Note that the client is running on a different machine.\r\n\r\n1  [||||||||||||||||||||||||||||||||||||||||||||||||||             70.0%]     Tasks: 32, 140 thr; 5 running\r\n2  [|||||||||||||||||||||||||||||||||||||||||||||||||              69.4%]     Load average: 7.71 6.32 5.67 \r\n3  [||||||||||||||||||||||||||||||||||||||||||||||||               68.0%]     Uptime: 09:10:33\r\n4  [||||||||||||||||||||||||||||||||||||||||||||||                 66.2%]\r\nMem[|||||||||||                           1682/14980MB]\r\nSwp[                                                 0/0MB]\r\n\r\nIn all the experiments, average size of the document is 150 KB, ranging from 100 KB to 500 KB. Does this have to do in anyway with large documents? Let me know if you need more information. I would highly appreciate if this is debugged quickly and issues are pinpointed.\r\n"
+  , issueCommentId = 23672606
+  }

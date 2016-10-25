@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-08) 02 : 43 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/90787684"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3594#issuecomment-90787684"
+  , issueCommentCreatedAt = 2015 (-04) (-08) 02 : 43 : 45 UTC
+  , issueCommentBody =
+      "I'm not a big fan of time-based expiration. I think it's a little weird to have unreachable tables still be there at first and then quietly disappear after some time.\r\n\r\nHow about we use `table_drop` with a special optarg to expire an entry from the table cache? Something like this:\r\n```\r\n> r.table_drop(\"unreachable\").run()\r\nError: No server for table `unreachable` is connected. To remove the table from the table list, please use the `forget_unreachable=true` optarg. Note that the table will reappear if one of its servers reconnects later.\r\n\r\n> r.table_drop(\"unreachable\", forget_unreachable=true).run()\r\n{tables_dropped: 1}\r\n```\r\n\r\nBoth a time-based expiration and the `forget_unreachable` flag open the question of how we coordinate the expiration process between servers in the cluster, if some servers are unavailable when the command is run. Tables could re-appear if previously disconnected servers reconnect. What's worse is that an unreachable table could sometimes appear and sometimes not appear in a `table_list()` depending on which server that query is run on. This becomes especially bad if the cluster connectivity is not transitive.\r\nTime-based expiration is slightly more benign with respect to these issues because the response to a `table_list()` is eventually consistent assuming full cluster connectivity over a sufficiently long time.\r\n\r\nMore sophisticated coordination (say something akin to our semilattice metadata) sounds like an unreasonable amount of work to implement for this.\r\n\r\n\r\nI think it would be ok if we had only time-based expiration and ignored all of these problems if the expiration time was relatively short (say 10 minutes). That would help us get over most server restarts etc. I wonder though if it's even worth the effort in that case.\r\n\r\nAt this point I'm almost leaning towards discouraging our users from using patterns like\r\n```\r\nif 'foo' not in r.table_list().run(c):\r\n  r.table_create('foo').run(c)\r\n# Do work on the table 'foo'\r\n```\r\nif they're running any slightly larger cluster and otherwise ignoring the problem (i.e. making tables disappear immediately and just adapting the error message on a missing table to mention the fact that the table might just be unreachable).\r\nIn fact this pattern is already unsafe in a cluster, since table creation is not atomic."
+  , issueCommentId = 90787684
+  }

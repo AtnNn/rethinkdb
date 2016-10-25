@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-31) 19 : 41 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27519608"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1556#issuecomment-27519608"
+  , issueCommentCreatedAt = 2013 (-10) (-31) 19 : 41 : 53 UTC
+  , issueCommentBody =
+      "It turns out this is a locking issue (in combination with missing yields).\r\n\r\nIf you take a look at `post_construct_traversal_helper_t::process_a_leaf()` in rdb_protocol/btree.cc, then you can see that this function does the following things:\r\n1. It gets a sindex token_pair, which guarantees the ordering of sindex operations. No other sindex operation can continue before the token_pair is released as far as I understand.\r\n2. It acquires the superblock of the btree in write mode\r\n3. It acquires the sindex block in write mode. This waits on the token_pair.\r\n4. It acquires the superblocks of the sindex btrees in write mode\r\n5. It releases the locks on the btree superblock (from step 1) and on the sindex block (step 2)\r\n6. It updates the secondary index\r\n7. It releases the remaining locks and the token_pair\r\n\r\nStep 5 can take quite a while, and the sindex token_pair is held during that time. If the function is now called a second time, it will go though up to step 3. Then it has to wait for the previous call to release its token_pair. During all that time it is holding on to the superblock, blocking just every other operation. In practice, up to four calls to the function are active per btree during the construction of a secondary index, so this happens frequently.\r\n\r\nThe solution turns out to be quite simple: We can actually release the superblock almost immediately after we have acquired it. It also seems that we can acquire it in read instead of write mode, which is even better as it doesn't lock out other reads on the btree.\r\n\r\nIn addition to this change, we can get secondary index construction to behave extremely benign towards concurrent read operations by adding a yield at a certain place and having it run at low i/o and coroutine priorities. It still impacts concurrent write operations a little, but not as dramatically as it used to impact reads and writes alike."
+  , issueCommentId = 27519608
+  }

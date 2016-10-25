@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-18) 20 : 18 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46488037"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2570#issuecomment-46488037"
+  , issueCommentCreatedAt = 2014 (-06) (-18) 20 : 16 : 26 UTC
+  , issueCommentBody =
+      "About this syntax:\r\n```js\r\nc = r.connect();\r\nquery.run(c);\r\n```\r\n\r\nIt feels like connect immediately returns a connection, which is not the case. It returns a promise, that will call its \"then\" callback once it's resolved. The promise will not become a connection.\r\n\r\nAlso, this code could for example doesn't work, which is a problem.\r\n\r\n```js\r\nvar c = r.connect();\r\nquery.run(c)\r\n\r\nsetImmediate(function() {\r\n  // suppose that `c` is now resolved\r\n   query2.run(c) // this will break because the promise isn't a connection\r\n})\r\n```\r\n\r\nWhere the implementation of run would be something like this\r\n```js\r\nTerm.prototype.run = function(conn) {\r\n   if (conn instanceof Connection) {\r\n     // execute query\r\n  }\r\n  else if (conn instance of Promise) {\r\n    var self = this;\r\n    conn.then(function(connection) {\r\n      self.run(connection);\r\n   }\r\n  }\r\n}\r\n```"
+  , issueCommentId = 46488037
+  }

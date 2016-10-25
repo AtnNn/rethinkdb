@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-30) 00 : 17 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53942686"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2864#issuecomment-53942686"
+  , issueCommentCreatedAt = 2014 (-08) (-30) 00 : 17 : 27 UTC
+  , issueCommentBody =
+      "> > How is this expected to be architected? I'm ok with having this just collect the issues from the issue_aggregator like /ajax/issues does, I don't see any big problems with that.\r\n\r\n> I think that's the right way to go. Do you see any problems at all with that (even if not big ones)?\r\n\r\n> We currently don't have the server-side infrastructure to figure out what time an issue first appeared (I think). I propose that we leave out the time field for now, and we can add it later as a separate project.\r\n\r\nIf we want to support `changes` on this pseudo-table (which would be immensely useful), we would need to evaluate issues as soon as possible, which means not just checking every time someone gets from the issues pseudo-table.  Incidentally, this would allow us to have a meaningful `time` field in each row.\r\n\r\nWe should take care to write this feature in a scalable way such that we don't end up re-evaluating the same data over and over on small metadata changes.\r\n\r\n> We usually want to hash something slightly different than what we show to the user. Specifically: [...]\r\n\r\nGood point, each issue type should provide a method to generate a deterministic UUID (following RFC4122 as you mention).\r\n\r\n> We should consider hiding UUIDs everywhere except on the name_conflict issue.\r\n\r\nI disagree.  UUIDs are much more useful for scripts, which the ReQL API should support.\r\n\r\n> The old `invalid_config` issue will go away, because the old \"goals\" don't exist anymore. The closest equivalent is some combination of `table_config_bad_server` and `server_down`.\r\n\r\nNoted.  Removed `invalid_config`, added `table_config_bad_server` (I really wish we had a better name for this).\r\n\r\nI am updating the proposal to reflect the other suggestions you had.\r\n"
+  , issueCommentId = 53942686
+  }

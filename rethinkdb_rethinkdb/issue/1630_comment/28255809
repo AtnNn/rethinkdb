@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-11) 23 : 51 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 548140
+        , simpleUserLogin = N "karlgrz"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/548140?v=3"
+        , simpleUserUrl = "https://api.github.com/users/karlgrz"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28255809"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1630#issuecomment-28255809"
+  , issueCommentCreatedAt = 2013 (-11) (-11) 23 : 51 : 48 UTC
+  , issueCommentBody =
+      "@coffeemug, thanks for the suggestions.\r\n\r\nTo answer your questions:\r\n\r\n - I don't think there is anything tracking resources, but I wouldn't rule it out. I'm running all this on a Ubuntu 13.10 (to my knowledge) base install on digital ocean, that was built using my salt states. \r\n\r\n- Workload on the server is probably next to nothing. I host my blog, a few very low traffic sites for friends, and my hobby projects (which at the moment are all very light flask apps on nginx+uwsgi with rethinkdb as the backend).\r\n\r\nMy initial concern was it was a rethinkdb problem, but the more and more I'm diving into this the more I believe it might be a salt problem. I can consistently reproduce this SIGINT issue when I re-run the salt states on that instance. There is some calls to:\r\n\r\n```\r\nservice rethinkdb status\r\n``` \r\n\r\nthat it uses to determine if the service is running (which I think is incorrectly trying to restart it at that point, regardless of the return status, but that's besides the point). \r\n\r\nThe thing that is very weird to me is that all this interaction does _NOT_ occur at all on 13.04. I have another instance running 13.04 from a different cloud provider that was spun up using the same salt states and I do not see any of these SIGINT calls.\r\n\r\nI'd be happy to provide any more information needed or test out to help diagnose the cause of this."
+  , issueCommentId = 28255809
+  }

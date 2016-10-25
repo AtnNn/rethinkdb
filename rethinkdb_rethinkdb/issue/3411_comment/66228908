@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-09) 03 : 18 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66228908"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3411#issuecomment-66228908"
+  , issueCommentCreatedAt = 2014 (-12) (-09) 03 : 18 : 00 UTC
+  , issueCommentBody =
+      "@sctb Another work-around you might want to try is to run the `table.delete()` with some custom batch settings. That way you can force the server to split the delete into smaller chunks, which effectively reduces its priority compared to other writes on the same table.\r\n\r\nThe most interesting option here is the `max_batch_rows` optional argument to `run()` (see http://rethinkdb.com/api/python/run/). You can try setting it to something like 10 for the `delete()` and see if that improves matters.\r\nUnfortunately this opt arg currently doesn't work with our JavaScript driver. The option there is called `maxBatchRows`, but it doesn't currently work there because of https://github.com/rethinkdb/rethinkdb/issues/3161 .\r\n\r\nThere are different options to use it anyway:\r\n1. Use Python or Ruby for the deletion:\r\n`r.db('mydb').table('mytable').delete().run(conn, max_batch_rows=10)` for Python for example.\r\n2. Uncomment the part in the JS driver that performs the opt arg check.\r\n  * Find where `npm` installed the RethinkDB driver to. For example `~/.npm/rethinkdb/1.15.0-0/package`.\r\n  * Edit `ast.js`: Look for a line that starts with\r\n  ```\r\nif (key !== 'useOutdated' && key !== 'noreply' && key !== 'timeFormat' && key !== 'profile' && key !== 'durabili...\r\n```\r\n  (you can grep for \"valid option\", which is on the line after that)\r\n  * Comment or remove that line together with the following two.\r\n\r\nOnce you have done that, you can use the option by running\r\n`r.table(...).delete().run(conn, {maxBatchRows: 10}, cb)`"
+  , issueCommentId = 66228908
+  }

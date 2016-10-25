@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-25) 14 : 39 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53272235"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2953#issuecomment-53272235"
+  , issueCommentCreatedAt = 2014 (-08) (-25) 14 : 39 : 27 UTC
+  , issueCommentBody =
+      "Hi @neumino. I am using changefeeds for several things:\r\n\r\n* I am listening to content changes so I can push them to **Elasticsearch**. My content is rather normalized in Rethink, so change-listening process denormalizes that content into a representation useful for text indexing and querying, and ships off to ES.\r\n\r\n* I am also listening to content changes in order to generate **activity feeds**. Again, this has to do with the querying the data set in Rethink in its normalized form. I need a denormalized intermediate representation of the user-relevant changes as a step between data and activity feed.\r\n\r\n* And finally, the kicker: change events seem like a good time for certain **cache invalidation**.\r\n\r\nThanks for the example above. I can't see that practically working out for me though. Having to depend on that kind of backtracking in the event of missed/lost change events severely limits the type of problems to which I can apply changefeeds.\r\n\r\nBasically, take my three use cases above and let the first be least mission critical and the third most mission critical. To the first, least mission-critical I could apply the backtrack heuristic to impute missed changes. This is particularly simple because pushing data to ES is practically idempotent.\r\n\r\nFor the second and third use case, though, I would be much more reluctant to apply any sort of forensic/heuristic approach to backtrack a set of missed changes. Just this weekend, for example, my phone and tablet were lit up for hours with weeks old Twitter notifications being replayed in duplicate and even triplicate. I eventually disabled notifications. It was really annoying and I wouldn't want to do that to my users. At least not, potentially, systemically.\r\n\r\nThe named changefeeds mentioned by @deontologician above and, I think, @mlucy on IRC would be one solution. My main purpose here, though, is to kick off or formalize an existing discussion because I've been thinking about this issue for quite some time, and have begun implementing with changefeeds. But this whole time I'm still thinking, \"and what if this process goes down...\"?"
+  , issueCommentId = 53272235
+  }

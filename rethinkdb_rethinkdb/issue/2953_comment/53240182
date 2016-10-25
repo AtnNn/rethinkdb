@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-25) 08 : 37 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53240182"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2953#issuecomment-53240182"
+  , issueCommentCreatedAt = 2014 (-08) (-25) 08 : 37 : 26 UTC
+  , issueCommentBody =
+      "@dminkovsky -- what's the use case behind your question?\r\nIn case your app fail, can you reset the state of what you are looking for?\r\n\r\n\r\nFor example, suppose that you want to show the last 10 messages, you can do in JavaScript:\r\n\r\n```\r\nvar messages = [];\r\nr.table(\"messages\").orderBy({index: r.desc(\"time\")}).limit(10).run(conn).then(function(result) {\r\n   messages = result;\r\n   var feed = r.table(\"messages\").changes().run(conn)\r\n   feed.each(function(change) {\r\n      messages.shift();\r\n      messages.push(change.new_val);\r\n      // broadcast messages\r\n   })\r\n})\r\n```\r\n\r\nSo you can kill your app and restart it, and `messages` will still contain what you want."
+  , issueCommentId = 53240182
+  }

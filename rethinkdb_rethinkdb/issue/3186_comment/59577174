@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-17) 21 : 12 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/59577174"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3186#issuecomment-59577174"
+  , issueCommentCreatedAt = 2014 (-10) (-17) 21 : 12 : 22 UTC
+  , issueCommentBody =
+      "I looked into this a little bit. The pretty-printer seems to be trying to look up `std::basic_string<char>::_Rep`, but I see this behavior in gdb:\r\n```\r\n(gdb) whatis std::string\r\ntype = std::basic_string<char>\r\n(gdb) whatis std::basic_string<char>::_Rep\r\nThere is no field named _Rep\r\n(gdb) whatis std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Rep\r\ntype = std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Rep\r\n```\r\n\r\ni.e. for some reason GDB won't resolve the `::_Rep` unless it gets all the template arguments to `basic_string`.  I think we should just hard-code the second two template values in the pretty printer (which currently uses `gdb.lookup_type` to get `std::basic_string<char>`).\r\n"
+  , issueCommentId = 59577174
+  }

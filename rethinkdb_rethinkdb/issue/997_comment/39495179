@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-03) 19 : 36 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39495179"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39495179"
+  , issueCommentCreatedAt = 2014 (-04) (-03) 19 : 36 : 55 UTC
+  , issueCommentBody =
+      "I don't see it here, so I thought I would mention that people have been talking about allowing `r.table(...).changes(...).for_each(...)`, which would run a function for each change on the table while the client is connected.  This sounds very useful, but I think it should be explicitly stated what the client behavior is in this case.\r\n\r\nIt makes sense that the lifetime of the change feed would be tied to the connection.  It would also be simple to make this call synchronous.  That is, the client blocks on the `for_each` call until the change feed ends.  This could be because of an error in the lambda, or reaching the change feed size limit (due to a slow function and high insert rate).  In addition, it should be possible to end the change feed by closing the connection from a different thread of execution.  I'm honestly not sure if this is safe in any of our drivers, since we state that our connection objects are not thread-safe.  That is to say, we should make sure to test this behavior thoroughly.  Requiring users to kill a process to stop `r.table(...).changes(...).for_each(...)` is very unfriendly."
+  , issueCommentId = 39495179
+  }

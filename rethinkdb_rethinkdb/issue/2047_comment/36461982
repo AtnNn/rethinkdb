@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-02) 18 : 36 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36461982"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2047#issuecomment-36461982"
+  , issueCommentCreatedAt = 2014 (-03) (-02) 18 : 36 : 02 UTC
+  , issueCommentBody =
+      "Hi @bobbrodie, thanks for the report.\r\n\r\nAs for the second expression: what you want to run is `r.ISO8601('2013-08-09T18:53:15.012+00:00').toISO8601()` (which evaluates to `\"2013-08-09T18:53:15.012+00:00\"`).  The query `r.expr('2013-08-09T18:53:15.012+00:00')` evaluates to a string, not to a TIME type, and you can't call `.toISO8601()` on a string, which is why you get that runtime error.\r\n\r\nAs for the first expression: it's rendering as 19:53 because of a bug in the data explorer.  Here's the result in the Python driver.\r\n\r\n```\r\n>>> import rethinkdb as r\r\n>>> r.connect('localhost', 28015).repl()\r\n<rethinkdb.net.Connection object at 0x7ff6b0789ed0>\r\n>>> r.iso8601('2013-08-09T18:53:15.012+00:00').run()\r\ndatetime.datetime(2013, 8, 9, 18, 53, 15, 12000, tzinfo=<rethinkdb.ast.RqlTzinfo object at 0x2614d50>)\r\n```\r\n\r\nThe bug in the data explorer has to do with some of the date string mangling related to the time zone, and with daylight savings time.  Ping @neumino.  The data explorer is using `(new Date()).getTimezoneOffset()` to get the user time zone offset, but the problem is that this value depends on whether it's currently daylight savings time on the computer's clock, not on whether it's daylight savings time as of the date being processed in the date_to_string method in dataexplorer.coffee."
+  , issueCommentId = 36461982
+  }

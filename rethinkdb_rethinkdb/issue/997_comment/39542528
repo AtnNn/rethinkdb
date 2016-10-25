@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 08 : 31 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39542528"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39542528"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 08 : 31 : 43 UTC
+  , issueCommentBody =
+      "> I would still think that my tastes for the Node API are probably closer to what our users expect.\r\n\r\nI agree with that. Your understanding of the spoken and unspoken node conventions is light years ahead of anyone else here. But consider the following point of view:\r\n\r\n- Will the users be able to get the job done with the current feed API even if it's slightly unpleasant? I think the answer is unequivocally yes.\r\n- What would they do with feeds in the first place? I can think of a few things -- start a process and push the output to a queuing system like RabbitMQ, or to an http API via `r.web`. In either of these cases the feed API is sufficient.\r\n- Would we be able to write good (not perfect, but good) illustrative examples? I think the answer is yes.\r\n\r\nSo the API, as proposed right now has two properties:\r\n\r\n- It isn't perfect, but it's good enough.\r\n- It is really, really clean on the server.\r\n\r\nI think that implementing it this way gives us two benefits:\r\n\r\n- People will be able to get the job done.\r\n- The server implementation is elegant.\r\n- We can think of an async API separately (because it is a separate issue). We can test if users really want it or not. And if they do want it, we can do it _right_, and have a really friendly, intuitive, and elegant implementation for everything all around.\r\n\r\nThe whole thing smells like an epitome of the worse is better approach. Now consider the opposite -- we'll implement a different feed API right now (via a pseudotype or some such). Then:\r\n\r\n- We'll take what should have been a generic async API, and special case it for one type.\r\n- We'll spend more time building it, without ever learning if anyone _really_ wants it.\r\n- We'll complicate both the server and the clients.\r\n- In the end, we'll end up with a special cased feed API, and still no general purpose async API, and will have to refactor it later (as opposed to having a simple, elegant, early feed API + a general purpose async API that also applies to feeds later).\r\n\r\nSo to be clear, I'm not arguing against an async API in general. I'm arguing against a poorly implemented, poorly user tested, special cased async API. I think that would be strictly worse than the alternative, particularly because the sync feed API is good enough to let people get the job done."
+  , issueCommentId = 39542528
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-10) 00 : 04 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58596186"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2885#issuecomment-58596186"
+  , issueCommentCreatedAt = 2014 (-10) (-10) 00 : 01 : 38 UTC
+  , issueCommentBody =
+      "I agree that this project should be done one step at a time, but I think we should also use this thread to discuss what we want the stats to look like when we ship `reql_admin`. Here's my \"wish list\":\r\n\r\n* For each server: CPU usage, memory usage, disk space usage, disk IO rate, network IO rate. \r\n\r\n* Ideally we would show how much of these resources are being used by RethinkDB, how much are used by non-RethinkDB processes/files on the same server, and (for memory and disk space) how much is available total.\r\n\r\n* We could also break down RethinkDB's share of the resources into more detailed categories. CPU usage can be broken down by which activity is consuming the CPU, memory usage can be broken into \"general\" and per-table, disk space and disk IO can be broken down per table, and network IO can be broken down by table, activity, and/or which server we're communicating with. Probably we don't want to do all of that. The most important things are probably per-table disk space and memory usage.\r\n\r\n* We could use a format something like this to report resource usage:\r\n    ```python\r\n    \"memory\": {\r\n        \"rethinkdb\": {\r\n            \"tables\": [\r\n                {\"name\": ..., \"db\": ..., \"usage\": ...}\r\n            ],\r\n            \"queries\": ...,\r\n            \"other\": ...,\r\n            \"total\": ...,\r\n        },\r\n        \"non_rethinkdb\": ...,\r\n        \"free\": ...,\r\n        \"total\": ...\r\n    }\r\n    ```\r\n    On the other hand, this might be overkill.\r\n\r\n* Inter-server network latencies would be nice, but maybe a pain to implement.\r\n\r\n* We'd have to think about how to handle multiple disks. One option is to report statistics for each disk. This especially makes sense for disk usage; otherwise it would be hard to tell the difference between two 50% full disks and two disks where one is nearly full and the other nearly empty.\r\n\r\n* For each server: an indicator if the server is swapping to disk.\r\n\r\n* For each table: QPS and 50th/90th/99th percentile latencies for each of point reads, batch reads, and inserts.\r\n\r\n* For each table: the number of rows.\r\n\r\n* QPS and 50th/90th/99th percentile latencies for whole queries (which can touch zero or multiple tables). I'm not sure how to report these. This is probably best as a whole-cluster statistic; maybe we should have a `rethinkdb.cluster_stats` table, like the `rethinkdb.cluster_config` table. Or we could break it down by server, but I feel like the aggregated numbers are more useful."
+  , issueCommentId = 58596186
+  }

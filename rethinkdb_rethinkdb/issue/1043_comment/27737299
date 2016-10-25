@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 00 : 33 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27737299"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1043#issuecomment-27737299"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 00 : 33 : 29 UTC
+  , issueCommentBody =
+      "So here is another experiment. First I created a variable number of tables (numTables) in a clean single instance of RethinkDB, here between 0 and 400. Then I measured how long it would take to create and drop a single additional table (this part was repeated 10 times and the average is shown).\r\n\r\nThese are the times I got:\r\n```\r\nnumTables    table creation [ms]      quadratic fit: y=861+(1/80)x^2\r\n  0                   861                         861\r\n100                  1016                         986 \r\n200                  1317                        1361\r\n400                  2856                        2861\r\n800                 10623                        8861\r\n```\r\n![metadata updates with directory](https://f.cloud.github.com/assets/505365/1469971/ae8d6126-45ad-11e3-9415-83ebdd2e46c3.png)\r\n\r\n\r\nI assume that there is an essentially constant cost per table creation for i/o. If we assume that the 861 ms we see for 0 previously existing tables, the remaining times appear to follow a quadratic trend.\r\nWhile 400 tables might sound like a lot, note that this is with a single range shard and 4 hash shards per table and a single cluster node.\r\n\r\n\r\n@coffeemug and earlier @jdoliner suggested that the directory updates are very inefficient. I will do some profiling to find out what exactly is slowing down."
+  , issueCommentId = 27737299
+  }

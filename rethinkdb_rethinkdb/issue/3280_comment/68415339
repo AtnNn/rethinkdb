@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-31) 00 : 57 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68415339"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3280#issuecomment-68415339"
+  , issueCommentCreatedAt = 2014 (-12) (-31) 00 : 57 : 28 UTC
+  , issueCommentBody =
+      "Just doing a quick grep and some manual filtering, here are the places I've found currently using `available` when talking about server or network issues:\r\n\r\n```\r\nsrc/clustering/administration/servers/server_status.cc:67:\r\nbuilder.overwrite(\"status\", ql::datum_t(\"available\"));\r\n\r\nsrc/clustering/immediate_consistency/query/master.cc:111:\r\n\"The number of available replicas is smaller than the \"\r\n\"requested number of replicas to acknowledge a write. \"\r\n\"The write was not performed.\"\r\n\r\nsrc/clustering/reactor/namespace_interface.cc:160:\r\nthrow cannot_perform_query_exc_t(\"Too many primary replicas available\");\r\n\r\nsrc/clustering/reactor/namespace_interface.cc:173:\r\nstrprintf(\"Primary replica for shard %s not available (server %s is not ready)\", [...]);\r\n\r\nsrc/clustering/reactor/namespace_interface.cc:180:\r\nstrprintf(\"Primary replica for shard %s not available\", [...]);\r\n\r\nsrc/clustering/reactor/namespace_interface.cc:297:\r\nthrow cannot_perform_query_exc_t(\"No direct reader available\");\r\n```\r\n\r\nI would say all of these would be fine with `reachable` instead of `available` (or `unreachable` in the case of `not available`).  I am slightly opposed to the term `connected` because it implies a property of the remote node (as if there is only one 'connection' between the node and the cluster as a whole), when we are really trying to talk about the relationship between the current node and the remote node."
+  , issueCommentId = 68415339
+  }

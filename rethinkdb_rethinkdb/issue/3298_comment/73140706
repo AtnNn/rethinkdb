@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-05) 22 : 09 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73140706"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-73140706"
+  , issueCommentCreatedAt = 2015 (-02) (-05) 22 : 09 : 28 UTC
+  , issueCommentBody =
+      "I don't think `r.join` is a good idea. It forces users to manually disentangle updates from multiple changefeeds, which gets ugly fast. I think callbacks are the most natural way to consume changefeeds.\r\n\r\nThe API I'd like to see for 2.0 is the `.run().on()` / `.poll()` one. I think it's about as powerful as `r.join()` and much nicer to program in. So the \"Hello World\" example would be:\r\n```python\r\nimport rethinkdb as r\r\nconn = r.connect()\r\ndef callback(change):\r\n    print change\r\nr.table(\"foo\").changes().run().on(callback)\r\nconn.loop_forever()\r\n```\r\nI don't think this will confuse or scare away new users.\r\n\r\nI agree that changefeeds are ugly and non-Pythonic if people want to chain a long series of *non-changefeed* queries asynchronously. In the short term, I don't think we should support asynchronous non-changefeed queries. In the long term, I think we should support `asyncio`. Our basic example on the front page of rethinkdb.com would look like this under `asyncio`:\r\n\r\n```python\r\nimport rethinkdb as r\r\nimport asyncio\r\n@asyncio.coroutine\r\ndef main():\r\n    conn = yield from r.connect(event_loop = asyncio.get_event_loop())\r\n    yield from r.db(\"test\").table_create(\"tv_shows\").arun(conn)\r\n    yield from r.table(\"tv_shows\").insert([\r\n        { name: 'Star Trek TNG', episodes: 178 },\r\n        { name: 'Battlestar Galactica', episodes: 75 }\r\n        ]).run(conn)\r\n    print(yield from r.table(\"foo\").count().arun(conn))\r\n    iterator = yield from r.table(\"foo\").filter(r.row[\"episodes\"].gt(100)).arun(conn)\r\n    try:\r\n        while True:\r\n            print(yield from iterator.next())\r\n    except StopIteration:\r\n        pass\r\nloop = asyncio.get_event_loop()\r\nloop.run_until_complete(main)\r\nloop.close()\r\n```"
+  , issueCommentId = 73140706
+  }

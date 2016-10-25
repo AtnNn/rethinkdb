@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-02) 18 : 24 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 6124
+        , simpleUserLogin = N "barkerja"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/6124?v=3"
+        , simpleUserUrl = "https://api.github.com/users/barkerja"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39365450"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1227#issuecomment-39365450"
+  , issueCommentCreatedAt = 2014 (-04) (-02) 18 : 24 : 05 UTC
+  , issueCommentBody =
+      "@mlucy unfortunately that won't work for us. The index used in the `get_all()` will never be the same as the index(es) used in the `order_by()`. Seeing as the key used for the `get_all()` is always the same, it wouldn't make sense to also sort by that key.\r\n\r\nHere is an example of what we're trying to do:\r\n\r\n```ruby\r\nr.table('contacts').get_all('bd8ba1bc-102c-4ba3-a1b8-1af65efc9aba', { index: 'organization_id' })\r\n .order_by({ index: 'created_at' })\r\n .limit(25)\r\n .run(conn)\r\n```\r\n\r\nWhere the `order_by()` key could be many options: `created_at`, `first_name`, `last_name`, etc."
+  , issueCommentId = 39365450
+  }

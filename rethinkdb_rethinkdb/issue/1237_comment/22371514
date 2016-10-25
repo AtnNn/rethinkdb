@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-09) 02 : 06 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22371514"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1237#issuecomment-22371514"
+  , issueCommentCreatedAt = 2013 (-08) (-09) 02 : 06 : 42 UTC
+  , issueCommentBody =
+      "I'm getting a peculiar sequence of blob operations.  Here's the debugging output:\r\n\r\n```\r\n2013-08-08T18:36:37.620111435 Thread 0: sindex_blob initialize on [1]\r\n2013-08-08T18:36:37.667142986 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:37.684706047 Thread 0: sindex_blob.append_region(8) on [1]\r\n2013-08-08T18:36:37.936078966 Thread 0: sindex_blob initialize on [1]\r\n2013-08-08T18:36:37.936256244 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:37.936440552 Thread 0: sindex_blob.append_region(8) on [1]\r\n2013-08-08T18:36:37.999124966 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:38.010914145 Thread 0: sindex_blob.append_region(1085) on [1]\r\n2013-08-08T18:36:38.042453517 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:38.047472224 Thread 0: sindex_blob.append_region(2162) on [1]\r\n2013-08-08T18:36:38.059800024 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:38.067812655 Thread 0: sindex_blob.append_region(3239) on [1]\r\n2013-08-08T18:36:38.083420294 Thread 0: sindex_blob.clear() on [1]\r\n2013-08-08T18:36:38.093960567 Thread 0: sindex_blob.append_region(4316) on [1]\r\n2013-08-08T18:36:38.155510789 Thread 0: sindex_blob.clear() on [1]\r\n```\r\n\r\nNotice that we call *initialize* on the blob while it's non-empty!  We don't call *clear* first!\r\n\r\nSo this blob is being used incorrectly.  That's very interesting, but it's not the source of the bug.\r\n\r\nI think the problem is that the blob code does not expect a maxreflen equal to the block size.  I think it somehow implicitly expects the maxreflen to be at most the block size minus `sizeof(block_magic_t)`.  Adding a test in blob_test.cc with the following sequence of operations produces a valgrind error:\r\n\r\n```\r\n        blob_tracker_t tk(4080);\r\n        tk.append(&txn, std::string(4316, 'e'));\r\n        tk.clear(&txn);\r\n```\r\n\r\nIt doesn't get such an error if `tk` is initialized with a maxreflen of 4076.\r\n\r\nThis could also be related to sizeof(block_id_t) having increased to 8, resulting in some off-by-one error that depends more on the `maxreflen % 8` value.  I haven't checked for that."
+  , issueCommentId = 22371514
+  }

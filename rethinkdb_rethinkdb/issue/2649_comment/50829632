@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-14) 00 : 17 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50829632"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2649#issuecomment-50829632"
+  , issueCommentCreatedAt = 2014 (-07) (-31) 22 : 56 : 35 UTC
+  , issueCommentBody =
+      "After a second round of thinking on this I think that the best solution is to avoid this problem altogether and to create a shim to use the Python methods we have to pull up a server and monitor it. My reasoning (in bullet-point format):\r\n1. The JavaScript method is launching the server, but not specifying the data directory. So we don't really know what data we might be using.\r\n2. The Python code is well-trodden, so we are going to quickly solve any problems there.\r\n3. We are doing no cleanup, on our data.\r\n4. Avoid having to figure out this oddity in mocha\r\n\r\nMy proposal to solve this is to create a small wrapper file for the `test/common/driver.py` file that would launch the proper server process, writing the needed information to stdout in simple 'key = value\\n' format. The keys should be [cluster_port, driver_port, http_port, data_directory], with the last one not guaranteed. For input it should take the following command-line-switches/ENV-variables:\r\n1. --data-dir/RETHINKDB_TEST_SERVER_DATA_DIR (default to a temp location)\r\n2. --rethinkd-executable/BUILD_DIR (auto-detected if not given)\r\n3. --join-address/RETHINKDB_TEST_SERVER_JOIN_ADDRESS (host:port)\r\n4. --log-file/RETHINKDB_TEST_OUTPUT_DIR (the latter defaults the name to rethinkdb-server.log in that dir).\r\n\r\nIdeally this would also look for the ALL of the following ENV variables, and if they are present return the connection information as above, allowing for server pooling by the test framework:\r\n1. RETHINKDB_TEST_SERVER_CLIENT_PORT\r\n2. RETHINKDB_TEST_SERVER_HTTP_PORT\r\n3. RETHINKDB_TEST_SERVER_CLUSTER_PORT\r\n\r\n@AtnNn Could you please comment on this since it will be setting some precedent?"
+  , issueCommentId = 50829632
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-19) 20 : 28 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75129490"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3791#issuecomment-75129490"
+  , issueCommentCreatedAt = 2015 (-02) (-19) 20 : 28 : 48 UTC
+  , issueCommentBody =
+      "Actually I think something slightly different is going on here, though this is still somewhat speculative.\r\n\r\nFirst of all I don't think we can ignore `ftruncate` failures. We use `ftruncate` to increase the size of a data file among others. Even if a subsequent write to a high file offset would implicitly grow the file (which I'm not sure it would), we would still get read errors later because we assume that for example an extent is always completely allocated (and not just the parts we have actually been written to).\r\n\r\nHowever I think the `ftruncate` is also not the problem here. `ftruncate` is a very very basic file operation. If that doesn't work, then I expect other operations to the file wouldn't work either. This is further supported by the error type that we get \"No such file or directory\".\r\n\r\nI think what's actually going on here is something like this: When you create a secondary index, we briefly create a temporary file in `rethinkdb_data/tmp` that we use for storing a disk-backed queue. We open this file to get a file handle, and then immediately unlink it from the directory so it doesn't stay behind if the server is unexpectedly interrupted.\r\nMy suspicion is that VirtualBox shared folders don't follow the usual behavior of Unix file systems in this respect. I suspect that if you unlink a file on a shared folder, any file handles you still have on it get invalidated immediately. This would explain the \"No such file or directory\" error.\r\n\r\nWe'll have to test this, though if the theory is true I'm not sure if we can do much about it. We could skip unlinking the temporary file (risking leaking it, though rethinkdb would clean the tmp directory up on the next restart). We would need a way to detect whether the underlying file system supports our access pattern or not, to toggle between both cases.\r\n\r\nI agree that this is not an super critical bug, more an incompatibility with VirtualBox shared folders.\r\nIt needs a bit of additional investigation. Once we've done that we can decide whether we want to\r\na) document the incompatibility, b) implement a work-around by detecting the file system and avoiding this usage pattern or c) file a bug with Oracle against VirtualBox."
+  , issueCommentId = 75129490
+  }

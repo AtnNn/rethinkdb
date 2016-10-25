@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-13) 06 : 32 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37503959"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2086#issuecomment-37503959"
+  , issueCommentCreatedAt = 2014 (-03) (-13) 06 : 32 : 58 UTC
+  , issueCommentBody =
+      "Here's the full patch by the way, in case you @neumino need this to continue testing whatever you've been testing:\r\nIn file src/btree/btree_store.cc look for the function `btree_store_t<protocol_t>::lock_sindex_queue`.\r\nReplace the line\r\n```\r\nsindex_block->write_acq_signal()->wait();\r\n```\r\nby\r\n```\r\nif (sindex_block->access() == access_t::write) {\r\n    sindex_block->write_acq_signal()->wait();\r\n} else {\r\n    sindex_block->read_acq_signal()->wait();\r\n}\r\n```"
+  , issueCommentId = 37503959
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 14 : 55 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105944045"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4279#issuecomment-105944045"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 14 : 55 : 40 UTC
+  , issueCommentBody =
+      "@timmaxw \r\n> the storage engine is apparently doing all of the writes serially; it waits for each write to completely commit before starting the next one.\r\n\r\nThe buffer cache currently only merges block writes of transactions that are active at the same time. Once one of them begins flushing (usually when `~txn_t` is called, but before it completes), it initiates a complete set of writes for that transaction so it can be acknowledged with as little latency as possible. This motivation of course isn't quite correct in a concurrent setting.\r\nThe solution I can think of would be to intentionally *delay* the flush of transaction A in the hope that we can combine it with the flush of transaction B and get better overall throughput.\r\nThe amount of delay would probably have to be dependent on how many writes are currently pending, so that we only delay if the i/o system is saturated.\r\nThis might be as easy to fix as adding a semaphore around the flushes in the cache, so that not too many can be going on at the same time and hence more of them will be combined into the same \"flushable transaction set\" as our cache calls them (then they will be flushed together).\r\n\r\nI'm not sure how well this would work and haven't thought about it carefully enough to say if there are any potential regressions or disadvantages to watch out for.\r\n\r\nIn theory soft durability mode shouldn't make a difference here. All that soft durability does is that it makes `~txn_t` not wait for the flush to complete. It sounds like you're already not doing that in `metadata_file_t`, so it should be equivalent.\r\n\r\nIs there an easy way in `metadata_file_t` to use a `pump_coro_t` to combine multiple writes into the same `txn_t`?"
+  , issueCommentId = 105944045
+  }

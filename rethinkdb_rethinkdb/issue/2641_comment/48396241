@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-08) 20 : 36 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48396241"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2641#issuecomment-48396241"
+  , issueCommentCreatedAt = 2014 (-07) (-08) 20 : 36 : 28 UTC
+  , issueCommentBody =
+      "The fix for `MakeObj` is up in review 1756 assigned to @Tryneus \r\nBranch michel_2641_makeobj\r\n\r\nHere are some results:\r\nOn my T520\r\n```\r\nBuilding and sending the query (hr): 1s 542.805665ms // current driver\r\nBuilding and sending the query (hr): 1s 342.228037ms // fix in michel_2641_makeobj\r\nBuilding and sending the query (hr): 0s 890.892746ms // rethinkdbdash\r\n```\r\n\r\nOn my x1\r\n```\r\nBuilding and sending the query (hr): 1s 839.433427ms // current driver\r\nBuilding and sending the query (hr): 1s 608.420693ms // fix in michel_2641_makeobj\r\nBuilding and sending the query (hr): 1s 79.017332ms // rethinkdbdash\r\n```\r\n\r\nI looked a little more at why rethinkdbdash was performing better, and I didn't find anything that would lead v8 to not optimize some functions that are in rethinkdbdash.\r\nIt mostly seems to be things like when we use `MakeArray {}, val...`, it becomes something like `[{}].concat(__slice.call(val))` so we allocate a new array with `concat` but also a new one with `__slice`.\r\n\r\nI'm not sure we can do much against that (except by moving off coffeescript...)"
+  , issueCommentId = 48396241
+  }

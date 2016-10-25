@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-29) 02 : 03 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60862796"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-60862796"
+  , issueCommentCreatedAt = 2014 (-10) (-29) 02 : 01 : 17 UTC
+  , issueCommentBody =
+      "How about this?\r\n```js\r\n{\r\n    wait_on_disks: true,\r\n    write_ack_mode: \"majority\",   // or \"primary\"\r\n    shards: [{\r\n        replicas: [\"us_east_1\", \"us_east_2\", \"us_east_3\", \"us_west\"],\r\n        primary_replica: \"us_east_1\",\r\n        ack_groups: [[\"us_east_1\", \"us_east_2\", \"us_west_2\"], [\"us_west\"]]\r\n        }]\r\n}\r\n```\r\n\r\nThe semantics of this would be as follows:\r\n* If `write_ack_mode == \"majority\"`:\r\n  Require a majority of acks within all replicas of each shard.\r\n  If `ack_groups` is given: additionally require a majority of acks within each of the `ack_groups`\r\n* If `write_ack_mode == \"primary\"`:\r\n  `ack_groups` is ignored (except if you change the ack mode on a per-query basis). Queries don't wait for any acks.\r\n\r\n\r\n\r\nWhen we later switch to Raft, we could extend this as follows:\r\n* Add the `voting_replicas` field. The `voting_replicas` can be:\r\n  * unspecified: All replicas are `voting_replicas`\r\n  * If a list of `voting_replicas` is given, that list must be the union of lists from `ack_groups`. We could also implicitly consider the `voting_replicas` as its own `ack_group`, if we want to keep the interface a bit more restrictive (so you wouldn't have to list those servers twice, once in `ack_groups` and once in `voting_replicas`).\r\n\r\nIf the `write_ack_mode` is `\"majority\"`, this ensures in either case that a majority of the `voting_replicas` has acked each write. If the `write_ack_mode` is `\"primary\"`, you don't get any guaruantees of data persistency under auto failover etc. (we can consider disabling auto failover in this case)."
+  , issueCommentId = 60862796
+  }

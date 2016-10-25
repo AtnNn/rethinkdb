@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-10) 17 : 34 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91630325"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4046#issuecomment-91630325"
+  , issueCommentCreatedAt = 2015 (-04) (-10) 17 : 34 : 16 UTC
+  , issueCommentBody =
+      "@v3ss0n You could write your own decorator, something like:\r\n\r\n```\r\ndef autorun_coroutine(f):\r\n    @gen.coroutine\r\n    def wrap(*args, **kwargs):\r\n        coroutine = f(*args, **kwargs)\r\n        query = coroutine.next()\r\n        while True:\r\n            try:\r\n                query = coroutine.next(yield query.run())\r\n            except StopIteration:\r\n                return\r\n            except Exception as e:\r\n                coroutine.throw(e)\r\n    return wrap\r\n```"
+  , issueCommentId = 91630325
+  }

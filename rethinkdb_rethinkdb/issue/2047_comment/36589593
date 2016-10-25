@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-04) 03 : 49 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 123703
+        , simpleUserLogin = N "bobbrodie"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/123703?v=3"
+        , simpleUserUrl = "https://api.github.com/users/bobbrodie"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36589593"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2047#issuecomment-36589593"
+  , issueCommentCreatedAt = 2014 (-03) (-04) 03 : 49 : 08 UTC
+  , issueCommentBody =
+      "Thank you all so much. I checked out the raw view of my table data and created_at is stored as TIME and is being stored as Epoch which is great.\r\n\r\nI'm having a heck of a time though getting groupBy() to work correctly with this field. It seems that nothing will recognize it. I'm still getting used to the system, but I'm good on pretty much everything except dates.\r\n\r\nSomething like this is easy to work with:\r\n```\r\nr.epochTime(1393741679.69).day()\r\n```\r\nIt seems though, that field names in quotes are treated as a strings, at least in the Data Explorer. \r\n\r\nFor example, if I run this:\r\n```\r\nr.db('collector_production')\r\n  .table('events')\r\n  .groupBy(r.epochTime('created_at').day(), r.count);\r\n```\r\nI get:\r\n> RqlRuntimeError: Expected type NUMBER but found STRING. in:\r\n> r.db(\"collector_production\").table(\"events\").groupBy([r.epochTime(\"created_at\").day()], {COUNT: true})\r\n> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\r\nI figured then, that it might be best to run each row through a function, so I tried this:\r\n```\r\nr.db('collector_production').table('events').groupBy(function(event) {\r\n  return event(\"created_at\").day()\r\n}, r.count)\r\n```\r\nand I get:\r\n> RqlRuntimeError: Expected type DATUM but found FUNCTION:\r\n> OPAQUE VALUE FUNCTION in:\r\n> r.db(\"collector_production\").table(\"events\").groupBy([function(var_5) { return var_5(\"created_at\").day(); }], {COUNT: true})\r\n> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\r\nSo, I've got two things:\r\n1. None of these things are working to group by a column's day, can you suggest something?\r\n2. It would be amazing to add a .month() function to dates. It would return the week number.\r\n\r\nThanks again,\r\nBob Brodie"
+  , issueCommentId = 36589593
+  }

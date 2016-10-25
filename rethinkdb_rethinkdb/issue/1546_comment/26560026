@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-17) 22 : 56 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26560026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1546#issuecomment-26560026"
+  , issueCommentCreatedAt = 2013 (-10) (-17) 22 : 56 : 06 UTC
+  , issueCommentBody =
+      "Well, right now it depends on the size of the rows and number of tables.  Since we spawn one process per table to read them out in parallel, and the batch size for reading a stream is 1000, if you have 50 KB rows in a table, the corresponding process will take 50 MB plus python overhead.  Looking at `smem` output, each python `export` process uses about 2.5 MB on newton before we take that into account.\r\n\r\nThere are a couple things I can think of that we could do.  First, have a semaphore limit how many tables are being exported at once.  Second, limit batch sizes by bytes rather than rows.  The second may already be done or in progress, I'm not sure what the current state of streaming batches is.\r\n\r\nAlso, something @mglukhovsky suggested that might be nice, we could write the result into a temp directory, maybe something like `rethinkdb_export_<DATETIME>_part`, and rename that to the expected output directory once complete (similar to how some browsers handle downloads).\r\n\r\nFinally, we could still wrap the whole import/export with a script to check if OOM happened, but I'm not sure if that would be very reliable/portable.\r\n\r\nOpinions?"
+  , issueCommentId = 26560026
+  }

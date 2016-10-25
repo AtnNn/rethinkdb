@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-20) 20 : 50 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63877262"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3229#issuecomment-63877262"
+  , issueCommentCreatedAt = 2014 (-11) (-20) 20 : 50 : 31 UTC
+  , issueCommentBody =
+      "About resharding:\r\nFor resharding, we should check whether the configuration is actually going to change. Typically if the number of shards isn't changed, that is not going to be the case.\r\n\r\nI think the web UI should perform a `reconfigure()` dry-run when the sharding button is pressed. It should then check whether the new configuration is different from the old one.\r\n\r\nIf the configuration changes:\r\n   Show the old followed by the new configuration. Diffing is difficult because we don't have a 1:1 mapping between old and new shards. The format for the configuration could be similar to the one in my proposal, but with separate lists for old and new rather then presenting them next to each other.\r\n\r\nIf the configuration remains the same:\r\n    In this case it should just show a fixed warning message saying that it is going to rebalance the shard boundaries, and that the table will become unavailable during that process.\r\n\r\nOnce the user has confirmed the operation, the web UI should first commit the reconfigure changes if any, and then follow up with a `rebalance()` call on the table. The `rebalance()` call is necessary in case the number of shards has not changed (see https://github.com/rethinkdb/rethinkdb/issues/2981#issuecomment-60858189)."
+  , issueCommentId = 63877262
+  }

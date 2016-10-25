@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-19) 04 : 49 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18112407"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/839#issuecomment-18112407"
+  , issueCommentCreatedAt = 2013 (-05) (-19) 04 : 49 : 02 UTC
+  , issueCommentBody =
+      "@codingkevin -- thanks for the pull request!\r\n\r\nIf you click on `Details` in the Travis build bar at the bottom, you can see that the pull request is causing a compilation error:\r\n```\r\nsrc/main.cc:51:60: error: cannot pass non-trivial object of type 'std::string'\r\n      (aka 'basic_string<char>') to variadic function; expected type from format\r\n      string was 'char *' [-Wnon-pod-varargs]\r\n  ...printf(\"WARNING: Ignoring extra parameters after '%s'.\", subcommand);\r\n                                                       ~~     ^~~~~~~~~~\r\nsrc/main.cc:51:60: note: did you mean to call the c_str() method?\r\n  ...Ignoring extra parameters after '%s'.\", subcommand);\r\n                                             ^\r\n                                                       .c_str()\r\n1 error generated.\r\n```\r\n\r\nCould you fix that and update the pull request?\r\n\r\n---\r\n### A Brief Diversion\r\n\r\n-v (or -V) is an extremely common shortcut, especially in GNU-land.  I did a quick straw poll of `/usr/bin` on the UofC linux machines, and out of about 1000 programs that accept `--version` about 400 also accept `-v` or `-V`:\r\n```\r\nmlucy@ursa:/tmp/man$ grep -Eim1 -- '--version' * | wc -l\r\n1003\r\nmlucy@ursa:/tmp/man$ grep -Eim1 -- '^ *((-v.*--version)|(--version.*-v))' * | wc -l\r\n421\r\n```\r\n\r\nA quick visual inspection confirms that there are only a few false positives from the second regexp.  A sampling:\r\n```\r\nlsusb.man:       -V, --version\r\nlzcat.man:       -V --version\r\nlzma.man:       -V --version\r\nmake.man:       -v, --version\r\nmandb.man:       -V, --version\r\nman.man:       -V, --version\r\nmanpage-alert.man:       --version, -v\r\nmanpath.man:       -V, --version\r\nmc.man:       -V, --version\r\nmeinproc4.man:       -v--version\r\nmimeopen.man:       -v, --version\r\n```\r\n\r\nI think we should merge this in; it's a useful shortcut."
+  , issueCommentId = 18112407
+  }

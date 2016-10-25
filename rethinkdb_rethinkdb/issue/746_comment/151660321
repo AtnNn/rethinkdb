@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-27) 22 : 10 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/151660321"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/746#issuecomment-151660321"
+  , issueCommentCreatedAt = 2015 (-10) (-27) 22 : 10 : 42 UTC
+  , issueCommentBody =
+      "I talked to @danielmewes offline, and mentioned an algorithm that might work to keep the amount of work needed to handle this on the server:\r\n1. Require that the comparison with the `now()`-esk function be made on an index. This will keep us from having to do table scans.\r\n2. In the data structure backing the changefeed record the value after the one we last reported on.\r\n3. Set a timer for when that time will come.\r\n4. If a record is changed, then processes it immediately if it is before our current time, otherwise ignore it.\r\n5. When the timer fires process all of the records in that index and send them out. It might be worth waiting some small time interval (at most 1 second) to coalesce a few data points together. Note that it is possible that the record we were waiting for was deleted, and if there are no records for this index point, this is almost a no-op.\r\n6. Advance to the next point on the index and loop back to item 3.\r\n\r\nI think that this proposal would require a separate command from `r.now()`, partially because it would require an index to process, and partially because it would not just be evaluated once.\r\n\r\nAlso, this concept is going to suffer the same clock skew issues as talked about in #5000."
+  , issueCommentId = 151660321
+  }

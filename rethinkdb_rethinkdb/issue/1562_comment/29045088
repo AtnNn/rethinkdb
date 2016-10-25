@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-22) 02 : 44 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29045088"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1562#issuecomment-29045088"
+  , issueCommentCreatedAt = 2013 (-11) (-22) 02 : 44 : 52 UTC
+  , issueCommentBody =
+      "Alright; about to merge this in.\r\n\r\n@jdoliner -- I had to make these small changes to get the tests to pass:\r\n```\r\ndiff --git a/src/rdb_protocol/protocol.cc b/src/rdb_protocol/protocol.cc\r\nindex dac6c15..91abc9c 100644\r\n--- a/src/rdb_protocol/protocol.cc\r\n+++ b/src/rdb_protocol/protocol.cc\r\n@@ -865,7 +865,7 @@ void read_t::unshard(read_response_t *responses, size_t count,\r\n                      read_response_t *response_out, context_t *ctx,\r\n                      signal_t *interruptor) const\r\n     THROWS_ONLY(interrupted_exc_t) {\r\n-    if (ctx == NULL) {\r\n+    if (ctx != NULL) {\r\n         rdb_r_unshard_visitor_t v(responses, count, response_out, ctx, interruptor);\r\n         boost::apply_visitor(v, read);\r\n     } else {\r\ndiff --git a/src/rdb_protocol/val.cc b/src/rdb_protocol/val.cc\r\nindex 67fc94c..936f45f 100644\r\n--- a/src/rdb_protocol/val.cc\r\n+++ b/src/rdb_protocol/val.cc\r\n@@ -250,7 +247,7 @@ counted_t<const datum_t> table_t::sindex_status(env_t *env, std::set<std::string\r\n                         safe_to_double(it->second.blocks_remaining));\r\n                 status[\"blocks_total\"] =\r\n                     make_counted<const datum_t>(\r\n-                        safe_to_double(it->second.blocks_remaining));\r\n+                        safe_to_double(it->second.blocks_total));\r\n             }\r\n             status[\"ready\"] = make_counted<const datum_t>(datum_t::R_BOOL, it->second.ready);\r\n             std::string index_name = it->first;\r\n```\r\n\r\nThey seemed small enough that they didn't warrant opening a separate review, but I figured I'd post them here so that a second set of eyes was on them."
+  , issueCommentId = 29045088
+  }

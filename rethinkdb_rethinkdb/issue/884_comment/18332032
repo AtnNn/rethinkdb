@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 09 : 16 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18332032"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18332032"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 09 : 16 : 48 UTC
+  , issueCommentBody =
+      "So, I was thinking about @danielmewes' suggestion, and I just had an epiphany.\r\n\r\nYou know how every so often I go on about how conditions are a better idea than exceptions?  Well, to quote HPMOR:\r\n> And then Draco finally did what he should have done much earlier.\r\n>\r\n> What he should have done after the first time he met with Granger.\r\n>\r\n> What Harry Potter had told him to do, trained him to do, and yet Harry had also warned Draco that it would take time to make his brain realize that the methods applied to real life, and Draco hadn't understood that until today. He could have avoided every single one of his mistakes if he'd just applied the things Harry had already told him -\r\n\r\n(In this analogy, Common Lisp is rationalist!Harry.)\r\n\r\n---\r\n\r\nAnyway, what we want is for accessing a NULL field to signal a condition `null_field` with two restarts: `return_null` and `raise_missing_field_error`.  The toplevel installs a handler which invokes `return_null`, and `default` installs a handler which invokes `raise_missing_attribute_error`.  (Ignore the fact that I'm freely mixing my exception/condition terminologies.)\r\n\r\nThe way we'd describe this to users is:\r\n> `default` executes its first argument and returns it.  If inside the first argument you access a non-existent field (a field with a non-existent key or the value NULL), `default` returns its second argument instead.\r\n\r\n---\r\n\r\nThis seems better to me then just making accessing a NULL field always raise a missing-field error, for a few reasons:\r\n* It won't break any existing code people have written (since the semantics outside of `default` will be the same as before).\r\n* People won't get the non-intuitive behavior that they've stored a value in an object but can't retrieve it unless they explicitly ask for that behavior and provide an alternative to accessing it.\r\n* People won't get the strange incongruities between e.g. `pluck` and object construction unless they've explicitly asked for it.\r\n* If we're missing a non-obvious reason why throwing on NULL fields is a bad idea, we won't be screwing people (and we won't have to roll back a major change to our evaluation semantics).\r\n* It's extensible: if we later decide that we really want people to be able to use `default` to handle a `get` that returns NULL, we can just have `default` also install a handler for the condition `get_failed`.\r\n\r\nIt does share many of the downsides though, specifically those related to its limited in scope relative to the original `default` proposal.\r\n\r\n---\r\n\r\nI've basically been convinced by people's arguments in this thread that `default` handling all errors is a bad idea.  I think we should move to a condition-handling model to implement the semantics \"default only handles non-existent fields\", and add a term `rescue` to handle other errors.\r\n\r\nI think that having both `rescue` and `catch` is unnecessary.  If `rescue` takes a block like my original proposal for `default`, we can just copy the semantics where the argument to that block is bound to `nil` instead of the text of the error when `rescue` catches a NULL.  This will let people who really don't want to rescue from NULLs branch to get around that, and will save us from implementing a third error-handling term."
+  , issueCommentId = 18332032
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-24) 19 : 25 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47018590"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2579#issuecomment-47018590"
+  , issueCommentCreatedAt = 2014 (-06) (-24) 19 : 24 : 21 UTC
+  , issueCommentBody =
+      "The `recency` field is being passed to `rdb_delete()` on the backfill receiver's side, where it's passed all the way through to `apply_keyvalue_change()`. There it's written into the leaf node.\r\n\r\nEven worse, the `recency` field is not just not deserialized, but not initialized at all it seems, and `repli_timestamp_t` has no default constructor either that could initialize it to 0 or something. So we just insert an undefined value into the leaf nodes.\r\n\r\nI believe this can lead to data loss when a node that has once been backfilled to later backfills to another node, can it not?\r\n\r\nA very serious issue.\r\nThe problem is that fixing this will change the cluster protocol. That's probably not such a big problem actually. For the most time, point releases (e.g. from 1.12.1 to 1.12.2) were not compatible on the cluster level. Only the file format was compatible.\r\nSo we could ship this in a point release to 1.13 with a new cluster protocol version.\r\n\r\nWhat makes this a little tricky is that the versioning scheme is slightly changed in #2563, which is currently set to be merged into 1.14, but not 1.13.x. @srh: Could we in principle merge those changes into 1.13.x? Have you branched from there or from next?\r\n\r\nOtherwise we can write separate patches for 1.13.x and next to change the cluster version. Not that difficult either (we could presumably just change the cluster version string in 1.13.x, without actually introducing any new cluster_version_t values. A hack, but would work since we don't have any other versions yet. And it would only be for the 1.13.x branch)."
+  , issueCommentId = 47018590
+  }

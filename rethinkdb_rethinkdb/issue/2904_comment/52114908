@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-13) 21 : 36 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52114908"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2904#issuecomment-52114908"
+  , issueCommentCreatedAt = 2014 (-08) (-13) 21 : 35 : 57 UTC
+  , issueCommentBody =
+      "1. One solution is to make sindex meta-queries obey the ICL's assumptions about how queries behave. The ICL assumes that all persistent state is associated with a key and that a sharded read/write operation will only touch the keys in the appropriate shard. We could make sindexes satisfy these assumptions by associating each sindex with a set of key-ranges.\r\n\r\n    For example, suppose that we have a store that's responsible for an A-M shard and an N-Z shard. The user runs `index_create()` and the store gets a creation op for A-M and a creation op for N-Z. The first creation op creates the sindex and starts populating it with the A-M keys, but marks it as only valid for A-M. The second creation op starts populating it with N-Z and marks it as valid for the N-Z range as well.\r\n\r\n2. Alternatively, we could start treating sindex meta-operations as configuration actions rather than as write operations. We would store the list of sindexes in the semilattices; each `store_t` would watch for changes to the list of sindexes, and create or destroy indexes locally as necessary. Secondary indices wouldn't be considered part of the `store_t`'s state, and no information about them would be transferred during backfills. `index_create()`, etc. would be performed by modifying the semilattices instead of by issuing a write operation to the ICL. This would have the added advantage of fixing issues like #2907.\r\n\r\nI'm not sure which approach is easier. The second approach is probably a better long-term solution. "
+  , issueCommentId = 52114908
+  }

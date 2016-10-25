@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-22) 17 : 12 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43916819"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2451#issuecomment-43916819"
+  , issueCommentCreatedAt = 2014 (-05) (-22) 17 : 12 : 08 UTC
+  , issueCommentBody =
+      "I'm not a big fan of `POST-FORM` and `POST-JSON` since they are not standard methods.\r\n\r\nHum, I found why I had some trouble sending data.\r\nI was trying to send a value that was an object and not just a string. Something like\r\n\r\n```\r\nr.http('<URL>', {\r\n  method: 'POST',\r\n  header: {\r\n    'Content-Type': 'application/json'  \r\n  },\r\n  data: {\r\n    foo: {bar: \"buzz\"}\r\n  }\r\n})\r\n```\r\n\r\nAnd I didn't properly read the error message\r\n```\r\nRqlRuntimeError: Expected `data.foo` to be a NUMBER, STRING or NULL, but found OBJECT. in:\r\n```\r\n\r\nThis works as expected:\r\n```\r\nr.http('<URL>', {\r\n  method: 'POST',\r\n  header: {\r\n    'Content-Type': 'application/json'  \r\n  },\r\n  data: {\r\n    foo: \"bar\"\r\n  }\r\n})\r\n```\r\n\r\nI guess the current behavior is fine.\r\n\r\n@Tryneus -- I'm good with the current behavior, feel free to close it."
+  , issueCommentId = 43916819
+  }

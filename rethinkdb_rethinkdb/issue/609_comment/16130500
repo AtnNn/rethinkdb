@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-09) 18 : 20 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16130500"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-16130500"
+  , issueCommentCreatedAt = 2013 (-04) (-09) 18 : 20 : 30 UTC
+  , issueCommentBody =
+      "There are still some important open questions here. What exactly do we want to do when interrupted (having read none or some of the response). There are a few interlocking desires here which I have tried to arrange in order of relative importance.\r\n\r\n1. We would like the connection to remain usable\r\n2. We would like to not invalidate other cursors\r\n3. We would like to cancel the interrupted query on the server if we can\r\n4. We would prefer to fail in some other way than deadlock when the application is incorrectly using the connection from multiple threads\r\n\r\nEach of the solutions we've explored thus far violate one or more of these goals.\r\n\r\n* raising an error on token mismatch violates 1, 2, and 3\r\n* dropping the response on token mismatch violates 3 and 4\r\n* resetting the connection violates 2\r\n\r\nI think we can cancel just the one query by sending a `STOP` query to the server with that token. Even if we send this query on interrupt though we may have bad data in the pipe (whether we've started reading it or not)."
+  , issueCommentId = 16130500
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-13) 22 : 58 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37597336"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2060#issuecomment-37597336"
+  , issueCommentCreatedAt = 2014 (-03) (-13) 22 : 58 : 03 UTC
+  , issueCommentBody =
+      "Review 1316 has a more general error message.  (Instead of distinguishing the cases we say \"Cannot take the max of an empty stream.  (If you passed `max` a field name, it may be that no elements of the stream had that field.)\".)\r\n\r\nIt would take a bit of work to distinguish the cases, because we produce the error in generic code that unpacks the aggregator's data storage into a datum, and we don't know in that part of the code why the result is empty.  To distinguish the two we'd have to add more data to the aggregator's storage.  (E.g. instead of `avg` using a `std::pair<double, uint64_t>` for its aggregation, it would use an `std::pair<std::pair<double, uint64_t>, bool>` where the bool would say whether we've seen a row and ignored it because it lacked a certain field.)\r\n\r\nThis was enough work that I was hesitating to do it, and I decided that in this case the perfect was the enemy of the good and just made the error message better."
+  , issueCommentId = 37597336
+  }

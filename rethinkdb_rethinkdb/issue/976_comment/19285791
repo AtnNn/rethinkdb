@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-11) 19 : 18 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19285791"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/976#issuecomment-19285791"
+  , issueCommentCreatedAt = 2013 (-06) (-11) 19 : 18 : 39 UTC
+  , issueCommentBody =
+      "So I'm about to get radical on y'all since this is the time for such ideas.\r\n\r\nWhat if we rethink(tm) this whole write reporting business and return the updated value by default? The current write summarizing behavior could then be provided by a new `summarize` or `report` command.\r\n\r\nHere's something like what I'm imagining:\r\n\r\n* `table.get(key).update(...).run() => new_val`\r\n* `table.get(non_existant).update(...).run() => error`\r\n* `table.update(...).run(...) => stream_of_new_vals`\r\n* `table.get(key).update(...).report() => {'updated': 1}`\r\n* `table.get(non_existant).update(...).report() => {'error': 1}`\r\n* `table.update(...).report() => {'updated': >1, 'errors': >1}`\r\n* `table.get(key).do({'old': r.row, 'new': r.row.update(...)}) => ...`\r\n* `table.map({'old': r.row, 'new': r.row.update(...)}) => ...`\r\n\r\nThe main issue with this idea is how we deal with lazy streams of updated values, especially when the user doesn't actually want to read the values. Maybe we only do it for point updates and replaces, as if range updates have `.report()` tacked on by default.\r\n\r\nThis is probably not the way forward but I would at least like to explore alternatives to the initial proposal. A weird optional argument plus an even weirder output object are just too much for me."
+  , issueCommentId = 19285791
+  }

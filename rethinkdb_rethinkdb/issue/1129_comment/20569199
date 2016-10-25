@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-07) 11 : 17 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1761249
+        , simpleUserLogin = N "dodyg"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1761249?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dodyg"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20569199"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1129#issuecomment-20569199"
+  , issueCommentCreatedAt = 2013 (-07) (-07) 11 : 09 : 26 UTC
+  , issueCommentBody =
+      "I can pretty much crash the db regularly now using these type of commands (using the same data set I sent you)\r\n\r\n```r.db('janjira')\r\n  .table('black_list')\r\n  .filter( { status : 'porn_domain'})\r\n  .filter(function(ls){\r\n    return ls.hasFields('sha1').not()\r\n  })\r\n  .limit(10000)\r\n .update( { sha1 : \"xxxx\" })\r\n```\r\n\r\nespecially after 30000 of documents have been modified. The remaining updates will crash often and it always crashes with \r\n\r\n```\r\nerror: Error in ./src/arch/types.hpp at line 54:\r\n```\r\n\r\nThis happens as well in \"soft\" durability mode. After several crashes and restart, it will refuse to start at all and generate the error below - which is exactly the same as the errors I posted previously (except for the timestamp).\r\n\r\n```\r\nuser@ubuntu:~/Servers$ rethinkdb\r\ninfo: Running rethinkdb 1.7.1-0ubuntu1~quantal (GCC 4.7.2)...\r\ninfo: Running on Linux 3.5.0-34-generic i686\r\ninfo: Loading data from directory /home/user/Servers/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, 127.0.1.1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all` command line option.\r\ninfo: Server ready\r\nVersion: rethinkdb 1.7.1-0ubuntu1~quantal (GCC 4.7.2)\r\nerror: Error in ./src/arch/types.hpp at line 54:\r\nerror: I/O operation failed.  (Invalid argument) (offset = 2147483648, count = 4096)\r\nerror: Backtrace:\r\nerror: Sun Jul  7 13:11:02 2013\r\n       \r\n       1: rethinkdb() [0x8064146]\r\n       2: rethinkdb() [0x81eab85]\r\n       3: rethinkdb() [0x81fbb01]\r\n       4: rethinkdb() [0x820365d]\r\n       5: rethinkdb() [0x82036f5]\r\n       6: rethinkdb() [0x82037c4]\r\n       7: rethinkdb() [0x820530a]\r\n       8: rethinkdb() [0x820a97b]\r\n       9: rethinkdb() [0x8203855]\r\n       10: rethinkdb() [0x820bb42]\r\n       11: rethinkdb() [0x820bd5b]\r\n       12: rethinkdb() [0x82153e5]\r\n       13: rethinkdb() [0x821a64f]\r\n       14: +0x6d4c at 0xb7101d4c (/lib/i386-linux-gnu/libpthread.so.0)\r\n       15: clone+0x5e at 0xb703edde (/lib/i386-linux-gnu/libc.so.6)\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```"
+  , issueCommentId = 20569199
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-25) 22 : 29 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/86237331"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3974#issuecomment-86237331"
+  , issueCommentCreatedAt = 2015 (-03) (-25) 22 : 29 : 59 UTC
+  , issueCommentBody =
+      "This has been approved and merged to `next` in commit 2171061, and cherry-picked into `v2.0.x` in commit c08b40d.  Review was 2742.  Will be in release 2.0.\r\n\r\nThe proper way to iterate over a TornadoCursor object is now:\r\n\r\n```py\r\nwhile (yield cursor.fetch_next()):\r\n    item = yield cursor.next()\r\n```\r\n\r\nor\r\n\r\n```py\r\ntry:\r\n    while True:\r\n        item = yield cursor.next()\r\nexcept r.RqlCursorEmpty:\r\n    pass\r\n```\r\n\r\nBoth `cursor.next()` and `cursor.fetch_next()` take a `wait` optarg to specify how long to wait before timing out (after which a `RqlTimeoutError` exception is raised).  This optarg defaults to `True`, which will wait indefinitely.  `cursor.fetch_next()` only exists on the TornadoCursor implementation.\r\n\r\n@v3ss0n, thanks for your interest, let us know if you have any problems or suggestions after trying it out!"
+  , issueCommentId = 86237331
+  }

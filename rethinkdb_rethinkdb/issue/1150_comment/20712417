@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-09) 23 : 22 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20712417"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1150#issuecomment-20712417"
+  , issueCommentCreatedAt = 2013 (-07) (-09) 23 : 22 : 47 UTC
+  , issueCommentBody =
+      "Ok, this bug actually has an interesting story to it.\r\n\r\n```javascript\r\n> var a = (new Uint8Array([1,2,3])).buffer;\r\n> a.slice(1).byteLength\r\n2\r\n> a.slice(1, undefined).byteLength\r\n0\r\n> function slice(buf, begin, end) { return buf.slice(begin, end); }\r\n> slice(a, 1, 2).byteLength\r\n1\r\n> slice(a, 1).byteLength\r\n0\r\n```\r\n\r\nWhen you pass fewer than the expected number of arguments to a function extra formal arguments are bound to `undefined`. Apparently, the `ArrayBuffer.slice` method distinguishes between the case where the last argument is left implicitly undefined and where it is explicitly set to undefined. This in and of itself would not have caused the bug. But because the wrapper function binds the left over formal parameter to `undefined` and then passes it explicitly, leaving the end off the call to the wrapper function is equivalent to calling the wrapped method with the parameter explicitly set to undefined and resulting in the bad behavior."
+  , issueCommentId = 20712417
+  }

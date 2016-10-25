@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-08) 09 : 11 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16039979"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/619#issuecomment-16039979"
+  , issueCommentCreatedAt = 2013 (-04) (-08) 09 : 11 : 47 UTC
+  , issueCommentBody =
+      "Any literal object passed as a parameter to a RQL API method is in turn passed as a keyword argument dict to the `__init__` method of the `MakeObj` class (inherited from the common base class, `RqlQuery`) which has the signature: `def __init__(self, *args, **optargs):`. The `self` key of the keyword arg dict is not getting clumped in `optargs` but is instead getting bound to `self`, which of course is already bound by Python to the newly allocated dict underpinning the new class class instance.\r\n\r\nYet another good catch @mfenniak.\r\n \r\nI'll look at this again tomorrow, but since `MakeObj` is a special case (and is only called from within `expr`) the easiest thing to do should just be to override `MakeObj`'s `__init__` method than rethink our whole system of optional argument passing, unless of course we plan on supporting in the future any optional arguments called `self`.\r\n\r\nThanks again for another great bug report. We should be able to get a fix out tomorrow."
+  , issueCommentId = 16039979
+  }

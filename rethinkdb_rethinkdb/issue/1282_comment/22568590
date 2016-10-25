@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-13) 14 : 27 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22568590"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1282#issuecomment-22568590"
+  , issueCommentCreatedAt = 2013 (-08) (-13) 14 : 27 : 47 UTC
+  , issueCommentBody =
+      "The only people making any sense here at all is @atnnn and @wmrowan.  What @atnnn says about how things should be done is correct.  It turns out that @wmrowan's idea about a `last_modified_index` table creation option won't work out because \"last modified\" time is really a logical concept that you don't want to update when e.g. changing the schema or adding denormalized metadata.\r\n\r\nThat's also one of the two big reasons to not to bake last modified time into secondary indexes.  To use this feature would be a worst practice.\r\n\r\nThe other big reason is that it breaks the entire model of secondary indexes being purely dependent on the state of the table.\r\n\r\nAnother problem with this proposal is that users can't even access the last modified time, short of binary searching it with a bunch of `between` queries.\r\n\r\nThis is technically infeasible anyway, because you can't retroactively create an index with true last modified times, and resharding would have to be reimplemented to copy over secondary index information as documents are backfilled from replica to replica.\r\n\r\nThe actual bug here is that `r.now()` is an impure expression.  Unlike other impure expressions, it's an impure expression that can be executed deterministically.  Secondary index functions is one place where deterministically executable impure expressions cannot be allowed.\r\n\r\n"
+  , issueCommentId = 22568590
+  }

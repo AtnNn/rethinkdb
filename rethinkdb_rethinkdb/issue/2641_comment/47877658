@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-03) 08 : 00 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47877658"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2641#issuecomment-47877658"
+  , issueCommentCreatedAt = 2014 (-07) (-03) 08 : 00 : 40 UTC
+  , issueCommentBody =
+      "@coffeemug -- we don't use `r.json` anymore (since 1.13).\r\n\r\nThere are a few reasons why things are slow here.\r\n\r\nWe build 10 objects, with 20.000 keys each, that are all different and v8 can't optimize that (especially since we dynamically set keys).\r\n\r\nFor example, if I replace the first line with the second one\r\n```\r\n//fakeObj.compound[key] = ...\r\nfakeObj.compound[\"\"+j] = ...\r\n```\r\n\r\nI need 1.1 seconds to build and send the query, whereas I need 1.7 seconds if I use the original script.\r\nI looked a little at the code of `MakeObject` and we loop twice over the keys (when once should be enough).\r\n\r\nAlso, if I just swap the driver for `rethinkdbdash` (and still use the same code, with a single connection), I need 1.1 seconds (and 0.9 if I replace `key` with `\"\"+j`).\r\n\r\nI'll also try with a constructor to see if things are different.\r\n\r\nAlso I don't think using `r.exprJSON` would make things faster. We would still have to loop over all the keys to make sure that we can use `r.json`.\r\n\r\nAssigning to myself. I'll first fix makeObject and look a little more at the v8 dump.\r\n"
+  , issueCommentId = 47877658
+  }

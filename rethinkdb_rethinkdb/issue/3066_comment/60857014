@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-29) 00 : 44 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60857014"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3066#issuecomment-60857014"
+  , issueCommentCreatedAt = 2014 (-10) (-29) 00 : 44 : 04 UTC
+  , issueCommentBody =
+      "The predicate that is used to judge whether a set of servers is sufficient to respond to a write can be more restrictive (but cannot be less restrictive) than the predicate that is used to judge whether a set of servers is sufficient for auto-failover. For example, the user might pick three replicas in the primary datacenter to use as voters for auto-failover, and all writes would require acks from a majority of those; but in addition, all writes would require at least one ack from a replica in a different datacenter. So auto-failover would require only that a majority of the primary datacenter be available, but writes would require a majority of the primary datacenter plus at least one replica outside the primary datacenter.\r\n\r\nSo I propose having two separate fields. The `voting_replicas` field is a set of servers, and the `extra_requirements` field is an arbitrary predicate, e.g. a set of sets of servers along with a number of acks necessary from each set. Auto-failover requires a majority of the voting replicas for the shard that is failing over (and maybe some servers from other shards; see below). Writing to the table requires a majority of the voting replicas and also whatever is specified in `extra_requirements`.\r\n\r\nAuto-failover will require a majority of the Raft voters. My tentative plan is that every server that is a voting replica for at least one shard will be a Raft voter, along with the \"tiebreaker server\" if one is specified. Unfortunately, this makes @danielmewes's second scenario tricky; if the administrator cannot get a majority of the Raft voters, they will have to perform a hard override, which invalidates all safety guarantees."
+  , issueCommentId = 60857014
+  }

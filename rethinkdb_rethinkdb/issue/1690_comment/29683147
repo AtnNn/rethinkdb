@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-03) 04 : 38 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29683147"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1690#issuecomment-29683147"
+  , issueCommentCreatedAt = 2013 (-12) (-03) 04 : 38 : 17 UTC
+  , issueCommentBody =
+      "One thing to bear in mind is that with multindexes you write `O(n)` where `n` is the size of the array but the constant isn't the size of the document. Since you only write a reference it's got a hard cap of 500 bytes. And if the primary and secondary keys aren't incredibly long it's probably going to be shorter a lot smaller than that. That's a worst case of about `500K` which is a lot. But most likely, if users return a big array in an index function it's because they had a big array in the document and `500K` isn't a huge additional overhead when your document is `5MB`. You actually need to work pretty hard to construct a big array when you don't already have one in an index function. Bear in mind you can't ready from other tables so you need to do something like:\r\n\r\n```Python\r\ntable.index_create(lambda x: x[\"array\"].concat_map(x[\"array2\"]).concat_map(x[\"array3\"]))\r\n```\r\n\r\nOverall I think this is a case where more rope is better. I think we should basically accept that we need to educate users that there's a small but real overhead associated with index entries they're not completely free. Because we need to leave to many good features out to make a product that won't let you shoot yourself in the foot even if indexes are free. Also I think most database users grasp this concept our database can get quite slow if you do something like create 10,000 indexes which is quite easy to do with `for_each` no one's done that yet.\r\n\r\nAlso one final argument, if they do run afoul of this all they need to do is run and `insert` in the data explorer and the profiler will tell them exactly where this extra write throughput is coming from."
+  , issueCommentId = 29683147
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-25) 10 : 54 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23225522"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-23225522"
+  , issueCommentCreatedAt = 2013 (-08) (-25) 10 : 45 : 16 UTC
+  , issueCommentBody =
+      "So this is how I see this issue:\r\nWritebacks in the log serializer were designed to be efficient if they were comparably huge. This is usually the case with soft durability. For hard durability, which is now the default, we get a lot of very small writebacks. This is inefficient because each writeback has a considerable constant overhead, especially on rotational drives.\r\n\r\nAs far as I can see, there are two ways to solve this issue:\r\n\r\n1. Reduce the number of writebacks under concurrent workloads. We can probably merge writebacks together more aggressively. Within a single hash shard (block cache), we already combine writebacks under certain circumstances. There might be potential for optimization there, but I think it is not the main culprit. More importantly, we might want to think of ways to merge writebacks that span multiple hash shards. It is possible that this could be implemented completely in the serializer, keeping the buffer cache untouched. We could for example add an intermediate serializer layer similar to the semantic_checking serializer which performs the merging.\r\n2. Making each individual writeback more efficient. The advantage of this is that it would also have a benefit in single-client workloads. My idea was to write LBA blocks and metablocks inline into the data extents. Sorry for not having provided a full description of this idea yet. I wanted to check some technical details first, because I don't fully remember how the LBA was implemented, but I never got around to it (so far). On startup, I imagine that one can locate the metablock and LBA as follows:\r\n  - the metablock contains a link to the most recent LBA block (I'm not sure if the LBA was spanning multiple blocks or not. If it does, it could be implemented as a linked list I suppose)\r\n  - there still would be a special extent. However this extent would not contain the metablocks themselves, but it would contain blocks which say which data extent the latest metablock has been written to.\r\n\r\n  @timmaxw  pointed out that storing these blocks into the data extent would make the garbage ratio worse. I feel like this might be quite substantial. On rotation drives, it shouldn't be a big deal, because saving some disk seeks during writebacks would likely be worth the effort of having to rewrite extents more often. However this might look quite different on SSDs. Furthermore, changing stuff around the LBA might not be so easy.\r\n\r\n  @srh mentioned that there is also the problem of dependencies between block writes, which could be reduced to make writebacks more efficient. It can be argued that this issue has to be resolved first, before writing metablock and LBA inline even makes sense. While I'm not convinced that this is the case, a combination of both changes would certainly give the best results.\r\n\r\nWe should decide whether we want to do 1 or 2 first, and then probably track the progress in a separate issue (this one has become a bit muddled)."
+  , issueCommentId = 23225522
+  }

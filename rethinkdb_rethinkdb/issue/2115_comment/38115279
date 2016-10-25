@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-19) 22 : 28 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38115279"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2115#issuecomment-38115279"
+  , issueCommentCreatedAt = 2014 (-03) (-19) 22 : 28 : 14 UTC
+  , issueCommentBody =
+      "@jamescostian -- @wojons already covered some of this, but let me explain it in a different way in case it's helpful.\r\n\r\n> 1. if I have 2 servers, each on a different data center, and a table's \"replicas\" is set to 2, then both servers would have the same data - right?\r\n\r\nThat's correct. However, if you set the number of acks to 1, the client will acknowledge the write after it's committed to disk on one machine, but not necessarily the second one. The second one will commit the write  very quickly, but still, there is some lag (should be <1s generally, it's just network lag between servers + disk lag, etc.).\r\n\r\n> 2. If I use `useOutdated` in my queries, how outdated should I expect my results to be?\r\n\r\nMost of the time, the data will be outdated by the lag above. In a good netowrk it should be < 300ms, often much less. However, if there is a netsplit (part of your cluster can't reach the other part because the network is down), outdated queries will still return results, but the data will be outdated for as long as there is a network disconnect. So, for example, if you have a two hour network outage between the servers in the cluster, and it takes 15 minutes to catch back up, your data may be outdated by 2h15m. There isn't anything anyone could do about that -- it's just the laws of physics. RethinkDB just tries to give you options in those scenarios and make things as convenient as possible."
+  , issueCommentId = 38115279
+  }

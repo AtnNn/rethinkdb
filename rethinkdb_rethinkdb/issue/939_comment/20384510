@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-02) 22 : 48 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20384510"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-20384510"
+  , issueCommentCreatedAt = 2013 (-07) (-02) 22 : 48 : 24 UTC
+  , issueCommentBody =
+      "You are talking about the case where blocks are modified correct?\r\n\r\nI wonder if the following would work:\r\nWe could have small blocks in the cache. They would be used as they are for read transactions.\r\nOnly for write transactions, we would do a realloc to 4k. Once the write lock is released, we could shrink the block again. \r\n\r\nWhile this work-around would require more allocations and copying, I believe that this would be quite acceptable for write queries (which tend to be i/o bound anyways) performance wise.\r\n\r\nWe would win a lot on the side of read queries thanks to the (potentially) much improved cache efficiency.\r\n\r\n\r\n-----Original Message-----\r\nFrom: srh <notifications@github.com>\r\nDate: Tue, 02 Jul 2013 15:24:59 \r\nTo: rethinkdb/rethinkdb<rethinkdb@noreply.github.com>\r\nReply-To: rethinkdb/rethinkdb <reply@reply.github.com>\r\nCc: Daniel Mewes<danielmewes@onlinehome.de>\r\nSubject: Re: [rethinkdb] Optimize space efficiency with respect to blob\r\n storage (#939)\r\n\r\nThe buf_data_t's void pointer, blocks needing to generally support being mutable, etc.\r\n\r\n---\r\nReply to this email directly or view it on GitHub:\r\nhttps://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-20383347\r\n\r\n"
+  , issueCommentId = 20384510
+  }

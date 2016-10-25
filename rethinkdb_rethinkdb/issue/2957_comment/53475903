@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-26) 19 : 33 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53475903"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2957#issuecomment-53475903"
+  , issueCommentCreatedAt = 2014 (-08) (-26) 19 : 33 : 24 UTC
+  , issueCommentBody =
+      "> if there isn't enough information to balance the shards, we should create the keys lexicographically\r\n\r\nIn most cases, this means that all of the user's data will end up in one shard. So they'll eventually get an error message saying that their shards aren't balanced and asking them to rebalance. Is this OK?\r\n\r\n> The `reconfigure` command should return a more detailed object\r\n\r\nYes! Your proposal is awesome.\r\n\r\n> I should be able to just call reconfigure() with no arguments and have the system reassign shards to machines if it makes sense.\r\n>\r\n> ...\r\n>\r\n> We should consider again making shards and replicas named arguments and allowing passing one at a time.\r\n\r\nThe potential problem with both these changes is that if the user calls `reconfigure()` with explicit tag settings, and then calls `reconfigure()` again, the second call will use the `active` tag for everything instead of respecting the user's tag settings. For example, I can see the user calling `reconfigure(1, 2, master=\"us_east\")` and then `reconfigure(shards = 3)` and being confused when their master machines aren't in `us_east` anymore. But this might be OK if we're de-emphasizing tags anyway.\r\n\r\n> Calling `r.db('test').reconfigure(...)` results in an error in the Python driver.\r\n\r\nYeah, this isn't implemented. But it should be easy.\r\n\r\n> We should rename the field to `director`\r\n\r\nI think this is the right solution; in fact, we decided to do this already, and it just didn't make it into this prototype. We can worry about failover later.\r\n\r\n> Why do I have one director, and one replica? I asked for two replicas! What's going on?\r\n\r\nI changed my mind about making the master be a replica. I think we should seriously consider making \"master\" and \"replica\" two disjoint sets. \r\n\r\n> I think we can fix both of these problems by restructuring the [table_status] as follows\r\n\r\nSometimes we show status for servers that aren't in the config's replica list. For example, if a server is being decommissioned, it will currently show up with `role: nothing` and `status: offloading_data`. Also, if a server is missing, it will show up as `role: nothing` and `status: missing` (because the missing server prevents reconfiguring the table). How do you suggest displaying servers in these states?"
+  , issueCommentId = 53475903
+  }

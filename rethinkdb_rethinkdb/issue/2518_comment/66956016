@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-15) 06 : 56 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66956016"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2518#issuecomment-66956016"
+  , issueCommentCreatedAt = 2014 (-12) (-15) 06 : 56 : 53 UTC
+  , issueCommentBody =
+      "Incidentally I checked other implementations for consistency on this.  Python does not appear to support `split('')`.  Ruby and node.js give the following results (here U+00E9 is \233 and U+0301 is the combining character for that accent):\r\n```ruby\r\nirb(main):001:0> \"f\\u00e9oo\".split('')\r\n=> [\"f\", \"\233\", \"o\", \"o\"]\r\nirb(main):002:0> \"fe\\u0301oo\".split('')\r\n=> [\"f\", \"e\", \"\769\", \"o\", \"o\"]\r\n```\r\nand for node\r\n```javascript\r\n> \"f\\u00e9oo\".split('')\r\n[ 'f', '\233', 'o', 'o' ]\r\n> \"fe\\u0301oo\".split('')\r\n[ 'f',\r\n  'e',\r\n  '\769',\r\n  'o',\r\n  'o' ]\r\n```\r\n\r\nI am of the opinion that this is simply wrong.  Whatever you are using `split('')` for, it is not well served by it handing you an accented quotation mark.  I asked a friend of mine who doesn't have any particular interest in Unicode about it, and she agrees that, no matter what the actual codepoints look like, '\769 is a crime against God and Man alike.\r\n\r\nIf there is interest, we could probably add a `decompose` function that would actually split based on codepoints instead of semantically.  I expect that almost no one would use it, however."
+  , issueCommentId = 66956016
+  }

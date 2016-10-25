@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 01 : 26 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75348271"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-75348271"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 01 : 26 : 58 UTC
+  , issueCommentBody =
+      "My comment was mainly about `run(conn).on(cb)` vs. `run(conn, cb)`.\r\n\r\nI guess the benefit of\r\n```\r\nr.table('foo').changes().run(conn, StreamHandler)\r\n```\r\nover\r\n```\r\nr.table('foo').changes().run(conn, k, :foo)\r\n```\r\nis that we get specific callbacks for errors, initial values, closing the cursor etc. which is really nice.\r\n\r\nIf we want to reduce complexity a little I think we can get away with only implementing `StreamHandler` for now, but not `ChangeHandler` (all changefeed events would just be passed into `on_val` the way we get them from the server).\r\n\r\nWhat should we do if you pass a `StreamHandler` to `run` for a query that returns an `atom`? Just perform a sequence of `on_open`, `on_val`, `on_close` calls with the single returned value?\r\n\r\n\r\nRegarding the block interface: For cases where users need to do more sophisticated things, wouldn't the `StreamHandler` interface allow for it?\r\nHow would @mlucy 's block interface compare to the fiber-based on @gchpaco has proposed earlier?"
+  , issueCommentId = 75348271
+  }

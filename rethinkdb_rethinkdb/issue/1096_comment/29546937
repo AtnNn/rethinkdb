@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-30) 06 : 34 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29546937"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29546937"
+  , issueCommentCreatedAt = 2013 (-11) (-30) 06 : 34 : 53 UTC
+  , issueCommentBody =
+      "Why are we complicating things with an optarg here? You can already get the members back using reduce. In fact we already have a function that basically does what you're talking about in `sample`. With the new syntax you can write:\r\n\r\n```Python\r\ntable.group(...).sample(5) #returns 5 elements from each group in an array.\r\n# with stream splitting you could do\r\ntable.group(...).do(lambda s: {\"sum\": s.sum(\"foo\"), \"members\" : s.sample(5)})\r\n```\r\n\r\nThis has the advantage that there's nothing extra to implement. It just works because the function is implemented in terms of map and reduce. You guys didn't discuss how you're envisioning the members being returned with the optarg. But I think controlling where they're returned using the same methods as every other reduction would just be less to think about. I'm pretty strongly opposed to special casing `members` when we can keep things simple and treat it the same as every other reduction."
+  , issueCommentId = 29546937
+  }

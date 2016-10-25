@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-21) 23 : 37 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35785222"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1969#issuecomment-35785222"
+  , issueCommentCreatedAt = 2014 (-02) (-21) 23 : 37 : 39 UTC
+  , issueCommentBody =
+      "The reason for this is that we do the following:\r\n\r\nFrom each hash shard, we retrieve a number of documents according to the batch specification. In the scenario described in #1962, we actually got the exact same number of documents from each shard each time. So far everything is deterministic.\r\nThen we have to find out which is the highest key that all of the shards have definitely processed (that is the minimum of all the maximum keys read from the different shards). This key is later used as a starting point for the next batch.\r\nSome of the shards will have read documents that are beyond this boundary. Those documents are discarded, so we don't end up with duplicated when reading the next batch later.\r\n\r\nHow many documents are discarded from a given batch is random, because it depends on the exact set of keys in the table (which are randomly generated), and on our CPU-shard hashing function. That explains the varying batch sizes."
+  , issueCommentId = 35785222
+  }

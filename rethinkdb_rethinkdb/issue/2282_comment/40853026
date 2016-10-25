@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-18) 23 : 25 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40853026"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/2282#issuecomment-40853026"
+  , issueCommentCreatedAt = 2014 (-04) (-18) 23 : 25 : 33 UTC
+  , issueCommentBody =
+      "@nviennot -- I'm having trouble reproducing that.  When I run this:\r\n```rb\r\nr.table_create('simple_documents').run\r\nr.table('simple_documents').insert({id: 1}).run\r\nr.table('simple_documents').get_all(1, index:'id').order_by(r.asc('id')).update({field1: r.literal({hello: \"world\"})}).run\r\nr.table('simple_documents').get_all(1, index:'id').order_by(r.asc('id')).update({field1: r.literal({ohai: \":)\"})}).run\r\nPP.pp r.table('simple_documents').get_all(1, index:'id').order_by(r.asc('id')).limit(1).run\r\n```\r\nI get:\r\n```\r\n[{\"field1\"=>{\"ohai\"=>\":)\"}, \"id\"=>1}]  \r\n```\r\n\r\nWithout any bitop stuff.\r\n\r\nIf you run those lines, do you get the same ouput?\r\n\r\nIs NoBrainer doing anything else besides that?\r\n\r\n"
+  , issueCommentId = 40853026
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 18 : 46 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18363700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/861#issuecomment-18363700"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 18 : 46 : 45 UTC
+  , issueCommentBody =
+      "@coffeemug so unfortunately `.sample()` isn't very easy right now. We use reservoir sampling for random selections which means there's no guarantees that the order of the elements is random. In practice they approach a random ordering as the ratio of `n / table.count()` approaches 0. However in the case of `.sample()` `n == table.count()` and the order won't be randomized at all. `table.sample().run()` will just be the same as `table.run()` except that it will be prohibitively inefficient because it requires storing the contents in memory.\r\n\r\nIt actually might be worth mentioning in documentation that this ordering can't be counted on to be random. In particular it has the following property.\r\n\r\nIf a value of index `i` where `i < n` is returned by `sample` then the value will be located at index `i` in the result. Otherwise it will in a uniform random location."
+  , issueCommentId = 18363700
+  }

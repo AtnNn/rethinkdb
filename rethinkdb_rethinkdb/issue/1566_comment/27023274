@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-24) 19 : 38 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27023274"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1566#issuecomment-27023274"
+  , issueCommentCreatedAt = 2013 (-10) (-24) 19 : 38 : 44 UTC
+  , issueCommentBody =
+      "I just talked about this with Joe.  I think having `order_by` return an array or a stream depending on whether or not you use an index is irritating, but I also buy the argument that we're reflecting something real in the underlying system.\r\n\r\nWe've had an ambiguity with selections for a long time, and it's led to a lot of exploding complexity internally (we currently have arrays, eager streams, lazy streams, and wrapper streams).  Occasionally this complexity bubbles up to form warts like this one where people have different intuitions.\r\n\r\nOne way to resolve this is to have the rule \"you always get out what you put in\".  If `order_by` takes a stream, it returns a stream; if it takes an array, it returns an array.  This is roughly what we have now, plus or minus a few edge cases.\r\n\r\nAnother way to resolve it is to have the rule \"you always get out whatever we use internally\".  If everything is in memory, you get back an array; if stuff is on disk, you get back a stream.  (I think this is what Joe wants.)  This is very doable -- we just make selections be parameterized on the underlying representation (we'd have `selection<stream>, selection<array>, and selection<object>`).\r\n\r\nThe first approach is definitely easier to understand, but gives users a poor intuition for the system.  The second approach is safer but more irritating.  The question of which to use comes down to how much we need the safety and how irritating it is for users to learn and work around that rule.\r\n\r\nI have mixed opinions on that question, but I think I'm leaning toward JD's point of view at the moment.  What do other people think?\r\n\r\n(Also, tagging this as a RQL proposal since the most discussion seems to be going on here.)"
+  , issueCommentId = 27023274
+  }

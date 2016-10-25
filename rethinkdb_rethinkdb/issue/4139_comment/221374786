@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-24) 20 : 53 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/221374786"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4139#issuecomment-221374786"
+  , issueCommentCreatedAt = 2016 (-05) (-24) 19 : 18 : 33 UTC
+  , issueCommentBody =
+      "This has been checked into `next` with bd38f3f, and `v2.3.x` with 150fc0d7 (and fully synced with 178f310e).\r\n\r\nFor reference, here are the latest instructions for writing tests for `test-runner`:\r\n\r\nThere are currently 4 types of tests, distinguished by their file extension:\r\n- `.mocha` tests are JavaScript tests using the [Mocha](https://mochajs.org) framework. They will be invoked \r\n- `.httpbin` tests will have a [httpbin](http://httpbin.org) test server launched when running. These will have the following additional ENV variables set: `HTTPBIN_HOST`, `HTTPBIN_HTTPBIN_PORT`, `HTTPBIN_HTTPCONTENT_PORT`, and `HTTPBIN_HTTPS_PORT`. Additionally any `js` versions of these tests are run as `.mocha` tests.\r\n-`.yaml` will be translated into the languages selected, which is implicitly all of them.\r\n- `.test` is the \"standard\" extension and so will only have the standard services launched.\r\n\r\nEach of these test types can specify what interpreters they would like to be run with (`.mocha` only supports `js` variants). This is done by having a sub-extension that precedes the extension from above (e.g.: `name.py.test`). Tests that do not have any interpreter specified will be run as a naked executable, all others will be invoked using the interpreter specified.\r\n\r\nThe interpreter specification will be expanded to include all versions of that interpreter that `test-runner` is told to run (implicitly one version of each Python, Ruby, and Node), which could be all the versions of that interpreter on the system. However, tests can narrow the list of supported interpreter by either specifying versions or open-ended version ranges in a comma-separated list. For example:\r\n`twisted_connection.+py2_7,py3_3+.test`\r\nThis tests has declared that it is valid for all versions of Python 2.7 and before and Python 3.3 and later. Effectively creating a hole in the coverage for Python3.0-3.2 (where Twisted is not supported).\r\n\r\nFinally tests can choose to only run for a single version of the interpreter using the `_one` suffix to the interpreter` (e.g.: `client_info.rb_one.test`). There is currently no way of specifying `_one` to apply to a combined range like in the `Twisted` example above. This allows for a test to be run for any version of the interpreter, without running for every version, enabling server-oriented tests.\r\n\r\nFor all tests `test-runner` will have the following environmental variables set: `RDB_DRIVER_PORT`, `RDB_SERVER_HOST`, and `TEST_RESULT_DIR`. Additionally for tests running with an interpreter `INTERPRETER_PATH` will be set. If it is set for `test-runner`, `VERBOSE` may also be set.\r\n\r\n\r\nI have done a one-time migration of all of the tests to try and make them fit this. An update to the approbate README is in the works."
+  , issueCommentId = 221374786
+  }

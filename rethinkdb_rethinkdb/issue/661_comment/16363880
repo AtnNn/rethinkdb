@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-15) 02 : 00 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16363880"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/661#issuecomment-16363880"
+  , issueCommentCreatedAt = 2013 (-04) (-15) 01 : 42 : 48 UTC
+  , issueCommentBody =
+      "I've had trouble thinking about the potential performance problems and keep changing my mind about things so my apologies if I end up being wrong.  Before, I was thinking that the second batch request would be slow, potentially, because of the network connection latency between the client and the server.  However, any subsequent request of another sort would ride in its coattails, and the same network latency performance penalty would have already been built in.  Now, I think, where you run into trouble is when the batch request is affected cross-network latency within the cluster (e.g. by needing to reach a different datacenter).  Or any other kind of slowness within the query.\r\n\r\nAnother counter-argument to other concerns of mine is about the plausibility of the scenario where the client does separate queries on each result in the response stream.  I had not thought of the fact that, hey, they could just put a map on the query.  There are many situations where the access pattern I described tends to happen, but that's particularly induced by the use of SQL (which is annoying) and *especially* the use of ORMs.  However, this turns out to be a weak counter-argument -- it's quite common for a set of follow-up queries to require accessing some third-party information source, like a cache or some other store, in which case you're going to get follow-up queries (and hopefully they'll be done in one batch).  Another scenario where a separate followup query is likely is in situations involving genericness or the programmer not bothering to be clever.\r\n\r\nEarlier I mentioned the possibility of the server supporting responding and requesting out of order (using tokens).  That should be considered a *mildly* scary option.  At least the side effects of the responses need to happen in the order the queries are supplied.  Supporting such behavior might be dangerous.\r\n\r\nRight now the most looming performance problem of range queries might be the snapshotting overhead (in the buffer cache) of large range queries in the presence of writes.  This is helped by being concerned about higher throughput.\r\n\r\nRegarding latency (and speaking of throughput):  100ms is a *ton* of latency -- not in user-time but in terms of range query throughput.  People doing queries from another side of the country is an ordinary situation that needs to be worried about.  Getting this 100ms of looparound on range gets can be quite bad.  It means if our batch size is 4000 items that a query retrieving 4 million items will take over 16 minutes.  (Behold my powers of long division.)\r\n\r\nEdit: I *can't* do long division.  1.6 minutes."
+  , issueCommentId = 16363880
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 15 : 21 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105954675"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4295#issuecomment-105954675"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 15 : 21 : 40 UTC
+  , issueCommentBody =
+      "Hi @hsen-dev , you can check the 'stats' system table to find out how much disk space a replica is using: http://rethinkdb.com/docs/system-stats/#replica-tableserver-pair\r\n\r\nThe way you'd do it in reql is like this:\r\n\r\n```js\r\nr.db('rethinkdb').table('stats')\r\n    .get(['table_server', tableId, serverId])('storage_engine')('disk')('space_usage')\r\n```\r\n\r\nThis will return a document with what you're looking for. Since it's just accessed with ReQL, you can get the total bytes for a server with:\r\n\r\n```js\r\nr.db('rethinkdb').table('stats')\r\n  .filter(function(row){\r\n      return row('id')(0).eq('table_server').and(\r\n             row('id')(2).eq(serverId))\r\n})('storage_engine')('disk')('space_usage')('data_bytes').sum()\r\n```\r\n\r\nor total bytes for a table with:\r\n\r\n```js\r\nr.db('rethinkdb').table('stats')\r\n  .filter(function(row){\r\n      return row('id')(0).eq('table_server').and(\r\n             row('id')(1).eq(tableId))\r\n})('storage_engine')('disk')('space_usage')('data_bytes').sum()\r\n```\r\n\r\nI'm closing this since it isn't a bug, but feel free to ask more questions here"
+  , issueCommentId = 105954675
+  }

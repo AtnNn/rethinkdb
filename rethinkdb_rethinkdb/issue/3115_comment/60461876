@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-31) 00 : 16 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60461876"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3115#issuecomment-60461876"
+  , issueCommentCreatedAt = 2014 (-10) (-24) 23 : 25 : 51 UTC
+  , issueCommentBody =
+      "@VeXocide and I just talked about what the actual interface for the table should look like.\r\nHere's a proposal:\r\n\r\n* Each document in the table is of the form\r\n\r\n  ```js\r\n{\r\n  id: <job uuid>,\r\n  servers: [<list of servers that are involved in this job>],\r\n  type: <\"backfill\"|\"index_construction\"|\"query\"|\"garbage_collection\">,\r\n  details: {...depending on 'type', this will have information such as the table/shard the backfill is on, the name of the index for an index_construction, progress information, etc....},\r\n  duration: <time the job has been running (max over all machines) in seconds>\r\n}\r\n```\r\n\r\n* The documents in the table cannot be updated, and no new documents can be inserted\r\n* To cancel a job, you just delete the corresponding document: `r.db('rethinkdb').table('jobs').get(<job_id>).delete()`\r\n\r\n(*Edit:* renamed machines to servers)"
+  , issueCommentId = 60461876
+  }

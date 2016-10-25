@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-03) 14 : 05 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23714655"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23714655"
+  , issueCommentCreatedAt = 2013 (-09) (-03) 14 : 05 : 27 UTC
+  , issueCommentBody =
+      "> I'm not sure that making close wait until all queries have finished executing will fix the \"uninterruptible query\" problem in a good way. Let's say I send a noreply write query to the server, then close the connection. The client sends a message to the server saying \"I want to close the connection\", and blocks on a reply from the server. That reply never comes, because we have a runaway write query. What does the user do? Their client is blocked on a response; do they kill the client process to close the connection?\r\n\r\nYes, you kill the client process.  The API *could* offer a way to abort the connection and running queries.\r\n\r\n> I think having conn.close block is sort of non-intuitive.\r\n\r\nYour intuition is completely out of line with reality, then, because most close functions block.  The first close function you ever encountered probably blocks.  fclose blocks.\r\n\r\n> Having conn.close block on noreply writes sort of hurts the use-case for noreply writes, since you can't just fire and forget them. We should have some way to \"close\" the connection immediately (maybe it's still open somewhere) without interrupting noreply writes.\r\n\r\nNo we shouldn't.  That's *bad*.  The point of noreply writes is not to write bad programs that overload the database.  It's a hack to improve performance when loading massive amounts of data into the system on high latency connections.  The feature is not there to create humongous writes that take forever.  For such writes, you don't get performance advantages that noreply writes give you.\r\n\r\n> That edge case in JS is actually sort of irritating.\r\n\r\nThat's just because Javascript is irritating.  Other `close` functions used in node.js libraries take an optional callback, for the same reason."
+  , issueCommentId = 23714655
+  }

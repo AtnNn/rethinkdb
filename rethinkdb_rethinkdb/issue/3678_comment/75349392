@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 01 : 47 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75349392"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-75349392"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 01 : 47 : 01 UTC
+  , issueCommentBody =
+      "Derp re: close & reopen.  Anyway.\r\n\r\n\r\n\r\n> is that we get specific callbacks for errors, initial values, closing the cursor etc. which is really nice.\r\n\r\nMy intention with the `.on` interface was that you were only interested in changes.  If you want to handle closes, errors, or what have you, you should use something more sophisticated; this was the simple version.  As such the `.run(conn, foo, :k)` is probably okay, although I would want to call it `.arun`.  This isn't as important in the block case because it's fairly obvious to a Rubyist what you want to do there, whereas this callback thing is a bit subtle.\r\n\r\n\r\n\r\n> What should we do if you pass a StreamHandler to run for a query that returns an atom? Just perform a sequence of on_open, on_val, on_close calls with the single returned value?\r\n\r\nThat would make sense to me.\r\n\r\n> Regarding the block interface: For cases where users need to do more sophisticated things, wouldn't the StreamHandler interface allow for it?\r\n> How would @mlucy 's block interface compare to the fiber-based on @gchpaco has proposed earlier?\r\n\r\nYes, the `StreamHandler` is intended as a \"I'm doing something sophisticated I'm willing to put up with some additional complexity\" thing.  The block interface is more attractive, if slightly less flexible.  We might be able to get away with both; if it's a `Fiber` it won't support `.call` or `[]` the way that `Proc`s do, but it will support `.resume`, which is used exactly the same way, which is also the same way that you would do it if you had passed a block (viz. `yield *args` <=> `p.call(*args)` <=> `f.resume(*args)`)."
+  , issueCommentId = 75349392
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-09) 15 : 55 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 638526
+        , simpleUserLogin = N "gato"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/638526?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gato"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58531300"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3090#issuecomment-58531300"
+  , issueCommentCreatedAt = 2014 (-10) (-09) 15 : 55 : 31 UTC
+  , issueCommentBody =
+      "Hi, I been doing lots of test, servers are not asserting any more but I'm still having issues. Those are the test i made\r\n\r\n1 - tried version server 1.15.0 and had hertbeat issue on servers and command \"rethinkdb import\" hangs but servers reconnect to each other and work. Server 1 has 1GB of swap space used but server 2 was ok (import process run on server 1 and connects to it)\r\n\r\n2 - Tried version server 1.15.1 and had issues with rethinkdb import aborting with an odd \"buggy client\" message, I assumed it was an old python library client so I \"pip install --upgrade\" and updated the client to 1.15.0 \r\n\r\n3 - Tried with new version and had the same buggy client issue. I have multiple json files with data (4000+ files with 5000 docs each) so i binary searched the file that had thrown the error to see if i found the buggy row. After cutting jsons for a couple of hours i found that we had in some of the json files documents that are other type of documents (we want to import them later in another table) . the odd thing here is that this different kind of documents failed randomly and not always on the same one but every time in one of them. So i removed them and tried again.\r\n\r\n4- Now with last server version, last driver version, only one kind of documents and got the same heartbeat problem as in the first test. Servers still running \"rethinkdb import\" hang forever and server 1 with 1GB of swap used. (no errors on rethinkdb log except for the heartbeat issue) \r\n\r\nNote that killing the import process do not frees the memory so i assume is not \"rethinkdb import\" the one sucking up memory (but it could be because is invoked once per file so if is leaking memory even small amounts after calling it like 2000 times, lots of memory will be leaked) \r\n\r\nI guess heartbeat issue shows when server1 is swapping too much. and the memory leakage only shows in server1 (the one running the import process, also the one that the client connects too and also server2 is linked to server1)\r\nI will do one more test that will be make server1 link to server2 and run import process in server1 but connecting to server2 to see if leakage appears and in which server.  if this do not work the only thing i could do is compile lastest rethinkdb with some extra debug info to see what goes wrong.\r\nIdeas are welcomed.\r\nRegards.\r\nMarcelo\r\n\r\n\r\n  "
+  , issueCommentId = 58531300
+  }

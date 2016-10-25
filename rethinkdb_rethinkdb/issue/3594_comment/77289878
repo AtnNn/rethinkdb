@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-05) 01 : 40 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/77289878"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3594#issuecomment-77289878"
+  , issueCommentCreatedAt = 2015 (-03) (-05) 01 : 40 : 20 UTC
+  , issueCommentBody =
+      "Thanks @coffeemug . So it sounds like we should keep an eventually consistent non-authorative list of existing tables on each server, but not a list of connected servers.\r\n\r\nThe remaining question then is how you get an outdated entry out of that table list. Some obvious options:\r\n- have a \"cleanup\" command: `r.purge_table_list()`\r\n- let entries in the table list expire after a while of not seeing any of the responsible servers (this alone wouldn't be sufficient though if you need to recreate a table immediately)\r\n- keep some notion of removing a server from the cluster, which would remove all tables from the list for which this server was the last one involved. That would probably be somewhat awkward though without also maintaining a local server list.\r\n- let users run `table_drop()` even if the raft cluster associated to the table cannot be reached at the moment. We'd have to handle the case where one of the servers originally responsible for the table comes back though."
+  , issueCommentId = 77289878
+  }

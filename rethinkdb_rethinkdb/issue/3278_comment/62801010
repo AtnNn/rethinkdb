@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-12) 21 : 48 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62801010"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3278#issuecomment-62801010"
+  , issueCommentCreatedAt = 2014 (-11) (-12) 21 : 48 : 49 UTC
+  , issueCommentBody =
+      "This has been fixed and merged into `reql_admin` as of commit 50ad63c.  Review was 2299.\r\n\r\nThe problem observed here was likely due to metadata propagation delays between threads.  However, we could not fully solve this by waiting for the metadata to propagate, because we cannot guarantee that a remote `primary` has the necessary acks to perform a write.  Because of this, `table_create` and `table_wait` now have a brief window in which they attempt to perform dummy read/write operations until they come back successful.\r\n\r\nThis is similar to how `table_create` used to work, with a few differences.  First, the dummy operations are now a part of `read_t` and `write_t`, rather than trying to use a meaningful operation under the assumption that the table has no entries.  Secondly, this polling is only performed in the timeframe between when the directory and semilattice indicate that the table is ready to go, and until operations are successful.\r\n\r\nThis leads to the possibility of a race condition in which the table loses availability before the polling is successful, due to a server crash or network loss, for example.  In this case, we will time out after 10 seconds and return success.  From the client's point of view, this should be nearly indistinguishable from the table going down while our response to the client is on the wire."
+  , issueCommentId = 62801010
+  }

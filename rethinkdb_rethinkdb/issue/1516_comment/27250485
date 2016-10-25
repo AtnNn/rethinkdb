@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-28) 20 : 05 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27250485"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-27250485"
+  , issueCommentCreatedAt = 2013 (-10) (-28) 20 : 05 : 06 UTC
+  , issueCommentBody =
+      "The way this works is:\r\n\r\nEach message (think: coroutine that would like to run) is put onto a FIFO queue depending on its priority. There is exactly one such queue per priority per thread.\r\n\r\nThe message hub schedules up to a fixed number of messages in each iteration (I refer to this number as the \"granularity\" of the scheduler in the code). These messages are taken from the different priority queues. In each scheduler iteration, it picks at least one message from each priority. This is what makes sure that it doesn't starve anything. The higher priorities have exponentially more messages processed, if that many are available on the respective queues. So assuming that all priority queues have a sufficient number of messages waiting on them, it would for example process 1 message of priority -2, 2 messages of pr. -1, 4 of pr. 0, 8 of 1 and 16 messages of priority 2.\r\n\r\nThis type of scheduling actually has some interesting effects. For example, if there are a lot of coroutines of priority 0 and none at any of the lower priorities, a new coroutine can actually be executed *faster* by picking a *lower* priority. This is not really desired, but should not cause any issues in practice. The scheduler is still going to allocate a lot less time to the lower priority coroutines overall. Just from the point of view of the individual coroutine, a lower priority might give it more processing time than a higher one. Again, this seems like a very theoretical issue, and fixing it would make the scheduler quite a bit more complex. We can still look at it if it ever should turn out to be an issue (there are ways to somewhat fix that kind of effect)."
+  , issueCommentId = 27250485
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-22) 23 : 55 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33083143"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1239#issuecomment-33083143"
+  , issueCommentCreatedAt = 2014 (-01) (-22) 23 : 54 : 12 UTC
+  , issueCommentBody =
+      "@coffeemug\r\nIn the in-memory case, point reads were not noticeably affected by an outgoing backfill. The average latency of a write operation increased from 42 to 45 ms.\r\n\r\nI ran a 2-nodes cluster on electro and magneto with workload X's read and write parts (at 7K reads/s and 100 writes/s). Then replicated the table and compared the latency output (for writes) and the web interfaces QPS graph (for reads) before and during the backfill.\r\nNote that these query rates didn't completely max out the server. I already used three client machines (puzzler, riddler, and deadshot) to get to the rate of 7K reads, but the clients still maxed out their CPUs. I think there is some problem with the Python protocol buffer library on riddler and puzzler. Will look into that later.\r\n\r\nAn *incoming* backfill will have a quite significant effect on the other hand, because it competes with writes for disk bandwidth.\r\n\r\nIf data is out-of-memory (here: putting 1M documents into a table with a 64 MB cache size limit) on SSDs, this is what I got for an outgoing backfill:\r\nThe read rate drops from 5.4K QPS to 4.8K QPS during the first minutes of the backfill (then recovered to its original rate). The average latency of a write increases from 33ms to 37ms at first, before returning to the original rate after about 2 minutes.\r\n\r\n\r\nIt seems that outgoing backfills are very well behaved."
+  , issueCommentId = 33083143
+  }

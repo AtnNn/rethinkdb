@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-14) 04 : 52 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74361718"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3777#issuecomment-74361718"
+  , issueCommentCreatedAt = 2015 (-02) (-14) 04 : 52 : 16 UTC
+  , issueCommentBody =
+      "Here's what my (probably totally irrational) internal model would expect:\r\n* Writes that error don't show up (including writes that error on a non-existent row).\r\n* Writes that succeed but don't actually need to change the btree show up as one write.\r\n* Writes that succeed show up as one write (obviously).\r\n* Writes that succeed on rows with secondary indexes show up as one write.\r\n* Reads that error before retrieving a value don't show up.\r\n* Reads that error after retrieving a value (e.g. in the `map`) show up as one read.\r\n* Reads that succeed show up as one read.\r\n\r\nIf that matches what other people would expect, I think we should do it; if it doesn't I think we should probably just pick a reasonable rule and stick with it.  (I think the reason I would expect noop writes but not error writes to show up is because in my mind \"I'm performing writes but no writes show up on the graph\" means \"something is wrong\".)"
+  , issueCommentId = 74361718
+  }

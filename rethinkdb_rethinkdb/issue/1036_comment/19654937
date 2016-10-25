@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 01 : 01 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19654937"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1036#issuecomment-19654937"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 01 : 01 : 59 UTC
+  , issueCommentBody =
+      "This is actually a combination of `has_fields` being polymorphic with respect to filter and the addition of promiscuous truthiness.  The server is behaving as expected, but arguably the behavior is confusing and should change.\r\n\r\nTo clarify, we currently say that the following are equivalent if `seq` is a sequence:\r\n```ruby\r\nseq.has_fields('a')\r\nseq.filter{|x| x.has_fields('a')}\r\n```\r\n\r\nSo when evaluating `[{:a => 1}, [{:b => 2}, {:a => 3}]]`, we end up doing a filter.  `r({:a => 1}).has_fields('a')` returns `true`, so `{:a => 1}` is included in the output stream.  `r([{:b => 2}, {:a => 3}]).has_fields('a')` returns `[{:a => 3}]`, which evaluates to `true` due to promiscuous truthiness, so `[{:b => 2}, {:a => 3}]` is included in the output stream."
+  , issueCommentId = 19654937
+  }

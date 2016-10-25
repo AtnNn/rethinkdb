@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-27) 03 : 23 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38764473"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2179#issuecomment-38764473"
+  , issueCommentCreatedAt = 2014 (-03) (-27) 02 : 57 : 42 UTC
+  , issueCommentBody =
+      "@nviennot: Forget what I said earlier. The real bug here was that some place in the code had a `[0]` where it should have had a `[i]`. `i` here is an index that's used to iterate over all the shard responses. In other words, the code only ever looked at the index status from the first shard (but did that multiple times).\r\n\r\nTo answer your question: Indexes are not actually stored in the meta data, but are more similar to a document stored in a table. I would have to check the details in the code, but it could be that the time at which `index_create()` returns actually depends on the number of configured write acknowledgements for the table. So at least if acks is 1 for example, I think it can return before all replicas know about the change."
+  , issueCommentId = 38764473
+  }

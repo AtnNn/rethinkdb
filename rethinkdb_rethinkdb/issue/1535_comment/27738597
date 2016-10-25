@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-05) 01 : 01 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27738597"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1535#issuecomment-27738597"
+  , issueCommentCreatedAt = 2013 (-11) (-05) 01 : 01 : 43 UTC
+  , issueCommentBody =
+      "Alright, fixes are up in code review 1007.  I have not run across any other crashes during testing.  The only thing I am slightly concerned about is that reql_time object precision is slightly different when I export the same database on 32-bit and 64-bit machines.  ex:\r\n\r\n32-bit export:\r\n```\r\n\"datetime\": {\"timezone\": \"+00:00\", \"$reql_type$\": \"TIME\", \"epoch_time\": 1383607457.7049999}\r\n```\r\n\r\n64-bit export:\r\n```\r\n\"datetime\": {\"timezone\": \"+00:00\", \"$reql_type$\": \"TIME\", \"epoch_time\": 1383607457.705}\r\n```\r\n\r\nAs you can see, the 64-bit data is 'more' correct, since we are supposed to truncate to milliseconds.  I have not tracked down the source of this discrepency, but it appears to happen in just 32-bit alone, so at the moment I believe it is just a problem with our reql_time implementation on the 32-bit architecture.  In any case, this can be its own issue, as it is not a problem with our on-disk format's portability."
+  , issueCommentId = 27738597
+  }

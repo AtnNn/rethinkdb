@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-21) 08 : 36 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23002651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1337#issuecomment-23002651"
+  , issueCommentCreatedAt = 2013 (-08) (-21) 08 : 34 : 51 UTC
+  , issueCommentBody =
+      "I'll chime in to explain what the hierarchy actually means in plain english. We should keep this issue open until we document it (in the proto file, or elsewhere).\r\n\r\nFYI, if you're playing around with an existing driver, you can always tack on `.typeOf()/.type_of()` to a query to get the type of the resultset. It should help you get an idea of what types various queries return if something is unclear.\r\n\r\n* __array__ - an array of json documents/values. For example `r.expr([1, 2, 3])` returns an array. An array is a strict data structure -- that means that RethinkDB will load the full array into memory before returning it to the user. Because of this, arrays in RethinkDB are limited in size, and cannot grow to be arbitrarily large.\r\n* __stream__ - similar to an array of json documets/values, but lazy. For example `r.table('foo').pluck('a')` will return a stream. Streams don't need to be loaded into memory in their entirety and can grow arbitrarily large. If you execute a query that returns a stream the client driver will normally present you with a cursor, and you'll be able to iterate over it. The database will lazily load documents into RAM as needed, and flush them out when possible. You normally get streams after a transformation (like `pluck` or `map`). Unlike selections (see below) you cannot call mutation operations like `update` or `replace` on a stream.\r\n* __selection__ - similar to a stream, but you can call mutation operations like `update` or `replace` on selections. For example, `r.table('foo')` is a selection. So is `r.table('foo').filter(...)`. However, `r.table('foo').pluck(...)` is not a selection (since you can't call `update`/`replace`/`delete` after a `pluck`).\r\n* __sequence__ - This is a catch all type for sequences of objects/values. Arrays, streams, and selections are all sequences. It's a convenient way to say \"an array or a stream or a sequence\" without listing all three types.\r\n* __single selection__ - Like a selection (meaning that it can be mutated via `update`/`replace`/`delete`), but it only contains a single document. For example `r.table('foo').get(...)` returns a single selection.\r\n\r\nHope this helps, please let us know if something is unclear and we'll do our best to clarify."
+  , issueCommentId = 23002651
+  }

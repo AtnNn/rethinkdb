@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-18) 03 : 37 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55991289"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3062#issuecomment-55991289"
+  , issueCommentCreatedAt = 2014 (-09) (-18) 03 : 35 : 54 UTC
+  , issueCommentBody =
+      "I speculate that part of the reason for this bug is that this construct was sometimes safe before, but became unsafe as a result of the `datum_t` changes.\r\n\r\nI looked for other instances of this bug, by grepping for `as_str()` and checking for lines of the form `const datum_string_t &x = y.as_str()`, where `y` is a temporary value. I didn't find any more.\r\n\r\nI fixed the instances that I found (four in the geo code and the one in `coerce_to`). The fix is in CR 2109.\r\n\r\nIf we're worried about more lurking instances of this bug, we could make `as_str()` return a `datum_string_t` instead of `const datum_string_t &`. It's safe to write `const datum_string_t &x = y`, where `y` is a temporary value, because there's an obscure C++ feature that guarantees that `y` will not be destroyed until `x` is destroyed.\r\n\r\nI think we should change the coding style standards to prevent future bugs like this. I propose that we forbid the construction `const foo_t &bar = baz` entirely, whether or not `baz` is a temporary, in favor of `foo_t bar = baz` or `const foo_t *bar = &baz` (where appropriate). Note that `const foo_t &bar = baz` is not equivalent to `const foo_t *bar = &baz`, due to the aforementioned obscure C++ feature."
+  , issueCommentId = 55991289
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-27) 20 : 57 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38859566"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2171#issuecomment-38859566"
+  , issueCommentCreatedAt = 2014 (-03) (-27) 20 : 56 : 31 UTC
+  , issueCommentBody =
+      "So, there are three very strange things about this:\r\n* The `exc_t` produced by the `r_sanity_check` should be caught in the `catch` in `run` (at `term.cc:266)`.\r\n* The sanity check shouldn't fail in the first place.\r\n* I can't reproduce the failure.\r\n\r\nSo, `~accumulator_t` (the actually important part of `~avg_terminal_t` in the backtrace) does something which in retrospect is kind of scary:\r\n\r\n```c++\r\naccumulator_t::~accumulator_t() {\r\n    if (!std::uncaught_exception()) {\r\n        r_sanity_check(finished);\r\n    }\r\n}\r\n```\r\n\r\nThe original idea was that an `accumulator_t` should be finished by the time it's destroyed *unless* it's being destroyed because an exception is thrown.  (Also, conveniently, if no exception is on the stack it's safe to throw an exception from the destructor.  Yes, I feel bad writing that.)\r\n\r\nThat chain of logic seems way too fragile in retrospect.\r\n\r\nI'm not sure what's going on here.  If michel's right about the query that caused this, `~accumulator_t()` should be called with `finished` set to `false`, but I don't understand why there isn't an uncaught exception, and I don't understand why the exception produced by the sanity check doesn't get caught by the `catch` block in `run`.\r\n\r\nMaybe the compiler is doing some sort of crazy optimization where it pushed the catch block down and handles the `exc_t` produced by the type error *before* `~accumulator_t()` runs?  That would explain it (the destructor runs with no exception on the stack, and there's no catch block to catch the new exception it produces), but that also sounds illegal.\r\n\r\nAnyway, this code is fragile and bad.  We should remove the assert and use tests to enforce that the results of accumulators are actually used in non-error cases."
+  , issueCommentId = 38859566
+  }

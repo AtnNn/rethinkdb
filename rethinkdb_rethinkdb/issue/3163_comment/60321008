@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-23) 22 : 44 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60321008"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3163#issuecomment-60321008"
+  , issueCommentCreatedAt = 2014 (-10) (-23) 22 : 44 : 56 UTC
+  , issueCommentBody =
+      "Which I suppose is to say \"a string is a sequence of bytes with a coding (possibly implicit)\".  There are things that we permit in strings with the implicit UTF-8 coding right now that we should not (for example, bytes beginning `10xxxxxx` in initial position; overlong encodings; values greater than U+10FFFF) and things we do not permit in strings that we should possibly consider (U+0000).  These actually have security implications; decoders that attempt to decode anything can be used to smuggle U+0000, `/`, `'`, and other dangerous characters past (admittedly pretty mediocre) security firewalls in IIS and Tomcat before.  Accordingly RFC 3629 requires that decoders trigger protect against seeing any of these oddities; early decoders would trigger exceptions, but this had denial of service implications, and more recent ones have largely gone in for replacing them with some other character, like the replacement character U+FFFD.\r\n\r\nThere are additional complications\8212for example Oracle and MySQL will actually use a related codec called CESU-8 when outputting UTF-8, and in Java internal serialization uses the Modified UTF-8.  It is generally expected that the wire protocol be true UTF-8, however.\r\n\r\nThe easiest way to do this would probably be to alter cJSON to use `std::string` instead of `char *` everywhere.  This is a lot of obnoxious grunt work but not, I think, actually difficult.\r\n\r\nThings get *extremely* complex when supporting arbitrary encodings.  I recommend that we not even try.  With `r.binary` you could make a document that has a `coding` key and a `data` key and do your own internal parsing.  Nothing else is remotely safe; non Unicode encodings don't even encode the same code point for the same string of characters (for example, Shift JIS which is insane)."
+  , issueCommentId = 60321008
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-10) 05 : 06 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73645137"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3709#issuecomment-73645137"
+  , issueCommentCreatedAt = 2015 (-02) (-10) 05 : 06 : 19 UTC
+  , issueCommentBody =
+      "Just to be sure that I understood the proposal. Suppose I have 3 documents in my table.\r\n\r\nI'll first get `{state: 'initializing'}`, then some changes, and then `{state: 'ready'}`.\r\n\r\nSuppose that no writes happen on the table, I'll get\r\n```\r\n[\r\n  {new_val: {id: 1}}, \r\n  {new_val: {id: 2}}, \r\n  {new_val: {id: 3}}\r\n]\r\n```\r\n\r\nIf some writes happen on the table, I can get changes about the document with `id: x` only after I receive `{new_val: {id: x}}`.\r\n\r\nIf someone insert `{id: 4}` before `ready` is sent, will I get `{new_val: {id: 4}}` then `{new_val: {id: 4}, old_val: null}`?  Or can I get straight `{new_val: {id: 4}, old_val: null}`? Or just `{new_val: {id: 4}}`?\r\n\r\nCould we have a note to distinguish this feed from other feeds? Such that generic libraries that want to build a higher API (like maintaining a list of changing documents) don't have to wait for the first element to know what they are dealing with (similar to the atom feed)?\r\n\r\nOne last picky thing. While `include_states` sounds better than `note_states`, it doesn't quite describe what the option is for. Shouldn't it be more something like `initial_values: true` (or something better)?\r\n\r\n:+1 overall it looks like a clean API :) I would be happy to add that on thinky :-)"
+  , issueCommentId = 73645137
+  }

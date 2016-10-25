@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-05) 18 : 59 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/109398316"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4351#issuecomment-109398316"
+  , issueCommentCreatedAt = 2015 (-06) (-05) 18 : 59 : 27 UTC
+  , issueCommentBody =
+      "To explain why this doesn't work:\r\nThe expression `[r.row('geojson')]` generates an array with a single element. The single element is a geometry object, but the array itself is not. So the geo index ignores it, since it can only index geometry objects.\r\nLike @thejsj said you can use a multi index if you need to index multiple geometry objects per document (in that case the index expression has to be an array of geometry objects). Or if you only have a single geometry in your object as seems to be the case here, the normal\r\n`r.db('geowtf').table('fences').indexCreate('geojson', r.row('geojson'), {geo:true})`\r\nwill do the job, or even easier in this case:\r\n`r.db('geowtf').table('fences').indexCreate('geojson', {geo:true})`\r\n(since the field name is the same as the index name, it will be deduced automatically in that case)."
+  , issueCommentId = 109398316
+  }

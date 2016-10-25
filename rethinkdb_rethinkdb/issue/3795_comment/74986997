@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-19) 01 : 57 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74986997"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3795#issuecomment-74986997"
+  , issueCommentCreatedAt = 2015 (-02) (-19) 01 : 57 : 49 UTC
+  , issueCommentBody =
+      "I reproduced this on newton using JRuby 1.17.19, and it appears that the `@socket.write` call hangs inside JRuby.  The server read out the beginning of the query and is waiting for more, but the main thread of execution in the client doesn't resume sending it.\r\n\r\nThis would likely correspond to this area of the stack trace from @jhstatewide:\r\n```\r\n\"main\" #1 prio=5 os_prio=0 tid=0x00007ffb9c00a000 nid=0x15ae waiting for monitor entry [0x00007ffba38c2000]\r\n   java.lang.Thread.State: BLOCKED (on object monitor)\r\n\tat org.jruby.RubyThread.select(RubyThread.java:1264)\r\n\t- waiting to lock <0x00000000f60247d0> (a java.lang.Object)\r\n\tat org.jruby.RubyThread.select(RubyThread.java:1256)\r\n\tat org.jruby.RubyIO.waitWritable(RubyIO.java:1436)\r\n\tat org.jruby.RubyIO.fwrite(RubyIO.java:1500)\r\n\tat org.jruby.RubyIO.write(RubyIO.java:1410)\r\n\tat org.jruby.RubyIO$INVOKER$i$1$0$write.call(RubyIO$INVOKER$i$1$0$write.gen)\r\n...\r\n```\r\n\r\nPerhaps the JRuby `waitWritable` implementation is broken.  Trying to find if there's an alternative way to do this."
+  , issueCommentId = 74986997
+  }

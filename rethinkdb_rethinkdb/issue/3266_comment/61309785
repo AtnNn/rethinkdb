@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-31) 18 : 46 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61309785"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3266#issuecomment-61309785"
+  , issueCommentCreatedAt = 2014 (-10) (-31) 18 : 46 : 14 UTC
+  , issueCommentBody =
+      "> This seems like option bloat to me. How many people do you think are going to learn about this option and use it?\r\n\r\nHere is why we came up with it, FYI. When you're playing with the system tables interactively, seeing UUIDs only is very unhelpful because you can't at a glance figure out which table/server you're dealing with. On the other hand, when you're accessing it programmatically (for scripting), you want UUIDs -- otherwise potential dups/conflicts make writing tools very difficult.\r\n\r\nSo the first thought was, let's include both the name and UUID. That works ok in a read-only, non-nested table like `stats`, but works pretty poorly in something like `table_config`, for a few reasons:\r\n\r\n- It's writable. If you include both name and UUID, what happens when they write to one and not the other?\r\n- The document becomes *much* messier. In `table_config` it's not just an extra field you include, you have to change `['s1', 's2']` into `[ {name: 's1', id': ...}, {name: 's1', 'id': ...}]`. Since there are multiple shards and such, we get a nested array of arrays with documents inside, and applying a change to such a thing becomes *really* annoying. Also, the document gets bloated, so it's hard to tell by looking at it what anything means.\r\n\r\nSo I really think `identifier_format` optarg is the least of all the various evils we considered. It's true that we don't allow passing the optarg to run in the web ui, but that's ok -- you almost never want that there. Also, we can allow passing this optarg to `r.db` (and only accept it if the actual db is `rethinkdb`). We should probably do that."
+  , issueCommentId = 61309785
+  }

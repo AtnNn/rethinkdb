@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-15) 00 : 08 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26299212"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-26299212"
+  , issueCommentCreatedAt = 2013 (-10) (-15) 00 : 08 : 56 UTC
+  , issueCommentBody =
+      "There's actually a problem with the watchdog that I ran into last time I used it.  Timers don't work correctly with the watchdog timing and it will occasionally trigger on a timer coroutine, which is (possibly) what you're seeing.  I may have a fix for this lying around somewhere, I'll see if I can dig it up or re-implement it.\r\n\r\nThat output you have makes a lot of sense.  It looks like the majority of coroutines are from pmaps, which would allocate e.g. 24 coroutines per task, and while those coroutines move to different threads, they count against the thread they were allocated on, as far as the coro limit goes.  I think we should rework the coro limit to look at the number of coroutines active on the current thread rather than where they were allocated."
+  , issueCommentId = 26299212
+  }

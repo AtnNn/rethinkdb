@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-07) 20 : 24 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/69085886"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3513#issuecomment-69085886"
+  , issueCommentCreatedAt = 2015 (-01) (-07) 20 : 24 : 44 UTC
+  , issueCommentBody =
+      "I agree with changing `affected_servers` to `reporting_servers` - keep in mind, this change should apply to any 'local' issue: `server_disconnected`, `server_ghost`, `log_write_error`, and `outdated_index`.  I think the name change is a straight improvement in all cases, though.\r\n\r\nThat said, I do not agree with changing `server` to `inaccessible_server` (if we change it at all, it should be `disconnected_server` for consistency).  The full issue structure should look like: \r\n```json\r\n{\r\n    \"critical\": true,\r\n    \"description\": \"[...]\",\r\n    \"id\": \"2717a2c4-2571-571c-a54f-956153bc2a82\",\r\n    \"info\": {\r\n        \"reporting_servers\": [\"foo\", \"bar\"],\r\n        \"server\": \"baz\"\r\n    },\r\n    \"type\": \"server_disconnected\"\r\n}\r\n```\r\n\r\nI think that taking the `type` into account, it is clear that the `server` field is talking about the disconnected server.  I don't feel too strongly about this, though.\r\n\r\nAlso, \"inaccessible\" appears a couple times in the `server_disconnected` issue description; it should be changed to \"disconnected\" (I missed this when making the terminology change)."
+  , issueCommentId = 69085886
+  }

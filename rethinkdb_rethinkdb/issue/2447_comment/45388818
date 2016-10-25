@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-06) 23 : 32 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45388818"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2447#issuecomment-45388818"
+  , issueCommentCreatedAt = 2014 (-06) (-06) 22 : 02 : 17 UTC
+  , issueCommentBody =
+      "@mlucy -- err, ok. I'm ok with that.\r\n\r\nUpdating, the checklist with the latest info:\r\n\r\n- [x] Rename `depaginate` to `page`, `depaginate-limit` to `page-limit` and `link-header` to `link-next`.\r\n- [x] Passing `page` but not `page-limit` should result in an error.\r\n- [x] `page` should accept `null` which means \"no pagination\".\r\n- [x] `page-limit` should be -1 for unlimited, 0 and beyond get that many pages of results\r\n- The return value for `page` lambda should be more flexible\r\n  - [x] User should be allowed to return a string as well as an object (a string would be treated as a next URL). Most of the time, returning the object isn't necessary.\r\n  - [x] User should be allowed to return a `null` (which means no next page), or `{ url: null, [params: ...] }` (which would also mean no next page). Right now the only way to denote that is to return an empty object, but we should be more flexible.\r\n- [x] Passing `{ page: 'link-next' }` shouldn't always result in an error when you get to the end of the stream. For example, try `r.http('https://api.github.com/repos/psas/av3-fc/stargazers', { page: 'link-next' }).count()`. This always results in `Error in HTTP GET ... No attribute rel=\"next\" in object` because when you get to the end, the APIs drop the `rel=\"next\"` link.\r\n- [x] The camel case for `pageLimit` should work in the JS driver."
+  , issueCommentId = 45388818
+  }

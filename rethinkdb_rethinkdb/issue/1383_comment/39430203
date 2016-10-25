@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-03) 09 : 16 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39430203"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1383#issuecomment-39430203"
+  , issueCommentCreatedAt = 2014 (-04) (-03) 09 : 15 : 31 UTC
+  , issueCommentBody =
+      "Speccing this out properly is, like, a full time job and it's late. I have a few generic thoughts, first:\r\n\r\n- Using `libcurl` and `extprocs` with a timeout (like `r.js`) is delightful.\r\n- In terms of the API, we should design this command to model jQuery.ajax (https://api.jquery.com/jQuery.ajax/) and Python's request (http://docs.python-requests.org/en/latest/api/). These things are far, far friendlier than curl, more familiar to our users, and fit into the overall design of ReQL better. In particular, instead of passing arrays of strings, we should pass JSON objects.\r\n- We could make this command as complicated as we want. We shouldn't. Worse isn't merely better -- it'ex exponentially better. I think we should pick a few concrete use cases, make sure the command works on those, and call it a day. Specifically: read via GitHub's API (e.g. get all issues), write via GitHub's API (e.g. create or update an issue), read via Twitter's API (e.g. get all followers), write via Twitter's API (e.g. create a tweet). Once we have enough to do that, I wouldn't go far beyond that. In particular that means only supporting HTTP and HTTPS. Supporting other protocols right now would be a huge overkill. Things like rate limiting options also seem like an overkill.\r\n\r\nI think we'll do well if we model after http://docs.python-requests.org/en/latest/api. There is a question of what this command should return, and how to combine multiple API calls if the command follows links into a single friendly return value. @Tryneus -- may be we should sit down together for an hour or two, and bang out a full proposal together."
+  , issueCommentId = 39430203
+  }

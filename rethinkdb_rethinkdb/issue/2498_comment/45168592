@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-05) 00 : 24 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45168592"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2498#issuecomment-45168592"
+  , issueCommentCreatedAt = 2014 (-06) (-05) 00 : 23 : 40 UTC
+  , issueCommentBody =
+      "On a rotational drive, it takes ~0.4s to initialize all the on-disk structures (0.2s for the serializer, 0.1s for the caches, 0.1s to update the metainfo). Some optimizations are possible here, though nothing seems to be obviously wrong with how this is currently working.\r\n\r\nThe remaining time is spent for exchanging cluster messages. Getting a replica online goes through something like 3 phases, some of which must be broadcasted and acknowledged in the cluster for safety reasons before the next phase can be entered. Some of them have to wait for other shards to reach a certain phase before continuing.\r\n\r\nThe reason this is slow is because we added a nap here to accumulate as many directory changes as possible before sending a message over the network (which upon arrival can cause considerable CPU usage on the other cluster nodes). The nap is 200 ms, which is a lot of course.\r\nThe value was picked to be the smallest value that still showed considerable performance improvement when resharding tables in a 64 nodes cluster.\r\nNapping here and waiting for more changes is so effective in reducing the overhead of directory updates, because e.g. resharding a table with 32 shards typically allows to combine 256 (32 range shards * 8 CPU shards) directory updates into a single one.\r\n\r\nI imagine that this nap is also the reason for resharding operations always taking at least 2 seconds.\r\n\r\nOne or two other optimizations have been done on the receiving end in the meantime.\r\nIt could be that we can lower the nap considerable without much impact for large clusters at this point. I would like to re-test that. "
+  , issueCommentId = 45168592
+  }

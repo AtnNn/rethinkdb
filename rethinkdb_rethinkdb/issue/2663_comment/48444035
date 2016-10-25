@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-09) 08 : 43 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48444035"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2663#issuecomment-48444035"
+  , issueCommentCreatedAt = 2014 (-07) (-09) 08 : 43 : 05 UTC
+  , issueCommentBody =
+      "A few suggestions/comments in a random order\r\n\r\n\r\n- About values in conflicts, we would still have to send back the values in conflict (we do that now for fields the semilattice)\r\n\r\n- While talking about consistent naming, we went for \"server\" and not \"machine\" in the web interface.\r\nAlso now we define replica as primary or secondary. I think we removed the term \"master\".\r\n\r\n- One reason we may want to be able to update multiple fields at the same time is to prevent errors. A simple example is when you have one table, one server and one datacenter. Suppose that the replica is in universe, and that you want to force the master to be in the datacenter (where the unique server happens to be). You need to decrease the replica in universe and increase the replica in the datacenter at the same time.\r\n\r\nWe can maybe come up with the current way `/ajax` works? You can narrow what you are changing by sending a more precise field, but you can still update multiple things at the same time.\r\n\r\n- I think `divest` is useful. I just think the name is hard to get.\r\n\r\n- What's the reason behind the optarg `placement` in shard? I find it kind of confusing. Sharding has nothing to do with picking a primary datacenter (you may want to ping some machines though -- but that seems quite advanced). \r\n\r\n- About @timmaxw's proposal, could we not use array's indexes to keep track of which element we are dealing with. It makes things more compact, but it makes things really hard and tricky to use.\r\nFor example, for `shards`, if we could have something explicit like below, it would make things really more friendly.\r\n```\r\nshards: [\r\n   { left_bound: \"xxx\", right_bound: \"yyy\", primary \"server1\", secondaries: [\"server2\", server3\"] }\r\n   { ... }\r\n]\r\n```\r\n\r\nAlso, aren't ack per shard and server? and not just server? Same question with durability.\r\n\r\n- Can we have something that suggests how many shards a table needs, performance wise (looking at the current load)? Same thing for replicas, or how to group machines (by looking at the latency between servers for example).\r\nWe will probably not do it any time soon, since it's probably really hard to do, but it may be something that we want to keep in mind (or open a backlog issue about)"
+  , issueCommentId = 48444035
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-18) 05 : 07 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21162969"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1157#issuecomment-21162969"
+  , issueCommentCreatedAt = 2013 (-07) (-18) 05 : 07 : 51 UTC
+  , issueCommentBody =
+      "I am unable to reproduce this, but I have a hypothesis as to why it might happen.  In issue #672 we moved to `slow_atomic_countable_t` for `func_t`, but since functions must exist relative to an environment (and in particular, relative to a javascript runner), this seems incorrect.\r\n\r\nIf we change `func_t` to use `single_threaded_countable_t`, and fix all the resulting errors, I think that that should fix this.  We can move everything except `datum_t` and `protob_t` to single threaded countables (those two need to be serialized, unfortunately, and our deserialization process on the shards seems to like moving things cross-thread)."
+  , issueCommentId = 21162969
+  }

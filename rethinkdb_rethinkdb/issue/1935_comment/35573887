@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-20) 01 : 17 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35573887"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1935#issuecomment-35573887"
+  , issueCommentCreatedAt = 2014 (-02) (-20) 01 : 17 : 39 UTC
+  , issueCommentBody =
+      "\r\nIn the end, we can remove don't have to keep track of `frame.type` because `frame.pos` is an integer while `frame.opt` is a string.\r\nSo things were working fine for `node-protobuf` before my changes and not with `protobufjs`.\r\n\r\nAnyway, now backtrace should work for both implementation of node-protobuf.\r\nI also found a bug in the backtrace of `table`. We were not displaying the optional argument.\r\n\r\n\r\nThe fix is in branch `michel_1935_backtrace`, up in review 1225 assigned to @Tryneus. \r\n\r\n\r\nScript to test with `node-protobuf`\r\n```\r\nvar r = require('./js');\r\n\r\nif (r.protobuf_implementation !== 'cpp') {\r\n    throw new Error(\"Wrong protobuf implementation\")\r\n}\r\n\r\nr.connect({}, function(err, connection) {\r\n    var queries = []\r\n    queries.push(r.db(\"test\").table(\"test\", {useOutdated: r(1).add(\"hello\")}))\r\n    queries.push(r.expr({}).merge({a: r.expr(1).add(\"hello\")}))\r\n    queries.push(r.expr(1).do(function(row) { return r.expr(1).add(\"hello\") }));\r\n    queries.push(r.db('test').table('test', {useOutdated: r.expr(1).add(\"hello\")}));\r\n\r\n    var query;\r\n    for(var i=0; i<queries.length; i++) {\r\n        query = queries[i];\r\n        query.run(connection, function(err, result) {\r\n            if (err) {\r\n                console.log(err.message);\r\n            }\r\n            else {\r\n                console.log(\"No error\")\r\n            }\r\n        });\r\n    }\r\n})\r\n\r\n```\r\n\r\nTo test with `protobufjs`, I just used the data explorer.\r\n\r\nResults:\r\n```\r\nExpected type NUMBER but found STRING. in:\r\nr.db(\"test\").table(\"test\", {useOutdated: r(1).add(\"hello\")})\r\n                                         ^^^^^^^^^^^^^^^^^  \r\nExpected type NUMBER but found STRING. in:\r\nr({}).merge({a: r(1).add(\"hello\")})\r\n                ^^^^^^^^^^^^^^^^^  \r\nExpected type NUMBER but found STRING. in:\r\nr(1).do(function(var_0) { return r(1).add(\"hello\"); })\r\n                                 ^^^^^^^^^^^^^^^^^    \r\nExpected type NUMBER but found STRING. in:\r\nr.db(\"test\").table(\"test\", {useOutdated: r(1).add(\"hello\")})\r\n                                         ^^^^^^^^^^^^^^^^^  \r\n```\r\n"
+  , issueCommentId = 35573887
+  }

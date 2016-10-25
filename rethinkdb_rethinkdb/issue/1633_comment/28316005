@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-12) 17 : 47 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28316005"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1633#issuecomment-28316005"
+  , issueCommentCreatedAt = 2013 (-11) (-12) 17 : 47 : 31 UTC
+  , issueCommentBody =
+      "Can I say that I really don't like this idea of limiting expensive operations so they fail if you get over certain size limits?\r\n\r\nIt is one of the worst ways to warn a user about the inefficiency of an operation. Why? Because in a lot of cases it doesn't warn a user at all.\r\n\r\nDevelopers are going to try a query on test data and it will work fine. They are going to put it into production and as data increases, the limits are eventually hit. Now very suddenly the whole system is going to fail because it runs into the artificial limit. There cannot be a pre-warning, because it is a hard limit.\r\n\r\nNow what can an administrator do in such a situation? In some cases nothing. The system is down. It remains down until he gets one of the developers to rework that part of the software with different queries and the new version is rolled out. That can take days or weeks. In this specific case, things are a little better. You have to create a secondary index, which would only take in the range of minutes to days, depending on your hardware (think rotational disks, it can easily take days to even weeks depending on data size). Still the query then has to be changed to make use of the index. In some situations, depending on company policies and administrative structure, especially in larger installations, the DB administrator would then have to get a developer to do it, the new code would have to pass QA, finally get rolled out to the live system.\r\nWeeks of downtime because of a stupid artificial limit.\r\n\r\n\r\nNow what is the alternative? There are two as far as I can see:\r\n1. Make the limit configurable. Once the limit is hit, requests are going to fail. However this time the administrator can temporarily increase the limit, which provides the necessary time to build a secondary index, change the application etc.\r\n2. Don't have a limit at all. Sure, the query is going to get really slow as data size improves. But that to me seems strictly better than an artificial limit. Because it is effectively the same thing, except that it is gradual and you are therefore warned *before* the system completely stops working. Assuming you do some monitoring of your system's performance of course."
+  , issueCommentId = 28316005
+  }

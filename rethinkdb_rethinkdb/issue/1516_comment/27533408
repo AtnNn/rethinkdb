@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-31) 22 : 09 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27533408"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1516#issuecomment-27533408"
+  , issueCommentCreatedAt = 2013 (-10) (-31) 22 : 07 : 07 UTC
+  , issueCommentBody =
+      "About the \"too many coroutines\" limit: This was essentially a problem with how coroutines were counted in debug mode, even though we might eventually want to take a second look at this.\r\n\r\nAbout the more relevant \"node becomes unresponsive\" issue:\r\nIt turns out the main culprit was that different kinds of intra-cluster messages all had to go through a common queue. I implemented a fix which throttles outstanding message writes on a per-multiplexer-client (1) basis. We have a multiplexer which allows us to send and receive different kinds of messages messages over a single underlying TCP connection. For example there are a couple of multiplexers for metadata udpates, one for the heartbeats, one for retrieving stats etc.\r\nThe per-multiplexer-client throttling makes sure that one multiplexer cannot increase the latency of another too much, which is what used to happen. This should also fix the issues we had with heartbeat timeouts and stat timeouts in the web UI.\r\n\r\n(1) for technical reasons, the limit is actually per (multiplexer-client, thread) pair."
+  , issueCommentId = 27533408
+  }

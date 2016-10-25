@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-01) 18 : 03 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21957264"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1221#issuecomment-21957264"
+  , issueCommentCreatedAt = 2013 (-08) (-01) 18 : 03 : 59 UTC
+  , issueCommentBody =
+      "That's the expected behavior with `foreach` -- it expects a write query, or something else that presents the same interface, so it interprets your objects as two stats objects and tries to merge them.  Our conflict resolution algorithm for stats objects clobbers strings but merges arrays.  (We could arguably be more conservative in what we treat as a write-like query to avoid confusing cases like this.)\r\n\r\nI think the problem here is that we don't distinguish between \"write\" meta-ops and \"read\" meta-ops when we ban meta-ops inside of `map`.  It should be legal to write `r.db_list.map{|db| r.db(db).table_lst}`, but illegal to write `r.db_list.map{|db| r.db(db).table_create('newtbl')}` -- the latter should require a `foreach`."
+  , issueCommentId = 21957264
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-03) 09 : 19 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44941543"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2498#issuecomment-44941543"
+  , issueCommentCreatedAt = 2014 (-06) (-03) 09 : 16 : 39 UTC
+  , issueCommentBody =
+      "> Is it really important whether an empty table uses 1 or 20 MB?\r\n\r\nIt's really important, if only for psychological reasons (but the multi-tenancy case is really important too). I think that the current size (1MB) is psychologically acceptable, and we can probably push it to 3MB, but more than that won't be palatable to people. Perception matters _a lot_.\r\n\r\n> If we really want to reduce space overhead, an option could be to store multiple tables into the same file. \r\n\r\nI don't think we should do this. There are devopsy reasons to keep each table in its own file. It's generally expected by users and most other systems do it this way (other than sqlite, but they take a different path for a very specific reason that doesn't apply to us).\r\n\r\nIf the serializer supported variable size extents, one thing we can do is start with a small extent size, and then grow it with every new extent until it hits some upper bound. That's probably a very non-trivial engineering effort, but I think that we'll have to do something like this long term. If that's too hard, we might be able to hack it -- for example, start with 64KB extent size, and once we get, say 128 extents, combine them into 2MB extents and create 2MB extents after that. If that's too hard, may be we could hack it even more -- once we get 128 64KB extents, we could just create a new serializer with 2MB extents and move the data there (that's obviously not ideal)."
+  , issueCommentId = 44941543
+  }

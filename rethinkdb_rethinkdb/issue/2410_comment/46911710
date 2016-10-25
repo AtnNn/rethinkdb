@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-23) 22 : 41 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46911710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2410#issuecomment-46911710"
+  , issueCommentCreatedAt = 2014 (-06) (-23) 22 : 41 : 48 UTC
+  , issueCommentBody =
+      "It turns out that on my machine (kernel 3.13.0) ReiserFS, when mounted with the `data=journal` option, behaves incorrectly.\r\nI could not reproduce the issue on ext4 myself.\r\n\r\nI've written a small test program to verify that the file system behaves correctly under direct I/O.\r\nHere is how to run it:\r\n\r\n1. Download https://github.com/rethinkdb/rethinkdb/blob/daniel_direct_io_test/test/direct_io_fs_test.cc \r\n2. Compile it: `g++ direct_io_fs_test.cc -o direct_io_fs_test`\r\n3. Run it: `./direct_io_fs_test <file>` where `<file>` is the path of a test file. `<file>` is going to be over-written by the program! For example if you want to see if the file system you have mounted in `/home` behaves correctly, run `./direct_io_fs_test /home/<username>/test_file.tmp`. The file will be created automatically. After the program has finished, it can be deleted (it will just contain 32 MB of random data).\r\n4. If the program outputs \"Data mismatch\", there is a problem with the file system and/or underlying storage hardware. If the program doesn't print anything, there shouldn't be any problem. Note that program execution might take a few minutes.\r\n\r\n@janih Can you run that program to see if your server is affected by such a file system / i/o issue?\r\nIt also seems that running RethinkDB with `--no-direct-io` avoids this issue at least on my system.\r\n\r\nIf you don't have a C++ compiler installed, I can also send you a binary."
+  , issueCommentId = 46911710
+  }

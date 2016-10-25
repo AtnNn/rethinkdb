@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-31) 17 : 42 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18760101"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/933#issuecomment-18760101"
+  , issueCommentCreatedAt = 2013 (-05) (-31) 17 : 42 : 34 UTC
+  , issueCommentBody =
+      "Note for people who wish this issue was fixed right now. A pretty good work around for this is to denormalize the data. That is, rather than storing it in an array in an attribute put it in a second table that you join to the first one so your data would look like so:\r\n\r\n```\r\ntable(\"fruit_stands\"):\r\n    {id : 'palo_alto_farmers_market'}\r\n    {id : 'mountain_view_farmers_market'}\r\n\r\ntable(\"fruits_contained\"):\r\n    {fruit_contained : 'apple', fruit_stand : 'palo_alto_farmers_market'}\r\n    {fruit_contained : 'orange', fruit_stand : 'mountain_view_farmers_market'} \r\n```\r\n\r\nThen to get the type of indexing you want you would run:\r\n\r\n```Python\r\nr.table(\"fruits_contained\").index_create('fruit_contained')\r\n```\r\n\r\nAnd then you could get all the fruit stands that sell apples by saying:\r\n\r\n```Python\r\nr.table(\"fruits_contained\").get_all('apple', index = \"fruit_contained\").eq_join('fruit_stands', r.table(\"fruit_stands\"))\r\n```"
+  , issueCommentId = 18760101
+  }

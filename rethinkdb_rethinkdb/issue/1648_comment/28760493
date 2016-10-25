@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-19) 02 : 36 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/28760493"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1648#issuecomment-28760493"
+  , issueCommentCreatedAt = 2013 (-11) (-19) 02 : 36 : 32 UTC
+  , issueCommentBody =
+      "Turns out a lot of the remaining CPU time is spent in `wait_for_rdb_table_readiness()`.\r\n`wait_for_rdb_table_readiness()` works by trying to access a namespace in a loop, until it succeeds. Between each iteration it naps for a constant 10ms.\r\n\r\nUnfortunately the body of that loop becomes expensive with an increased size of the semilattice metadata (we grab a copy of the complete metadata each time). In effect each 10ms sleep is followed up by a much more expensive copy operation, making it effectively hog a CPU core.\r\n\r\nWe can probably get rid of the copying, or if not at least dynamically increase the nap time if things take longer."
+  , issueCommentId = 28760493
+  }

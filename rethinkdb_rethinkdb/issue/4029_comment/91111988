@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-09) 04 : 23 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/91111988"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4029#issuecomment-91111988"
+  , issueCommentCreatedAt = 2015 (-04) (-09) 04 : 23 : 19 UTC
+  , issueCommentBody =
+      "> I think that switching to checking is_open() instead of !@waiters.has_key?(token) && !@data.has_key?(token) doesn't work\r\n\r\nI'm not sure I follow.\r\n\r\nTo deal with the reconnecting issue, you could implement Connection to be a thin wrapper around InternalConnection. When you reconnect, you instantiate a new InternalConnection, with its own pumping thread, its own @waiters and everything, and you atomically swap the @internal_connection reference to that new internal_connection object. This way, the old stuff still operate on the dead internal connection state, which avoid difficult synchronization issues.\r\nA piece of code might be clearer:\r\n\r\n```ruby\r\nclass Connection\r\n  class InternalConnection\r\n    # old connection code\r\n    # manages its own thread, etc.\r\n  end\r\n\r\n  attr_accessor :internal_connection\r\n  def connect(*args)\r\n    @connection_args = args\r\n    spawn_connection\r\n  end\r\n\r\n  def reconnect\r\n    spawn_connection\r\n  end\r\n\r\n  def spawn_connection\r\n    @internal_connection = InternalConnection.new(@connection_args)\r\n  end\r\n\r\n  delegate :run, :register_query, :use, ... :to => :internal_connection\r\n  # delegate is from active support, but you get the idea\r\nend\r\n```"
+  , issueCommentId = 91111988
+  }

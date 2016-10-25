@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-27) 00 : 15 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/25214100"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1043#issuecomment-25214100"
+  , issueCommentCreatedAt = 2013 (-09) (-27) 00 : 15 : 26 UTC
+  , issueCommentBody =
+      "Here are the results of a simple benchmark:\r\nI used a cluster of 8 nodes, all running on the same machine with rotational disks. I created 10 tables, and then measured how long a certain meta operation took.\r\n\r\n1. timed operation: dbCreate followed by dbDrop\r\n#shards     time [ms]\r\n1                58\r\n2                59\r\n4                59\r\n8                62\r\n16              72\r\n32             108 * during preparation\r\n64             * during preparation / ** during preparation\r\n\r\n2. timed operation: tableCreate followed by tableDrop\r\n#shards     time [ms]\r\n1                3344\r\n2                4553\r\n4                6497\r\n8               10550\r\n16              17912\r\n32              38000*\r\n64              not measured\r\n\r\n* heartbeat timeout(s)\r\n** ran out of memory\r\n\r\nTable creation seems to become painfully slow quite quickly. It appears that the time it takes scales approximately linear with the number of hash shards. On the positive side, the existence of tables with a lot of shards does not seem to slow down other meta operations very much (see test 1).\r\n\r\nI will try to find out what exactly takes so long when creating a table. It does not appear to be CPU bound."
+  , issueCommentId = 25214100
+  }

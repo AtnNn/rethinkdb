@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-21) 20 : 12 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/150011702"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4168#issuecomment-150011702"
+  , issueCommentCreatedAt = 2015 (-10) (-21) 20 : 12 : 35 UTC
+  , issueCommentBody =
+      "I see. On Windows I suspect this might actually work. Though I wouldn't bother with changing this until we start looking into tuning performance on Windows, which probably won't be for a bit.\r\n\r\nOn Linux, one reason that I remember for why we switched from asynchronous disk i/o to a thread pool with synchronous i/o was that async i/o didn't work reliably. On certain file systems and block device backends (especially some network-mounted ones, like those you'd find on cloud servers), the supposedly asynchronous kernel calls would suddenly become blocking under certain circumstances. This was really bad in our case, since they were stalling the whole thread which we were also using for other operations. In retrospect I'm not sure why we didn't just move the async i/o calls into their own threads, one per file. There might have been a reason for it that I don't remember."
+  , issueCommentId = 150011702
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-28) 00 : 36 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29431703"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29431703"
+  , issueCommentCreatedAt = 2013 (-11) (-28) 00 : 36 : 02 UTC
+  , issueCommentBody =
+      "Alright, since it's been a while since we discussed this, here's a concrete proposal for what I think we should do.  It's very rough, and I'm less than sure about much of it.\r\n\r\n```ruby\r\ntable.group{|row| ...} # what you expect\r\ntable.group('a') # table.group{|row| row['a'].default(nil)}\r\ntable.group('a', 'b') # table.group{|row| [row['a'].default(nil), row['b'].default(nil)]}\r\ntable.group(index:'c') # group by the index `c`\r\n```\r\n\r\n`group` returns a pseudotype `grouped_streams` which is never returned to the user.  If a user writes a query that results in `grouped_streams`, we give them an error saying that you can't return that type, and recommend chaining `reduce` on the end.  A good error message here is key.\r\n\r\n`grouped_streams` has the semantics Joe indicated above.  If you call `map` etc. on it, you get back `grouped_streams`; if you call `reduce` etc. on `grouped_streams`, you get back a pseudotype `grouped_atoms`.\r\n\r\n`grouped_atoms` can be returned to the clients.  Clients can handle this pseudotype different ways.  Javascript will turn it into the current form (`[{:group => 1, :reduction => 5}, ...]`), while Ruby and Python will turn it into an object (`{1 => 5, ...}`).  They have to handle it differently because JS can't have objects with non-string keys, even though you frequently want to group by numbers.  (**Note**: returning a pseudotype that's handled differently in the clients is the part of this that I'm least sure about).\r\n\r\nFinally, the current arguments to `groupby` (`avg`, `sum`, `count`) will be changed to be operations that work on any stream.  `r.table('test').sum('a')` will sum up all the values of the field `a` in the table `test`, for example.  The equivalent of `r.table('test').groupby('a', r.sum('b'))` will be `r.table('test').group('a').sum('b')`.  I also think we should take this opportunity to add `min` and `max`, which are probably the most-requested basic reductions that we don't offer.\r\n\r\n(Side-note: I also think that `r([1,2,3]).sum` should work.  Basically if you don't pass a field to `sum` or `avg`, it sums or averages the values in the stream.  Same for `min` and `max`.)"
+  , issueCommentId = 29431703
+  }

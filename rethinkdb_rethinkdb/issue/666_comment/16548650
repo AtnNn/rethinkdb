@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-18) 01 : 59 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16548650"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/666#issuecomment-16548650"
+  , issueCommentCreatedAt = 2013 (-04) (-18) 01 : 59 : 20 UTC
+  , issueCommentBody =
+      "Pushing back up to the caller of `on_mod_report`, which is `do_a_replace_from_batched_replace`, we can see that the on_mod_report call is made under the cover of a fifo enforcer's exit_write_t.\r\n\r\nSpecific debug counters reveal that exit_write_t lifetimes are not behaving mutually exclusively.  *However*, here's the output we really get:\r\n\r\n```\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all' command line option.\r\ninfo: Server ready\r\ninfo: Applying data {\"rdb_namespaces\":{\"new\":{\"name\":\"test\",\"primary_uuid\":\"00000000-0000-0000-0000-000000000000\",\"database\":\"9e56ce83-3b41-4c84-8512-23b44c4f363c\",\"ack_expectations\":{\"00000000-0000-0000-0000-000000000000\":{\"expectation\":1,\"hard_durability\":true}}}}}\r\nVersion: rethinkdb 1.4.3-900-gb3323a-dirty (debug) (CLANG 4.0 ((tags/Apple/clang-421.0.57)))\r\nerror: Error in src/rdb_protocol/btree.cc at line 303:\r\nerror: Guarantee failed: [*sttr.mod_report_call_count == 0] \r\nerror: Backtrace:\r\nerror: Wed Apr 17 18:50:22 2013\r\nerror: Exiting.\r\nVersion: rethinkdb 1.4.3-900-gb3323a-dirty (debug) (CLANG 4.0 ((tags/Apple/clang-421.0.57)))\r\nCrashing while already crashed. Printing error message to stderr.\r\nGuarantee failed: [initialization_attempts_ == 0] Trace/BPT trap: 5\r\n```\r\n\r\nThis is on commit 1c1a5c89d9a7098ba28c6803f00684a33ef4de13 in branch sam_666, which adds these variables mod_report_call_count and initialization_attempts_.  If you look at the code, it's easy to prove that it's impossible (in the absence of memory corruption) to get the `initialization_attempts_ == 0` guarantee to fail, because you can be 100% sure that you'd have first had the `*sttr.mod_report_call_count == 0` guarantee or the `sindex_block_.has()` guarantee (in on_mod_report) to fail.\r\n\r\nSo it's *not* a bug in the fifo enforcer that is inducing this behavior.\r\n\r\nI have *only* managed to reproduce these errors *after* hooking up the web UI.  Run the Ruby scripts, wait a gazillion seconds, it won't reproduce.  Then open the Web UI page for that specific table, and you get the crash immediately.\r\n\r\nMy best theory right now is that some Web UI related code is causing this and I will look at this more under Valgrind."
+  , issueCommentId = 16548650
+  }

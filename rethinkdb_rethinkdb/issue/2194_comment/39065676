@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-31) 08 : 45 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 297060
+        , simpleUserLogin = N "nviennot"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/297060?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nviennot"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39065676"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2194#issuecomment-39065676"
+  , issueCommentCreatedAt = 2014 (-03) (-31) 08 : 45 : 00 UTC
+  , issueCommentBody =
+      "I can't reproduce, but the stack trace is interesting:\r\n\r\n```\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:209:in `sleep'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:209:in `wait'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:209:in `block in wait'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:208:in `synchronize'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:208:in `wait'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:139:in `run_internal'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:278:in `noreply_wait'\r\n\tfrom /usr/local/lib/ruby/gems/2.1.0/gems/rethinkdb-1.12.0.0/lib/net.rb:249:in `reconnect'\r\n```\r\n\r\n`reconnect` calls `noreply_wait`, which calls wait, which tries to get an already acquired lock.\r\n\r\nSome threading issues have been raised in: https://github.com/rethinkdb/rethinkdb/pull/1849#commitcomment-5041423\r\n\r\nAn action item to also mitigate the situation is: https://github.com/rethinkdb/rethinkdb/issues/2090"
+  , issueCommentId = 39065676
+  }

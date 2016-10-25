@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-04) 00 : 15 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45038437"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2500#issuecomment-45038437"
+  , issueCommentCreatedAt = 2014 (-06) (-04) 00 : 15 : 10 UTC
+  , issueCommentBody =
+      "Ohh the problem is with the short-circuiting logic in the `conflict_resolving_diskmgrt_t`.\r\nIf an operation is blocked by a resize, it will put itself on a waiter queue for that.\r\nIf the operation is a read (such as in this case), the logic then checks whether the read can be satisfied from writes that are currently on the conflict queue.\r\nIf yes, the read is satisfied immediately.\r\n\r\nThe bug here is that at that point the read had already been pushed onto the resize waiter queue. Once the resize is done, the read will be submitted again, despite the fact that it had already completed.\r\n\r\nThis is my fault, and it's also a bug in 1.12."
+  , issueCommentId = 45038437
+  }

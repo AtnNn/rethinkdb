@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-25) 01 : 29 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21528095"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1200#issuecomment-21528095"
+  , issueCommentCreatedAt = 2013 (-07) (-25) 01 : 29 : 25 UTC
+  , issueCommentBody =
+      "I can basically guarantee there's some low hanging optimizations to be made\r\nwith the new syntax. I'll look in to it tomorrow.\r\n\r\n\r\nOn Wed, Jul 24, 2013 at 6:21 PM, Michel <notifications@github.com> wrote:\r\n\r\n> Hum, that may be an interesting fact.\r\n>\r\n> This query takes about 8 seconds.\r\n>\r\n> r.table('county_stats').eqJoin('Stname', r.table('polls'))\r\n>     .zip()\r\n>     .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\r\n>\r\n>\r\n>     .filter(function(doc) { return doc('Dem').lt(doc('GOP')).and(doc('GOP').sub(doc('Dem')).lt(15)) })\r\n>     .groupedMapReduce(\r\n>         function(doc){ return doc('Stname') },\r\n>         function(doc){ return doc('POPESTIMATE2011').mul(doc(\"GOP\").sub(doc(\"Dem\")).div(100)) },\r\n>         function(acc, val) {return acc.add(val)})\r\n>     .orderBy('reduction')\r\n>\r\n> This query takes between 10 and 12 seconds\r\n>\r\n> r.table('county_stats').eqJoin('Stname', r.table('polls'))\r\n>     .zip()\r\n>\r\n>     .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\r\n>\r\n> I tried it with the python driver, I get the same results.\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/1200#issuecomment-21527860>\r\n> .\r\n>"
+  , issueCommentId = 21528095
+  }

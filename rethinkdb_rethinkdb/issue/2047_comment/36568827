@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-03) 22 : 29 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36568827"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2047#issuecomment-36568827"
+  , issueCommentCreatedAt = 2014 (-03) (-03) 22 : 29 : 42 UTC
+  , issueCommentBody =
+      "@bobbrodie -- `r.ISO8601('2013-08-09T18:53:15.012+00:00').run()` should return a Javascript time object, not a string.  If you pass that same javascript time object to `r.expr`, it should get evaluated just fine.  The problem is that the javascript time object prints in a way where it can't be read back in, so if you turn it into a string or print it out you won't be able to put that string back into RethinkDB.  (Or at least I think that's the problem; I'm not a JS person.)\r\n\r\nIf you want to get the time back in JSON form, you can do `r.ISO8601('2013-08-09T18:53:15.012+00:00').run({time_format:'raw'})` instead, and you will get back a JSON object like `{\"$reql_type$\":\"TIME\",\"epoch_time\":1376074395.012,\"timezone\":\"+00:00\"}`.  You can then evaluate on the server with `expr`: `r.expr({\"$reql_type$\":\"TIME\",\"epoch_time\":1376074395.012,\"timezone\":\"+00:00\"}).run()`.  (If you're using the data explorer, you can click \"Raw view\" instead of passing the optional argument to `run`.)\r\n\r\nIf you want to get the time back as a rereadable string, you can do `r.ISO8601('2013-08-09T18:53:15.012+00:00').coerceTo('string').run()`, and you will get back a string form of the JSON representation:\r\n```js\r\n'{\r\n\t\"$reql_type$\":\t\"TIME\",\r\n\t\"epoch_time\":\t1376074395.0120000839,\r\n\t\"timezone\":\t\"+00:00\"\r\n}'\r\n```\r\nYou can then evaluate that on the server with `r.json`:\r\n```js\r\nr.json(\r\n'{\r\n\t\"$reql_type$\":\t\"TIME\",\r\n\t\"epoch_time\":\t1376074395.0120000839,\r\n\t\"timezone\":\t\"+00:00\"\r\n}'\r\n).run()\r\n```\r\n\r\n@neumino, is any of that right?"
+  , issueCommentId = 36568827
+  }

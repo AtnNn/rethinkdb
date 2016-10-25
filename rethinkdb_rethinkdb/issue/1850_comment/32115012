@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-12) 04 : 35 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32115012"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1850#issuecomment-32115012"
+  , issueCommentCreatedAt = 2014 (-01) (-12) 04 : 27 : 29 UTC
+  , issueCommentBody =
+      "I like this overall. I feel like we should do this, but it needs some thought about the details.\r\n\r\nI have a few remarks about the practical side of implementing this logic:\r\n\r\n1. Right now the server side of a connection processes only one query at a time from a given connection. To get the most out of this, we will have to change that. Sooner or later we should probably do that anyway, it just means some additional work. (also, I should add, this is *no* reason to not implement future semantics on the client side already before this is done)\r\n2. In some client languages, asynchronous events can be difficult to implement. I'm not sure about Python for example. It probably is possible somehow, just might require some rework and potentially additional libraries. As a work-around, a driver could read and parse messages only when the user asks for a result. This would work, but would have disadvantages. Especially the TCP send queue on the server for that connection would fill up and the server would stop processing further queries until the client reads the data from the connection. So a lot of the benefit would be lost if this work-around is deployed.\r\n3. parsing the result messages on the client is usually expensive. Fixing this would mean moving away from protocol buffers. Until then, noreply queries still have a significant performance advantage.\r\n\r\nFinally, there is an alternative way of implementing a very similar thing. As described in https://github.com/rethinkdb/rethinkdb/issues/1514 , an alternative would be that the server stores the results of noreply queries. The client can then retrieve the buffered results. The server-side implementation would make the lives of driver developers easier. From a technical point of view I'd prefer doing it on the client-side."
+  , issueCommentId = 32115012
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-28) 09 : 26 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 488554
+        , simpleUserLogin = N "gotlium"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/488554?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gotlium"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/60727027"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3245#issuecomment-60727027"
+  , issueCommentCreatedAt = 2014 (-10) (-28) 09 : 11 : 13 UTC
+  , issueCommentBody =
+      "So, when you try to use php benchs, pls correct on insert.php line with query:\r\n\r\n        if (!$mysqli->query(\"INSERT INTO t1 VALUES $sqlDocs\")) {\r\n            printf(\"Errormessage: %s\\n\", $mysqli->error);\r\n        }\r\n\r\nOn Ubuntu 14.04 I'm getting this error:\r\n\r\n    Errormessage: Incorrect date value: '2014-10-28T12:11:45+03:00' for column 'date' at row 1\r\n\r\nAnd insert tz on first line like this:\r\n\r\n    <?php\r\n    date_default_timezone_set('Europe/Moscow');\r\n\r\nRemove ID for mysql on generateBatch function, because ID can not be string\r\n\r\n    function generateBatch($size, $slug, $name) {\r\n            $batch = array();\r\n            for ($i = 0; $i < $size; ++$i) {\r\n                    $batch[] = array(\"name\" => $name, \"date\" => date(\"c\"), \"f1\" => rand(0, 10), \"f2\" => rand(0, 10), \"f3\" => rand(0, 10), \"slug\" =>$\r\n            }\r\n            return $batch;\r\n    }\r\n\r\nand use another query to create table. like this:\r\n\r\n    $mysqli->query(\"DROP TABLE IF EXISTS t1;\");\r\n    $mysqli->query(\"CREATE TABLE t1 (name varchar(100) NOT NULL DEFAULT '',date date NOT NULL,f1 int(6) unsigned NOT NULL DEFAULT '0',f2 int(6) unsigned NOT NULL DEFAULT '0',f3 int(4) unsigned NOT NULL DEFAULT '0',slug varchar(32) NOT NULL, KEY (slug) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;\");\r\n\r\nthen after run bench and show results. on originally @danielmewes not check code. when I run benches, I fixed this bugs on my local copy.\r\n\r\n@danielmewes @v3ss0n please correct this all if you want to see real results like my. I do not understand this is not a serious relationship. All my recommendations are ignored. Seriously now I don't want to help or taste anything else. My results is shown real problems with database. I think we can close this discussion."
+  , issueCommentId = 60727027
+  }

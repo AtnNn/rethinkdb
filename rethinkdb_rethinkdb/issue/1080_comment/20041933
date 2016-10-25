@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-26) 11 : 55 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20041933"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-20041933"
+  , issueCommentCreatedAt = 2013 (-06) (-26) 11 : 55 : 34 UTC
+  , issueCommentBody =
+      "With 100 concurrent clients, I'm getting 283 writes/s.\r\n\r\nGoing from  1 to  10 clients improves throughput by a factor of 1.7\r\nGoing from 10 to 100 clients improves throughput by a factor of 4.5\r\n\r\nThis *might* hint towards the theory that the hash shards are part of the problem here.\r\n\r\n\r\nAs to solutions, here are two suggestions. I'm not saying that we should necessarily do any of those, and there are probably better ways:\r\n\r\n1. In general, we could consider introducing a delay before actually flushing anything on rotational drives. The idea behind this would be the same as the one behind Linux's anticipatory i/o scheduler, i.e. the hope that while waiting, more writes come in (thereby trading single-client latency for a higher expected throughput). As far as I know, similar features are present in most of the newer Linux i/o schedulers as well.\r\n\r\n2. It would be nice if different buffer caches could \"merge\" their writebacks together, to reduce the considerable (especially on rotational drives) overhead of having to write one new metablock for each hash shard."
+  , issueCommentId = 20041933
+  }

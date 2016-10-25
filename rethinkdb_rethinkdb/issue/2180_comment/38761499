@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-27) 01 : 52 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2126835
+        , simpleUserLogin = N "externl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2126835?v=3"
+        , simpleUserUrl = "https://api.github.com/users/externl"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38761499"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2180#issuecomment-38761499"
+  , issueCommentCreatedAt = 2014 (-03) (-27) 01 : 52 : 46 UTC
+  , issueCommentBody =
+      "I did have it crash a few times while not in use (first comment with no stack trace).. However, I just ran it for about 10 mins with no activity and it\8217s fine. It crashes reliably when in use though. The code is doing this on startup:\r\n```\r\nr.connect({host: dbConfig.host, port: dbConfig.port}, function(err, connection) {\r\n    if (err) {\r\n      console.error(\"Database error:  '\" + err.message + \"'\");\r\n      process.exit(0);\r\n    }\r\n\r\n    async.eachSeries(Object.keys(dbConfig.tables), function(tbl, cb) {\r\n      r.db(dbConfig.db).tableCreate(tbl, {primaryKey: dbConfig.tables[tbl]}).run(connection, function(err, result) {\r\n        if (err) {\r\n          console.info('Table \\'%s\\' exists', tbl);\r\n        } else {\r\n          console.info('Table \\'%s\\' created', tbl);\r\n        }\r\n        cb();\r\n      });\r\n    },\r\n    function(err) {\r\n      if (err) {\r\n        throw new Error('Error configuring database: \\'%s\\'', err);\r\n      }\r\n    });\r\n  });\r\n\r\n  console.log('Initializing session store');\r\n  sessionStore = new RDBStore({\r\n    // flushOldSessIntvl: 60000,\r\n    clientOptions: {\r\n      db: 'site',\r\n      host: 'localhost',\r\n      port: 28015\r\n    },\r\n    table: 'sessions'\r\n  });\r\n```\r\nSo there was more activity happening than I first thought since we're using Rethink for sessions."
+  , issueCommentId = 38761499
+  }

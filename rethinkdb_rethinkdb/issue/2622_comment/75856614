@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 22 : 24 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 419606
+        , simpleUserLogin = N "v3ss0n"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/419606?v=3"
+        , simpleUserUrl = "https://api.github.com/users/v3ss0n"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75856614"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-75856614"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 22 : 04 : 24 UTC
+  , issueCommentBody =
+      "@danielmewes \r\nNot sure i got what you want to achieve but in Tornado's gen.coroutine to be asynchronus  , you will need to return a Future().\r\nhere is my channel object code from my chat server. This waits for multiple futures and notify specified group of futures , acting as group messaging .\r\n\r\n``` python\r\nclass Channel(object):\r\n\r\n    def __init__(self):\r\n        self.waiters = defaultdict(deque) \r\n\r\n    def listen(self, uid=None):\r\n        result = Future()\r\n        self.waiters[uid].append(result)\r\n        logging.info(\"waiting at topic %s\" % uid)\r\n        return result\r\n\r\n    def notify(self, uid=None, msg=None):\r\n        waiters = self.waiters[uid]\r\n        for future in waiters:\r\n            future.set_result(msg)\r\n            self.waiters[uid] = deque()\r\n\r\nclass ChannelList(TornadoMsgHandler):\r\n    @gen.coroutine\r\n    def post(self, topic):\r\n         msg = yield waiter.listen(topic)\r\n\r\n```\r\n\r\nand when i want to give message to that channel i do this:\r\n\r\n```python\r\nclass ChatBox(BaseHandler):\r\n\r\n    @tornado.web.authenticated\r\n    def post(self):\r\n       waiter.notify(topic, \"message\")\r\n```\r\nYielding the future returns results and that give result to the eventloop."
+  , issueCommentId = 75856614
+  }

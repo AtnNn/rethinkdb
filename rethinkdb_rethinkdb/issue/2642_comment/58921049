@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-13) 16 : 54 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 233103
+        , simpleUserLogin = N "nickpoorman"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/233103?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nickpoorman"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58921049"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2642#issuecomment-58921049"
+  , issueCommentCreatedAt = 2014 (-10) (-13) 16 : 53 : 21 UTC
+  , issueCommentBody =
+      "No, the API is not public. However, this is what the query looks like that we are running (python):\r\n\r\n```python\r\nget_predicted_targets = lambda prediction_targets, user_id: \\\r\n                r.db('ml').table('user_ratings')\\\r\n                    .get_all(user_id, index='user_id')\\\r\n                    .eq_join('ng_id', r.db('ml').table('samples'))\\\r\n                    .zip()\\\r\n                    .eq_join('ng_id', r.db('ml').table('inventory_items'))\\\r\n                    .zip()\\\r\n                    .pluck('ng_id')\\\r\n                    .map(lambda user_rating:\r\n                        user_rating.merge(r.object('tmp_predicted_targets',\r\n                            r.expr(prediction_targets).map(lambda target:\r\n                                r.branch(user_rating.has_fields(target).and_(user_rating.get_field(target)),\\\r\n                                    user_rating.pluck(target), r.object(target,\\\r\n                                        r.http(r.expr('http://APIURI/predictions/').add(target), method='POST', header=r.expr({'Content-Type': 'application/json', 'Accept': 'application/json'}), data=user_rating.pluck('ng_id').coerce_to('string'))\\\r\n                                        .default(r.expr([{'prediction': 0}])).nth(0).get_field('prediction'))))\\\r\n                            .reduce(lambda left, right: left.merge(right)))\\\r\n                        )).get_field('tmp_predicted_targets')\\\r\n                    .reduce(lambda left, right:\r\n                        left.keys().map(lambda key:\r\n                            r.object(key, left.get_field(key).add(right.get_field(key))))\\\r\n                        .reduce(lambda lft, rgt:\r\n                            lft.merge(rgt)))\r\n```\r\n\r\nBasically, if the target is not found on the document, we make a request to our prediction api for it, which takes ~5ms for a response."
+  , issueCommentId = 58921049
+  }

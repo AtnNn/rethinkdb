@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-03) 17 : 38 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18857677"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-18857677"
+  , issueCommentCreatedAt = 2013 (-06) (-03) 17 : 38 : 57 UTC
+  , issueCommentBody =
+      "Ok, that makes sense. Except that range scans on out-of-memory tables will still be really slow due to the high number of random io ops.\r\n\r\nThis should probably be combined with solving #940 once and for all, by making the max block id ridiculously high.\r\n\r\n-----Original Message-----\r\nFrom: srh <notifications@github.com>\r\nDate: Mon, 03 Jun 2013 10:26:59 \r\nTo: rethinkdb/rethinkdb<rethinkdb@noreply.github.com>\r\nReply-To: rethinkdb/rethinkdb <reply@reply.github.com>\r\nCc: Daniel Mewes<danielmewes@onlinehome.de>\r\nSubject: Re: [rethinkdb] Optimize space efficiency with respect to blob\r\n storage (#939)\r\n\r\nWe were talking about this in the office and came to the conclusion that instead the serializer (and buffer cache) should support variable-sized blocks, that is, any block size less than 4096 or some other fixed value that's small relative to extent size.\r\n\r\nThis solves the underused blob problem and also makes more feasible other easy disk usage optimizations such as gzip compression of blocks, or more mundane truncation of underfull btree blocks.\r\n\r\nChanging the MAX_IN_NODE_VALUE_SIZE to something larger than half a block would make btree leveling/splitting/merging logic more complicated -- insertions would now have to accept creating underfull nodes in certain circumstances, without trying to level.  And it would have worse performance, disk-usage-wise, than having the serializer support arbitrary block sizes.\r\n\r\n---\r\nReply to this email directly or view it on GitHub:\r\nhttps://github.com/rethinkdb/rethinkdb/issues/939#issuecomment-18856860\r\n\r\n"
+  , issueCommentId = 18857677
+  }

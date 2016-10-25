@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-28) 01 : 43 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29433934"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29433934"
+  , issueCommentCreatedAt = 2013 (-11) (-28) 01 : 43 : 55 UTC
+  , issueCommentBody =
+      "Also we are going to have no argument versions of `sum` and `avg` for when\r\nyou just have a stream of numbers right?\r\nOn Nov 27, 2013 8:41 PM, \"Joe Doliner\" <jdoliner@gmail.com> wrote:\r\n\r\n> I really like the pseudo-type part I think we should do that.\r\n>\r\n> Another key part of this is that you can chain binary functions to objects\r\n> of type grouped_atoms and get back grouped_atoms. You need this to get\r\n> `avg` to work properly since `avg` is a chain of `map` followed by `reduce`\r\n> followed by a `do`.\r\n> On Nov 27, 2013 7:36 PM, \"Michael Lucy\" <notifications@github.com> wrote:\r\n>\r\n>> Alright, since it's been a while since we discussed this, here's a\r\n>> concrete proposal for what I think we should do. It's very rough, and I'm\r\n>> less than sure about much of it.\r\n>>\r\n>> table.group{|row| ...} # what you expecttable.group('a') # table.group{|row| row['a'].default(nil)}table.group('a', 'b') # table.group{|row| [row['a'].default(nil), row['b'].default(nil)]}table.group(index:'c') # group by the index `c`\r\n>>\r\n>> group returns a pseudotype grouped_streams which is never returned to\r\n>> the user. If a user writes a query that results in grouped_streams, we\r\n>> give them an error saying that you can't return that type, and recommend\r\n>> chaining reduce on the end. A good error message here is key.\r\n>>\r\n>> grouped_streams has the semantics Joe indicated above. If you call mapetc. on it, you get back\r\n>> grouped_streams; if you call reduce etc. on grouped_streams, you get\r\n>> back a pseudotype grouped_atoms.\r\n>>\r\n>> grouped_atoms can be returned to the clients. Clients can handle this\r\n>> pseudotype different ways. Javascript will turn it into the current form ([{:group\r\n>> => 1, :reduction => 5}, ...]), while Ruby and Python will turn it into\r\n>> an object ({1 => 5, ...}). They have to handle it differently because JS\r\n>> can't have objects with non-string keys, even though you frequently want to\r\n>> group by numbers. (*Note*: returning a pseudotype that's handled\r\n>> differently in the clients is the part of this that I'm least sure about).\r\n>>\r\n>> Finally, the current arguments to groupby (avg, sum, count) will be\r\n>> changed to be operations that work on any stream.\r\n>> r.table('test').sum('a') will sum up all the values of the field a in\r\n>> the table test, for example. The equivalent of r.table('test').groupby('a',\r\n>> r.sum('b')) will be r.table('test').group('a').sum('b'). I also think we\r\n>> should take this opportunity to add min and max, which are probably the\r\n>> most-requested basic reductions that we don't offer.\r\n>>\r\n>> (Side-note: I also think that r([1,2,3]).sum should work. Basically if\r\n>> you don't pass a field to sum or avg, it sums or averages the values in\r\n>> the stream. Same for min and max.)\r\n>>\r\n>> \8212\r\n>> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29431703>\r\n>> .\r\n>>\r\n>"
+  , issueCommentId = 29433934
+  }

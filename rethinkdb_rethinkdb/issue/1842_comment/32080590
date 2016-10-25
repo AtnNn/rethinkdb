@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-11) 00 : 32 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32080590"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/1842#issuecomment-32080590"
+  , issueCommentCreatedAt = 2014 (-01) (-11) 00 : 32 : 28 UTC
+  , issueCommentBody =
+      "> If it was up to me, I'd remove the funky backtrace feature entirely. Not worth the trouble. The benefits are really small IMHO.\r\n\r\nDepends a lot on your usage pattern.  I frequently find myself doing things like this:\r\n```ruby\r\ndef get_date_range(tbl, left, right)\r\n  tbl.between(r.epoch_time(left), r.epoch_time(right), index:'date')\r\nend\r\n\r\ndef complete_entry_p(entry)\r\n  entry['field1'] & entry['field2'] & entry['field3'] & entry['field4']\r\nend\r\n\r\nget_date_range(r.table('test'), t1, t2).filter{|row| r.not(complete_entry_p(row))}\r\n```\r\n\r\nIf you're writing code like that, it helps a lot to have the backtrace tell you whether the error occured in the part of the query constructed in `get_date_range`, the part constructed in `complete_entry_p`, or the final construction of the query.  (Which, in fact, is why it was initially added; I was having a lot of trouble tracking down errors in large programmatically-constructed queries.)\r\n\r\nI would believe that most RethinkDB users don't do this, though, so it's probably worth turning it off by default."
+  , issueCommentId = 32080590
+  }

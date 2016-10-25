@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-19) 19 : 49 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/52688703"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2932#issuecomment-52688703"
+  , issueCommentCreatedAt = 2014 (-08) (-19) 19 : 49 : 32 UTC
+  , issueCommentBody =
+      "The original inspiration for the config was that @coffeemug wanted the user to be able to \"just set the state of the cluster\". I think that this is an excellent goal from a usability point of view. It's like the UI for a door. Doors have a very simple UI. If you want the door open, you open it. If you want the door closed, you close it. If we were to make a RethinkDB UI that acted exactly like a door's UI, it would be this: the user writes to the state of the cluster, and the cluster is then in that state. Unfortunately, this is impossible because the cluster takes time to reconfigure itself.\r\n\r\nSo the above proposal doesn't quite achieve the original goal. The config as described above doesn't necessarily describe the state of the cluster; changing it is more like changing a configuration file than like changing the cluster's state directly. If a server is permanently removed, its name is still in the config. If a server is renamed, the config will complain about a missing name instead of automatically changing. It's like a switch controlling an automatic door; if the switch is on, the door tries to open, and if the switch is off, the door tries to close. But if someone forces the door open, the switch stays off. This is why we have separate `table_config` and `table_status` pseudo-tables. `table_config` is like the state of the switch, and `table_status` is like the state of the door.\r\n\r\nBut there's an alternative that we should consider. What if we got rid of `table_config` completely, and then added a function `go_to_state()`? The parameter to `go_to_state()` would have the same format as the current contents of `table_config`. The semilattices would still store a config-like document, except that it would reference servers by UUID instead of by name. `go_to_state()` would perform name lookups and then write to the semilattices. So the user would call `go_to_state()`, and then they would check `table_status`, and the status would be, \"We're going to that state.\" In the door metaphor, this is like an automatic door with \"Open\" and \"Close\" buttons.\r\n\r\nBoth of these options involve compromises, but I think the second option more closely matches the original goal. I also have a vague sense that it will be easier to design auto-failover with the second option.\r\n\r\nOne disadvantage of the second option is that the user can't read back the state that they passed to `go_to_state()`. They can still reconstruct it from `table_status` unless some external factor has changed the table's status, such as if a server was permanently removed. Maybe we could structure `table_status` such that it's easy to convert it into the format that `go_to_state()` expects.\r\n\r\nAnother possible problem with the second option is that internally, we still store a piece of state that acts a lot like the \"config\". This is a warning flag; we might run into awkward issues later if our internal representation doesn't match what we expose to the user. On the other hand, we might eventually want to change the internal representation. I think the second option is compatible with a wider variety of possible internal representations than the first option."
+  , issueCommentId = 52688703
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-19) 21 : 49 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21279700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/872#issuecomment-21279700"
+  , issueCommentCreatedAt = 2013 (-07) (-19) 21 : 49 : 58 UTC
+  , issueCommentBody =
+      "I'd be much less happy with that hack here (although I was sort of unhappy with it to begin with).  In `orderby`, we have exactly one place where `asc` and `desc` can occur, so we just check for them in the source tree and behave accordingly.  If we wanted to use the same trick here, we'd have to recurse down the `MAKE_OBJ` tree looking for them, then remember all the paths to them and pass those paths into the merge function.  This is doable but irritating.\r\n\r\nI think that a pseudotype would be easier from an implementation perspective.  Driver developers wouldn't every see it -- they would send `r.literal(...)` and we'd construct the pseudotype on the server.  Similarly, we'd never send it back to them; if we found the pseudotype anywhere except in `merge` we'd throw an error telling them that they put an `r.literal` in the wrong place.  (Incidentally, this also prevents us from having to write more protobuf-walking code to pre-validate the query like we do with `asc` and `desc`.)\r\n\r\n---\r\n\r\nI might be misunderstanding your `TAGGED_VALUE` thing.  How does tagging a `val_t` help here?  Objects can only hold datums, not values, so the tag would get discarded when `merge` evaluates its first argument and gets back an object.\r\n\r\n"
+  , issueCommentId = 21279700
+  }

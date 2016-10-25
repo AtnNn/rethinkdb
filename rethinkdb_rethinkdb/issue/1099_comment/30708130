@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-16) 22 : 33 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/30708130"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1099#issuecomment-30708130"
+  , issueCommentCreatedAt = 2013 (-12) (-16) 22 : 33 : 06 UTC
+  , issueCommentBody =
+      "So, this originally came up because of the following confusing behavior:\r\n```ruby\r\nr(\"\").split() => []\r\nr(\"\").split(\" \") => [\" \"]\r\n```\r\n\r\n`split` is implemented this way because that's how Python's `split` works: http://docs.python.org/2/library/string.html\r\n> The behavior of split on an empty string depends on the value of sep. If sep is not specified, or specified as None, the result will be an empty list. If sep is specified as any string, the result will be a list containing one element which is an empty string.\r\n\r\n(Python also has the `[]`/`[\"\", \"\"]` behavior Joe mentioned.  In general, `split` with no arguments never produces empty strings, whereas `split` with an argument does.)\r\n\r\nI think that we should stick with our original plan and just mimic Python's behavior in all edge cases.  Edge cases suck, but we might as well do what other people are doing for them.\r\n\r\nI'm not incredibly opposed to adding a `filter_empty` optarg, but I'm not sure that the value is worth complicating the API.\r\n\r\n@coffeemug -- I'm curious what you think about these cases."
+  , issueCommentId = 30708130
+  }

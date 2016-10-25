@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 05 : 15 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 572196
+        , simpleUserLogin = N "stuartpb"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/572196?v=3"
+        , simpleUserUrl = "https://api.github.com/users/stuartpb"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75356265"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3807#issuecomment-75356265"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 05 : 06 : 50 UTC
+  , issueCommentBody =
+      "I think this is probably the problem: https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/net.coffee#L1041\r\n\r\nIn my compiled JS from the published module, the line says to emit 'close', not 'error':\r\n\r\n```js\r\n    this.rawSocket.on('error', (function(_this) {\r\n      return function() {\r\n        var args;\r\n        args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];\r\n        if (_this.isOpen()) {\r\n          _this.close({\r\n            noreplyWait: false\r\n          });\r\n        }\r\n        return _this.emit('close');\r\n      };\r\n    })(this));\r\n```\r\n\r\nSo it appears to have been published before 3c1a642, which would have fixed this, was merged.\r\n\r\nIndeed, patching this section to read\r\n\r\n```js\r\n    this.rawSocket.on('error', (function(_this) {\r\n      return function(err) {\r\n        var args;\r\n        args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];\r\n        if (_this.isOpen()) {\r\n          _this.close({\r\n            noreplyWait: false\r\n          });\r\n        }\r\n        return _this.emit('error', err);\r\n      };\r\n```\r\n\r\ncorrects the behavior, causing the error to propagate as expected."
+  , issueCommentId = 75356265
+  }

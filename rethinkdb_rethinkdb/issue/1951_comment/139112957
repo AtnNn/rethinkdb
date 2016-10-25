@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-10) 04 : 26 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/139112957"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1951#issuecomment-139112957"
+  , issueCommentCreatedAt = 2015 (-09) (-10) 04 : 26 : 15 UTC
+  , issueCommentBody =
+      "I have a working version in branch `daniel_1951`.\r\nThe branch also includes a few unrelated improvements to the cache's memory usage accounting, that make the actually used cache memory remain significantly closer to the specified cache size (though it's still not quite identical).\r\n\r\nThis change has a slightly strange interaction with existing tables:\r\nWith the change, the in-memory copy of the LBA now has two arrays from block ID's to block infos. One for regular blocks (IDs starting at 0), and one for blob blocks (IDs now starting at 2^63). The array for blob blocks uses the more compact structure that omits the recency timestamp.\r\nEvery newly written blob is going to use block IDs from the new ID range for blobs, and is going to end up in the blob array. As more and more values of a table get rewritten, most of the block IDs used for blobs are going to be moved over into the blob LBA array.\r\nThe weird side effect of this is that the regular blob array doesn't actually shrink, as long as there's at least one block ID close to the end of the block range that's still in use by a regular block. So even if values in an existing table are getting rewritten, this change is not actually going to save as much memory as one might expect. (Though it will still save roughly 8 bytes per block due to an additional optimization.)\r\nThe change is therefore going to be most effective for new tables, or for tables that are still growing in size due to inserts."
+  , issueCommentId = 139112957
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 08 : 11 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18329192"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18329192"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 08 : 11 : 37 UTC
+  , issueCommentBody =
+      "@atnnn -- that's a bug (although I haven't confirmed the behavior).  Good catch.\r\n\r\n@danielmewes -- Some thoughts:\r\n\r\n#### Advantages\r\n* Solves the \"make NULL and non-existence act the same\" problem without introducing the ability to clobber data.\r\n* Solves one of the major problems with `default`/`catch`.\r\n* Might save people a lot of pain in the future.  (For instance, it would be harder to automatically clobber an attribute by setting it to the value of another row's attribute that happens to be NULL.)\r\n\r\n#### Theoretical Disadvantages\r\n* There are still cases where `default` sounds good to me (like the empty-list example I gave above) that this wouldn't handle.\r\n* There are other places where the user can get a NULL that we probably still want to handle.  (For example, `get` returns NULL if a there's no row with that primary key.  It would be nice to let people write `table.get(id).default({...})`.)\r\n* We would have to think very carefully about the semantics for `update` and `merge`.  If we just changed attribute access, we would have this behavior:\r\n\r\n```ruby\r\nrow1 = {:a => 1}\r\nrow2 = {:a => nil, :b => nil}\r\nrow1.merge(row2) # clobbers `a`\r\nrow1.merge(row2.pluck(:a)) # clobbers `a`\r\nrow1.merge({:a => row2[:a]}) # throws\r\n```\r\n\r\nwhich would sort of suck.  But making `NULL` not clobber fields would make e.g. `update` much less useful.\r\n\r\n#### Practical Disadvantages\r\n* We might well break people's existing programs.\r\n* We would have to think very carefully about the edge cases.  This would be a big change to RQL's semantics, and we might well miss something.\r\n\r\n---\r\n\r\nI'm not sure whether I think the advantages outweigh the disadvantages.\r\n"
+  , issueCommentId = 18329192
+  }

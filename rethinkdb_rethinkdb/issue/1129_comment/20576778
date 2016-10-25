@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-07) 20 : 19 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1761249
+        , simpleUserLogin = N "dodyg"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1761249?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dodyg"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20576778"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1129#issuecomment-20576778"
+  , issueCommentCreatedAt = 2013 (-07) (-07) 20 : 19 : 49 UTC
+  , issueCommentBody =
+      "This is the code that breaks the DB over the dataset. Pretty much I pull 5000 records at a time and update their document structures. Each time I run this application, it will perform 100,000 updates. I can run it three times without any problem. It crashes on the fourth run usually (between 300,000 and 400,000 documents of 'porn_domain' status). The last time it crashes on 321,737 documents with 'porn_domain' with 'sha1' field.\r\n\r\n```\r\nfunc main() {\r\n\tsession, err := r.Connect(\"localhost:28015\", \"janjira\")\r\n\tif err != nil {\r\n\t\tfmt.Println(\"eror connection\", err)\r\n\t\treturn\r\n\t}\r\n\r\n\tfor _, _ = range \"12345678901234567890\" {\r\n\t\tUpdateHash(session, \"porn_domain\")\r\n\t}\r\n\r\n\tsession.Close()\r\n}\r\n\r\nfunc UpdateHash(session *r.Session, status string) {\r\n\tvar lists []BlackList\r\n\tfilterFunc := func(row r.Exp) r.Exp {\r\n\t\treturn row.HasFields(\"sha1\").Not()\r\n\t}\r\n\r\n\tr.Table(BLACK_LIST).Filter(r.Map{\"status\": status}).Filter(filterFunc).Limit(5000).Run(session).All(&lists)\r\n\r\n\tfmt.Println(\"Length \", len(lists))\r\n\r\n\tvar response map[string]interface{}\r\n\r\n\tfor x, y := range lists {\r\n\t\thash := URISha1Hash(y.URI)\r\n\t\thash256 := URISha256Hash(y.URI)\r\n\t\tr.Table(BLACK_LIST).Get(y.Id).Update(r.Map{\"sha1\": hash, \"sha256\": hash256}).\r\n\t\t\tDurability(\"soft\").Run(session).One(&response)\r\n\r\n\t\tfmt.Println(x, \" : \", y.URI, \" => \", hash, \" && \", hash256, \" -- \", response)\r\n\t}\r\n}\r\n\r\n```"
+  , issueCommentId = 20576778
+  }

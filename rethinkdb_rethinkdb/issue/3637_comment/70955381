@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-22) 01 : 19 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70955381"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3637#issuecomment-70955381"
+  , issueCommentCreatedAt = 2015 (-01) (-22) 01 : 19 : 47 UTC
+  , issueCommentBody =
+      "The reason why `-0` and `+0` both exist is important for subtle numerical reasons (mostly to do with the complex plane, as I recall).  @mlucy and I both looked at this, and came up with some weird stuff.  In Chrome:\r\n```javascript\r\n> -0\r\n< -0\r\n> JSON.stringify(-0)\r\n< \"0\"\r\n> JSON.parse(\"-0\")\r\n< -0\r\n```\r\nThat is Chrome does not roundtrip this itself.  Python as it happens does handle this properly:\r\n```python\r\n>>> import json\r\n>>> -0.\r\n-0.0\r\n>>> json.dumps(-0.0)\r\n'-0.0'\r\n>>> json.loads(\"-0.0\")\r\n-0.0\r\n```\r\nIn Ruby, I get this:\r\n```ruby\r\nirb(main):001:0> -0.0\r\n=> -0.0\r\nirb(main):002:0> require 'json'\r\n=> true\r\nirb(main):003:0> -0.0.to_json\r\n=> \"-0.0\"\r\nirb(main):007:0> JSON.parse(\"[-0.0]\")\r\n=> [-0.0]\r\n```\r\n(I have to wrap it in an array for some weird Ruby reason)."
+  , issueCommentId = 70955381
+  }

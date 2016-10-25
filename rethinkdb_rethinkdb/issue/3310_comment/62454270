@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-10) 21 : 01 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62454270"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3310#issuecomment-62454270"
+  , issueCommentCreatedAt = 2014 (-11) (-10) 21 : 01 : 15 UTC
+  , issueCommentBody =
+      "The reason is basically what @mlucy had first written.\r\n`get_nearest()` generates an array, so it would put an unbounded number of values into the result (and load them into memory) if it didn't have a limit.\r\nWe decided to have it as an opt arg to `get_nearest()` rather than relying on a chained `limit()` to reduce the chance of missing that limitation. Besides that, it's also a pretty common use case to request a given number of nearest neighbors.\r\n\r\nThe way things are implemented now `r.get_nearest(..., max_results => 999999999).limit(100)` is not equivalent to `r.get_nearest(..., max_results => 100)` because the `limit()` is not propagated into the `get_nearest()` (we could theoretically do that, but right now it doesn't happen). It would first generate as many results as possible and then discard most of them.\r\n\r\nNote that `getNearest()` also has a second limit, specified through `maxDist`. At least one of `max_dist` and `max_results` should be sufficiently small, because otherwise `getNearest()` is going to fail once it gets too close to earth's radius in trying to find more results."
+  , issueCommentId = 62454270
+  }

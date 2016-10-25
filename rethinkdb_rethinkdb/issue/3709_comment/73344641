@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-07) 02 : 02 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 265071
+        , simpleUserLogin = N "kofalt"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/265071?v=3"
+        , simpleUserUrl = "https://api.github.com/users/kofalt"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/73344641"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3709#issuecomment-73344641"
+  , issueCommentCreatedAt = 2015 (-02) (-07) 02 : 02 : 53 UTC
+  , issueCommentBody =
+      "Reconsidering for a moment, I have two comments on @danielmewes' proposal.\r\n\r\nThe first is that it could lead to rather unintuitive results.\r\nAsking for `.changes()` on a large query result (such as a table) could result in:\r\n\r\n1. A change event for doc `X`, from `v1` to `v2`\r\n1. The query result for doc `X`, still at `v1`.\r\n\r\nIn that order. I would consider this confusing for RDB users who have not read this discussion.\r\n\r\nNotably, I'm not familiar enough with the underlying implementation to be sure if this is possible.\r\nI defer to RDB contributors to consider or dismiss the above scenario, and if it's an concern.\r\n\r\n----\r\n\r\nSecond and more importantly, it significantly increases the complexity of a user's mental model and client code. In the \"leaderboard\" use case, a client consuming in-order documents is two `for` loops; nearly identical to consuming changefeeds without `return_initial`.\r\n\r\nMeanwhile, consuming out-of-order documents instead comprises of incrementally building both the result set and change set simultaneously, and triggering code when the former is complete. Based on your application, the changefeed may be useless to you until you have all the initial data. At this point, I notice that my code is *reimplementing RDB's internal changefeed buffer*, and poorly at that.\r\n\r\nWould it be reasonable to request a further option to give a harder guarantee on in-order \"query THEN changes\" results? Overly large result sets (like an entire table) strike me as mainly useful for things like replication, and are inherently a more advanced use case than the aformentioned leaderboard query. If you set `in_order: true` or something, and the changefeed buffer spills before you read all the query results, that's your fault :) \r\n\r\nMaybe so much so that it's worth offering the guarantee by default, as the consumption of an out-of-order document set feels more complicated to explain than it ought to be for average use cases."
+  , issueCommentId = 73344641
+  }

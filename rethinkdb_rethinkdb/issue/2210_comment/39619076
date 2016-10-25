@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 22 : 48 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39619076"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2210#issuecomment-39619076"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 22 : 48 : 05 UTC
+  , issueCommentBody =
+      "There could be a few reasons, but I think the most likely is that the interface trying to be bound is not available to the process (which itself could be for a few reasons).  I've noticed that that error message is not entirely helpful, as it doesn't specify which interface it's trying to bind to when the error happened (just the nebulous 'localhost').  We explicitly check that bound IP addresses are in the list of available network interfaces, so this might not be the reason.\r\n\r\nThis is not that the port is in use by another process (that case does not throw this exception, and is a separate errno).  It also isn't that the requested port is in a protected range (which is the same error case as in-use).  Therefore, I think the IP address it's trying to bind either doesn't exist or isn't available for some other reason.\r\n\r\nAre you specifying any `--bind` option when launching the server (or in your config file)?  If not, we are attempting to bind to 127.0.0.1.\r\n\r\nFor the moment I will modify the exception to include the address being bound to, rather than 'localhost'."
+  , issueCommentId = 39619076
+  }

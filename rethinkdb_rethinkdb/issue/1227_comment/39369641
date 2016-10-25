@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-02) 18 : 58 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39369641"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1227#issuecomment-39369641"
+  , issueCommentCreatedAt = 2014 (-04) (-02) 18 : 58 : 35 UTC
+  , issueCommentBody =
+      "Getting by one index and sorting by another is probably a long way off.  (You can always do an un-indexed `order_by` if the `get_all` returns few enough rows.)\r\n\r\nOne option would be to use a compound index.  For your example above:\r\n```ruby\r\nr.table('contacts').index_create('compound') {|row|\r\n  [row['organization_id'], row['created_at']]\r\n}\r\nr.table('contacts').index_wait('compound')\r\nr.table('contacts').between(['bd8ba1bc-102c-4ba3-a1b8-1af65efc9aba'], ['bd8ba1bc-102c-4ba3-a1b8-1af65efc9ab'], index:'compound').order_by(index:'compound')\r\n```\r\n\r\n(Note that the value in the array in the second endpoint of `between` is the id you want to get with the last character incremented.  You just need to pick some array for the second endpoint which is always greater than any value you want to retrieve, but always less than or equal to any value you don't want to retrieve.)\r\n\r\nDoes that work for you?"
+  , issueCommentId = 39369641
+  }

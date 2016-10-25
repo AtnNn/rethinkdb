@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-14) 01 : 00 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 292681
+        , simpleUserLogin = N "nergdron"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/292681?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nergdron"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/35045567"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1885#issuecomment-35045567"
+  , issueCommentCreatedAt = 2014 (-02) (-14) 01 : 00 : 20 UTC
+  , issueCommentBody =
+      "@danielmewes:\r\n400-500 writes/sec was from the web interface, yes.\r\n~1msg/sec was a typo, I meant ~1 block/sec, just eyeballed through the web interface.\r\n\"syncing machine\" means the system that it's syncing to, not syncing from.\r\n2000 writes/sec are disk writes from iostat, and we're not running additional queries, as we're just starting to test out rethink.\r\n~60k blocks in the first hour was from ajax/progress, taken after we restarted replication, it just managed to do about 60k in the first hour, then tapered off.\r\nDocument sizes are roughly 1-2k each.\r\n\r\nOne of the issues we've been seeing that makes me suspect \"random io\" is not the only culprit is simply how much the replication performance degrades over time. Even if random IO is a contributing factor, I would still expect to see the overall rate be relatively stable. However, we've found that the longer it runs, the worse performance gets, without seeing any reduction in disk activity on the system the data's syncing to.\r\n\r\nLooking now, ~9 days after we last restarted syncing, and the table in question still only has  114976/237223 blocks synced, this after the first ~60k synced in only an hour. Looking at the target machine, it's still doing a consistent 15-25 MB/s of writes in 2700-3600 writes/sec (120-600 wrqm/s) according to iostat. So it's hitting the io system hard, but almost nothing is happening as far as the sync status indicates.\r\n"
+  , issueCommentId = 35045567
+  }

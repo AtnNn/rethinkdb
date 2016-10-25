@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-25) 19 : 38 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 218725
+        , simpleUserLogin = N "dminkovsky"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/218725?v=3"
+        , simpleUserUrl = "https://api.github.com/users/dminkovsky"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53316563"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2954#issuecomment-53316563"
+  , issueCommentCreatedAt = 2014 (-08) (-25) 19 : 38 : 55 UTC
+  , issueCommentBody =
+      "Okay, so I've done some more testing. Here's the setup:\r\n\r\n- 2012 MacBook Air, freed up resources, CPU basically idle.\r\n- Rethink 1.13, a JS driver to match (1.13.0-3)\r\n- A table with 124 documents. They look like this:\r\n\r\n```\r\nr.db('lm').table('contents').getAll('38c2340fd0312913', { index: 'revision_id' })\r\n\r\n[\r\n    {\r\n        \"created\": Mon Aug 25 2014 06:19:04 GMT+00:00 ,\r\n        \"id\":  \"ef61c4c5b4d9d62d\" ,\r\n        \"revisions\": [\r\n            {\r\n                \"created\": Mon Aug 25 2014 06:19:04 GMT+00:00 ,\r\n                \"id\":  \"38c2340fd0312913\" ,\r\n                \"updated\": Mon Aug 25 2014 06:19:17 GMT+00:00 ,\r\n                \"url\":  \"hi\"\r\n            }\r\n        ] ,\r\n       \"type\":  \"link\" ,\r\n       \"user_id\":  \"f8edf3d42b104634\"\r\n   }\r\n]\r\n```\r\n\r\nYou can find the test here: https://gist.github.com/dminkovsky/e49134e5e5ad2ee97e05\r\n\r\nBasically, I am running 3 tests, that query the database for 25 IDs. the 3 methods are:\r\n\r\n* Like query (1) above:\r\n```\r\nr.expr(ids)\r\n    .concatMap(function(id) {\r\n        return r.table(\"contents\")\r\n        .getAll(id, { index: 'revision_id' })\r\n    });\r\n```\r\n\r\n* Like query (2) above:\r\n```\r\nvar query = r.db('lm').table('contents');\r\nquery = query.getAll.apply(query, ids.concat({ index: 'revision_id' }));\r\n```\r\n\r\n* and a modified query (2) with `coerceTo('array')` appended.\r\n```\r\nvar query = r.db('lm').table('contents');\r\nquery = query.getAll.apply(query, ids.concat({ index: 'revision_id' })).coerceTo('array');\r\n```\r\n\r\nThe results look like this, +/- <%1 when run a few times:\r\n\r\n```\r\nSTARTING `testMap`\r\n`testMap` time:  70\r\n\r\n\r\nSTARTING `testGetAll`\r\n`testGetAll`, received cursor time: 4\r\n`testGetAll`, exhausted cursor time: 79\r\n\r\n\r\nSTARTING `testGetAllCoerceToArray`\r\n`testGetAllCoerceToArray` time:  63\r\n```\r\n\r\nDo these look right you guys? I would hope/think that the second two would be faster than 60-80ms. "
+  , issueCommentId = 53316563
+  }

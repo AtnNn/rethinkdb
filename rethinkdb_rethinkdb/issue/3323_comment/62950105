@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-13) 19 : 23 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62950105"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3323#issuecomment-62950105"
+  , issueCommentCreatedAt = 2014 (-11) (-13) 19 : 23 : 38 UTC
+  , issueCommentBody =
+      "Hi @YChebotaev \r\nThe thing about `update` is that it actually performs a `merge` under the hood. So if you merge a document that has more fields with one that has fewer fields, you will actually still have all the fields.\r\n\r\nThis is how you can avoid it from doing that:\r\n```\r\nr.db('shop').table('orders')\r\n  .get(\"26a04c22-971b-4b70-9c67-800806e40d4b\")\r\n  .update({\r\n    \"cart\": r.literal(r.row(\"cart\").without(\"e7c8e5b6-66de-401b-9fe4-d0ff8d92775e\"))\r\n  })\r\n```\r\n\r\nNote the `r.literal` in there. See http://www.rethinkdb.com/api/javascript/literal/ for more details."
+  , issueCommentId = 62950105
+  }

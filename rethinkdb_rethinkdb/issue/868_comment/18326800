@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 07 : 02 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18326800"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/868#issuecomment-18326800"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 07 : 02 : 51 UTC
+  , issueCommentBody =
+      "I prefer `push_front` and `push_back`. These functions have never ever confused anyone, which something I like in my programming language.\r\n\r\nI'm not sure whether making `without` polymorphic is a good idea. It sounds a bit too similar to the mistake we made with `contains`. I don't have a very strong opinion on this.\r\n\r\nAfter thinking about it some, I'd just forget `bag_inersection` -- we can deal with it at a different time. `bag_union` just preserves dups, and is basically the current `union` command (which we should keep). Currently `+`/`add` is the same as `union` and preserves dups (it's basically a bag union). Therefore if we did `-`/`sub`, it would have to be a bag intersection, *not* a set intersection. Let's just not do this for now.\r\n\r\nFor set commands, I think just prefixing with `set_` is good. Like `set_union`, `set_intersection`, etc. These aren't short, but they're nice and consistent and clear. I think we should define the semantics of set operations in a way that guarantees all dup elements are gone at the end.\r\n\r\nHow does one insert a single element into a set (other than constructing a set of one element and unioning it with the original)? We need `set_insert` or `push_unique` or something like this.\r\n\r\nEverything else roughly looks awesome."
+  , issueCommentId = 18326800
+  }

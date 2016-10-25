@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 03 : 29 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 34433
+        , simpleUserLogin = N "fuwaneko"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/34433?v=3"
+        , simpleUserUrl = "https://api.github.com/users/fuwaneko"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19661181"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1027#issuecomment-19661181"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 03 : 29 : 09 UTC
+  , issueCommentBody =
+      "> There are a few other closure features that we use but those can be fairly easily replaced.\r\n\r\nI didn't find anything except goog.isArray, which is apparently not needed both in Node.js and browser as ```instanceof Array``` works anywhere. As for goog.require it's also not necessary in both cases. My build script concatenates coffees in correct order itself before compiling.\r\n\r\n>  a pure JS library that could work in both environments would be almost as fast as a native extension\r\n\r\nI don't think so. Not until JavaScript gets support for native int64 and stuff. When profiling original driver I've discovered that problematic pieces were goog.math.Long (which is s substitution for int64) and functions that converted string to a byte array or worked with byte arrays. By the way, there's currently loss of data if protocol includes int64 number, I'm thinking of adding option to node-protobuf to represent it in a similar to goog,math.Long way. Just not to lose any data if you need to. Apparently it'll only happen with extremely big numbers, but in a big db with millions of rows it could be the case.\r\n\r\nSome things are just naturally faster in a native C++ library and you can't do anything about it.\r\n\r\n> @Raynos has indicated a preference for a pure JS library as a matter of style though this might not deliver the performance we need\r\n\r\nFor real-life applications it's not a matter of taste. It's a matter of what is faster. If pure JS can't be fast, forget it.\r\n\r\n> @coffeemug solution to remove browser support\r\n\r\nI think it's the right way to do it. I mean, probably no one will ever use browser driver for real except for Admin UI and having redundant code to support might be a problem. Especially considering problems with protobuf. I think that the only right way for browser JS to communicate with any kind of server is JSON via HTTP or maybe WebSockets.\r\n\r\n> embed node in the RethinkDB server\r\n\r\nI'm not sure if this is an overkill. I know about your plans on triggers and stuff, but really? Is it a database or application server? REST interface instead of protocol buffers? Besides, I'm not sure if Node.js is really suitable for embedding."
+  , issueCommentId = 19661181
+  }

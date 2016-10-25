@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-04) 00 : 15 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72765145"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3709#issuecomment-72765145"
+  , issueCommentCreatedAt = 2015 (-02) (-04) 00 : 14 : 30 UTC
+  , issueCommentBody =
+      "The point about `return_initial` on tables is a good one. Some of the possible implementations for that would actually send changes for part of the range out before the initial results for the whole table have been completely sent.\r\n\r\nSo the semantics proposed by @kofalt \r\n> 1. Set an optarg, `mark_ready` or something, on a query with `.changes()`\r\n1. Handle documents lacking a `ready` key as a query result (extracting from `new_val` key)\r\n1. Read a document with a `ready` key, discard\r\n1. Handle all future documents as a changefeed event (with `new_val` and `old_val` keys).\r\n\r\nwould need to be relaxed a little bit in that case. We could still send the `ready` key once we are done with all initial results, but we might send some update events (with both `old_val` and `new_val`) even before that point.\r\n\r\nApart from that detail I quite like the proposal.\r\n\r\n"
+  , issueCommentId = 72765145
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-16) 18 : 41 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 5806658
+        , simpleUserLogin = N "roncemer"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/5806658?v=3"
+        , simpleUserUrl = "https://api.github.com/users/roncemer"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55792399"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2303#issuecomment-55792399"
+  , issueCommentCreatedAt = 2014 (-09) (-16) 18 : 41 : 14 UTC
+  , issueCommentBody =
+      "One area where Riak really falls flat, and RethinkDB does as well, is in processing HUGE amounts of data in a query.  I'm talking potentially hundreds of millions of objects, each with nested arrays of child objects, where the query iterates over the objects for a range of keys, and for each object, iterates over the child objects within that object, to form a result set.\r\n\r\nThe limitation of array sizes to 100,000 isn't going to work for real-world number-crunching applications such as this.\r\n\r\nRethinkDB needs something like what MySQL has, where if the size of a result set is too large to fit into memory, it puts it on disk in a temporary file (temp table) and works on it there.  RethinkDB's MapReduce implementation could especially benefit from this.\r\n\r\nMy real-world use case: Some 15M objects going into Riak (or RethinkDB) per day, each with between 1 and 500 child objects within them.  The query aggregates child objects and comes up with counts, grouped by some common attributes of the child objects, for a 7-day, 3-day, and 1-day ranges.  The keys are date/time-prefixed, so scanning a date range is easy.\r\n\r\nIf RethinkDB could handle this massive query, do proper MapReduce and aggregation, and return the results, all without complaining about arrays being too large, running out of memory, or producing any errors, then it would definitely be ahead of the game compared to almost every other solution out there.\r\n\r\nAn example object in the table:\r\n[\r\n{\r\n\"ems\": [\r\n{\r\n\"k\": 8 ,\r\n\"kc\": 2321 ,\r\n\"kf\": 5656 ,\r\n\"ks\": 8863 ,\r\n\"md5\":  \"aa1fc5490cbca4a3aa6b6e450952a0c3\" ,\r\n\"mdom\":  \"example.com\"\r\n}\r\n] ,\r\n\"id\":  \"2014-08-28 00:00:00 53feb750a581e2a953feb7500ce856e5\" ,\r\n\"pc\": 934 ,\r\n\"rtm\":  \"2014-08-28 00:00:00\" ,\r\n\"urid\":  \"53feb750a581e2a953feb7500ce856e5\"\r\n}\r\n]\r\n\r\nNote how the key (id) is prefixed with the date/time, which makes it easy to do range scans.\r\n\r\nMy query (covers one hour only, so RethinkDB won't blow up; should be able to cover up to 7 days):\r\nr.db('ecapi').table('ecapilog').between('2014-08-28 00:00:00', '2014-08-28 01:00:00')\r\n.concatMap(function(obj) {\r\n  return obj('ems').merge({pc:obj('pc'), nems:1});\r\n})\r\n.group('pc', 'mdom', 'k', 'kc', 'ks', 'kf')\r\n.sum('nems')\r\n\r\nTypical query result:\r\n[\r\n{\r\n\"group\": [\r\n1 ,\r\n\"example.com\" ,\r\n17 ,\r\n111 ,\r\n8793 ,\r\n4699\r\n] ,\r\n\"reduction\": 1\r\n} ,\r\n{\r\n\"group\": [\r\n1 ,\r\n\"example.com\" ,\r\n25 ,\r\n29 ,\r\n1366 ,\r\n5231\r\n] ,\r\n\"reduction\": 3\r\n} ,\r\n...\r\n]\r\n\r\n\r\nIf I try to run the query for 4 hours' time rage, RethinkDB blows up.  The number of objects in the table should be inconsequential.\r\n\r\nRethinkDB should properly handle arrays of any size, using temporary tables on disk where needed to avoid generating out-of-memory errors or exceeding its in-memory maximum array size.\r\n\r\nIf you can get this right, you'll be ahead of the game in the querying and MapReduce department, compared to nearly every other distributed k/v store out there."
+  , issueCommentId = 55792399
+  }

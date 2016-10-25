@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-23) 17 : 19 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18358215"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/867#issuecomment-18358215"
+  , issueCommentCreatedAt = 2013 (-05) (-23) 17 : 19 : 52 UTC
+  , issueCommentBody =
+      "So what makes me uneasy about the optional function parameter is it seems like an API that's nice for experienced users but probably going to be a bit confusing for new users. Here's the conversation I'm imagining us having with a new user:\r\n\r\n\r\n> user: Can anyone help me with how to use regex to extract some data from my dataset?\r\n> us: sure, which language are you using?\r\n> user: python\r\n> user: I have a regex I want to use, \"foo(\\(\\d+\\), \\(\\d+\\))\"\r\n> us: okay, so the way you do regex is with the `match` function. To call it you need to pass it a regex and a function to apply to the matching groups. Do you know what a lambda function is?\r\n> user: no\r\n> us: so a lambda is just a short hand way of expressing a a function\r\n> us: match takes an optional function as its second argument, if a function is specified then it applies that function to the matches and returns it\r\n> user: so suppose I just want to return the matches as they are?\r\n> us: then you'd just pass an identity function\r\n> us: so in your case: `string.match(\"foo(\\(\\d+\\), \\(\\d+\\))\", lambda x: x).run()`\r\n\r\nSomewhere around \"do you know what a lambda function is\" is where I'd start to have that terrible feeling we're all familiar with in which you realize that you're not making this user's life any simpler in fact you're making it more complicated. I think in general a command enters a new tier of difficulty as soon as it requires a lambda function (this is probably less true in ruby because blocks are so ubiquitous). The reality is there's probably a lot of users who are just never going to use lambda functions and it seems bad to put this functionality out of reach when you don't have to. I actually think a very viable way around this is to just not let people capture things with regexes and have them only be used as predicates. AFAIK neither mongo nor MySQL support capturing and I can't remember hearing anyone ask for it.\r\n\r\nIf we do want matching though and we're strongly opposed to having 2 functions I think a fairly simple API would be to just have `match` return the matches by default and `null` if there are no matches. Then you can just get the predicate form by comparing it to `null`."
+  , issueCommentId = 18358215
+  }

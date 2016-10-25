@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 15 : 05 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26144396"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1536#issuecomment-26144396"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 15 : 05 : 28 UTC
+  , issueCommentBody =
+      "Hello @ekanna \r\n\r\n\r\nIt's an expected behavior. The ReQL dates are stored in this format in the database\r\n```js\r\n{\r\n    \"$reql_type$\":\"TIME\"\r\n    \"epoch_time\":1381419669,\r\n    \"timezone\":\"+00:00\",\r\n}\r\n```\r\n\r\nDisplaying such object is not that nice, so the data explorer convert them to a string (in a similar way, the drivers convert these objects to a native date).\r\nThe raw view however presents raw data so you can copy it and use it for a new query (in which case you need the raw format for dates)\r\n\r\nFor the max timestamp, if you just want to retrieve the last timestamp, you can do\r\n\r\n```js\r\nr.table(\"foo\").map( r.row(\"TimeStamp\") ).reduce( function(left, right) {\r\n    return r.branch( left.gt(right),\r\n        left,\r\n        right\r\n})\r\n```\r\n\r\nIf you want the document with the greatest timestamp, you can do\r\n\r\n```js\r\nr.table(\"foo\").orderBy(\"TimeStamp\").limit(1)\r\n```\r\n\r\nThis will sort the whole table, so you may want to create an index on `TimeStamp` and use\r\n```js\r\nr.table(\"foo\").orderBy({index: \"TimeStamp\"}).limit(1)\r\n```"
+  , issueCommentId = 26144396
+  }

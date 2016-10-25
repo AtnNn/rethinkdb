@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-31) 01 : 42 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68417362"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3478#issuecomment-68417362"
+  , issueCommentCreatedAt = 2014 (-12) (-31) 01 : 42 : 02 UTC
+  , issueCommentBody =
+      "I like the proposed status texts, except that I think 2 should be \"Outdated reads only\". It's not obvious that \"Outdated reads\" is even an error message.\r\n\r\nI still think that servers in the `nothing` state should appear in the `table_status` list. During a backfill, servers in the `nothing` state may still be storing critical data. That seems important enough that we should show it to the user. I can imagine a user saying \"Oh, my server is no longer listed as part of this table, I guess it's safe to shut it down\" and then not understanding why their backfill fails.\r\n\r\nWe can define A as the number of replicas in `table_status` that are `ready`, and N as the number of replicas in `table_config`. That's a bit awkward because it requires reading from two pseudo-tables, but I think it's reasonable.\r\n\r\nI think it's nice if the user has a way to wait for a reconfiguration to finish. Right now, they can do that by waiting until `config_satisfied` (or whatever we rename it to) becomes `true`. If we decide to add that optarg to `table.wait()`, then they can also use `table.wait()` for that purpose, and then we can easily explain the semantics of `table.wait()` in terms of `rethinkdb.table_status`. So that's an argument for preserving the `config_satisfied` flag."
+  , issueCommentId = 68417362
+  }

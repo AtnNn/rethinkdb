@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-09) 20 : 01 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66347518"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3422#issuecomment-66347518"
+  , issueCommentCreatedAt = 2014 (-12) (-09) 20 : 01 : 35 UTC
+  , issueCommentBody =
+      "@joaojeronimo Oh I remembered having talked to you on IRC, but didn't draw the connection to StackOverflow. :-)\r\n\r\nThanks for trying raising the cache size. It would probably take quite a while for the cache to become warm again. Also, since you're already running with `--no-direct-io`, which means that the operating system is also keeping a cache in the otherwise unused parts of RAM, the difference might not be that big in your case.\r\n\r\nRethinkDB doesn't have to load the full dataset for every write. It has to load the parts of the index that are being modified though, so in practice (and for small documents like yours) inserting a document is equivalent to first reading its existing neighbors followed by actually writing the change. If the full dataset fits into RAM (or more precisely the cache size), it will eventually have all data in its cache and won't have to go to the SSD anymore for loading the relevant parts of the index. If the data set is larger though, it will have to perform a read and wait for its completion every now and then.\r\n\r\nFor an SSD a 10ms `get()` is actually a little slow, though I think it's in the expected range if there's heavy write workload going on in the background.\r\n\r\nYou should also disable read-ahead when using `--no-direct-io`. In the next version of RethinkDB, we are going to disable it automatically on the database files, but for now you have to do it yourself to improve the performance of disk reads:\r\nAssuming your drive is `/dev/md0` (you might have to do this on all drives to get the full effect)\r\n* query the current setting `$ hdparm -a /dev/md0` returns the read-ahead size in sectors (512 bytes each)\r\n* disable read-ahead: `$ hdparm -a 0 /dev/md0`\r\n* to turn it back on: `$ hdparm -a 256 /dev/md0` (assuming that the original value was 256)\r\n\r\nNote that this will also affect other operations on your server, which might become slower without read-ahead. Restarting your server will reset the setting to its default."
+  , issueCommentId = 66347518
+  }

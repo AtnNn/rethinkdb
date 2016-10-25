@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-09) 17 : 39 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48508220"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2663#issuecomment-48508220"
+  , issueCommentCreatedAt = 2014 (-07) (-09) 17 : 39 : 38 UTC
+  , issueCommentBody =
+      "* > About values in conflicts, we would still have to send back the values in conflict\r\n\r\n    I don't want this to be part of the public API because we'll be switching away from semilattices in the near future. Also, I don't think people really need this functionality. I propose that we don't support it in the ReQL API, but we support it in the web UI through a private web-UI-only API. Then later we can take it out of the web UI and remove the private API.\r\n\r\n* It would be nice to have names consistent with the current web UI. So I think we should use the term \"server\" and never \"machine\".\r\n\r\n* Perhaps the special database should be `r.db(\"_rethinkdb\")`. As @coffeemug mentioned last night, we should see what MySQL, MS SQL, MongoDB, etc. call the corresponding table. Also, I suggest naming the magic administrative tables `\"table_config\"`, `\"table_status\"`, `\"table_stats\"`, `\"server_config\"`, `\"server_status\"`, and `\"server_stats\"`.\r\n\r\n* I think that we should let the user specify a list of servers `[\"server1\", \"server2\", \"server3\"]` for each shard. RethinkDB will use the first *available* server from the list as primary. So normally the primary is the first machine, but if the first server goes down, the second one will become primary, and so on. This syntax is compact and elegant, and it also allows the user to specify a failover order for their primaries. (The high-level API shouldn't let the user specify a failover order.)\r\n\r\n* I now think that it's important to allow people to configure the cluster without ever touching the lower-level API. This way, the quick-start guide doesn't have to mention the lower-level API at all. I propose naming the higher-level API call `r.table('foo').reconfigure(...)`. It's a verb and it has a clear connection to the word `config`.\r\n\r\n* > Also, aren't ack per shard and server? and not just server? Same question with durability.\r\n\r\n    I don't think we should let people set per-shard settings on hash shards. In fact, I think we should force people to specify exactly the same number of machines for each shard. Later we'll introduce another API (which @coffeemug has been calling \"zones\") that lets people give special treatment to specific key-ranges, but that will work through a different interface, such as a new field called `\"zones\"` on the config object.\r\n\r\n* If `distribute(...)` or `reconfigure(...)` is called without explicitly setting the number of hash shards, it should give as many hash shards as there are servers with the primary tag. Or maybe it should use however many shards there were before. We'll have to think about this more."
+  , issueCommentId = 48508220
+  }

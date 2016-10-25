@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-30) 23 : 57 : 48 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68412179"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3478#issuecomment-68412179"
+  , issueCommentCreatedAt = 2014 (-12) (-30) 23 : 57 : 48 UTC
+  , issueCommentBody =
+      "OK, after a lot of offline discussion we identified the following seven states a table can be in:\r\n\r\n1. The table is not ready to serve any type of query.\r\n\r\n2. The table can serve outdated reads, but not up-to-date reads or writes.\r\n\r\n3. The table can serve reads, but not writes.\r\n\r\n4. The table can serve reads and writes, but one or more replicas are disconnected.\r\n\r\n5. The table can serve reads and writes, and all replicas are connected, but one or more replicas is still backfilling.\r\n\r\n6. The table can serve reads and writes, and all current replicas are ready, but a former replica is still erasing data.\r\n\r\n7. The table can serve reads and writes, all current replicas are ready, and all former replicas are done erasing data.\r\n\r\nWe decided that the status indicator in the table list should be red in states 1-3 and green in states 4-7. Note that in states 1-4, an issue will be displayed too.\r\n\r\nThe open questions are:\r\n\r\n* What should the `status` booleans in `rethinkdb.table_status` show? Currently there are four booleans; different combinations of the four indicate state 1, 2, 3, 4/5/6, or 7. Should we introduce more booleans to distinguish between states 4, 5, and 6? (I'm leaning towards leaving them the way they are.)\r\n\r\n* Currently, the `all_replicas_ready` boolean is only true in state 7. Some people find this misleading. Should we rename it to `reconfigure_finished`, `config_done`, `config_completely_satisfied` or something like that? (I'm leaning towards renaming it, but I can't think of a perfect name.)\r\n\r\n* What text should we display next to the status indicator in the table list in each of these states?\r\n\r\n* Presumably the table detail page will show per-server information, just like `rethinkdb.table_status`. But we probably also want to show a summary of the table's state. Should we just repeat the \"red/green light and text\" that we show on the table list, or should we do something different? (I'm leaning towards just repeating the indicator and text from the table list at the top of the table detail page.)\r\n\r\nIdeally there would be a simple correspondence between what's shown in the web UI and what's shown in `rethinkdb.table_status`. Currently this is true for the status indicator (it's green if and only if `status.ready_for_writes` is true), and also for the list of servers on the table detail page. But `rethinkdb.table_status` currently doesn't have any easy way to distinguish between states 4/5/6. So if we want the status text to distinguish between states 4/5/6, maybe we should add more detailed information to `rethinkdb.table_status`. But this is just a possibility; we don't necessarily have to do it."
+  , issueCommentId = 68412179
+  }

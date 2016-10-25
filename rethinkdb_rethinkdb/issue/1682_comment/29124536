@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-23) 05 : 58 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29124536"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1682#issuecomment-29124536"
+  , issueCommentCreatedAt = 2013 (-11) (-23) 03 : 09 : 05 UTC
+  , issueCommentBody =
+      "> If the function which parses the symbol information failed we should just print the mangled name.\r\n\r\nYes, that's effectively what's happening now.\r\n\r\nTo format a given frame in the backtrace, we get a string by calling `backtrace_symbols()` (as defined in GLIBC's execinfo.h). We then try to parse out the components of this string in our function `parse_backtrace_line()`. This gives us separate strings for the image filename, function name and offset inside of the function. These strings are then composed again (in a slightly different form, and with the function name replaced by its demangled version if possible) to form the output of our crash reports. \r\n\r\nOn OS X, `backtrace_symbols()` returns a string which is formatted differently from the one on Linux. So `parse_backtrace_line()` fails to extract the individual parts of it.\r\nWe used to, and now do again, just print the string that `backtrace_symbols()` gave us without any additional processing in this case. The failure to parse out the individual components means that we cannot\r\na) demangle function names\r\nb) use addr2line to get source file names and line numbers\r\nc) use the coro_profiler in a useful way"
+  , issueCommentId = 29124536
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-03) 18 : 05 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18859366"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/938#issuecomment-18859366"
+  , issueCommentCreatedAt = 2013 (-06) (-03) 18 : 05 : 28 UTC
+  , issueCommentBody =
+      "I haven't try CS 1.6.3 yet. I'll give a shot later today. I'll check the web ui too, just in case something is broken too.\r\n\r\nAbout CentOS, I could build with the latest version of CentOS, but couldn't use tcmalloc. I didn't have enough time to keep digging, but for now these instructions should work for 1.5.x.\r\nWe'll put this on the website pretty soon. I still have a few things to update before releasing the new docs.\r\n\r\n----------------------------------------------------------\r\n\r\n# Installing RethinkDB on CentOS #\r\n\r\n\r\nCentOS does not provide a v8-devel package and node.js. We can get it from the Epel repository.\r\n\r\n```\r\nsudo rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm\r\n```\r\n\r\nInstall main dependencies.\r\n\r\n```\r\nsudo yum install git-core boost-static m4 gcc-c++ python-pip v8-devel nodejs npm\r\n```\r\n\r\nInstall node dependencies.\r\n\r\n```\r\nsudo npm install -g coffee-script less handlebars\r\n```\r\n\r\n\r\n\r\nInstall pyyaml\r\n\r\n```\r\nsudo python-pip install pyyaml\r\n```\r\n\r\n#### Get the source code ####\r\nClone RethinkDB repository.\r\n\r\n```\r\ngit clone --depth 1 https://github.com/rethinkdb/rethinkdb.git\r\n```\r\n\r\n#### Build RethinkDB ####\r\nWe did not install the protobuf libraries, so fetch them through the build process.\r\nThe library tcmalloc throws some error. You can build with the flag `--without-tcmalloc` for now. We will provide a fix for that as soon as possible.\r\n```\r\n./configure --without-tcmalloc --fetch protoc --fetch protobuf\r\nmake\r\n```\r\n\r\nIf you want to build faster and use multiple cores, you will have to use this command to avoid a bug in make (see [https://github.com/rethinkdb/rethinkdb/issues/475](https://github.com/rethinkdb/rethinkdb/issues/475))\r\n\r\n```\r\n`make command-line` -j3\r\n```\r\n"
+  , issueCommentId = 18859366
+  }

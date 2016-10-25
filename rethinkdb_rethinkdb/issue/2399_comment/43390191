@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-17) 00 : 24 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/43390191"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2399#issuecomment-43390191"
+  , issueCommentCreatedAt = 2014 (-05) (-16) 23 : 39 : 34 UTC
+  , issueCommentBody =
+      "This crashes the server as well, without having to read any data back from the table:\r\n```\r\nr.tableCreate(\"t1\");\r\nr.table(\"t1\").insert({id: \"foo\"});\r\nr.table(\"t1\").get(\"foo\").update({a: {b: r.literal({})}}, {returnVals: true})\r\n```\r\n\r\nThe error and backtrace don't look very helpful:\r\n```\r\nerror: Error in src/rpc/connectivity/cluster.cc at line 988:\r\nerror: Guarantee failed: [conn != __null] Attempted to kill connection to myself.\r\nerror: Backtrace:\r\nerror: Fri May 16 16:36:42 2014\r\n       \r\n       1: rethinkdb_backtrace(void**, int) at rethinkdb_backtrace.cc:100\r\n       2: backtrace_t::backtrace_t() at backtrace.cc:202\r\n       3: lazy_backtrace_formatter_t::lazy_backtrace_formatter_t() at backtrace.cc:282\r\n       4: format_backtrace(bool) at backtrace.cc:197\r\n       5: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       6: connectivity_cluster_t::kill_connection(peer_id_t) at cluster.cc:988\r\n       7: non-virtual thunk to connectivity_cluster_t::kill_connection(peer_id_t) at distccd_a87aa0e1.ii:998\r\n       8: message_multiplexer_t::client_t::kill_connection(peer_id_t) at multiplexer.cc:105\r\n       9: mailbox_manager_t::mailbox_read_coroutine(peer_id_t, threadnum_t, unsigned long, std::vector<char, std::allocator<char> >*, long) at mailbox.cc:201\r\n        [...]\r\nerror: Exiting.\r\nTrace/breakpoint trap (core dumped)\r\n```\r\n\r\n\r\nIt doesn't seem necessary to serialize the updated value into the table to get bad behavior.\r\n(**Edit**: The `kill_connection()` that's triggering the crash is actually called as a consequence of attempting to deserialize the write response though)"
+  , issueCommentId = 43390191
+  }

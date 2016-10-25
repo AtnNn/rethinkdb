@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-03) 01 : 43 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/54242038"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2924#issuecomment-54242038"
+  , issueCommentCreatedAt = 2014 (-09) (-03) 01 : 41 : 10 UTC
+  , issueCommentBody =
+      "From a UI perspective I think it's OK to break that rule in this case. We're still presenting it as a document that stores a key, except that we're hiding the key.\r\n\r\nHowever, I don't think that the specific value `true` is good UI. From a UI perspective, the string `<hidden>`, or something similar, would be much better. This is a bit awkward if they want to use that string as their auth key, but I think it's OK.\r\n\r\nThis can also break in some weird ways. What happens if the user writes `true`, or `\"<hidden>\"`, or whatever to the field? It's easy for this to happen by accident: for example,\r\n```python\r\nr.db(\"rethinkdb\").table(\"cluster_config\").get(\"auth\").update(r.row)\r\n```\r\nwill make this happen. I guess the answer in this case is that we treat it as a no-op. But what if they do something weirder, like\r\n```python\r\nr.db(\"rethinkdb\").table(\"cluster_config\").get(\"auth\").update({\"auth\": r.row[\"auth\"]+\"_suffix\"})\r\n```\r\nThis will silently set their auth key to `<hidden>_suffix`, and they will be confused when none of their client drivers can connect. I guess this is a pretty obscure case. But I'm a little worried that there will be similar cases that people actually run into."
+  , issueCommentId = 54242038
+  }

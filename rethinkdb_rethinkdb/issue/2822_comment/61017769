@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-29) 22 : 40 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61017769"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2822#issuecomment-61017769"
+  , issueCommentCreatedAt = 2014 (-10) (-29) 22 : 40 : 52 UTC
+  , issueCommentBody =
+      "Importing multiple modules that have the same name is not supported by Python, neither is un-importing modules. It might be possible, but would break many assumptions that can usually be made about imported modules.\r\n\r\nFirst, most results on google for ways of doing this point to [this message](http://bugs.python.org/issue9072) which says:\r\n\r\n> Please accept that Python indeed does not support unloading modules for severe, fundamental, insurmountable, technical problems\r\n\r\nSecond, doing this adds annoying restriction to the imported code (in this case, the python driver).\r\n\r\nFor example, in @larkost's branch, the driver can no longer import modules normally. This statement:\r\n\r\n```\r\nimport rethinkdb\r\n```\r\n\r\nGets replaced by this:\r\n\r\n```\r\npackageName = __package__ or os.path.splitext(__name__)[0] or 'rethinkdb'\r\nrethinkdb = sys.modules[packageName]\r\n```\r\n\r\nAlso, all imports would now have to be top-level imports.\r\n\r\nThird, it can easily break code that imports the RethinkDB driver.\r\n\r\nIt would be too much work to get right. To quote the same message as above, \"Supporting unloading will be a multi-year project\". A good implementation would have to be thread-safe and correctly cache imported modules to  avoid having multiple instances of the same module.\r\n\r\nI also believe it would interact in unpredicatable ways with the other weird ways in which modules are imported throughout the python test suite."
+  , issueCommentId = 61017769
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-09) (-02) 19 : 03 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/137213966"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3753#issuecomment-137213966"
+  , issueCommentCreatedAt = 2015 (-09) (-02) 19 : 03 : 05 UTC
+  , issueCommentBody =
+      "@mlucy I added the ID argument because of your comment here https://github.com/rethinkdb/rethinkdb/issues/3753#issuecomment-95019001 .\r\nI don't feel strongly about it. You are probably right that it's rarely useful and when it is, it's easy to come by. So :+1: for just `function(old_val, new_val)`.\r\n\r\n@marshall007 I'm not sure if this actually solves #4410. The way I imagined the conflict function to work is that it would only be called when there is a conflict. For #4410, you would probably need the conflict function to be called for *every* insert, even if no previous document exists, don't you?\r\n\r\nTheoretically we could make it work like that I suppose. That is if no previous document exists, the function `function(old_val, new_val)` is called with `old_val = null`. If there is a conflict, the function is called with both `old_val` and `new_val` set. In the first case you could then return `null` to make the insert a no-op, which would address your use case from #4410.\r\nHowever I think that this is less convenient to use in many other cases, since you now explicitly have to distinguish between an actual conflict and a non-conflicting insert inside of the function."
+  , issueCommentId = 137213966
+  }

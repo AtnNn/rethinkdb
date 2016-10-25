@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-03) 00 : 20 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23683989"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23683989"
+  , issueCommentCreatedAt = 2013 (-09) (-03) 00 : 20 : 33 UTC
+  , issueCommentBody =
+      "Another data point: @vivekp in #1387 ran into this.\r\n\r\nA few thoughts about @srh's proposal:\r\n* I'm not sure that making `close` wait until all queries have finished executing will fix the \"uninterruptible query\" problem in a good way.  Let's say I send a noreply write query to the server, then close the connection.  The client sends a message to the server saying \"I want to close the connection\", and blocks on a reply from the server.  That reply never comes, because we have a runaway write query.  What does the user do?  Their client is blocked on a response; do they kill the client process to close the connection?\r\n* I think having `conn.close` block is sort of non-intuitive.\r\n* Having `conn.close` block on noreply writes sort of hurts the use-case for noreply writes, since you can't just fire and forget them.  We should have some way to \"close\" the connection immediately (maybe it's still open somewhere) without interrupting noreply writes.\r\n* That edge case in JS is actually sort of irritating.\r\n\r\nAn alternate proposal:\r\n* We have `conn.close`, which does what it does now but doesn't interrupt noreply queries.  I think this is what most people expect and want; runaway noreply writes are probably extremely rare.\r\n* We have `conn.close(:noreply_wait => true)` which does what @srh described.\r\n* We have `conn.close(:noreply_wait => n)` which waits at most n seconds, then kills all outstanding queries and closes the connection.  (This lets people wait on non-runaway queries, or interrupt them immediately with n=0.)\r\n\r\nBasically, we default to doing what people want, but offer a more conservative option if they're afraid of runaway queries.  (I think in practice very few people will be afraid of runaway queries here.)"
+  , issueCommentId = 23683989
+  }

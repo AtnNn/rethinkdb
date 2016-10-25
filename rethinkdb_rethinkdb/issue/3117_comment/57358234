@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-30) 18 : 18 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57358234"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3117#issuecomment-57358234"
+  , issueCommentCreatedAt = 2014 (-09) (-30) 18 : 18 : 20 UTC
+  , issueCommentBody =
+      "Hello @carlskii \r\n\r\nI just answered on Stack Overflow, but here's a copy of the answer:\r\n\r\nCreate an index on `hero` first\r\n\r\n```js\r\n     r.db('data').table('users').indexCreate(\"hero\")\r\n\r\n     r.db('data').table(\"hosts\").merge(function(host) {\r\n         return {\r\n             users: r.table(\"users\").getAll(r.args(host(\"users\")), {index: \"hero\"}).coerceTo(\"ARRAY\")\r\n         }\r\n     })\r\n```\r\n\r\nIf the array `users` may be empty, you need to add a if statement with `r.branch`\r\n\r\n```js\r\n     r.db('data').table(\"hosts\").merge(function(host) {\r\n         return r.branch(\r\n             host(\"users\").isEmpty(),\r\n             {},\r\n             {\r\n                  users: r.table(\"users\").getAll(r.args(host(\"users\")), {index: \"hero\"}).coerceTo(\"ARRAY\")\r\n             }\r\n         )\r\n     })\r\n```\r\n\r\nLet us know if you have more questions : )"
+  , issueCommentId = 57358234
+  }

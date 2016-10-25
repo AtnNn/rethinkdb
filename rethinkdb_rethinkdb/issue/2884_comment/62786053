@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-12) 20 : 17 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62786053"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2884#issuecomment-62786053"
+  , issueCommentCreatedAt = 2014 (-11) (-12) 20 : 17 : 28 UTC
+  , issueCommentBody =
+      "I think we should implement this with either `[<server UUID>, <timestamp>]` or even just `[<server UUID>, <index>]` as a primary key, where `<index>` would be a simple integer counting upwards on a per-server basis. I somewhat prefer the second option, since it avoids the issue of timestamp collisions on a single server.\r\n\r\nAssuming that the server clocks are not changed while RethinkDB is running, it sounds like implementing an option to order by timestamp efficiently would be technically easy in either case.\r\nIf the server clocks change in the middle, this would become trickier though, because the lines in the log file wouldn't be in timestamp order anymore.\r\nI think if we ignored that issue for 1.16 and sometimes returned a wrong order on `r.db('rethinkdb').table('server_logs').orderBy({index: \"timestamp\"})`, that would be fine.\r\nIf we could find a way to expose this feature slightly differently to make the potential for misordering more obvious that would be better though.\r\n\r\nOne option is to not call the index `\"timestamp\"`, but to instead call it e.g. `\"log_order\"`. This would fit nicely with the `[<UUID>, <index>]` primary key. The semantics would be that the result is ordered by the order in which log messages were generated on a per-server basis, and globally is ordered by timestamps on a best-effort basis (but the first criteria takes precedence).\r\n\r\nThe disadvantage of such an index name is that it's not obvious that it's there if you don't already know that this index exists. It also doesn't really correspond to anything you could do with indexes on a regular table, though that might not be a real issue."
+  , issueCommentId = 62786053
+  }

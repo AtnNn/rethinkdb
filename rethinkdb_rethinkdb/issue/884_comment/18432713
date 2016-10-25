@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-24) 22 : 07 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18432713"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18432713"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 22 : 07 : 56 UTC
+  , issueCommentBody =
+      "Here's my attempt at summarizing the two main proposals that we seem to have:\r\n\r\n### Both\r\n\r\nWe add type information to our errors.  We have some class of errors (the non-existence errors) that `default` will catch.  `default` will also handle the case where its first argument returns NULL.  (I personally think reducing on an empty stream should produce a non-existence error.)\r\n\r\n### Mlucy\r\n\r\nWe special-case field access inside of `default`.\r\n\r\n#### Upsides\r\n* Fairly straightforward to implement (we won't \"miss\" an error case and allow a NULL to break out).\r\n* Fairly safe; if anyone tries to get a NULL field out of an object we immediately abort rather than letting a NULL get passed around.\r\n\r\n#### Downsides\r\n* The following behavior is unintuitive:\r\n\r\n```ruby\r\nobj[:null_key].eq(nil).default(5) # => 5\r\n```\r\n* If people have a NULL inside an array, we don't do anything safe for them.\r\n\r\n### Joe\r\n\r\nWe make NULL type errors throw a special type error (or non-existence error) that `default` catches.  We special-case NULL comparison inside `default` to throw unless we're doing an equality comparison between NULL and NULL or an inequality comparison between NULL and another value.  (@jdoliner -- could you clarify that these are the comparison semantics you meant?).\r\n\r\n#### Advantages\r\n* Has the following intuitive behavior:\r\n\r\n```ruby\r\nobj[:null_key].eq(nil).default(5) # => true\r\n```\r\n* Catches a wider variety of NULL mis-use (like NULLs in an array).\r\n\r\n#### Disadvantages\r\n* We'll have to audit the terms to find all the places where we check for NULL and make them throw this special error.  There probably won't be too many, but I don't know where they are.  We might fail to implement this properly for a new term in the future.\r\n* It feels like it's more complicated to explain to people, especially the question of what NULL comparisons are valid inside a `default` block.\r\n* Doesn't handle NULLs that are put into larger objects.  For example, if people are returning tuples:\r\n\r\n```ruby\r\n[obj[:null_key], obj[:real_key]].default([0, 0]) => [nil, :real]\r\n```\r\n* You can still clobber a field by assigning a NULL value to it (with `update` or `merge` or whatever).\r\n\r\n---\r\n\r\nOn the topic of comparing NULLs to NULLs, I'm curious: what would people expect the following to do:\r\n```ruby\r\nusers.filter {|user|\r\n  user[:trial_days].eq(user[:max_trial_days]).default(false) # send end-of-trial email\r\n}\r\n```\r\n\r\nIn the case where both `trial_days` and `max_trial_days` are NULL (e.g. if the user isn't participating in the trial)?\r\n\r\n@coffeemug -- I'm particularly curious what you'd expect here.\r\n\r\n---\r\n\r\nI'd like to make a composite proposal:\r\n\r\n* Inside `default`, we throw on NULL field access **unless** we're inside an `eq` or `neq` term, which we special-case.  (Basically my proposal but with Joe's preferred behavior for `eq` or `neq`.)\r\n* We don't change NULL comparison inside the `default` block.  This just seems like a nasty can of worms, and if we disallow NULL field access 99% of the common problems (like `table.filter{|x| x[:null_key] < 5}`) are solved.\r\n"
+  , issueCommentId = 18432713
+  }

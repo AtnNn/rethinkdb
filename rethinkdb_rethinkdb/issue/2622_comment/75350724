@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 02 : 13 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 84101
+        , simpleUserLogin = N "ajdavis"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/84101?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ajdavis"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75350724"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-75350724"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 02 : 13 : 55 UTC
+  , issueCommentBody =
+      "Let me correct this a little bit. Yes, \"run\" should return a Future, but to wait for the future to resolve you must yield it in a coroutine:\r\n```\r\nfrom tornado import gen\r\n\r\n@gen.coroutine\r\ndef f():\r\n    feed = yield r.table(...).changes().run(conn, future=True)\r\n```\r\nNow, if you want to iterate over results that can be tricky in a coroutine, since there's no place for a \"yield\" within a Python \"for\" loop. In Motor I came up with this API:\r\n\r\nhttp://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.fetch_next"
+  , issueCommentId = 75350724
+  }

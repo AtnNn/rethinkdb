@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-22) 00 : 48 : 43 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29039926"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/755#issuecomment-29039926"
+  , issueCommentCreatedAt = 2013 (-11) (-22) 00 : 48 : 43 UTC
+  , issueCommentBody =
+      "@mlucy -- we can get what you're proposing with valgrind. They have a memory profiler that works with our coroutines ('cause we inform valgrind of stack switches) that does exactly that. The trouble is that it isn't very useful.\r\n\r\nIn most cases the question isn't \"which part of the code allocates a lot of space\". That part is relatively easy. The harder part is dealing with lifecycles of objects. In most interesting cases we want to analyze pieces of code that allocate and free a lot of objects. Just keeping track of memory doesn't do that.\r\n\r\nGoogle's tools and OS X instruments let you take efficient snapshots of the heap. I.e. you can ask \"what *new* objects have been allocated and weren't released after I ran this query?\" If we can answer this question our memory profiling problems would just go away. Having a mode that runs coroutines on top of threads seems way easier to do (like a day or two of work) than building a tool to answer this heap profiling question."
+  , issueCommentId = 29039926
+  }

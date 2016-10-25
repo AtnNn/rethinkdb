@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-18) 22 : 26 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94207143"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4079#issuecomment-94207143"
+  , issueCommentCreatedAt = 2015 (-04) (-18) 22 : 26 : 02 UTC
+  , issueCommentBody =
+      "Hi @dlee, the reason why this doesn't work is because the \"id\" and \"name\" fields contain a string in your case, while `count` in ReQL is only defined on arrays.\r\nWe might change this in the future (see https://github.com/rethinkdb/rethinkdb/issues/264 ), but at the moment you can use the following work-around to find out the length of a string:\r\n```\r\nr.table('users').filter(r.row('name').split(\"\").count().lt(3))\r\n```\r\n\r\nThe `split(\"\")` splits the name string into an array of individual characters, which you can then count. Note that this can become a bit slow for large strings, but it's the best option currently available."
+  , issueCommentId = 94207143
+  }

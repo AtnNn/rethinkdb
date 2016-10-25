@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-26) 07 : 48 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/38657242"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2170#issuecomment-38657242"
+  , issueCommentCreatedAt = 2014 (-03) (-26) 07 : 48 : 50 UTC
+  , issueCommentBody =
+      "The script below throws something like one out of four times.\r\n```\r\nRqlRuntimeError: Index `field` was accessed before its construction was finished. in:\r\nr.table(\"test\").getAll(0, {index: \"field\"})\r\n```\r\n \r\n\r\n```\r\nvar r = require('./js');\r\n\r\n\r\nr.connect({}, function(error, conn) {\r\n    if (error) throw error;\r\n\r\n    r.table(\"test\").indexDrop(\"field\").run(conn, function(error, result) {\r\n        r.table(\"test\").indexCreate(\"field\").run(conn, function(error, result) {\r\n            if (error) throw error;\r\n\r\n            r.table(\"test\").indexWait(\"field\").run(conn, function(error, result) {\r\n                if (error) throw error;\r\n\r\n                r.table(\"test\").getAll(0, {index: \"field\"}).run(conn, function(error, result) {\r\n                    if (error) throw error;\r\n                    conn.close();\r\n                })\r\n            })\r\n        })\r\n    })\r\n});\r\n```"
+  , issueCommentId = 38657242
+  }

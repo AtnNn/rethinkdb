@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 03 : 23 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26111651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-26111651"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 03 : 23 : 28 UTC
+  , issueCommentBody =
+      "@danielmewes -- I don't think the `close` semantics are quite right. See https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23683989. Here's the proposal for `close` copied here:\r\n\r\n* We have `conn.close`, which does what it does now but doesn't interrupt noreply queries.  I think this is what most people expect and want; runaway noreply writes are probably extremely rare.\r\n* We have `conn.close(:noreply_wait => true)` which does what @srh described.\r\n* We have `conn.close(:noreply_wait => n)` which waits at most n seconds, then kills all outstanding queries and closes the connection.  (This lets people wait on non-runaway queries, or interrupt them immediately with n=0.)\r\n\r\nI think this is much better than automatically calling `noreply_wait` on close. Having `close` do a roundtrip to the server sounds really odd to me -- I don't think that's common at all and would definitely surprise me. Something about that smells funny. I'd much prefer to follow @mlucy's proposal instead (outlined here and in https://github.com/rethinkdb/rethinkdb/issues/1388#issuecomment-23683989)."
+  , issueCommentId = 26111651
+  }

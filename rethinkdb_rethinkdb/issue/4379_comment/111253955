@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-11) 19 : 30 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/111253955"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4379#issuecomment-111253955"
+  , issueCommentCreatedAt = 2015 (-06) (-11) 19 : 30 : 41 UTC
+  , issueCommentBody =
+      "Using sensor_id + timestamp sounds reasonable. That should avoid the problem that you usually have with range sharding and time series data where you frequently have to rebalance because new data is always added at the end of the key range.\r\nDue to how RethinkDB picks shard boundaries based on the current data distribution, it will work best if the rate at which each sensor is adding new data is approximately proportional to the data that it currently has stored in the table. If this is not the case, you might still need to rebalance the table from time to time, though probably less often than when just using the timestamp as the shard key.\r\n\r\nI don't have anything else to add to @deontologician's description. Currently the shard key has to be the primary key of the documents.\r\n\r\nAlternatively, you can consider using our default random generated IDs, and create a secondary index for the timestamp and sensor ID instead to allow for efficient queries. Since the default document IDs are picked uniformly from the UUID space, the data will always be balanced. However you will see a performance impact from the additional secondary index during inserts and other write operations."
+  , issueCommentId = 111253955
+  }

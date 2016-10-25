@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-07) (-04) 00 : 59 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2608446
+        , simpleUserLogin = N "Slava"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2608446?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Slava"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/118447218"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4307#issuecomment-118447218"
+  , issueCommentCreatedAt = 2015 (-07) (-04) 00 : 59 : 53 UTC
+  , issueCommentBody =
+      "@neumino no.\r\n\r\nLet me clarify. If I understand you correctly, you propose clients set a special field (like '_change') to a random identifier on every write? Here is a list of reasons why it doesn't satisfy the requirements outlined in my comment above:\r\n\r\n- Having a special field set randomly doesn't make it ordered. Sure, you can set it to something like `r.now()` to get a server-generated date, this still doesn't reserve the ordering on operations happening at the same second.\r\n- Unclear how to track this special field in removed documents. We are still interested in the id of a removal, if you don't remove the document, you would need to somehow encode this.\r\n- [?] possible race-conditions if the field is updated too naively: as far as I understand, invoking two operations in one ReQL query doesn't guarantee atomicity. So a query like `r.get(id).update(...) AND r.get(id).update(...update the special field...)` is risking to be racy.\r\n- client code inconvenience: maintaining a special field in the client-code is inconvenient and error-prone. Also requires every query to RethinkDB to be accompanied with an extra field set.\r\n\r\nI thought of multiple ways of implementing such functionality in application layer and couldn't come up with any ideas that would work w/o races or w/o hitting limitations of change-feeds."
+  , issueCommentId = 118447218
+  }

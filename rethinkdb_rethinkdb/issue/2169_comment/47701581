@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-01) 19 : 50 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47701581"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-47701581"
+  , issueCommentCreatedAt = 2014 (-07) (-01) 19 : 47 : 28 UTC
+  , issueCommentBody =
+      "@neumino: You have a good point that other issues might be more important than this one. Let's talk about that. I sent you an email.\r\n\r\nThis proposed API is intentionally limited. Its purpose is to make it practical to create tables programmatically by allowing users to change replication settings without shelling out to `rethinkdb admin` or using the internal HTTP interface. So I specifically didn't address issues or stats in this iteration of the API. I think it would be fine for us to release a ReQL API that supports some of the functions of the web UI and not others, and then implement the others later.\r\n\r\nHowever, the \"unsatisfiable goals\" issue directly impacts this proposed API, so I'll address it now. If the user calls `*_goals_set()` with unsatisfiable goals, then it should return an error. (Perhaps there should be an optional parameter to override this.) If the goals become unsatisfiable later because a machine dies, then an issue will appear in the web UI.\r\n\r\nThe proposed API implicitly sidesteps #1812 and #1815. Those are problems with the way the web UI presents things, and this proposed API presents things differently. However, it's important that the ReQL API be consistent with the web UI. Presumably the web UI presents things the way it does because someone decided that was easier for people to understand. So the fact that the proposed ReQL API deviates from that might indicate that the proposed ReQL API is difficult for users to understand.\r\n\r\nI'd been using the name `\"any\"` to mean the same thing as `\"universe\"`. I think that `r.table(...).admin.primary_goal_set(\"any\")` is more readable than `r.table(...).admin.primary_goal_set(\"universe\")`. (But neither one's meaning is obvious. Maybe we can do better.) On the other hand, consistency is important, so if we're using the term \"universe\" elsewhere we should use it here as well.\r\n\r\nI like @deontologician's proposal, but I'd like to propose a slightly different syntax:\r\n\r\n```python\r\nr.table(...).admin.goals.update({\r\n    \"shards\": 5,\r\n    \"primary\": \"any\",\r\n    \"secondaries\": [\"us_east\", \"us_east\"]\r\n    })\r\n```\r\n\r\nNote that the update is idempotent, and the goals never change unless they are changed by the user. However, `get()` is not guaranteed to return exactly the same thing as `update()`; for example, `\"secondaries\": 1` will get changed into `\"secondaries\": [\"any\"]`.\r\n\r\nThis also addresses the issue of what to do if the primaries or secondaries are pinned to specific machines and the number of shards changes; we can reject the change unless it changes the number of shards and the pinnings at the same time.\r\n\r\nYou can pin the primaries and secondaries to specific machines like so:\r\n```python\r\nr.table(...).admin.goals.update({\r\n        \"shards\": 2,\r\n        \"primary\": [\"shard1_primary\", \"shard2_primary\"],\r\n        \"secondaries\": [[\"shard1_secondary1\", \"shard2_secondary1\"],\r\n                        [\"shard1_secondary2\", \"shard2_secondary2\"]]\r\n        })\r\n```\r\n\r\nI thought we allowed pinning to specific machines, but if we don't want to allow that, then we can cut that syntax out entirely and only allow `\"any\"` or the name of a data center.\r\n"
+  , issueCommentId = 47701581
+  }

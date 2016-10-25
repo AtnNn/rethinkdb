@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-05) (-27) 14 : 27 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 189420
+        , simpleUserLogin = N "morphar"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/189420?v=3"
+        , simpleUserUrl = "https://api.github.com/users/morphar"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/105930968"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4282#issuecomment-105930968"
+  , issueCommentCreatedAt = 2015 (-05) (-27) 14 : 27 : 07 UTC
+  , issueCommentBody =
+      "Hi @martinrusev \r\n\r\nThat's the thing... You still don't know, if it has actually been written - there are still possibility for errors, conflicts and disk errors:\r\nhttp://hackingdistributed.com/2013/01/29/mongo-ft/\r\nIt seems MongoDB has NO way of responding only when the disk write has been confirmed.\r\n\r\nIt's an old article though, so maybe it has been fixed...\r\nWiredTiger is probably a VERY different engine than the one in earlier versions than 3.\r\nI tried a http://www.tokutek.com/tokumx-for-mongodb/ at one point, which was the fastest engine I have yet tried for handling billions of documents on a single (very large) server.\r\n\r\nAnyway - my experience with MongoDB is that the indexes *can* be extremely slow to update under load.\r\n\r\nMongoDB has a query threshold for when it will start updating the indexes.\r\nSo if you insert 100k docs and try to find right after, it can be extremely fast - or extremely slow if you depend on the index, when running indexing in the background.\r\n\r\nThat alone can interfere extremely with benchmarking (and real apps of course ;)\r\n\r\nBy the way, I'm not more for or against any of the DBs - I only have experience with MongoDB and currently we are moving our data from MongoDB to PostgreSQL.\r\n\r\nJust a final note: I believe that your numbers are pointing in the right direction - I just think we should be really careful with benchmarks.\r\nThe can tell so many things and risks leaving out some of the most important things when it comes to decision making.\r\n\r\nE.g. what is the \"cost\" of joins in RethinkDB vs none in MongoDB.\r\nIf I need to \"join\" my data, how much will it cost to do in code with MongoDB vs having joins in RethinkDB.\r\n\r\nOur reason for returning to PostgreSQL is that after our application has matured, we have settled more and more on a predefined structure, which we rely on being so.\r\nThat means we have effectively created schemas and joins in the code.\r\n\r\nWe could probably have chosen RethinkDB and gained some speed, but are choosing to go with the \"safe\" choice ;)\r\n\r\nEnough ranting from me.\r\n\r\n"
+  , issueCommentId = 105930968
+  }

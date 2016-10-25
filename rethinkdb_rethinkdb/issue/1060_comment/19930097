@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-24) 19 : 34 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19930097"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1060#issuecomment-19930097"
+  , issueCommentCreatedAt = 2013 (-06) (-24) 19 : 34 : 15 UTC
+  , issueCommentBody =
+      "I pushed a better fix in 815589029f3ef4b51aabafccb33759e03c53fd36 in the branch `michel_1060_dataexplorer_comments_2`\r\n\r\nIn case the user miss a semi colon, he gets back the raw query that fails and not the one without comments.\r\nIf I'm not mistaken, it has been broken since we asked users not to add `.run()` themselves.\r\n\r\nI also found two small bugs.\r\n-  `start` (used to split queries) was sometimes not initialized in some `count_*` functions\r\n- When checking if the cursor is in the middle of a function, we were checking for `char_breakers` but not comments.\r\n\r\n\r\nReview 661 assigned to @mglukhovsky.\r\n\r\nIf some people want to play around, this query can be useful. \r\n```\r\nr.db('test').table('test').delete(); //fdsfds /*fdsfds*/\r\nr.db('test').table('test').insert({a:1}); // blablabla\r\nr.db('test').table('test').insert({a:2}); /* hakuna\r\nmatata */ r.db('test').table('test').insert({a:3});\r\nr.db('test').table('test') //fdsfds\r\n```"
+  , issueCommentId = 19930097
+  }

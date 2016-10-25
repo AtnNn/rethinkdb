@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-09) 21 : 02 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17647373"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/770#issuecomment-17647373"
+  , issueCommentCreatedAt = 2013 (-05) (-09) 03 : 21 : 55 UTC
+  , issueCommentBody =
+      "Also, there is probably an easier way to reproduce this, but the way I found was to do the following:\r\n\r\nFirst, build a special version of rethinkdb that will cause a reactor hang on SIGINT or blueprint changes, probably doesn't matter (i.e. spawn a coroutine in the reactor that will hold onto the reactor's auto_drainer_t so that the reactor cannot be destroyed).  This will only be used in step 5 below, use a normal server binary for the rest.  Also, make sure their version strings match up, or they'll refuse to connect.\r\n\r\n1. Start up a cluster of three machines (two would probably work, but whatever)\r\n2. Create a table and fill it with some data\r\n3. Reshard the table such that backfills commence\r\n4. Shut down the cluster mid-resharding\r\n5. Start up the hanging reactor build of rethinkdb in the place of the third server from the cluster\r\n6. Start up the rest of the cluster (make sure they all connect together)\r\n7. Observe through the http admin interface that the resharding picks back up\r\n8. Shut down the entire cluster again, the special build of rethinkdb should now be in a hung state\r\n9. Restart the normal two servers in the cluster (make sure they all connect together - this is possible because the reactor hang still preserves cluster connectivity - since the reactor can't be destructed, a lot of other things aren't destructed)\r\n10. Direct an http admin interface to the resharding table's page on one of the normal two servers.\r\n11. This causes a progress_app request that will exhibit this bug."
+  , issueCommentId = 17647373
+  }

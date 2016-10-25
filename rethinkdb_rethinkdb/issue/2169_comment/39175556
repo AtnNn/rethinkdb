@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-01) 06 : 48 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39175556"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-39175556"
+  , issueCommentCreatedAt = 2014 (-04) (-01) 06 : 48 : 46 UTC
+  , issueCommentBody =
+      "Ok, I'm going to kick this off. Firstly, here are the goals of the API:\r\n\r\n- Give users programmatic access to the cluster and stats via ReQL.\r\n- Have a single API that allows full control of the cluster and access to stats. (Currently there are things you can only do in the web ui and things you can only do in the CLI)\r\n- The Web UI will be refactored to use this API. The CLI will either be refactored to use this API, or abandoned in favor of `rethinkdb shell`.\r\n- Stats and cluster state should be accessible via HTTP (to easily integrate with monitoring tools)\r\n- Everything should be well documented.\r\n\r\nI propose a two-level API:\r\n\r\n- A lower level would expose the semilattices, stats, and directory via special ReQL tables. It would be query-able and modifiable (whenever appropriate) with ReQL. We'd clean up (and document) each entry so it's user accessible and understandable, and drop the current `/ajax` interface.\r\n- A higher level API would provide a set of porcelain ReQL commands that modify the lower level on behalf of the user. Users shouldn't ever have to modify the lower level tables directly, unless they really want to. They'll read lower level tables for cluster monitoring.\r\n- Separately, we'll expose an HTTP API to read all ReQL tables (including the special ones). This will allow people to easily curl the status of the cluster (which is how most monitoring systems work). This would act as a replacement for the current `/ajax`.\r\n\r\nI think we should do this in a couple of passes. First, convert the current `/ajax` to a new API, clean it up a bit, port the admins (or at least the web admin), and design and implement a higher level API to perform the operations on the cluster that can be performed right now. Then, as we start working on making clustering changes described in (#1911), we'll adjust this API to account for new features.\r\n\r\nI'll work on proposals for the three bullet points above and post them here as they become ready."
+  , issueCommentId = 39175556
+  }

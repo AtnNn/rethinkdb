@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-10) (-02) 20 : 09 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/145142865"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/781#issuecomment-145142865"
+  , issueCommentCreatedAt = 2015 (-10) (-02) 20 : 09 : 57 UTC
+  , issueCommentBody =
+      "Just got this again by running the table fuzzer with the following modification:\r\n```\r\ndiff --git a/test/interface/table_fuzzer.py b/test/interface/table_fuzzer.py\r\nindex 3ee85da..0464a02 100755\r\n--- a/test/interface/table_fuzzer.py\r\n+++ b/test/interface/table_fuzzer.py\r\n@@ -300,7 +300,7 @@ class insert(TableQuery):\r\n     def __init__(self, conn):\r\n         TableQuery.__init__(self, conn)\r\n         self.start = self.table.count\r\n-        self.num_rows = random.randint(1, 500)\r\n+        self.num_rows = random.randint(1000, 50000)\r\n         self.table.count = self.start + self.num_rows\r\n     def sub_query(self, q):\r\n         return q.insert(r.range(self.start, self.start + self.num_rows).map(lambda x: {'id': x}))\r\n```\r\nand these parameters:\r\n```\r\ntable_fuzzer.py --servers 4 --threads 64 --duration 1800\r\n```\r\non next commit 4bdbcfa57b6cf00bed4d9ebefc83d1a89fef984b ."
+  , issueCommentId = 145142865
+  }

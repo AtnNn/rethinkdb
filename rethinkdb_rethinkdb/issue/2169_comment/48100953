@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-06) 01 : 52 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48100953"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2169#issuecomment-48100953"
+  , issueCommentCreatedAt = 2014 (-07) (-06) 01 : 52 : 42 UTC
+  , issueCommentBody =
+      "I'm late to the party, but I also like @deontologician's syntax.\r\n\r\n> r.table(...).admin().goals().update(...)\r\n\r\nThis seems a little wonky to me.  Is `goals` only defined on the result of `admin`?  If so, we'd end up with another type in our type system.  If we instead did this:\r\n```rb\r\nr.table(...).admin().update({goals: ...})\r\n```\r\n\r\nThen `admin` could just have type `table -> single_selection` (where the single selection points somewhere with unusually strict rules about what \"rows\" are legal).  This would also let you write `r.table(...).admin()` to get both the current state and the current goals in one call.\r\n\r\n---\r\n\r\nIf we go with @deontologician's syntax, there's also the question of handling conflicts.  The easiest thing to do would be to add a conflict pseudotype that can be read and returned to the user, but not much else (in particular, it couldn't be inserted into anything).  That way the user isn't bothered by conflicts in fields they don't use."
+  , issueCommentId = 48100953
+  }

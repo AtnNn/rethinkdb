@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-17) 01 : 10 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/82015795"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3944#issuecomment-82015795"
+  , issueCommentCreatedAt = 2015 (-03) (-17) 01 : 10 : 09 UTC
+  , issueCommentBody =
+      "If I do the following:\r\n```rb\r\ndtbl = r.db('rethinkdb').table('_debug_scratch')\r\ndtbl.insert({id: 5, red: 1, green: 1}, conflict: 'replace').run\r\ndtblPluck = dtbl.get(5).changes().run\r\nit = dtblPluck.each\r\nPP.pp it.next\r\ndtbl.get(5).update({blue: 2, green: 3}).run\r\nPP.pp it.next\r\n```\r\n\r\nThen I sometimes see this:\r\n```rb\r\n{\"new_val\"=>{\"green\"=>1, \"id\"=>5, \"red\"=>1}}\r\n{\"new_val\"=>{\"blue\"=>2, \"green\"=>3, \"id\"=>5, \"red\"=>1},\r\n \"old_val\"=>{\"green\"=>1, \"id\"=>5, \"red\"=>1}}\r\n```\r\n\r\nSometimes this:\r\n```rb\r\n{\"new_val\"=>{\"green\"=>1, \"id\"=>5, \"red\"=>1}}\r\n{\"new_val\"=>{\"green\"=>1, \"id\"=>5, \"red\"=>1},\r\n \"old_val\"=>{\"blue\"=>2, \"green\"=>3, \"id\"=>5, \"red\"=>1}}\r\n```\r\n\r\nAnd sometimes this:\r\n```rb\r\n{\"new_val\"=>{\"green\"=>1, \"id\"=>5, \"red\"=>1}}\r\n# HANGS FOREVER\r\n```\r\n\r\nIf I put `sleep 0.2` after each `run` I only ever see the first result (which is also the result I'd obviously expect).\r\n\r\n@timmaxw -- my current guess is that this is a bug in the `debug_scratch` table, would you be willing to take this issue?"
+  , issueCommentId = 82015795
+  }

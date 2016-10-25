@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-24) 00 : 49 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75676032"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2622#issuecomment-75676032"
+  , issueCommentCreatedAt = 2015 (-02) (-24) 00 : 49 : 32 UTC
+  , issueCommentBody =
+      "Why not do this:\r\n\r\n```py\r\n#... imports ...\r\n\r\n@gen.coroutine\r\ndef f():\r\n  # throws an exception on error, otherwise returns the run result (in this case a cursor)\r\n  feed = yield r.table(...).changes().run(conn, future=True)\r\n\r\n  for (x in yield feed.next()):\r\n    # Is guaranteed to have a result since we have already waited on feed.fetch_next\r\n    print x\r\n\r\nIOLoop.current().run_sync(f)\r\n```\r\n\r\nWe already told run that it should return a future, so `fetch_next` seems unnecessary. We can just change the implementation of `next` in this case."
+  , issueCommentId = 75676032
+  }

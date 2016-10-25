@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-14) 19 : 43 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40409203"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2083#issuecomment-40409203"
+  , issueCommentCreatedAt = 2014 (-04) (-14) 19 : 43 : 05 UTC
+  , issueCommentBody =
+      "> The proposal in 2119 is to change how we acknowledge rights by asking a precise set of machines to write on disk before sending an acknowledgment to the user.\r\n\r\nOh I missed that part. Never mind then, that would certainly change how our routing works.\r\n\r\nAlways routing to the primary does have the two effects you mention, but I think it's not actually as bad as it sounds. Higher throughput and load balancing is primarily achieved by sharding a table. If you assume a uniform distribution of key accesses, you have two servers and two shards, the load would still be split 50/50 between both servers even if all queries are processed by the primary.\r\nSending everything to the primary could in theory reduce the throughput if there are \"hot spots\" in the access patterns. For example if there is a single document that's accessed a lot more often than all the other documents, sharding cannot be used to distribute that load. I'm getting the impression that the advantages of sending everything to the primary outweight that theoretical disadvantage though.\r\n\r\nAnother benefit of sending everything to the primary is better cache efficiency in typical mostly read workloads, because the working set of each node becomes smaller.\r\n\r\nI think sending everything to the primary would improve both latency and throughput in the majority of scenarios."
+  , issueCommentId = 40409203
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 06 : 01 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19664596"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/889#issuecomment-19664596"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 06 : 01 : 16 UTC
+  , issueCommentBody =
+      "Sorry about that. As far as the syntax goes, I support the solution you proposed in https://github.com/rethinkdb/rethinkdb/issues/889#issuecomment-19584997. However, I think we should remove recursive polymorphism. Specifically:\r\n\r\n```javascript\r\nr.expr({a: 1}).pluck('a') // returns {a: 1}\r\nr.expr([{a: 1}]).pluck('a') // returns [{a: 1}]\r\n\r\n// Currently returns [{a: 1}, [{a: 1}]], but IMO *should* return\r\n// [{a: 1}] and drop the array instead of recursing into it\r\nr.expr([{a: 1}, [{a: 2}]]).pluck('a')\r\n\r\n// IMO should return [[{a: 2}]]. In this case the user asked to\r\n// recurse into the array, but not the object\r\nr.expr([{a: 1}, [{a: 2}]]).pluck([{a: true}])\r\n\r\n```"
+  , issueCommentId = 19664596
+  }

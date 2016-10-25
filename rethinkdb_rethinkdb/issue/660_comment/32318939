@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-14) 23 : 20 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32318939"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/660#issuecomment-32318939"
+  , issueCommentCreatedAt = 2014 (-01) (-14) 23 : 20 : 47 UTC
+  , issueCommentBody =
+      "Ok, this is implemented and up in review 1126.  For the record, here is the new state of btree stats:\r\n\r\n`keys_read`:\r\nPoint read = 1 read (was 1) \r\nRange get (n) = n reads (was 0) \r\nBackfill (n) = n reads (was 0) \r\nSindex post-construction (n) = n reads (was 0) \r\nCount (n) = 0 reads (was 0) \r\n\r\n`keys_set` (unchanged): \r\nPoint write = 1 write (was 1) \r\nBatch write (n) = n writes (was n) \r\nDelete (n) = n writes (was n) \r\nBackfill (n) = n writes (was n) \r\nSindex post-construction (n) = 0 writes (was 0)\r\n\r\nSo, summary: we now count range get, backfill, and sindex post-construction reads, which were not counted before.\r\n\r\nI also added a new stat at the machine level that reports the current number of client connections which are running a query:\r\n```json\r\n{\r\n  \"<machine>\": {\r\n    \"query_language\": {\r\n      \"ops_running\": \"62\"\r\n    }\r\n  }\r\n}\r\n```"
+  , issueCommentId = 32318939
+  }

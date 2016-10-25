@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-27) 20 : 40 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21672149"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1208#issuecomment-21672149"
+  , issueCommentCreatedAt = 2013 (-07) (-27) 20 : 40 : 59 UTC
+  , issueCommentBody =
+      "I actually don't think we should do this. For one thing it really doesn't make this operation enough faster that it changes the scale at which you can use it. It saves storing the objects in memory and transferring all of them over the network (which is a significant savings). But you still have to read every single document off disk which is slow enough that you still won't be able to use this at scale. However this will scale if you use:\r\n\r\n```Python\r\ntable.index_create(\"bar\").run()\r\ntable.order_by(index=\"bar\").limit(1).run()\r\n```\r\n\r\nand I think it's a much better policy to tell people to just use an index for efficient order_by. The other big reason is that this is actually incredibly difficult to implement on the backend (FRTAFTN&O) and I think it's going to be a long time (post 2.0) before we want to spend developer time on an optimization that's a substantially less efficient than an alternative that already exists. The only argument I could see for this is that it saves you having to use extra space for an index but I'd much rather spend the time fixing that problem than working around it.\r\n\r\nIn general for optimizations I think we should limit ourselves to the 2 ends of the spectrum and try to avoid the middle ground as much as possible. I see a lot of value in having an inefficient way for people to do things when they're just playing around with the product (in memory `order_by`) and I see a lot of value in having the efficient solution which is maximally efficient algorithmically. However I think if we start mucking about in solutions that are a bit more efficient than an alternative but not as efficient as the best one we'll:\r\n- waste a lot of dev time\r\n- make the backend more complicated\r\n- make the language more complicated and harder to understand the best practices"
+  , issueCommentId = 21672149
+  }

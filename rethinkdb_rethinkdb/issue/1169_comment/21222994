@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-18) 23 : 43 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21222994"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1169#issuecomment-21222994"
+  , issueCommentCreatedAt = 2013 (-07) (-18) 23 : 43 : 33 UTC
+  , issueCommentBody =
+      "Ok, tracked this down.  This is indeed a coroutine scheduling issue, due to thread switching done in our mailboxes.  When receiving a message on a node, we first read out the entire message into a vector, then switch to the destination thread and deserialize it for the mailbox.  The thread switch is the problem here, as in the failing case the target thread is overloaded and it takes so long for the cluster coroutine to be scheduled and run that our heartbeat times out.  The actual coroutine that runs on the thread is almost instantaneous, there's just a really long queue.  I have some solutions to try, and I still think there's a lot of ways we can improve our coroutine behavior in general."
+  , issueCommentId = 21222994
+  }

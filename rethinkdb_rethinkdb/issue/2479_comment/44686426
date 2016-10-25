@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-30) 18 : 53 : 26 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/44686426"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2479#issuecomment-44686426"
+  , issueCommentCreatedAt = 2014 (-05) (-30) 18 : 53 : 26 UTC
+  , issueCommentBody =
+      "Looking at the backtrace, it seems like this happens if you create a changefeed from the data explorer.  The `http_conn_cache_t` times out the connection and deletes the stream cache, which needs to send some messages to unsubscribe from changefeeds.  For whatever reason the timing function says that the method it's calling can't block (I'm not sure why that's necessary), so we crash.\r\n\r\nWe can't just spawn the unsubscribe in a separate coroutine, because if we're shutting down we want to block the destruction until we've actually unsubscribed.\r\n\r\nDoes the data explorer need to support changefeeds right now?  If so, we need to change how HTTP connections time out when changefeeds are involved.  If not, we just need some special logic for getting rid of changefeeds in the http server."
+  , issueCommentId = 44686426
+  }

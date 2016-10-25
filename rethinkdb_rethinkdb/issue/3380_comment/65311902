@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-02) 21 : 52 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/65311902"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3380#issuecomment-65311902"
+  , issueCommentCreatedAt = 2014 (-12) (-02) 21 : 52 : 55 UTC
+  , issueCommentBody =
+      "I can reproduce similar insert speeds, but *only* if I use a rotational disk. I'm getting insert rates closer to 10,000 inserts/s on SSDs.\r\n@pzol I think you are on an SSD? Do you know which model of SSD it is?\r\n\r\nSomething else you could try is running RethinkDB with the `--no-direct-io` flag in addition to the increased cache size. On some drives that can improve write throughput a bit.\r\nHowever there's probably a deeper underlying problem that makes this so slow on your machine.\r\n\r\nCan you check the CPU utilization while the import is running (e.g. through `htop` / `sudo htop` on OS X), and also check the disk bandwidth used (on Linux: `iostat -d 2 -m`, not sure about OS X)?\r\n\r\n\r\nIn my test, the table count afterwards took 1.2s. But I was using a very beefy machine with 12 cores. So I could imagine it taking in the range of 10s on a notebook CPU. We might be able to improve that through #3384 .\r\n@pzol did you get a achance to try the count after bumping up the cache size to 2 GB? Is it still slow?"
+  , issueCommentId = 65311902
+  }

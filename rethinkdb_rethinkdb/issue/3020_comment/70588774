@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-20) 01 : 12 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/70588774"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3020#issuecomment-70588774"
+  , issueCommentCreatedAt = 2015 (-01) (-20) 01 : 12 : 49 UTC
+  , issueCommentBody =
+      "Looks like everything is working fine except that `interpolate_key` is broken.  Here is the test case (I tried to simplify it more, but all changes I made caused the bug to go away):\r\n\r\nDistribution:\r\n```\r\ndistribution[\"\"] = 1\r\ndistribution[\"N\"] = 1\r\ndistribution[\"NZabc\"] = 6\r\ndistribution[\"NZabc\\x00\"] = 6\r\ndistribution[\"Nc\"] = 6\r\ndistribution[\"S1\"] = 6\r\ndistribution[\"S2\"] = 6\r\ndistribution[\"S3\"] = 6\r\ndistribution[\"S4\"] = 6\r\n```\r\n\r\nI see the following from the rebalancing:\r\n```\r\ninterpolating with left pair: \"NZabc\", right pair: \"NZabc\\x00\", ratio: 0.3333\r\ninterpolated key before clamp: \"NZabc\\x00\\x00\\x00\\x00\"\r\nresulting key: \"NZabc\\x00\"\r\n\r\ninterpolating with left pair: \"NZabc\\x00\", right pair: \"Nc\", ratio: 0.0000\r\ninterpolated key before clamp: \"NcZab\"\r\nresulting key: \"Nc\"\r\n\r\ninterpolating with left pair: \"NZabc\\x00\", right pair: \"Nc\", ratio: 0.8333\r\ninterpolated key before clamp: \"N\\x10a\\x90\\x3B\"\r\nresulting key: \"NZabc\\x00\"\r\n\r\ninterpolating with left pair: \"Nc\", right pair: \"S1\", ratio: 0.5000\r\ninterpolated key before clamp: \"\\x00P\\xCA\\x00\"\r\nresulting key: \"Nc\"\r\n\r\ninterpolating with left pair: \"S1\", right pair: \"S2\", ratio: 0.1667\r\ninterpolated key before clamp: \"S\\xAA1\\x2A\\xAA\"\r\nresulting key: \"S2\"\r\n\r\ninterpolating with left pair: \"S2\", right pair: \"S3\", ratio: 0.0000\r\ninterpolated key before clamp: \"S\\x002\\x00\\x00\"\r\nresulting key: \"S2\"\r\n\r\ninterpolating with left pair: \"S2\", right pair: \"S3\", ratio: 0.6667\r\ninterpolated key before clamp: \"S\\xAA2\\xAA\\xAA\"\r\nresulting key: \"S3\"\r\n\r\ninterpolating with left pair: \"S3\", right pair: \"S4\", ratio: 0.3333\r\ninterpolated key before clamp: \"SU3UU\"\r\nresulting key: \"S4\"\r\n```\r\n\r\nAs you can see, none of the calls to `interpolate_key` resulted in a key that fell in-between the left and right bounds, so the resulting key was then clamped to one of the bounds.  In some cases, this can cause the algorithm to flip-flop between the bounds of a single range and cause a non-monotonically-increasing sharding scheme.\r\n\r\nHaven't investigated the `interpolate_key` algorithm yet, will get to that tomorrow."
+  , issueCommentId = 70588774
+  }

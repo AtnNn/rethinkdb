@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-06) 06 : 07 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20549687"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1133#issuecomment-20549687"
+  , issueCommentCreatedAt = 2013 (-07) (-06) 06 : 07 : 46 UTC
+  , issueCommentBody =
+      "The reason that wrapping in r.expr solves the problem is that it turns the whole sub tree into a ReQL expression for which we return false at the root. We should also do the hasOwnProperty check but this doesn't solve the problem of circular references.\r\n\r\nThis is a problem that affects not just `isJSON` but also `exprJSON` and `expr` (or equivalent) in all three drivers. In all these functions the naive recursive DFS we use assumes no circular references and gets trapped if there is one.\r\n\r\nTo replicate run:\r\n\r\n```javascript\r\nvar r = require('rethinkdb');\r\n\r\nvar a = {};\r\nvar b = {};\r\n\r\na.b = b;\r\nb.a = a;\r\n\r\nr.exprJSON(a);\r\n```\r\n\r\nNote that JSON itself doesn't have this problem because it doesn't have references. `JSON.stringify` detects cycles and errors in this case."
+  , issueCommentId = 20549687
+  }

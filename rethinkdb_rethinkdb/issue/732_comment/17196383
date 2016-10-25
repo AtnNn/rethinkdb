@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-29) 21 : 40 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17196383"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/732#issuecomment-17196383"
+  , issueCommentCreatedAt = 2013 (-04) (-29) 21 : 40 : 23 UTC
+  , issueCommentBody =
+      "The object printed out in the gist is protobuf library's pre-serialized object form of the query. This how the query looks after we convert from our AST representation but before we actually invoke the serialization routine. Each node in this output represents a `Term` or other message from the protobuf spec.\r\n\r\nMost of the output here is within a field called \"descriptor\" on each message. This fully encodes the information from the original protobuf message definition so that the library knows how to interpret the message. The big enum that you see repeated is the \"term type\" enum mapping operation names (like \"GROUPED_MAP_REDUCE\") to numerical values.\r\n\r\nI don't know why the library chooses to copy the message descriptor for each instance of the message. It has the advantage of simplicity I suppose but at a huge performance cost.\r\n\r\n@neumino Can you pinpoint when the actual performance regression occurred? My bet is that it occurred when we switched to the new format in 1.4. The new protobuf format vastly reduces the number of distinct messages at the cost of making the `Term` message more complicated. Instead of each node having a copy of a small message descriptor each node now has a copy of the much larger `Term` message descriptor.\r\n\r\nIf this analysis is correct, then fixing this will mean using a JS protobuf library that isn't as dumb in how it chooses to encode messages prior to serialization. This is something we've been planning on doing anyway as a necessary step in moving away from Google Closure."
+  , issueCommentId = 17196383
+  }

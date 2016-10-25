@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-12) 20 : 31 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22522995"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1278#issuecomment-22522995"
+  , issueCommentCreatedAt = 2013 (-08) (-12) 20 : 31 : 39 UTC
+  , issueCommentBody =
+      "So, the \"-00:90\" one is a little subtle.  If you construct an object with that time zone explicitly, you get an error:\r\n```ruby\r\nirb(main):14482:0> r({\"epoch_time\"=>1376339206.232, \"$reql_type$\"=>\"TIME\", \"timezone\" => \"+00:90\"}).run\r\nRethinkDB::RqlRuntimeError: Invalid time object constructed (invalid timezone string `\"+00:90\"`):\r\n{\r\n        \"$reql_type$\":  \"TIME\",\r\n        \"epoch_time\":   1376339206.2320001125,\r\n        \"timezone\":     \"+00:90\"\r\n}\r\n```\r\nBut if you parse it from an ISO 8601 string, we go through boost's parser, which happily accepts it.  So we need to add an additional constraint to the sanitization step before we hit boost's parser.\r\n\r\nThe `-00:00` thing is just a bug; I'll fix that.  Wikipedia says we should just forbid it outright, which is what I'll do:\r\n> An offset of zero, in addition to having the special representation \"Z\", can also be stated numerically as \"+00:00\", \"+0000\", or \"+00\". However, it is not permitted to state it numerically with a negative sign, as \"-00:00\", \"-0000\", or \"-00\". The clause dictating sign usage (clause 3.4.2 in the 2004 edition of the standard) states that a plus sign must be used for a positive or zero value, and a minus sign for a negative value.\r\n"
+  , issueCommentId = 22522995
+  }

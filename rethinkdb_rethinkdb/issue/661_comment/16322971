@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 23 : 37 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16322971"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/661#issuecomment-16322971"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 23 : 35 : 14 UTC
+  , issueCommentBody =
+      "> Throughput when processing a row on the client takes roughly as long as generating it on the server.\r\n\r\nThe problem is that this only gives a maximum 2x performance gain.  In all the \"god we have too much request latency and too much round-tripping\" situations I've been in (which granted I only had 1.6 years of) if roundtrip latency only halved throughput we wouldn't have bothered fixing it.  It was when it cut performance by a factor of 15 or 30 or 100 that you really want the gains.\r\n\r\nThe big enemy here is network latency, not server or client CPU/disk time.\r\n\r\nSo anyway, I think what we want is:\r\n\r\n1. User specified batch sizes (with or without prefetching 1 ahead).\r\n2. Having the protocol support splitting up batched replies.\r\n3. Arbitrary prefetching several batches ahead.\r\n4. Support in the protocol for responses in a different order than requests.\r\n\r\nWe want all or most of these, except in the ways that they're redundant (3 is redundant if you have 1 and 2), and these are listed in order of difficulty to implement."
+  , issueCommentId = 16322971
+  }

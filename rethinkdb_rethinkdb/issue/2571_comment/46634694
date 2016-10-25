@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-20) 00 : 53 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46634694"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2571#issuecomment-46634694"
+  , issueCommentCreatedAt = 2014 (-06) (-20) 00 : 53 : 54 UTC
+  , issueCommentBody =
+      "@mlucy \r\nThe implementation I currently have in mind is similar to what MongoDB does, and it is explained nicely (on a high level) in their blog post here: http://blog.mongodb.org/post/50984169045/new-geo-features-in-mongodb-2-4\r\n\r\nWe can definitely implement geo indexes such that they can be combined with non-geo data. A geometric object would be mapped to a certain number (e.g. 10) of \"paths\" in a quad-tree, which we can represent as simple strings.\r\nIf we have a compound index of two fields and we store a key `['foo', polygon]` into the index, we would \"expand\" the polygon to the ~10 quad-tree nodes it intersects with. We would actually store 10 keys into the secondary index: `['foo', path1], ['foo', path2], ..., ['foo', path10]`\r\n\r\nThis would be comparable to a multi-index.\r\nThe code path for storing geometry objects into an index would be largely the same we use now (with the only difference being the added \"expansion\" step), and they would be stored into the same btree.\r\n\r\nWhen querying, we can check for any range of quad-tree paths that we encounter in the btree whether it can still contain geometry that intersects with the query geometry or not. We only continue traversing the subtrees that are still interesting.\r\nThe tree traversal code would have to be extended to handle such queries (the parallel btree traversal already allows for arbitrary predicates on which subtrees to follow).\r\n\r\n\r\nOn a side-note, I'm not sure yet if we can easily make geo queries lazy. The problem is that a polygon or line can be stored multiple times in the index, so we would have to implement some kind of memory-efficient lazy `distinct()` in order to not return duplicates."
+  , issueCommentId = 46634694
+  }

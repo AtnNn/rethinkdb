@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-30) 00 : 51 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18518670"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18518670"
+  , issueCommentCreatedAt = 2013 (-05) (-28) 00 : 03 : 57 UTC
+  , issueCommentBody =
+      "We eventually decided to just do the simple thing here:\r\n* We will classify some errors as \"non-existence\" errors.  Tentatively, this includes the error you get when you access a non-existent key, the error you get when you try to use NULL in a context where it isn't allowed, and the error you get when you reduce over an empty stream.\r\n* `default` will evaluate its first argument.  If its first argument throws a non-existence error or returns NULL, `default` will return its second argument.  (Otherwise it returns the result of its first argument, or re-throws the error.)\r\n* A 0-arity `r.error` will re-throw the appropriate error when evaluated inside the `default` block.\r\n* The function passed to `filter` will have an implicit `.default(false)` on the end, which can be overridden with a new optional argument `default` which can map to any RQL expression (the most useful being RQL expressions that return `true`, `false`, or `r.rethrow`).\r\n* We won't do anything fancy with NULL comparing to things or accessing NULL fields throwing an error inside a `default` block."
+  , issueCommentId = 18518670
+  }

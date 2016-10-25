@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-09) (-03) 20 : 55 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/23746168"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1385#issuecomment-23746168"
+  , issueCommentCreatedAt = 2013 (-09) (-03) 20 : 55 : 52 UTC
+  , issueCommentBody =
+      "@underrun -- ok, this makes sense. Here's a quick hack to change the cache size (after 1.10 you won't have to do any of this, so thanks for bearing with us for now). If you point your browser to `RETHINKDB_HOST:RETHINKDB_WEB_PORT/ajax` (e.g. `localhost:8080/ajax`) you'll see a json document that describes the cluster. If you search for `cache_size` in that document you'll find its value, in bytes, on each table. All you have to do to change it, is to send a curl POST request with the new value, and restart the cluster.\r\n\r\nHere's an example curl request to set the cache size on a table to 2GB:\r\n\r\n```\r\ncurl -X POST -d '2147483648' http://192.168.0.145:8080/ajax/semilattice/rdb_namespaces/59f7b2ac-d923-46cc-8cc7-b6adae8b1602/cache_size -H \"Content-Type: application/json\" -f\r\n```\r\n\r\n(Note that you have to replace `59f7b2ac-d923-46cc-8cc7-b6adae8b1602` with the ID of your table, and `2147483648` with the cache size in bytes you want). Also, make sure to restart the machine because the new cache size doesn't currently take effect until restart.\r\n\r\nSorry for the complex instructions.\r\n"
+  , issueCommentId = 23746168
+  }

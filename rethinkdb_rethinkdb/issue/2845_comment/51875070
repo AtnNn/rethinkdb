@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-12) 05 : 28 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/51875070"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2845#issuecomment-51875070"
+  , issueCommentCreatedAt = 2014 (-08) (-12) 05 : 28 : 50 UTC
+  , issueCommentBody =
+      "This appears to be two problems.  First, when a node is `reactor_be_nothing` for the entire keyspace of a table, the btree will still have old secondary indexes, but it will not get updates to those secondary indexes (like drops or renames).  After discussing with @danielmewes, the fix we have is to drop these secondary indexes in `store_t::reset_data` when the metainfo shows that the btree has no responsibility for any regions.\r\n\r\nSecondly, I found that the backfill code may not propagate a secondary index properly if both sides have a secondary index with the same name.  The functions may be different, but since the names are the same, it will not backfill the secondary index.  The fix is to compare the `opaque_definition` of the `secondary_index_t`s and overwrite the secondary index if they do not match."
+  , issueCommentId = 51875070
+  }

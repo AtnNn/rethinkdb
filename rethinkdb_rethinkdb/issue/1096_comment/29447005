@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-28) 08 : 35 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/29447005"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-29447005"
+  , issueCommentCreatedAt = 2013 (-11) (-28) 08 : 35 : 18 UTC
+  , issueCommentBody =
+      "__Overall:__\r\n\r\n* I really like the overall proposal (it's pretty much in tune with what we were all probably thinking).\r\n* I like the idea of `multi` groups, I think it's important we do that.\r\n\r\n__On grouped atoms:__\r\n\r\nI don't like the idea of `grouped_atoms`, I think we should just return plain JSON. Firstly, it has the smell of an over-engineered component to me. One test for this is to imagine removing this feature after it already exists. How many people would say \"man, what they had was so much better, too bad they took it out\"? How strongly would they demand to bring it back? As an example, if we added the `group.map.reduce` syntax, and then took it out a year later and reintroduced `groupedMapReduce` I think people would complain pretty strongly. If we did that with grouped atoms, I think the only reason people would complain is backwards compatibility.\r\n\r\nSecondly, I don't think having different interpretations in different drivers is a strong benefit. It seems like the potential drawback is bigger. A lot of people I spoke to use the data explorer pretty heavily to design queries and then rewrite them in their language of choice. I think they would be surprised by the result.\r\n\r\nAlso, as a matter of philosophy, I think we should be conservative about introducing pseudotypes that can go all the way back to the client. If something can be represented by JSON, by default I think it probably should be. Before we introduce pseudotypes like this I think we should look for strong evidence that it's necessary. In people's minds, we're a JSON database, not an arbitrary cross-language data structure store. Regardless of what we are internally, I think that breaking this expectation has a pretty high cost and we should try to respect it whenever possible.\r\n\r\n__Other comments:__\r\n\r\n* The `foo.group(bar).sum` syntax is awesome, but for this feature to be bulletproof we absolutely need a syntax for multiple reductions. How to do this is the biggest open question IMO.\r\n* I think that in addition to accepting field names, aggregators should be able to accept a lambda.\r\n* If we drop grouped atoms (which I think we should), it would be nice to let people name things (i.e. \"city/population\" vs. \"group/reduction\" field names in the return object). It's a small thing to us, but it turns out to be a big deal to many, many users.\r\n* It would be really nice to give people an option to include the members of the group in addition with their reductions. See https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-20873905 for details/rationale.\r\n\r\n"
+  , issueCommentId = 29447005
+  }

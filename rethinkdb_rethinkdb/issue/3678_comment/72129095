@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-30) 00 : 03 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72129095"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-72129095"
+  , issueCommentCreatedAt = 2015 (-01) (-29) 23 : 56 : 30 UTC
+  , issueCommentBody =
+      "Possible implementation: assume we have @coffeemug's `.on` proposal from https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-62483313 .  If we pass that a `Fiber` object, then we could call `Fiber.resume(cursorargs)`.  This would look like this from the client's POV:\r\n```ruby\r\nfeed1 = r.table('foo').changes().run(conn).on(Fiber.new do |change|\r\n  until change.nil?\r\n    # ... do something ...\r\n    change = Fiber.yield\r\n  end\r\nend)\r\nfeed2 = r.table('bar').changes().run(conn).on(Fiber.new do |change|\r\n  until change.nil?\r\n    # ... do something ...\r\n    change = Fiber.yield\r\n  end\r\nend)\r\n# in base Ruby case\r\nconn.poll(wait=true)\r\n```\r\nWe can also invert it, with a new method, maybe `.fiber(identifier)`, that returns a `Fiber` which gives us a new value every time we call `yield` on it.  This doesn't really support readiness, tho.  Also, there's probably a better name, but that'll do for the moment.  We can add readiness by adding a new type that amounts to a union of the streams; so it would look like this:\r\n```ruby\r\nfeed1 = r.table('foo').changes().run(conn).fiber(:foo)\r\nfeed2 = r.table('bar').changes().run(conn).fiber(:bar)\r\nunion = feed1 + feed2\r\n# in base Ruby case\r\nfor feed, change in union do\r\n    case feed\r\n    when :foo\r\n        # do something with change from feed1\r\n    when :bar\r\n        # do something with change from feed2\r\n    end\r\nend\r\n```\r\n\r\nWith EventMachine and this `.fiber` thing, this would look like this:\r\n```ruby\r\nEventMachine.run do\r\n  Fiber.new {\r\n    for change in r.table('foo').changes().run(conn).fiber\r\n        # ... do something\r\n    end\r\n  }.resume\r\n  Fiber.new {\r\n    for change in r.table('bar').changes().run(conn).fiber\r\n        # ... do something\r\n    end\r\n  }.resume\r\nend\r\n```"
+  , issueCommentId = 72129095
+  }

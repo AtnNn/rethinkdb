@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-12) 02 : 22 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/66723393"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2034#issuecomment-66723393"
+  , issueCommentCreatedAt = 2014 (-12) (-12) 02 : 19 : 37 UTC
+  , issueCommentBody =
+      "We should fix it for the primary tree as well, since it turns out that this can *massively* screw up the distribution query and approximate document count after resharding.\r\n\r\nHere's why for the interested reader:\r\n> Had a thought yesterday about the distribution query. Whenever a shard becomes a be_nothing, it runs an erase_range on the btree. erase_range is implemented in a way where it doesn't actually delete any btree nodes. The leaf nodes will be left underfull (many of them completely empty), and the inner nodes will still look like they're pointing to data.\r\nIf the distribution query sees such an inner node, it will assume that all those inner node entries point to actual data. In the end, it will uniformly divide the total number of keys in the btree over all keys it has found in the inner nodes. As a consequence, the regions of the key that are actually still active shards and contain data, will receive a smaller document count estimate because the distribution query thinks that many of the keys still are in the now erased regions of the tree.\r\nFor example: Say level 2 of the btree consists has inner nodes that point to 100 children overall.\r\nSay we currently have 10,000 documents into the tree, spread over the full key range.\r\nThe distribution query will count the keys on level 2 (= 100) and look at the global key count of the btree (10,000). If we ask it to estimate the number of documents in the lower half of the btree, it will count the keys on level 2 that fall in that lower range (say ~50), and tell us that there are 10,000 / 100 * 50 = 5,000 documents in that range\r\nNow say we reshard such that the upper half of the key range is moved to a different server.\r\nThe old server will do an erase_range, but will actually leave the inner nodes on level 2 intact.\r\nSo if we now ask the distribution query for the number of documents in the lower half of the key range, it will still find 100 keys on level 2 (since they haven't been deleted by the erase_range). However the erase_range does update the global key count for the tree, which is now ~5,000. So the estimate it will generate for the lower half is now: 5,000 / 100 * 50 = 2,500\r\n6:11 But in reality all ~5,000 keys that are still stored in the btree are in the lower half, and the correct result would be 5,000 \r\n\r\nInstead of using erase_range (which is based on a parallel btree traversal), we should just delete every document from the primary tree individually (which will allow us to do proper rebalancing of the tree). We're already doing that in this scenario for secondary index trees, so it wouldn't make the process much slower than it already is.\r\n\r\nI haven't checked, but this could well be the last piece of code that still uses the ability of parallel traversal to support write queries. We can consider getting rid of the support for that as well."
+  , issueCommentId = 66723393
+  }

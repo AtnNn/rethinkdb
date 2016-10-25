@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-14) 23 : 37 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37707937"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2087#issuecomment-37707937"
+  , issueCommentCreatedAt = 2014 (-03) (-14) 23 : 37 : 41 UTC
+  , issueCommentBody =
+      "The whole sindex post construction synchronization is kind of flimsy.\r\n\r\nIt used to be watertight when it was first designed. From rdb_protocol/protocol.cc:\r\n```\r\n/* [...] An important point about\r\n * correctness here: we've held the superblock this whole time and will\r\n * continue to do so until the call to post_construct_secondary_indexes\r\n * begins a parallel traversal which releases the superblock. [...] */\r\n```\r\nThis comment is way outdated though. We now spawn `post_construct_secondary_indexes()` in a coroutine with no synchronization whatsoever. Including not holding on to the superblock anymore. This is good in general, but pretty much anything can happen in between, including indexes being deleted, recreated, post constructed by another coroutine etc.\r\n\r\nI think I'll just add some locks around post construction to make sure things don't intermangle in bad ways."
+  , issueCommentId = 37707937
+  }

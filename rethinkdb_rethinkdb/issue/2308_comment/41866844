@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-05) (-01) 00 : 11 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/41866844"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2308#issuecomment-41866844"
+  , issueCommentCreatedAt = 2014 (-05) (-01) 00 : 11 : 49 UTC
+  , issueCommentBody =
+      "See also #1035.\r\n\r\nGenerally speaking we only want version-awareness for certain types.  We don't want it for integers or strings, and other primitive types, we want it for high-level types.  We don't even want it for datums, I don't think -- we want it for datums in storage -- as a manner of speaking.\r\n\r\nImagine a C++ type trait \"serialization_trait_t\" where \"serialization_trait_t<T>::versioned_for_intracluster\" is true if we are allowed to send the type as an intracluster message.  And \"serialization_trait_t<T>::versioned_for_store\" is true if we are allowed to store the type on disk.\r\n\r\nPeople defining a type meant to be sent intracluster would have to implement this trait, and seeing that they're implementing this trait, they'd be *reminded* that they need to make the data version-upgradeable somehow.\r\n\r\nAnother option (basically equivalent or better):  Have the clustering code call versioned_intracluster_serialize and versioned_intracluster_deserialize overloaded methods, instead of operator<< and deserialize.\r\n\r\nAlso a versioned_t<T> type, with manual implementations for deserializing old versions of T, might be how we'd  want to structure things.  Or maybe not: think about it.\r\n\r\nWe should globally define an earliest- and latest-supported version number, so that serialization functions should statically assert that the earliest version they support is not earlier than the global earliest-supported version number.  This way, we can easily clean out old code from unsupported versions.\r\n"
+  , issueCommentId = 41866844
+  }

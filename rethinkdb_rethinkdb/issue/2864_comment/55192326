@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-10) 22 : 25 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/55192326"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2864#issuecomment-55192326"
+  , issueCommentCreatedAt = 2014 (-09) (-10) 22 : 23 : 05 UTC
+  , issueCommentBody =
+      "Sorry, I'm a bit late to the party, I missed this issue.\r\n\r\nI would have a few comments:\r\n\r\n- server down: Could we add all the responsabilities of the server (something like the output of `table_config` filtered for the server down\r\n\r\n- These two errors are a bit confusing \"server down\" and \"no such server\". Can we really make the difference between a server that was removed at some point and a server that is just disconnected?\r\n\r\n- Do unsatisfiable goals still exist in our system? My understanding is that it's basically the \"no such server\" error. Is it the case?\r\n\r\n- Do port conflict issue still exist?\r\n\r\n- Do logfile write issues still exist?\r\n\r\nFrom a general point of view, an issue should have all the information needed for the user. They shouldn't have to do an cross query to get what is the problem/implications of solving it.\r\nOr that would lead to something like\r\n\r\n```\r\nr.db('rethinkdb').table('issues').map(function(issue) {\r\n    return r.branch(\r\n       issue(\"type\").eq(TYPE1),\r\n       issue.merge(...),\r\n       r.branch(\r\n           issue(\"type\").eq(TYPE2),\r\n           issue.merge(...),\r\n           r.branch(\r\n               issue(\"type\").eq(TYPE3),\r\n               issue.merge(...),\r\n               // etc...\r\n           )\r\n        )\r\n    )\r\n})\r\n```"
+  , issueCommentId = 55192326
+  }

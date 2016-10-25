@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 12 : 14 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36235832"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2002#issuecomment-36235832"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 12 : 14 : 15 UTC
+  , issueCommentBody =
+      "Thanks Tim, that's a really nice write up.\r\n\r\n> If you're looking for the easiest thing to implement, we could blow away the data instead of re-tagging it. \r\n\r\nTo be clear, by \"blow away the data\" do you mean the following?\r\n\r\nWe have one primary and one secondary. Suppose the secondary has a key X with a value 1, and version 1. Then during the backfill it gets an update to X with value 2, version 2. Then the backfill gets interrupted and primary is declared dead.\r\n\r\nWhat's the value of X now? I presume we delete it completely, correct? Or does it go back to 1? (we could look that up in the snapshot of the tree, if we wanted to).\r\n\r\nAnyway, I think we should pick the \"blow away the data\" option.\r\n\r\n> Suppose that the user has a two-node cluster, with a primary and a secondary. The cluster is running smoothly until the network connection drops for a few minutes. When the network re-connects, the secondary starts a backfill to fetch the writes that it missed while the network was down. Then the primary experiences a hard-drive crash. The secondary has almost all of the data, but its version is incoherent. Would we blow away the data as soon as the primary is declared dead? This seems like a nasty surprise for the system administrator.\r\n\r\nIn practice, nobody deploys like that. People will have at least two secondaries, possibly with one more in some remote datacenter. This scenario is definitely annoying in a two-node setup, but:\r\n\r\n* 99.9% of people can't hit that case because they deploy with more than one secondary\r\n* even if they have only two nodes, hitting this case is rare enough\r\n* there are much more important problems to fix; if we don't fix those, users will never get to this problem in the first place\r\n\r\nSo assuming this is a lot easier to implement, I'd automatically blow away the data first, then go back to this issue later (when more low-hanging fruit has been dealt with, and the team is bigger) and implement retagging."
+  , issueCommentId = 36235832
+  }

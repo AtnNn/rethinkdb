@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-26) 03 : 30 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47184383"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2607#issuecomment-47184383"
+  , issueCommentCreatedAt = 2014 (-06) (-26) 03 : 30 : 12 UTC
+  , issueCommentBody =
+      "Ok, pretty sure we tracked this down.  As you can see from the backtrace and the commit linked to by @mlucy, this is tied into using the stream cache and the recent `env_t` changes by @srh.  I would not be surprised if this bug did not already exist and was only exposed by the above changes, but I'm not going to spend the time looking for proof.\r\n\r\nThis appears to be caused by the `concatmap_trans_t` containing a pointer to the `env_t` that is stored at construction.  The lifetime of the `concatmap_trans_t`, however, extends past the original `env_t` (which existed on the stack in `ql::run(...)`).  Later, when we get more data from the datum stream through the stream cache, a new `env_t` is constructed on the stack, but nothing exists to update this pointer.\r\n\r\nAt this point, the `concatmap_trans_t` will use whatever data exists on the stack wherever the old `env_t` was, which results in undefined behavior, memory corruption, and crashes.\r\n\r\n@srh, this seems tied in with the work you've already done regarding refactoring `env_t` usage, do you want this?"
+  , issueCommentId = 47184383
+  }

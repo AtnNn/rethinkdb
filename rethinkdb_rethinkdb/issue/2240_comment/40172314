@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-11) 05 : 38 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/40172314"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2240#issuecomment-40172314"
+  , issueCommentCreatedAt = 2014 (-04) (-11) 05 : 38 : 49 UTC
+  , issueCommentBody =
+      "Also one more clarification to add to @neumino's comment. You might wonder why chaining `.limit(1)` still shows ten reads.\r\n\r\nThe reason is that RethinkDB shards data under the hood, even if you have one node (for multicore scalability). When you run a range query and request one document, the server automatically goes to multiple shards (in this case CPU shards) and requests a bunch of documents from each. This lets us prioritize latency -- in case some shards don't have documents we can still send you documents we received in parallel from others; if some shards are doing more processing, we can send you ones that came sooner, etc.\r\n\r\nThe exact mechanism for how this works internally is a little bit tricky, but the outcome is that in certain cases opportunistically getting a little bit more data than required results in better performance. So that's where `10` comes from :)"
+  , issueCommentId = 40172314
+  }

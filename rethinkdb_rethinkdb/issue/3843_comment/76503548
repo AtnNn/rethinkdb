@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-28) 01 : 50 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/76503548"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3843#issuecomment-76503548"
+  , issueCommentCreatedAt = 2015 (-02) (-28) 01 : 50 : 42 UTC
+  , issueCommentBody =
+      "I'm not sure that `r.json` is a good solution. The (removed) method `exprJSON` in the JS driver comes at a certain cost. You basically have to make sure that there's no ReQL term in your data and then call `r.json(JSON.stringify(...))`.\r\n\r\nIt used to be cheaper to do that than to build the protobuf object, but now that we don't have to create a datum for each value (except arrays), it's not obvious that this is more efficient. It's especially not in Node when the object has too many fields and v8 switch to a hash table to represent it.\r\n\r\nHaving something like `r.value(<json value>)` where `<json value>` does not contain a ReQL term (like r.now(), r.random() etc.) and (`r.value(...) = r.json(JSON.stringify(...))` would make more sense.\r\n\r\nYou can then have `insert` by default wrap its first argument with `r.value` and add a flag if people want to insert documents with ReQL terms."
+  , issueCommentId = 76503548
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-21) 01 : 38 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/75348975"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-75348975"
+  , issueCommentCreatedAt = 2015 (-02) (-21) 01 : 38 : 53 UTC
+  , issueCommentBody =
+      "> ```rb\r\n# A simple interface for the common case\r\nEventMachine.run {\r\n  r.table('foo').changes().run(conn) {|change|\r\n    # do something with `change`\r\n  }\r\n}\r\n```\r\n\r\nThis is lovely!\r\n\r\n> ```rb\r\n# A complicated interface for people who want more control\r\nclass StreamHandler < EventMachine::RethinkDB::StreamHandler\r\n  def on_open\r\n  end\r\n  def on_close\r\n  end\r\n  def on_error(err)\r\n  end\r\n  def on_val(val)\r\n  end\r\nend\r\n```\r\n\r\nThis is also very nice!\r\n\r\n> ```rb\r\nclass ChangeHandler < EventMachine::RethinkDB::ChangeHandler\r\n  def on_open\r\n  end\r\n  def on_close\r\n  end\r\n  def on_error(err)\r\n  end\r\n  def on_initial_val(val) # runs on every initial val\r\n  end\r\n  def on_change(change) # runs on every change\r\n  end\r\n  def on_ready # runs when all initial vals have been received\r\n  end\r\nend\r\n```\r\n\r\nI'm not sure we need a special `ChangeHandler` -- I think we could get away with asking people to always use a `StreamHandler`. The `ChangeHandler` is a nice abstraction, though, so I'm not sure. If we do decide to add both, I'd suggest always allowing the user to pass `StreamHandler`, even on feeds. They can choose to use `ChangeHandler` on feeds if they want to, but shouldn't have to.\r\n"
+  , issueCommentId = 75348975
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 01 : 39 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15934937"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/609#issuecomment-15934937"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 01 : 39 : 06 UTC
+  , issueCommentBody =
+      "Could we re-open this for a moment?  I'm a little confused what we're talking about, but it sounds concerning.\r\n\r\nLet's say I run two queries:\r\n```ruby\r\na = tbl1.run\r\nb = tbl2.run\r\n```\r\n\r\nWe get back two batched iterators.  Now let's say that I start iterating over `a`:\r\n```ruby\r\na.each { ... }\r\n```\r\n\r\nFor efficiency reasons, the driver should request the next batch of data while it's iterating over the first batch.  So while iterating over `a`, there's an outstanding request for the next batch of `a`'s data.\r\n\r\nBut let's say in the block we iterate over `b`:\r\n```ruby\r\na.each {|x| b.each { ... } if x.some_predicate}\r\n```\r\n\r\nNow while we're iterating over `b`, we run out of data and request the next batch of `b`'s data.  But we'll get back the next batch of `a`'s data first.  So we definitely need to handle tokens asynchronously, don't we?"
+  , issueCommentId = 15934937
+  }

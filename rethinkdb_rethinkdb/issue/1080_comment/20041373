@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-26) 11 : 42 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20041373"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1080#issuecomment-20041373"
+  , issueCommentCreatedAt = 2013 (-06) (-26) 11 : 42 : 51 UTC
+  , issueCommentBody =
+      "So here is what I would expect to happen:\r\n\r\nThe ten writes come in, one of them finishes first. That one will call sync() on the writeback_t. Because there is currently no writeback in progress, sync() will initiate a new writeback. The writeback will try to get an exclusive lock on the flush lock, thereby waiting for the remaining nine write transactions to finish. At the time it gets the lock, all of the ten writes will have registered there callback using sync_patiently(). The writeback will go through, flush all the changes at once, and then tell all of the 10 writes that they are now committed.\r\n\r\nAlternatively, the first write might be so fast that the writeback just goes through the flush lock before a second write can even come in. In that case, the writeback will be waiting for data to be written to disk while the remaining write transactions are actually initiated and processed. So the first writeback will be for just a single transaction. However, when the newer write transactions call sync(), sync() will see that there is still a writeback in progress (because we have max concurrent writebacks = 1, right?), so it will simply set start_next_sync_immediately. Once the first writeback is done, it will initiate a new sync because of start_next_sync_immediately being set, which should then flush all the remaining nine writebacks together. Still the speedup versus a single client should be considerable.\r\n\r\nHere's a thought that just came to my mind:\r\nActually, in the second case, it could be that this behavior will repeat itself indefinitely. The first write will be done earlier than the remaining nine. Thus, it will also be the first to initiate a new writeback just of its own (before the remaining nine clients can react to the confirmation of the previous write), and the process will repeat. Now we have four hash shards, so it *could* be I suppose that on each shard, we always get (speaking en expected values) a repeating sequence of 1 transaction/writeback followed by 6/4 transactions/writeback (6 here is the remaining number of connections, 4 the number of hash shards).\r\n\r\nA way to verify this would be running with considerably more concurrent clients.\r\n\r\nIn general, this might also point to a performance problem with the hash shards, as every writeback will cause random access (switching between the metablock extent and the active data extent), and every shard will do its own writeback. I wonder if the operating system's disk scheduler or the devices NCQ could re-order anything here, but I think its options are quite limited due to the serial nature of the data and metablock writes."
+  , issueCommentId = 20041373
+  }

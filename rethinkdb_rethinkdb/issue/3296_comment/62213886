@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-07) 21 : 38 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/62213886"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3296#issuecomment-62213886"
+  , issueCommentCreatedAt = 2014 (-11) (-07) 21 : 22 : 14 UTC
+  , issueCommentBody =
+      "The reason behind the current behavior was the following: If you issue a write and then a read on the same connection, the read should see the write.\r\n\r\nSome people felt strongly about that a long time ago, and we adopted the current behavior. I think it's fair to run the queries in an asynchronous fashion, especially since:\r\n- The guarantee is wonky. You don't see the read if the write fails, and you have no guarantee that no write will overwrite your first write before the read.\r\n- If you want to see your write, you can now use `returnChanges`\r\n\r\nThe current behavior is also confusing I think. Users currently cannot build a safe connection pool (where a query is guaranteed not to be issued on a connection already used) without automatically coercing cursors, and forbidding feeds. This is mostly because we run `CONTINUE` queries under the hood. All the work behind rethinkdbdash's pool was to work around this limitation.\r\n\r\nAlso in my opinion it's expected that if you want a synchronous flow for asynchronous operation in Node.js, you must nest calls, use a library like async, or generators."
+  , issueCommentId = 62213886
+  }

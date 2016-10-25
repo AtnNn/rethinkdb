@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-30) 05 : 32 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31334034"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1799#issuecomment-31334034"
+  , issueCommentCreatedAt = 2013 (-12) (-30) 05 : 30 : 08 UTC
+  , issueCommentBody =
+      "Yep, sorry. Here's the confusing flow:\r\n\r\n* Create a cluster of two datacenters and two nodes (one per datacenter), and a single table on this cluster.\r\n* Go into table settings and turn on \"primary datacenter\" option.\r\n* Kill the (only) node in the primary datacenter.\r\n* Put yourself in the shoes of a new user who's trying to get the system working at this point.\r\n\r\nHere are some very confusing things about the flow:\r\n\r\n* By turning on \"primary datacenter\" the UI automatically adds an extra replica (in that datacenter) without bring the user's attention to this change. We do it for simplicity of implementation and consistency even if the primary for the table is already in that datacenter. I had forgotten about this and it took me a few minutes to figure it out. I'd imagine it would take users unfamiliar with the system much longer.\r\n* Once the node is killed, one logical step now is to turn off the primary datacenter to get the system to work. But it doesn't -- the goals aren't satisfiable because we still have the extra replica in that datacenter *and* the overall replica in the whole cluster.\r\n* So now I look at cluster-wide replica count. It took me a few minutes to remember if it's in addition to the per-datacenter replicas, or is a subset of those replicas or something else. The UI doesn't help me determine this at all (I'd imagine for new users this is impossible to easily figure out).\r\n* All throughout this process if I try to run a query I get \"master not available\" error. The system doesn't tell me *why* the master isn't available in the error message itself (which is what I really want to know) -- I have to look at the web UI to see the issues.\r\n\r\n\r\n"
+  , issueCommentId = 31334034
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-11) (-19) 23 : 31 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/63734885"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3354#issuecomment-63734885"
+  , issueCommentCreatedAt = 2014 (-11) (-19) 23 : 31 : 18 UTC
+  , issueCommentBody =
+      "Ah!  I think I see the problem.  `pluck` (along with an unknown number of other terms) makes the assumption that types which are convertible to `DATUM` are trivially convertible to `DATUM`, so it isn't expensive to do the conversion twice.  In those commits I introduced a new type `single_selection_t` which violates this assumption.\r\n\r\nThe easiest way to fix it was to restore the assumption.  `get_selection_t` already cached the value of the selection in some circumstances, so I just made it cache in all circumstances, which I think should fix the problem in this particular case.\r\n\r\nI just pushed a branch `mlucy_3354` to `next` that has that patch, if you get a chance to test it before tomorrow.  If that fixes it I'll patch the other `single_selection_t` subclasses too; otherwise we should sit down together tomorrow and see if we can figure out what's actually causing it."
+  , issueCommentId = 63734885
+  }

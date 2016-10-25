@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 05 : 04 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26114838"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1533#issuecomment-26114838"
+  , issueCommentCreatedAt = 2013 (-10) (-11) 05 : 03 : 02 UTC
+  , issueCommentBody =
+      "Also note that the reason you have to go through the annoying `map.merge` step is that `merge` doesn't accept a lambda. After #1167 this problem will go away, so you'll be able to just say `merge` (though admittedly it doesn't make your example all *that* much nicer).\r\n\r\nBasically adding `multi` to `eq_join` (i.e. making it a modifier for the input argument) seems like special casing something that might be better represented as a more general purpose primitive. Consider an alternative (made up) query that would do what you want:\r\n\r\n```Python\r\nr.table(\"blog_posts\")\r\n.merge({ 'comment_id': r.row['comment_id'] }, multi=True)\r\n.eq_join(comment_id, r.table(\"comments\"))\r\n```\r\n\r\nOr may be we could add a porcelain primitive to make the `merge` part above less cumbersome:\r\n\r\n```Python\r\nr.table(\"blog_posts\")\r\n.unwind('comment_id')    # same as   merge({ 'comment_id: r.row['comment_id'] }, multi=True)\r\n.eq_join(comment_id, r.table(\"comments\"))\r\n```\r\n\r\nThat seems far more general than adding `multi` to `eq_join`."
+  , issueCommentId = 26114838
+  }

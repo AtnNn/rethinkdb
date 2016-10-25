@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-09) (-29) 18 : 02 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/57202154"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2992#issuecomment-57202154"
+  , issueCommentCreatedAt = 2014 (-09) (-29) 18 : 02 : 42 UTC
+  , issueCommentBody =
+      "/cc @VeXocide -- this is now yours.\r\n\r\nWhen we start rethinkdb we print the following:\r\n\r\n```\r\n$ rethinkdb\r\ninfo: Running rethinkdb 1.15.0 (CLANG 4.2 (clang-425.0.28))...\r\ninfo: Running on Darwin 13.3.0 x86_64\r\ninfo: Using cache size of 2256 MB\r\ninfo: Loading data from directory /Users/coffeemug/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29015\r\ninfo: Listening for client driver connections on port 28015\r\ninfo: Listening for administrative HTTP connections on port 8080\r\ninfo: Listening on addresses: 127.0.0.1, ::1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all` command line option.\r\ninfo: Server ready\r\n```\r\n\r\nThen when another node joins the cluster we print the following:\r\n\r\n```\r\n$ rethinkdb --join localhost --port-offset 1\r\ninfo: Initializing directory /Users/coffeemug/foo/rethinkdb_data\r\ninfo: Running rethinkdb 1.15.0 (CLANG 4.2 (clang-425.0.28))...\r\ninfo: Running on Darwin 13.3.0 x86_64\r\ninfo: Using cache size of 2253 MB\r\ninfo: Loading data from directory /Users/coffeemug/foo/rethinkdb_data\r\ninfo: Listening for intracluster connections on port 29016\r\ninfo: Attempting connection to 1 peer...\r\ninfo: Connected to server \"batgirl_local_mmv\" f56edbd7-c772-41ce-ae7e-b45358ea4fa2\r\ninfo: Listening for client driver connections on port 28016\r\ninfo: Listening for administrative HTTP connections on port 8081\r\ninfo: Listening on addresses: 127.0.0.1, ::1\r\ninfo: To fully expose RethinkDB on the network, bind to all addresses\r\ninfo: by running rethinkdb with the `--bind all` command line option.\r\ninfo: Server ready\r\n```\r\n\r\nThe first server then prints:\r\n\r\n```\r\ninfo: Connected to server \"batgirl_local_n6n\" 4350e3f0-b638-40b4-bbea-aad7e699aeb2\r\n```\r\n\r\nHowever, this makes debugging rather difficult because the servers don't print their own name/id when they start. When servers start, inster of printing \"Sever ready\", we should print:\r\n\r\n```\r\ninfo: Server ready, \"batgirl_local_mmv\" f56edbd7-c772-41ce-ae7e-b45358ea4fa2\r\n```"
+  , issueCommentId = 57202154
+  }

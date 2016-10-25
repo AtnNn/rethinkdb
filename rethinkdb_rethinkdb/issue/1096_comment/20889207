@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-12) 16 : 54 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20889207"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-20889207"
+  , issueCommentCreatedAt = 2013 (-07) (-12) 16 : 54 : 17 UTC
+  , issueCommentBody =
+      "This is actually pretty easy to do in `grouped_map_reduce` currently you just say:\r\n\r\n```Python\r\ntable.gmr(r.row[\"location\"], [r.row], lambda x,y: x+y)\r\n```\r\nWe should just add an aggregator to `group_by` which is sugar for this. Maybe call it `r.rows` or `r.docs` (actually this makes me wonder why we use `r.row` for the anaphoric variable rather than `r.doc`).\r\n\r\nAlso to make this query nicer you should be able to pass multiple aggregators to `group_by`, which I feel like we've talked about before. Then the syntax would look like:\r\n\r\n```Python\r\ntable.group_by(\"location\", r.avg(\"salary\"), r.rows)\r\n```\r\n\r\n---\r\n\r\nUntil we implement this the query in question can actually be done much more efficiently like so:\r\n\r\n```Python\r\ntable.gmr(r.row[\"location\"], [r.row], lambda x,y: x+y)\r\n    .map(lambda x: {\"users\" : x[\"reduction\"],\r\n                             \"avg_salary\" : x[\"reduction\"].group_by(\"_\", r.avg(\"salary\"))[\"reduction\"]})\r\n```"
+  , issueCommentId = 20889207
+  }

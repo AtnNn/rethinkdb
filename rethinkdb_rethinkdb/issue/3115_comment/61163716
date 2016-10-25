@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-30) 20 : 28 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/61163716"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3115#issuecomment-61163716"
+  , issueCommentCreatedAt = 2014 (-10) (-30) 20 : 26 : 58 UTC
+  , issueCommentBody =
+      "@deontologician I think the basic structure looks good. Just a few comments:\r\n\r\n* I think we should not differentiate between individual shards in the jobs table if possible.\r\nInstead if any of the shards of a table is backfilling on a given server, we would have only a single entry for that table/server. The progress would take all shards of the table into account (though that's also a bit awkward. If only a single shard gets changed, the progress wouldn't start at 0 but somewhere in the middle because most shards would not be backfilling in the first place. Might be ok).\r\n* In addition to `table_name`/`table_id` we should also have `db_name`/`db_id` for completeness. Instead of `backfill_progress`, I would prefer calling the field `progress_percent`. We would standardize this so that in all cases where we can show progress (sindex constroction and backfilling) it would be a number between 0 and 100.\r\n\r\nAnother thing that I hadn't thought about before: We should have entries for both incoming and outgoing backfills. Two options here:\r\n* Have a common type `\"backfill\"` for both. In the `details` field, have a field `direction` that can have the two values `\"incoming\"` and `\"outgoing\"`.\r\n* Have two types `\"backfill_incoming\"` and `\"backfill_outgoing\"` on the top level, though possibly with names other than these."
+  , issueCommentId = 61163716
+  }

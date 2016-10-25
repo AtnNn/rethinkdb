@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-11) 02 : 36 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20786700"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1149#issuecomment-20786700"
+  , issueCommentCreatedAt = 2013 (-07) (-11) 02 : 36 : 32 UTC
+  , issueCommentBody =
+      "We should also consider the behavior this encourages among users.  Suppose we have `$type` or even `type` as the field name which contains the document type as recognized by ReQL or RethinkDB.  Then users will think \"gosh, I could have a collision\", and be paranoid about what kinds of documents they insert into the database.\r\n\r\nSuppose we have `$reql_type` as the field name.  The users will think \"I'm safe\" when they first hear about that feature.  Or it will look like some obscure thing that they aren't worried about and go out of their mind.\r\n\r\nThen, they upload a client-generated JSON document to the server.  (That should be safe, right?)  It turns out it's a user-supplied JSON document with a value that gets treated like a user supplied type and chaos happens.  (Maybe it was a JSON document with all the expected fields but a surprise `$reql_type : 'time'` field, it gets treated differently, and then some range query looking for a certain field ends up getting weird off by one errors and zipped up with another query for the user table in the same order, user info gets misaligned, account details leaked, who knows?)  All because the user thought they could put JSON documents into the database.\r\n\r\nI think claiming all $-prefixed field names as our own will result in better user behavior than claiming just the safe-looking `$reql_`-prefixed field names (that could just never happen).  Claiming `type` would do an even better job... but people would complain.  If somebody complains about putting a document with MongoDB-specific magic field names and having them conflict with RethinkDB-specific magic field names... we can ask them why they didn't put vendor-prefixes on their own field names."
+  , issueCommentId = 20786700
+  }

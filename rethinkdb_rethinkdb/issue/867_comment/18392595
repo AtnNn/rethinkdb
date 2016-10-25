@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-24) 08 : 29 : 18 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18392595"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/867#issuecomment-18392595"
+  , issueCommentCreatedAt = 2013 (-05) (-24) 08 : 29 : 18 UTC
+  , issueCommentBody =
+      "I've thought about it for about a day, and can only come up with one edge case:\r\n\r\nCurrently we let people write `table.filter({:a => 1})` to get all the rows where `a` is one.  We also let people write `table.filter({:a => r.row[:b]})` (ignore the fact that we don't have `r.row` in ruby) to let people get all the rows where `a` is the same as `b`.\r\n\r\nBut the semantics for our client libraries call for them to convert expressions containing `r.row` to functions.  So what the server sees is `table.filter{|x| {:a => x[:b]}`.  The way we get around this is that when we're evaluating a filter, if after calling the function we get back an object, we treat that object as the shortcut syntax for another function.\r\n\r\nSo we currently interpret the return value of the block passed to `filter` in a special way that conflicts with objects being interpreted as `true`.\r\n\r\nI can't think of any other places where it would be a problem, and we could easily special-case `filter` there (it's arguably already a special case that we just need to tweak further).\r\n\r\n---\r\n\r\nPromiscuous truthiness would be very easy to implement (the RQL code was originally written to support that behavior because I originally thought we wanted to do it that way).  It's literally a matter of patching one function, making sure that the `all` and `any` code hasn't bitrotted, and adding a line or two of code to `filter`.  I think we should do this for 1.6.\r\n\r\n---\r\n\r\nIf we have promiscuous truthiness, then this is the interface I think we should have:\r\n```ruby\r\n> r(\"abcd\").match(/b/).run\r\n\"b\"\r\n> r(\"abcd\").match(/e/).run\r\nnil\r\n> r(\"abcd\").match(/([ab])([cd])/) {|groups| groups}\r\n[\"bc\", \"b\", \"c\"]\r\n> r(\"abcd\").match(/([ab])d/) {|groups| groups}\r\nnil\r\n```\r\n\r\nI think that capture groups are a fairly advanced feature, so if we return the capture groups in an array from `match` then the primary effect for most people would be that we're wrapping their matched value in an array for no good reason.\r\n\r\nIf we decide to put off promiscuous truthiness, I think that we should implement the original interface I proposed, since Sam and Slava found it less confusing than Joe did."
+  , issueCommentId = 18392595
+  }

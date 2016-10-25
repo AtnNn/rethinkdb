@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-08) 22 : 59 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39911943"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1158#issuecomment-39911943"
+  , issueCommentCreatedAt = 2014 (-04) (-08) 22 : 59 : 39 UTC
+  , issueCommentBody =
+      "@srh: I haven't figured out all of the details yet, but it's probably going to be a quad-tree like structure, implemented on top of our existing btree.\r\nSomething similar to what MongoDB is doing http://blog.mongodb.org/post/50984169045/new-geo-features-in-mongodb-2-4 .\r\nThe key point there is that polygons are indexed based on their intersection with a fixed multi-resolution grid.\r\nEach grid cell can be addressed by its path through a quad tree, and the keys of the coarser cells are prefixes of the keys of the finer cells contained in the coarse cell. Finding everything stored in a given cell can be easily translated to a range get in the one dimensional btree.\r\n\r\nWe will be able to store polygons or points (and maybe lines, which are kind of degenerate polygons) into the index, and perform intersection and nearest neighbor queries.\r\n\r\nWe should support Euclidean spaces for 2 and possibly 3 dimensions, and geographic coordinates with the corresponding intrinsic distances on a sphere.\r\n\r\nI will write up an API suggestion and more details of the potential implementation once I get to working on this."
+  , issueCommentId = 39911943
+  }

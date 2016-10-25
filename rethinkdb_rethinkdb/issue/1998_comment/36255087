@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-02) (-27) 15 : 43 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/36255087"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1998#issuecomment-36255087"
+  , issueCommentCreatedAt = 2014 (-02) (-27) 15 : 43 : 33 UTC
+  , issueCommentBody =
+      "Generally speaking the possibility of the recency values being out of whack happens when acquirers are acquiring the page but not modifying it -- only touching it, and maybe not even waiting for read or write access.\r\n\r\n* It turns out that we don't declare one transaction as preceding another transaction, if they merely touch a block.  We should.  Debugging messages in PageTest.RecencyReversal as of commit b48abe93f4d0576f14d268fcc9aa55b27f34101c demonstrate this.\r\n\r\n* We don't keep block versions and recency values updated appropriately in the case of acquirers which release the block before they've got write ownership of the block.  In particular, the assertion this issue is about can be tripped when a write acquirer has achieved read access to the page, but not write access, before releasing the block.  (If the write acquirer has not achieved read access, it won't be considered to have touched the block in page_txn_t::remove_acquirer.  Thus it needs to have gotten read access in order for it to have been deemed to touch the block.)"
+  , issueCommentId = 36255087
+  }

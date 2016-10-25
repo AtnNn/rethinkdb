@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-28) 01 : 47 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18520701"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18520701"
+  , issueCommentCreatedAt = 2013 (-05) (-28) 01 : 46 : 50 UTC
+  , issueCommentBody =
+      "Suppose I have this schema\r\n```\r\nuser = {\r\n    name: ...\r\n    contact:\r\n        phone:....\r\n        email: ....\r\n```\r\n\r\n\r\nIf I have understood, this query will never throw right? (even if name is not defined for some documents\r\n```\r\nr.table(\"users\").filter( r.row(\"name\").eq(\"Michel\") )\r\n```\r\n\r\nThis query never throws as long as contact is defined.\r\nIf contact is undefined, it will throw an error, right?\r\n```\r\nr.table(\"users\").filter( r.row(\"contact\")(\"email\").eq(\"user@domain.com\") )\r\n```\r\n\r\nThis is going to be the behavior?\r\n```\r\nr.expr(null).eq(\"blabla\").default(5) // returns false\r\nr.expr(null).eq(null).default(5) // returns true\r\nobject(\"non_existing_key\").eq(\"blabla\").default(5) // returns 5\r\nobject(\"non_existing_key\")(\"other_key\").eq(\"blabla\").default(5) // throws an error?\r\nobject(\"existing_key\")(\"non_existing_key\").eq(\"blabla\").default(5) // returns 5\r\nobject(\"non_existing_key\").default(3)(\"other_key\").eq(\"blabla\").default(5) // returns 5\r\nobject(\"non_existing_key\").default(null)(\"other_key\").eq(\"blabla\").default(5) // returns 5\r\n```\r\n\r\nCould you give some examples with the first/second arguments? I'm not sure that I got everything."
+  , issueCommentId = 18520701
+  }

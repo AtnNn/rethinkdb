@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-01) (-30) 02 : 41 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72145002"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3298#issuecomment-72145002"
+  , issueCommentCreatedAt = 2015 (-01) (-30) 02 : 41 : 51 UTC
+  , issueCommentBody =
+      "At a guess, `net.Connection` would need to have a parameter in the constructor specifying an `asyncio.BaseEventLoop` (may be better to have a separate subclass for this, actually) which would then use `asyncio.open_connection` instead of `socket.create_connection`; after that we would need to hook up `net.Cursor` to an event loop (again, probably best done as a separate subclass).  Um, `net.Connection._sock_recvall` and `net.Connection._sock_sendall` would need to be evented, which is probably mostly using the asyncio Stream interface.  There's a trick with writing on those that goes\r\n```python\r\nw.write(data)\r\nyield from w.drain()\r\n```\r\n(or `yield From(w.drain())` in Trollius) but that's not a big deal.\r\n\r\nBasically we would need to rebase our thing on top of `asyncio` which is deliberately not super difficult."
+  , issueCommentId = 72145002
+  }

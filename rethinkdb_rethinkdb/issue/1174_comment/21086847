@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-17) 01 : 37 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/21086847"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1174#issuecomment-21086847"
+  , issueCommentCreatedAt = 2013 (-07) (-17) 01 : 37 : 39 UTC
+  , issueCommentBody =
+      "About the scalability of the web ui, here are a few things:\r\n\r\nAbout bandwidth:\r\n\r\n- The most expensive by far are the calls to the stats. We do it every seconds, and even if I try to keep just what I need, I still get a lot of data because I have to sum the read/writes per internal hash shards (that are per shard (that are per table)).\r\nIf the server could return just the two numbers per table, it would save __a lot__ of bandwidth.\r\n- Providing diff for `/ajax` would be really cool. I don't expect people data to change that often, so it would save quite some bandwidth.\r\n\r\n\r\nAbout heavy javascript operations:\r\n- The directory is huge -- and too big for what I need. I have to check the status of all hash shards to know if a shard is available or not. The problem is similar to the one with stats. If the status could get computed on the server, that would be a lot less things to do on the web ui.\r\nWhile computing the status is not that expensive, every time we get the results from `/ajax` a lot of things are updated at the same time, so the user can feel a slow down in case of a huge cluster.\r\n- Hash shards should remove all the code to compute split points -- and the code to convert/order keys -- which will make me happy : )\r\n\r\n\r\nExtra considerations\r\n- If we can stream things, it would be even better, but that would require more work for everyone. I'm pretty sure that having the server squashes the stats and provides diff for the directory and semilattice, it should be more than enough for most (all?) our users.\r\n\r\n\r\nI'll open separate, more specific issues when we start working on this."
+  , issueCommentId = 21086847
+  }

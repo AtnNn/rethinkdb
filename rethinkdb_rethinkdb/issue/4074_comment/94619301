@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-04) (-21) 02 : 39 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/94619301"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4074#issuecomment-94619301"
+  , issueCommentCreatedAt = 2015 (-04) (-21) 02 : 39 : 53 UTC
+  , issueCommentBody =
+      "@stuartpb Thanks for your feedback, I agree with what you say about the scenario of running in an EC2 semi-private network.\r\nWhat I meant by vulnerability to DoS and possibly other attacks is that the RethinkDB connection logic isn't written to deal with malicious attackers at all. Existing SSL tunnelling software most likely *is* written with that in mind, and has been tested for years. RethinkDB might well have some vulnerability where it uses unproportionally many resources, or might even have a buffer overflow that you can attack *before* you pass through the auth key validation. So if malicious users can be dropped at the SSL/TLS tunneling server because of a bad client certificate before even reaching the RethinkDB server, that will avoid these issues.\r\n\r\n@neumino Thanks for your feedback on `readFileSync`. I forwarded that to the pull request thread. I think loading the certificate for every connection isn't that bad because the OS will have it in its cache after the first load. Would probably be better if we could cache it in Node though.\r\n\r\nAbout having SSL in the client but not in the server: I think it makes sense. Fact is that you currently have to connect to something that is not RethinkDB from the client if you need encryption. The only difference is that right now you have to setup and maintain a tunnel, which in addition to the additional tunnelling infrastructure on the server, means that you also need to maintain an additional piece on each client (e.g. an SSH tunnel which for some people have had a bad tendency of dying from time to time). With SSL support in the client, you can cut out the part on the client. You only have to setup something on the server. So I'm pretty sure it will make it more reliable than the existing solutions.\r\nIn the future I imagine we will provide documentation and/or predefined configuration files for making that very easy. Or we will put it directly into the server.\r\n\r\nI think we can avoid the misconception that RethinkDB supports SSL without additional infrastructure by making the need for it very clear in the API documentation of `connect`."
+  , issueCommentId = 94619301
+  }

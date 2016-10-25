@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-26) 19 : 36 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/53475923"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2957#issuecomment-53475923"
+  , issueCommentCreatedAt = 2014 (-08) (-26) 19 : 33 : 33 UTC
+  , issueCommentBody =
+      "First of all I'm delighted at seeing how far this API has come. I didn't follow the progress that closely, and this looks amazing. @coffeemug's suggestions will make it even better.\r\n\r\nI have two comments:\r\n> I should be able to just call reconfigure() with no arguments and have the system reassign shards to machines if it makes sense. At least in the Python driver I get a \"not enough args\" error.\r\n\r\nThat sounds like a dangerous command. Until we have resharding without losing availability, this can take the whole database down. I suggest we don't add that command until https://github.com/rethinkdb/rethinkdb/issues/1774 is implemented.\r\n\r\n> We should drop it entirely -- if there isn't enough information to balance the shards, we should create the keys lexicographically.\r\n\r\nI agree that we should do that, but we have to decide how exactly we want to set the split points. Here are a few options (all ignore non-string keys):\r\n* Evenly split shards over the string domain, ASCII codes `[1-255]*`\r\n* Evenly split shards over alphabetic strings `[a-f]*`\r\n* Evenly split shards over alphanumeric strings `[0-9a-f]*`\r\n* Evenly split shards over the UUID domain, that is strings beginning with `[0-9a-f]{8}-...`\r\n\r\nIn case two and three there is also the question of whether to include upper-case characters.\r\nThe first one is clearly not useful in most cases. The second one is what I would probably expect to get when configuring even split points over strings.\r\nThe fourth one (UUID-optimized split points) is the only one that works well with our automatically generated IDs, and I think we should pick that one."
+  , issueCommentId = 53475923
+  }

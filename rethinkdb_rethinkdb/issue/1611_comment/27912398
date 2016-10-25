@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-11) (-06) 20 : 52 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/27912398"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1611#issuecomment-27912398"
+  , issueCommentCreatedAt = 2013 (-11) (-06) 20 : 52 : 15 UTC
+  , issueCommentBody =
+      "I have two objections to the tighter flow.\r\n\r\nThe first is somewhat theoretical/philosophical. Encouraging the flow above is pretty close to encouraging premature optimization. Consider an alternative flow (which I think would be better):\r\n\r\n* Write the queries for your app\r\n* In stress testing, determine which queries are slow (we'd have to build additional tools for that -- e.g. \"give me all queries that go above a certain latency threshold\")\r\n* Profile the slow queries and fix them\r\n\r\nI think we should think about the implications of both flows on development and see if we want to encourage the tighter flow. It's not immediately obvious whether it's a killer feature, or a feature that encourages bad practices.\r\n\r\nThe second objection is immediately practical. There are a few hurdles we have to overcome before the tight flow is even possible:\r\n\r\n* The issue #1613 (and potential others we haven't caught) arbitrarily change the resultset from constant to linear for some queries. I feel really uncomfortable turning on profiling in the data explorer by default while users may run into things like this.\r\n* The results of the profiler aren't easily readable by the user. Until we do visualizations, we'll essentially be showing them a bunch of data they won't know how to interpret. It won't actually help them optimize queries for now, it'll largely act as a distraction until we work it out.\r\n* Knowing why the queries are slow doesn't necessarily imply that the user will know how to fix them. We had a lot of ideas for giving hints and even fixing things inline by adding indexes (or potentially changing queries right there to use an index), but it will take some time to get this done.\r\n\r\nI propose integrating the profiler into the data explorer, but not calling it by default for now. We'll give it a few months to shake out all the bugs, make the output more understandable, and add hints/actions to fix queries, and once the feature gets good enough we can try making a tight flow (essentially turning it on by default) and seeing if it's helpful."
+  , issueCommentId = 27912398
+  }

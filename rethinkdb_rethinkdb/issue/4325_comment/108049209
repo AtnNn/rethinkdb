@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-06) (-02) 18 : 40 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/108049209"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/4325#issuecomment-108049209"
+  , issueCommentCreatedAt = 2015 (-06) (-02) 18 : 40 : 41 UTC
+  , issueCommentBody =
+      "Hi @alehano,\r\n\r\nCompound indexes are ordered lexicographically. That means that you have to put the components that are constant in your query first, and the ones that can vary to the end:\r\n\r\n```js\r\nr.db(\"test_main\").table(\"companies\").indexCreate(\"ListAll\", function(comp) {\r\n    return comp(\"Categories\").map(function(cat) {\r\n        return [ comp(\"Enabled\"), cat, comp(\"Pro\"), comp(\"CompType\") ];\r\n    });\r\n}, {multi: true})\r\n\r\nr.db(\"test_main\").table(\"companies\").between([true, 1, r.minval, r.minval],\r\n  [true, 1, r.maxval, r.maxval], {index:\"ListAll\"}).orderBy({index:r.desc(\"ListAll\")}).limit(100)\r\n```"
+  , issueCommentId = 108049209
+  }

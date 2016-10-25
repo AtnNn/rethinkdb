@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-08) 11 : 26 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31823734"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1832#issuecomment-31823734"
+  , issueCommentCreatedAt = 2014 (-01) (-08) 11 : 24 : 57 UTC
+  , issueCommentBody =
+      "This is indeed very nasty, but it doesn't have anything to do with `r.row` vs `lambda`. Python doesn't allow overloading binary `and`, so we're forced to overload unary `and` instead. Unfortunately, unary `and` has incorrect operator precedence, so you have to use parentheses explicitly:\r\n\r\n```python\r\n# bad precedence\r\ntable.filter(lambda row: row['t'] >= start & row['t'] < end).count().run()\r\n12\r\n# it's equivalent to this\r\ntable.filter(lambda row: row['t'] >= (start & row['t']) < end).count().run()\r\n12\r\n# the correct way of running the query is this\r\ntable.filter(lambda row: (row['t'] >= start) & (row['t'] < end)).count().run()\r\n2\r\n```\r\n\r\nThe `gt/lt/ge/le` functions don't have the precedence problem, which is why you get the correct result.\r\n\r\nThis has been fixed as of #1582 and the fix will be in the 1.12 release. Here's what you'd get with the new driver:\r\n\r\n```\r\n# bad precedence\r\ntable.filter(lambda row: row['t'] >= start & row['t'] < end).count().run()\r\n\r\nRqlDriverError: Calling '>=' on result of infix bitwise operator:\r\n(var_3['t'] >= (r.expr(10) & var_3['t'])).\r\nThis is almost always a precedence error.\r\nNote that `a < b | b < c` <==> `a < (b | b) < c`.\r\nIf you really want this behavior, use `.or_` or `.and_` instead.\r\n\r\n# the correct way of running the query in the next release\r\ntable.filter(lambda row: (row['t'] >= start) & (row['t'] < end)).count().run()\r\n2\r\n```\r\n\r\nSorry you ran into this."
+  , issueCommentId = 31823734
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-07) 02 : 16 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17519667"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/758#issuecomment-17519667"
+  , issueCommentCreatedAt = 2013 (-05) (-07) 02 : 16 : 42 UTC
+  , issueCommentBody =
+      "If people have to catch errors in two different places it's because errors are happening in two different places. In general, exception handling semantics are nice because you can provide an umbrella that catches errors happening at any subsequent level of a call stack at just one place. JS doesn't let us do this uniformly, however, because some errors occur after logical control flow is handed off to a callback handler and the stack containing the try block unwinds.\r\n\r\nOur policy has been to report any errors we can with exceptions and only pass those that we can't to callbacks. @neumino's proposal is to instead push these errors forward to any waiting callback. This would result is some pretty undesirable behavior.\r\n\r\nFirstly, how do we report errors that don't lie on a code path that eventually hand off logical control to a callback? Our choices are to continue to throw an exception, return some sort of error code (a very C like API and most like the Node asynchronous `(err, val)` callback style), or take a callback just for error reporting. The latter two choices are obvious straw men so I'm not going to bother considering them. The point is that we'll still be throwing exceptions which we will still need to catch. Pushing some errors to callbacks don't actually remove the need to use try catch blocks since other errors could still be thrown.\r\n\r\nSecondly, pushing errors that happen on one side of an asynchronous break to the other side needlessly separates error from error reporting. In general it is good practice to report errors as soon as they occur. The longer you wait (in terms of logical control flow) to report an error the harder it is to reason about the source of the error and the harder it is to debug."
+  , issueCommentId = 17519667
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-05) 05 : 23 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15939508"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/612#issuecomment-15939508"
+  , issueCommentCreatedAt = 2013 (-04) (-05) 05 : 23 : 49 UTC
+  , issueCommentBody =
+      "The actual point of attaching tokens to queries is to support result batching which requires tokens whether or not you choose to speculatively load future batches. The point of batching in turn is not to support pipelining but to support laziness. Indeed, speculatively loading results to support pipelining kind of misses the point of laziness. Tokens are also necessary for supporting asynchronous network APIs such as the one we have to use in JS. Even there where the necessary infrastructure is in place to support asynchronous speculative loading of results we choose not to because that's not really the point.\n\nThere is a tradeoff between the latency of individual queries and other measures of performance. Speculatively loading subsequent values off the stream may reduce the latency of a single query but it entails eating up extra memory to store those future results and demands extra work by the server and extra network traffic that may not, in the end, actually be used by the application. This can slow down other queries both on the application and database servers, reducing throughput. This is the point of laziness.\n\nWe can pick other points on this tradeoff curve if we want though. Reducing latency as much as possible through pipelining would entail making the iterator available to the application immediately as well as stuffing results down the pipe as quickly as they can be computed by the server. With our batching system this would mean asking the server to not wait to be asked to send further batches. Our current API is actually limited in this in that it can only be used to speculativly fetch one batch at a time. We suffer unnecessary latency by requiring one batch to be fully loaded before we're able to ask for the next one. If we really want to allow applications to choose how far along this tradeoff curve to go we should probably make speculative aggressiveness a configuration option in both the START and CONTINUE queries either in terms of batches, rows, or byte count.\n\nI would prefer not to complicate it too much though, at least not now. In the absence of real tunability, speculativly loading one extra batch at a time is a reasonable choice to make, but so is chosing fully lazy loading of results. In the future, if driver performance proves to be a bottleneck, I'm open to making this tuneable but for now I'm not going to fix this \"bug\"."
+  , issueCommentId = 15939508
+  }

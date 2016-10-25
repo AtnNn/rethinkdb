@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-07) 01 : 11 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/45397507"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2457#issuecomment-45397507"
+  , issueCommentCreatedAt = 2014 (-06) (-07) 01 : 11 : 33 UTC
+  , issueCommentBody =
+      "More experiments:\r\n\r\n__Large documents__\r\nOn rotational drives, I repeated the insert 1M documents experiment, but this time with documents of ~1 KB size each.\r\n\r\nOn v1.12.x, inserting those documents took 4m 5s, and the table size at the end was 5.6 GB.\r\nOn daniel_concurrent_gc it took 14m 30s, with a table size of 1.6 GB at the end.\r\n\r\nThat slow-down seems a bit extreme.\r\n\r\n__Increasing the GC_HIGH_RATIO__\r\nIncreasing what's internally called the `GC_HIGH_RATIO` from 0.3 to 0.45 has the following effect:\r\nIn the large value experiment, inserting 1M values now takes 10m 55s. The file size increases only marginally to 1.7 GB. Still significantly slower than in v1.12.x, but a much better compromise.\r\n\r\nWith 1M small documents as before, the changes are as follows:\r\nOn rotational disks, inserting 1M documents takes 6m 24s down from  8m 20s. The file size is now 504 MB instead of 400 MB.\r\nOn SSD, the insert time is 52s. The file size is 442 MB (vs. 58s / 400 MB).\r\n\r\n\r\nI'm going to change the GC_HIGH_RATIO to 0.45 or even 0.5. That seems to provide the better overall compromise between small files and performance."
+  , issueCommentId = 45397507
+  }

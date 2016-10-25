@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-03) 19 : 50 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72720430"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3717#issuecomment-72720430"
+  , issueCommentCreatedAt = 2015 (-02) (-03) 19 : 47 : 04 UTC
+  , issueCommentBody =
+      "Thanks a lot for your additional info.\r\n\r\nBeginning with the restart in step 4, the observed behavior could stem from something deleting the table files (they have UUIDs as their file names) but not the metadata. After restarting, the RethinkDB server would have recreated the table files with empty data. Since secondary indexes are stored in the table files and not the metadata, they would have disappeared together with the data.\r\nI think we should implement https://github.com/rethinkdb/rethinkdb/issues/1780 asap so at least we can get some indication if anything like this happens again whether RethinkDB deleted the files itself.\r\n\r\nOne thing that doesn't quite fit with that explanation though is that the application reported DB errors *before* restarting the server. If some process had deleted the files, the server would still have had the old files open and shouldn't have generated any query failures until restarted.\r\n\r\nMaybe someone else has another idea (pinging @timmaxw @Tryneus )."
+  , issueCommentId = 72720430
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-28) 02 : 19 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18521466"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/884#issuecomment-18521466"
+  , issueCommentCreatedAt = 2013 (-05) (-28) 02 : 19 : 54 UTC
+  , issueCommentBody =
+      "* `r.table(\"users\").filter{ |row| row[:name].eq(\"Michel\") }`\r\n  - Currently document 1 returns false and document 2 throws an error.  Under the new proposal, `filter` will default to catching that error (since it's a non-existence error) and will not include document 2 in the final stream.\r\n* `r.table(\"users\").filter{ |row| row[:contact][:email].eq(\"user@domain.com\") }`\r\n  - Currently document 1 will return false, all the others throw an error.  Under the new proposal, `filter` will default to catching that error (since it's a non-existence error) and will not include document 2 in the final stream.\r\n\r\n---\r\n\r\nAll your results are correct except for:\r\n\r\n* `r.expr({ :id => 1 })[:contact].default(3)[:email].eq(\"blabla\").default(5) // returns 5`\r\n  - This will throw an error.  `r.expr({ :id => 1 })[:contact].default(3)` will return `3`, and `3[:email]` is a type error rather than a non-existence error, so the `default(5)` won't catch it."
+  , issueCommentId = 18521466
+  }

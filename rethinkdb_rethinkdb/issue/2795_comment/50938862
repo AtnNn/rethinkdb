@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-08) (-01) 21 : 51 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/50938862"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2795#issuecomment-50938862"
+  , issueCommentCreatedAt = 2014 (-08) (-01) 21 : 51 : 20 UTC
+  , issueCommentBody =
+      "I ran into the same problem and noticed those were unused, so I got this working with the following diff:\r\n\r\n```diff\r\n--- test/rql_test/test-runner\r\n+++ test/rql_test/test-runner\r\n@@ -357,21 +357,20 @@\r\n                 else:\r\n                     expected = expected['cd']\r\n             return Langs.repr_expected_for(lang, expected)\r\n \r\n         return None\r\n \r\n class RethinkDBRunningServer:\r\n     def __init__(self, driver_port, cluster_port):\r\n         self.driver_port_ = driver_port\r\n         self.cluster_port_ = cluster_port\r\n-        self.rethinkdb_executable_ = rethinkdb_executable\r\n \r\n     def driver_port(self):\r\n         return self.driver_port_\r\n \r\n     def cluster_port(self):\r\n         return self.cluster_port_\r\n \r\n     def executable(self):\r\n         return 'NOT_AVALIBLE_FOR_RUNNING_SERVERS'\r\n \r\n@@ -530,21 +529,20 @@\r\n     \r\n     options, args = parser.parse_args()\r\n     \r\n     # - options validation\r\n     \r\n     # cluster_port/driver_port\r\n     \r\n     if (options.cluster_port is not None or options.driver_port is not None) and None in (options.cluster_port, options.driver_port):\r\n         parser.error('If either of the following options are used, both must be specifed: -c/--cluster-port, -d/--driver-port')\r\n     if options.driver_port is not None:\r\n-        build_directory = options.executable_path\r\n         servers = RethinkDBRunningServer(options.driver_port, options.cluster_port)\r\n         # TODO: validate that this is actually a running server\r\n         \r\n         if options.shards != 1:\r\n             parser.error('The -c/--cluster-port and -d/--driver-port options can not be used with -s/--shards')\r\n     \r\n     # - add filters\r\n     \r\n     for newFilter in args:\r\n         try:\r\n```\r\n\r\nDidn't hit that problem with `stop`, though."
+  , issueCommentId = 50938862
+  }

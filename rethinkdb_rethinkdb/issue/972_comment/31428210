@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-01) 19 : 12 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31428210"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/972#issuecomment-31428210"
+  , issueCommentCreatedAt = 2014 (-01) (-01) 19 : 12 : 19 UTC
+  , issueCommentBody =
+      "Someone ran into this today on IRC\r\n```js\r\n// Schema for the table team\r\n{\r\n    id: String\r\n    members: [<userId1>, <userId2>, ...]\r\n}\r\n\r\n// Schema for the table user\r\n{\r\n    id: String\r\n    name: String\r\n}\r\n```\r\n\r\nDoing a NoSQLish join with\r\n```js\r\nr.db('shred').table(\"teams\").map(function(team) {\r\n  return team.merge({\r\n    members: r.db('shred').table(\"users\").filter(function(user) {\r\n      return team(\"members\").contains(user(\"id\"))\r\n    })\r\n  })\r\n})\r\n```\r\n\r\nThrows something like\r\n```js\r\nRqlRuntimeError: Expected type DATUM but found SELECTION:\r\nOPAQUE SELECTION ON table(users) in:\r\n\r\nr.db(\"shred\").table(\"teams\").map(function(var_98) { return var_98.merge({members: r.db(\"shred\").table(\"users\").filter(function(var_99) { return var_98(\"members\").contains(var_99(\"id\")); })}); })\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n```\r\n\r\n\r\nI am probably not aware of all the cases where we throw an opaque value error, but is there a way to give a hint to the user on what's wrong?\r\n\r\n- Writing docs about types should help -- https://github.com/rethinkdb/docs/issues/40\r\n- A better backtrace may help? -- https://github.com/rethinkdb/rethinkdb/issues/1121"
+  , issueCommentId = 31428210
+  }

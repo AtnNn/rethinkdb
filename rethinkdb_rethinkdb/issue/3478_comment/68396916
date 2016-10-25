@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-12) (-30) 20 : 50 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/68396916"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3478#issuecomment-68396916"
+  , issueCommentCreatedAt = 2014 (-12) (-30) 20 : 50 : 39 UTC
+  , issueCommentBody =
+      "@danielmewes, here are some suggestions for renaming `all_replicas_ready`:\r\n* `stable` - may be a bit misleading, as we're talking about the stability of the states, not cluster stability\r\n* `config_satisfied` / `config_fulfilled` / `config_achieved` / `config_reached` - these sound a bit weird, but should be clearer\r\n* `steady_state` / `stable_state` - a bit of a compromise, they sound fine but probably still not self-explanatory enough\r\n\r\n>  If a server starts erasing data for a range [a, b) and then we change the configuration to make it a secondary for an overlapping range [a', b'), which state will the secondary show up as while it's waiting for the erase to finish?\r\n\r\nI'm not sure I understand your question - if the configuration is changed, it doesn't wait for the erase to finish, the existing reactor is interrupted and it will exit the erase early.  The new reactor should be a secondary, so it would show up as `transitioning`, `backfilling_data`, `looking_for_primary_replica`, or `ready`, depending on the tasks it needs to perform."
+  , issueCommentId = 68396916
+  }

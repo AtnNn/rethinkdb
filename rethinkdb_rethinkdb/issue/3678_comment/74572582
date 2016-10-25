@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-16) 21 : 07 : 53 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 17789
+        , simpleUserLogin = N "gchpaco"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/17789?v=3"
+        , simpleUserUrl = "https://api.github.com/users/gchpaco"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/74572582"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/3678#issuecomment-74572582"
+  , issueCommentCreatedAt = 2015 (-02) (-16) 21 : 07 : 53 UTC
+  , issueCommentBody =
+      "The intention there, @danielmewes, was that in the context of EM (perhaps with a method with a different name; there's prior art for appending a- for the async version in the other EM drivers, so perhaps `aon`) would register callbacks within the EM runtime and return a future; if our connection is EM enabled, `on` would probably Just Work.  Upon hitting the end of the block handed to `EventMachine.run` it would loop until it saw `EventMachine.stop`; so as stuff comes in from the database, the callbacks would be run.  The \"magic\" as it were would be setting up `conn` in our example so that it's using EM.\r\n\r\nSo for the user it would look something like this:\r\n```ruby\r\nclass Klass\r\n   def bar(change)\r\n      ...\r\n   end\r\n   def foo(change)\r\n      ...\r\n   end\r\n   ...\r\nend\r\nk = Klass.new\r\nEventMachine.run do\r\n  conn = r.aconnect(...)\r\n  r.table('foo').changes().run(conn).on(k, :foo)\r\n  r.table('foo').changes().run(conn).on(k, :bar)\r\nend\r\n```\r\nTo make this work, we would need to define this new `aconnect` method (which would override all of the network I/O with EM's versions), and `on` and/or `aon` would need to be altered slightly."
+  , issueCommentId = 74572582
+  }

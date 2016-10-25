@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-12) (-20) 10 : 21 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/31000651"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-31000651"
+  , issueCommentCreatedAt = 2013 (-12) (-20) 10 : 21 : 38 UTC
+  , issueCommentBody =
+      "Actually, now that we have hard array size limits, we might want to coerce to arrays implicitly (but that's controversial, so let's ignore that for now).\r\n\r\nFYI, you'll soon be able to change your merging code to this:\r\n\r\n```\r\nr.table(\"post\").merge( function(post) {\r\n    return {\r\n        comments: r.table(\"comments\").getAll(post(\"id\"), {index: \"postId\"}).coerceTo(\"ARRAY\")\r\n   })\r\n```\r\n\r\nAlso, we'll eventually add support to the join syntax to allow to join in tables as arrays (instead of left/right like we do now).\r\n\r\nAs for the coercing thing... I think type ops will operate on the grouping, not the whole group. We might want to add an reduction to let you do this. I.e.\r\n\r\n```javascript\r\nr.table(\"posts\")\r\n    .eqJoin(\"id\", r.table(\"comments\"), { index: \"idPost\"})\r\n    .group(\"left\").arrayify()\r\n```\r\n\r\n(With a better name of course). This is addmittedly ugly. May be we should add a modifying to allow type ops to run on the grouping itself instead of each group...?"
+  , issueCommentId = 31000651
+  }

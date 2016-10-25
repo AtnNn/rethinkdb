@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-30) 02 : 52 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33655933"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1096#issuecomment-33655933"
+  , issueCommentCreatedAt = 2014 (-01) (-30) 02 : 51 : 12 UTC
+  , issueCommentBody =
+      "I understand.\r\n\r\nI'm not sure if we resolved the array coercing question (i.e. does `toArray` run on each group, or on the grouped stream), but assuming it runs on each group, would code like `table.group(...).toArray().limit(5)` work?\r\n\r\nUsing coroutines would be tricky. There can be up to 100k groups, and spawning 100k coroutines isn't tractable. We could do tricks -- accumulate elements in each group up to some K elements, and then spawn a coroutine for a given group once the number of elements in it crosses the threshold. But what to do in the worst case (if most or all groups cross that threshold)?\r\n\r\nThere is also the option of supporting non-lazy terminals for 1.12, but doing it inefficiently (essentially, auto-coercing each group to an array first). It's not great, but it would work for a lot of cases, and get people used to the power and elegance of the feature. We could then go back and fix  performance issues under the hood. (This strategy has worked for us thus far). What do you think of this alternative?"
+  , issueCommentId = 33655933
+  }

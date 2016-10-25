@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-12) 04 : 42 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/32115165"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/1850#issuecomment-32115165"
+  , issueCommentCreatedAt = 2014 (-01) (-12) 04 : 42 : 51 UTC
+  , issueCommentBody =
+      "@nviennot -- My knowledge of other NoSQL systems is actually sort of embarrassingly sparse; I'm not sure whether anyone except us and Mongo offers this.  @coffeemug, do you have any idea?\r\n\r\n@danielmewes --\r\n\r\n1. We'd have to be careful if we started processing multiple queries simultaneously on the same connection.  We currently have the semantics that if you issue a write followed by a read on the same connection, the read can always see the write (unless it's an out-of-date read).  I'm not sure we actually need to do this optimization just yet; an asynchronous API provides a lot of other performance benefits in situations where latency is an appreciable fraction of total processing time and you want to issue multiple writes that don't depend on each other.  (Read: \"most situations\".)\r\n\r\n2. The way the Ruby driver works is that it spawns a thread which reads from the socket and stores results in a global map (it uses a mutex and stores conditions in the map for synchronization).  We'd have to move the Python driver to something similar I think.\r\n\r\n3. Dear god yes."
+  , issueCommentId = 32115165
+  }

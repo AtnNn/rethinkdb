@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-08) 00 : 24 : 47 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39778224"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/2211#issuecomment-39778224"
+  , issueCommentCreatedAt = 2014 (-04) (-07) 20 : 18 : 50 UTC
+  , issueCommentBody =
+      "We throttle outgoing backfills to up to 64 outstanding messages at any time.\r\nHowever this is a per-backfill limit. If we backfill 32 shards all at once, with 8 hash shards each, that results in a maximum of 16,384 outstanding backfill messages.\r\n\r\nThere are two reasonable options to tackle this:\r\n\r\n1. We could limit the number of backfill messages based on the node we are sending the messages to, rather than per backfill. This might be tricky because a) multiple threads and b) we must be careful to leave the limit in a consistent state if a backfill is interrupted.\r\n\r\n2. We could limit the number of concurrent outgoing backfills. I think that would make sense in general. Too many concurrent backfills are no good. They just make each individual backfill take longer, so if the process is interrupted, chances are higher that everything has to start completely over (that's as long as #1944 isn't solved).\r\n\r\n3. In addition or instead of 2, we could also limit the number of concurrent incoming backfills. While it would be a better way to tackle the problem of too many co-routines on a given node,I have some doubts about this because it might slow down backfilling overall (since reading from disk on the sending side is often much slower than writing to disk on the receiving end). That would be bad if somebody is waiting for a node to come back up."
+  , issueCommentId = 39778224
+  }

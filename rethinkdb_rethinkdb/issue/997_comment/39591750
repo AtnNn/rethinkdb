@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-04) (-04) 17 : 44 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/39591750"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/997#issuecomment-39591750"
+  , issueCommentCreatedAt = 2014 (-04) (-04) 17 : 44 : 17 UTC
+  , issueCommentBody =
+      "What would be the purpose of a different type? If we wanted to add a new async API, we wouldn't need to wait on the server -- the server already supports it. It would be an undertaking limited purely to the drivers. The thing here is that an async API wouldn't have to only work on feeds -- it could (and should) work on cursors, so if we decided to add it to cursors, we could do it any time independently of the server, and both feeds and cursors would automagically be able to be accessed in an async way.\r\n\r\nSo for example, in Python, via asyncio:\r\n\r\n```python\r\n# With cursors\r\ncursor = r.table('users').filter({ 'name': 'Bob'}).run()\r\ncursor.on('new_row', lambda row: do_stuff(row))\r\n\r\n# With feeds\r\nfeed = r.table('users').changes().run()\r\nfeed.on('new_change', lambda row: do_stuff(row))\r\n```\r\n\r\nI'm faking an async API in Python here, but basically cursors and feeds would work in exactly the same way, so I don't think it makes sense to add a different type."
+  , issueCommentId = 39591750
+  }
