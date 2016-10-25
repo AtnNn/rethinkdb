@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-28) 18 : 39 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15606622"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/506#issuecomment-15606622"
+  , issueCommentCreatedAt = 2013 (-03) (-28) 18 : 39 : 37 UTC
+  , issueCommentBody =
+      "@nuin, I'm not sure that the problem you are referring to is still related to the code you pasted above:\r\n\r\n```python\r\nfor i in gene_table:\r\n    item = uniprot_table.filter({'gene_name': i}).run()\r\n    try:\r\n        print i + '\\t' + item[0]['accession'] + '\\t' + item[0]['geneid']\r\n    except:\r\n        item2 = uniprot_table.filter(lambda protein: protein['synonyms'].contains(i)).run()\r\n        print uniprot_table.filter(lambda protein: protein['synonyms'].filter(lambda syno: syno == id).count() > 0)\r\n        syn_items = uniprot_table.filter(lambda protein: protein['synonyms'].contains(i)).run()\r\n        for syn in syn_items:\r\n            print i + '\\t' + syn['gene_name'] + '\\t' + syn['accession'] + '\\t' + syn['geneid']\r\n```\r\n\r\nNow the issue with the above code is that:\r\n\r\n```python\r\nitem = uniprot_table.filter({'gene_name': i}).run()\r\n```\r\n\r\n`item` is a Cursor and you _cannot_ access elements by index as in `item[0]`. \r\n\r\nSo I think the except branch gets executed not of the reasons you are expecting, but due to the above.\r\n\r\nPlease let me know if this addresses (somehow at least) the problem you were seeing."
+  , issueCommentId = 15606622
+  }

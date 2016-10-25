@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-18) 03 : 08 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13704786"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/360#issuecomment-13704786"
+  , issueCommentCreatedAt = 2013 (-02) (-18) 03 : 08 : 39 UTC
+  , issueCommentBody =
+      "The likely culprit here is metadata bloat. Its a single node case so the\r\nmetadata isn't being serialized over the network but it is being persisted\r\nto disk.\r\n\r\nThis seems unlikely to occur in practice, but I noticed it slowing down my\r\ntests. Running rethinkdb 1.3.2-fallback (CLANG 4.1\r\n((tags/Apple/clang-421.11.65))) on Mac OS X, when you create and delete\r\ntables over and over, the creation/deletion queries slow down over time.\r\nNon-meta queries appear to be unaffected.\r\n\r\nI mentioned this to Joe D, and while he thinks it is an unlikely thing for\r\na customer to run across, it may still be an issue worth tracking.\r\n\r\nHere's a script to reproduce it:\r\n\r\nimport time\r\n\r\nimport rethinkdb as r\r\n\r\nr.connect()\r\n\r\ni = 0\r\nwhile True:\r\n    start_time = time.time()\r\n    r.db(\"test\").table_create(\"example\").run()\r\n    r.db(\"test\").table_drop(\"example\").run()\r\n    end_time = time.time()\r\n    print i, \"elapsed:\", end_time - start_time\r\n    i += 1\r\n\r\nThe first loop takes ~30ms, the 2000th loop, ~140ms. The 'metadata' file\r\ngoes from 2MB to 8MB in the same time. My tests drop and create tables\r\nfrequently, so they would tend to slow down from 20 seconds to 100 seconds\r\nover the course of a number of runs.\r\n\r\n\8212\r\nReply to this email directly or view it on\r\nGitHub<https://github.com/rethinkdb/rethinkdb/issues/360>."
+  , issueCommentId = 13704786
+  }

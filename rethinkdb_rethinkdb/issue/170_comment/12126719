@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-11) 00 : 46 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12126719"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/170#issuecomment-12126719"
+  , issueCommentCreatedAt = 2013 (-01) (-11) 00 : 41 : 16 UTC
+  , issueCommentBody =
+      "Ok, I've tried very hard to reproduce this, and the only situation I can reproduce it in is when there is not full connectivity in the cluster.  This can arise a few ways, but I think the easiest way is to not join every other node at startup.\r\n\r\nThis may be a weakness in how we handle joining a cluster and the redistribution of directories, but it seems that if I start up 4 machines:\r\n\r\n```\r\nnewton> rethinkdb --bind all\r\npuzzler> rethinkdb --bind all --join newton:29015\r\nmagneto> rethinkdb --bind all --join newton:29015\r\ndeadshot> rethinkdb --bind all --join newton:29015\r\n```\r\n\r\nSome of the 'secondary' machines will not connect to each other.  In order to avoid this, machines must be started up to join every other machine in the cluster:\r\n\r\n```\r\nnewton> rethinkdb --bind all --join puzzler:29015 --join magneto:29015 --join deadshot:29015\r\npuzzler> rethinkdb --bind all --join newton:29015 --join magneto:29015 --join deadshot:29015\r\nmagneto> rethinkdb --bind all --join newton:29015 --join puzzler:29015 --join deadshot:29015\r\ndeadshot> rethinkdb --bind all --join newton:29015 --join puzzler:29015 --join magneto:29015\r\n```\r\n\r\nI think this behavior could and probably should be improved.  I can't think of a reason why upon two machines joining each other, they shouldn't share their list of other connections.  It seems strange that some of the 'secondary' connections will be made, but not all of them, so maybe this was the original intent but this is just a bug, will have to investigate further.\r\n\r\nFinally, it is really annoying that if there isn't full connectivity in the cluster (e.g. between magneto and deadshot), and you point the web UI to newton, you will not see an issue about it.  I'm not sure if this is something than can easily be solved, since newton does have full connectivity to the cluster, and we have no means to share issues between servers at the moment.\r\n\r\nIn any case, I have not been able to reproduce this issue without the situation described above, which makes me think the reactors are working exactly like they should and the problem lies in cluster connectivity."
+  , issueCommentId = 12126719
+  }

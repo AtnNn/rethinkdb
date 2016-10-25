@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-16) 22 : 53 : 10 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13676612"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13676612"
+  , issueCommentCreatedAt = 2013 (-02) (-16) 22 : 53 : 10 UTC
+  , issueCommentBody =
+      "The lazy iterators thing is still a problem even if writes never execute on a shard. For example, `table.map(lambda x: table2.insert(x))` can be implemented by streaming `table` to the parser lazily, then running the inserts from there. But the writes will still be executed lazily/unpredictably as the user reads the stream of results. That's bad. Conversely, if we change the behavior so that it runs the inserts from the shard, but executes them all immediately instead of waiting for the client to read the stream, then the behavior is predictable and correct, because read operations can be reasonably expected to execute only once. So this problem is completely orthogonal to executing writes on a shard.\r\n\r\nSo there are two contexts in which we must not execute writes:\r\n\r\n* We can't execute writes anywhere non-determinism is forbidden, both because write results are non-deterministic, and because places where non-determinism is forbidden might be run multiple times.\r\n\r\n    Code that must be deterministic always runs on a shard, but code that runs on a shard doesn't necessarily need to be deterministic. So forbidding writes on shards solves this problem, but also forbids some things that are safe.\r\n\r\n* We can't execute writes lazily, because that leads to unpredictable behavior.\r\n\r\nGiven the complexity of this issue, I think we shouldn't change anything in the short term.\r\n\r\nIn the long term? I think we should keep writes and expressions different, because that makes laziness and optimization work nicely. I would add support for complex write queries like the one you described, but I would keep it separate from the syntax for expressions. It's probably OK to overload `do` and `branch` for both writes and non-writes, but I would keep `map` and `for_each` separate because of the different laziness semantics. But that's just my opinion."
+  , issueCommentId = 13676612
+  }

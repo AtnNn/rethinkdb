@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-02) 07 : 00 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 36466
+        , simpleUserLogin = N "charl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/36466?v=3"
+        , simpleUserUrl = "https://api.github.com/users/charl"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13025634"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/279#issuecomment-13025634"
+  , issueCommentCreatedAt = 2013 (-02) (-02) 06 : 46 : 35 UTC
+  , issueCommentBody =
+      "@mlucy I am not currently trapping and resubmitting queries when I see this failure. It is simply being logged.\r\n\r\nHere's the stack trace in question:\r\n\r\n```ruby\r\n/usr/local/rvm/gems/jruby-1.7.2@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:119:in `error', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:151:in `token_iter', org/jruby/RubyKernel.java:1392:in `loop', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:125:in `token_iter', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:211:in `run', org/jruby/RubyBasicObject.java:1665:in `__send__', org/jruby/RubyKernel.java:2090:in `send', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/rethinkdb-1.2.6.1/lib/query.rb:14:in `run', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/thoth-0.0.10/lib/thoth/rethinkdb_tweets_data_source.rb:61:in `select', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/thoth-0.0.10/lib/thoth/rethinkdb_tweets_data_source.rb:113:in `select_from_ds', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/thoth-0.0.10/lib/thoth/query.rb:176:in `collect_data_from_tweets_ds_for', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/thoth-0.0.10/lib/thoth/query.rb:221:in `get', org/jruby/RubyProc.java:249:in `call', org/jruby/RubyKernel.java:1809:in `public_send', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/celluloid-0.12.4/lib/celluloid/calls.rb:23:in `dispatch', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/celluloid-0.12.4/lib/celluloid/future.rb:18:in `initialize', org/jruby/RubyProc.java:249:in `call', /usr/local/rvm/gems/jruby-1.7.2@thoth/gems/celluloid-0.12.4/lib/celluloid/internal_pool.rb:48:in `create'\r\n```\r\n\r\nrethinkdb_tweets_data_source.rb:61 looks like this:\r\n\r\n```ruby\r\nr.expr(data).map {|id| r.table(table).get(id)}.run\r\n```\r\n\r\nWhere data is that massive array of primary keys listed in the top error report. \r\n\r\nI'll go grab the arrays and reconstruct them in a repl session to see if a manual query based on the same code used in rethinkdb_tweets_data_source.rb:61 yields the same results."
+  , issueCommentId = 13025634
+  }

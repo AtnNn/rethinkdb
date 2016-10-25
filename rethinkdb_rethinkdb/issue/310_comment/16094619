@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-09) 05 : 15 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 3416
+        , simpleUserLogin = N "thoughtpolice"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/3416?v=3"
+        , simpleUserUrl = "https://api.github.com/users/thoughtpolice"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16094619"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/310#issuecomment-16094619"
+  , issueCommentCreatedAt = 2013 (-04) (-09) 05 : 14 : 37 UTC
+  , issueCommentBody =
+      "Alright. Sorry it took me so long to get back to you. Here's the rundown of how to reproduce all this:\r\n\r\nSpecifications of my machine:\r\n\r\n  * Mac OS X 10.8.3, 2.6GHz Core i7 Quad Core (8 hyperthreads.) 16 GB of RAM.\r\n  * RethinkDB 1.4.2\r\n\r\nCreate 6 directories for your working databases, and download the baseball statistics:\r\n\r\n```bash\r\n$ mkdir -p ~/rdb-test/s{0..5}\r\n$ cd ~/rdb-test\r\n$ wget http://seanlahman.com/files/database/lahman2012-csv.zip\r\n$ unzip -d lahman2012 lahman2012-csv.zip\r\n```\r\n\r\nCreate 3 servers with data directories in `s0,s1,s2` and put them in a datacenter called 'Master'.\r\n\r\n```bash\r\n$ cd ~/rdb-test/s0 && rm -rf rethinkdb_data; rethinkdb --cluster-port 29015 -c 3\r\n$ cd ~/rdb-test/s1 && rm -rf rethinkdb_data; rethinkdb -j 127.0.0.1:29015 -c 1 -o 1\r\n$ cd ~/rdb-test/s2 && rm -rf rethinkdb_data; rethinkdb -j 127.0.0.1:29015 -c 1 -o 2\r\n```\r\n\r\nNow, separately, import the baseball stats:\r\n\r\n```bash\r\n$ cd ~/rdb-test/lahman2012\r\n$ for i in $(ls *.csv); do rethinkdb import -j 127.0.0.1:29015 --table Baseball2012.${i%.*} --input-file $i; done\r\n```\r\n\r\nThis took a very long time on my machine which has an SSD. Anyway, now connect the next 3 servers:\r\n\r\n```bash\r\n$ cd ~/rdb-test/s3 && rm -rf rethinkdb_data; rethinkdb -j 127.0.0.1:29015 -c 1 -o 3\r\n$ cd ~/rdb-test/s4 && rm -rf rethinkdb_data; rethinkdb -j 127.0.0.1:29015 -c 1 -o 4\r\n$ cd ~/rdb-test/s5 && rm -rf rethinkdb_data; rethinkdb -j 127.0.0.1:29015 -c 1 -o 5\r\n```\r\n\r\nAssign them to a 'backup' datacenter.\r\n\r\nNow, begin going to large tables (like `Salaries` and especially `Fielding`) and creating shards and replicas. Set the primary datacenter to hold master shards to be 'master' and send more replications to 'backup'. Do this for multiple tables.\r\n\r\nI set about 6 shards for 'Fielding' and 'Salaries', both with 3 replicas. Once you start replicating big tables like those two, the disk usage starts to get high (+6GB) pretty quickly. Hope that helps!"
+  , issueCommentId = 16094619
+  }

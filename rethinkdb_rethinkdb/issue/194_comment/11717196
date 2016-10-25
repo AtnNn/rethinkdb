@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-27) 20 : 14 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11717196"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/194#issuecomment-11717196"
+  , issueCommentCreatedAt = 2012 (-12) (-27) 20 : 14 : 00 UTC
+  , issueCommentBody =
+      "This is actually pretty easy to do. The only reason we don't right now is because point-update and bulk-update use the same code path and returning a stream of modified documents in bulk update would be a bit expensive and kind of useless since they'd be in no particular order. These problems could be fixed but that's a bit of a question and having this for point update would be nice and easy.\r\n\r\nI think that you actually want to return the old and new versions of the document. As @al3xandru points out it can be hard (or impossible) to invert the function and get the old version of the document but it's also pretty easy for there to be no way convert the old document into the new one if the function is non deterministic. `Math.random()` is one for this to happen but reading from another table and using that value is another that seems a lot more likely.\r\n\r\nSupposing you were doing something like:\r\n\r\n    table.get(1).update(lambda x: {x[\"foo\"] : x[\"foo\"] + table.get(2)[\"foo\"])\r\n\r\nAnd you wanted to do something when it crossed a threshold you'd need both documents to be sure you only did it once.\r\n\r\nTriggers are similar to this but I think we want both features long term. Triggers seem to give you a lot to think about (they can go into infinite loops for example) that's not to say we shouldn't do them it's just to say there's value in giving people the simpler solution for cases where it suffices. Plus triggers are hard and this is easy so we can do this now."
+  , issueCommentId = 11717196
+  }

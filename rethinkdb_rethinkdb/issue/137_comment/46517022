@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 02 : 20 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46517022"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46517022"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 02 : 20 : 32 UTC
+  , issueCommentBody =
+      "So, after glancing at the GridFS docs, the way they do it seems super reasonable and I think we should do something similar.\r\n\r\nI think the user-facing interface should be something like this:\r\n```rb\r\nr.file_create('foo') # UNLIKE `table_create`, returns the file\r\nr.file_create('foo', data: ...) # start the file off with some data, possible a local file\r\nr.file('foo') # returns the file\r\nr.file_drop('foo')\r\n```\r\n\r\nThese should return a FILE pseudotype that the client driver will turn into a native type which mimics the client language's file interface.  (So the driver will need to support seek, read, and write, and send queries to the server as necessary.)\r\n\r\nSo in Ruby, for example, people could just write this:\r\n```rb\r\nr.file('foo').run {|f|\r\n  # whatever they would normally do after calling File.open(...)\r\n}\r\n```\r\n\r\nI think there should be some helper ReQL commands to read and write a file at a particular offset (or to read a particular chunk), so that third-party drivers without full file-system support aren't unusable for accessing files.\r\n\r\n---\r\n\r\nInternally, Mongo does this by having two special tables: a metadata table and a table of file chunks.  I think that's actually a pretty reasonable architecture.\r\n\r\nSlava proposed we introduce a special `system` db.  We've been meaning to do this for a while so that we can e.g. expose the information in `/ajax/stats` as a table.  If we did that, we could have two tables, `r.db('system').table('files')` and `r.db('system').table('file_chunks')`.  (Slava also proposed that we let people specify a table to use for file chunks at file creation time, which would be useful if they wanted to distribute some files differently from others across the cluster.)"
+  , issueCommentId = 46517022
+  }

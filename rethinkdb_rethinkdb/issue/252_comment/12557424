@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-22) 18 : 04 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12557424"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/252#issuecomment-12557424"
+  , issueCommentCreatedAt = 2013 (-01) (-22) 18 : 04 : 55 UTC
+  , issueCommentBody =
+      "So I'm not 100% sure that this will make a noticeable performance however if we do, do this I think the way to have the most impact would be as follows:\r\n\r\n`r.json` is a driverside function which takes a json string and converts it into a binary representation of the protocol buffer we'll send to the server to represent this json string. This representation should be much lighter weight than the objects created by parsing json. It won't allow you to easily access the values in it but that's fine because the point of `r.json` is that you use it when you just want to send something directly to the server. \r\n\r\nWhen this object gets inserted in to an AST we can just splice it in directly (I'm not entirely sure the details on this for the pb implementations in different languages but I'm hoping it's not too painful.)\r\n\r\nImplementation:\r\nThe easiest way to implement this is just to use the standard json parsing functions. However it seems like in some cases these are bad so we're going to need to figure out what to do in those cases. We definitely don't want to be writing our own json parsers here. But I'm also reluctant to introduce a dependency on nonstandard libraries. *sigh*"
+  , issueCommentId = 12557424
+  }

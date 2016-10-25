@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-14) 20 : 27 : 50 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19479370"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/520#issuecomment-19479370"
+  , issueCommentCreatedAt = 2013 (-06) (-14) 20 : 19 : 29 UTC
+  , issueCommentBody =
+      "Haploid was kind enough to generate some logs of RethinkDB IO activity: http://pastebin.com/5zvxzPE2\r\n\r\nHe's saying that for only a single insert, he counted 46 FULLFSYNCs.\r\n\r\nI checked and it seems that on OS X, we do such a sync after every single write, rather than just once at the end of a cache flush.\r\nhttps://github.com/rethinkdb/rethinkdb/blob/next/src/arch/io/disk/pool.cc#L60\r\n\r\nThis could very very well be the reason for the bad performance. We should extent the file interface such that we can trigger the sync explicitly at the end of a flush, rather than having to do it implicitly after each write because the io layer has no understanding of when it should flush."
+  , issueCommentId = 19479370
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-14) 22 : 24 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13582306"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/343#issuecomment-13582306"
+  , issueCommentCreatedAt = 2013 (-02) (-14) 22 : 24 : 55 UTC
+  , issueCommentBody =
+      "Followup by @jdoliner:\r\n\r\nLet me present an example of this. In several places in our current language we toy with the idea that in place of a mapping (a function from json to json) you can simply pass a string and have it be equivalent to `lambda x: x[string]`. This is in essence what the sugar for group_by (only the grouping part) and order_by do. Group_by(field, ...) desugars to gmr(lambda x: x[field], ...). Order_by isn't set up to take an arbitrary function (really no reason for this) but if it were then this would just be a similar piece of sugar. The thing I'm realizing is that we added sugar like this in the places it made the most sense but I think it would be good if we started thinking about doing sugar like this in a predictable way so that when you learn one trick like this you can apply it in a bunch of places. Let's take a look at what happens if we adopt a generic piece of sugar that a static string when passed to a place that takes a mapping is interpreted as attribute access.\r\n\r\nGroupedMapReduce:\r\nGMR actually gets a lot shorter in some cases. Suppose I want to group by the field `foo` and sum the field `bar`.\r\n\r\n    table.gmr(lambda x: x[\"foo\"], lambda x: x[\"bar\"], lambda x,y: x + y)\r\n    #becomes\r\n    table.gmr(\"foo\", \"bar\", lambda x,y: x + y) \r\n\r\nSecondary Indexes:\r\nThe current syntax for creating a secondary index looks something like this:\r\n\r\n    table.index(lambda x: ..., name)\r\n\r\nIt seems to me that we'll definitely want to be able to say:\r\n\r\n    table.index(\"foo\")\r\n\r\nand have it desugar to:\r\n\r\n    table.index(lambda x: x[\"foo\"], \"foo\")\r\n\r\nMeaning create an index on \"foo\" and name it \"foo\". This makes for pretty readable syntax like:\r\n\r\n    table.index(\"foo\")\r\n    table.get(5, \"foo\")\r\n\r\nFilter:\r\nThis can also work pretty nicely in filter. Basically this gives you a shorthand for filtering based on a boolean field. This isn't quite as compelling as the other examples but I don't think we're giving up much by making it a bit harder to filter by a static string (which throws an error).\r\n\r\nMap:\r\nThis can give you some nice shorthand in map too. For example summing up a field \"foo\" is now:\r\n\r\n    table.map(\"foo\").reduce(lambda x,y: x + y)\r\n\r\nrather than:\r\n\r\n    table.map(lambda x: x[\"row\"]).reduce(lambda x,y : x + y)\r\n\r\nMy basic point here is that even if each piece of sugar we come up with is compelling when consider alone you quickly wind up with a hodge podge that's hard to learn. And I think we'll get some interesting results if we try to think about the unifying features of sugar like this. Array operations aren't a great example because I think in most cases those really aren't sugar they're just new methods but a lot of the sugar alex was proposing for pluck seemed really similar to sugar proposed earlier for generic map merge. I think if you look at the 2 together you'll see some similarities."
+  , issueCommentId = 13582306
+  }

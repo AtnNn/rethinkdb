@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-25) 20 : 34 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14073716"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/367#issuecomment-14073716"
+  , issueCommentCreatedAt = 2013 (-02) (-25) 20 : 34 : 39 UTC
+  , issueCommentBody =
+      "I'm not sure we have total consensus here. We also don't need to pin it down quite yet since I think this isn't happening until 1.5. I think we're down to 2 proposals of adding in `Nothing` (which we also sometimes call `undefined`) and adding in exceptions. I'm going to try to give a succinct description of the `Nothing` proposal here.\r\n\r\nWe add in a value called `Nothing`. When you attempt to access an attribute that isn't present in a dictionary you get back `Nothing`.\r\n\r\n`Nothing`'s propagate if you try to add `Nothing` to something you get back `Nothing`. This also means that successive dict lookups will return `Nothing` if any of them fails. i.e `dict[\"foo\"][\"bar\"][\"baz\"] == Nothing` if any of the lookups fails.\r\n\r\nWe give people ways to \"recover\" from `Nothing` at the point of access. Which looks like this: `dict[\"foo\", 0]` This will return `dict[\"foo\"]` if it exists and `0` if it doesn't. (This syntax might not be allowed in languages depending on how overload bracket works but we can find something.)\r\n\r\nWe also give people a generic default which looks like this. `some_expr_which might_return_Nothing.default(0)` This evaluates to `0` if `some_expr_which_might_return_Nothing` does indeed return `Nothing`\r\n\r\n`Concat_map` derived operations (`filter`, `map`, `join` etc) look for `Nothing` in their results and drop those rows. This is akin to just adding a `default([])` to them so it's very easy to sugar.\r\n\r\n`Nothing` cannot be serialized to the database. `table.insert{\"foo\" : Nothing}` is an error.\r\n\r\n`Nothing` can be passed through functions since it's just a normal value. In particular `dict[\"foo\"].do(lambda x: x.default(0)))` is equivalent to `dict[\"foo\"].default(0)`."
+  , issueCommentId = 14073716
+  }

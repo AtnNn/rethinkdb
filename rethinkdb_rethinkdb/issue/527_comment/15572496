@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-28) 07 : 53 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15572496"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/527#issuecomment-15572496"
+  , issueCommentCreatedAt = 2013 (-03) (-28) 07 : 53 : 40 UTC
+  , issueCommentBody =
+      "Since people asked for my opinion (here and offline)...\r\n\r\nAs other pointed out, in the long term we'll have native support for integers and other data types, so this issue will become irrelevant. However, I think the question of what to do in the short term deserves a bit more consideration. It's tempting to blame things on the JSON spec, but @al3xandru once eloquently pointed out that the users interact with the system, not the spec. Personally, I think between using the `% 1 == 0` solution and having the system occasionally jump types, and inserting what looks like integers and getting back floats, I'd firmly prefer the former to the latter. Inserting `42` into the database and getting back `42.0` is really, *really* annoying.\r\n\r\nThis is consistent with how most JSON libraries and even Javascript itself treat this problem. For example, in Javascript:\r\n\r\n```\r\nvar a = 1.0;\r\nconsole.log(a);\r\n// ==> 1\r\n```\r\n\r\nThis isn't as clean from the systems/PL point of view, but is considerably more helpful to users, especially as they're getting started. It has the risk of mismatched expectations when dealing with bignums, but I would much rather explain the expectations to the few users who run into the rare edge cases, then to pretty much everyone who tries the system. Until we add support for native integer types, I think we should maintain the same behavior as pretty much every other JSON library available. I don't think this hack is a big PL transgression, since it'll make early adopters happy and will eventually go away leaving the type system pristine."
+  , issueCommentId = 15572496
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 17 : 39 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12279396"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/223#issuecomment-12279396"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 17 : 39 : 54 UTC
+  , issueCommentBody =
+      "jdoliner:\r\n\r\nSo to get the ball rolling on this here's a proposal about how to do it.\r\n\r\nExtending the blueprint:\r\nWe add a role in the blueprint called vice-primary and flag in the blueprint for whether or not we're in failover mode (actually this is a flag per shard but let's just assume one shard for this description).\r\nThe reactor now has a new role vice-primary. Vice primary behaves exactly like a secondary when the failover flag is false. And like a primary when the failover flag is true.\r\n\r\nFlipping the flag:\r\nSo this gives a way to do failover (which we really already had) the question is who flips this flag. There's a very strict rule about who modifies this flag. When a new blueprint is compiled (due to a user change) the flag is always false. Furthermore at the time when we compile the blueprint we select a machine to be the coordinator. Each machine runs a coroutine which checks for the following condition: The master for namespace n is down and I'm the coordinator for n. If this condition is true then it flips the failover flag which causes the vice primary to take over. This change persists and is displayed to the user as an issue. If the old master comes back up it will act like a secondary (which keeps the secondary counts up to date). Notice this is much better than killing the machine because it can continue fulfilling all of its other roles as soon as it comes back up.\r\n\r\nLimitations:\r\nThere are some cases where full blown quorums would be able to come up with an answer where our system wouldn't. For example if both the coordinator and the primary die at the same time. Or if we have a 3 way netsplit between the primary, vice-primary and the coordinator. While it would be nice to solve these problems I think we'll have a much easier task ahead of us if we limit ourselves to the most basic case of single machine failures. I also think this may prove to be enough long term since you can get in to so many nasty corner cases and can get cascading failures and such.\r\n\r\nBad Behaviors:\r\nSo I've tried thinking about the corner cases in this for a while. Basically it seems to me that the worst thing that can happen is that 2 nodes on opposite sides of a netsplit can both think that they're both the coordinator. I think we can probably prevent this the same way we do with people redrawing blueprints on opposite sides by requiring that machines be killed however there might be one or 2 problems with this. (I think there are some such problems in our current scheme as well). However even if you do have competing coordinators if they both flip the switch the worst you get is a vclock conflict which we can handle. However these things are rife with corner cases so I invite everyone to try to find them."
+  , issueCommentId = 12279396
+  }

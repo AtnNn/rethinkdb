@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-03) (-03) 01 : 45 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1301087
+        , simpleUserLogin = N "jampekka"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1301087?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jampekka"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/76870891"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/218#issuecomment-76870891"
+  , issueCommentCreatedAt = 2015 (-03) (-03) 01 : 45 : 40 UTC
+  , issueCommentBody =
+      "+1 Although I'd like to see a rethought approach to this too. A good approach would be to think how PostgreSQL does it as a example not to do user handling.\r\n\r\nI've been fantasizing about something like having just secret keys (what's the point of having both user name and password anyway?) and definitely no messing about with ident authentication or filtering hosts etc (these are all easier and better done on OS level if needed).\r\n\r\nAlso no ACL's or per table permissions etc everybody has hated for decades. I think a lot more elegant approach would be that for each key, a separate \"view\" of the database could be created (using ReQL of course), where the views would have to be explicitly declared. I think this could be surprisingly simple if the current architecture is flexible enough.\r\n\r\nWrite access with such thing could get a bit tricky if the views are very flexible, but an easy approach would be to allow writing only to very simply filtered views.\r\n\r\nOn top of my head this could look something like:\r\n\r\n```python\r\nr.table(\"restricted_namespaces\").insert({\r\n    \"access_keys\": [\"somestringthatmayormaynotbesecret\", \"anotherkeyusingthesameview\"],\r\n    \"view_name\": \"public_pages\",\r\n    \"view\": r.table(\"pages\").filter({\"public\": True}).without(\"secret\", \"fields\"),\r\n    \"writable\": False\r\n})\r\n```\r\n\r\nThe views in themselves would be a very powerful thing, especially if they could be stored and used in queries."
+  , issueCommentId = 76870891
+  }

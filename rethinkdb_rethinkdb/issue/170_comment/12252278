@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 03 : 47 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12252278"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/170#issuecomment-12252278"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 03 : 43 : 44 UTC
+  , issueCommentBody =
+      "Ok, I believe I have a fix for this up in commit 9c76d4389090692c588c273e564dfc86fe6c4885.  It appears that some `peer_address_t` comparisons weren't returning what was expected, and this caused cluster joining to exclude some IP addresses.  Fixing the comparison was rather simple, but that broke a lot of places that were using it (for rather different purposes).  I ended up breaking out some more specialized address comparison logic into new functions for the `initial_joiner_t` (for removing peers' addresses from a set as we connect to the cluster) and `connectivity_cluster_t::handle` (for comparing the expected address of a peer with the peer's actual address).\r\n\r\nThe actual details are rather boring and messy, because I don't think there was really a good/easy way to solve this with how all these objects work together, but it should be fine now.  Tested using the `spin_up_cluster` script and the scenario mentioned in my last post on this issue.\r\n\r\nReviewed by @mlucy and this fix should be in for release 1.4."
+  , issueCommentId = 12252278
+  }

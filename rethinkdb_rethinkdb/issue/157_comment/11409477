@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-15) 19 : 49 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11409477"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/157#issuecomment-11409477"
+  , issueCommentCreatedAt = 2012 (-12) (-15) 19 : 49 : 16 UTC
+  , issueCommentBody =
+      "So I'm sort of generally opposed to doing checks for the base being identity because it just seems fragile to me and I think it might be possible to change the semantics to be a bit more intuitive.\r\n\r\nRight now if a shard has no value to contribute it returns to base. If it has values `v1, v2, ... , vn` to contribute it returns:\r\n\r\n    b * v1 * v2 * ... * vn\r\n\r\nWhere `*` is the reduction function\r\nI propose instead that it returns a special `null` signifier if it has no elements. The single raw element denoted as such if it has only 1 element. And `v1 * v2 *... * vn` if it has `n` elements.\r\n\r\nThen unsharding `<u>` looks like this\r\n\r\n    null <u> null = null\r\n    null <u> singleton(v) = singleton(v)\r\n    null <u> v = v\r\n    singleton(v) <u> singleton(u) = u * v\r\n    singleton(v) <u> u = v * u\r\n    v <u> u = v * u\r\n\r\nThen the result of our reduction at the end we apply the base as follows to get the value we actually return:\r\n\r\n    null -> base\r\n    singleton(v) -> base * singleton\r\n    v -> base * v\r\n\r\nThis makes it so that the base is guaranteed to be in the reduction exactly once which is the way Python's works. If we do things this way we could also make the base optional. And throw errors on the first 2 cases, I think that kind of complicates things and that it's nicer to have this be a function that returns values on any input. And I suspect this will be a lot more palatable when bases behave more intuitively which they should with this proposal."
+  , issueCommentId = 11409477
+  }

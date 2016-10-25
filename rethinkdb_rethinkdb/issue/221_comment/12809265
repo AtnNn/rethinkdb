@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-28) 22 : 51 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12809265"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12809265"
+  , issueCommentCreatedAt = 2013 (-01) (-28) 22 : 31 : 44 UTC
+  , issueCommentBody =
+      "Just sat down with @wmrowan, and here is the final version of the API. Any additions/modifications, including supporting standard streaming APIs, will have to be done post 1.4 (unless there is something critical we missed here).\r\n\r\n```javascript\r\n// connect returns nothing\r\nr.connect({host:'localhost', port:28015}, function(err, conn) {\r\n   if(err) throw err;\r\n\r\n   r.connect(otherHost, function(err, conn2) {\r\n      query.run(conn);\r\n      query.run(conn2);\r\n   });\r\n   \r\n   // Atomic result\r\n   r.table('tbl').get(0).run(function(err, result) {\r\n      if(err) throw err;\r\n      processRow(result);\r\n   });\r\n\r\n   // Stream result\r\n   r.table('tbl').run(function(err, cur) {\r\n      if(err) throw err;\r\n\r\n      // Iteration style 1\r\n      function singleRow(err, row) {\r\n         if(err) throw err;\r\n         processRow(row);\r\n         if(!cur.hasNext())\r\n            finishedRowProcessing();\r\n         if(!shouldStopIterating())\r\n            cur.next(singleRow);\r\n      }\r\n      cur.next(singleRow);\r\n\r\n      // Iteration style 2. This does not support pausing -- use next\r\n      // if you want to pause.\r\n      cur.each(function(err, row) {\r\n         if (err) throw err;\r\n         processRow(row);\r\n         if (!cur.hasNext())\r\n            finishedRowProcessing();\r\n      }, function onfinished(err) {\r\n         // An optional alternative to calling hasNext\r\n         finishedRowProcessing();\r\n      });\r\n\r\n      // Turn a lazy cursor into a strict array\r\n      cur.toArray(function(err, rows) {\r\n         // rows is an array of all rows\r\n      });\r\n\r\n      // Close the cursor (and free all associated resources on the\r\n      // server). You only need to close the cursor if you haven't\r\n      // iterated through all rows (but it doesn't hurt anyway).\r\n      cur.close();\r\n      \r\n      // Connnection no longer accepts any more queries, and closes\r\n      // when all callbacks are finished.\r\n      conn.close();\r\n\r\n      // Close immediately cancelling any outstanding queries\r\n      conn.cancel();\r\n\r\n      // If there is a TCP error after the connection has been\r\n      // created, all outstanding requests get an error.\r\n   });\r\n});\r\n```\r\n"
+  , issueCommentId = 12809265
+  }

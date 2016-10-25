@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-11) 00 : 47 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1402435
+        , simpleUserLogin = N "specialops"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1402435?v=3"
+        , simpleUserUrl = "https://api.github.com/users/specialops"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12126864"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/170#issuecomment-12126864"
+  , issueCommentCreatedAt = 2013 (-01) (-11) 00 : 47 : 33 UTC
+  , issueCommentBody =
+      "For what it's worth, I think you're on to something when you suggest fixing\r\nthe connectivity options to be less strict.  Cassandra, for instance, only\r\nrequires one valid seed node and it will discover the rest of the cluster\r\nfrom any other connected node.\r\n\r\n-Josh\r\n\r\n\r\n\r\nOn Thu, Jan 10, 2013 at 6:41 PM, Tryneus <notifications@github.com> wrote:\r\n\r\n> Ok, I've tried very hard to reproduce this, and the only situation I can\r\n> reproduce it in is when there is not full connectivity in the cluster. This\r\n> can arise a few ways, but I think the easiest way is to not join every\r\n> other node at startup.\r\n>\r\n> This may be a weakness in how we handle joining a cluster and the\r\n> redistribution of directories, but it seems that if I start up 4 machines:\r\n>\r\n> newton> rethinkdb --bind all\r\n> puzzler> rethinkdb --bind all --join newton:29015\r\n> magneto> rethinkdb --bind all --join newton:29015\r\n> deadshot> rethinkdb --bind all --join newton:29015\r\n>\r\n> Some of the 'secondary' machines will not connect to each other. In order\r\n> to avoid this, machines must be started up to join every other machine in\r\n> the cluster:\r\n>\r\n> newton> rethinkdb --bind all --join puzzler:29015 --join magneto:29015 --join deadshot:29015\r\n> puzzler> rethinkdb --bind all --join newton:29015 --join magneto:29015 --join deadshot:29015\r\n> magneto> rethinkdb --bind all --join newton:29015 --join puzzler:29015 --join deadshot:29015\r\n> deadshot> rethinkdb --bind all --join newton:29015 --join puzzler:29015 --join magneto:29015\r\n>\r\n> I think this behavior could and probably should be improved. I can't think\r\n> of a reason why on two machines joining each other, they shouldn't share\r\n> their list of other connections. It seems strange that some of the\r\n> 'secondary' connections will be made, but not all of them, so maybe this\r\n> was the original intent but this is just a bug, will have to investigate\r\n> further.\r\n>\r\n> Finally, it is really annoying that if there isn't full connectivity in\r\n> the cluster (e.g. between magneto and deadshot), and you point the web UI\r\n> to newton, you will not see an issue about it. I'm not sure if this is\r\n> something than can easily be solved, since newton does have full\r\n> connectivity to the cluster, and we have no means to share issues between\r\n> servers at the moment.\r\n>\r\n> In any case, I have not been able to reproduce this issue without the\r\n> situation described above, which makes me think the reactors are working\r\n> exactly like they should and the problem lies in cluster connectivity.\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/170#issuecomment-12126719>.\r\n>\r\n>"
+  , issueCommentId = 12126864
+  }

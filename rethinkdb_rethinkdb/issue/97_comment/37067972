@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-07) 21 : 10 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37067972"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-37067972"
+  , issueCommentCreatedAt = 2014 (-03) (-07) 21 : 10 : 22 UTC
+  , issueCommentBody =
+      "For the record, here is the algorithm we're planning on using at the moment:\r\n\r\nEach shard tracks the number of buffers it evicts over the course of a tick (2 seconds).  Every tick, we collect the eviction count from each table and decide on new cache sizes for each shard (8 per table) by the following function:\r\n\r\n```\r\ntotal_cache = <defined at startup>\r\nbase_size = 2 MB\r\nnew_size = base_size + (evictions / total_evictions) * (total_cache - num_shards * base_size)\r\n```\r\n\r\nWhat this means is that each shard has a minimum of 2 MB of cache, with the remainder of the total cache size being assigned to tables according to the ratio of their evictions to the total number of evictions across all shards.  In order to stop huge cache rebalances happening too quickly, we apply a damping factor (effectively a weighted average of the old and new sizes):\r\n\r\n```\r\nnew_size = old_size + (new_size - old_size) / 25\r\n```\r\n\r\nThis results in an asymptotic cache rebalance behavior like so, where the horizontal axis is time in seconds, and the vertical axis is old_size at 0 and new_size at 1:\r\n\r\n![cache balance response](https://f.cloud.github.com/assets/552910/2362324/77ce5920-a63c-11e3-9ada-38483dbacb6b.gif)"
+  , issueCommentId = 37067972
+  }

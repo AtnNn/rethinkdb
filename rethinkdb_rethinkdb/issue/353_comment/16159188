@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-10) 07 : 23 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16159188"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/353#issuecomment-16159188"
+  , issueCommentCreatedAt = 2013 (-04) (-10) 07 : 23 : 01 UTC
+  , issueCommentBody =
+      "You're exactly right. `GROUP_BY` simply takes one of a small number of identifiers indicating which computation to run. It really doesn't fit in with the rest of the API. I have been against it from the start but powers beyond me decreed that group by is too well ingrained an idiom from the SQL world to avoid supporting.\r\n\r\nJust between you and me, feel free to ignore it if you want. The whole thing is actually just syntactic sugar on top of `grouped_map_reduce`. For example, here's how you might translate the following:\r\n\r\n```python\r\ntable.group_by(r.count('field'))\r\n   =>\r\ntable.grouped_map_reduce(r.row('field'), lambda x: 1, lambda x,y: x + y)\r\n```\r\n\r\nNow that really wasn't that bad. If you find yourself typing that out too frequently you could get real clever and define your own function to support something similar:\r\n\r\n```python\r\ndef count_field(table, field):\r\n   return table.grouped_map_reduce(r.row(field), lambda x: 1, lambda x,y: x + y)\r\n```"
+  , issueCommentId = 16159188
+  }

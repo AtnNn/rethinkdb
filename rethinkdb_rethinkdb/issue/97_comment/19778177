@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-20) 19 : 53 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 41847
+        , simpleUserLogin = N "ArtemGr"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/41847?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ArtemGr"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19778177"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-19778177"
+  , issueCommentCreatedAt = 2013 (-06) (-20) 19 : 41 : 43 UTC
+  , issueCommentBody =
+      "> Normally you wouldn't want to do that because the RethinkDB\r\n> caching system outperforms the page cache for db use cases (because it's\r\n> got more information than the page cache).\r\n\r\nNo, normally I would want to do that because I don't want to micromanage the RethinkDB cache.\r\nThe internal cache access is, of course, much faster than a context switch and a copy required to get the page from the filesystem cache (unless, of course, you're memory-mapping), but the operating system might have a lot of memory that I'm not ready to pin to RethinkDB but that might help RethinkDB fetch data from disk under a certain load.\r\nThat's the way most databased are implemented, e.g. MySQL, Postgresss, SQLite, Berkeley DB, etc, they all have an internal cache but allow the operating system to help alleviate the disk load using it's large cache as necessary.\r\n\r\n> Is there an example use case for why you might want to turn it off?\r\n\r\nSure. Suppose I have several databases on a host and batch operations which are going on from cron. If I give most memory to RethinkDB then the cron job using another database will become unnecessary slow, and if I give most memory to the OS then the RethinkDB operations will become unnecessary slow. The usual way to solve this is by letting the OS cache adapt to the load with its LRU or whatever.\r\n\r\nGenerally, any setup where a RethinkDB table cache is significantly smaller than the filesystem cache can benefit from the secondary caching provided by the OS."
+  , issueCommentId = 19778177
+  }

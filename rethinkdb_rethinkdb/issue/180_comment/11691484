@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-26) 18 : 33 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11691484"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/180#issuecomment-11691484"
+  , issueCommentCreatedAt = 2012 (-12) (-26) 18 : 33 : 51 UTC
+  , issueCommentBody =
+      "Ahha there's another way for this to happen. When you want to modify the semilattices you need to go to a specific thread. (The semilattice manager's homethread). So the racy behavior looks like this:\r\n\r\n    Drop table request (thread A)\r\n    Go to thread B\r\n    Modify Semilattices (thread B)\r\n    Go to thread A\r\n    Return response to user (A)\r\n    Receive request accessing table (A)\r\n    Learn that table has been deleted (A)\r\n\r\nThe fix to this is actually a bit cool. Basically want we want to do is upon our return to thread `A` block until we see our changes to the semilattices reflected. The hard way to do it is to specifically check for each query if the changes it would have made have taken effect. i.e. in the this example block until the table with the relevant ID appears deleted. However it would be nice if we could do this in a generic way for all semilattice updates. The wrong way to do it is to take the new value of the semilattices that you create and wait until it's equal to the value in the `cross_thread_watchable_variable_t` because if something else updates the semilattices in that time you're going to wind up waiting forever. What you want to do instead is wait for joining in the change to be a noop. Due indempotence and commutativity this means that you've seen the change (or an identical one).\r\n\r\nThe reason this doesn't show up in our tests is because they don't rapidly drop and recreate tables we should probably add some that do.\r\n\r\nI'm not sure about including this in the error message. This seems like a pretty esoteric use case that is about to become more esoteric. This can also come up in a multitude of ways such as resharding, races around table creation and destruction, network outages, node failures ... I'm sure there are more I'm forgetting so it seems like this error message is going to become a wall of text if we include all the cases. I think we might be better off adding a section in the FAQ about this and having the error message mention that this can arise for a number of reasons and the FAQ should be consulted."
+  , issueCommentId = 11691484
+  }

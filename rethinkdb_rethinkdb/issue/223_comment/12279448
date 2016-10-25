@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 17 : 40 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12279448"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/223#issuecomment-12279448"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 17 : 40 : 59 UTC
+  , issueCommentBody =
+      "jdoliner:\r\n\r\n>  I don't understand why you introduce a separate notion of a coordinator. Why not have a vice-primary for a shard behave as the coordinator for that shard? If the vice-primary can't see the master for some user-specified period of time, it can flip the failover flag and take over until further notice.\r\n\r\nHmm no reason the coordinator couldn't always just be the vice-primary actually. A coordinator per table might be nice although we need to make sure it's not on a machine which is acting as master so I think just having vice-primary act as coordinator might be nice.\r\n\r\n> I think we need to be a little more clear about what happens when failover bit is turned on (e.g. what issue does the user see? Is it resolvable? How?) and what happens if the master becomes visible again (do we compile a new blue print to make the old primary a vice-primary, the old vice-primary primary, and turn off the failover bit? or does the old master become master again? etc.)\r\n\r\nWhen the failover bit is turned on the vice-primary begins acting as master and the master begins acting as a secondary. Note that since this flag only gets flipped when the master is disconnected the master will only see this flag flipped if it reconnects. If it does then it's most likely going to have divergent data at which point it goes into a failure recovery mode (I'll discuss this in a separate comment).\r\n\r\nWhenever a failover flag is flipped the user sees the following issue: \"Namespace 'foo' is in emergency failover mode due to machine failure, it may become inaccessible if more machines fail.\" Basically the point is: your namespace is working but you've lost your safety net.\r\n\r\nIf the master reconnects it becomes a secondary so long as the flag is flipped or in the case of divergent data (which is likely) goes into a failure recovery mode.\r\n\r\nWe do not ever compile a new blueprint automatically. Blueprints are only every compiled as a response to a user changing the semilattices. I think one of the keys to keeping this sane is having every piece of data be modified by one and only entity. Blueprints are only ever modified by the blueprint compiler when a user makes a change. The failover flag I suppose is technically an exception to this but it only ever gets set to false by the compiler and true by the coordinator so we'll at least always know whose will we're enacting. Having a blueprint change automatically seems like it will just be too hard to keep track of."
+  , issueCommentId = 12279448
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-02) 00 : 50 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14319637"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/366#issuecomment-14319637"
+  , issueCommentCreatedAt = 2013 (-03) (-02) 00 : 50 : 20 UTC
+  , issueCommentBody =
+      "This is why OS X was behaving differently from Linux, and how the fix mitigates it.\r\n\r\n```\r\n    // 1. make a socketpair\r\n    // 2. send one half of the pair over a unix domain socket\r\n    // 3. close the half of the pair that you sent\r\n    // 4. receive the descriptor in another process, on the other end of the unix domain socket\r\n    // 5. try to read from that descriptor -- FAIL!  You get ENOTCONN (0.1% of\r\n    //    the time, on OS X) because the socket was magically destroyed.\r\n    //\r\n    // Step 3 sometimes jumps ahead of step 2 in the OS X kernel and a reference\r\n    // count gets decremented by step 3 before it got incremented by step 2.  So\r\n    // we remove step 3 -- we don't close the other half of the pair until\r\n    // later.  We keep it here.\r\n```\r\n\r\nThe fix to this issue doesn't deal with other problems of extproc, like dealing with v8 crashing."
+  , issueCommentId = 14319637
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-07) 22 : 57 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14592012"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/416#issuecomment-14592012"
+  , issueCommentCreatedAt = 2013 (-03) (-07) 22 : 57 : 54 UTC
+  , issueCommentBody =
+      "Here are some other random things I noticed, organized by importance:\r\n\r\nProblems that I think must be fixed:\r\n* `Cursor` should subclass from `object`, not `list`. What will happen when `Cursor` subclasses from `list` is that `Cursor` will contain two lists: the one from the superclass `list`, and the one from `Cursor.results`. It will have all the original `list` methods, like `index` and `append`, and they will show up in `dir(cursor)`, but they will access the list from the superclass `list`, while `len()` and the other methods that `Cursor` overrides will access `Cursor.results`. This is terrible.\r\n* Also, `Cursor.__repr__` shouldn't try to pretend that the cursor is a list. Cursors can break in ways that lists can't; pretending that cursors are lists will just be confusing.\r\n* `RDBBase` and `Connection` should subclass from `object`. I didn't even know it was possible for a class to have no superclasses in Python. It's not conventional and, although it seems to work, it might break in strange ways down the line.\r\n\r\nIdeas to consider:\r\n* Why are `RDBBase`, `RDBOp`, and `RDBValue` separate classes? It seems like everything subclasses from `RDBValue`. Could they perhaps be unified?\r\n* The mixins `RDBMethod`, `RDBTopFun`, and `RDBBiOper` could be subclasses of `RDBValue` instead of mixins. I think that would make more sense, because I can't think why you would want to mix two or more.\r\n* `Connection` should be public. It will have to show up in the documentation anyway. In general I think it's just good practice to publicly expose any class that you will give people instances of, unless those instances are supposed to be opaque \"black boxes\".\r\n* `Cursor` doesn't throw away results as it goes. This could lead to a lot of memory usage. Maybe there should be an interface to allow discarding results incrementally.\r\n* If `Connection` gets a socket exception in `_send_query()`, maybe it should catch it and re-throw a RethinkDB-specific exception.\r\n* Maybe `Cursor.__del__` should notify the connection to tell the server to throw away any remaining results. Implementing `__del__` methods safely is very tricky, though, and I don't know how to do it. Also, maybe there should be a `Cursor.close()` method. \r\n\r\nUnimportant stuff:\r\n* Using `()` to represent an unused keyword argument is unconventional. It's more common to use `None` for that purpose. Some automated documentation tools will print the default values of keyword arguments, and people might wonder what it means. But this isn't terribly important, and I think I can see why it was done.\r\n* In `expr()`: Consider replacing `isinstance(val, types.LambdaType)` with `callable(val)`\r\n* Consider wrapping `count`, `sum`, and `avg` in some kind of class.\r\n\r\nAlso, I agree with Joe's points about documentation. I assume that's in the works.\r\n\r\nI also agree with Joe on thread-safety. We should either throw an error if someone tries to access it from two threads simultaneously, or use a mutex to make that actually be safe. But it should still be possible to create a connection on one thread and then use it on another, of course.\r\n\r\n@jdoliner: I think that you're supposed to use the `|` and `&` operators rather than calling `r.All()` and `r.Any()` directly. This behavior seems reasonable to me."
+  , issueCommentId = 14592012
+  }

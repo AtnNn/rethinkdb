@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-03) 23 : 02 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11865052"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11865052"
+  , issueCommentCreatedAt = 2013 (-01) (-03) 23 : 02 : 03 UTC
+  , issueCommentBody =
+      "> I may be misunderstanding this but I think having a strictness state for the database is a bad idea because we'd need to store it somewhere and distribute it to different machines which gets in to all sorts of corner cases.\r\n\r\nRight, I think for the first implementation we should pass it on the connection, and on `run()`. If we ever need to deal with it on per-database level, we can deal with it then.\r\n\r\n> Another thing worth talking about is what happens with get when it doesn't find a row. Right now it returns null. I'd argue it actually makes more sense for it to return bottom.\r\n\r\nAgreed.\r\n\r\n> To do this we would need to have more granular strictness settings.\r\n\r\nCould you explain this in more detail? I don't think the strictness setting should affect the behavior of `get`. I think it would make sense for `get` to always return bottom, regardless of this setting (similarly to how `if` and `add` would always return bottom regardless of this setting). Then, when the setting is lax, eq_join will skip the offending rows and return only the ones that are present in the right table. If the setting is strict, we can pick a behavior for eq_join that we think is consistent with the rest of the system. It's conceivable that the user might want a different behavior in some cases, but I don't think it's worth complicating the implementation for this unless there is strong evidence we actually need it.\r\n\r\nI don't know how much of a burden a per-op setting on protocol-buffers is, but if it's a pain, I don't think it's worth bothering with it for now.\r\n\r\n"
+  , issueCommentId = 11865052
+  }

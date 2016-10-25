@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-15) 23 : 55 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13634992"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/352#issuecomment-13634992"
+  , issueCommentCreatedAt = 2013 (-02) (-15) 23 : 55 : 14 UTC
+  , issueCommentBody =
+      "No.\r\n\r\nPython prints like this `<rethinkdb.ast.MakeArray instance at 0xdeadbeef>`. Since we already have the query printing code it would be trivial to redefine `__repr__` to print the chained query representation.\r\n\r\nIn JavaScript it's a little more complicated. The issue is that while you can overload `toString` however you want, `toString` does not get called when node prints the result of a statement to the repl. `console.log` is a strange beast. When passed an object (not a string) it does not call `toString` to get a printable representation. It has it's own way of serializing JavaScript objects that there is no way to overload. This is useful in the browser because logging an object isn't just about printing a representation to the console, it actually logs an object whose properties you can inspect and play with.\r\n\r\nSo while we can easily, as in Python, overload `toString` to use the query pretty printer there is no way to force node to use it."
+  , issueCommentId = 13634992
+  }

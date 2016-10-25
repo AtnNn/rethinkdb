@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-24) 00 : 01 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33183574"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/344#issuecomment-33183574"
+  , issueCommentCreatedAt = 2014 (-01) (-24) 00 : 00 : 33 UTC
+  , issueCommentBody =
+      "@Tryneus: Your example is not what's going to happen. One of the master shard's should definitely remain on node A. Note that the assignment is always done from scratch for all tables. So what the suggester is going to do is the following:\r\n\r\n1. Initial state:\r\n\r\n```\r\nNode A: nothing, usage 0 (but has data)\r\nNode B: nothing, usage 0\r\nNode C: nothing, usage 0\r\n```\r\n\r\n2. Assign shard-1: The current usage is the same everywhere, so it looks at the second criteria, the backfill costs (actually there are a few other criteria which have even higher priority than usage, such as explicit shard pinnings. But let's leave those aside for now). It compares those costs between the nodes, and finds that Node A is cheaper than all others. So it assigns:\r\n\r\n```\r\nNode A: master-shard-1, usage 10 (but has data)\r\nNode B: nothing, usage 0\r\nNode C: nothing, usage 0\r\n```\r\n\r\n3. Assign shard-2: Node B and C have a lower usage than node A. There is no criteria to distinguish between node B and C, so it just picks one of them.\r\n\r\n```\r\nNode A: master-shard-1, usage 10 (but has data)\r\nNode B: master-shard-2, usage 10\r\nNode C: nothing, usage 0\r\n```\r\n"
+  , issueCommentId = 33183574
+  }

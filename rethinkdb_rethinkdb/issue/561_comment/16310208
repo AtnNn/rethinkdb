@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 18 : 43 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16310208"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/561#issuecomment-16310208"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 18 : 43 : 13 UTC
+  , issueCommentBody =
+      "Here are some valid `eval` expressions that represent something a user might legitimately want to do in an `r.js`. Try running these in your browser and then put parens around the statement block. They will all succeed in the first case and fail in the second.\r\n\r\n* `eval(\"var a = 1; a;\")`\r\n* `eval(\"for (var i = 0; i < 2; i++) { if (i > 1) break;  }; i;\")`\r\n* `eval(\"switch (1) { case 0: 'a'; break; case 1: 'b'; break; }\")`\r\n* `eval(\"try { throw 'a'; b; } catch (err) { err };\")`\r\n\r\nYour question wasn't just about automatically putting parens though, perhaps we can add a deeper heuristic like, only strings that start with \"function\".\r\n\r\n* `eval(\"function a() { return 1; }; a();\")`\r\n* `eval(\"function factorial(i) { if (i <= 1) return 1; return i * factorial(i - 1); }; factorial(6);\")`\r\n\r\nBut what if we apply an even deeper heuristic!? No. This is a rabbit hole whose bottom is, at best, the implementation of a full JavaScript parser.\r\n\r\n`eval` in JavaScript expects a valid JavaScript *program* not a valid JavaScript *expression*. Thus the parser begins in \"statement\" context. Wrapping the program text in parens forces the parser into \"expression\" context. Just as some valid expressions don't work in statement context, there are some valid statements that don't work in expression context.\r\n\r\nThe reason that the string \"function(){}\" produces an error in statement context by the way, is because in this context the keyword `function` introduces a function statement (different from a function expression) which requires a name. The statement \"function a() {}\" is actually valid and accepted by the parser. This binds the name 'a' in the local scope but doesn't evaluate to the resulting function. If you return a function from `r.js` without adding parens you could do something like this:\r\n\r\n```python\r\nr.js(\"function a() {}; a\");\r\n```"
+  , issueCommentId = 16310208
+  }

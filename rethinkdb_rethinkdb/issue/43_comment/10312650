@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-13) 01 : 51 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 311270
+        , simpleUserLogin = N "codingcampbell"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/311270?v=3"
+        , simpleUserUrl = "https://api.github.com/users/codingcampbell"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10312650"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/43#issuecomment-10312650"
+  , issueCommentCreatedAt = 2012 (-11) (-13) 01 : 50 : 28 UTC
+  , issueCommentBody =
+      "Hi - I am woogley from IRC. To quickly illustrate my point:\r\n\r\n    r.db('test').tableCreate('shows').run()\r\n    r.db('test').table('shows').insert([ { name: 'Star Trek' }, { name: 'Breaking Bad', rating: 5 } ]).run()\r\n\r\nNow, a vanilla run() will  return:\r\n\r\n    [{\"name\":\"Star Trek\",\"id\":\"960e0533-4aa7-4c27-ae63-557f7dee92ca\"},{\"name\":\"Breaking Bad\",\"rating\":5,\"id\":\"9d9690d5-e7bc-42e6-bab6-2e73c6c90422\"}]\r\n\r\n(The Star Trek entry simply lacks the `rating` key)\r\n\r\nHowever, if you pluck:\r\n\r\n    r.db('test').table('shows').pluck('name', 'rating').run()\r\n\r\nIt throws this error:\r\n\r\n    Runtime Error: Attempting to pick missing attribute rating from data:\r\n\r\nSo I would say the inconsistency has less to do with `without()` and more to do with a vanilla `run()` on the table.\r\n\r\nI would expect the `pluck()` to behave the same as a normal `run()` and let my application code deal with the missing key."
+  , issueCommentId = 10312650
+  }

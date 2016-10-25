@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-24) 17 : 18 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47001030"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47001030"
+  , issueCommentCreatedAt = 2014 (-06) (-24) 17 : 18 : 01 UTC
+  , issueCommentBody =
+      "@mlucy, @srh, and I had a conversation on Friday, and came to a consensus on the following points:\r\n1. There should probably be two additions here: one for an in-line `binary` type, and one for a `file` type that would be exposed to end users as a file handle (or file-like object).\r\n2. The `binary` type is thought of as for being for smaller items that would be used and treated just like other current types. This data would have to be encoded, at least for transmission over JSON, but no conversation about that encoding.\r\n3. In order to support large files the second type would probably be stored out-of-line with some sort of a link. It would be exposed to the user as a file, like:\r\n```python\r\nimageFile = open('inputFile')\r\nr.db('test').table('user').insert({'id':1, 'name':'Joe Schmoe', 'image':imageFile}).run(conn)\r\n\r\nrecord = r.db('test').table('user').get(1).run(conn)\r\nimageData = record['image'].read()\r\n```\r\n4. The `file` type was talked about as being inserted and read separately from the rest of the ReQL stream. For example on an insert the file would be sent up, and only after it was completely up would the surrounding record be inserted. For the read case the idea mentioned was that the data would not be transmitted from the server until it was read.\r\n5. Generally the conversation had the file data in the same table as the record containing it, with no access to the data other than through the record. But this wavered a few times.\r\n5. Orphaned and partial/broken uploads were both raised as concerns, but there was not a consensus solution here. If we are going to actively support large files (e.g.: 10GiB+), there is a legitimate worry that an upload would be interrupted, opening the possibility of needing resumable uploads.\r\n7. The file type should support `seek` (both forward and back), and `read`."
+  , issueCommentId = 47001030
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-20) 19 : 12 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10568245"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/pull/54#issuecomment-10568245"
+  , issueCommentCreatedAt = 2012 (-11) (-20) 19 : 09 : 26 UTC
+  , issueCommentBody =
+      "~~There's a race condition in `kill_connection()`. Suppose that while we are in the `on_thread_t`, the connection dies on its own. If the message notifying that it died reaches the thread we called `kill_connection()` from before the `on_thread_t` finishes, then the map iterator will be invalid when we call `shutdown_read()` and `shutdown_write()`. Another possibility is that our map iterator could still be valid but the connection could have shut down on its own.~~\r\n\r\n~~This race condition can be fixed by checking the connections map again after we switch threads.~~"
+  , issueCommentId = 10568245
+  }

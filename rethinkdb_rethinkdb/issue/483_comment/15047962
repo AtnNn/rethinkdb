@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-18) 10 : 33 : 41 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15047962"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/483#issuecomment-15047962"
+  , issueCommentCreatedAt = 2013 (-03) (-18) 10 : 33 : 41 UTC
+  , issueCommentBody =
+      "You're right, we should have `slice` and `closed_slice`.  We need `closed_slice` to exist on the server, certainly, for backwards compatibility of the protobuf spec.  Term::TermType::SLICE should be renamed accordingly.  Then we need a new Term::TermType value, perhaps a SLICE or OPEN_SLICE that takes between one and two parameters, to accomodate slicing to the end of the sequence.\r\n\r\nAs general encouragement that we do this, note that open slices are quite important.  Closed slices are error prone -- let's not forget that they are a design flaw that Ruby borrowed from Perl.  They cause extra `+ 1`'s and `- 1`'s everywhere, increasing the chance of off-by-one errors and also weird boundary errors.  Suppose you want a closed slice that starts at offset `i` and contains `n` elements.  `foo.slice(i, i + n - 1)` is the wrong way to do that."
+  , issueCommentId = 15047962
+  }

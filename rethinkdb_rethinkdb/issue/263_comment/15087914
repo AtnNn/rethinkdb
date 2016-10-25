@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-18) 23 : 06 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 18049
+        , simpleUserLogin = N "nugend"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/18049?v=3"
+        , simpleUserUrl = "https://api.github.com/users/nugend"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15087914"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/263#issuecomment-15087914"
+  , issueCommentCreatedAt = 2013 (-03) (-18) 23 : 06 : 38 UTC
+  , issueCommentBody =
+      "@hcarvalhoalves The only thing I've got to say about time zones in and of themselves is that you shouldn't store DST or at least not along with them and you *should* represent them as +/-XX:XX Or a minute timespan if you're going to implement a timespan data type (which would be nice). For instance Newfoundland's TZ is -03:30 while Nepal's TZ is +05:45\r\n\r\nAs to why you shouldn't add DST, that's because whether DST is in effect or not has nothing to do with the numeric timezone you're saving. If you're going to the length of calculating the TZ offset, you're just going to have a number that's going to indicate the offset from UTC, regardless of whether DST is in effect or not. The only time you're actually concerned about DST is when you're generating a TZ offset from a datetime calculation. That is, say I want to add two ISO-8601 values together:\r\n\r\n    P3M + 2013-03-01T13:30-05:00\r\n\r\nIf DST was in effect or not is irrelevant to the resulting date time value that will result. Ultimately, you'd need to add a whole timezone database to do the calculations effectively AND you'd have to have information about the TZ Locale that the resulting calculation would be in (because, for example, you could be in Jamaica, which does not use DST, or you could be in the US, which does).\r\n\r\nThe only sane thing to do is to actually output the result in UTC and force the client to convert to the expected timezone offset.\r\n\r\nAggregating by intervals is pretty tricky given all this. Possibly the best thing to do would be to allow people to specify a recurring interval or just say bollocks to timezones completely. Or you could also allow for locale databases to let people normalize in a customized way. That's probably a huge amount of work though, especially to make it efficient."
+  , issueCommentId = 15087914
+  }

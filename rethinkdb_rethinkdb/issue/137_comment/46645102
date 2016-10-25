@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-20) 05 : 03 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46645102"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46645102"
+  , issueCommentCreatedAt = 2014 (-06) (-20) 05 : 03 : 56 UTC
+  , issueCommentBody =
+      "> To turn the question around, what's the argument for not storing chunks?\r\n\r\nBecause that's the easiest way to implement this in a short amount of time, and to maintain over time.  There's no tangible benefit to having a bunch of chunks, except maybe what Daniel mentioned about backfilling.  (That's not actually a serious problem -- the general backfilling interface can be used to send broken-up large values, I think.  If that's hard to do, well, we could represent a value as a bunch of blobs in the same b-tree.)\r\n\r\nThe downsides of storing chunks of a file distributed around a cluster are that it's more complicated, it's more work to implement, it means every file (in some family of files) becomes inaccessible if some shard of them is inaccessible.  It's more complicated because now you have some structure mapping files to groups of chunks somewhere, and then the chunks live in a different location.  Then, creating a file and deleting a file are multi-step processes, and you have to make sure that deleting a file's metadata results in the file's chunks getting deleted on other machines in the cluster, even if a machine or the network goes down in the middle of the process.  That means you need startup code that checks for partially-deleted files, etc, and maybe it has to run when nodes reconnect to the cluster?  You'd have to think carefully about how to make it work correctly.  If the information \"this file exists\" and the actual contents of the file are in the same location, in the same b-tree, you don't have these problems.\r\n\r\n> I think the advantage of storing chunks explicitly is that we wouldn't have to adapt our backfilling and query code etc. to deal with giant blobs.\r\n\r\nWe don't have any trouble with query code either.  There's nothing difficult about reading from part of a blob."
+  , issueCommentId = 46645102
+  }

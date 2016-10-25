@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-03) 01 : 13 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15812554"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/505#issuecomment-15812554"
+  , issueCommentCreatedAt = 2013 (-04) (-03) 01 : 13 : 27 UTC
+  , issueCommentBody =
+      "So there are three interlocking issues here.\r\n\r\n1. The new query language implementation uses 3x the memory as the old one for the same data. Re-optimizing our memory usage will help reduce the scope of the problem but doesn't solve the underlying issue.\r\n\r\n1. We don't check tcmalloc allocation attempts for allocation failures (at least in one spot) leading to a crash and backtrace getting reported to the user. At the very least this should be a nice error.\r\n\r\n1. We don't monitor memory usage holistically. Each table has a fixed cache limit that determines when we begin evicting blocks from the cache. This is set by default at 1GB. This does not include any memory used by the query language layer to actually evaluate your query. Presently `order_by` loads the whole table into memory and does a quicksort. This is addition to the memory used by the buffer cache when the table is read the first time. But because the cache is unaware of the memory used by `order_by` it doesn't evict blocks to make room and we can use an unbounded amount of memory. Even if we manage to fix issues 1 and 2 this will still be a problem.\r\n\r\nProblem 3 has been known for some time and it is scheduled to be fixed in the next few weeks.  What I can do for you now is try to address problems 2 and 1. First I'm going to try and replicate the tcmalloc crash to fix problem 2. This should be pretty quick if I can replicate it. Next I'm going to confirm the memory usage regression between 1.3 and 1.4 and address any obvious problems that show up in memory profiling. A complete fix for this might involve substantial changes to the query language code and will probably be delayed until 1.6 or so when we are slated to more comprehensively address our performance issues.\r\n\r\nI'll keep you updated the progress but unfortunately this is unlikely to be a quick fix."
+  , issueCommentId = 15812554
+  }

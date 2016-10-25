@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-21) 06 : 56 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/49576230"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/195#issuecomment-49576230"
+  , issueCommentCreatedAt = 2014 (-07) (-21) 06 : 56 : 40 UTC
+  , issueCommentBody =
+      "@dminkovsky --\r\n\r\n- The server will drop changes if it buffers more than 100.000 elements.\r\n\r\nIf you write something like\r\n```\r\nr.table(\"data\").changes().run(connection).then(function(feed) {\r\n   feed.each(function(change) {\r\n      // push change somewhere\r\n   })\r\n})\r\n```\r\n\r\nIn theory you could still miss a change if the network between the client and the server becomes slow enough that your feed is 100k elements late. In practice, it should probably not happen.\r\nIf it happens, you get a change with the field `error`, in which case you can reset your feed/data (by issuing another read query).\r\n\r\n- If the server goes down, the feed is terminated. You can open a new one when the servers goes up, but if a write happens before you can open your feed, you will indeed miss some writes. If you want to use `changes` to keep the state of some documents up to date, you can just re-issue a read query before opening the feed.\r\n\r\n\r\nI have been mentioning sending a read before opening the feed. This operation is not atomic yet -- this issue https://github.com/rethinkdb/rethinkdb/issues/2727 will probably track this feature  -- feel free to chime in.\r\nA workaround now is to open your feed, then send the read and discard the values that already appear in the feed -- but that requires you to know when a document was updated (and therefore store a field `update_at` in your documents)."
+  , issueCommentId = 49576230
+  }

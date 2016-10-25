@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-03) 07 : 16 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15821909"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/570#issuecomment-15821909"
+  , issueCommentCreatedAt = 2013 (-04) (-03) 07 : 16 : 01 UTC
+  , issueCommentBody =
+      "So comparisons throw. What about just on access. For example:\r\n\r\n```Python\r\ntable.map(row[\"non_existant_key\"]) # throws\r\ntable.map(row[\"null_key\"]) # doesn't throw?\r\n\r\ntable.filter(row[\"non_existant_key\"]) #throws\r\ntable.filter(row[\"null_key\"]) #throws?\r\n```\r\n\r\nAlso adding an `is_null` term to get around the fact that all comparisons with `null` throw is insane. People are going to expect to be able to say: `table.filter(row[\"foo\"] != null)` and have it not throw. This also is really weird when you have objects with `null` in them. You actually now can't write a function that compares two objects with null in them for equality.\r\n\r\nI think the only sane way to compare `null` is this:\r\n```\r\nnull == null -> true\r\nnull != null -> false\r\nnull == non_null -> false\r\nnull != non_null -> true\r\nAll other comparisons throw.\r\n```"
+  , issueCommentId = 15821909
+  }

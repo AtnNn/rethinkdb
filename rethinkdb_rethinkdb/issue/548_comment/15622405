@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-28) 23 : 59 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15622405"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15622405"
+  , issueCommentCreatedAt = 2013 (-03) (-28) 23 : 59 : 44 UTC
+  , issueCommentBody =
+      "@al3xandru is right.\r\n\r\nIn your example, you're using `reduce` as if it were a fold. With a fold the values in the sequence are iterated over and \"folded\" into an accumulator value. This frees the type of the accumulator to be different from the type of the elements of the sequence you are folding.\r\n\r\nThis style of reduction has an important limitation however as it prevents automatic parallelization of the operation. This is because the reduction function supplied only knows how to combine a value of the accumulator type with a value of the sequence element type. Without knowing how to combine two values of the accumulator type we're forced to process the sequence elements one by one. This is the logic behind the \"combiner\" function option in some other map reduce systems.\r\n\r\nThere is another way around this problem though, make the reduction function and combiner function one and the same with a few extra mathematical restrictions. One of these is that the two input values and the output value of the reduction function must be of the same type (to allow the output of one call to the reduction function to be passed to a second invocation). This will often require a reformatting pass over the base sequence to get the data into the correct shape with a map operation.\r\n\r\nSince the two input values must be of the same type there isn't an accumulator argument distinct from the other argument. The value passed into your reduction function as `acc` is actually a row from the table and thus an object on which there is no `add` method.\r\n\r\nIs there some way we could document this better or give a better error message to indicate what's going on?"
+  , issueCommentId = 15622405
+  }

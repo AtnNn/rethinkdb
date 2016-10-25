@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-12) 20 : 48 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/16316771"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/561#issuecomment-16316771"
+  , issueCommentCreatedAt = 2013 (-04) (-12) 20 : 48 : 45 UTC
+  , issueCommentBody =
+      "> Do we remember the \"return\" prepend issue? There too we thought we were doing people a favor but just mucked things up. The minute we deviate from standard behavior we're inviting a whole host of problems, many of which we can't even predict.\r\n\r\nThere isn't any \"standard\" behavior we're deviating from.  There's no stone tablet carved with the words \"r.js shall be implemented as javascript eval\".  We're just considering changing our behavior from evaluating a javascript program to evaluating a javascript expression.\r\n\r\n> The difference is not just a short doc string vs. a long doc string. Implementing custom behavior would be giving up a flawed but well know, well documented model with something different enough to invalidate all the existing documentation out there but similar enough that people will not know that it is invalid.\r\n\r\nThe model for javascript expression parsing is well-known too.  I don't understand how all existing documentation will be invalidated by this.\r\n\r\n> Our \"helpful\" solution to just one of JS's many quirks will introduce a whole host of other weird quirks that contradict the enormous institutional memory of the JS community. It's not just seasoned JS programmers who'll be confused by the deviant behavior. The newbies who we claim to be targeting will turn to the web for help with the problems they will come across and only be able to find anti-documentation, arguably leaving them worse off than the old hats who are better placed to understand what's actually going on.\r\n\r\nYou're framing this as overriding some sort of default JS behavior, when in fact we're just picking a definition for `r.js`, which is one of **our** primitives.  If you want to help newbies, we should pick the definition which doesn't throw a bizarre and ungoogleable error in their face when they try to map a javascript function over a list.  This is entirely separate from the implementation question of how we could provide people with an `r.js` that takes an expression rather than a program.\r\n\r\n> While I can't conscience changing the actual behavior of r.js I would support augmenting the error message when we get a syntax error, similar to how we augment the error thrown in the JS driver when the user forgets to add a return statement to their lambda function.\r\n\r\nI'm also in favor of this if we decide not to go with the paren-wrapping approach.\r\n\r\n---\r\n\r\nSo, let's break this out into two questions:\r\n\r\n##### Should `r.js` take a javascript program or a javascript expression?\r\n* Taking an expression removes a class of confusing errors that people are encountering.\r\n* Taking an expression might be harder to implement.\r\n\r\nI think that if we could make the implementation problem go away, taking an expression would be much less confusing for users.  This leads to:\r\n\r\n##### Is there an acceptable implementation that would take a javascript expression rather than a program?\r\n* Wrapping parentheses (presumably with a newline to avoid one-line-comment issues) is string-parsing, which has a smell.\r\n* V8 might have a way to do this; I don't know much about it.\r\n\r\nWhich leads to the question I asked in my previous comment: what would be break if we did the simple parentheses solution?"
+  , issueCommentId = 16316771
+  }

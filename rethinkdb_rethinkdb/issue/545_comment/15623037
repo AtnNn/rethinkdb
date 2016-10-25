@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-29) 00 : 21 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15623037"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/545#issuecomment-15623037"
+  , issueCommentCreatedAt = 2013 (-03) (-29) 00 : 21 : 29 UTC
+  , issueCommentBody =
+      "Hrm. The error actually looks like it's occurring within the protobuf library. @mlucy Do you have any insight?\r\n\r\n```\r\n       1: lazy_backtrace_t::lazy_backtrace_t() at backtrace.cc:249\r\n       2: format_backtrace(bool) at backtrace.cc:196\r\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:71\r\n       4: linux_thread_pool_t::sigsegv_handler(int, siginfo*, void*) at thread_pool.cc:319\r\n       5: +0xfcb0 at 0x7f5a059e0cb0 (/lib/x86_64-linux-gnu/libpthread.so.0)\r\n       6: void google::protobuf::internal::RepeatedPtrFieldBase::MergeFrom<google::protobuf::RepeatedPtrField<Term>::TypeHandler>(google::protobuf::internal::RepeatedPtrFieldBase const&) at repeated_field.h:698\r\n       7: google::protobuf::RepeatedPtrField<Term>::MergeFrom(google::protobuf::RepeatedPtrField<Term> const&) at repeated_field.h:887\r\n       8: Term::MergeFrom(Term const&) at ql2.pb.cc:3621\r\n       9: Term::Term(Term const&) at ql2.pb.cc:3339\r\n       10: ql::wire_func_t::wire_func_t(ql::env_t*, ql::func_t*) at func.cc:136\r\n       11: ql::reduce_wire_func_t::reduce_wire_func_t<ql::env_t*, ql::func_t*>(ql::env_t*, ql::func_t*) at func.hpp:137\r\n       12: ql::lazy_datum_stream_t::reduce(ql::val_t*, ql::func_t*) at datum_stream.cc:148\r\n       13: ql::reduce_term_t::eval_impl() at seq.hpp:74\r\n       14: ql::term_t::eval(bool) at term.cc:240\r\n       15: ql::run(Query*, scoped_ptr_t<ql::env_t>*, Response*, ql::stream_cache2_t*) at term.cc:160\r\n       16: query2_server_t::handle(Query*, query2_server_t::context_t*) at pb_server.cc:5\r\n```\r\n\r\nThen there is a second error that occurs when RethinkDB (probably the external process handling JS queries) tries to log the first error.\r\n\r\n```\r\nerror: Error in src/rdb_protocol/js.cc at line 77:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Guarantee failed: [-1 != res] \r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nerror: Backtrace:\r\nPrevious message may not have been written to the log file (cannot open or find log file).\r\nTrace/breakpoint trap (core dumped)\r\n```"
+  , issueCommentId = 15623037
+  }

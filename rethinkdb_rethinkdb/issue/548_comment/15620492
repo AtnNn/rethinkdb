@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-28) 22 : 59 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15620492"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15620492"
+  , issueCommentCreatedAt = 2013 (-03) (-28) 22 : 59 : 02 UTC
+  , issueCommentBody =
+      "@mfenniak I got bitten by this a couple of times myself. The `reduce` function gets invoked repeatedly not only for the input values but also for results of previous `reduce` invocations. Basically what this means is that the format of the object that is passed in to reduce must be the same with the one returned from reduce.\r\n\r\nLet's exemplify:\r\n\r\n```js\r\nr.db(\"test\").table(\"table\").map(function(doc) {return 1} ).reduce(function(acc, val) { return acc.add(1); }, 0)\r\n```\r\n\r\nThis will run, but most probably it will **not** give you the result expected (7). The reason for that is that by adding 1, you are actually dismissing the result of a previous `reduce` computation.\r\n\r\nWhat's the correct way then?\r\n\r\n```js\r\nr.db(\"test\").table(\"table\").map(function(doc) {return 1} ).reduce(function(acc, val) { return acc.add(val); }, 0)\r\n```\r\n\r\n "
+  , issueCommentId = 15620492
+  }

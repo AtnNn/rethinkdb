@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-03) 22 : 28 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11863894"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11863894"
+  , issueCommentCreatedAt = 2013 (-01) (-03) 22 : 28 : 49 UTC
+  , issueCommentBody =
+      "Another thing worth talking about is what happens with `get` when it doesn't find a row. Right now it returns `null`. I'd argue it actually makes more sense for it to return `bottom`. This is nice because it's consistent. Also this plays really nicely with `eq_join`. Right now `eq_join` desugars like so:\r\n\r\n    stream.eq_join(attr, table)\r\n    # desugars to\r\n    stream.concat_map(lambda x: let({\"row\" : table.get(x[attr])}, branch(let_var(\"row\") == null, [], [{\"left\" : x, \"right\" : let_var(\"row\")})))\r\n\r\nWhich is messy, if get return `bottom` then it could just desugar to:\r\n\r\n    stream.map(lambda x: {\"left\" : x, \"right\" : table.get(x[attr])})\r\n\r\nThe elements that don't find a matching row get dropped automatically due to bottom semantics and it's all very nice.\r\n\r\nTo do this we would need to have more granular strictness settings. Because if someone sets a connection to be strict they won't expect it to change the meaning of `eq_join`. This is evidence that having more granular control will make some of our backend implementations nicer but if we're going to have that level of granularity I don't see much harm in giving people a way to set the strictness per operation as well as per query. We can at least have it in the protocol buffers and languages like python which handle optional arguments really well can expose it while maybe languages that don't will mask it. Also I suspect that when we have developers writing rethinkdb libraries they'll want to have this level of control so it really just seems like a small cost to throw the flag in there now."
+  , issueCommentId = 11863894
+  }

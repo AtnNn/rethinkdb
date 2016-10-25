@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-08) 00 : 45 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37082800"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-37082800"
+  , issueCommentCreatedAt = 2014 (-03) (-08) 00 : 38 : 14 UTC
+  , issueCommentBody =
+      "The cache algorithm that actually makes it into 1.12 should at least be as good as the following:\r\n\r\n1. In some time interval, track how many bytes were *loaded* or *created* for each cache k.  Let `bytes_loaded[k]` be this value.  (This often equals `bytes_evicted[k]`, but sometimes doesn't -- you want to use `bytes_loaded[k]` because otherwise an overfull cache wouldn't be treated as growing.  Also because it includes freshly created bytes/blocks.)\r\n2. Let `total_loaded = sum(bytes_loaded)`.\r\n3. Let `total_size = sum(cache_size)`.\r\n3. Update `cache_size[k] += bytes_loaded[k] - (total_loaded * (cache_size[k] / total_size))`.  (Approximately -- actually the subtractive terms are rounded appropriately so that they sum up to `total_loaded`, with trickle fractions and such math as seen in the adjustable semaphore.)\r\n\r\nObviously this is equivalent to random eviction at the global level (though caches internally do randomized LRU).  This is not as good as a hypothetical global LRU since tables without cache misses all decline in size proportionately, with exponential decay.  For example, small well-used tables would end up with uncomfortably tight and wiggly cache size limits.\r\n\r\nThe current algorithm described by @tryneus has the problem that instead of growing caches in size proportional to the growth of said cache, it'll just jerk them up by 4% of the total memory.  And instead of decreasing caches because other caches need the growth, they'll get decreased by 4% of their present value for the sole crime of having no evictions."
+  , issueCommentId = 37082800
+  }

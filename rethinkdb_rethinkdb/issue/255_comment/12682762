@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-25) 01 : 01 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12682762"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/255#issuecomment-12682762"
+  , issueCommentCreatedAt = 2013 (-01) (-25) 00 : 58 : 23 UTC
+  , issueCommentBody =
+      "I propose the following:\r\n* We keep a global `set` with all connections that have been opened but not closed. Initially, it's empty.\r\n* `r.connect()` inserts the new connection into the set.\r\n* `conn.close()` removes the connection from the set.\r\n* `conn.__enter__()` is a no-op.\r\n*  `conn.__exit__()` calls `conn.close()`.\r\n* If the user calls `run()` without specifying a connection, then:\r\n    * If there is exactly one connection in the set, we use it.\r\n    * If there are no connections in the set, we throw an exception: \"run() needs a Connection object. No Connection object was specified as a parameter, and we cannot default to an open Connection because there are no open Connections.\"\r\n    * If there are multiple connections in the set, we throw an exception: \"run() needs a Connection object. No\r\nConnection object was specified as a parameter, and we cannot default to an open Connection because there are multiple open Connections to choose from. In production code, you should explicitly specify a Connection rather than expecting to default to the right one; otherwise, there is a risk of multiple modules colliding.\"\r\n\r\nThis way, we still allow the convenient shorthand for the REPL, but we strongly encourage people to explicitly specify a connection in production code, which is what they should be doing anyway.\r\n\r\n@wmrowan: I'm not quite sure what you're suggesting. It sounds like you might be suggesting that we support the following:\r\n```python\r\nc1 = r.connect()\r\nc2 = r.connect()\r\nwith c1:\r\n    first_query_for_c1.run()\r\nwith c2:\r\n    first_query_for_c2.run()\r\nwith c1:\r\n    second_query_for_c1.run()\r\n```\r\nThis is bad because if they write:\r\n```python\r\nwith r.connect(...) as c:\r\n    c.run(...)\r\n```\r\nthen `c` won't be closed, which is not the behavior that Python programmers would expect"
+  , issueCommentId = 12682762
+  }

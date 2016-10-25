@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-06) 23 : 58 : 59 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11112100"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/123#issuecomment-11112100"
+  , issueCommentCreatedAt = 2012 (-12) (-06) 23 : 58 : 59 UTC
+  , issueCommentBody =
+      "Here's what was causing the bug: \r\nIn the destructor of dispatchee_t we check if it's readable. If it is we remove it from the intrusive list. This is important because in the destructor of intrusive_list_node_t (a base class) we'll be asserting that this node isn't in a list. \r\n\r\nThen we continue to the destructor of the autodrainer_t which blocks. It blocks because there's a coro waiting on the queue to upgrade the dispatchee to readable (as well as maybe some other coros). When this coro runs it upgrades the dispatchee which puts it back in the intrusive list. Then we trip an assert. The fix is to call callbacks inline. Thus when we destroy the mailboxes we can be sure that there won't be any additional messages coming in on them and messing things up."
+  , issueCommentId = 11112100
+  }

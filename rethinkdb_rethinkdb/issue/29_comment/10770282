@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-27) 18 : 32 : 17 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10770282"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/29#issuecomment-10770282"
+  , issueCommentCreatedAt = 2012 (-11) (-27) 18 : 32 : 17 UTC
+  , issueCommentBody =
+      "This query fails:\r\n```\r\nr.db('w').table('design').eqJoin('id', r.db('w').table('user'), 'id_user').zip().run()\r\n```\r\n\r\nThe primary key of the table design is \"id\" and the one of the table user is \"id_user\".\r\n\r\nI get this error:\r\n\r\n```\r\nRuntime Error: Attribute: id is not the primary key (id_user) and thus cannot be selected upon.\r\n\tr.db('w').table('design').concatMap(function(arg0_10) {return r.let({'right':r.db('w').table('user').get(r.letVar('arg0_10')('id'), 'id')}, r.branch(r.letVar('right').ne(r.expr(null)), r.expr([r.expr({'left':r.letVar('arg0_10'), 'right':r.letVar('right')})]), r.expr([])))}).map(function(arg0_11) {return r.branch(r.letVar('arg0_11').contains(right), r.letVar('arg0_11')('left').merge(r.letVar('arg0_11')('right')), r.letVar('arg0_11')('left'))})\r\n```\r\n\r\nSo the problem is not just that the default key is \"id\" but that the default key is always \"id\" even if the user define the primary key.\r\n"
+  , issueCommentId = 10770282
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-04) 07 : 38 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14367337"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/182#issuecomment-14367337"
+  , issueCommentCreatedAt = 2013 (-03) (-04) 07 : 38 : 22 UTC
+  , issueCommentBody =
+      "I've seen more than a few requests for this and I think there's something pretty short term that we can do for this. The following query will select a row at random:\r\n\r\n```Python\r\nq = stream.map(lambda x: {\"row\" : x, \"weight\" : 1})\r\nrow = q.reduce({\"row\" : None, \"weight\" : 0},\r\n             lambda x, y : branch(js(\"Math.random()\") * x[\"weight\"] + y[\"weight\"] < x[\"weight\"],\r\n                                  {\"row\" : x[\"row\"], \"weight\" : x[\"weight\"] + y[\"weight\"]},\r\n                                  {\"row\" : y[\"row\"], \"weight\" : x[\"weight\"] + y[\"weight\"]}))[\"row\"].run()\r\n```\r\n\r\nOnce 1.4 is complete it should be quite simple to create a macro for table.random() gets expanded to something like this (we might want to add a native random number generator).\r\n\r\nThis algorithm isn't ideal for all uses, it's `O(n)` and I'm pretty sure (although I'm not 100% convinced) we can do better in the case selecting directly from a table. However we can't do better with a generic stream and we still need to be able to select randomly from those. In particular you should be able to say:\r\n\r\n```Python\r\ntable.filter(...).random()\r\n```\r\n\r\nSo I'd argue we're going to need this eventually. It's very easy to do. And it will give us a feature many people have asked about and will be useful to them. So I think we should do this as soon as 1.4 ships.\r\n\r\nAlso it's very easy to extend this to give a random sample of `n` elements which we should definitely do. It's going to be a lot of reql code though so I didn't add it here."
+  , issueCommentId = 14367337
+  }

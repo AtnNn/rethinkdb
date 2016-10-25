@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-11) 23 : 33 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10273964"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/38#issuecomment-10273964"
+  , issueCommentCreatedAt = 2012 (-11) (-11) 23 : 27 : 23 UTC
+  , issueCommentBody =
+      "For reference, the backtrace reduces to:\r\n```\r\n0x515d92 - std::string format_backtrace(bool), src/backtrace.cc:198\r\n0x512f54 - void report_fatal_error(const char*, int, const char*, ...), src/errors.cc:65\r\n0x44b85f - void pool_t::worker_t::on_error(), src/extproc/pool.cc:216\r\n0x5f3d49 - void linux_event_watcher_t::on_event(int), src/arch/io/event_watcher.cc:66\r\n0x608e26 - void epoll_event_queue_t::run(), src/arch/runtime/event_queue/epoll.cc:114\r\n0x60975e - void* linux_thread_pool_t::start_thread(void*), src/arch/runtime/thread_pool.cc:141\r\n```\r\nwhich is one of the most sensical backtraces I've seen yet, it seems like our symbol files are good for something after all.  This appears to be the same as issue #35, though, closing that one since it has less information.\r\n\r\nThanks for including the version you're using, by the way, it makes this much easier.\r\n\r\nAs for the error itself, I'm not sure what could cause an error on the worker socket, but I'll see what I can find.  It seems that we should be robust enough to handle this with (at the worst) only failing a query."
+  , issueCommentId = 10273964
+  }

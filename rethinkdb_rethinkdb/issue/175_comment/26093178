@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 21 : 25 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26093178"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/175#issuecomment-26093178"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 21 : 25 : 13 UTC
+  , issueCommentBody =
+      "As for grouping tasks with low constant factor things in to groups I think that might be being a bit smarter with the backend than we want to be. We're definitely going to need to do some grouping for things like `map`. Mapping over a 1,000,000 elements could be thought of as 1,000,000 sequential steps. But that would be impractical to represent so instead we're going to need to have an aggregation node which basically says: \"This operation total took `n` ms. It was performed `1,000,000` times. And something about the variance, a confidence interval seems like it might be what we want. How to represent the subtasks of such an operation might be a bit tricky but I think we'll figure something out.\r\n\r\nI'm a bit dubious for doing it based on the content of the subtasks though since it's unclear exactly where we'd draw the line. For example we definitely want the full profile for the arguments to `add` if the query is something like:\r\n\r\n```Python\r\nr.table(\"foo\").map(...).reduce(...) + r.table(\"bar\").map(...).reduce(...)\r\n```\r\n\r\nand similarly if the arguments to `expr` are big enough it could become the bottleneck. It seems like it would take some time to come up with good heuristic rules for what to omit. The approach I normally see profiling tools taking is that you return output that gives the full unabridged story and then build tools that help you sift through the data, such as our visualizer. Heuristic 100 times easier to make useful when you give them to users as tools and let them guide the process. Granted we're not going to have that for a little while but looking at the types of queries that I see most users running they normally don't have a lot of terms in them like `r.expr(1)` that would cause enough noise to make the output unusable."
+  , issueCommentId = 26093178
+  }

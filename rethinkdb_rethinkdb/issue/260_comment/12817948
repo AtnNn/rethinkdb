@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-29) 02 : 47 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12817948"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/260#issuecomment-12817948"
+  , issueCommentCreatedAt = 2013 (-01) (-29) 02 : 46 : 30 UTC
+  , issueCommentBody =
+      "I also had another concern this week end that I forgot to write about.\r\n\r\nLet's suppose that I can do multiple writes in a forEach.\r\nIs the query below safe?\r\n```\r\nr.db('\"data\").table(\"new\").filter(...).forEach( function(doc) {\r\n    r.table(\"old\").insert(doc);\r\n    r.table(\"new\").get( doc(\"id\") ).del()\r\n}).run()\r\n```\r\n\r\nThe first write can fail but not the second, so should we provide a kind of callback (like the query below)?\r\nAlso is doc a copy of the entry in the table or just a pointer? (Basically, is it safe to delete doc before it was inserted in the table \"old\"? If I'm not mistaken it can happen since the immediate consistency is per table right?\r\n\r\n\r\n```\r\nr.db('\"data\").table(\"new\").filter(...).forEach( function(doc) {\r\n    r.table(\"old\").insert(doc).done(\r\n        r.table(\"new\").get( doc(\"id\") ).del()\r\n    )\r\n}).run()\r\n```"
+  , issueCommentId = 12817948
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-27) 23 : 35 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11721312"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/194#issuecomment-11721312"
+  , issueCommentCreatedAt = 2012 (-12) (-27) 23 : 35 : 16 UTC
+  , issueCommentBody =
+      "So actually in this case we get to reap the benefits of having done things right in the past. On the backside there are only 2 commands `point-delete` and `point-mutate` and actually there's no reason to have the prior so on the backend a solution is always going to be general purpose.\r\n\r\nI'm not crazy about the `output` syntax because it seems a bit under powered. One problem is that if I wanted to use the results of 2 updates it would be a serious pain. What if `update` just evaluated to an object `{new:..., old:...}` then with the do syntax you could say:\r\n\r\n    do(lambda x,y: ..., table.get(1).update(...), table.get(2).update(...))\r\n\r\nwhereas with `output` you need to jump through some hoops and say:\r\n\r\n    table.get(1).update(...).output(lambda new1 old1: table.get(2).update(...).output(lambda new2 old2: ...))\r\n\r\nThis is also nice because with a bulk update you don't need to handle one row at a time. You could for example do a bulk update, then run a map reduce job on the results of the update and do something based on that.\r\n\r\nI'm also not quite sure where the summary comes in to play. Maybe it should just be a separate field on the protocol buffers I don't think anyone ever wants to get that structure in to their REQL queries and insert it in to tables etc."
+  , issueCommentId = 11721312
+  }

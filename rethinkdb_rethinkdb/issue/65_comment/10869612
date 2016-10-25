@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-29) 22 : 32 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10869612"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/65#issuecomment-10869612"
+  , issueCommentCreatedAt = 2012 (-11) (-29) 22 : 32 : 56 UTC
+  , issueCommentBody =
+      "@jdoliner: I agree with your diagnosis. But I can't tell which of two solutions you're proposing.\r\n\r\nI think the correct solution is to make `access()` check `failed_signal` first and then throw `resource_lost_exc_t` if `failed_signal` is pulsed; if `failed_signal` is not pulsed, only then should it call `metadata_view->get()`. So if the resource goes away and then comes back, `access()` will still throw an exception and `failed_signal` will still be pulsed. That seems to be what you're describing.\r\n\r\nBut you also said, \"Basically once the signal is pulsed it's invalidated and a new one will need to be constructed,\" which makes it sound like you want to \"un-pulse\" `failed_signal` by constructing a new one for the same `resource_access_t`, and I don't think that's the right solution.\r\n\r\nIt occurs to me that there might be another race condition in this chunk of code. Suppose that we have two callbacks watching the same metadata view, and `resource_access_t::on_change()` is the second callback. Suppose that the resource dies, and in response to this event, the first callback calls `access()`. Because `resource_access_t::on_change()` hasn't been called yet, `failed_signal` is not pulsed, so the assertion will fail. A possible solution is that if `failed_signal` is not pulsed, we should pulse it instead of crashing. That might not work perfectly because it means that we will sometimes trigger the `signal_t`'s callbacks in response to a call to `access()`, and the code using `resource_access_t` might not have been designed to that, but it's much better than the current behavior.\r\n\r\n(It's too bad you were out of town when I was in town for Thanksgiving. I hope you'll be around when I visit RethinkDB during winter break.)"
+  , issueCommentId = 10869612
+  }

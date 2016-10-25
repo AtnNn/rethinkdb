@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 18 : 20 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26077942"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/175#issuecomment-26077942"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 18 : 20 : 16 UTC
+  , issueCommentBody =
+      "I'm getting close enough to a working implementation of this that I think we should discuss the API a bit. There are 2 components that make up this issue:\r\n\r\n- The backend which returns a profiling report (represented as a datum)\r\n- The frontend which renders it in the webUI\r\n\r\nI'd like to get the backend part merged in without the frontend part for 2 reasons. First I'd like to get this to the people doing profiling as soon as possible because I think it will make their jobs easier and to avoid having a nasty merge conflict the easiest thing to do is merge it in to next. Second this will help a lot in providing support. One of the most common questions I get from users is \"why is this query slow.\" When the query in question involves multiple tables I frequently need to ask, how many documents are in each table, how big documents in each table are, and what the schema of those documents are before I can even make a guess as to what the problem is. It gets to be a pretty painful experience for everyone involved. If I could just tell the user to run with `explain` and give me the output I can much more quickly give them an answer. Also while the output isn't going to be as friendly as webUI rendering will be I'm sure users will still be able to gain some insight from the queries.\r\n\r\nHere's what I'd propose for the API:\r\nFirst off I don't think I like the name `explain` in SQL explain means \"explain to me the plan for this query but don't actually run it\" this is something that doesn't make a ton of sense in RethinkDB because we don't really have an optimizer so query basically is the plan. What we can do is actually run the query and time various things as it's running. However I think this process is much better described by the verb `profile`. Here's my first proposal for the API:\r\n\r\n```Python\r\n>>> query.run(profile=True)\r\n{\r\n    \"value\" : query.run(),\r\n    \"profile\" : [\r\n        { #single step\r\n            \"description\": \"Read table\"\r\n            \"duration(ms)\": 5\r\n            \"sub_tasks\" : [ ... ]\r\n         },\r\n         [ #Tasks happening in parallel\r\n             [\r\n                 {\r\n                     \"description\": \"Read from shard 1\"\r\n                     \"duration(ms)\": 5\r\n                     \"sub_tasks\" : [ ... ]\r\n                  },\r\n                  ...\r\n             ]\r\n             [\r\n                  {\r\n                       \"description\": \"Read from shard 2\",\r\n                       \"duration(ms)\": 5,\r\n                       \"sub_tasks\" : [ ... ]\r\n                   },\r\n                   ...\r\n             ]\r\n        ],\r\n        ...\r\n    ]\r\n}\r\n```\r\n"
+  , issueCommentId = 26077942
+  }

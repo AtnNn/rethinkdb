@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-19) 00 : 56 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46512802"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46512802"
+  , issueCommentCreatedAt = 2014 (-06) (-19) 00 : 56 : 19 UTC
+  , issueCommentBody =
+      "It seems (based on a conversation with Slava) that both options are going to involve having at least a base64-encoded pseudotype (whose name is most likely \"binary\").\r\n\r\nThere is then the question of streaming large files onto and off of the server (and also when moving it between tables).\r\n\r\nWith option 1, we could introduce a general facility for streaming data into and out of binary datums -- if you send a query that includes a large binary datum, you could construct a write-bytestream, include it in the query, then write your data to to the stream.  Likewise, when reading from a document, you could get a read-bytestream [1] in place of the binary value, then read the data out of it.  The thing is, things might get tricky if you can make a query that returns a binary datum the user also uploads in that query.  Things might get tricky if you want to move a large video from one table to another.  We don't want to fill up memory with one file, we want to stream it.  That might be doable though.\r\n\r\n[1] Could such read-bytestreams include a facility for arbitrary forward and backward seeking?\r\n\r\nWith general bytestreaming, there's also the question of what the state of a document is, while a binary value is being bytestreamed into it.  Is an insert not visible until the value's uploaded?  Is a retrieval not visible?  What about after an `update` -- is the previous document still visible until the new one has all its data uploaded?  Is the new one visible, and if you try to read it, you get a read-bytestream for the binary value, one which blocks on the uploader?  Or does reading the binary stream alone just fail, if it's not uploaded yet?\r\n\r\nWith option 2, we just have the ability to create a table (or tables) mapping UUIDs to octet sequences.  And a specific API for accessing them.  Other documents just have UUIDs, and the client can use read-bytestreams and write-bytestreams with these simple concerns.  We'd still have a dumb binary ReQL type though.\r\n\r\n With option 2, I think the API for reading them might simply return a classic ReQL stream of datums, the datums being binary object values.  There also needs to be some kind of upload API.  Maybe the API is:\r\n\r\n```\r\n    wb = r.filetable('foo').new_file()\r\n    wb.write(bytes)\r\n    wb.write(more_bytes)\r\n    id = wb.close()\r\n```\r\n\r\nMaybe it is instead:\r\n\r\n```\r\n    id = r.filetable('foo').file_new()\r\n    r.filetable('foo').file_append(id, bytes)\r\n    r.filetable('foo').file_append(id, more_bytes)\r\n```\r\n\r\nIt's the user's job to somehow ensure that partial uploads don't succeed.\r\n\r\nOr maybe it is some other thing -- it's something to be worked out. (And also, `file_overwrite`, `file_delete`, or such, would exist.)\r\n\r\nWe could always switch to option 1 later in the future of RethinkDB, transforming this file table into a regular table with rows having an id and value field.  We should not allow `r.table('some_filetables_name')` to mean anything because that would hurt the chance of cleanly migrating.  But please pick a better name than \"filetable\".\r\n\r\nSo, if option 2 is actually easier to implement than option 1 in the short run, it won't walk us into a technical corner.  Option 2 is easier to specify, anyway.\r\n"
+  , issueCommentId = 46512802
+  }

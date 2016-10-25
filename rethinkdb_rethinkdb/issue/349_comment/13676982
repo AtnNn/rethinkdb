@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-16) 23 : 16 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13676982"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13676982"
+  , issueCommentCreatedAt = 2013 (-02) (-16) 23 : 16 : 16 UTC
+  , issueCommentBody =
+      "> Let's be clear what's being proposed: where would writes be allowed and disallowed?  I would be in favor of any of these, for example:\r\n> * Allowing writes everywhere with a clear error message if people try to execute a write on a shard.\r\n> * Allowing writes anywhere except in a function passed to a non-foreach stream operation.\r\n> * Allowing writes anywhere except in a function passed to a non-foreach stream operation on a stream which was lazy at some point in the chain.\r\n\r\nWe can't do that because it would be extremely confusing to our users. For example, the distinction of \"executing a write on a shard\" vs \"not on a shard\" is a completely esoteric concept to the system's users. We can give them a clear error message, but it would still confuse and irritate the heck out of people because they'd get it in what appear to be seemingly random and completely unpredictable circumstances. (As an aside, I've observed this with the system when we require a `non_atomic_ok` flag in updates, and that's a *much* simpler set of rules).\r\n\r\nThis is an example of a feature where a heavily restricted but clear implementation is way better than a more flexible but a confusing one. If we only allow writes in `forEach`, we would cover 99% of cases where people want to use this sort of thing (for now, anyway), solve all the laziness and sideeffect problems with very little work, and sidestep all the confusion issues. If we later see that there is a demand for a more flexible system, we can go back and implement proper side-effect checking to make this much more friendly and predictable."
+  , issueCommentId = 13676982
+  }

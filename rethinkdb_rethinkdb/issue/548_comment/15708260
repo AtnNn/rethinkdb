@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-01) 08 : 46 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15708260"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15708260"
+  , issueCommentCreatedAt = 2013 (-04) (-01) 08 : 42 : 34 UTC
+  , issueCommentBody =
+      "I think this confuses everyone because we've deliberately opted for a technically superior solution due to our own hubris, while it isn't what people want most of the time. Here are the three possible operations from the user's point of view:\r\n\r\n1. Traditional (sequential, a very non-parallel) `fold`.\r\n2. Distributed computation (via the popularized `grouped_map_reduce` notion).\r\n3. Parallel `reduce` -- a distributed version of `fold` (which most people don't know about).\r\n\r\nMost systems provide 1 and 2 and people use `fold` for quick and dirty calculations, and bring out the big map/reduce guns for more sophisticated things. On the other hand, we decided to provide 2 and 3, which appears to confuse everyone since they aren't used to this at all. Here's what I think we should do in the long term:\r\n\r\n1. Provide a (very non-parallel), dumb version of `fold` (which is what everyone expects anyway)\r\n2. Drop the base in `reduce` and make documentation a *lot* more clear. I don't think dropping the base alone is sufficient to clarify things, but it's a *really* good start. Also, I think it's ok to diverge here from the other languages, because everyone else implements a different operation that they call reduce -- `fold`.\r\n\r\nI think in the short term, we should do the second part here (drop the base, improve the docs), and add `fold` when we have time later (though I'd keep it dumb even then). We'll then cross-link the documentation and inform people to use fold for quick and dirty computations, and use `reduce` for parallelism if they want it. That would probably be the best we can do, and it seems like a pretty good solution to this conundrum."
+  , issueCommentId = 15708260
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-17) 01 : 47 : 32 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11428168"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/159#issuecomment-11428168"
+  , issueCommentCreatedAt = 2012 (-12) (-17) 01 : 47 : 32 UTC
+  , issueCommentBody =
+      "To me a formal way of thinking about these is basically looks like an\r\nalgebra. We can then think of things in terms of valid algebraic\r\ntransformations. The optimization a we want to make actually all map to\r\nfairly basic algebraic properties. The important question seems to be which\r\noperators distribute and commute with one another and when. For example\r\njoin distributes over union (which is really important because we're in\r\nessence unioning when we unshard) meaning:\r\n\r\n    union(s1, s2).join(...) == union(s1.join(...), s2.join(...))\r\n\r\nThis is what allows us to do distributed joins. Another important question\r\nis commutativity for example join doesn't commute with limit. Limit\r\nfollowed by join happens centrally while join followed by limit doesn't and\r\nthere's not a lot we can do to optimize that.\r\n\r\nIn my mind what an awesome optimizer looks like is one that knows these\r\nrules and can make transformations of asts based on them. Coupled with some\r\nalgorithms to allow it to compute the relative performance of the asts.\r\nWhich might wind up needing to be heuristic  in some cases.\r\n\r\nOn Sunday, December 16, 2012, coffeemug wrote:\r\n\r\n> except that all of the mapping would happen on the coordinating node\r\n>\r\n> Hmm, I don't see why this has to be the case. If the user does\r\n> order_by.map, and the order_by clause is executed via using an index, it\r\n> should be pretty trivial to push map down (I guess that's what you said\r\n> above, but I'm not sure why we aren't doing it already).\r\n>\r\n> I think that in general we're dealing with these issues in a somewhat\r\n> ad-hoc way (mainly because we could get away with it), but I'm wondering if\r\n> we could develop a more formal way of thinking about it. Something like a\r\n> table of what combinations of operations could be pushed down, which ones\r\n> couldn't, and an operator that can combine stacks of operations. Then we\r\n> could generate higher-order transformations based on this table. (These are\r\n> still very vague ideas, but I think we'll need to think about this more\r\n> deeply post 1.4 release).\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/159#issuecomment-11426457>.\r\n>\r\n>"
+  , issueCommentId = 11428168
+  }

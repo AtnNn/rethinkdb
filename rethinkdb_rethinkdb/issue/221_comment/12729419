@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-26) 02 : 15 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 418097
+        , simpleUserLogin = N "othiym23"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/418097?v=3"
+        , simpleUserUrl = "https://api.github.com/users/othiym23"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12729419"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12729419"
+  , issueCommentCreatedAt = 2013 (-01) (-26) 02 : 15 : 21 UTC
+  , issueCommentBody =
+      "I agree that the implicit contexts are more magical than is customary in node. The standard pattern is to pass in whatever context is to be acted upon to the callbacks. The modules that don't follow this pattern (most specifically the node 0.8 domains API, which I end up recommending anyway below ;) require a lot of explanation. An easy way to describe the effect is that the first thing my eye searches for in the snippets above is where a) query is passed in to be used or b) whether there's some other kind of explicit state being passed into the query that passed in by the connection method.\r\n\r\nThis runs the risk of branching out into a larger discussion of control flow patterns in Node, which isn't my intent, but in general a piece of \"separation of concerns\" is to to ensure that all context and state dependencies are made explicit, to make the coupling points between components as obvious and easy to follow as possible. This only gets more important after you've been writing asynchronous JavaScript for a while. I've developed a real antipathy for magical behavior in the last couple years.\r\n\r\nTo make this concrete:\r\n\r\n1. ditch `r.with()` (which seems to have already happened, so awesome)\r\n2. expect `query.run `to explicitly take a connection object as a parameter\r\n\r\nFor iteration, I'd prefer something like the following (using the preceding as a guide):\r\n\r\n```javascript\r\nr.connect({host:'localhost', port:28015}, function(err, conn) {\r\n   if (err) throw err;\r\n\r\n   conn.table('tbl').run(function(err, tbl) {\r\n      if (err) throw err;\r\n\r\n      tbl.on('error', function (error) { /* handle error */ });\r\n      tbl.on('data', processRow); // processRow is called with a row\r\n      tbl.on('end', finishedRowProcessing);\r\n    });\r\n});\r\n```\r\n\r\nYou can do this today and it should be relatively straightforward to adapt for `streams2` when it's ready.\r\n\r\nIt would also be possible to DRY up some of the error handling with some judicious use of Node's [domain module](http://nodejs.org/api/domain.html), if you're willing to depend on Node 0.8.x and later."
+  , issueCommentId = 12729419
+  }

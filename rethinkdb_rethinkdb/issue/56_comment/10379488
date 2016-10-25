@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-14) 19 : 15 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10379488"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/56#issuecomment-10379488"
+  , issueCommentCreatedAt = 2012 (-11) (-14) 19 : 15 : 37 UTC
+  , issueCommentBody =
+      "Fixed in 03630d1c3b1070597b57e7d6d29344014c05ef27\r\n\r\nSo what happened under the hood that explains the bug is because of a timeout that we forgot to clear.\r\n- Set replica to 2\r\n- Set replica to 1 before backfilling was complete\r\n- Replicas are all up to date\r\n=> We create a timeout that's going to clear the progress bar in two seconds\r\n- Set replica to 2\r\n=> Restart the progress bar\r\n- The timeout we set remove the progress bar and we are not in a backfilling state anymore\r\n\r\nAnyway, I just added some clearTimeout, and now it's working as expected.\r\n\r\n\r\nClosing."
+  , issueCommentId = 10379488
+  }

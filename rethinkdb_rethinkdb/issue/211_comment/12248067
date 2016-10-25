@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 01 : 08 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12248067"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/211#issuecomment-12248067"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 00 : 42 : 06 UTC
+  , issueCommentBody =
+      "So `bottom` is more of an implementation detail than anything else. With a bottom type one could easily implement `catch` as\r\n\r\n    lambda x,y: branch(typeof(x) == bottom, y, x)\r\n\r\nwhich we could have sugar for. So you'd actually get to say:\r\n\r\n    catch(x, y)\r\n\r\nwhich would return `x` unless it errored in which case it would return `y`.\r\n\r\nI don't think there's any reason users will ever have to see the word `bottom`. They'll see \"Evaluation returned an error ...\" and they'll get to say `catch` when they want to handle errors themselves.\r\n\r\n> To be honest I really don't understand why we need bottom as distinct from an error.\r\n\r\n`bottom` is the type of `error`. Sorry this wasn't clear from #183.\r\n\r\nI'm a bit dubious about having a `throw` function. The problem with throwing is that people have the expectation that they can use it to abort an imperative process which due to the parallelism of the system is an expectation we can't meet. For example if we had `throw` I feel like someone might write the code:\r\n\r\n    table.order_by(\"foo\").update(lambda x: branch(x[\"foo\"] == 20, throw(\"end\"), {\"foo\" : x[\"foo\"] + 1}))\r\n\r\nSeems like a potential way to update the keys in which `foo` is less than 20 but it won't work. (This query has some other problems with it but hopefully it illustrates my point."
+  , issueCommentId = 12248067
+  }

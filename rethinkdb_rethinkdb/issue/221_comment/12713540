@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-25) 18 : 17 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12713540"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12713540"
+  , issueCommentCreatedAt = 2013 (-01) (-25) 18 : 17 : 24 UTC
+  , issueCommentBody =
+      "1. `tbl.iter` *is* `tbl.each` without the exception throwing bit. I just give it a different name to make it clear that it was different. Rather than throw an exception, there is a method `pause` on the stream that pauses until the next call to `iter`.\r\n\r\n2. @raynos's point about synchronous `hasNext` is that without an asynchronous call back to the server we may not actually know if there is any more data in the stream. For this to work `hasNext` has to be able to determine if this is the last row based only on the information currently available in the Driver. I talked about this with @mlucy a few days ago and agreed on how to maintain this crucial property. For streams, the server sends back a message saying either \"here is a chunk of data, expect more\" or \"here is the last chunk of data\". As long as the server guarantees that it will always send the end of stream message with at least one row `hasNext` will be able to determine if there are no more rows after the current row. Implementing this on the server is simple, always hold back at least one row when sending the partial stream message.\r\n\r\n3. Even if we don't do the context trick we can use `r.width` to emulate Python's `with` behavior, closing the connection automatically at the end of the block or after catching an exception."
+  , issueCommentId = 12713540
+  }

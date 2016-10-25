@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-02) 08 : 19 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17325703"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/186#issuecomment-17325703"
+  , issueCommentCreatedAt = 2013 (-05) (-02) 08 : 17 : 43 UTC
+  , issueCommentBody =
+      "__Here's @jdoliner's proposal__ (which doesn't deal with arrays and might have a nicer user-facing API but is a good base for this):\r\n\r\nI think that the basic primitive operation we want here is a generic Merge which would have the following semantics\r\nMerge takes 2 Objects and a merging function so its type signature looks like:\r\n\r\n```\r\nMerge :: Object -> Object -> (JSON -> JSON -> JSON) -> Object\r\n\r\nMerge(A, B, f) = M where:\r\nfor a key k\r\n\r\nM[k] == Nothing (if k is not in A and k is not in B)\r\nM[k] == A[k] (if k is in A but not in B)\r\nM[k] == B[k] (\" \"  \"   \"  B  \"    \"    \" A)\r\nM[k] == f(A[k], B[k]) (if k is in both A and B)\r\n```\r\n\r\nWith this we could then implement a specific type of Merge which called itself on sub objects (call it RMerge) so in your example of updating `a.c` to `d` you could say.\r\n\r\n```\r\n#here update is taking a merging scheme as well the document to merge in\r\n.update({a : { c : d }}, RMerge)\r\n```\r\n\r\nNotice that our current merge can also be implemented in terms of this with the function (f a b -> b). And we'd probably want to add some sugar so you didn't need to specify the common cases in update.\r\n\r\nAlso as a note all of this is easily implemented in terms of map over objects which we've talked about before as well."
+  , issueCommentId = 17325703
+  }

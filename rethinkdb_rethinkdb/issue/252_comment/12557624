@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-22) 18 : 08 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12557624"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/252#issuecomment-12557624"
+  , issueCommentCreatedAt = 2013 (-01) (-22) 18 : 08 : 49 UTC
+  , issueCommentBody =
+      "`r.json` was originally used internal to the driver as the default serialization format for primitives, that is until we realized that it was superfluous if we supported all the relevant datatypes natively. Now that we're  moving away from explicit JSON support (in support of future type extensions) it makes even less sense to support JSON parsing on the server.\r\n\r\nWhile server side json parsing may be a possible solution to @presidentbeef's problem I agree with @coffeemug that this is more a problem with the Ruby json parser than the RDB server and that better solutions would avoid adding unnecessary functionality to the server. One way to address the problem would be to provide within the drivers direct serialization of primitive values from JSON strings. Currently, to send a JSON string to the server the data must pass from a Ruby string, to a Ruby object tree, to a RDB object tree, to a protobuf object tree, to a binary string, and then out the wire (or at least that's how the JS and Python drivers work). We could get rid of the Ruby object stage by supporting JSON parsing in the driver that went directly to RDB objects. Eventually, we can further simplify this path by say, serializing directly to the wire from the RDB object tree. Such further optimizations are not directly related to this and are already on my radar as they would affect the construction of all queries."
+  , issueCommentId = 12557624
+  }

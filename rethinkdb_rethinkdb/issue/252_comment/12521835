@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-21) 22 : 48 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 75613
+        , simpleUserLogin = N "presidentbeef"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/75613?v=3"
+        , simpleUserUrl = "https://api.github.com/users/presidentbeef"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12521835"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/252#issuecomment-12521835"
+  , issueCommentCreatedAt = 2013 (-01) (-21) 22 : 48 : 21 UTC
+  , issueCommentBody =
+      "Wasn't sure about what happens in terms of sending it to the server, so thanks for clarifying.\r\n\r\nThe reason I went looking for this function is because I had an application using a ton of memory (like > 1G) due to Ruby's `JSON.parse` when all I really wanted to was to pass uploaded documents to rdb. I looked into using [OJ](https://github.com/ohler55/oj) for JSON parsing, which is supposed to be faster. Then I noticed it provides the option of not fully parsing the JSON document (you can pull out individual items). That let me pull out the few values I need for the app without paying the cost of instantiating objects for every key/value in the JSON document. But I still need to pass it to rdb...so that's where `r.json` came in.\r\n\r\nI went from parsing the entire document into Ruby types with the built-in JSON library, to using OJ and passing the string of JSON to rdb. Now my app is using 33 MB (res mem) instead of running out of memory on my VPS. Clearly letting rdb parse the JSON is much more efficient for me. Network overhead doesn't matter in this case, because the app and rdb servers are on the same host.\r\n\r\nI can see why the server shouldn't need to include a JSON parser - but if it is there anyway then I think `r.json` has a use case."
+  , issueCommentId = 12521835
+  }

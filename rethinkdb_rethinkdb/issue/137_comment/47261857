@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-26) 18 : 31 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47261857"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47261857"
+  , issueCommentCreatedAt = 2014 (-06) (-26) 18 : 31 : 03 UTC
+  , issueCommentBody =
+      "@coffeemug, I disagree with your first two points:\r\n1. I do agree that for both work and customer story reasons that the way we store files should be based on the same clustering code as the rest of the data. But I disagree that people will see it as a proof-of-quality or an advantage that a file storage system that we would offer is obviously built as a layer on top of existing bits. They care that it works and integrates well. And in our conversation we both expressed the notion that GridFS feels like more of a hack. Why do we need to copy them on that?\r\n2. I think you are letting your pre-conceptions limit your thinking here. To get what you want with what I am proposing you just have to do `r.table('files').insert({'name':'/images/alpha.jpeg', 'file':open('alpha.jpeg')})`. There really is not much superficial construction there at all, while allowing people to have whatever metadata they want directly associated. Right now there is no-one in the NoSQL space that allows you to really link files and other data. Why would we artificially limit ourselves when there is a real win here? I don't think that users are going to thank us.\r\n\r\nI also don't think that people care that files are stored in chunks. They only want to make sure that they can get access to those files reliably. Unless there are real technical wins, distributing a single file into multiple shards only makes access to that file more subject to shard availability without really getting any wins. MongoDB only does this because of underlying technical problems (limits on the size of a single document).\r\n\r\nAnd I don't follow how people would be sold by having a disassociated files system, who would not be even more sold with one with arbitrary metadata. A few easy-to-sell use cases come to mind immediately:\r\n1. Adding avatars to user records rather than requiring a second table.\r\n2. Media clips with file type, length, and key words attached. Indexable on any of those.\r\n3. Ability to have more than one file attached to the same record, like multiple artifacts in a test reporting system.\r\n"
+  , issueCommentId = 47261857
+  }

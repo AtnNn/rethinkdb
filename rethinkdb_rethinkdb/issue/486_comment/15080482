@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-20) 09 : 02 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15080482"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/486#issuecomment-15080482"
+  , issueCommentCreatedAt = 2013 (-03) (-18) 20 : 43 : 21 UTC
+  , issueCommentBody =
+      "Turning off the checks won't fix it.\r\n\r\nHere's the problem: Machine 1 thinks its address is `peer_address{ips=[127.0.0.1, 127.0.1.1, 192.168.1.33], port=29015}`. Machine 2 contacts it by connecting to `peer_address{ips=[xxx.xxx.xxx.xxx], port=29015}`. Suppose that we disable the check. Then Machine 2 will think that Machine 1's address is `peer_address{ips=[127.0.0.1, 127.0.1.1, 192.168.1.33], port=29015}`, because that's what Machine 1 told Machine 2 its address was. Now suppose Machine 3 contacts Machine 2 and says, \"How do I contact Machine 1\"? Unless Machine 3 is behind the same firewall as Machine 1, the address `peer_address{ips=[127.0.0.1, 127.0.1.1, 192.168.1.33], port=29015}` won't work.\r\n\r\nHere's a solution: Add another command-line parameter. For the sake of discussion let's call it `--canonical-address`. Its argument is a host and port. If a machine anywhere in the cluster tries to make a connection to the canonical address, it must reach this machine's clustering port. So, for a machine behind a firewall, `--canonical-address` would be the external address and port. Whenever two machines make a connection, they will swap canonical addresses; whenever Machine 2 needs to tell Machine 3 how to contact Machine 1, Machine 2 will give Machine 1's canonical address to Machine 3. The assertion that was tripped that caused this issue would be removed.\r\n\r\nThat's the gist of it, but there are some subtleties to work out:\r\n* What should `--canonical-address` default to? Perhaps it should default to whatever address(es) were bound to. But then it needs to permit multiple values. That's okay; if `--canonical-address` is not specified, it defaults to our current behavior.\r\n* Here's a neat trick: If the user passes a hostname rather than an IP address to `--canonical-address`, we don't resolve the hostname until it's time to make the connection. That way, they can have the same machine be contacted by different addresses from different locations. For example, if Machine A and Machine B are behind different firewalls but Machine A and Machine C are connected by a crossover cable, then Machine A's canonical address can just be `machine-a`, and Machine C's hosts file can say that `machine-a` is whatever its IP is on the ethernet interface attached to the crossover cable, but Machine B's DNS lookup can say that `machine-a` is whatever external IP address the firewall will forward to Machine A.\r\n\r\nI'm not 100% sure about this; someone who knows more about DNS and IP should take a look. I wonder how existing clustering products do it?"
+  , issueCommentId = 15080482
+  }

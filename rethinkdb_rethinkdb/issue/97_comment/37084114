@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-08) 01 : 11 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37084114"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-37084114"
+  , issueCommentCreatedAt = 2014 (-03) (-08) 01 : 08 : 28 UTC
+  , issueCommentBody =
+      "Also, it pays to understand what the behavior is if you only allocate as much cache space to a table, as however many blocks it created or loaded in the past timestep.  What happens then?\r\n\r\nWhat happens is as follows.\r\n\r\nLet's say a relatively small table is using *b* bytes of memory, all that's allocated to it, and the user suddenly starts inserting or reading a bunch of documents -- suddenly, new blocks are getting created or loaded.\r\n\r\nIn the first timestep, c_1 bytes are created or loaded, and c_1 bytes are evicted, since the table is at its full current capacity.\r\n\r\nThen, assuming very quick communication with cache rebalancer, the table is given c_1 additional bytes to use.\r\n\r\nIn the second timestep, suppose the table continues loading or creating bytes at the same rate.  Then it creates c_1 bytes.  It doesn't have to evict anything.\r\n\r\nThen, assuming very quick communication with the cache rebalancer, the table is given c_1 additional bytes to use, since that's how many it created or loaded in the past timestep.\r\n\r\nAnd so on.\r\n\r\n----\r\n\r\nNow suppose there's a bit of give and take.  The table creates and loads blocks at a varying rate.\r\n\r\nSuppose the second timestep, it creates and loads c_2 bytes, where c_2 < c_1.\r\n\r\nThen, the instantly communicating cache rebalancer gives it c_2 additional space.  Now its total spare space is *still* equal to c_1, since it had c_1 - c_2 bytes free when it reported to the cache rebalancer, and now it has c_2 extra space, resulting in c_1 extra space.\r\n\r\nSuppose in the third timestep, it creates and loads c_3 bytes, where c_3 > c_1.  Some eviction happens, and the cache is full.\r\n\r\nThen, the instantly communicating cache rebalancer gives it c_3 extra space.  Now the table has c_3 extra space to spare -- so if it continues growing at the rate of c_3 units per timestep, it won't have to evict.  And if for some timesteps it grows at less than that rate, it'll still have c_3 margin of growth maintained.\r\n\r\n----\r\n\r\n**Except** that ignores the globally evicting depreciation term that steals some space back, which would be significant if the table's cache is already big.  But if it were, that wouldn't be such a problem, since the already-gargantuan cache is kicking out some of its least-recently used entries.\r\n\r\n----\r\n\r\nThe real worry is when you have a small well-used table.  It gets its size shrunk, kicks out some entries, then gets its size grown a bit once it tries to load them back, but generally perpetually has a few items outside the cache.\r\n\r\nThis problem would be mitigated if we had global LRU information (which is kind of hard and requires communicating some kind of last-access-time percentile distribution information to the cache rebalancer) and would be mitigated somewhat if we had thread-local LRU information (so a well-used table on one thread can just kick out entries on the other table on the same thread) -- which would be easier."
+  , issueCommentId = 37084114
+  }

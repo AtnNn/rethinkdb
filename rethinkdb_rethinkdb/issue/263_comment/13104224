@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-04) 22 : 43 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 161577
+        , simpleUserLogin = N "hcarvalhoalves"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/161577?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hcarvalhoalves"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13104224"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/263#issuecomment-13104224"
+  , issueCommentCreatedAt = 2013 (-02) (-04) 22 : 43 : 40 UTC
+  , issueCommentBody =
+      "My humble opinion, based on dealing with broken i18n implementations:\r\n\r\n- Dates are tricky. A native data type/API is an endless source of bugs and uncovered corner cases. For instance, how you deal with timezones? DST? What would something like `table.map(lambda x: x[\"id\"].hours).run()` return, and what's the usefulness of having the hour without the TZ?\r\n\r\n- Right now, the best way to store dates in RethinkDB I'm aware of would be triplets of timestamp + timezone + daylight savings time flag (e.g.: 2013-02-04 19:30 in America/S\227o Paulo can be `[1360013864.0, -3, 1]`).\r\n\r\n- Since map/reduce is trivial, letting higher-level APIs deal with date sorting/comparison/etc is possible. A compelling reason to bake this into the DB would be performance.\r\n\r\n- Human-readable dates are a front-end concern. The data store should use an unambiguous format, and dates are formatted at the last moment. This rules out ISO 8601, because it's *not* unambiguous, each language/library parses it differently, and having client-code parse strings back and forth is not cool."
+  , issueCommentId = 13104224
+  }

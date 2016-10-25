@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-25) 03 : 21 : 08 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12686350"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/255#issuecomment-12686350"
+  , issueCommentCreatedAt = 2013 (-01) (-25) 03 : 19 : 20 UTC
+  , issueCommentBody =
+      "`with` must manage lifetimes, because that's the Python convention, and Python programmers will be confused if we break it. For example, `with open(filename, mode) as f: ...` closes the file when it leaves the `with`-block.\r\n\r\nI don't think we should have a global context stack. It's magical, and like many magical things, it breaks in unexpected ways; for example, if you enter a `with` block within a generator, then `yield` from within the block, the wrong thing will happen. Also, writing `c = r.connect(); query.run(c)` is only slightly more verbose than `c = r.connect(); with c: query.run()`, but the former is a lot clearer.\r\n\r\nIf we must have a global context stack, I'd much prefer something like this:\r\n```python\r\nwith r.connect() as c1:   # manages lifetimes, not context stack\r\n    with r.connect() as c2:   # manages lifetimes, not context stack\r\n        with r.use_connection(c1):   # manages context stack\r\n            query3.run()   # uses c1\r\n```\r\nThis is nice because each context manager only does one thing, and it's possible to get a connection on to or off  of the context stack after it's been created. The only problem is that it interacts weirdly with the `r.connect(); query.run()` that we use for the examples.\r\n\r\n*(Note: If you received an email with an incomplete version of this post, it's because (tab)(enter) submits the post rather than inserting four spaces and then a newline...)*"
+  , issueCommentId = 12686350
+  }

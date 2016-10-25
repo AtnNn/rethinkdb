@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-10) 20 : 24 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58710771"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/152#issuecomment-58710771"
+  , issueCommentCreatedAt = 2014 (-10) (-10) 20 : 19 : 41 UTC
+  , issueCommentBody =
+      "The difficulty is in dealing with shards and replication.\r\nOn a single node this is easy and would work as @mlucy describes by just keeping a single counter per table.\r\n\r\nHowever when we have replication, we must be careful not to count the same documents multiple times. In order to do that, we have to find out how many documents are in any given shard. If the shard boundaries are known in advance and never change, this is still easy to do. We can simply keep one count per shard. Unfortunately they are not. So for getting that to work, we would have to recompute the counts whenever shard boundaries change. That's probably feasible, but it does involve a cost both in terms of resharding performance as well as implementation.\r\n\r\nThe other alternative is to store subtree counts in inner btree nodes. That interacts badly with how we are doing locking in the btree though, and would also drive up the garbage ratio on disk and make hard durability writes slower, because the inner nodes would have to be rewritten a lot more often. Except if we kept the counts in the LBA. However unless we find a way to get parts of the LBA out of memory if they are not needed, that would incur an additional memory overhead proportional to the size of the database."
+  , issueCommentId = 58710771
+  }

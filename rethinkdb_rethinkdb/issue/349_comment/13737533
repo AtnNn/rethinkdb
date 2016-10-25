@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-18) 19 : 06 : 33 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13737533"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13737533"
+  , issueCommentCreatedAt = 2013 (-02) (-18) 19 : 06 : 33 UTC
+  , issueCommentBody =
+      "I'm pretty you get a lazy iterator back from an `order_by` or a `limit` even though those aren't pushed to shards.\r\n\r\nThe thing that makes me uneasy about allowing writes in a `do` is that it means that people need to start understanding things about lazy contexts etc which seems like it's going to get really confusing really fast. I think that being able to dispatch writes from `do` is definitely a worthy feature but given our time pressure it's not worth it for how to think through making this feature good right now (and I don't think we already have it figured out.)\r\n\r\nA side note: our protobuf spec currently allows people to put writes anywhere (they're just terms.)\r\nDo we have a way to detect writes in maps? In particular suppose I did the following:\r\n\r\n    table.map(lambda x: branch(some_very_rare_condition, table2.delete(x[\"id\"]), x))\r\n\r\nUnless we have a really smart driver it's not going to stop this from being sent. Do we detect this problem before the query is executed or do we only detect the misplaced write if the rare condition winds up happening?"
+  , issueCommentId = 13737533
+  }

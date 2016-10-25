@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-21) 22 : 06 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13915957"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/367#issuecomment-13915957"
+  , issueCommentCreatedAt = 2013 (-02) (-21) 22 : 06 : 20 UTC
+  , issueCommentBody =
+      "No, they're equivalent.\r\n\r\n```ruby\r\nval.do {|x| x[:foo]}\r\n````\r\nis\r\n```lisp\r\n(funcall (lambda (x) (getattr x 'foo)) val)\r\n```\r\n\r\nwhile\r\n```ruby\r\nval[:foo]\r\n```\r\n\r\nis\r\n```lisp\r\n(getattr val 'foo)\r\n```\r\n\r\nSo:\r\n```ruby\r\nval.do {|x| x[:foo].default(def)}\r\n```\r\n\r\nis:\r\n```lisp\r\n(funcall (lambda (x) (default (getattr x 'foo) def)) val)\r\n```\r\n\r\nwhile:\r\n```ruby\r\nval[:foo].default(def)\r\n```\r\n\r\nis:\r\n```lisp\r\n(default (getattr val 'foo) def)\r\n```\r\n\r\nClearly if evaluating `val` returns an error, the first error will escape while the second would be caught by the default.\r\n\r\nYou could write:\r\n```ruby\r\nval.do{|x| x[:foo]}.default(def)\r\n```\r\nand get the same error behavior as:\r\n```ruby\r\nval[:foo].default(def)\r\n```"
+  , issueCommentId = 13915957
+  }

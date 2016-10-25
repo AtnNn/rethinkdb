@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-13) 09 : 18 : 49 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 36466
+        , simpleUserLogin = N "charl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/36466?v=3"
+        , simpleUserUrl = "https://api.github.com/users/charl"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12191385"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/213#issuecomment-12191385"
+  , issueCommentCreatedAt = 2013 (-01) (-13) 09 : 17 : 46 UTC
+  , issueCommentBody =
+      "I am not too sure why you'd use _this[\\\"id\\\"]_ to refer to the current object being referenced in the filter block while walking the list of objects.\r\n\r\nHere's the error for this:\r\n\r\n```ruby\r\njruby-1.7.0 :012 > r.expr([286093203667562500, 286825656715730940]).map {|id| r.table(table).get(id)}.filter { r.js(\"this[\\\"id\\\"].iso_language_code.match(\\\"en\\\")\") }.run()\r\nRuntimeError: RQL: failed to evaluate javascript: calling function failed:\r\nUncaught SyntaxError: Illegal return statement\r\nLine: (irb):12:in `evaluate'\r\nQuery: [286093203667562500, 286825656715730940].map(\"_var_1011\", getbykey([:default_db, \"tweets\"], :id, _var_1011)).filter(\"_var_1012\", js(\"return this[\\\"id\\\"].iso_language_code.match(\\\"en\\\")\"))\r\n                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.0/lib/net.rb:119:in `error'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.0/lib/net.rb:150:in `token_iter'\r\n\tfrom org/jruby/RubyKernel.java:1390:in `loop'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.0/lib/net.rb:125:in `token_iter'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.0/lib/net.rb:211:in `run'\r\n\tfrom org/jruby/RubyBasicObject.java:1673:in `__send__'\r\n\tfrom org/jruby/RubyKernel.java:2081:in `send'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.0/lib/query.rb:14:in `run'\r\n\tfrom (irb):12:in `evaluate'\r\n\tfrom org/jruby/RubyKernel.java:1065:in `eval'\r\n\tfrom org/jruby/RubyKernel.java:1390:in `loop'\r\n\tfrom org/jruby/RubyKernel.java:1173:in `catch'\r\n\tfrom org/jruby/RubyKernel.java:1173:in `catch'\r\n\tfrom /home/charl/.rvm/rubies/jruby-1.7.0/bin/irb:13:in `(root)'\r\n```\r\n\r\nLooks like the the current object being inspected in the filter while walking the list of objects is not being correctly bound to _this_ in the js() context."
+  , issueCommentId = 12191385
+  }

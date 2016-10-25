@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-01) (-23) 23 : 18 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/33180605"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/344#issuecomment-33180605"
+  , issueCommentCreatedAt = 2014 (-01) (-23) 23 : 18 : 15 UTC
+  , issueCommentBody =
+      "So that definitely works for the original test case. I will try some more complicated scenarios.\r\nOf course it will not *guarantee* that primaries for a given table are distributed across machines, if the machines already have different usage values due to other tables being unevenly distributed between them. For example if one machine already is a primary for a second table, while the other machine has no roles, both primaries of the test table would still be allocated on the same machine (the one that had no role before).\r\nThe ordering in which the pre-existing tables are handled by the suggester might also make a difference.\r\n\r\nThe reason for why this works, which might not be completely obvious, is that we assign one shard at a time in the suggester. Furthermore, we assign the primary first for a given shard, and only afterwards assign the secondaries. Because after the first shard is assigned usage will now be higher for whatever machine its primary was given to, the next shard will have its primary assigned to a different machine and so on."
+  , issueCommentId = 33180605
+  }

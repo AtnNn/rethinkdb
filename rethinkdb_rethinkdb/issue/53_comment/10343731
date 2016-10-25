@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-13) 21 : 09 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10343731"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/53#issuecomment-10343731"
+  , issueCommentCreatedAt = 2012 (-11) (-13) 21 : 09 : 21 UTC
+  , issueCommentBody =
+      "I think up-to-date might be getting a bit conflated right now.\r\n\r\nCount is an up-to-date command by default right now (like every command in reql). This means that it may interleave with commands from other connections but it is guaranteed to see anything that has been acknowledged on the same connection. That is you can't take an empty table, insert a document on a connection do count and get back 0 (all on the same connection). I think we want to keep this as a guaranteed behavior since we advertise it heavily and people could be depending on it.\r\n\r\n> As long as we still go to the masters to grab the number per b-tree (so there is no chance of getting it from a heavily out-of-date replica)\r\n\r\nRemember masters don't actually store a copy of the data. Replicas do. There's a replica on the same machine as the master which is I assume what you're talking about but that replica is the same as every other replica it's not guaranteed to be anymore up to date. In fact in this case it's going to almost certainly be the least up-to-date replica.\r\n\r\n> And we should drop the traversal version of count all together.\r\n\r\nWe can't drop traversal version of count all together because we still need it for anything that isn't just a simple table traversal. For example if someone does\r\n\r\n    table.filter(lambda x: x[\"foo\"] == 5).count()\r\n\r\nWe don't have any prestored counts which will tell us the answer to this so we need to just do the traversal version of count."
+  , issueCommentId = 10343731
+  }

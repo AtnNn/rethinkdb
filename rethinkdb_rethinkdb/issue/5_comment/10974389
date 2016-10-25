@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-17) 01 : 02 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10974389"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/5#issuecomment-10974389"
+  , issueCommentCreatedAt = 2012 (-12) (-03) 22 : 07 : 31 UTC
+  , issueCommentBody =
+      "Currently you can build the rethinkdb executable on OS X, but *not* drivers, by doing the following:\r\n\r\n`brew install boost protobuf v8 node`\r\n\r\nThen,\r\n\r\n`sudo npm install -g less coffee-script`\r\n`sum gem install ruby_protobuf`\r\n\r\nThen, add the npm path to $PATH (add /usr/local/share/npm to $PATH).\r\n\r\nThen, from rethinkdb/src:\r\n\r\n`git checkout sam_osx`\r\n`make clean`\r\n`make -j5`\r\n\r\nI recommend adjusting the -j5 option based on how many cores your CPU has.\r\n\r\nThat'll get the rethinkdb executable built and it'll run.   You'll also see some driver-related stuff fail.  ~~You can presumably connect to it from drivers on a Linux box, if the latest commit isn't in an unbroken state.~~  The branch is *very unstable*.\r\n\r\nPython drivers:\r\nOne way to get python drivers working is to use `brew install python &&` `pip install --upgrade distribute &&` `pip install --upgrade pip &&` `pip install protobuf`, and then run `/usr/local/bin/python`.  If you want to get the original OS X python version working, you need to install the protobuf module somehow.  (I tried using `easy_install` but it failed, and I haven't looked more closely at that.)  I haven't tried just doing `pip install rethinkdb`, since I was building from source and generally you need to be able to run the driver source.\r\n\r\n\r\n\r\nHere is a list of the problems that need to be resolved:\r\n\r\n- ~~Figure out the safe removal of a vestigial `watch_signal` function in `event_queue_base_t`.~~\r\n- ~~Fix release build problems.~~\r\n- ~~Detect parent process death in the external processes used for executing Javascript.~~\r\n- ~~Have the makefile not hard-code static libraries to homebrew paths.~~\r\n- ~~Add a new way to detect that a connection gets interrupted.  We want to be able to interrupt queries when somebody kill -9's their process, and right now, in the `next` branch, we're using RDHUP to detect that.  We need to do it without using RDHUP, because that's a Linux-specific feature.~~ (This is has been skipped.  Linux still uses RDHUP, but OS X won't get a solution until kqueue is implemented, which won't be right away.)\r\n- ~~Fix the Linux-specific stuff where we try to read system stats from `/proc/`.~~\r\n- ~~Get javascript driver to build (for dataexplorer)~~\r\n- Packaging (with homebrew?  in an OS X installer?)\r\n\r\n---\r\nThe following is of secondary priority and shouldn't be in the scope of this issue (e.g. we can and should close the issue without getting these done):\r\n\r\n- Get python and ruby drivers to build (I think we should get them to build on OS X but we can ship without it, since people can just use the package manager)\r\n- Get tcmalloc working in OS X.\r\n- Have the makefile and building work in a user-friendly manner when building from source, so that you don't have to pass in OSX=1 or other arguments when on OS X.\r\n\r\n\r\nEDIT: rearranged by @coffeemug to reflect priority."
+  , issueCommentId = 10974389
+  }

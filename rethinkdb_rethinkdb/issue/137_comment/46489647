@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-18) 20 : 29 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46489647"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46489647"
+  , issueCommentCreatedAt = 2014 (-06) (-18) 20 : 29 : 14 UTC
+  , issueCommentBody =
+      "You can rule out yEnc, it won't fit into UTF-8, and is probably very complicated.  Also there's no library support in many languages.  base64 is most likely the best option (clearly the best option), especially considering a short timeframe and client drivers.\r\n\r\n> What interface do we present to the user and what does it map to on our side? \r\n\r\nHaving a base64 encoding in a ReQL type in the short-run does not preclude us from changing to binary no-overhead encoding when transmitting or storing the data, in the near future.\r\n\r\nYou should not think of RethinkDB's data model as JSON -- we already have date types.  Our datums just have a mapping to JSON.  The fact that we *currently* send stuff JSON-encoded, even going through the ridiculous act of sending `{\"$reql_type$\":\"date\",\"epoch_t...` over the wire, is immaterial.\r\n\r\nYou can get individual chunks of binary fields with a substring (or sub-blob? \"cut\"?) operation.\r\n\r\nIf we want to support quick access to fields of an object (without having to load the whole object off of disk) it's much more useful and much nicer to support this more generally for any kind of  field.  For example, if you have an object with a large string field, and a few metadata fields, and you have a query that just accesses the metadata.  This is doable.  But also, adding this support *just* for the big binary fields of an object is also *easy* [0].\r\n\r\n[0] Just store references to footnotes aside the main object in the same blob, and use the appropriate blob operations to get sub-blobs.  This is the same kind of thing as pushing map and filter operations to the shards -- you can push substring-masks and field-masks to rdb_value_t-decoding code."
+  , issueCommentId = 46489647
+  }

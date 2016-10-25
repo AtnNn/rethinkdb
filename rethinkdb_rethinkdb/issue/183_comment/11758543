@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-29) 22 : 31 : 02 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11758543"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11758543"
+  , issueCommentCreatedAt = 2012 (-12) (-29) 22 : 31 : 02 UTC
+  , issueCommentBody =
+      "It still seems like there are 2 points of view being expressed here that aren't really addressing each other directly. Here's what they are as far as I can see it:\r\n\r\nOne point of view which I believe is held by @kareemk is:\r\n\r\n> rethinkdb shouldn't throw an error if an attribute is missing.\r\n> querying should assume that missing attributes are not done in error and skip them.\r\n\r\nI'd like a bit of clarification on what this means. In particular skipping as far as I understand it means skipping the row in question this has a concrete meaning with a filter. That if evaluating the predicate creates such an error this row is dropped. However what does it mean in other cases? In particular what does the following return?\r\n\r\n    r.expr({})[\"foo\"].run()\r\n\r\nSimilarly what if a missing attribute is encountered over the course of a map reduce? Perhaps if it's encountered while mapping a single row it might make sense to drop that row (although I think that's dubious) but if it's encountered while reducing the only thing to do I think is error.\r\n\r\nAnother point of view which I believe is held by @coffeemug is:\r\n\r\n> we introduce a primitive (such as bottom) that supports all possible use cases we might want to support, and then have library functions have different behavior built on top of this primitive.\r\n\r\nThe question I have is what exactly this looks like in the API. First if I understand correctly under this scheme should a vanilla filter fail to find an attribute then it will throw an error (being a representation a clientside representation of bottom) is this correct? Second how might error recovery syntax look? Something like:\r\n\r\n    table.filter(..., drop_errors=True)\r\n\r\nseems like the most obvious option to me although it's a bit clunky. We could also maybe add an on_error function. Then the filter sementics would be implemented as:\r\n\r\n    table.filter(f, drop_errors=True) -> table.filter(lambda x: on_error(f(x), False))\r\n\r\nThese are just my off the top of my head ideas for the primitives. Others probably have some better ideas.\r\n\r\nI apologize if I've snipped away too much context with these quotes and attached beliefs that aren't actually held. This was just my impression of the 2 sides. However I think we need to make both of these ideas more concrete and eventually pick on before we can actually proceed on this issue."
+  , issueCommentId = 11758543
+  }

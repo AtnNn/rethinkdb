@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-27) 19 : 22 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47389968"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47389968"
+  , issueCommentCreatedAt = 2014 (-06) (-27) 19 : 20 : 53 UTC
+  , issueCommentBody =
+      "One problem with distributed chunks is that parts of a file can get lost.\r\n\r\nSuppose you have some chunks on a node that dies. The file would still be in the READY state, but part of it would be inaccessible.\r\nThe user would have to upload the file again under a different filename/id. The user might also want to delete the incomplete file (e.g. because they have to re-use the filename (can files be renamed?) and/or want to reclaim the lost space). The file goes into PARTIALLY_DELETED.\r\nWe have two options then: 1. Ignore inaccessible chunks and just delete the metadata completely. If the node later comes back up, we will have orphaned chunks.\r\n2. Leave the metadata in PARTIALLY_DELETED until we are able to delete the currently inaccessible chunks.\r\n\r\nThe first option is bad. The second option is better, but requires additional work: Suppose the administrator later declares the missing node permanently dead. At that point, we have a chance to make sure that the missing chunks are never coming back (assuming that all other replicas of that shard are either dead as well or reachable). Now we could delete the PARTIALLY_DELETED metadata entry.\r\n\r\nThe chunked approach is definitely a lot more complex, and I don't really see an advantage unless you want to store files that are larger than the available space on a single node.\r\nIn contrast it amplifies the chance that files become unavailable because of some of their chunks being unavailable. I doubt that there are a lot of applications where the added performance for partial file access that you get from distributing chunks across nodes is worth the decreased availability of the overall file."
+  , issueCommentId = 47389968
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-03) 13 : 59 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/18842882"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/310#issuecomment-18842882"
+  , issueCommentCreatedAt = 2013 (-06) (-03) 13 : 59 : 56 UTC
+  , issueCommentBody =
+      "> The real issue here isn't about compression though. What happens with RethinkDB is that the storage engine garbage collector cleans up old blocks, but doesn't reduce the file size.\r\n\r\nThis is untrue.  If I import all of Pitching.csv (a 3,145,728 byte file) into a table, the table's file size becomes 220,725,248.  Garbage blocks account for 18.9% of all data blocks, and there are approximately no free extents, so garbage can't account for more than that proportion of the file size.\r\n\r\nThere are 42740 non-garbage blocks.  That means there's a block for every 84.3 bytes of CSV file data.\r\n\r\nThis makes sense if you consider that Pitching.csv has lines about 80-90 characters long -- and when converted into a JSON document with all the quoted column names and values, they grow to over 300 characters -- so there's a large value being stored per document, i.e. one data block per document.\r\n\r\nWhat's *weird* though is that we get the same sort of measurement for AllstarFull.  40-byte lines in the CSV file, and about 1 active data block for every 40 bytes in the CSV file.  I don't yet know how the JSON document could have ballooned to more than 170 bytes."
+  , issueCommentId = 18842882
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-10) 18 : 57 : 44 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26081046"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/175#issuecomment-26081046"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 18 : 57 : 44 UTC
+  , issueCommentBody =
+      "I agree for splitting back end/front end. I still have quite a lot of things to finish before working on the visualization part. I would tend to think that it's going to be tricky to build a good one, so merging the back end without the front end is definitely a good idea.\r\n\r\n`profile` makes more sense too.\r\n\r\nAbout the API, a few questions\r\n- Can we have which machine perform which task? (I suppose it's one machine per task right?)\r\n- Do we give information about intra cluster traffic? (just wondering)\r\n- Can we make sure that tasks executed in parallel are part of a meta task? That is to say, your example would be\r\n\r\n```py\r\n>>> query.run(profile=True)\r\n{\r\n    \"value\" : query.run(),\r\n    \"profile\" : [\r\n        { #single step\r\n            \"description\": \"Read table\"\r\n            \"duration(ms)\": 5\r\n            \"sub_tasks\" : [ ... ]\r\n         },\r\n         [ #Tasks happening in parallel\r\n            \"description\": \"Reading from shards\"\r\n            \"duration(ms)\": 5\r\n            \"tasks_in_parallel\" : [\r\n                 {\r\n                     \"description\": \"Read from shard 1\"\r\n                     \"duration(ms)\": 5\r\n                     \"sub_tasks\" : [ ... ]\r\n                  },\r\n                  ...\r\n             ]\r\n             [\r\n                  {\r\n                       \"description\": \"Read from shard 2\",\r\n                       \"duration(ms)\": 5,\r\n                       \"sub_tasks\" : [ ... ]\r\n                   },\r\n                   ...\r\n             ]\r\n        ],\r\n        ...\r\n    ]\r\n}\r\n```"
+  , issueCommentId = 26081046
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-16) 06 : 11 : 40 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11414710"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/159#issuecomment-11414710"
+  , issueCommentCreatedAt = 2012 (-12) (-16) 06 : 11 : 40 UTC
+  , issueCommentBody =
+      "It might be 3GB on disk, but when we load it into memory as a cJSON object we need more space for the same thing.  A cJSON object contains 6 pointers, 2 ints, and a double.  On a 64-bit platform that's going to take at least 64 bytes per node in the cJSON tree, even if it's just storing an 8-byte double.  In practice it will probably be more than that because we allocate each cJSON node separately, so tcmalloc is going to need to keep track of metadata about it which might take up a little more space (I'm not too clear on tcmalloc's architecture, so I might be off-base here).\r\n\r\nSo that's the bare minimum.  In practice, the current design is passing around boost shared pointers to scoped_cJSON_t objects, which is even worse.\r\n\r\nWe could improve this in a number of ways (enums, xor-ed forward and backward pointers, coming up with smarter code that doesn't need boost shared pointers, etc. etc.), but it wouldn't solve the fundamental problem.\r\n\r\n---\r\n\r\nI'm not quite clear what you mean by lazy sorting.  If we're sorting by an arbitrary value, the nth element in the stream could be anywhere in the btree on any shard.\r\n\r\nUsing heapsort would let us return the first few values faster, but it wouldn't reduce the amount of memory needed and would probably increase the total sorting time.  (Actually, I'm not sure what sorting algorithm we're using now; it's possible we could make this better by changing it.)\r\n\r\nWe could have each shard internally sort based on the value and then do some sort of batched mergesort over the network, but then instead of one shard holding 6GB of data you have 6 shards each holding 1GB of data, which isn't really a win if your cluster is handling lots of queries, which is the most common use-case for a cluster."
+  , issueCommentId = 11414710
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-16) 20 : 39 : 46 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13674459"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13674459"
+  , issueCommentCreatedAt = 2013 (-02) (-16) 20 : 39 : 46 UTC
+  , issueCommentBody =
+      "We do actually do atomic writes correctly @timmaxw so the example you gave\r\nwould work. I don't think its a good behavior to crash when we try to do a\r\nwrite on a shard because it means there's some things that strangely don't\r\nwork. For example:\r\n\r\n    table.map(lambda x: table2.insert(x))\r\n\r\nwill fail, while:\r\n\r\n    table.order_by(...).map(lambda x: table2.insert(x))\r\n\r\nwill succeed. This is fixable if we detect side effects along with\r\ndeterminism but still it's something to do.\r\n\r\n\r\nI think a far bigger problem is how this interacts with laziness though. If\r\nI understand correctly a write returns an object just like any other\r\noperation and operations like update have a reduction at the end to get the\r\nfinal result. Suppose I do the following:\r\n\r\n\r\n    table.map(lambda x: table2.insert(x))\r\n\r\n\r\nIn my driver language I get back a cursor object and it's unclear to me how\r\nmuch of my write has been executed. In particular if I never consume the\r\ndata from the iterator will the rest of the writes ever happen? If they all\r\nhappen at the beginning then do we have to store the results of those\r\nwrites in memory? Neither seems like a very good operational semantic to me.\r\nOn Feb 15, 2013 10:44 PM, \"Timothy Maxwell\" <notifications@github.com>\r\nwrote:\r\n\r\n> By the way, do we currently support truly atomic update operations? If I\r\n> run r.table(...).update({\"score\": r.row[\"score\"]+1}) concurrently on two\r\n> connections, is every row's score guaranteed to get incremented exactly\r\n> twice? If so, then we make sure the update procedure doesn't contain\r\n> anything nondeterministic, right? Presumably the same code could be\r\n> extended to detect writes in the wrong places.\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13645535>.\r\n>\r\n>"
+  , issueCommentId = 13674459
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-02) 11 : 08 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11805075"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11805075"
+  , issueCommentCreatedAt = 2013 (-01) (-02) 11 : 08 : 05 UTC
+  , issueCommentBody =
+      "> The question I have is what exactly this looks like in the API.\r\n\r\nI think we should pick the most desired behavior for every function and use it when it makes sense. For example, `filter` and `pluck` would internally test for bottom and treat is as false (and therefore simply omit the offending rows from the resultset). Other primitives, such as `map` may not do that (I don't actually know what `map` should do, I'm just using it as an example here). Basically, I propose we look at the API function by function, and pick the most sensible behavior for that function. Most likely, we can leave all behavior as is and change a small set of functions (such as pluck, filter, and possibly groupMapReduce) for the first pass.\r\n\r\nWhen I said I think we should introduce a primitive that supports all use cases, I was making a philosophical argument. I think it's inelegant from the PL perspective to have some functions (such as filter and pluck) behave one way, and other functions (such as map, etc.) behave in a different way, without having an underlying mechanism users can use to easily implement the same behavior. Bottom provides such a mechanism. Having full-blown exception handling provides it as well. (Personally, I like bottom much more for ReQL, but that's a separate discussion).\r\n\r\nOn a different note, as far as throwing an error if bottom propagates to the client, what if bottom is nested inside a document (e.g. `{ foo: 1, bar: bottom }`)? This is important in examples like this:\r\n\r\n```\r\n...groupBy(user, r.sum('age'), r.avg('purchases'))\r\n=> { grouping: ..., reduction_age: 30, reduction_purchaes: bottom }\r\n```\r\n\r\nI'm glossing over a few issues (groupBy doesn't support multiple reductions, and `purchases` is presumably an array which means it isn't clear what the average reduction even does) but that's besides the point here. In cases like this, we want the user to get as much information as possible, so I think just throwing an error because *some* part of the document has bottom isn't ideal."
+  , issueCommentId = 11805075
+  }

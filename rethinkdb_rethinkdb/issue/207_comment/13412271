@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-12) 00 : 35 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13412271"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/207#issuecomment-13412271"
+  , issueCommentCreatedAt = 2013 (-02) (-12) 00 : 35 : 34 UTC
+  , issueCommentBody =
+      "Internally I'm making it possible to set the number of \"disk acks\" and number of \"cache acks\", where the number of disk acks cannot be greater than the number of cache acks required.\r\n\r\nHere's the thing: when we want *any* number of disk acks from a datacenter, we're going to want one replica to be flushing to disk ASAP with no delay, and that'll be the limiting factor for throughput (assuming CPU and other problems are cleaned up).  So, configuring *how* we write to disk (flush immediately or flush after an interval) that will depend on whether the number of disk acks desired is nonzero.  There's no reason for one machine in a datacenter to do slow flushing if the other's going full-speed (and that way we avoid having the cluster trying to figure out which machine has which responsibility).\r\n\r\nAnyway this means that the speedup between {2 cache acks, 2 disk acks} and {2 cache acks, 1 disk ack} is going  to be relatively small, compared to what you get when you go full {2 cache acks, 0 disk acks}."
+  , issueCommentId = 13412271
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-05) (-02) 08 : 18 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17325679"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/186#issuecomment-17325679"
+  , issueCommentCreatedAt = 2013 (-05) (-02) 08 : 17 : 04 UTC
+  , issueCommentBody =
+      "__Here's the original complaint__:\r\n\r\nAre there any examples of manipulating documents at a deeper level than the first level of keys? The experience I've had so far attempting to do mutations has been quite painful in comparison to, say, MongoDB. \r\n\r\nAs an example, say I have a document: \r\n\r\n```\r\n{ a:{b:{x:0, y:1}, c:2}, \r\n  q:['x', 'y']} \r\n```\r\n\r\nIf I want to set `.a.c` to `d` it seems I have to do `.update({a: r.row('a').merge({c: \"d\"})})`? Is that really the easiest way to build that query? What if I want to change `.a.b.x`? What I've come up with so far is `.update({a: r.row('a').merge({b: r.row('a')('b').merge({x:'d'})})})`. That works, but I'm somewhat concerned that as I get deeper it will get exceedingly more complex. \r\n\r\nIf I want to change `.q[0]` I was hoping to be able to do `.update({q: r.row('q').merge({'0': 'd'})})` (as in JavaScript a string key is legal to be used on an array, and so I figured a naive implementation of merge would \"just work\" like that), but I got an error \"Data must be an object\". I /was/ able to do this: `.update({q: r.expr([['d'], r.row('q').skip(1)]).concatMap(function(value) { return value; })}).run()`, but I burst out laughing when I did ;P. \r\n\r\n(Is this kind of update even an advisable use case for RethinkDB? AFAIK, this is considered a normal use case for MongoDB and is easily supported[1] by using syntax like `.update(..., {$set:{'q.0':'d'}, ...)`. That said, I don't really use MongoDB, so I'm not certain if doing these little partial updates is horribly inefficient; they seem to claim it is a key feature on their blog, though[2].) \r\n\r\n[1]: http://docs.mongodb.org/manual/applications/update/ \r\n[2]: http://blog.mongodb.org/post/307919034/partial-object-updates-will-be-an-important-nosql "
+  , issueCommentId = 17325679
+  }

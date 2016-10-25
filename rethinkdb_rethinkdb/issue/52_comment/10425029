@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-15) 20 : 56 : 28 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10425029"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/52#issuecomment-10425029"
+  , issueCommentCreatedAt = 2012 (-11) (-15) 20 : 56 : 28 UTC
+  , issueCommentBody =
+      "Alright, I believe I have a theory as to how this comes up:\r\n\r\nIn mc_inner_buf_t::mc_inner_buf_t we spawn a coroutine which loads the inner buf using spawn_now_dangerously. There's a comment there that says we do this to make sure load_inner_buf() acquires the lock first.\r\n\r\nIn load_inner_buf we then switch to the serializer's thread and read the block. However since we switch threads there's no guarantee that the thing the comment says we need actually happens.\r\n\r\nWe get this error when we rapidly change the replica count from 1 to 2. Changing to 2 causes a backfill to happen. Changing to 1 causes all the data to be deleted. I suspect that a write from the backfill is somehow racing with a delete from the erase range."
+  , issueCommentId = 10425029
+  }

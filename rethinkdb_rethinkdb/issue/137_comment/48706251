@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-07) (-11) 08 : 28 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 104305
+        , simpleUserLogin = N "hardkrash"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/104305?v=3"
+        , simpleUserUrl = "https://api.github.com/users/hardkrash"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/48706251"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-48706251"
+  , issueCommentCreatedAt = 2014 (-07) (-11) 08 : 28 : 22 UTC
+  , issueCommentBody =
+      "I recall bits of our conversation on this topic a while ago.  The defining features that I want are the following.  This should mostly be transparent as to blob/binary/file as file should be just porcelain on top of blob/binary.\r\n\r\n* Access to the data simply in the driver.\r\n* A mime type like interface/adapter.\r\n  * Ability to extract file metadata from the file/binary/blob for database operations on the server.\r\n    * e.g. exif data from a jpeg.\r\n    * e.g. id3 from an mp3.\r\n    * e.g. my custom adapter on the servers for my binary format.\r\n    * I don't want to have to transmit a 10MiB jpeg to get the exif date from it for a join.\r\n* I couldn't care less on the pedantic issue of how the data is stored in the backend.\r\n  * N.B. as long as it's reliable.  If the file is shared it should be replicated. (belt & suspenders)\r\n  * FAT32, NTFS, HDFS+,  They are all databases for files breaking them onto sectors of hard drives.\r\n  * Chunking should be invisible to the client.\r\n  * If a shard of chunk is unavailable, fail lazily.\r\n    * e.g. getting the exif data I only needed the first 1KiB and the unavailable data is after that data, then cause the error when you need the data, not when you try and \"open\" the file.\r\n* Lazy transfer of the data for larger files.\r\n* I want the files in the documents, not as a separate linked thing that I need to look up separately.\r\n* The json in the client could represent it as a file handle that the driver exposes on the side.\r\n* A way to backup the data.\r\n* A safety valve for very large files in documents.\r\n  * e.g. a query returns 100 documents, and the first has a 1GiB file in it, I don't always want to have 1GiB transfer to the client without explicitly requesting it.\r\n  * USB, FTP, and ZeroMQ kinda got it right with a control pipe as side band.\r\n  * Thunderbolt and Ethernet did it right with packets and QOS.\r\n* Ability to store large blobs/binarys/files on a SAN/NAS different that the main database.\r\n\r\nI have a setup that is build with mongo and a net app filler, it sucks cause the client manages the files on the netapp filler and mongo manages the metadata.  Synchronization is a pain, data retrieval is a pain, the system is a pain.  HadoopFS is a pain.   Relieve my pain. :-)\r\n"
+  , issueCommentId = 48706251
+  }

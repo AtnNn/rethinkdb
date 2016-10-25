@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-18) 09 : 02 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46411524"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46411524"
+  , issueCommentCreatedAt = 2014 (-06) (-18) 09 : 01 : 23 UTC
+  , issueCommentBody =
+      "I have to think through this a bit before I post a proposal, but here are some preliminarily ideas.\r\n\r\nI think we should go with option 1. Also, there may be better encoding options than base64 (see http://en.wikipedia.org/wiki/Binary-to-text_encoding, http://en.wikipedia.org/wiki/YEnc -- I don't know if we want anything else, but worth investigating)\r\n\r\nThere are quite a few usability (and implementation) questions beyond how to represent the data. What interface do we present to the user and what does it map to on our side? Mongo lets people store, list, and retrieve files in the database through drivers or command line via a very nice UI (http://docs.mongodb.org/manual/core/gridfs/, http://docs.mongodb.org/manual/reference/program/mongofiles/#bin.mongofiles) and then lets people get individual chunks of the files. They do it by breaking up the file on the driver level, dumping it into a standard table, and adding an index to monotonically increasing chunk ids.\r\n\r\nWe have to think through which interface we want to expose, and how to map that interface to what we already have. (Break up a file into multiple documents? Just store it in a blob and use the blob architecture? Do we want to give users the chunk abstraction (or some other abstraction) so they can read and write parts of their files?) Do we implement the posix file interface?\r\n\r\nI don't think we'd have to go overboard on this, and I think we can find a really good solution that doesn't require more than a week or two of work on everyone's side, but these are the things left to think through.\r\n\r\n"
+  , issueCommentId = 46411524
+  }

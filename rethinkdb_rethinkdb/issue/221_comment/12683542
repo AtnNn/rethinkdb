@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-25) 01 : 25 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12683542"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12683542"
+  , issueCommentCreatedAt = 2013 (-01) (-25) 01 : 25 : 09 UTC
+  , issueCommentBody =
+      "Ok, here's a revision based on the above feedback. I sum the points as follows:\r\n  1. REPL usage doesn't matter for now. Ignore this as a concern.\r\n  2. `r.with` is good, `query.run` should only work in that context\r\n  3. Trying to emulate native arrays doesn't work. Stream results using a simple iterator API.\r\n\r\nThe following is an edited version of the above proposal:\r\n\r\n```javascript\r\n// connect returns nothing\r\nr.connect({host:'localhost', port:28015}, function(err, conn) {\r\n   if(err) throw err;\r\n\r\n   // This callback is automatically executed in a `with` context\r\n   // but `with` contexts do nest.\r\n   // N.B. this maps well to how we will do this in Python using the native `with`\r\n   r.connect(otherHost, function(err, conn2) {\r\n      query.run(); // executed in `conn2` context\r\n      conn.with(function() {\r\n         query.run(); // executed in `conn` context\r\n      });\r\n      query.run(); // executed in `conn2` context\r\n   });\r\n   \r\n   // Atomic result\r\n   r.table('tbl').get(0).run(function(err, result) {\r\n      if(err) throw err;\r\n      processRow(result);\r\n   });\r\n\r\n   // Stream result\r\n   r.table('tbl').run(function(err, tbl) {\r\n      if(err) throw err;\r\n\r\n      // Iteration style 1\r\n      function singleRow(err, row) {\r\n         if(err) throw err;\r\n         processRow(row);\r\n         if(!tbl.hasNext())\r\n            finishedRowProcessing();\r\n         if(!shouldStopIterating())\r\n            tbl.next(singleRow);\r\n      }\r\n      tbl.next(singleRow);\r\n\r\n      // Iteration style 2\r\n      tbl.each(function(err, row) {\r\n         if (err) throw err;\r\n         if (shouldStopIterating()) throw new tbl.InterruptException\r\n         processRow(row);\r\n         if (!tbl.hasNext())\r\n            finishedRowProcessing();\r\n      });\r\n\r\n      // Iteration style 3 (when Node streams are ready)\r\n      tbl.on('readable', function() {\r\n         while((var row = tbl.read(1)) != null && !shouldStopIterating()) {\r\n            processRow(row);\r\n         }\r\n      });\r\n      tbl.on('end', function() {\r\n         finishedRowProcessing();\r\n      });\r\n\r\n      // The following is the iteration style supported in the current driver\r\n      // that will be replaced by the above (obviously flawed)\r\n      tbl.next(function(row) {\r\n          if (row === undefined) {\r\n             finishedProcessingRows();\r\n          } else {\r\n             processRow(row);\r\n          }\r\n          return !shouldStopIterating();\r\n      });\r\n\r\n      // Since I don't really like any of the iteration styles given above I'm\r\n      // going to make one more attempt at synthesis\r\n      tbl.iter(function(err, row) {\r\n         if (err) throw err;\r\n         processRow(row);\r\n         if (!tbl.hasNext())\r\n            finishedRowProcessing();\r\n         if (shouldStopIterating())\r\n            tbl.pause();\r\n      });\r\n   });\r\n});\r\n```"
+  , issueCommentId = 12683542
+  }

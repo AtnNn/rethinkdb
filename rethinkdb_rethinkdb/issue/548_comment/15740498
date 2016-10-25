@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-01) 22 : 10 : 07 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15740498"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15740498"
+  , issueCommentCreatedAt = 2013 (-04) (-01) 22 : 10 : 07 UTC
+  , issueCommentBody =
+      "`fold` allows for convenient operations that are more annoying to do with `reduce`.  For instance, you could sample a random element of a table by doing:\r\n```ruby\r\nseq.fold({:num => 1, :el => nil}) {|acc, row|\r\n  {:num => acc[:num] + 1,\r\n   :el => r.branch(rand(acc[:num]).eq(0), row, acc[:el])}\r\n}[:el]\r\n```\r\n\r\n(Assuming we have a `rand` operator.)\r\n\r\nAs opposed to the solution JD gave for `reduce` a while back:\r\n```python\r\nq = stream.map(lambda x: {\"row\" : x, \"weight\" : 1})\r\nrow = q.reduce({\"row\" : None, \"weight\" : 0},\r\n             lambda x, y : branch(js(\"Math.random()\") * x[\"weight\"] + y[\"weight\"] < x[\"weight\"],\r\n                                  {\"row\" : x[\"row\"], \"weight\" : x[\"weight\"] + y[\"weight\"]},\r\n                                  {\"row\" : y[\"row\"], \"weight\" : x[\"weight\"] + y[\"weight\"]}))[\"row\"].run()\r\n```\r\n\r\nAdding a `fold` term wouldn't be terribly hard, but it might not be worth doing.\r\n\r\n@jdoliner -- I think you're underestimating two things:\r\n* How ingrained non-distributed reduce semantics are in people's heads.\r\n* How hard it is to write non-distributed reduce semantics without a base and not feel like something is wrong.\r\n\r\n(And I think that whatever we do with normal `reduce`, we should definitely drop the optional base from `gmr`, because you're never reducing over an empty stream in `gmr`.)"
+  , issueCommentId = 15740498
+  }

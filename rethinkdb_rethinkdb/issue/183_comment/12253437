@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 04 : 50 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 418097
+        , simpleUserLogin = N "othiym23"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/418097?v=3"
+        , simpleUserUrl = "https://api.github.com/users/othiym23"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12253437"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-12253437"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 04 : 50 : 39 UTC
+  , issueCommentBody =
+      "There has been a similar discussion in this thread related to refutable destructuring assignment in EcmaScript 6 (thread starts [here](https://mail.mozilla.org/pipermail/es-discuss/2013-January/027750.html)), and the name they've given a non-signaling empty value is `nil`. By \"non-signaling\" I mean that it's like the default behavior of NaN as it moves through a series of floating-point operations in JavaScript: once an operation has yielded a NaN, the final outcome of the set of operations is always going to end up as NaN. `nil` differs from `null` or `undefined` in that it's a version of the [null object pattern](http://en.wikipedia.org/wiki/Null_Object_pattern), similar to Objective-C's `nil`.\r\n\r\nInstead of thinking of what we're talking about as a \"default value\", I think it makes more sense to think of it as a hole or bubble that pops up in data sets as we perform operations on sets of incomplete, structured values, analogous to the role that NULL plays in SQL's OUTER JOIN semantics (not that SQL should be a model for anything Rethink does -- *please* don't introduce ternary logic into Rethink).\r\n\r\nI think it can be sane as long as a few caveats are heeded:\r\n\r\n1. `nil` / `NULL` / `unit` (I agree with @atnnn, calling it `bottom` is going to confuse anyone with a background in type theory or FP) is a byproduct of an operation, not a value\r\n2. it cannot be assigned to a variable (again, it's an absence, not a value) or used as a comparator\r\n3. the semantics of what happens as it bubbles through a chain of operations enables the kinds of existential queries that started this issue to complete in a defined, deterministic way without errors. The simplest way to do this is to say that any filter or projection operation that queries on an attribute that is not present in one or more of the objects in the collection will always omit those objects, and define it such that operators like >, !, and == will always fail when tested against this internal non-value\r\n\r\nThe point of all this rigamarole is to allow people to store objects with values that are `null` or `undefined` without overly complicating the semantics of the query system. The easiest way to do it is to define a private / internal symbol (or, as atnnn suggested, use a Nothing type that only contains the Nothing 'value') that is used inside the query engine. The nice thing about using a symbol is that you can return intermediate datasets during scatter / gather operations over the data store that contain that symbol."
+  , issueCommentId = 12253437
+  }

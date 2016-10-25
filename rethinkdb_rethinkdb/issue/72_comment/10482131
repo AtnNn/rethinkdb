@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-18) 03 : 28 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 706854
+        , simpleUserLogin = N "AtnNn"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/706854?v=3"
+        , simpleUserUrl = "https://api.github.com/users/AtnNn"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10482131"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/72#issuecomment-10482131"
+  , issueCommentCreatedAt = 2012 (-11) (-18) 03 : 28 : 34 UTC
+  , issueCommentBody =
+      "Upon further inspection, it seems the server does send a backtrace, but not when the outermost expression is in error:\r\n\r\n```\r\n>>> test (letVar \"a\")\r\nResponse {status_code = BAD_QUERY, token = 30, response = fromList [], error_message = Just \"symbol 'a' is not in scope\", backtrace = Nothing}\r\n>>> test (let' \"b\" (1 :: Int) (letVar \"a\"))\r\nResponse {status_code = BAD_QUERY, token = 31, response = fromList [], error_message = Just \"symbol 'a' is not in scope\", backtrace = Just (Backtrace {frame = fromList [\"expr\"]})}\r\n```\r\n\r\nHowever this backtrace does not appear in the data explorer (but runtime backtraces do appear):\r\n\r\n```\r\nr.let({'b': r.expr(1)}, r.letVar('a')).run()\r\n```\r\n\r\n```\r\nBad Query: symbol 'a' is not in scope\r\n```"
+  , issueCommentId = 10482131
+  }

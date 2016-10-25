@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-14) 22 : 25 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13582329"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/343#issuecomment-13582329"
+  , issueCommentCreatedAt = 2013 (-02) (-14) 22 : 25 : 19 UTC
+  , issueCommentBody =
+      "Followup by @coffeemug:\r\n\r\nAh, I see. The trouble with this proposal is that:\r\n\r\ntable.group_by('foo') -> table.group_by(lambda x: x['foo'])\r\ntable.group_by(r.row['foo']) -> table.group_by(r.row['foo']) / table.group_by(lambda x: x['foo'])\r\ntable.group_by(1) -> table.group_by(lambda x: 1)\r\n\r\nThe problem here is that if I *actually* want to group by the string 'foo' (I don't know why I'd want to do such a thing, but bear with me), I'd have to do a full lambda (table.group_by(lambda x: 'foo')), which is IMO *extremely* inconsistent since everything else but string will get evaluated directly, whereas a string will be treated as an attribute lookup.\r\n\r\nWe could get around it by _forcing_ people to say table.group_by(r.row['foo']) and not support any static value syntax here at all. I'm not sure how much I like this.\r\n\r\nI don't have a solution, just pointing out some things."
+  , issueCommentId = 13582329
+  }

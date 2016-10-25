@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-14) 23 : 19 : 03 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12245546"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/211#issuecomment-12245546"
+  , issueCommentCreatedAt = 2013 (-01) (-14) 23 : 19 : 03 UTC
+  , issueCommentBody =
+      "This is the best I could do with @charl's example:\r\n\r\n```javascript\r\ntable.filter(function(row) {\r\n    return row.contains(\"entities\").and(\r\n        row('entities').contains('urls').and(\r\n            row('entities')('urls').map(function(url) {\r\n                url.contains('expanded_url').and(\r\n                    function_of_expanded_url(url('expanded_url'))\r\n                )\r\n            }).reduce(false, function(acc, val) {\r\n                return acc.or(val)\r\n            })\r\n        )\r\n    )\r\n}).run()\r\n```\r\n\r\nThere are two things I can think of to make this simpler. The first would be to implement a `r.default` or `r.catch` function that evaluates its first argument but returns its second argument if the first throws an error. This would allow us to get rid of all our contains checks. The second would be to implement `all` and `any` on sequences to replace the `map` `reduce` combo here. Here's what the example would look like with these new functions:\r\n\r\n```javascript\r\ntable.filter(function(row) {\r\n    return r.catch(\r\n        row('entities')('urls').any(function(url) {\r\n            r.catch(function_of_expanded_url(url('expanded_url')), false)\r\n        })\r\n    , false)\r\n}).run()\r\n```"
+  , issueCommentId = 12245546
+  }

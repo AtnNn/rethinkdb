@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-01) 19 : 56 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15733697"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15733697"
+  , issueCommentCreatedAt = 2013 (-04) (-01) 19 : 56 : 57 UTC
+  , issueCommentBody =
+      "Let's review the supposed merits of this `fold` proposal.\r\n\r\n1. Offer alternative semantics to `reduce` which better matches user conceptions built off of the `fold` based \"reduce\" of many scripting languages (including the one's we support).\r\n\r\n2. Merely having this alternative serves to document proper usage of `reduce`.\r\n\r\n3. Some operations may be expressed more simply as `fold` than as reduce.\r\n\r\nAnd what may be the demerits of this proposal.\r\n\r\n1. Adding another operation that merely duplicates functionality found elsewhere will take time away from adding actually useful new functionality.\r\n\r\n2. `fold` cannot be parallelized unlike `reduce`. Users who write their application using `fold` because it's \"easier\" will be stuck with an inefficient algorithm as they scale their database. They will then blame us for being \"slow\".\r\n\r\n3. There will still be some users who mistake the semantics of `reduce` because they will assume it's the same operation as in their favorite scripting language. Since it's easier to simply tell them to use `fold` than properly explain `reduce` they'll end up using `fold` (see demerit 2).\r\n\r\nI think you can see where I'm going with this. There is almost no merit in providing a `fold` alternative to `reduce` outside of providing really expensive documentation. Worse, this won't actually solve the documentation problem and we'll still have to properly document `reduce` anyway. And the real kicker? This failed experiment in documentation will now be improperly incorporated into thousands of database queries, unkillable and needlessly slowing down operations for our users frustrated with how slow RethinkDB is.\r\n\r\nIf users want `fold` semantics we should simply document how to do this with the existing (and technically superior) `reduce` with better documentation (which we have to do if we add `fold` anyway!).\r\n\r\n```python\r\nseq.fold(base, lambda acc, row: reduc(acc, mapp(row)))\r\n  ===\r\nseq.union([base]).map(mapp).reduce(reduc)\r\n```\r\n\r\nThe only thing that makes `reduce` more complicated is the need to decompose your fold function into a value mapping and an actual reduction function. This is not only usually very simple (`acc + row['val']` => `['val']` and `+`) but delivers the huge will of allowing the whole thing to be parallelized.\r\n\r\nRecently I feel like I've been seeing proposal after proposal suggesting that we shouldn't do something the right way because our potential users are so used to doing things the wrong way. If we were just going to reimplement Mongo or MySQL why did you even start this company? If we continue to perpetuate the bad design decisions of the past we're not rethinking anything, we're just wasting our time."
+  , issueCommentId = 15733697
+  }

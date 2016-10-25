@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-15) 22 : 36 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13631912"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/344#issuecomment-13631912"
+  , issueCommentCreatedAt = 2013 (-02) (-15) 22 : 36 : 51 UTC
+  , issueCommentBody =
+      "Just talked to @jdoliner -- there are a couple of points on blueprint generation:\r\n\r\n1. It's a pretty complex constraint satisfaction problem\r\n2. No matter what we do, we'll run into cases that confuse people\r\n3. Oftentimes the question of what's optimal has very blurry (if any) answer\r\n4. Oftentimes what \"looks right\" and what's optimal can be different things\r\n\r\nSince we can't \"solve\" this problem for all cases, we should lay out heuristics in order of priority here, implement them in the blueprint compiler, and encode them in tests. Here are the constraints we *need* (from highest to lowest priority -- a higher priority cannot be compromised to satisfy the lower one) because that's what a reasonable observer would expect:\r\n\r\n1. Primary datacenter and replica constraints need to be respected (if a table T has a primary datacenter, masters only can go there, and replica counts need to go to other datacenters as specified) -- we already do this.\r\n2. For a given table T (regardless of other tables present in the system), no masters for that table can be on the same machine (as long as there is enough hardware), and no replicas for that table can be on the same machine -- we already do this for replicas and *sometimes* do this for masters. We need to *always* do this for both.\r\n3. We shouldn't move existing shards, and we should prefer machines with lowest number of responsibilities for new shards.\r\n\r\nThis system is a) simple enough to do, b) won't raise eyebrows from early adopters, and c) will do a reasonably good job in production. Any optimizations beyond this we can deal with later."
+  , issueCommentId = 13631912
+  }

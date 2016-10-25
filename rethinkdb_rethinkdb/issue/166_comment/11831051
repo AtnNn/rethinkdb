@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-03) 00 : 43 : 29 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11831051"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/166#issuecomment-11831051"
+  , issueCommentCreatedAt = 2013 (-01) (-03) 00 : 43 : 29 UTC
+  , issueCommentBody =
+      "Ok, I've decided to remove this error message entirely and have workers die silently if they hit an unexpected end-of-file.  If this happens, it indicates a problem in the server process rather than the worker, and the interface here is so simple, this should never happen under normal circumstances.  I should probably reiterate that the reason we *are* seeing this is because when the server process dies due to some unrelated error, its file descriptors are closed, and thus the extprocs hit EOF in their pipe from the server, which is entirely expected.\r\n\r\nThe only complication with not having this log statement is that if somehow this happens when the server *isn't* crashing, we won't have any visibility at the moment.  This ties into issue #69, which should add visibility when a worker process fails, and have the ability to restart them as needed.  I think we will be fine without this log statement until then."
+  , issueCommentId = 11831051
+  }

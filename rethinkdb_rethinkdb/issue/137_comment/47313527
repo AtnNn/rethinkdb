@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-27) 07 : 00 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47313527"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47313527"
+  , issueCommentCreatedAt = 2014 (-06) (-27) 06 : 59 : 26 UTC
+  , issueCommentBody =
+      "> If you think individual files should be broken into chunks that are spread across multiple machines, that's at minimum 3 months of extra work. I would guess 8 months. Unless you don't mind answering and fixing github issues complaining about how their database is leaking data or leaving files in an inconsistent state. If you don't, then it's only 1 month of up-front extra work, plus 3 months after that.\r\n\r\nThese are famous last words, but that seems like an over-estimate to me.\r\n\r\nHere's how we'd architect it:\r\n* One metadata table, one file table.  Metadata table maps from names to size, uuid, and whatever else the user wants to put in there.\r\n* Inserting a file: insert an entry in the metadata table, set the state to INCOMPLETE, set the size to 0.  We also pick a UUID for the file at this time.\r\n* Uploading a file: We upload chunks one at a time, in order.  Before we write the chunk document, we increment the size in the metadata object.\r\n  - If we're interrupted, **the user** has to resume later.  You can only resume uploading to an INCOMPLETE document.  We first check whether the last chunk was actually inserted (because we incremented the size before it was committed).  If it isn't, we resume starting at that chunk.\r\n  - When we're done, we set the state to READY.\r\n* Deleting a file: We set the state to PARTIALLY_DELETED, and delete the chunks one at a time in reverse order.  We ignore missing chunks.  After a chunk is deleted, we decrement the size in the metadata object.  When the size in the metadata object is 0, we delete the metadata object.  You can only ever delete a metadata object of size 0.\r\n  - If we're interrupted, **the user** has to resume the delete by calling it again.  You can only resume deleting a PARTIALLY_DELETED document.\r\n* If you go to access a file and its state isn't READY, or if you go to find a chunk and it isn't there, the user gets an error.\r\n* If you try to create a new file when a file of that same name is in an inconsistent state, you get an error.\r\n\r\nUsers can see any files that are in incomplete states with `file_list`, and resume uploading or deleting.  They can also see how much space is used by files in incomplete states."
+  , issueCommentId = 47313527
+  }

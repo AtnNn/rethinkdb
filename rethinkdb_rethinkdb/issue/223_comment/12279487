@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 17 : 41 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12279487"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/223#issuecomment-12279487"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 17 : 41 : 39 UTC
+  , issueCommentBody =
+      "coffeemug:\r\n\r\n\r\n> Namespace 'foo' is in emergency failover mode due to machine failure, it may become inaccessible if more machines fail.\r\n\r\nThat's great, though we might want to somehow link it with the issue that arises due to the unreachable machine (or merge them somehow). Naturally if the user declared the unreachable machine dead, both of these issues go away. Presumably this is the only way to resolve the issue (unless we allow marking the vice-primary as primary while one of the machines is unreachable, but since we don't compile blueprints while machines are unreachable, I don't know if we want to violate this rule).\r\n\r\n> If the master reconnects it becomes a secondary so long as the flag is flipped or in the case of divergent data (which is likely) goes into a failure recovery mode.\r\n\r\nSo presumably in this mode we raise an issue and the user has to pick (or we can automatically pick a new one, or let them set the rule in advance -- whatever). While we're in this state, who remains primary? (presumably vice-primary), and what does the original primary do? (presumably nothing -- it can't act as secondary because it diverged, right?)\r\n\r\nSo the one problem with making a vice-primary be the coordinator is that we can't just have a table-wide, datacenter-wide, or cluster-wide if we need one (e.g. if we want to automatically rebalance or something). I think there is a really easy way to fix this though. Say, the coordinator for the lowermost range shard (i.e. -inf-...) is designated as coordinator for table, etc.\r\n\r\nAnother problem with the whole thing is, what happens if there is a network race and we compile two blueprints that designate different machines as vice-primaries and now we have two machines think they're vice-primaries until they discover there is a blueprint conflict. I think we'd need to think this one through very carefully.\r\n"
+  , issueCommentId = 12279487
+  }

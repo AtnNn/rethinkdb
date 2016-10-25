@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 06 : 12 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 36466
+        , simpleUserLogin = N "charl"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/36466?v=3"
+        , simpleUserUrl = "https://api.github.com/users/charl"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12254731"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/213#issuecomment-12254731"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 06 : 04 : 22 UTC
+  , issueCommentBody =
+      "With the rethinkdb-1.2.6.1 gem all of @mlucy's checks above work where they did not previously:\r\n\r\n```ruby\r\njruby-1.7.0 :006 >   r([{:id => 0, :iso_language_code => \"abc\"}, {:id => 1, :iso_language_code => \"def\"}]).filter{r.js(\"!!this.iso_language_code.match(\\\"abc\\\")\")}.run\r\n => [{\"id\"=>0, \"iso_language_code\"=>\"abc\"}] \r\njruby-1.7.0 :007 > \r\njruby-1.7.0 :008 >   r([{:id => 0, :iso_language_code => \"abc\"}, {:id => 1, :iso_language_code => \"def\"}]).filter{r.js(\"!!this.iso_language_code.match(\\\"de\\\")\")}.run\r\n => [{\"id\"=>1, \"iso_language_code\"=>\"def\"}] \r\njruby-1.7.0 :009 > \r\njruby-1.7.0 :010 >   r([{:id => 0, :iso_language_code => \"abc\"}, {:id => 1, :iso_language_code => \"def\"}]).filter{r.js(\"!!this.iso_language_code.match(\\\"\\\")\")}.run\r\n => [{\"id\"=>0, \"iso_language_code\"=>\"abc\"}, {\"id\"=>1, \"iso_language_code\"=>\"def\"}]\r\njruby-1.7.0 :031 > \r\njruby-1.7.0 :032 >   r.expr([286093203667562500, 286825656715730940]).map {|id| r.table(table).get(id)}.run\r\n => [nil, nil]\r\n```\r\n\r\nThe original query however still fails:\r\n\r\n```ruby\r\njruby-1.7.0 :044 >   r.expr([286093203667562500, 286825656715730940]).map {|id| r.table(table).get(id)}.filter { r.js(\"this.iso_language_code.match(\\\"en\\\")\") }.run()\r\nRuntimeError: RQL: failed to evaluate javascript: calling function failed:\r\nUncaught TypeError: Cannot call method 'match' of undefined\r\nLine: (irb):44:in `evaluate'\r\nQuery: [286093203667562500, 286825656715730940].map(\"_var_1021\", getbykey([:default_db, \"tweets\"], :id, _var_1021)).filter(\"_var_1022\", js(\"this.iso_language_code.match(\\\"en\\\")\"))\r\n                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:119:in `error'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:150:in `token_iter'\r\n\tfrom org/jruby/RubyKernel.java:1390:in `loop'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:125:in `token_iter'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.1/lib/net.rb:211:in `run'\r\n\tfrom org/jruby/RubyBasicObject.java:1673:in `__send__'\r\n\tfrom org/jruby/RubyKernel.java:2081:in `send'\r\n\tfrom /home/charl/.rvm/gems/jruby-1.7.0@thoth/gems/rethinkdb-1.2.6.1/lib/query.rb:14:in `run'\r\n\tfrom (irb):44:in `evaluate'\r\n\tfrom org/jruby/RubyKernel.java:1065:in `eval'\r\n\tfrom org/jruby/RubyKernel.java:1390:in `loop'\r\n\tfrom org/jruby/RubyKernel.java:1173:in `catch'\r\n\tfrom org/jruby/RubyKernel.java:1173:in `catch'\r\n\tfrom /home/charl/.rvm/rubies/jruby-1.7.0/bin/irb:13:in `(root)'\r\n```"
+  , issueCommentId = 12254731
+  }

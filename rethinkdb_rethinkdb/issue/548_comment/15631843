@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-29) 07 : 52 : 58 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15631843"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15631843"
+  , issueCommentCreatedAt = 2013 (-03) (-29) 07 : 52 : 58 UTC
+  , issueCommentBody =
+      "I don't quite follow.  The problem with a base is that it encourages people to write things like:\r\n```ruby\r\nr.table('test').reduce(0) {|acc, row| acc + row[:num]}\r\n```\r\n\r\nPeople think \"it will pass the base and the first row to the function, then pass the result of that and the second row to the function, etc. etc.\".  If, however, there *is* no base, then this function looks really wrong:\r\n```ruby\r\nr.table('test').reduce {|acc, row| acc+ row[:num]}\r\n```\r\nWhen there's no base, it's obvious that both arguments to the function will be rows, so people aren't tempted to write reduction functions that rely on fold semantics.  The programmer thinks \"wait, where does the first value for `acc` come from?\", and sees that both arguments have to be of the same type.\r\n\r\nBy contrast, if you write a correct reduction function:\r\n```ruby\r\nr.table('test').map{|x| x[:num]}.reduce{|a,b| a+b}\r\n```\r\n\r\nThen it looks obviously correct without a base, and the base seems superfluous:\r\n```ruby\r\nr.table('test').map{|x| x[:num]}.reduce(0) {|a,b| a+b}\r\n```"
+  , issueCommentId = 15631843
+  }

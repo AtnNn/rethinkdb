@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-19) 23 : 56 : 55 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10537025"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/52#issuecomment-10537025"
+  , issueCommentCreatedAt = 2012 (-11) (-19) 23 : 56 : 55 UTC
+  , issueCommentBody =
+      "Ok, so here's the thing. When initializing a block, that is usually done by calling get_data_major_write() on the buffer lock. get_data_major_write() in turn calls ensure_flush(), which is meant to - well - ensure that the buffer gets flushed.\r\nNot let's take a look at that little function:\r\n\r\n    void mc_buf_lock_t::ensure_flush() {\r\n        [... asserts and stuff]\r\n        if (!inner_buf->writeback_buf().needs_flush()) {\r\n            // We bypass the patching system, make sure this buffer gets flushed.\r\n            inner_buf->writeback_buf().set_needs_flush(true);\r\n            // ... we can also get rid of existing patches at this point.\r\n            inner_buf->cache->patch_memory_storage.drop_patches(inner_buf->block_id);\r\n            // Make sure that the buf is marked as dirty\r\n            inner_buf->writeback_buf().set_dirty();\r\n            inner_buf->data_token.reset();\r\n        }\r\n    }\r\n\r\nAs we can see, it does stuff whenever needs_flush has not been set yet. This is quite sane, as ensure_flush() is the only place where needs_flush gets set from, and it doesn't make sense to \"ensure\" a flush twice before another writeback has happened (which would reset the flag).\r\n\r\nNow there is one little problem with this logic: the part of mc_inner_buf_t::allocate() that is responsible for re-setting an existing buf_t so it can be re-used for a fresh block misses on one crutial part: It doesn't reset the writeback_buf. Apart from the dirty flag, it also doesn't reset the needs_flush flag. So let's consider this situation:\r\n\r\n1. A block #X is modified and ensure_flush() is called in the process of it. needs_flush is set to true.\r\n2. Block #X is marked for deletion and the lock on the buffer is released (mc_buf_lock_t::release()). As part of that, block ID X is passed on for deletion to the writeback, and the dirty flag is reset to false (otherwise writeback would first delete the block, just to write it back to disk afterwards again). However the needs_flush flag is not touched and remains true (nothing wrong with that so far).\r\n3. A writeback is performed, block id X is marked in the LBA as deleted, the block id added to the free list.\r\n4. Another transaction requests a new block. As it happens, it gets block id X assigned for the new block.\r\n5. Now assume that a snapshot on the old buffer is still around. This triggers the execution of the buf re-using code in mc_inner_buf_t::allocate().\r\n6. The transaction now initialized the fresh block, by calling get_data_major_write(), which in turn calls ensure_flush(). Unfortunately the needs_flush flag was never unset. ensure_flush() becomes a no-op and doesn't set the dirty but.\r\n7. The transaction releases the buffer, it eventually gets evicted from the cache.\r\n8. The buffer never got persisted to disk, as its dirty flag was never set.\r\n\r\nI propose fixing this by making allocate() also reset the writeback state properly. A pull-request is on the way."
+  , issueCommentId = 10537025
+  }

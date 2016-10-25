@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-28) 01 : 25 : 52 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47414515"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47414515"
+  , issueCommentCreatedAt = 2014 (-06) (-28) 01 : 25 : 52 UTC
+  , issueCommentBody =
+      "> For example the query layer suddenly has to distinguish between an unreachable and a dead node.\r\n\r\nI don't quite follow.  When you declare a node dead, its shard responsibilities get re-assigned, right?  So the `delete` can continue just fine (it will go to the new master for that shard, find nothing, and skip the missing chunks).\r\n\r\nActually, thinking about this more: one problem is that the responsibility might change to a replica, which might not have performed all the writes the master did, possibly leaking chunks (since the size in the metadata has already been updated).  We'd have to either add slightly-clever logic to the \"declare dead\" code to increase the size of the partially deleted file or add a \"cleanup\" command that scans the whole file table and deletes any chunks that the metadata says shouldn't exist."
+  , issueCommentId = 47414515
+  }

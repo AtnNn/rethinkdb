@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-03) (-08) 00 : 53 : 00 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/37083439"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-37083439"
+  , issueCommentCreatedAt = 2014 (-03) (-08) 00 : 53 : 00 UTC
+  , issueCommentBody =
+      "Also note another pathological behavior with the current algorithm.  Suppose you have fifty very small tables, their size being effectively 0.25% of total memory.  What happens when they don't have enough cache size?  They evict some blocks, and suddenly they're one of the top evicters.  Suddenly, 4% of total memory gets allocated to one or two of these tables.  And they never use it!  And then that 4% trickles back to the rest of the cache.  (Use the rule of 72: after 18 timesteps, half of that 4% will trickle to the rest of the cache.  After 36 timesteps, three quarters of that 4% will trickle to the rest of the cache.  After about 54 timesteps, the table's memory allocation will be 0.5% of the size of the cache.  And after 72 timesteps, it'll be back to 0.25% and below, and a bunch of evictions will happen, and it'll jump back up to 4%.  As a result you're left with on average about 4x more space allocated than necessary to these small tables.  The multiple gets worse if you make the tables smaller and increase the number of them."
+  , issueCommentId = 37083439
+  }

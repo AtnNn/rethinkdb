@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-10) (-11) 15 : 07 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/26091881"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/175#issuecomment-26091881"
+  , issueCommentCreatedAt = 2013 (-10) (-10) 21 : 07 : 47 UTC
+  , issueCommentBody =
+      "> Can we have which machine perform which task? (I suppose it's one machine per task right?)\r\n\r\nWe'll have this.\r\n\r\n> Do we give information about intra cluster traffic? (just wondering)\r\n\r\nThis is a bit vague to me. The most we can say about intra cluster traffic is, for example: \"We were doing a read, we measured this process to take 10 ms. On the machine we did the read from it measured its process to take 7 ms. From this we surmise that there was 3 ms of time spent waiting for the network traffic.\" We could probably give information when we send information over the network, how much we're sending and to whom. However we can't in general say, we sent a message to this machine and it arrived 1.5 ms later.\r\n\r\n> Can we make sure that tasks executed in parallel are part of a meta task? That is to say, your example would be\r\n\r\nThis isn't explicitly enforced by the schema but in practice they always will be. Consider these for reference:\r\n\r\n```Python\r\n{\r\n    \"value\" : ...,\r\n    \"profile\" : A\r\n}\r\n\r\n{\r\n    \"value\" : ...,\r\n    \"profile\" : [\r\n        {\r\n             \"duration\" : ...,\r\n             \"description\" : ...,\r\n             \"sub_tasks\" : B\r\n        }\r\n    ]\r\n}\r\n```\r\n\r\nThe schema here is recursive such that `A` and `B` have an identical schema but in practice the top level will never contain parallel tasks, they're always going to wind up inside of sub_tasks with names like \"performing read\"."
+  , issueCommentId = 26091881
+  }

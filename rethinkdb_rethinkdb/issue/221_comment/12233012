@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-14) 18 : 43 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12233012"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12233012"
+  , issueCommentCreatedAt = 2013 (-01) (-14) 18 : 43 : 54 UTC
+  , issueCommentBody =
+      "I'm happy to use node libraries internally, but am loath to force users to include specific libraries in order to use common functionality. Node makes it easy to make use of standard libraries but I wouldn't want to make browser users go through the extra hassle of including Node libraries on their pages. Hopefully we'll be able to support the Node stream interface while also providing sugar for operations like `collect`.\r\n\r\nThe universal response to the lambda function syntax has been confusion followed by appreciation. We're going to keep it but will have to do a much better job documenting how it works. The key is to understand that the actual JS lambda function is executed exactly once, on the client side, in order to build a sub query to serialize and send to the server for execution. If you want to send actual JS text to the server (Mongo style) you have to use `r.js`. If you include impure code it will get executed exactly once and you'll get an error only if the function fails to return a RQL expression. In the given example the argument passed in (`num`) is a RQL variable reference that will be bound to the receiver of the `do` method. As we cannot overload JS operators, the `mul` method must be used to perform multiplication. The example was meant to show how to reference a single variable twice by binding it with a lambda function. That example actually looks a lot nicer in the Python driver as we are able to overload the `*` operator.\r\n\r\n```python\r\n>>> r.expr(2).do(lambda num: num * num).run()\r\n4\r\n```\r\n\r\nIn the `map` case, the lambda function is again executed once to build the query even though the resulting AST will be executed on the server for each value in the sequence. Consider the following (stylized) example:\r\n\r\n```javascript\r\n>>> r([1,2,3]).map(function(row) { console.log(row); return row.add(1) }).run()\r\n<RQL Variable reference>\r\n[2,3,4]\r\n```\r\n\r\nAs you can see, the `log` is executed once and prints an object that represents a RQL variable that will be bound on the server. The point of the lambda function is to hide the RQL variable reference behind an actual JS variable. You can imagine clunkier alternatives such as perhaps: `r(2).do(r.arg[0].add(1)).run()` that accomplish the same feat but requires some other means of referencing function arguments. Since you are in essence supplying a lambda function to the server, we though that using native lambda functions would provide a much more intuitive interface. Do you have any suggestions on how to make this more clear? Part of the problem I think is the relative verbosity of JS. Coffeescript really does shine with this API: `r(1).do (num) -> num.mul num` though still doesn't allow operator overloading.\r\n\r\nThe cursor interface will be overhauled with the rest of the driver. We didn't think very carefully about it the first time around (the Python driver's batched iterator interface was designed first and the asynchronous streaming in JS second) but need to get it right this time around. Once I have a proposal I'd love a critique."
+  , issueCommentId = 12233012
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-13) 08 : 53 : 25 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12191213"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/213#issuecomment-12191213"
+  , issueCommentCreatedAt = 2013 (-01) (-13) 08 : 53 : 25 UTC
+  , issueCommentBody =
+      "Ah, I think I see the problem.  I didn't work on the javascript code so I'm not sure if this explanation is actually correct, but I think `this` has to be bound to an object in javascript.  We should probably throw an error here, but instead we seem to just pass in the empty object:\r\n```ruby\r\nirb(main):014:0> r([1,2,3]).map{r.js(\"this\")}.run\r\n=> [{}, {}, {}]\r\n```\r\n\r\nYou can get around that by using a named variable rather than the implicit variable:\r\n```ruby\r\nirb(main):013:0> r([1,2,3]).map{|x| r.js(\"#{x}\")}.run\r\n=> [1, 2, 3]\r\n```\r\n\r\nIn your case, you can just move the attribute access into the javascript function and it should (hopefully) work fine:\r\n```ruby\r\nr.expr([286093203667562500, 286825656715730940]).map {|id|\r\n  r.table(table).get(id)\r\n}.filter {\r\n  r.js(\"this[\\\"id\\\"].iso_language_code.match(\\\"en\\\")\")\r\n}.run()\r\n```\r\n\r\nIf that doesn't work, could you paste in the error message again?\r\n\r\nI'll open an issue about the empty object thing."
+  , issueCommentId = 12191213
+  }

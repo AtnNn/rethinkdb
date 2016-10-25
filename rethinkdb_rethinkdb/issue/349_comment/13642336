@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-16) 05 : 02 : 54 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13642336"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13642336"
+  , issueCommentCreatedAt = 2013 (-02) (-16) 03 : 47 : 23 UTC
+  , issueCommentBody =
+      "I can think of a couple of issues to consider before allowing write operations in expressions:\r\n\r\n *  If we evaluate an expression at the B-tree as part of a write operation, and that expression itself contains write operations, bad things happen. For example, consider the query `r.table(...).filter({\"id\": ...}).update(lambda x: f(x))`. Suppose we implement this by pushing out a point-mutation write operation directly to the replicas that contain the document with the given primary key. Then `f` will get run once for each replica, and might even get run again much later as part of a backfilling operation. This might even apply to queries like `r.table(...).filter(lambda x: f(x)).delete()`, depending on how we implement them.\r\n\r\n    Basically, any expression that gets pushed as part of a write operation has to be side-effect-free and deterministic. That means we can't allow write operations in just any context.\r\n\r\n *  If we allow write operations in an expression, we have to define precisely how many times that expression will be evaluated. For example, we would have to define whether `r.branch(True, x, y)` evaluated `y` or not. This isn't a huge issue, but it might interfere with optimization at some point. If expressions can't have side effects, we can evaluate them as few or as many times as we like and nobody will know.\r\n\r\n *  This was a problem at one point, but no longer is: Suppose we have a table with a bunch of documents in it, and none of them have a field called `y`. Something is constantly inserting more documents. In parallel, we run the query `r.table(...).filter(...).do(lambda x: x.count().do(lambda y: x.update({\"y\": y})))`. The number of documents with a field called `y` should be exactly equal to the value of that field on each document... right? Or not? It's not clear whether we provide that guarantee or not. However, this is no longer a problem because we would automatically demote the table to an array when it passed through `do`, so that query would be illegal. I only include this because it's one of the issues that you might have remembered us discussing at one point.\r\n\r\nOther than that I don't see any compelling reason why write operations shouldn't eventually be allowed in expressions. However, if the deadline is two weeks away, it sounds like a bad idea to do it now. Maybe we should unify `map` and `for_each` but leave everything else the same?"
+  , issueCommentId = 13642336
+  }

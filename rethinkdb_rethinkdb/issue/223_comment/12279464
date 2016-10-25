@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-15) 17 : 41 : 16 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 290841
+        , simpleUserLogin = N "al3xandru"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/290841?v=3"
+        , simpleUserUrl = "https://api.github.com/users/al3xandru"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12279464"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/223#issuecomment-12279464"
+  , issueCommentCreatedAt = 2013 (-01) (-15) 17 : 41 : 16 UTC
+  , issueCommentBody =
+      "jdoliner:\r\n\r\n> Alternatively, is that what the coordinator is for? Like if the primary can't contact either the coordinator or the vice-primary, it stops serving writes and up-to-date reads? That seems to have the desirable characteristic that two machines have to fail before we require human intervention, but we don't have two servers handling write queries on opposite sides of a netsplit (or at least not for very long).\r\n\r\nThe master machine serves queries for better or for worse until it sees that the flag in the blueprint has been flipped. This should only happen if it disconnects and then reconnects. When it reconnects one of 2 things happens: if its data isn't divergent it just falls in line as a secondary (this keeps our replica count where the user set it which is nice).\r\n\r\nIf it's data is divergent it goes in to recovery mode. \r\n\r\nThis will require an addition to the reactor. Basically there needs to be a separate code path \"reactor_be_ousted_primary\" or something. Without divergence it just behaves like reactor_be_secondary. But with divergence it just constructs a direct_reader_t and waits for us to blow away the data (we need to decide exactly how we do this but I think we can find a good answer here). Since it's constructed a direct_reader_t we can now do reads from this divergent copy of the data as if it were a normal namespace. This can be exposed to the user as table(\"name\").branch(uuid). On which you can do any read operation so you can get your diverged data out if you need to.\r\n\r\nEdit:\r\n\r\nActually because we can have a divergent master we can also have a divergent secondary so we'll probably need similar logic in reactor_be_secondary. Or maybe we just won't have reactor_be_ousted_primary role at all."
+  , issueCommentId = 12279464
+  }

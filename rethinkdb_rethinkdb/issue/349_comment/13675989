@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-16) 23 : 16 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13675989"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/349#issuecomment-13675989"
+  , issueCommentCreatedAt = 2013 (-02) (-16) 22 : 14 : 20 UTC
+  , issueCommentBody =
+      "Fair point about the lazy iterators.  That makes me lean strongly toward never allowing writes to execute on a shard.\r\n\r\nLet's be clear what's being proposed: where would writes be allowed and disallowed?  I would be in favor of any of these, for example:\r\n* Allowing writes everywhere with a clear error message if people try to execute a write on a shard.\r\n* Allowing writes anywhere except in a function passed to a non-foreach stream operation.\r\n* Allowing writes anywhere except in a function passed to a non-foreach stream operation on a stream which was lazy at some point in the chain.\r\n\r\nAlso, as an aside, one of the advantages of the new system is that people can write things like:\r\n```ruby\r\ntbl.foreach {|row|\r\n  tbl2.get(row[:tbl2_id]).update({:state => :new}).do {|write_res|\r\n    r.branch(write_res.hasattr(:replaced).not,\r\n             erronious_rows_tbl.insert(row.merge({:write_res => write_res})),\r\n             write_res)\r\n  }\r\n}\r\n```\r\n                 \r\nIn other words, we let people execute conditional expressions based on what happened during a write **even if they're in the middle of a batch of writes**.  I know at least one person asked me how to do something like this once (and for the record, anecdotal evidence is the *cool* kind of evidence).\r\n   "
+  , issueCommentId = 13675989
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-11) 08 : 14 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10264187"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/18#issuecomment-10264187"
+  , issueCommentCreatedAt = 2012 (-11) (-11) 08 : 14 : 25 UTC
+  , issueCommentBody =
+      "So, the symbols I'm getting back in the backtrace don't make much sense, but the one at the top of the stack could very well have segfaulted:\r\n```\r\n#0  0x000000000048804a in get_ips () at arch/io/network.cc:900\r\n```\r\nwhere\r\n```c\r\n    int addr_res = getifaddrs(&if_addrs);\r\n    guarantee_err(addr_res == 0, \"getifaddrs failed, could not determine local ip addresses\");\r\n\r\n    for (ifaddrs *p = if_addrs; p != NULL; p = p->ifa_next) {\r\n>>>     if (p->ifa_addr->sa_family == AF_INET) {\r\n            if (!(p->ifa_flags & IFF_LOOPBACK)) {\r\n```\r\n\r\nWe were assuming that `getifaddrs()` would not return a structure with `ifa_addr = NULL`, but according to the documentation, that's not always true.\r\n\r\nI fixed this in commit f872a0b8fb5bbc49b82b251ff2560fa37e1b40f7, and it should be published soon."
+  , issueCommentId = 10264187
+  }

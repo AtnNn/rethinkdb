@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-04) 19 : 08 : 27 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11010439"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/135#issuecomment-11010439"
+  , issueCommentCreatedAt = 2012 (-12) (-04) 19 : 08 : 27 UTC
+  , issueCommentBody =
+      "This is a semi bug. How this came up was the Joey added a machine and then resharded one of his tables. This causes a request with \"prefer_distribution=1\" to be sent which means that when we compile blueprints for the tables *all* of the tables prefer distribution and thus we wind up losing availability on all of them. This was confusing to him and I think it's a kind of bad behavior.\r\nWe can sort of hack together a fix by making it so that prefer_distribution takes a table id rather than just true or false which will mean you only lose availability in one table. This is better but feels good not great.\r\n\r\nMy long term proposal is to use the same code we use for auto failover. Basically auto failover boils down to the logic:\r\nMachine `A` is master if machine `A` goes out of contact then make Machine `B` master. Never switch back to `A` except through human intervention.\r\n\r\nWhile momentary-loss-remaster boils down to:\r\nMachine `A` is master and Machine `B` is secondary. If machine `B` is up to date then make Machine `B` master. (And machine `A` master or secondary as the case may be). Never undo this without human intervention.\r\n\r\nSo if we build one we can build the other which I think should give them both a small bump on the road map."
+  , issueCommentId = 11010439
+  }

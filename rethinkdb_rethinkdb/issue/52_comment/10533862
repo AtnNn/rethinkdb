@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-19) 22 : 20 : 34 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10533862"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/52#issuecomment-10533862"
+  , issueCommentCreatedAt = 2012 (-11) (-19) 22 : 20 : 34 UTC
+  , issueCommentBody =
+      "Yeah, but also one shouldn't allocate a block and then not initialize it with any data. At the very least whoever allocates the block should put some header/magic into it.\r\n\r\nThere are two things at fault here it seems, which together manage to create catastrophe.\r\n\r\n\r\nBy the way: Are new blocks zeroed out anywhere? I can't find where that happens, which would mean that part of the data written to disk is random chunks of uninitialized memory.\r\n\r\nThere is this piece of code in mirrored.cc\r\n\r\n    #if !defined(NDEBUG) || defined(VALGRIND)\r\n        // The memory allocator already filled this with 0xBD, but it's nice to be able to distinguish\r\n        // between problems with uninitialized memory and problems with uninitialized blocks\r\n        memset(inner_buf->data.get(), 0xCD, cache->serializer->get_block_size().value());\r\n    #endif\r\n\r\nBut it is not enabled in release mode and I cannot find how the allocator would guarantee to initialize the data (memory is ultimately allocated using posix_memalign, which doesn't mention initialization in its documentation) . Am I missing something?"
+  , issueCommentId = 10533862
+  }

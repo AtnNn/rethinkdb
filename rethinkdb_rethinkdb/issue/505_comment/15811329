@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-03) 00 : 32 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15811329"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/505#issuecomment-15811329"
+  , issueCommentCreatedAt = 2013 (-04) (-03) 00 : 32 : 24 UTC
+  , issueCommentBody =
+      "@presidentbeef I've been trying to replicate your environment on a VM. I've setup Ubuntu Server 12.10 with only 1024MB of RAM and a single processor.\r\n\r\nAny query that accesses the whole \"reports\" table stabilizes at about ~750MB of RAM. Subsequent queries (including the filter) don't push up this high water mark. This is expected. The RethinkDB buffer cache will expand into free memory and only evict when it runs out of memory to expand into. Subsequent queries that access the same rows won't use any more memory because those blocks are already loaded into the buffer cache. The fact that subsequent queries failed to expand this memory footprint suggest that there is not a big memory leak.\r\n\r\nI was able to get the OOM killer to kill RethinkDB when I tried to run an `order_by` operation on the table (which is notoriously memory inefficient) but did not get a TCMalloc allocation failure. Do you have any swap enabled on your system? My VM is configured with 1024MB of swap as well. The process was only killed when I filled all of swap as well as RAM and the OOM killer kicked in."
+  , issueCommentId = 15811329
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-07) 22 : 23 : 09 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14590191"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/416#issuecomment-14590191"
+  , issueCommentCreatedAt = 2013 (-03) (-07) 22 : 22 : 16 UTC
+  , issueCommentBody =
+      "The previous Python driver had some nice behaviors that this one doesn't:\r\n* Calling `type(some_rql_object)` returned a class with an intuitive name, like `JSONExpression` or `WriteQuery`.\r\n* The class of a query depended only on the type of the query, and not on what query it was. For example. `type(r.expr(2)+2)` returned `<class 'rethinkdb.query.JSONExpression'>`, not `<class 'rethinkdb.internal.Add'>`.\r\n* The intuitively-named types were exposed; end-users could do things like `assert isinstance(foo, r.JSONExpression)` in their own code. (The internal types like `rethinkdb.internal.Add` were hidden, of course.)\r\n\r\nI think those features made the driver much more intuitive, because the class hierarchy (the publicly-visible part of it, at least) described exactly what it was possible to do with each object. It also made documentation straightforward.\r\n\r\nThe disadvantage of that approach was that it required a layer of wrapper classes; instead of subclassing `JSONExpression`, the old driver had a separate set of objects, which `JSONExpression` wrapped around. It looks like this new API decided to prefer simplicity of implementation to simplicity of interface, and dropped that convention. That's OK; in particular, because `RDBBase` overrides `__repr__`, people won't see anything strange unless they explicitly call `type(r.expr(2)+2)`. But there are still some things that would be nice to improve:\r\n* `RDBBase` needs a more intuitive name. Perhaps `RqlQuery`?\r\n* `RDBBase` should be exposed to end-users."
+  , issueCommentId = 14590191
+  }

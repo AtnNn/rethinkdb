@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-10) (-09) 20 : 56 : 15 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/58576281"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/152#issuecomment-58576281"
+  , issueCommentCreatedAt = 2014 (-10) (-09) 20 : 56 : 15 UTC
+  , issueCommentBody =
+      "I think @srh should work on it after the implementation of precise timestamps and removal of index post-construction queues.\r\n\r\nIt's really important because it's so visible. People often insert a bunch of data, run `count` as a quick and dirty test, and then become surprised that it takes so long. They get further surprised when they look at a table view and see a wrong number of documents -- making it clear in the UI that it's an approximation doesn't help.\r\n\r\nSo I think it's important to fix this. I don't see why the implementation for the basic feature `r.table().count` is hard -- we can store the number of documents in the tree and then aggregate it across shards. An argument can be made that it's hard because of locking -- you don't know what a command does to the tree until it's done, but I think that's ok. If the user runs a command and then runs count afterwords, the command will have been finished by the time count runs (because of the network round trip). If they do it via noreply or concurrent clients it's also ok -- count is a range command, and it's ok if it's out of date for a few milliseconds.\r\n\r\n@srh also had some ideas for a more involved implementation that actually keeps a precise count for arbitrary ranges of the btree. I'm not sure how long that would take and how immediately useful it is relative to other work that could be done, so I'd be inclined not to do that, and just get the basic implementation up and running first."
+  , issueCommentId = 58576281
+  }

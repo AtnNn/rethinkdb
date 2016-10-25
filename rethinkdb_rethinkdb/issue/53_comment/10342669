@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-13) 20 : 43 : 19 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10342669"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/53#issuecomment-10342669"
+  , issueCommentCreatedAt = 2012 (-11) (-13) 20 : 42 : 20 UTC
+  , issueCommentBody =
+      "Depending on what you mean by out-of-date count, I think `count` command *itself* should be out-of-date. It essentially already is because of the traversal -- while the system runs the traversal to count the number of keys, the user may insert or delete keys which count won't see. Since there are no cluster-wide snapshot isolation guarantees here, and the traversal may take a long time, our current `count` is technically more \"out-of-date\" than an out-of-date constant time count would be.\r\n\r\nAs long as we still go to the masters to grab the number per b-tree (so there is no chance of getting it from a heavily out-of-date replica on a net split), it should just be done as the `count` command. If the user passes an out-of-date flag, we should do it from the replicas. And we should drop the traversal version of `count` all together.\r\n\r\n"
+  , issueCommentId = 10342669
+  }

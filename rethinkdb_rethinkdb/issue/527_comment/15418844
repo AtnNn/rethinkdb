@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-25) 19 : 43 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15418844"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/527#issuecomment-15418844"
+  , issueCommentCreatedAt = 2013 (-03) (-25) 19 : 43 : 01 UTC
+  , issueCommentBody =
+      "In the old protocol the server returned results as JSON strings. The old Python driver simply called JSON.parse on it so we inherited the behavior of the Python JSON package. Now that we use our own serialization format the choice is ours and the decision was made to not automatically coerce RQL number results to Python ints for the reasons stated more eloquently by others above.\r\n\r\nJust as both Python floats and ints are converted to RQL numbers and RQL numbers coverted to Python floats, both Python strings and unicode strings are converted to RQL strings (which support unicode) and RQL strings converted to Python unicode strings. So after a round trip Python ints appear automatically coerced to floats and regular Python strings to unicode strings. Analogous to a `% 1 == 0` check would be a scan for non-ascii code points > 127. In both cases I would rather leave it up to the application (which has a much better understanding of the real schema in use) than try to guess as to which type is expected.\r\n\r\nWhile this results in some potentially annoying behavior in the case of both strings and numbers I hope you agree that the reverse would be worse. In the future when we support more types on the server it will be possible to better match the types available in Python though introduce other complications in host languages that don't natively support all RQL types (such as JavaScript with integers)."
+  , issueCommentId = 15418844
+  }

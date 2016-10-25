@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-14) 05 : 51 : 20 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 479538
+        , simpleUserLogin = N "Raynos"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/479538?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Raynos"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12207529"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12207529"
+  , issueCommentCreatedAt = 2013 (-01) (-14) 05 : 50 : 42 UTC
+  , issueCommentBody =
+      "Having a further look at your api documentation the only reference to error handling I see is in the failureCallback to `db.connect`. A more urgent issue is documenting how to handle errors properly.\r\n\r\nHaving looked at your code it seems the only way to handle errors is `conn.setErrorHandler` which is very frustrating as you have no idea which query that error came from and furthermore no idea which `(req, res)` caused that error if your using the same `conn` for multiple HTTP request cycles.\r\n\r\nYou really need to fix your error handling flow. In fact every `cursor` should be an event emitter and emit any `\"error\"` on itself locally so that developers can catch errors caused by individual cursors being run from the cursor instead of from the `conn` shared among the entire process.\r\n\r\nThe alternative is to create a new `conn` object per HTTP `req`/`res` which would most probably be horribly inefficient unless I can get `conn` objects to share a TCP pool internally but that's probably also a nightmare to implement as driver author."
+  , issueCommentId = 12207529
+  }

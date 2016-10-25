@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-10) 21 : 48 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10260287"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/16#issuecomment-10260287"
+  , issueCommentCreatedAt = 2012 (-11) (-10) 21 : 48 : 42 UTC
+  , issueCommentBody =
+      "So, I might be reading this wrong, but I believe the problem is that right now all the clients hard-code 'id' as the primary key in a few places, including as the key we select on for the right table in an eq_join.\r\n\r\nAt least in the Ruby client, the syntax here is that the first argument is the attribute we're selecting from the *left* table, and then we always use `id` as the attribute of the right table.\r\n\r\nWe should just fix this on the server, so that instead of hardcoding the `id` in the client that part of the protobuf is optional and it's filled in by the server as the primary key of the table.\r\n\r\nA simpler client-only fix would be to reintroduce the optional third argument to `eq_join`, and let users specify the primary key of the right table there.  This would also be forward-compatible when we introduce secondary indexes.  I'll open a separate issue about that."
+  , issueCommentId = 10260287
+  }

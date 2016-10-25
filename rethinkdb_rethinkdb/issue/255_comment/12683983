@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-25) 01 : 41 : 05 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12683983"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/255#issuecomment-12683983"
+  , issueCommentCreatedAt = 2013 (-01) (-25) 01 : 41 : 05 UTC
+  , issueCommentBody =
+      "@timmaxw The point of `with` in my proposal is not to manage connection lifetimes, it's to manage the context used by `query.run()`. Rather than a global set there is a global stack. `conn.__enter__` pushes `conn` onto the stack, `conn.__exit__` pops it. Thus you can do the following correctly:\r\n\r\n```python\r\n\r\ndef someFun():\r\n   with r.connect() as c2:\r\n      query2.run() #uses c2\r\n\r\nwith r.connect() as c1:\r\n   query1.run() # uses c1\r\n   someFun()\r\n   query3.run() # users c1\r\n```\r\n\r\nThough it wasn't part of the original idea, It would also make sense for `with` contexts to also handle connection lifetimes. We would have to ref count the number of open `with` contexts though since they could be nested."
+  , issueCommentId = 12683983
+  }

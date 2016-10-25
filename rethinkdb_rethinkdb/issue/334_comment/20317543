@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-07) (-01) 23 : 25 : 45 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/20317543"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/334#issuecomment-20317543"
+  , issueCommentCreatedAt = 2013 (-07) (-01) 23 : 25 : 45 UTC
+  , issueCommentBody =
+      "If we include a `flatten` command, we have to make it recursive.  That's what flatten means in every language I've ever used.\r\n\r\nI have reservations about basically all of these proposalas.  In particular:\r\n* I feel really strongly that we shouldn't use `flatten` here.  That's just not what it means in the languages that our users use.  (Although Ruby takes an optional argument `level` which indicates how many levels to recurse down.)\r\n* Breaking this into two command seems more RQLish, but:\r\n  - It hurts discoverability.\r\n  - It would require some major work in the server, because we use concatmap as a primitive in so many places.\r\n  - It's less performant.\r\n  - `r([...]).concat` isn't how any of our client languages use `concat`.\r\n\r\n---\r\n\r\nHere's what I would recommend:\r\n* Keep the term `concatmap` with the same name.\r\n  - Keeping the term makes life much easier in the server and prevents breaking old drivers.\r\n  - As Slava said, this isn't an adoption issue, it's an aesthetic issue, and so far I don't find any of the other suggestions more aesthetically pleasing.\r\n  - Other people use that name for this.  (I suppose we could always go with `mapcan` and really earn our lisp credentials, though.)\r\n* Introduce `flatten`, which either takes no arguments or one argument indicating how many levels to recurse.  Tell people in `concatmap`'s documentation that `tbl.concatmap(...) <=> tbl.map(...).flatten(1)`."
+  , issueCommentId = 20317543
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2016 (-05) (-04) 23 : 15 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1366
+        , simpleUserLogin = N "deontologician"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1366?v=3"
+        , simpleUserUrl = "https://api.github.com/users/deontologician"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/217034534"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/195#issuecomment-217034534"
+  , issueCommentCreatedAt = 2016 (-05) (-04) 23 : 13 : 44 UTC
+  , issueCommentBody =
+      "@grantcarthew Repubsub is the library referred to above. Unfortunately, as you said, it isn't persistent.\r\n\r\nYou might be able to jury-rig a job queue by inserting jobs into a table, having a changefeed on the table to listen for updates, and then atomically updating the record when a worker starts working on a task. Updates can use a function to decide whether to perform the update or not, so you can have a field like \"being_worked_by\" which is initially null. On update, check if some other worker has already picked up the task by the time you get to it. Something like:\r\n\r\n```js\r\nr.table('jobs').get(jobId).update(function(job){\r\n  return r.branch(job('being_worked_by'),\r\n    r.error('Job already being worked'),\r\n   { being_worked_by: workerId } ));\r\n})\r\n```\r\n\r\nThat being said, there are lots of edge cases to consider like workers dying etc, so you may want to reconsider whether adding dependencies isn't worth the extra time and maintenance of a from-scratch solution. There are lots of job queue libraries with the necessary guarantees out there that run on RabbitMQ or Kafka etc"
+  , issueCommentId = 217034534
+  }

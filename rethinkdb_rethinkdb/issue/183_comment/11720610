@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-27) 22 : 52 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11720610"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11720610"
+  , issueCommentCreatedAt = 2012 (-12) (-27) 22 : 52 : 37 UTC
+  , issueCommentBody =
+      "I think special-casing filter isn't ideal. Special casing something like this has a bad smell, also there are other functions where we know we want this behavior (e.g. `pluck`), and if more functions arise, we're going to have to add more special cases.\r\n\r\nFYI, SQL essentially defines 'bottom' logic the way @jdoliner proposed. They treat null as \"unknown value\" and any operation on an unknown value returns another unknown value. I think some parts of SQL treat unknown values differently because in those cases it basically destroys the entire result set (which isn't always desired), so they got some criticism for having semantics with special cases.\r\n\r\nIn our case, here are some issues with `bottom` that would be nice to work out:\r\n\r\n* How do we propagate bottom to the user? If the user says `table('foo').map(r.row('bar')).run()` and 'bar' is occasionally undefined, what does the user see? (we could drop those rows, cast them to null, or extend json)\r\n* In case of group map reduce, bottom has somewhat interesting properties. On the one hand, if the group map reduce query is trying to compute multiple values and for one of those values some attributes are missing, the query will complete, and for the parts that are always present it will compute a value, while for the parts that aren't present it will return bottom. However, for most common reductions (e.g. sum/avg/etc.) our current behavior is superior because the exception short-circuits the query. Suppose the query runs into a missing attribute early on. With bottom, it will still have to go through all of the computation before returning a useless result (bottom). Furthermore, in this case the user won't know how to fix it because instead of receiving an offending document along with the exception, they get nothing.\r\n\r\nI think one way to get around the second problem is to implement bottom semantics, but then have some commands (such as group map reduce) check for bottom in the reduction at every step and throw an error (or, for these commands, we can let user specify what to do in case of bottom -- e.g. keep going, throw, ignore the row). (I know this is a special case, but somehow it seems less bad to me -- perhaps because in this case we implement good shared underlying semantics, and have the command rely on it in an advantageous way -- e.g. if we had macros, users could define commands this way too. Giving this option in case of group map reduce is also a good idea because people legitimately want different behavior in different cases with this command, where in case of filter they almost always want one behavior."
+  , issueCommentId = 11720610
+  }

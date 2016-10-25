@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-27) 22 : 07 : 51 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/17124174"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-17124174"
+  , issueCommentCreatedAt = 2013 (-04) (-27) 22 : 07 : 51 UTC
+  , issueCommentBody =
+      "This being in backlog once again, I thought I would add my humble suggestion on this.\r\n\r\nI believe the problem could be strongly reduced if the following could be implemented:\r\n\r\n1. An interface in the buffer cache to change the max cache size online. I don't think this would be very difficult to do, would it? If the max_size is decreased, the page replacement should be invoked once to actually free the memory.\r\n2. Exposing an option to the user (ideally in the web UI) to change the cache quota of a table. Other cluster nodes would update their buffer cache instances when receiving the metadata update.\r\n\r\nThis would already be very useful I think. In fact I believe that making this option configurable at runtime is quite crucial. The current system works for developers, in some cases only just. For anything that's in production, being able to change the cache size would be absolutely crucial I imagine. Plus, - even if you try - you cannot realistically set cache quotas properly when creating the tables, because as soon as you add an additional one, you would run out of memory. Or you might upgrade memory in the machines later on. Or your load might change and different tables might then require different amounts of cache. So currently, the only feasible way is to be extremely conservative on cache values. In many applications, this can degrade performance by magnitudes.\r\n\r\nOptionally, one could think about adding quota configurability on a per-machine level. If the cluster is not homogeneous, something like that would be useful. However I suppose that this should be done properly by means of the general overhaul of the cache quota system that @coffeemug initially mentioned, as there are many different configurations and use-cases to be considered."
+  , issueCommentId = 17124174
+  }

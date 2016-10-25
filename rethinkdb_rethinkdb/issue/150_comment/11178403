@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-10) 00 : 18 : 39 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11178403"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/150#issuecomment-11178403"
+  , issueCommentCreatedAt = 2012 (-12) (-10) 00 : 18 : 39 UTC
+  , issueCommentBody =
+      "I'd really like to get rid of the notion of the implicit variable on the server. The `row` variable (previously known as the implicit variable) is a client side hack to be used as a convenient shortcut. The server should treat it as just another RQL variable.\r\n\r\nGiven the possible subtleties of working with RQL variables within the context of a host language though, it does make sense for the server to error whenever a query tries to rebind an existing symbol name as would be the case here with the `row` variable being implicitly bound within nested constructs.\r\n\r\nThat said, I'm still thinking of client side hacks for getting the `row` variable to work as we would like it to and I might have a way to do it. The problem, as I see it, is that when the `row` variable is referenced in the python code, i.e. when it is passed to a function, is not the same as when it is referenced in the RQL query. The RQL AST doesn't know that the variable was referenced in the python function call and so can't resolve the reference at the point at which it appears in the python code to be resolved. But if we defined the `row` property on the shortcut object `r` using a getter function then we can return a value sensitive to the context in which it was referenced.\r\n\r\nI'd have to sit down and try to implement this to see if there is a non-ugly way to do it but it should be possible."
+  , issueCommentId = 11178403
+  }

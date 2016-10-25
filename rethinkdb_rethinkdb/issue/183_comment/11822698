@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-02) 20 : 24 : 30 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11822698"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/183#issuecomment-11822698"
+  , issueCommentCreatedAt = 2013 (-01) (-02) 20 : 24 : 30 UTC
+  , issueCommentBody =
+      "So this may be an unpopular view but I feel like argument against special casing has some usability value beyond its philosophical merits. Having different behaviors for different functions runs the risks that the \"best\" behavior might not seem like the best one to everyone so it can introduce an extra piece of information you need to know to effectively use the language. An alternative which I suspect people will find ugly is to have a version of each of the functions which will drop the offending rows. Specifically `filter` would error on missing attributes. `filterD` would drop rows with missing attributes. We could have, `mapD`, `concatMapD` etc.\r\n\r\nThe sugar could also go the other way having the default of all of these functions (which are all basically `concatMap`) could be to drop rows that error but provide a pedantic version that errors if any of the rows error. I definitely think there should be a way to make the database error if an attribute is missing.\r\n\r\nIn my mind the value of having each function have the same default outweighs the cost of having some of the functions (the minority I'd assume because we can pick which side gets the sugar) require an extra character to get the most commonly desired behavior. Having less to think about just seems more valuable to me.\r\n\r\nI consider `pluck` to be a different thing. Basically I think that `pick` is just sugar for:\r\n\r\n    pick(obj, attrs) -> object.filter(lambda k, v: k in attrs)\r\n\r\nSo dropping nonexistant attributes is the default behavior.\r\n\r\nI was thinking that nested bottoms would just turn the whole expression into bottom. Returning nested bottom I think brings up a whole host of issues because then you can't just throw you need to have a way to represent it in the clients which complicates things. Also it's going to make it a lot harder to short circuit because we need to know a lot about where the result winds up to know what to do. Basically it seems like it's going to make the implementation tougher and giving people good ways to drop bottom infected is less complicated way to let people see parts of results."
+  , issueCommentId = 11822698
+  }

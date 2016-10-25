@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-23) 11 : 26 : 13 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 181337
+        , simpleUserLogin = N "pixelspark"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/181337?v=3"
+        , simpleUserUrl = "https://api.github.com/users/pixelspark"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11645147"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/176#issuecomment-11645147"
+  , issueCommentCreatedAt = 2012 (-12) (-23) 11 : 22 : 50 UTC
+  , issueCommentBody =
+      "Personally, I think returning anything from an asynchronous method is kind of weird, as the returned object can only be used as soon as the callback has been called (and any error has been handled). This by the way also related to issue #140 (I agree completely with the arguments stated there).\r\n\r\nI've used the MongoDB driver in NodeJS extensively, where performing the simple 'select all' query looks something like this:\r\n\r\n```javascript\r\ncollection.find({}, function(err, iterator) {\r\n    if(err) {  /* query could not be executed, handle error */ return; }\r\n\r\n    iterator.forEach(function(row) { /* iterate over rows */ });\r\n\r\n    OR\r\n\r\n    iterator.toArray(function(items) { /* all rows at once */ });\r\n});\r\n```\r\n\r\nFor obtaining a single row, the MongoDB driver has a shorthand method (the callback collection.findOne looks like function(err, firstRow)). For the RethinkDB driver, I would suggest the following pattern:\r\n\r\n```javascript\r\nconnection.run(r.db().table(), function(err, it) {\r\n   if(err) { handle error; return; }\r\n   it.collect(function(items) { /* items contains all records in an array */ });\r\n\r\n  OR\r\n\r\n   it.next(function(item) { /* item contains the first record; when this returns true, it will be called again with the next, etc. */ });\r\n})\r\n```\r\n\r\nIn addition to 'run', a second shorthand method could be added to fetch only a single result:\r\n\r\n```javascript\r\nconnection.runSingle(r.db().table(), function(err, firstRow) {\r\n  if(err) { handle error; return; }\r\n  /* firstRow contains the first and only object */\r\n})\r\n```"
+  , issueCommentId = 11645147
+  }

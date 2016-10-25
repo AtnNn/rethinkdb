@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-17) 20 : 54 : 12 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11460947"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/157#issuecomment-11460947"
+  , issueCommentCreatedAt = 2012 (-12) (-17) 20 : 54 : 12 UTC
+  , issueCommentBody =
+      "I forgot to add before the further restriction that both input types and the output type are the same to my definition of reduce. While this would seem to reduce generality, conversion to the correct datatype can be handled as part of the map and so isn't much of an issue while the restriction actually forces you to write less error prone code. If I rewrite your example to map `pick('users')` over the stream first it not only eliminates the need for the base but is also much cleaner otherwise:\r\n\r\n```python\r\n>>> r([{\"users\" : 1}]).map(lambda row: row['users']).reduce(lambda x,y: x + y).run()\r\n1\r\n>>> r([{\"users\" : 1}]).map(lambda row: row['users']).reduce(lambda x,y: x + y, base=0).run()\r\n1\r\n\r\n# I believe we're making 'pick' and the like polymorphic so that they map themselves over\r\n# sequences. In that case it's even shorter.\r\n>>> r([{\"users\" : 1}]).pick('users').reduce(lambda x,y: x + y).run()\r\n```\r\n\r\nIn the case of a heterogeneous stream (which is perhaps what your example was actually trying to elucidate) we can similarly do the conversion in the map\r\n\r\n```python\r\n>>> r([1, {\"users\": 1}]).map(lambda val: r.branch(r.typeof(val) == 'object', val['users'], val)).reduce(lambda a,b: a+b).run()\r\n2\r\n```"
+  , issueCommentId = 11460947
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-02) 22 : 01 : 23 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15805599"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/570#issuecomment-15805599"
+  , issueCommentCreatedAt = 2013 (-04) (-02) 22 : 01 : 23 UTC
+  , issueCommentBody =
+      "It feels like this really doesn't address the issue that got us here. The original issue as I recall was that people were calling `filter` with a predicate that failed on some rows due to missing fields. To do this they had to write:\r\n\r\n```Ruby\r\ntbl.filter.{|user| user.has_attr(:age) && user[:age] > 10}\r\n```\r\nAnd this was annoying to them.\r\n\r\nIf that was annoying to them are these better?\r\n\r\n```Ruby\r\ntbl.has_fields(:age).filter {|user| user[:age] > 10}\r\ntbl.filter {|user| user[:age].default(0) > 10}\r\ntbl.filter {|user| (user[:age] > 10).default(false)}\r\n```\r\n\r\nMaybe marginally but I think they're still going to be pretty annoying. With this solution a project which has very unstructured data is going to wind up writing `default(false)` a lot in their projects and that's going to add up for them quickly. I agree that it's bad for the default behavior of `filter` to drop these rows but what if we added a version of `filter` that does? Tentatively I'd like to call it `filterU` meaning \"unstructured\" basically the unstructured versions of functions (`map` `concat_map` and maybe `reduce` could probably also have unstructured versions as well) implicitly drop rows which fail due to missing fields. The point of adding such a function is that people who are seriously using ReQL in an unstructured way have a short hand canonical way to represent this type of operation that isn't going to bloat their code base with ugly code."
+  , issueCommentId = 15805599
+  }

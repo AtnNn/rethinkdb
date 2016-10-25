@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-09) 22 : 19 : 35 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11176948"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/150#issuecomment-11176948"
+  , issueCommentCreatedAt = 2012 (-12) (-09) 22 : 19 : 35 UTC
+  , issueCommentBody =
+      "I think basically we just need to set ourselves up to detect nesting, which\r\nshouldn't be too hard and reject the query if it's more than one level\r\ndeep. This is what we do now we'll just be doing it in the clients.\r\nUnfortunately there just aren't other things we can do that don't run the\r\nrisk of confusion.\r\n\r\n\r\nOn Sun, Dec 9, 2012 at 1:58 PM, wmrowan <notifications@github.com> wrote:\r\n\r\n> This shouldn't be too hard to support. I think we can do it by reserving a\r\n> special symbol value for the current row (say symbol 0 and then begin\r\n> counting for other symbols at 1) to which r.row is bound. Any time the\r\n> function constructor gets a bare RQL value (and not a python lambda\r\n> function) it can wrap it in a function that binds its first argument to\r\n> symbol 0. This wouldn't require any support on the server.\r\n>\r\n> Of course, there is still the problem of nesting operations that use the\r\n> row variable but of course we've always had this problem. In the case\r\n> that the user does do this nesting, they would expect the `row\r\n>\r\n> This actually is a lot trickier than it might at first seem. I can think\r\n> of a few ways to do it but they aren't really pretty. What we really want\r\n> is for the following equality to hold:\r\n>\r\n> table.map(lambda row: row.extend(other))\r\n>                 ===table.map(r.row.extend(other))\r\n>\r\n> Map expects a lambda function to which it can pass a RQL variable\r\n> reference to be bound to row. The problem with the r.row syntax is that\r\n> while r.row could itself return a lambda function, there is no way to\r\n> bring in the operations to be preformed on the row, in this example the\r\n> extend call. That is, the naive implementation (have r.row return a\r\n> function doesn't work because it would translate into the following:\r\n>\r\n> table.map((lambda row: row).extend(other))\r\n>\r\n> Which would be a type error because python functions don't support RQL\r\n> operations. Currently, the implicit variable is supported by, in essence,\r\n> using a single fixed reference to which the first argument of the function\r\n> is implicitly bound. We could do something similar here (and all on the\r\n> client side), by having r.row be a fixed RQL variable reference to symbol\r\n> 0 and then have the RQL function constructor wrap bare expressions with a\r\n> lambda function that binds it's first argument to symbol 0.\r\n>\r\n> \8212\r\n> Reply to this email directly or view it on GitHub<https://github.com/rethinkdb/rethinkdb/issues/150#issuecomment-11176673>.\r\n>\r\n>"
+  , issueCommentId = 11176948
+  }

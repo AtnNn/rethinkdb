@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-08) (-20) 20 : 56 : 42 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/22977184"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/97#issuecomment-22977184"
+  , issueCommentCreatedAt = 2013 (-08) (-20) 20 : 56 : 42 UTC
+  , issueCommentBody =
+      "So, to add some actual rationalizations. There are two more reasons why I think sharding one is big in addition to @mlucy's reasons:\r\n\r\n* The balance of data in shards will actually be good. Right now it's often off by a large coefficient, which is a huge deal.\r\n* It will allow people to reshard from the CLI. (Our current option of forcing people to pick an actual key, possibly in format other than the format we store the keys in, is unusable)\r\n\r\nWith the others:\r\n\r\n* I think it's fairly self explanatory why I think we have to do full cache balancing, though I can go over it again. I don't think it would be *that* much work.\r\n* I'm still convinced our current system that assigns shards is a showstopper. If I connect two machines together, shard a table in two, and discover that two shards are on the same machine, that makes the feature unusable. I also don't think it's complex to do, since we already follow the heuristic of necessary putting replicas on different machines, we could just do that with shards.\r\n* Automatic fail-over is fairly self-explanatory, though if I had to cut one feature out of these four, it would be this one (since it feels more like a separate feature than an improvement of existing functionality). (I don't think we have to cut this, but this is the one I'd cut if we did have to)"
+  , issueCommentId = 22977184
+  }

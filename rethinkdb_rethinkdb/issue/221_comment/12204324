@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-01) (-14) 01 : 38 : 21 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 418097
+        , simpleUserLogin = N "othiym23"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/418097?v=3"
+        , simpleUserUrl = "https://api.github.com/users/othiym23"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/12204324"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/221#issuecomment-12204324"
+  , issueCommentCreatedAt = 2013 (-01) (-14) 01 : 38 : 21 UTC
+  , issueCommentBody =
+      "To amplify what Andrew said a little, I've been spending the bulk of my time lately instrumenting database and web framework modules to enable me to generate performance metrics related to them. This has exposed me to the full breadth of diversity in terms of Node developer data access patterns, and has forced me to (at least attempt to) reconcile the normative goals of what I'll lazily call \"the Node.js brain trust\" with the more or less ad hoc techniques adopted by regular developers as they try to deal with the alien universe of callback-driven asynchronous programming.\r\n\r\nWhat I have learned is that there are two patterns for database drivers that are the most tractable:\r\n\r\n1. Simple Node.js-style callbacks (`callback(error, data)`) when doing one-off queries, such as connection setup / teardown, finding a node to connect to, or doing a simple ad-hoc query.\r\n2. Getting back an evented or streaming response for cursors and larger data sets. (See also @Raynos's [recent work on object streams](https://github.com/joyent/node/pull/4581) in the upcoming Node 0.10.)\r\n\r\nIt's not incidental that these are the two most common patterns for moving data around in Node.js applications already \8211 I completely agree with Andrew that having a cross-community consensus on conventions and style is important, and npm popularity is as good a proxy for the will of the community as anything.\r\n\r\nOddly enough, it is surprisingly hard to find database driver modules that stick to these two patterns. For whatever reason, database access seems to be a very fertile grounds for people who want to experiment with control flow strategies, or want to port paradigms over from other environments. At best this means that you have to approach each module as a one-off, and at worst it's nearly impossible to understand what developers were thinking given all the paradigms that were jammed together into making an API (it is with great restraint that I am not naming names right now).\r\n\r\nRethink's novel approach to trying to make the database as integrated into each language as it can gives it a large opportunity to get this right. As it stands, Rethink feels no more and no less Node-native than most other database drivers (my two favorites are probably node-redis and pg, just to put my cards completely on the table). Now's an excellent time to change that, and I'm happy to pitch in however is practicable."
+  , issueCommentId = 12204324
+  }

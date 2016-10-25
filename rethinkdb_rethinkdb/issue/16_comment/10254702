@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-11) (-10) 12 : 30 : 37 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 2674479
+        , simpleUserLogin = N "ptrln"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/2674479?v=3"
+        , simpleUserUrl = "https://api.github.com/users/ptrln"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/10254702"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/16#issuecomment-10254702"
+  , issueCommentCreatedAt = 2012 (-11) (-10) 12 : 30 : 37 UTC
+  , issueCommentBody =
+      "yeap, equiJoin worked. However, when I run it I get this error:\r\n\r\n```javascript\r\n> r.table('posts').equiJoin('user_id', r.table('users')).runp()\r\nundefined\r\n> { name: 'Runtime Error',\r\n  message: 'Attribute: id is not the primary key (user_id) and thus cannot be selected upon.\\n\\tr.table(\\'posts\\').concatMap(function(arg0_1) {return r.let({\\'right\\':r.table(\\'users\\').get(r.letVar(\\'arg0_1\\')(\\'user_id\\'), \\'id\\')}, r.branch(r.letVar(\\'right\\').ne(r.expr(null)), r.expr([r.expr({\\'left\\':r.letVar(\\'arg0_1\\'), \\'right\\':r.letVar(\\'right\\')})]), r.expr([])))})\\n\\t                                                                                                                       ^^^^                                                                                                                                         ' }\r\n```\r\n\r\nBut when I run the innerJoin version, it works fine:\r\n\r\n```javascript\r\n> r.table('posts').innerJoin(r.table('users'), function(post, user) {return post('user_id').eq(user('user_id'))}).runp()\r\nundefined\r\n> { left: \r\n   { title: 'Google',\r\n     url: 'http://google.com',\r\n     user_id: 'peterlin',\r\n     sub_id: 'news',\r\n     post_id: '17af9cb1-e4e6-46b8-8963-fca62d059916' },\r\n  right: { user_id: 'peterlin', name: 'Peter'} }\r\n\r\n```\r\n\r\nIs it because eqJoin can only be run on the primary key? The API docs isn't clear on this. I assumed \"An inner join with a simple equality filter on the given attribute.\" means by two queries are equivalent. "
+  , issueCommentId = 10254702
+  }

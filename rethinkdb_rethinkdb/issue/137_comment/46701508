@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-20) 16 : 57 : 04 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/46701508"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-46701508"
+  , issueCommentCreatedAt = 2014 (-06) (-20) 16 : 57 : 04 UTC
+  , issueCommentBody =
+      "It might be a good idea to focus on goals for a moment. Without a lot of review here is what I see as the possible goals that have already been mentioned, or glanced off of (we of course should not do all of them):\r\n\r\n1. Storing small binary blobs, so something that would be easy to Base64 encode and store in-line.\r\n2. Including mid-sized blobs (e.g.: an avatar jpeg in a user record) in a way that is easy for developers.\r\n3. Allowing access to massive files (i.e.: >1GiB).\r\n4. Enabling developers to use any of the previous three without requiring them to build their own linking logic to combine them with other data (e.g.: including images in a blog post entry).\r\n5. Steaming or chunked access to the large files.\r\n6. Random/ranged read access to large blobs. (e.g.: expose the blobs as a file object in the client and allow for `seek`)\r\n7. Either de-duping large blobs/files or allowing multiple records to link to the same data.\r\n8. Making replication and sharding easy for admins. When combined with item four I would extended this to say that the given files should probably (at least usually) be stored close to the records they are included/linked in so admins are not surprised when a loss of shard A means shard B's linked data is unavailable.\r\n9. Allowing faster/more-robust retrieval of large files by serving simultaneously from multiple servers (either to a single client, or to multiple clients).\r\n10. Trying to be an actual distributed filesystem (e.g.: read and write locks, random write access to existing files).\r\n\r\nThe competition in this space:\r\n1. MongoDB - they cover everything up to item except for items 4 and 10. Their GridFS is always separate from other data. So you have to make your own links within the app layer in order to link data.\r\n2. Hadoop Distributed File System (HDFS) - handles huge replication and is designed for fast access for multiple simultaneous high i/o readers.\r\n3. The whole range of network/distributed/clustered filesystems like NFS, AFS, GlusterFS, etc...\r\n\r\nHonestly I don't think we should try to compete with HDFS, or try to be a true filesystem. But if we implement something to handle number 4 I think we have a good chance of being a much better choice than MongoDB."
+  , issueCommentId = 46701508
+  }

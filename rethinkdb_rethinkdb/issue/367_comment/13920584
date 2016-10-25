@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-21) 23 : 49 : 24 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13920584"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/367#issuecomment-13920584"
+  , issueCommentCreatedAt = 2013 (-02) (-21) 23 : 49 : 24 UTC
+  , issueCommentBody =
+      "I think what's confusing is that in this case funcall is operating differently from other operations by threading values through other branches of the AST rather than passing them directly up. In this example there is a divide by 0 which produces an error:\r\n```python\r\n# Div 0 error in the inner operation\r\n((r.expr(1) + 0) / 3)\r\n            =>\r\n           (/)\r\n         /      \\\r\n      (+)       3\r\n    /     \\\r\n  1        0\r\n# The error propagates up the AST through the (/)\r\n```\r\nSo the top level operation *is* run fully, it's just that `Error / 3 => Error` because of the special semantics of `Error`.\r\n\r\nMike's example is more akin to the following:\r\n```python\r\n(r.expr(1) + 0).do(lambda x: x / 3)\r\n                    =>\r\n                 funcall\r\n         /                       \\\r\n      (+)                  lambda x:\r\n    /     \\                      (/)\r\n  1        0                  /    \\\r\n                              x     3\r\n```\r\nHere we have two choices. Either the `Error` can be passed to the lambda where it flows through the (/) operation or function evaluation is short circuited on an error. The latter is consistent with the idea of `Error` as a value that flows up the AST while the former is consistent with the idea of `Error` flowing through the program's control flow. FUNCALL highlights where these two views diverge since it threads values through other branches of the tree."
+  , issueCommentId = 13920584
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-12) 10 : 39 : 01 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 316661
+        , simpleUserLogin = N "timmaxw"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/316661?v=3"
+        , simpleUserUrl = "https://api.github.com/users/timmaxw"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/14768348"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/416#issuecomment-14768348"
+  , issueCommentCreatedAt = 2013 (-03) (-12) 10 : 39 : 01 UTC
+  , issueCommentBody =
+      "@wmrowan: I noticed that you documented some functions and classes by adding comments above them. If the documentation is intended for users of the function, the convention is to use a docstring instead. Python IDEs and REPLs will find and display docstrings to the user. Ideally, ever user-exposed method should have a docstring.\r\n\r\nMinor stuff / bikeshedding:\r\n* `r.Rql<Thing>` is a bit redundant. Maybe `r.<Thing>` would be better.\r\n* Conversely, consider renaming `Add` to `AddQuery`, `Sub` to `SubtractQuery`, and so on. Users won't be typing those names, so it doesn't matter how long they are, and giving those classes more descriptive names would make the output of `type(r.expr(2)+2)` slightly less confusing.\r\n* Instead of writing `opts.pop('intsp', '')` you can write `opts.get('intsp', '')`. It returns the same thing but doesn't modify the dictionary. (This isn't a bug, I just thought you might want to know about it.)\r\n* The name of the symbol `^` is spelled \"caret\".\r\n* `__repr__()` is supposed to return either 1) A string that can be used to re-create the object, such that `eval(repr(x)) = x`, or 2) Something wrapped in angle brackets that obviously isn't a valid Python expression, like `<__main__.Foo object at 0x7fb7eaff2e10>`. However, `RqlError.__repr__` breaks this rule.\r\n* Consider renaming the class `T` to something longer and less cryptic. It isn't used *that* many times.\r\n* Consider renaming `build()`, `compose()`, `deconstruct()`, and so on to `_build()`, `_compose()`, `_deconstruct()`, etc. so it's obvious that users shouldn't call them.\r\n* The class `MakeArray` overrides `do()` with something identical to its parent definition. I assume that's a mistake.\r\n* The `()` thing still smells fishy to me. One reason is that we might want to allow tuples as ReQL expressions (they would mean the same thing as lists). An alternative would be to introduce a new class just for this purpose. A better option is for the server to interpret a field that is present but holds the value `null` to mean the same thing as whatever it currently interprets a missing field to mean."
+  , issueCommentId = 14768348
+  }

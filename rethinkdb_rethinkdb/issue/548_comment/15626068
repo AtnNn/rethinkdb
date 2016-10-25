@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-03) (-29) 02 : 24 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15626068"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/548#issuecomment-15626068"
+  , issueCommentCreatedAt = 2013 (-03) (-29) 02 : 24 : 22 UTC
+  , issueCommentBody =
+      "RQL is fundamentally a dynamic language, certainly as expressed in the 3 languages we started with. @atnnn who built the Haskell driver (and is currently working on updating it for 1.4 as well) has been trying to express many of RQL's implicit constraints in Haskell's type system as it seems you are trying to do in .NET.\r\n\r\nWhile we can't do this in JavaScript, I think a clean way to establish this constraint in other languages would be to templatize `reduce` on a single type for both the return value and both arguments. Of course, this requires that the rest of the driver correctly encodes RQL's type hierarchy. `r.expr(1)` would have to return an object of type RQLNumber (on which you can call `add`) while `r.expr({})` would have to return an object of type RQLObject (on which you can call `()`.\r\n\r\nIn the three official drivers we duck type issues (haha, that's a pun) by representing all RQL queries as a single type and letting the server check types at runtime, hence the behavior you're seeing here. While we could try something more clever (tagging JS objects with a type tag checked by API functions when composing queries) there are valid RQL queries that can't be statically checked in this way because the type of a value can only be known at runtime.\r\n\r\nThe clearest case of this is when retrieving a field from a table row. Because there is no static schema, a field may contain any type and the driver has know way of knowing what operations are valid on it. @atnnn has dealt with this issue by degrading to a universal 'top' type but that eliminates the advantages of static typing and you end up relying on sever side runtime type checking anyway.\r\n\r\nYour fold style attempt with 0 rows in the table worked because in that case the reduction function was never called. The operation simply returned the base (the only case where the base is actually necessary). In the case of a single row the reduction function was likely called only once on the base and the single row. In that case I assume the base was passed as the first argument and the types checked out. In the two row case you were actually reducing 3 values, the base and each of the rows. Either the reduction function was called on the base and the first row, the base and the second row and then on those two results or it was called on the base and the first row and then that result and the second row. In each of these cases the types check out.\r\n\r\nIt's only when you get to three rows (plus base) that it's likely that the server would have tried to reduce two rows together allowing for an object (one of the rows) the be the first argument."
+  , issueCommentId = 15626068
+  }

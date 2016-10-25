@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-19) 05 : 01 : 11 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 48436
+        , simpleUserLogin = N "coffeemug"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/48436?v=3"
+        , simpleUserUrl = "https://api.github.com/users/coffeemug"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13757098"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/159#issuecomment-13757098"
+  , issueCommentCreatedAt = 2013 (-02) (-19) 05 : 01 : 11 UTC
+  , issueCommentBody =
+      "I think the temporary fix of using a BTree is more like a permanent fix (the *real* permanent fix is using specialized on-disk sorting algorithms, but I can pretty much guarantee this won't happen in the next year). This seems like a two part problem to me. For arrays smaller than a certain size (say, 30MB), we should just do things in RAM. For arrays larger than that, we should ideally do things on disk. This isn't just about `orderBy`, but everything in the infamous `query_language.cc`.\r\n\r\nFor the initial fix it would be totally cool to limit array size to 30MB and abort the query when it exceeds this threshold. For the second pass we could use a temporary on-disk BTree to back arrays that exceed this threshold.\r\n\r\n(We could also always use a B-Tree and have a specialized cache that only falls back to a serializer after it grows past some threshold, but that seems pretty far down on our priority list)."
+  , issueCommentId = 13757098
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-20) 20 : 40 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 646357
+        , simpleUserLogin = N "wmrowan"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/646357?v=3"
+        , simpleUserUrl = "https://api.github.com/users/wmrowan"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13855136"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/367#issuecomment-13855136"
+  , issueCommentCreatedAt = 2013 (-02) (-20) 20 : 40 : 57 UTC
+  , issueCommentBody =
+      "I'm a little unsure of what you mean by `Nothing` is the `Error` type that we currently implement (which has bottom semantics as we've discussed before)? Or is it a special value returned when you try to access an attribute that doesn't exist? Presently such an operation results in an `Error` being returned which has the same type as all our other errors. I don't think it's in the pipeline but until we have different error types there won't be a point to a `catch` function that branches on the error type.\r\n\r\nAs for the propagation of the `Error` type I thought the semantics were already agreed on, namely that any operation on an error returns the error. `default` or `catch` would be the only operation that doesn't pass on the error thus giving you the option to handle it. This is how errors currently bubble up to the top of the query and get returned to the user. This is analogous to the bubbling of exceptions up the stack in procedural languages (though subtly different as we have discussed).\r\n\r\n```python\r\n# A procedural language\r\nval = obj['non-existant'] => throws attribute error\r\nval['field'] <- doesn't get run because the exception forces a early return\r\n\r\n# RQL\r\nobj['non-existant'].do( # first access returns an error with bottom semantics\r\n   lambda val: val['field'] # rather than bypass the outer operation the error is simply passed through\r\n)\r\n# So, yes, we do end up with (Error)['field'] => Error\r\n```\r\n\r\nThis makes sense to me but perhaps I misunderstood our earlier conversation about bottom semantics."
+  , issueCommentId = 13855136
+  }

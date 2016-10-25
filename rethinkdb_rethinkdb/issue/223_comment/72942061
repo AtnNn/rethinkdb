@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2015 (-02) (-04) 21 : 22 : 06 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 505365
+        , simpleUserLogin = N "danielmewes"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/505365?v=3"
+        , simpleUserUrl = "https://api.github.com/users/danielmewes"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/72942061"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/223#issuecomment-72942061"
+  , issueCommentCreatedAt = 2015 (-02) (-04) 21 : 22 : 06 UTC
+  , issueCommentBody =
+      "We've actually implemented our own based on the original Raft paper, since the existing implementations would have required significant work for integrating them into our networking and concurrency stack. You can find our implementation in https://github.com/rethinkdb/rethinkdb/tree/raft/src/clustering/generic (raft_core.hpp is probably the best starting point).\r\n\r\n@josephglanville We're going to split up the coordination into one raft cluster per table. This has a couple of benefits. First of all, we get better scalability for the cluster size since not every server has to be involved in the administration of every table.\r\nFurthermore you get the nice effect that you can still administer a table if most of the servers involved in that specific table (i.e. the ones hosting a replica) are still up, even if you wouldn't be able to get a quorum for the whole cluster. This is useful if you have multiple data centers for example, with some tables being bound to one data center.\r\n(@timmaxw might be able to elaborate a bit more on this)\r\n\r\nDescriptions of our algorithms for primary failover and membership changes currently exist primarily as comments in the source code, though I'm not sure how much of it is merged into the `raft` branch yet. If you're interested in the details, @timmaxw can probably point you to the relevant branches/files."
+  , issueCommentId = 72942061
+  }

@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-16) 06 : 24 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11414793"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/159#issuecomment-11414793"
+  , issueCommentCreatedAt = 2012 (-12) (-16) 06 : 24 : 34 UTC
+  , issueCommentBody =
+      "@coffeemug -- My intuition here (which might be wildly off-base) is that it's unreasonable to expect our in-memory JSON representation to be less than double the size of our serialized JSON representation.\r\n\r\nIf we really need better memory performance when we sort by a non-primary key, I think a better system is having the shards return pairs of `<value to sort by, id>` rather than the whole object, sorting those (which will fit in much less memory), and then reading the objects off by their id one at a time and returning them to the user.  (This will be much less time-inefficient when we have batched reads.)\r\n\r\nIf we really need better memory performance for JSON in general, I think the solution is to move off of cJSON to our own memory-optimized JSON implementation.\r\n\r\n@neumino -- Ah, I get what you mean now.  Yeah, in the case where they only want the first N values we could use a lot less memory.  I'm not sure how common that is though."
+  , issueCommentId = 11414793
+  }

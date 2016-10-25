@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-26) 05 : 16 : 14 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47188501"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47188501"
+  , issueCommentCreatedAt = 2014 (-06) (-26) 05 : 16 : 14 UTC
+  , issueCommentBody =
+      "> If you tell people \"we did it this way\" they'll say \"oh, I get it, cool\". If you tell people files are parts of documents they'll say \r\n\r\nThat is the false dichotomy you are making.  It is false because files can both be not part of documents, and not broken into chunks that are spread across multiple machines.\r\n\r\nIf you think individual files should be broken into chunks that are spread across multiple machines, that's at minimum 3 months of extra work.  I would guess 8 months.  Unless you don't mind answering and fixing github issues complaining about how their database is leaking data or leaving files in an inconsistent state.  If you don't, then it's only 1 month of up-front extra work, plus 3 months after that.\r\n\r\nGFS and Hadoop make the decision to break up files into chunks because they're designed to support files that are terabytes in size.  Another reason for such a decision is to maximize throughput when writing to one specific file.  Also, to a lesser degree, when reading.  This is also at the expense of latency.  RethinkDB's solution would also incur such latency penalties.  Our existing clustering limitations would prevent us from *actually* handling gigantic files well.\r\n\r\nSpreading chunks of files is something that can be implemented later, if we decide we want that, after implementing the storage of files without spreading them across machines.  The same entry that would hold the file in the simpler solution would then be appropriated to hold the chunk mapping instead (with files under 64MB and pre-existing files held inline so that we can upgrade on top of existing data files without migration pains).\r\n\r\nYour belief that we need to say we break files into chunks that are spread across different nodes is implausible.  You can't say that the files are distributed across the cluster?  You can't say that they're replicated across the cluster?  That's not enough?  You have to say that they're broken into chunks that are stored in separate documents?  I'm pretty sure users think, \"Man, I want to store my files somewhere reliable,\" not \"Man, I want to store my files somewhere that breaks them into chunks and puts those chunks into documents.\"\r\n\r\n"
+  , issueCommentId = 47188501
+  }

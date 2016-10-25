@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-04) (-10) 17 : 11 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 43867
+        , simpleUserLogin = N "jdoliner"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/43867?v=3"
+        , simpleUserUrl = "https://api.github.com/users/jdoliner"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/15731171"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/555#issuecomment-15731171"
+  , issueCommentCreatedAt = 2013 (-04) (-01) 19 : 06 : 21 UTC
+  , issueCommentBody =
+      "It's not equivalent. `erase_range` (and more generally the verb \"erase\") is used to indicate deletes which don't get backfilled. These is necessary because there's a difference between \"erasing\" all of the keys in a range on a shard due to the shard no longer being a replica for that range and the user \"deleting\" all of those keys. In particular in the prior case if another node backfills from us we don't tell it to delete those keys (because it shouldn't it should ask another shard who knows about those keys because we no longer do.) However in the later case we do tell it to delete those keys. The query language can never cause an `erase_range` to happen.\r\n\r\nWe could in theory have a `delete_range` operation which `t.between(x, y).delete()` would be implemented in terms of but we don't have it right now. (And don't really have a need for it.)"
+  , issueCommentId = 15731171
+  }

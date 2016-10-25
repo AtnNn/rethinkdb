@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-06) (-19) 06 : 12 : 38 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 552910
+        , simpleUserLogin = N "Tryneus"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/552910?v=3"
+        , simpleUserUrl = "https://api.github.com/users/Tryneus"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/19659945"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/193#issuecomment-19659945"
+  , issueCommentCreatedAt = 2013 (-06) (-19) 03 : 01 : 10 UTC
+  , issueCommentBody =
+      "Alright, here's what I've got so far for the interface:\r\n\r\n```\r\nrethinkdb export --connect HOST:PORT [--auth_key KEY] [--fields FIELD,FIELD...]\r\n    [--format FORMAT] [--directory DIR] [--export DB | DB.TABLE]...\r\n    \r\n  --connect, -c    the host and client port of a rethinkdb instance\r\n  --auth, -a       client authorization key to access the driver port (if needed)\r\n  --fields         filter for which fields to import, required if the output format is \"csv\"\r\n  --format         the format to export with (\"csv\" or \"json\", defaults to \"json\")\r\n  --directory, -d  the target directory to export to (defaults to ./rethinkdb_export_DATE_TIME)\r\n  --export         specific database or table to export, may be specified multiple times\r\n```\r\n\r\nThe export directory tree is exactly as @coffeemug proposed above with the exception that it defaults to a subdirectory named by the current time.  The `.info` file contains a json dump of the table's .info() result from ReQL.  When writing a csv file, each column of each row is serialized as json, so that complex fields can be used.\r\n\r\n```\r\nrethinkdb import --connect HOST:PORT [--auth_key KEY] [--fields FIELD,FIELD...] [--force]\r\n    --directory DIR [--import DB | DB.TABLE]...\r\nrethinkdb import --connect HOST:PORT [--auth_key KEY] [--fields FIELD,FIELD...] [--force]\r\n    --file FILE --table DB.TABLE [--format FORMAT] [--pkey PRIMARY_KEY]\r\n\r\n--connect, -c   the host and client port of a rethinkdb instance\r\n--auth, -a      client authorization key to access the driver port\r\n--fields        filter for which fields to import\r\n--force         flag to continue with import even if table already exists\r\n\r\nImport a directory:\r\n--directory, -d  the directory to import (from a previous `rethinkdb export`)\r\n--import, -i     specific database or table to import, may be specified multiple times\r\n\r\nImport a single file:\r\n--file, -f  the file to import\r\n--table     the table to import into\r\n--format    the format of the file (\"csv\" or \"json\", defaults to \"json\")\r\n--pkey      what to use as the primary key for the table (defaults to \"id\")\r\n```\r\n\r\nAs you can see, import can operate in one of two modes: importing a single file or importing a directory.  When importing a directory, it is assumed to be a directory in the format that `export` would produce (although it is not necessary for all files to be in one format).\r\n\r\nThese are in a rather working state in the branch `grey_issue_193`, which I will push to github shortly.  Still need to link into these through the main rethinkdb executable as well as figure out distribution with @atnnn, since this will depend on the python client driver."
+  , issueCommentId = 19659945
+  }

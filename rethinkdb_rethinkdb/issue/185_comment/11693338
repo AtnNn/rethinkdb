@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-26) 20 : 07 : 56 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11693338"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/185#issuecomment-11693338"
+  , issueCommentCreatedAt = 2012 (-12) (-26) 20 : 07 : 56 UTC
+  , issueCommentBody =
+      "So I think it would be confusing to remove `.run()`.\r\n\r\nIn my mind, `.run()` is the method that is going to send the query to the server. Executing `r.db(\"test\").table(\"test\")` is not going to do anything (well not anything that I can use). \r\n\r\nBecause we use javascript/python/ruby to build our query, we don't really have a clear limit between client side and server side (I think many users asked us if the filter was done in the server or client side).\r\nWith mySQL, it's pretty obvious, the server side is the SQL query, and the client side is `mysql_query()` (if you use PHP for example) which is why it make sense just to write the SQL query in mySQL Admin.\r\nIf we were to remove `.run()` the thing we will put in the data explorer will be the client side code whereas it should be the server side code (at least that what I would expect - It took me quite some time to figure out why removing `.run()` was confusing for me, and I think that's why)\r\n\r\nFor the second point, I'm not sure to understand why they cannot copy paste.\r\nThe use case for me is\r\n```\r\nr.connect( {server: \"localhost\", port:29015} );\r\ncursor = query_that_you_paste_from_the_dataexplorer\r\ncursor.collect( function( data ) {\r\n    /* callback */\r\n});\r\n```\r\n\r\nFrom a technical part, I am using .run() to split queries (since we handle multiple queries). I think if I pay attention to the number of parentheses opened/closed I should be able to properly split queries."
+  , issueCommentId = 11693338
+  }

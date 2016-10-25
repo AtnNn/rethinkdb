@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2013 (-02) (-14) 21 : 22 : 36 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/13579313"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/322#issuecomment-13579313"
+  , issueCommentCreatedAt = 2013 (-02) (-14) 21 : 22 : 36 UTC
+  , issueCommentBody =
+      "I don't really like the name MAYBE -- the name suggests that we would sometimes return a MAYBE type even when the MAYBE actually holds data.  I think ERROR is a better term, since we only return it when there's an error.  (Since we have a dynamic language, every value is in essence a MAYBE type.)\r\n\r\nHere's an adapted proposal:\r\n* `row[:attr]` returns NULL if attr maps to NULL or isn't present.\r\n* Any operation that uses NULL in a non-boolean context (except for `r(NULL).eq(NULL)` which we special case) results in an ERROR type.  Any operation that uses NULL in a boolean context treats it as false.\r\n* An ERROR type used in any context returns another ERROR type, except for things like `filter` which handle it explicitly in their predicates, and possibly some sort of catch/default statement in the future.\r\n\r\nSo let's say we have the object `row = {:has_data => NULL}`:\r\n\r\n```ruby\r\nrow[:has_data] => NULL\r\n!row[:has_data] => TRUE\r\nrow[:articles] => NULL\r\n!row[:articles] => TRUE\r\nrow[:articles].empty => ERROR\r\n!row[:articles].empty => ERROR\r\n```\r\n\r\nSo for a table:\r\n```ruby\r\nusers.filter{|row| !row[:articles].empty}\r\n```\r\nwould skip all the rows with NULL or non-existant articles.  But the following:\r\n```ruby\r\nusers.filter{|row| !row[:has_data]}\r\n```\r\nwould include all the rows where either the `has_data` attribute is missing or where it maps to NULL/false."
+  , issueCommentId = 13579313
+  }

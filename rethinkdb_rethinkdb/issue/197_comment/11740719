@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2012 (-12) (-28) 20 : 25 : 31 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1777134
+        , simpleUserLogin = N "mlucy"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1777134?v=3"
+        , simpleUserUrl = "https://api.github.com/users/mlucy"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/11740719"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/197#issuecomment-11740719"
+  , issueCommentCreatedAt = 2012 (-12) (-28) 20 : 25 : 31 UTC
+  , issueCommentBody =
+      "You can already do this by writing a normal filter.  For example, in Ruby:\r\n```ruby\r\nr.table('user').filter{|row| row[:address][:street].eq('10 Downing')}\r\n```\r\n\r\nI've always been skeptical of our decision to allow people to pass an object to filter as a shortcut, because we don't do that anywhere else and it's strictly less powerful than the normal way of using filter without being much shorter.  In this particular case, it would be hard to reuse the `()`/`[]` syntax for it because we have people specify the attribute in the left side of an object.\r\n\r\nIf we want to patch the shortcut syntax to allow for nested attributes, but don't want to get into the string parsing business (which I think we shouldn't), one way of doing it would be to let people specify a tuple/list on the lefthand side:\r\n```ruby\r\nr.table('user').filter({[:address, :street] => '10 Downing'})\r\n```\r\n\r\nI would personally prefer removing the object/shortcut filter syntax (or at least making it less prominent in the documentation)."
+  , issueCommentId = 11740719
+  }

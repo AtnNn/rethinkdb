@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-25) 17 : 27 : 22 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 7431361
+        , simpleUserLogin = N "larkost"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/7431361?v=3"
+        , simpleUserUrl = "https://api.github.com/users/larkost"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47132737"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47132737"
+  , issueCommentCreatedAt = 2014 (-06) (-25) 17 : 27 : 22 UTC
+  , issueCommentBody =
+      "I am not sure whether this is better than either option, but there is a middle ground that is also possible: store the files in a separate table (shared with the whole database?) but not require that users be aware of it. To modify @mlucy's example above:\r\n```python\r\nimageFile = open('inputFile')\r\nr.table('users').insert({id: 1, image: imageFile})\r\n# or\r\nr.table('users').insert({id: 1, image: r.file(imageFile, name='foo')})\r\n# or\r\nimageData = r.db.('whatever').file(imageFile, name='foo').run()\r\nr.table('users').insert({id: 1, image: imageData})\r\n```\r\nThe significant difference here is that there was no need to use a `r.fileCreate` command. In the first version a `r.file` object was implicitly created as part of the insert command. The second has it created/uploaded as part of one command. And the third has the object created first, and then inserted into a new document.\r\nIn the third case it would be possible to gracefully handle interrupted uploads, and I would propose that it would be simpler to not allow partial uploads to be used in documents, but rather require that they be completed first. There then should be some way of an administrator to either set a sunset time on uncompleted uploads (e.g.: 24 hours after last attempt), or to clean them out manually.\r\nPros:\r\n- Files (a.k.a: things that can take up lots of space) are segregated into a 'table' that can be administered/sharded separately.\r\n- Files can be linked in multiple locations\r\n- Allows for resumed uploads (in some cases)\r\n- Since `r.file` objects are stored separately it is easy to provide a separate admin interface\r\n\r\nCons:\r\n- Still has cases with the partial file upload problem, requiring some sort of transaction handling in the drivers for some cases.\r\n- It is easy to for records and files get into inconstant states, either by a file being deleted, or a shard being unavailable. How do we handle those cases in a obvious way?\r\n- The files 'table' has almost no metadata, only a name and implicitly a size. And since it is implicitly shared by at least the database we are requiring the users to name-space this 'table' themselves.\r\n- When files are embedded/linked into a document, is it by name? So when a new file gets uploaded with that name does that change the data retrieved through the record?\r\n"
+  , issueCommentId = 47132737
+  }

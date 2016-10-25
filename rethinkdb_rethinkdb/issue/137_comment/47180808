@@ -1,0 +1,20 @@
+IssueComment
+  { issueCommentUpdatedAt = 2014 (-06) (-26) 02 : 08 : 57 UTC
+  , issueCommentUser =
+      SimpleUser
+        { simpleUserId = Id 1461947
+        , simpleUserLogin = N "neumino"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/1461947?v=3"
+        , simpleUserUrl = "https://api.github.com/users/neumino"
+        , simpleUserType = OwnerUser
+        }
+  , issueCommentUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/comments/47180808"
+  , issueCommentHtmlUrl =
+      "https://github.com/rethinkdb/rethinkdb/issues/137#issuecomment-47180808"
+  , issueCommentCreatedAt = 2014 (-06) (-26) 02 : 08 : 57 UTC
+  , issueCommentBody =
+      "I have a few questions/remarks:\r\n\r\n- If I store a document like this:\r\n```\r\n{\r\n   id: 1,\r\n   name: \"Michel\",\r\n   mail: \"foo@bar.com\"\r\n   avatar: r.file(<someBinaryFile>)\r\n}\r\n```\r\nAnd then if I do\r\n```\r\nr.table(\"users\").get(1).update({mail: \"buzz@fiz.com\"})\r\n```\r\n\r\nAre we going to overwrite the whole binary file saved?\r\n\r\nI guess not, which means that we store a kind of uuid for the binary file right?\r\nCan I access this uuid? \r\n\r\nThe use case behind this is storing some default avatars for example. You don't want redundant data.\r\n\r\n\r\n- What happens if I update with\r\n```\r\nr.table(\"users\").get(1).update({avatar: r.file(<anotherFile>)})\r\n```\r\nWhat happens to the first avatar? Does it get deleted from the database?\r\nIf not, how can I access it again?\r\nCan I find \"orphan\" files?\r\n\r\n- Can we store metadata like Mongo does? (not just a name, but anything users want, it can be tags, colors, size etc.).\r\nAnd if we do, how do we query that? Suppose I would like to query all the users where their avatar has a size of 50*100 pixels. How can I do that?\r\n\r\n- Do we send back by default the uuid of a file or the whole blob?\r\nDo we have an optarg to decide?\r\nI'm not sure people want to retrieve the avatar of a user every time they get some data. Do they have to use without for all these queries?\r\n\r\n- Can I upload a file in the database, and then link it to a document?\r\nIf someone wants to upload a file to the server, can we stream that in that in the database? Or do we have to get the complete file on the server first, then save it in the database?\r\n\r\n"
+  , issueCommentId = 47180808
+  }
