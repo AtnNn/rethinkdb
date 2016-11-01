@@ -39,7 +39,7 @@ Issue
   , issueCreatedAt = 2016 (-03) (-11) 03 : 21 : 37 UTC
   , issueBody =
       Just
-        "```\r\n#!/usr/bin/env ruby\r\nrequire 'timeout'\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nhost = '192.168.40.10'\r\n\r\nbegin\r\n  Timeout::timeout(10) {\r\n    begin\r\n      puts \"attempting to connect to #{host}\"\r\n      r.connect(:host=> host, :port=>28015, :timeout => 5).repl\r\n    rescue Exception => e\r\n      pp e\r\n      puts \"Connection to #{host} not established, error at RQLDriver level\"\r\n      exit\r\n    end\r\n  }\r\nrescue Timeout::Error\r\n  puts \"Ruby Level Timeout\"\r\n  exit\r\nend\r\n```\r\nOutput: \r\n```\r\nattempting to connect to 192.168.40.10\r\nRuby Level Timeout\r\n```\r\n\r\nI firewalled 192.168.40.10 with iptables and --DROP"
+        "```\n#!/usr/bin/env ruby\nrequire 'timeout'\nrequire 'rethinkdb'\ninclude RethinkDB::Shortcuts\n\nhost = '192.168.40.10'\n\nbegin\n  Timeout::timeout(10) {\n    begin\n      puts \"attempting to connect to #{host}\"\n      r.connect(:host=> host, :port=>28015, :timeout => 5).repl\n    rescue Exception => e\n      pp e\n      puts \"Connection to #{host} not established, error at RQLDriver level\"\n      exit\n    end\n  }\nrescue Timeout::Error\n  puts \"Ruby Level Timeout\"\n  exit\nend\n```\n\nOutput: \n\n```\nattempting to connect to 192.168.40.10\nRuby Level Timeout\n```\n\nI firewalled 192.168.40.10 with iptables and --DROP\n"
   , issueState = "open"
   , issueId = Id 140074899
   , issueComments = 3

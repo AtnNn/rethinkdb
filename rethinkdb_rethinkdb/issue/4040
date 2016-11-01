@@ -43,7 +43,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-09) 20 : 44 : 36 UTC
   , issueBody =
       Just
-        "In a few spots the JavaScript driver uses `instanceof` to check for array, function, and object types. As `instanceof` looks at the variable's prototype to find the appropriate constructor, this is a problem when checking a variable that was instantiated in a different JavaScript context, such as an iframe, or in this case the Node Webkit window context. See [Differences of JavaScript contexts](https://github.com/nwjs/nw.js/wiki/Differences-of-JavaScript-contexts).\r\n\r\nUsing `typeof` (or `Array.isArray` for arrays) is robust to cross-context type checking.\r\n\r\nThis PR changes three `instancesof` type checks to use `typeof` and one to use `Array.isArray`.\r\n\r\nI ran the tests like so `/rethinkdb/test/rql_test/test-runner -i js` and they passed."
+        "In a few spots the JavaScript driver uses `instanceof` to check for array, function, and object types. As `instanceof` looks at the variable's prototype to find the appropriate constructor, this is a problem when checking a variable that was instantiated in a different JavaScript context, such as an iframe, or in this case the Node Webkit window context. See [Differences of JavaScript contexts](https://github.com/nwjs/nw.js/wiki/Differences-of-JavaScript-contexts).\n\nUsing `typeof` (or `Array.isArray` for arrays) is robust to cross-context type checking.\n\nThis PR changes three `instancesof` type checks to use `typeof` and one to use `Array.isArray`.\n\nI ran the tests like so `/rethinkdb/test/rql_test/test-runner -i js` and they passed.\n"
   , issueState = "closed"
   , issueId = Id 67447420
   , issueComments = 8

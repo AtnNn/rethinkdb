@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-06) (-27) 03 : 48 : 50 UTC
   , issueBody =
       Just
-        "On branch `michel_2606_test` (commit ec0d96de64bf64094fe73a31a6a201f907c70979), the test for the JavaScript driver can throw an error if I immediately start the test once the server is ready.\r\n\r\n\r\nReplace the line 134 in `test/rql_test/connections/connection.js` with `done()` instead of `setTimeout(done, 500)`.\r\n\r\nThe error sent back by the server when trying to create a table is:\r\n```\r\nCannot compute blueprint because a machine is offline.\r\n```\r\n\r\nThe flow is this one\r\n\r\n- Start RethinkDB\r\n- Read stderr and wait until \"Server ready\" is printed\r\n- Open a connection with the JS driver\r\n- Try to create a table with `r.tableCreate`\r\n\r\nThen I get the error.\r\nIt happens something like once every 5 runs.\r\n\r\n"
+        "On branch `michel_2606_test` (commit ec0d96de64bf64094fe73a31a6a201f907c70979), the test for the JavaScript driver can throw an error if I immediately start the test once the server is ready.\n\nReplace the line 134 in `test/rql_test/connections/connection.js` with `done()` instead of `setTimeout(done, 500)`.\n\nThe error sent back by the server when trying to create a table is:\n\n```\nCannot compute blueprint because a machine is offline.\n```\n\nThe flow is this one\n- Start RethinkDB\n- Read stderr and wait until \"Server ready\" is printed\n- Open a connection with the JS driver\n- Try to create a table with `r.tableCreate`\n\nThen I get the error.\nIt happens something like once every 5 runs.\n"
   , issueState = "closed"
   , issueId = Id 36634027
   , issueComments = 1

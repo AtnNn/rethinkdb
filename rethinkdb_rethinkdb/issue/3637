@@ -47,7 +47,7 @@ Issue
   , issueCreatedAt = 2015 (-01) (-22) 00 : 55 : 49 UTC
   , issueBody =
       Just
-        "```\r\nirb(main):4759:0> r.table('test').insert([{id: 0}, {id: r(0).mul(-1)}]).run\r\n{\"deleted\"=>0, \"errors\"=>0, \"inserted\"=>2, \"replaced\"=>0, \"skipped\"=>0, \"unchanged\"=>0}\r\nirb(main):4760:0> r.table('test').run\r\n#<RethinkDB::Cursor:70353332560980 (enumerable): r.table(\"test\")\r\n[{\"id\"=>0}, {\"id\"=>0}]>\r\nirb(main):4761:0> r(0).eq(r(0).mul(-1)).run\r\ntrue\r\n```\r\n\r\nI'm almost certain that having two values which are considered equal but serialize to different values is a bug, and in any case it's incorrect because the distinction is discarded by our clients.\r\n\r\n@danielmewes -- this is a pretty bad bug, but it's old and I'm not sure it's worth holding the release for."
+        "```\nirb(main):4759:0> r.table('test').insert([{id: 0}, {id: r(0).mul(-1)}]).run\n{\"deleted\"=>0, \"errors\"=>0, \"inserted\"=>2, \"replaced\"=>0, \"skipped\"=>0, \"unchanged\"=>0}\nirb(main):4760:0> r.table('test').run\n#<RethinkDB::Cursor:70353332560980 (enumerable): r.table(\"test\")\n[{\"id\"=>0}, {\"id\"=>0}]>\nirb(main):4761:0> r(0).eq(r(0).mul(-1)).run\ntrue\n```\n\nI'm almost certain that having two values which are considered equal but serialize to different values is a bug, and in any case it's incorrect because the distinction is discarded by our clients.\n\n@danielmewes -- this is a pretty bad bug, but it's old and I'm not sure it's worth holding the release for.\n"
   , issueState = "closed"
   , issueId = Id 55100284
   , issueComments = 25

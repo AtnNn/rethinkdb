@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2012 (-12) (-12) 05 : 18 : 39 UTC
   , issueBody =
       Just
-        "There is a call to `pipeliner_acq_t::begin_write()` in an exception handler in `memcached/parser.cc:693`, which may wait and trigger the assert at `arch/runtime/context_switching.cc:161`:\r\n\r\n```c\r\nrassert(!abi::__cxa_current_exception_type(), \"It's not safe to switch \"\r\n        \"coroutine stacks in the catch-clause of an exception handler.\");\r\n```\r\n\r\nThis is in the memcached stuff, so it's not _as_ important, but I think we should still audit all places we catch to make sure this isn't done elsewhere.  There's only about 250 catch statements, so it should be just a day's work or so."
+        "There is a call to `pipeliner_acq_t::begin_write()` in an exception handler in `memcached/parser.cc:693`, which may wait and trigger the assert at `arch/runtime/context_switching.cc:161`:\n\n``` c\nrassert(!abi::__cxa_current_exception_type(), \"It's not safe to switch \"\n        \"coroutine stacks in the catch-clause of an exception handler.\");\n```\n\nThis is in the memcached stuff, so it's not _as_ important, but I think we should still audit all places we catch to make sure this isn't done elsewhere.  There's only about 250 catch statements, so it should be just a day's work or so.\n"
   , issueState = "closed"
   , issueId = Id 9206241
   , issueComments = 4

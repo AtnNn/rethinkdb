@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2016 (-01) (-28) 04 : 27 : 11 UTC
   , issueBody =
       Just
-        "Client 1:\r\n```js\r\nr.table('test').orderBy({index: \"id\"}).limit(1).filter({v: true}).changes()\r\n```\r\n\r\nClient 2:\r\n```js\r\nr.table('test').insert({id: 2, v: true})\r\n// Value appears on changefeed\r\n\r\nr.table('test').insert({id: 1, v: false})\r\n// Nothing appears on changefeed\r\n// Would expect: {old_val: {id: 2, v: true}, new_val: null}\r\n```\r\n\r\nIf this is hard to fix, we should probably just detect and disallow a filter after an `orderBy.limit` in a changefeed.\r\n\r\n(mentioning @mlucy)"
+        "Client 1:\n\n``` js\nr.table('test').orderBy({index: \"id\"}).limit(1).filter({v: true}).changes()\n```\n\nClient 2:\n\n``` js\nr.table('test').insert({id: 2, v: true})\n// Value appears on changefeed\n\nr.table('test').insert({id: 1, v: false})\n// Nothing appears on changefeed\n// Would expect: {old_val: {id: 2, v: true}, new_val: null}\n```\n\nIf this is hard to fix, we should probably just detect and disallow a filter after an `orderBy.limit` in a changefeed.\n\n(mentioning @mlucy)\n"
   , issueState = "closed"
   , issueId = Id 129332644
   , issueComments = 4

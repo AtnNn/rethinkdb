@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2013 (-02) (-01) 02 : 42 : 46 UTC
   , issueBody =
       Just
-        "The only way to create an object or to add a pair (key, value) in an object is to use\r\n```\r\nr.expr{{ key: \"value\" })\r\n```\r\nor\r\n```\r\nr.expr({}).merge({key: \"value\" })\r\n```\r\n\r\nIn every case, we can not use a dynamic key, something like\r\n```\r\nr.expr({ r.expr(\"key\"): \"value\" })\r\n```\r\n\r\nFor the JavaScript driver, the problem lies in JavaScript. `{ r.expr(\"key\"): \"value\"}` is going to throw an error, and doing\r\n```\r\nvar obj = {}\r\nobj[r.expr(\"key\")] = \"value\"\r\n```\r\nwill create this object\r\n```\r\n{\r\n  \"[object Object]\": \"value\"\r\n}\r\n```\r\n\r\nWe will need to add a new method in ReQL that takes pairs of (key, value) and creates an object. Something like that\r\n```\r\nr.object([\"key1\", \"value1\"], [\"key2\", \"value2\"] )\r\n```\r\n\r\n-----------------------\r\n\r\nThe use case is the following one.\r\nI have a table \"posts\", \"tags\", \"links_posts\"tags\" and I want to retrieve all the posts with an attribute tags that is an object that look likes that\r\n```\r\ntags: {\r\n  tag1: true,\r\n  tag2: true,\r\n  tag3: true\r\n}\r\n```\r\n\r\nSo I can display all the post and let the users quickly filter them by tags (without having to fire a new request/query) or to go through an array of tags. I would just have to check if post.tags[tag_selected_by_user] is defined.\r\nI think it's something pretty useful for web developers."
+        "The only way to create an object or to add a pair (key, value) in an object is to use\n\n```\nr.expr{{ key: \"value\" })\n```\n\nor\n\n```\nr.expr({}).merge({key: \"value\" })\n```\n\nIn every case, we can not use a dynamic key, something like\n\n```\nr.expr({ r.expr(\"key\"): \"value\" })\n```\n\nFor the JavaScript driver, the problem lies in JavaScript. `{ r.expr(\"key\"): \"value\"}` is going to throw an error, and doing\n\n```\nvar obj = {}\nobj[r.expr(\"key\")] = \"value\"\n```\n\nwill create this object\n\n```\n{\n  \"[object Object]\": \"value\"\n}\n```\n\nWe will need to add a new method in ReQL that takes pairs of (key, value) and creates an object. Something like that\n\n```\nr.object([\"key1\", \"value1\"], [\"key2\", \"value2\"] )\n```\n---\n\nThe use case is the following one.\nI have a table \"posts\", \"tags\", \"links_posts\"tags\" and I want to retrieve all the posts with an attribute tags that is an object that look likes that\n\n```\ntags: {\n  tag1: true,\n  tag2: true,\n  tag3: true\n}\n```\n\nSo I can display all the post and let the users quickly filter them by tags (without having to fire a new request/query) or to go through an array of tags. I would just have to check if post.tags[tag_selected_by_user] is defined.\nI think it's something pretty useful for web developers.\n"
   , issueState = "closed"
   , issueId = Id 10527024
   , issueComments = 13
@@ -57,7 +57,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

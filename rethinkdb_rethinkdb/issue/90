@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2012 (-11) (-20) 00 : 52 : 50 UTC
   , issueBody =
       Just
-        "To reproduce.\n\n1. Build rethinkdb with `make NO_EPOLL=1`.\n2. Run htop or some other CPU monitor in another terminal.\n3. Run ./build/debug-noepoll/rethinkdb\n\nPut a debugf in front of the poll(2) call in `arch/runtime/event_queue/poll.cc` and you'll see that it spins around the loop, busywaiting, with many calls per millisecond while the server should be idling.  Compare that with epoll, where you'll see one call per 5 milliseconds (because of the timerfd timer).\n\nThe OS X port (#5) is waiting on this."
+        "To reproduce.\n1. Build rethinkdb with `make NO_EPOLL=1`.\n2. Run htop or some other CPU monitor in another terminal.\n3. Run ./build/debug-noepoll/rethinkdb\n\nPut a debugf in front of the poll(2) call in `arch/runtime/event_queue/poll.cc` and you'll see that it spins around the loop, busywaiting, with many calls per millisecond while the server should be idling.  Compare that with epoll, where you'll see one call per 5 milliseconds (because of the timerfd timer).\n\nThe OS X port (#5) is waiting on this.\n"
   , issueState = "closed"
   , issueId = Id 8489222
   , issueComments = 4

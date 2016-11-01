@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2013 (-01) (-18) 03 : 48 : 10 UTC
   , issueBody =
       Just
-        "Currently, attempting to save a NumPy array as value in a dictionary in the Python driver is not supported. Try:\r\n\r\n```\r\nimport numpy\r\nr.table('users').insert({'name': 'Slava', 'age': 29,   \r\n'some_2d_array':numpy.random.random((100,100)) }).run()\r\n```\r\n\r\nwill return the error:\r\n```AttributeError: 'numpy.ndarray' object has no attribute 'iteritems'```\r\n\r\nNumPy arrays, along with many built-in Python types, can pickle themselves into compact binary representations using \r\n\r\n```\r\nimport cPickle\r\nbinary_string = cPickle.dumps(numpy.random.random((100,100)))\r\nr.table('users').insert({'name': 'Slava', 'age': 29,   \r\n'some_2d_array':binary_string }).run()\r\ndoc = r.table('users').filter(lambda doc: doc['name'] == 'Slava').run()\r\nretrieved_array = cPickle.loads(str(doc['some_2d_array']))\r\n```\r\n\r\nIt would be very desirable to be able to work with objects that can pickle themselves without having to add wrapper code, and seems like an achievable feature. "
+        "Currently, attempting to save a NumPy array as value in a dictionary in the Python driver is not supported. Try:\n\n```\nimport numpy\nr.table('users').insert({'name': 'Slava', 'age': 29,   \n'some_2d_array':numpy.random.random((100,100)) }).run()\n```\n\nwill return the error:\n`AttributeError: 'numpy.ndarray' object has no attribute 'iteritems'`\n\nNumPy arrays, along with many built-in Python types, can pickle themselves into compact binary representations using \n\n```\nimport cPickle\nbinary_string = cPickle.dumps(numpy.random.random((100,100)))\nr.table('users').insert({'name': 'Slava', 'age': 29,   \n'some_2d_array':binary_string }).run()\ndoc = r.table('users').filter(lambda doc: doc['name'] == 'Slava').run()\nretrieved_array = cPickle.loads(str(doc['some_2d_array']))\n```\n\nIt would be very desirable to be able to work with objects that can pickle themselves without having to add wrapper code, and seems like an achievable feature. \n"
   , issueState = "closed"
   , issueId = Id 10086638
   , issueComments = 8
@@ -52,7 +52,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

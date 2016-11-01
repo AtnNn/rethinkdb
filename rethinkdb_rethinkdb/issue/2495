@@ -45,7 +45,7 @@ Issue
   , issueCreatedAt = 2014 (-06) (-02) 23 : 23 : 17 UTC
   , issueBody =
       Just
-        "Suppose you make a database named \"da\" and a table inside it named \"foo\".\r\n\r\nHere's the behavior in Python:\r\n\r\n```\r\n>>> list(r.table('foo').run(db='da'))\r\n[]\r\n>>> list(r.table('foo').run(db=r.db('da')))\r\n[...]\r\nrethinkdb.errors.RqlRuntimeError: Expected type DATUM but found DATABASE:\r\ndb(\"da\") in:\r\nr.table('foo')\r\n^^^^^^^^^^^^^^\r\n```\r\n\r\nHowever, Ruby fails when you pass the raw string and succeeds when you pass `r.db('da')`.\r\n\r\nThe 'db' global optarg is not documented in the ReQL docs.  The function `conn.use('da')` is what the ReQL docs expose.  So there is the question of whether any of the drivers is \"wrong\".\r\n\r\nI find it quite peculiar that the string would have to be wrapped inside an `r.db(...)` term."
+        "Suppose you make a database named \"da\" and a table inside it named \"foo\".\n\nHere's the behavior in Python:\n\n```\n>>> list(r.table('foo').run(db='da'))\n[]\n>>> list(r.table('foo').run(db=r.db('da')))\n[...]\nrethinkdb.errors.RqlRuntimeError: Expected type DATUM but found DATABASE:\ndb(\"da\") in:\nr.table('foo')\n^^^^^^^^^^^^^^\n```\n\nHowever, Ruby fails when you pass the raw string and succeeds when you pass `r.db('da')`.\n\nThe 'db' global optarg is not documented in the ReQL docs.  The function `conn.use('da')` is what the ReQL docs expose.  So there is the question of whether any of the drivers is \"wrong\".\n\nI find it quite peculiar that the string would have to be wrapped inside an `r.db(...)` term.\n"
   , issueState = "open"
   , issueId = Id 34819949
   , issueComments = 14

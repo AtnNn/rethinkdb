@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-01) (-30) 18 : 17 : 09 UTC
   , issueBody =
       Just
-        "Rethinkdb 1.15.3 and 1.16 (installed from rethinkdb's Yum repo)\r\nCache size of 100 MB\r\nTotal system memory: 1 GB\r\n~5400 documents\r\nFedora release 20 (Heisenbug)  Kernel 2.6.32-042stab093.4 x86_64 under OpenVZ\r\n\r\nEvery time I run the query below, I get this error:\r\n\r\nRqlRuntimeError: Javascript query `(function(row) {return {mime2: row.mime}; })` caused a crash in a worker process in:\r\nr.table(\"en\").hasFields(\"file_name\").pluck(\"file_name\", \"title\", \"mime\").merge(r.js(\"(function(row) {return {mime2: row.mime}; })\"))\r\n                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ \r\nThe query that returned an error is:\r\n\r\nr.table('en').hasFields('file_name').pluck('file_name','title','mime').merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) \r\n\r\n---\r\n\r\nBut there's a workaround: use 'limit' after 'table', like this:\r\n\r\nr.table('en2').insert(r.table('en').hasFields('file_name').pluck('mime'))\r\nr.table('en2').count(): 3203\r\nr.table('en2'). merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) : NOT OK!\r\nr.table('en2').limit(5000). merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) : OK!\r\n"
+        "Rethinkdb 1.15.3 and 1.16 (installed from rethinkdb's Yum repo)\nCache size of 100 MB\nTotal system memory: 1 GB\n~5400 documents\nFedora release 20 (Heisenbug)  Kernel 2.6.32-042stab093.4 x86_64 under OpenVZ\n\nEvery time I run the query below, I get this error:\n\nRqlRuntimeError: Javascript query `(function(row) {return {mime2: row.mime}; })` caused a crash in a worker process in:\nr.table(\"en\").hasFields(\"file_name\").pluck(\"file_name\", \"title\", \"mime\").merge(r.js(\"(function(row) {return {mime2: row.mime}; })\"))\n                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ \nThe query that returned an error is:\n\nr.table('en').hasFields('file_name').pluck('file_name','title','mime').merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) \n---\n\nBut there's a workaround: use 'limit' after 'table', like this:\n\nr.table('en2').insert(r.table('en').hasFields('file_name').pluck('mime'))\nr.table('en2').count(): 3203\nr.table('en2'). merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) : NOT OK!\nr.table('en2').limit(5000). merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ) : OK!\n"
   , issueState = "closed"
   , issueId = Id 56066183
   , issueComments = 17
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

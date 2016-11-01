@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-22) 16 : 15 : 14 UTC
   , issueBody =
       Just
-        "This is very similar to UnicodeDecodeError - Python #3211.\r\n\r\nI'm getting results from mysql and importing them into rethinkdb.\r\n\r\nThe column data in question contains _\226\8364\8220_\r\n\r\nThe code im using is:\r\n\r\n    r.db(\"platform\").table(\"tracking_click\").insert([\r\n    {\r\n        \"click_referer\" : row['click_referer'].encode('utf-8')\r\n    }\r\n    ]).run()\r\n\r\nThe error message I'm getting is:\r\n\r\n\tTraceback (most recent call last):\r\n\t  File \"import_rethinkdb.py\", line 186, in <module>\r\n\t    main()\r\n\t  File \"import_rethinkdb.py\", line 149, in main\r\n\t    \"click_referer\" : row['click_referer'].encode('utf8'),\r\n\tUnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 57: ordinal not in range(128)\r\n\r\nThanks"
+        "This is very similar to UnicodeDecodeError - Python #3211.\n\nI'm getting results from mysql and importing them into rethinkdb.\n\nThe column data in question contains _\226\8364\8220_\n\nThe code im using is:\n\n```\nr.db(\"platform\").table(\"tracking_click\").insert([\n{\n    \"click_referer\" : row['click_referer'].encode('utf-8')\n}\n]).run()\n```\n\nThe error message I'm getting is:\n\n```\nTraceback (most recent call last):\n  File \"import_rethinkdb.py\", line 186, in <module>\n    main()\n  File \"import_rethinkdb.py\", line 149, in main\n    \"click_referer\" : row['click_referer'].encode('utf8'),\nUnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 57: ordinal not in range(128)\n```\n\nThanks\n"
   , issueState = "closed"
   , issueId = Id 70171120
   , issueComments = 1

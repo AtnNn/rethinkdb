@@ -39,7 +39,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-09) 22 : 07 : 49 UTC
   , issueBody =
       Just
-        "Starting with 2.0, we're going to use buffered reads for cluster messages. In the current implementation, we use the buffered read logic in linux_tcp_conn_t.\r\nThe disadvantage of this is that it often requires copying buffers around, and that it makes linux_tcp_conn_t rather convoluted (I think the code stems from the Memcached times).\r\n\r\n@timmaxw suggested to instead have a set of fixed-sized buffers in the connectivity cluster. The connectivity cluster could read messages directly into these buffers, and then hand the message handlers a read stream with one or multiple slices pointing directly into the buffer set. The message handlers can then deserialize the messages directly from the buffer(s).\r\nThis would eliminate all the copying that's currently happening."
+        "Starting with 2.0, we're going to use buffered reads for cluster messages. In the current implementation, we use the buffered read logic in linux_tcp_conn_t.\nThe disadvantage of this is that it often requires copying buffers around, and that it makes linux_tcp_conn_t rather convoluted (I think the code stems from the Memcached times).\n\n@timmaxw suggested to instead have a set of fixed-sized buffers in the connectivity cluster. The connectivity cluster could read messages directly into these buffers, and then hand the message handlers a read stream with one or multiple slices pointing directly into the buffer set. The message handlers can then deserialize the messages directly from the buffer(s).\nThis would eliminate all the copying that's currently happening.\n"
   , issueState = "open"
   , issueId = Id 67461012
   , issueComments = 2

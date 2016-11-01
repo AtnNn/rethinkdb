@@ -18,7 +18,7 @@ PullRequest
       "https://github.com/rethinkdb/rethinkdb/pull/4309"
   , pullRequestUpdatedAt = 2016 (-08) (-08) 15 : 33 : 27 UTC
   , pullRequestBody =
-      "This is a set of commits that add support for SmartOS.\r\n\r\n* 63bcfc2 changes `file_t` to `myfile_t`, `file_t` is exposed from `sys/file.h` on SmartOS.\r\n* 7c4d34a changes `lock_t` to `mylock_t`, `lock_t` is exposed from `sys/machtypes.h` on SmartOS.\r\n* 5702f34 is a set of general portability fixes, required on SmartOS but should be generally applicable and help other ports.\r\n* e826138 adds the core of the SmartOS support, notably an event ports backend for the event queue and timers.\r\n* f257229 isn't great, hence marked XXX, but is currently required as std::to_string isn't available even in C++11 mode with GCC 4.7 on SmartOS.  Looking around this seems to be a problem with other operating systems too.  Ideas for handling this better would be welcome.\r\n\r\nWith these changes applied I am able to run a server in both 32-bit and 64-bit builds.  It should be broadly compatible with other illumos distributions and Oracle Solaris, but those have not been verified.\r\n\r\nRunning the unittest suite on 32-bit results in:\r\n\r\n```\r\n[==========] 287 tests from 63 test cases ran. (779139 ms total)\r\n[  PASSED  ] 285 tests.\r\n[  FAILED  ] 2 tests, listed below:\r\n[  FAILED  ] UtilsTest.IPAddress\r\n[  FAILED  ] RDBBtree.SindexEraseRange\r\n```\r\n\r\nThe `RDBBtree.SindexEraseRange` failure looks very similar to #3805:\r\n\r\n```\r\n[ RUN      ] RDBBtree.SindexEraseRange\r\nsrc/unittest/rdb_btree.cc:253: Failure\r\nValue of: groups->size()\r\n  Actual: 0\r\nExpected: 1\r\nsrc/unittest/rdb_btree.cc:253: Failure\r\nValue of: groups->size()\r\n  Actual: 0\r\nExpected: 1\r\n[  FAILED  ] RDBBtree.SindexEraseRange (11438 ms)\r\n```\r\n\r\nThe `UtilsTest.IPAddress` failure is:\r\n\r\n```\r\n[ RUN      ] UtilsTest.IPAddress\r\nsrc/unittest/utils_test.cc:134: Failure\r\nValue of: ip_strings.find(\"::ffff:203.0.113.59\") != ip_strings.end()\r\n  Actual: false\r\nExpected: true\r\n[  FAILED  ] UtilsTest.IPAddress (2 ms)\r\n```\r\n\r\nFor this test `ip_strings` only contains `203.0.113.59`, so it may just need a change to handle the `getaddrinfo()` handling on SmartOS.\r\n\r\nWhen running the test suite against the 64-bit build, I see intermittent failures in the Clustering tests with heartbeat timeouts, but haven't tracked those down yet, otherwise same results as the 32-bit build.  Running the standalone server seems to work fine.\r\n\r\nI have no real interest in retaining copyright and signing the CLA, so you can consider these changes as being in the public domain and are welcome to take them as your own."
+      "This is a set of commits that add support for SmartOS.\n- 63bcfc2 changes `file_t` to `myfile_t`, `file_t` is exposed from `sys/file.h` on SmartOS.\n- 7c4d34a changes `lock_t` to `mylock_t`, `lock_t` is exposed from `sys/machtypes.h` on SmartOS.\n- 5702f34 is a set of general portability fixes, required on SmartOS but should be generally applicable and help other ports.\n- e826138 adds the core of the SmartOS support, notably an event ports backend for the event queue and timers.\n- f257229 isn't great, hence marked XXX, but is currently required as std::to_string isn't available even in C++11 mode with GCC 4.7 on SmartOS.  Looking around this seems to be a problem with other operating systems too.  Ideas for handling this better would be welcome.\n\nWith these changes applied I am able to run a server in both 32-bit and 64-bit builds.  It should be broadly compatible with other illumos distributions and Oracle Solaris, but those have not been verified.\n\nRunning the unittest suite on 32-bit results in:\n\n```\n[==========] 287 tests from 63 test cases ran. (779139 ms total)\n[  PASSED  ] 285 tests.\n[  FAILED  ] 2 tests, listed below:\n[  FAILED  ] UtilsTest.IPAddress\n[  FAILED  ] RDBBtree.SindexEraseRange\n```\n\nThe `RDBBtree.SindexEraseRange` failure looks very similar to #3805:\n\n```\n[ RUN      ] RDBBtree.SindexEraseRange\nsrc/unittest/rdb_btree.cc:253: Failure\nValue of: groups->size()\n  Actual: 0\nExpected: 1\nsrc/unittest/rdb_btree.cc:253: Failure\nValue of: groups->size()\n  Actual: 0\nExpected: 1\n[  FAILED  ] RDBBtree.SindexEraseRange (11438 ms)\n```\n\nThe `UtilsTest.IPAddress` failure is:\n\n```\n[ RUN      ] UtilsTest.IPAddress\nsrc/unittest/utils_test.cc:134: Failure\nValue of: ip_strings.find(\"::ffff:203.0.113.59\") != ip_strings.end()\n  Actual: false\nExpected: true\n[  FAILED  ] UtilsTest.IPAddress (2 ms)\n```\n\nFor this test `ip_strings` only contains `203.0.113.59`, so it may just need a change to handle the `getaddrinfo()` handling on SmartOS.\n\nWhen running the test suite against the 64-bit build, I see intermittent failures in the Clustering tests with heartbeat timeouts, but haven't tracked those down yet, otherwise same results as the 32-bit build.  Running the standalone server seems to work fine.\n\nI have no real interest in retaining copyright and signing the CLA, so you can consider these changes as being in the public domain and are welcome to take them as your own.\n"
   , pullRequestIssueUrl =
       "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4309"
   , pullRequestDiffUrl =
@@ -125,15 +125,15 @@ PullRequest
               , repoCreatedAt = Just 2012 (-10) (-30) 05 : 37 : 47 UTC
               , repoHtmlUrl = "https://github.com/rethinkdb/rethinkdb"
               , repoSvnUrl = Just "https://github.com/rethinkdb/rethinkdb"
-              , repoForks = Just 1378
+              , repoForks = Just 1387
               , repoHomepage = Just "http://rethinkdb.com"
               , repoFork = Just False
               , repoGitUrl = Just "git://github.com/rethinkdb/rethinkdb.git"
               , repoPrivate = False
               , repoCloneUrl = Just "https://github.com/rethinkdb/rethinkdb.git"
               , repoSize = Just 449097
-              , repoUpdatedAt = Just 2016 (-10) (-26) 18 : 43 : 33 UTC
-              , repoWatchers = Just 16589
+              , repoUpdatedAt = Just 2016 (-11) (-01) 02 : 09 : 53 UTC
+              , repoWatchers = Just 16649
               , repoOwner =
                   SimpleOwner
                     { simpleOwnerId = Id 1229647
@@ -146,10 +146,10 @@ PullRequest
               , repoName = N "rethinkdb"
               , repoLanguage = Just (Language "C++")
               , repoMasterBranch = Nothing
-              , repoPushedAt = Just 2016 (-10) (-26) 17 : 28 : 55 UTC
+              , repoPushedAt = Just 2016 (-10) (-30) 19 : 50 : 13 UTC
               , repoId = Id 6452529
               , repoUrl = "https://api.github.com/repos/rethinkdb/rethinkdb"
-              , repoOpenIssues = Just 1415
+              , repoOpenIssues = Just 1418
               , repoHasWiki = Just False
               , repoHasIssues = Just True
               , repoHasDownloads = Just True
@@ -157,7 +157,7 @@ PullRequest
               , repoSource = Nothing
               , repoHooksUrl =
                   "https://api.github.com/repos/rethinkdb/rethinkdb/hooks"
-              , repoStargazersCount = 16589
+              , repoStargazersCount = 16649
               }
         }
   , pullRequestCommits = 3

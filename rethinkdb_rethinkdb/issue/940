@@ -47,7 +47,7 @@ Issue
   , issueCreatedAt = 2013 (-06) (-03) 16 : 40 : 24 UTC
   , issueBody =
       Just
-        "From config/args.hpp:\r\n```\r\n// We assume there will never be more than this many blocks. The value\r\n// is computed by dividing 1 TB by the smallest reasonable block size.\r\n// This value currently fits in 32 bits, and so block_id_t is a uint32_t.\r\n#define MAX_BLOCK_ID                              (TERABYTE / KILOBYTE)\r\n```\r\n\r\nThis limits the size of one shard to 4 TB, if not even the size of all the data for the whole table residing on a single node. (are all shards of a certain table stored in the same file?)\r\n\r\nThis should be documented somewhere.\r\n\r\nAlso, the limit should be increased.\r\n\r\nThe maximal value that can be stored in a uint32_t = block_id_t is 4 * TERABYTE / KILOBYTE - 1, which would allow for 16 TB of data per shard. One more value has to be reserved for NULL_BLOCK_ID, so we would end up with MAX_BLOCK_ID = 4 * TERABYTE / KILOBYTE - 2 (assuming MAX_BLOCK_ID is inclusive, I have not checked).\r\n\r\nChanging this will have an effect on both the on-disk and in-memory LBA index structures in the serializer. I'll have to check the code to find out what kind of effect."
+        "From config/args.hpp:\n\n```\n// We assume there will never be more than this many blocks. The value\n// is computed by dividing 1 TB by the smallest reasonable block size.\n// This value currently fits in 32 bits, and so block_id_t is a uint32_t.\n#define MAX_BLOCK_ID                              (TERABYTE / KILOBYTE)\n```\n\nThis limits the size of one shard to 4 TB, if not even the size of all the data for the whole table residing on a single node. (are all shards of a certain table stored in the same file?)\n\nThis should be documented somewhere.\n\nAlso, the limit should be increased.\n\nThe maximal value that can be stored in a uint32_t = block_id_t is 4 \\* TERABYTE / KILOBYTE - 1, which would allow for 16 TB of data per shard. One more value has to be reserved for NULL_BLOCK_ID, so we would end up with MAX_BLOCK_ID = 4 \\* TERABYTE / KILOBYTE - 2 (assuming MAX_BLOCK_ID is inclusive, I have not checked).\n\nChanging this will have an effect on both the on-disk and in-memory LBA index structures in the serializer. I'll have to check the code to find out what kind of effect.\n"
   , issueState = "closed"
   , issueId = Id 15076238
   , issueComments = 7
@@ -66,7 +66,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

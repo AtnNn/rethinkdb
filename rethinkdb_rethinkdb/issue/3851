@@ -39,7 +39,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-27) 22 : 18 : 35 UTC
   , issueBody =
       Just
-        "The [`.hasFields`](http://rethinkdb.com/api/javascript/has_fields/) method converts a \"SELECTION<STREAM>\" into a \"STREAM\". `.filter`, on the other hand, keeps the original reference to the selection. The functionality between these seems similar enough that I would have expected `.hasFields` to keep the reference to the source rows through the \"SELECTION\". \r\n\r\nIs it possible for `.hasFields` to return a \"SELECTION<STREAM>\" when provided a \"SELECTION<STREAM>\", instead of returning a \"STREAM\"? All this is also true for \"SELECTION<ARRAY>\".\r\n\r\nExample Queries:\r\n\r\n```\r\nr.db('caltrain').table('trains')\r\n .between(300, 400, {'index': 'number'})\r\n .orderBy({'index': 'number'})\r\n .filter({'direction': 'north'})\r\n .typeOf() // \"SELECTION<STREAM>\"\r\n```\r\n\r\n```\r\nr.db('caltrain').table('trains')\r\n .between(300, 400, {'index': 'number'})\r\n .orderBy({'index': 'number'})\r\n .filter({'direction': 'north'})\r\n .hasFields({'stations': true})\r\n .typeOf() // \"STREAM\"\r\n```"
+        "The [`.hasFields`](http://rethinkdb.com/api/javascript/has_fields/) method converts a \"SELECTION<STREAM>\" into a \"STREAM\". `.filter`, on the other hand, keeps the original reference to the selection. The functionality between these seems similar enough that I would have expected `.hasFields` to keep the reference to the source rows through the \"SELECTION\". \n\nIs it possible for `.hasFields` to return a \"SELECTION<STREAM>\" when provided a \"SELECTION<STREAM>\", instead of returning a \"STREAM\"? All this is also true for \"SELECTION<ARRAY>\".\n\nExample Queries:\n\n```\nr.db('caltrain').table('trains')\n .between(300, 400, {'index': 'number'})\n .orderBy({'index': 'number'})\n .filter({'direction': 'north'})\n .typeOf() // \"SELECTION<STREAM>\"\n```\n\n```\nr.db('caltrain').table('trains')\n .between(300, 400, {'index': 'number'})\n .orderBy({'index': 'number'})\n .filter({'direction': 'north'})\n .hasFields({'stations': true})\n .typeOf() // \"STREAM\"\n```\n"
   , issueState = "closed"
   , issueId = Id 59302910
   , issueComments = 3
@@ -58,7 +58,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

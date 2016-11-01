@@ -47,7 +47,7 @@ Issue
   , issueCreatedAt = 2013 (-08) (-08) 20 : 05 : 20 UTC
   , issueBody =
       Just
-        "You can see this behavior by sending an object nested 25-deep to the server in debug mode (we overflow very quickly in debug mode because lots of stuff isn't optimized off the stack).\r\n\r\nI'm unable to crash the server easily in release mode, since we hit the protobuf library's decoding limit first, but we should consider maybe trying to do something smarter than segfaulting and crashing the server when we blow off the stack.  Maybe we could install a signal handler that checks whether we got a stack overflow on a ReQL coroutine, and produces an `exc_t` if we did?  Maybe we could enforce a maximum runtime recursion depth ourselves?\r\n\r\n(Just because I can't easily hit the stack limit in release mode doesn't mean that there isn't any way to -- e.g., I would bet that if we programmatically constructed two enormous objects and merged them that we'd hit the limit.)"
+        "You can see this behavior by sending an object nested 25-deep to the server in debug mode (we overflow very quickly in debug mode because lots of stuff isn't optimized off the stack).\n\nI'm unable to crash the server easily in release mode, since we hit the protobuf library's decoding limit first, but we should consider maybe trying to do something smarter than segfaulting and crashing the server when we blow off the stack.  Maybe we could install a signal handler that checks whether we got a stack overflow on a ReQL coroutine, and produces an `exc_t` if we did?  Maybe we could enforce a maximum runtime recursion depth ourselves?\n\n(Just because I can't easily hit the stack limit in release mode doesn't mean that there isn't any way to -- e.g., I would bet that if we programmatically constructed two enormous objects and merged them that we'd hit the limit.)\n"
   , issueState = "closed"
   , issueId = Id 17827904
   , issueComments = 10
@@ -66,7 +66,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

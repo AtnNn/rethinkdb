@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2015 (-11) (-12) 14 : 34 : 42 UTC
   , issueBody =
       Just
-        "```\r\nPython 3.5.0 (default, Sep 14 2015, 00:19:46)\r\n[GCC 4.2.1 Compatible Apple LLVM 6.1.0 (clang-602.0.53)] on darwin\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import rethinkdb as r\r\n>>> r.uuid() in ('foo', 'bar', 'baz')\r\nTrue\r\n>>> r.now() in [False]\r\nTrue\r\n```\r\nWithout looking at the code I'm guessing this is because RqlQuery overrides `__eq__` to return some ast syntax. Python calls `__eq__` against the first member of the container, and when it gets a truthy value, it considers them equivalent and so the containment check returns True.\r\n\r\nIdeally we could get this to behave as expected without messing up the ast magic."
+        "```\nPython 3.5.0 (default, Sep 14 2015, 00:19:46)\n[GCC 4.2.1 Compatible Apple LLVM 6.1.0 (clang-602.0.53)] on darwin\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n>>> import rethinkdb as r\n>>> r.uuid() in ('foo', 'bar', 'baz')\nTrue\n>>> r.now() in [False]\nTrue\n```\n\nWithout looking at the code I'm guessing this is because RqlQuery overrides `__eq__` to return some ast syntax. Python calls `__eq__` against the first member of the container, and when it gets a truthy value, it considers them equivalent and so the containment check returns True.\n\nIdeally we could get this to behave as expected without messing up the ast magic.\n"
   , issueState = "open"
   , issueId = Id 116559674
   , issueComments = 7

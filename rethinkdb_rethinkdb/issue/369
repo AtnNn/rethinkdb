@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2013 (-02) (-20) 23 : 41 : 45 UTC
   , issueBody =
       Just
-        "When rethinkdb accepts tcp connections, it does so with a backlog size of 5.  In addition, in `nonthrowing_tcp_listener_t::accept_loop()`, a new connection is spawned on a different coroutine using `spawn_now_dangerously()`.  This may result in faster setup of a new connection, but it also increases the likelyhood of filling up the backlog.\r\n\r\nReported by @christopherhesse, when creating a large number of client connections at once, a large number of them are dropped immediately by rethinkdb.  Adding a short (1 ms) delay in between attempts fixes this, but I think the problem can be minimized on our end.\r\n\r\nI would suggest changing the `handle` coroutine to be spawned using `spawn_sometime` instead, and increasing the accept backlog."
+        "When rethinkdb accepts tcp connections, it does so with a backlog size of 5.  In addition, in `nonthrowing_tcp_listener_t::accept_loop()`, a new connection is spawned on a different coroutine using `spawn_now_dangerously()`.  This may result in faster setup of a new connection, but it also increases the likelyhood of filling up the backlog.\n\nReported by @christopherhesse, when creating a large number of client connections at once, a large number of them are dropped immediately by rethinkdb.  Adding a short (1 ms) delay in between attempts fixes this, but I think the problem can be minimized on our end.\n\nI would suggest changing the `handle` coroutine to be spawned using `spawn_sometime` instead, and increasing the accept backlog.\n"
   , issueState = "closed"
   , issueId = Id 11221205
   , issueComments = 22

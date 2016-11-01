@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-04) (-25) 20 : 53 : 25 UTC
   , issueBody =
       Just
-        "I loaded up all the [BigLottery data](http://data.gov.uk/dataset/blf-grants-data-2004-onwards), 119,950 records. Convert the award amount from string to number (there were some that needed trimming with split but the result is ~120k records all with numeric `amount` fields.)\r\n``` javascript\r\nr.db(\"test\").table(\"BigLottery\").update({ amount: r.row(\"CURRENT_AWARD\").coerceTo(\"number\") })\r\n```\r\nI think I should be able to sort them by the resulting numeric field, but I can't:\r\n``` javascript\r\nRqlRuntimeError: Array over size limit 100000. in: r.db(\"test\").table(\"BigLottery\").orderBy(\"amount\")\r\n```\r\nIt's a show stopper for analysing open data. \r\nIs there a way to sort this dataset that isn't constrained by the array size limit?"
+        "I loaded up all the [BigLottery data](http://data.gov.uk/dataset/blf-grants-data-2004-onwards), 119,950 records. Convert the award amount from string to number (there were some that needed trimming with split but the result is ~120k records all with numeric `amount` fields.)\n\n``` javascript\nr.db(\"test\").table(\"BigLottery\").update({ amount: r.row(\"CURRENT_AWARD\").coerceTo(\"number\") })\n```\n\nI think I should be able to sort them by the resulting numeric field, but I can't:\n\n``` javascript\nRqlRuntimeError: Array over size limit 100000. in: r.db(\"test\").table(\"BigLottery\").orderBy(\"amount\")\n```\n\nIt's a show stopper for analysing open data. \nIs there a way to sort this dataset that isn't constrained by the array size limit?\n"
   , issueState = "closed"
   , issueId = Id 32265761
   , issueComments = 16

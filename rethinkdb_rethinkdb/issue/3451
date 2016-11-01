@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-12) (-17) 15 : 06 : 19 UTC
   , issueBody =
       Just
-        "    r.table().filter().eq_join().map().coerce_to('array').do(lambda chunk0:\r\n         r.expr(list_of_lists0).for_each(lambda arr: chunk0.filter(lambda x: \r\n         arr.contains(x['field'])\r\n         ).map().coerce_to('array').do(lambda chunk1:\r\n               r.expr(list_of_lists1).for_each(lambda grp: r.table('NewTable').insert(\r\n                    chunk1.group(grp).ungroup()\r\n                )\r\n          )\r\n     )\r\n))\r\n\r\nthe following query produces the expected result and is inserted into 'NewTable' -- however, when changing:\r\n     chunk1.group(grp).ungroup()\r\nto:\r\n     chunk1.group(grp).ungroup().map()\r\n\r\nit produces an empty array -- how can this be?"
+        "```\nr.table().filter().eq_join().map().coerce_to('array').do(lambda chunk0:\n     r.expr(list_of_lists0).for_each(lambda arr: chunk0.filter(lambda x: \n     arr.contains(x['field'])\n     ).map().coerce_to('array').do(lambda chunk1:\n           r.expr(list_of_lists1).for_each(lambda grp: r.table('NewTable').insert(\n                chunk1.group(grp).ungroup()\n            )\n      )\n )\n```\n\n))\n\nthe following query produces the expected result and is inserted into 'NewTable' -- however, when changing:\n     chunk1.group(grp).ungroup()\nto:\n     chunk1.group(grp).ungroup().map()\n\nit produces an empty array -- how can this be?\n"
   , issueState = "closed"
   , issueId = Id 52249991
   , issueComments = 2

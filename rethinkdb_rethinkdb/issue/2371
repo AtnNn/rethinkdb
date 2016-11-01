@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-07) 16 : 27 : 19 UTC
   , issueBody =
       Just
-        "Currently the extproc system uses `fork()` to create new workers. This is obviously working well, but there are a few minor problems with fork that would be solved by using spawn/posix_spawn:\r\n\r\n* It is expensive on MacOS. linux has solved this with a COW method, but it is still expensive on MacOS as everything from the parent process has to be copied.\r\n* You inherit argv[0] from the calling process. So in places like `top` it is not obvious what are worker processes. Using posix_spawn you can set argv[0] to anything you want.\r\n* There are some really nasty cases if you fork from a threaded program."
+        "Currently the extproc system uses `fork()` to create new workers. This is obviously working well, but there are a few minor problems with fork that would be solved by using spawn/posix_spawn:\n- It is expensive on MacOS. linux has solved this with a COW method, but it is still expensive on MacOS as everything from the parent process has to be copied.\n- You inherit argv[0] from the calling process. So in places like `top` it is not obvious what are worker processes. Using posix_spawn you can set argv[0] to anything you want.\n- There are some really nasty cases if you fork from a threaded program.\n"
   , issueState = "open"
   , issueId = Id 33001384
   , issueComments = 6

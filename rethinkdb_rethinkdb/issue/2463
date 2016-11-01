@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-24) 18 : 31 : 35 UTC
   , issueBody =
       Just
-        "For\r\n```\r\nr.table(\"test\").zip(1)\r\n```\r\n\r\nThe server will send back this error:\r\n```\r\nRqlCompileError: Expected 1 argument(s) but found 2. in:\r\nr.db(\"test\").table(\"test\").zip(1)\r\n```\r\n\r\nThe error we send back is not super-friendly because\r\n- There is no backtrace\r\n- We do not report the name of the function that was called with the wrong number of arguments\r\n- The server suppose that everything uses the notation `r.zip(r.table('test'), 1)`\r\n\r\nAbout the last point, `r.and` is a valid syntax, so we can't just suppose that we always chain methods. But if the function that triggered the error was reported, the driver could catch the error and update the number of arguments depending of the method.\r\n\r\n\r\nPutting in polish."
+        "For\n\n```\nr.table(\"test\").zip(1)\n```\n\nThe server will send back this error:\n\n```\nRqlCompileError: Expected 1 argument(s) but found 2. in:\nr.db(\"test\").table(\"test\").zip(1)\n```\n\nThe error we send back is not super-friendly because\n- There is no backtrace\n- We do not report the name of the function that was called with the wrong number of arguments\n- The server suppose that everything uses the notation `r.zip(r.table('test'), 1)`\n\nAbout the last point, `r.and` is a valid syntax, so we can't just suppose that we always chain methods. But if the function that triggered the error was reported, the driver could catch the error and update the number of arguments depending of the method.\n\nPutting in polish.\n"
   , issueState = "open"
   , issueId = Id 34239747
   , issueComments = 4

@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-05) (-28) 17 : 59 : 44 UTC
   , issueBody =
       Just
-        "### Steps to repro\r\n1. require two different instances of the rethinkdb js driver\r\n2. connect to a db with one of the drivers\r\n3. run a query from the other driver, but pass in the connection from the first driver\r\n\r\n### What happens\r\nAn invalid connection error\r\n\r\n### What should happen\r\nNo error should be thrown.\r\n\r\nI suspect that part of the check uses `instanceof` to determine if the passed object is a connection. Unfortunately, that treats rethinkdb as a singleton, which isn't necessary and causes the breakage described here. "
+        "### Steps to repro\n1. require two different instances of the rethinkdb js driver\n2. connect to a db with one of the drivers\n3. run a query from the other driver, but pass in the connection from the first driver\n### What happens\n\nAn invalid connection error\n### What should happen\n\nNo error should be thrown.\n\nI suspect that part of the check uses `instanceof` to determine if the passed object is a connection. Unfortunately, that treats rethinkdb as a singleton, which isn't necessary and causes the breakage described here. \n"
   , issueState = "closed"
   , issueId = Id 82055324
   , issueComments = 3
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

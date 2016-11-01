@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-09) (-30) 18 : 58 : 24 UTC
   , issueBody =
       Just
-        "Many of the Ruby polyglot tests are failing in `next` at checkin 1e8b5e1 (Implement `to_json` in C++ code.), many of them with errors like:\r\n\r\n```ruby\r\n\tEXPECTED: <RqlCompileError \"Expected 2 arguments but found 1.\">\r\nTEST FAILURE: polyglot/arity.rb1.9/15\r\n\tBODY: array.set_difference()\r\n\tVALUE: <RqlDriverError \"r.expr can't handle #<JSON::Ext::Generator::State:0x007fe40408b688> of class JSON::Ext::Generator::State.\">\r\n```\r\n\r\nThe previous checkin succeeds, while everything from that point on fails. Here is the line I used for `git bisect` in finding this:\r\n\r\n```\r\ngit clean -xddf && ./configure --allow-fetch --ccache && make DEBUG=1 -j10 && ./test/rql_test/test-runner polyglot/arity.rb\r\n```\r\n\r\nAssigning to @gchpaco as that was his checkin."
+        "Many of the Ruby polyglot tests are failing in `next` at checkin 1e8b5e1 (Implement `to_json` in C++ code.), many of them with errors like:\n\n``` ruby\n    EXPECTED: <RqlCompileError \"Expected 2 arguments but found 1.\">\nTEST FAILURE: polyglot/arity.rb1.9/15\n    BODY: array.set_difference()\n    VALUE: <RqlDriverError \"r.expr can't handle #<JSON::Ext::Generator::State:0x007fe40408b688> of class JSON::Ext::Generator::State.\">\n```\n\nThe previous checkin succeeds, while everything from that point on fails. Here is the line I used for `git bisect` in finding this:\n\n```\ngit clean -xddf && ./configure --allow-fetch --ccache && make DEBUG=1 -j10 && ./test/rql_test/test-runner polyglot/arity.rb\n```\n\nAssigning to @gchpaco as that was his checkin.\n"
   , issueState = "closed"
   , issueId = Id 44485957
   , issueComments = 12

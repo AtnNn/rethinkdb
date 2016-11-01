@@ -51,7 +51,7 @@ Issue
   , issueCreatedAt = 2016 (-03) (-27) 15 : 46 : 12 UTC
   , issueBody =
       Just
-        "`rethinkdb/drivers/java/src/main/java/com/rethinkdb/net/Response.java` output debug log server response, it unconditionally convert ByteBuffer to String, even if debug log is disabled.\r\n\r\n```\r\n    public static Response parseFrom(long token, ByteBuffer buf) {\r\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\r\n```\r\n\r\nSo add a check is better.\r\n```\r\n        if (Response.logger.isDebugEnabled())\r\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\r\n```\r\n"
+        "`rethinkdb/drivers/java/src/main/java/com/rethinkdb/net/Response.java` output debug log server response, it unconditionally convert ByteBuffer to String, even if debug log is disabled.\n\n```\n    public static Response parseFrom(long token, ByteBuffer buf) {\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\n```\n\nSo add a check is better.\n\n```\n        if (Response.logger.isDebugEnabled())\n          Response.logger.debug(\"JSON Recv: Token: {} {}\", token, Util.bufferToString(buf));\n```\n"
   , issueState = "closed"
   , issueId = Id 143822291
   , issueComments = 3

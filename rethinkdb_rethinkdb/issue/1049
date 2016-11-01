@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2013 (-06) (-20) 16 : 47 : 13 UTC
   , issueBody =
       Just
-        "***edited*: It's not datum_t objects, it's Datum objects (the ones generated from ql2.proto)! Sorry for the confusion.**\r\n\r\nI was profiling an insert workload, and noticed that\r\n13 % of the CPU time is spent in the copy constructor of Datum\r\nanother 17 % of the CPU time is spent in the destructor ~Datum\r\n\r\nOne of the major sources of Datum copying for this workload appears to be the copy constructor of batched_replaces_response_t, which is most frequently called by the write_response_t copy constructor, which in turn is called from a variety of places.\r\n\r\nProbably, we should just try to use shared pointers whenever handling datums, especially when handling vectors of datums.\r\n\r\nI yet have to check whether read workloads suffer from similar effects."
+        "**_edited_: It's not datum_t objects, it's Datum objects (the ones generated from ql2.proto)! Sorry for the confusion.**\n\nI was profiling an insert workload, and noticed that\n13 % of the CPU time is spent in the copy constructor of Datum\nanother 17 % of the CPU time is spent in the destructor ~Datum\n\nOne of the major sources of Datum copying for this workload appears to be the copy constructor of batched_replaces_response_t, which is most frequently called by the write_response_t copy constructor, which in turn is called from a variety of places.\n\nProbably, we should just try to use shared pointers whenever handling datums, especially when handling vectors of datums.\n\nI yet have to check whether read workloads suffer from similar effects.\n"
   , issueState = "closed"
   , issueId = Id 15810666
   , issueComments = 10

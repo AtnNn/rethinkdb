@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-09) (-04) 00 : 12 : 42 UTC
   , issueBody =
       Just
-        "I am trying to filter using the `or` operator while using RethinkDB 1.14.0. The query returns empty if the first condition is false using the `or` operator.\r\n\r\nTo replicate:\r\n\r\nUsing the Web UI\r\n```javascript\r\nr.dbCreate(\"or_test\")\r\nr.db(\"or_test\").tableCreate(\"test\")\r\nr.db(\"or_test\").table(\"test\").insert({optional_field1: \"one\"})\r\n```\r\n===\r\nThen If you do:\r\n\r\n```javascript\r\nr.db(\"or_test\").table(\"test\").filter(\r\n  r.row(\"optional_field1\").eq(\"one\").and(r.row(\"optional_field2\").eq(\"one\"))\r\n)\r\n```\r\n\r\nYou get:\r\n\r\n```json\r\n[\r\n  {\r\n    \"id\":  \"980b7596-a376-4ac7-9cd3-78bc872fc29e\" ,\r\n    \"optional_field1\":  \"one\"\r\n  }\r\n]\r\n```\r\n===\r\nBut if you change the order of the `or` bool values:\r\n\r\n```javascript\r\nr.db(\"or_test\").table(\"test\").filter(\r\n  r.row(\"optional_field2\").eq(\"one\").or(r.row(\"optional_field1\").eq(\"one\"))\r\n)\r\n```\r\n\r\nyou get an empty list: `[]`\r\n\r\nI tried the same using Python bindings and got the same behavior.\r\n\r\nThanks."
+        "I am trying to filter using the `or` operator while using RethinkDB 1.14.0. The query returns empty if the first condition is false using the `or` operator.\n\nTo replicate:\n\nUsing the Web UI\n\n``` javascript\nr.dbCreate(\"or_test\")\nr.db(\"or_test\").tableCreate(\"test\")\nr.db(\"or_test\").table(\"test\").insert({optional_field1: \"one\"})\n```\n# \n\nThen If you do:\n\n``` javascript\nr.db(\"or_test\").table(\"test\").filter(\n  r.row(\"optional_field1\").eq(\"one\").and(r.row(\"optional_field2\").eq(\"one\"))\n)\n```\n\nYou get:\n\n``` json\n[\n  {\n    \"id\":  \"980b7596-a376-4ac7-9cd3-78bc872fc29e\" ,\n    \"optional_field1\":  \"one\"\n  }\n]\n```\n# \n\nBut if you change the order of the `or` bool values:\n\n``` javascript\nr.db(\"or_test\").table(\"test\").filter(\n  r.row(\"optional_field2\").eq(\"one\").or(r.row(\"optional_field1\").eq(\"one\"))\n)\n```\n\nyou get an empty list: `[]`\n\nI tried the same using Python bindings and got the same behavior.\n\nThanks.\n"
   , issueState = "closed"
   , issueId = Id 41882245
   , issueComments = 5
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

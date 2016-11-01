@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2016 (-09) (-14) 21 : 31 : 35 UTC
   , issueBody =
       Just
-        "Currently, our behavior is as follows (from the documentation):\r\n\r\n> The server will buffer up to `changefeedQueueSize` elements (default 100,000). If the buffer limit is hit, early changes will be discarded, and the client will receive an object of the form `{error: \"Changefeed cache over array size limit, skipped X elements.\"}` where `X` is the number of elements skipped.\r\n\r\nThe problem is that most people are not going to handle `error` documents in their code since they are rare, especially in testing.\r\n\r\nI propose that we change the behavior of changefeeds to throw an exception if this happens instead.\r\nIt's slightly worse because it will cause the changefeed to be terminated, rather than just skipping changes but staying alive. However I doubt that a changefeed with skipped notifications is of much use anyway.\r\n\r\nThis reduces the error cases that users have to think about and handle.\r\n\r\nThis is a ReQL proposal, but for the case that we get a quick consensus, I'd like to still change this for 2.4.\r\n\r\n@mlucy, @VeXocide, @larkost, @deontologician thoughts?"
+        "Currently, our behavior is as follows (from the documentation):\n\n> The server will buffer up to `changefeedQueueSize` elements (default 100,000). If the buffer limit is hit, early changes will be discarded, and the client will receive an object of the form `{error: \"Changefeed cache over array size limit, skipped X elements.\"}` where `X` is the number of elements skipped.\n\nThe problem is that most people are not going to handle `error` documents in their code since they are rare, especially in testing.\n\nI propose that we change the behavior of changefeeds to throw an exception if this happens instead.\nIt's slightly worse because it will cause the changefeed to be terminated, rather than just skipping changes but staying alive. However I doubt that a changefeed with skipped notifications is of much use anyway.\n\nThis reduces the error cases that users have to think about and handle.\n\nThis is a ReQL proposal, but for the case that we get a quick consensus, I'd like to still change this for 2.4.\n\n@mlucy, @VeXocide, @larkost, @deontologician thoughts?\n"
   , issueState = "open"
   , issueId = Id 177026931
   , issueComments = 10
@@ -50,7 +50,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

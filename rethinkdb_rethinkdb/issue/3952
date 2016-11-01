@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2015 (-03) (-20) 02 : 08 : 17 UTC
   , issueBody =
       Just
-        "Hi guys, looking for some help. Can anyone explain why this query doesn't seem to use an index and can take 10-20 seconds to run.\r\n\r\n```javascript\r\nr.db('ijoin')\r\n  .table('plans')\r\n   \r\n  // One-To-Many\r\n  .map(function (parent) {\r\n    \r\n    return parent.merge({\r\n      investmentVehicles: r.db('ijoin')\r\n          .table('investmentVehicles')\r\n          .getAll(parent('id'), { index: 'planId' })\r\n          .coerceTo('array')\r\n    });\r\n  })\r\n\r\n  .count()\r\n```\r\n\r\n...but this one appears to work fine and easily counts 20,000+ records in 50ms?\r\n\r\n```javascript\r\nr.db('ijoin')\r\n  .table('plans')\r\n   \r\n  // One-To-Many\r\n  .map(function (parent) {\r\n    \r\n    return parent.merge({\r\n      investmentVehicles: []\r\n    });\r\n  })\r\n\r\n  .count()\r\n```"
+        "Hi guys, looking for some help. Can anyone explain why this query doesn't seem to use an index and can take 10-20 seconds to run.\n\n``` javascript\nr.db('ijoin')\n  .table('plans')\n\n  // One-To-Many\n  .map(function (parent) {\n\n    return parent.merge({\n      investmentVehicles: r.db('ijoin')\n          .table('investmentVehicles')\n          .getAll(parent('id'), { index: 'planId' })\n          .coerceTo('array')\n    });\n  })\n\n  .count()\n```\n\n...but this one appears to work fine and easily counts 20,000+ records in 50ms?\n\n``` javascript\nr.db('ijoin')\n  .table('plans')\n\n  // One-To-Many\n  .map(function (parent) {\n\n    return parent.merge({\n      investmentVehicles: []\n    });\n  })\n\n  .count()\n```\n"
   , issueState = "open"
   , issueId = Id 63138312
   , issueComments = 13

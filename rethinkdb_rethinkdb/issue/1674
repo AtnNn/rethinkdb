@@ -35,7 +35,7 @@ Issue
   , issueCreatedAt = 2013 (-11) (-20) 18 : 27 : 02 UTC
   , issueBody =
       Just
-        "```\r\n./src/containers/counted.hpp: In member function 'std::vector<counted_t<const ql::datum_t> > ql::reader_t::next_batch(ql::env_t*, const ql::batchspec_t&)':\r\n./src/containers/counted.hpp:45:19: error: '*((void*)(& sindex)+8).counted_t<const ql::datum_t>::p_' may be used uninitialized in this function [-Werror=maybe-uninitialized]\r\n         if (p_) { counted_release(p_); }\r\n                   ^\r\nsrc/rdb_protocol/datum_stream.cc:228:56: note: '*((void*)(& sindex)+8).counted_t<const ql::datum_t>::p_' was declared here\r\n         boost::optional<counted_t<const ql::datum_t> > sindex\r\n                                                        ^\r\ncc1plus: all warnings being treated as errors\r\n```\r\n\r\nIt may be related to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47679"
+        "```\n./src/containers/counted.hpp: In member function 'std::vector<counted_t<const ql::datum_t> > ql::reader_t::next_batch(ql::env_t*, const ql::batchspec_t&)':\n./src/containers/counted.hpp:45:19: error: '*((void*)(& sindex)+8).counted_t<const ql::datum_t>::p_' may be used uninitialized in this function [-Werror=maybe-uninitialized]\n         if (p_) { counted_release(p_); }\n                   ^\nsrc/rdb_protocol/datum_stream.cc:228:56: note: '*((void*)(& sindex)+8).counted_t<const ql::datum_t>::p_' was declared here\n         boost::optional<counted_t<const ql::datum_t> > sindex\n                                                        ^\ncc1plus: all warnings being treated as errors\n```\n\nIt may be related to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47679\n"
   , issueState = "closed"
   , issueId = Id 23010950
   , issueComments = 3

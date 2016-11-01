@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2013 (-02) (-14) 23 : 33 : 38 UTC
   , issueBody =
       Just
-        "1. Start a cluster of two rethinkdb nodes:\r\n\r\n```\r\nrdb1$ rethinkdb\r\nrdb2$ rethinkdb --port-offset 1 -j localhost:29015\r\n```\r\n\r\n2. Go to data explorer, create a table, and insert a bunch of documents (I magically inserted 512).\r\n\r\n3. Go to the table view, set the number of replicas to 2. When the replication completes, set the number of shards to 2.\r\n\r\nExpected behavior: RethinkDB should put the two primaries on different machines.\r\nObserved behavior: RethinkDB puts the two primaries on the same machines.\r\n\r\nI don't know if this is a client bug (if it doesn't send the \"dangerous\" flag to the server) or a server bug. We've seen this regression come up over and over again, so I really think we need a proper regression test before we can close this issue."
+        "1. Start a cluster of two rethinkdb nodes:\n\n```\nrdb1$ rethinkdb\nrdb2$ rethinkdb --port-offset 1 -j localhost:29015\n```\n1. Go to data explorer, create a table, and insert a bunch of documents (I magically inserted 512).\n2. Go to the table view, set the number of replicas to 2. When the replication completes, set the number of shards to 2.\n\nExpected behavior: RethinkDB should put the two primaries on different machines.\nObserved behavior: RethinkDB puts the two primaries on the same machines.\n\nI don't know if this is a client bug (if it doesn't send the \"dangerous\" flag to the server) or a server bug. We've seen this regression come up over and over again, so I really think we need a proper regression test before we can close this issue.\n"
   , issueState = "closed"
   , issueId = Id 11018788
   , issueComments = 29

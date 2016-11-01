@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2016 (-01) (-05) 21 : 14 : 34 UTC
   , issueBody =
       Just
-        "The very basic script:\r\n\r\n```\r\nimport rethinkdb as r\r\nc = r.connect()\r\nwhile True:\r\n    r.http(\"http://somewherelocal/\").run(c)\r\n```\r\n\r\nWill create and destroy an HTTP connection per iteration of the loop, instead of trying to reuse it.\r\n\r\nThis causes extra latency and system load, and under high load, can cause a system-wide failure to allocate new sockets, due to the system having too many sockets in the `TIME_WAIT` state ([which exists so that packets delayed/reordered by the network won't accidentally close connections made afterwards](http://superuser.com/questions/173535/what-are-close-wait-and-time-wait-states).) Trying to `connect(2)` somewhere while there are no ports available results in a fatal \"Cannot assign requested address\" error."
+        "The very basic script:\n\n```\nimport rethinkdb as r\nc = r.connect()\nwhile True:\n    r.http(\"http://somewherelocal/\").run(c)\n```\n\nWill create and destroy an HTTP connection per iteration of the loop, instead of trying to reuse it.\n\nThis causes extra latency and system load, and under high load, can cause a system-wide failure to allocate new sockets, due to the system having too many sockets in the `TIME_WAIT` state ([which exists so that packets delayed/reordered by the network won't accidentally close connections made afterwards](http://superuser.com/questions/173535/what-are-close-wait-and-time-wait-states).) Trying to `connect(2)` somewhere while there are no ports available results in a fatal \"Cannot assign requested address\" error.\n"
   , issueState = "open"
   , issueId = Id 125052920
   , issueComments = 4

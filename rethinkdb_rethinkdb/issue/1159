@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2013 (-07) (-11) 00 : 20 : 21 UTC
   , issueBody =
       Just
-        "a daemon takes http requests and makes a get(id) call to rethink. Inevitably, the calls to get(id).run() would begin to never call the callback function. I have a simple case here:\r\n\r\n```\r\nvar r = require('rethinkdb');\r\n\r\nr.connect({host:'localhost', port:28015, db:'cointhink', timeout: 1},\r\n  function(err, conn) {\r\n\r\n  var get_count = 0\r\n  var id = 'donpdonp/buynext'\r\n\r\n  for(var i=0; i < 1000; i++) { load_fast() }\r\n\r\n  function load_fast(){\r\n    get_count += 1\r\n    console.log((new Date().toISOString())+' rethink load '+id+' get_count '+get_count)\r\n    r.table('scripts').get(id).run(conn, function(err, doc){\r\n      get_count -= 1\r\n      console.log('rethink loaded '+id+'. get_count remaining '+get_count)\r\n    })\r\n  }\r\n})\r\n```\r\nInstead of seeing 1000 load messages followed by 1000 'loaded' messages, The output is 1000 load messages followed by one 'loaded' message, and the script never finishes.\r\n\r\nnode v0.10.10\r\nrethinkdb@1.7.0-1\r\nrethinkdb 1.7.1-0ubuntu1~raring (GCC 4.7.3)"
+        "a daemon takes http requests and makes a get(id) call to rethink. Inevitably, the calls to get(id).run() would begin to never call the callback function. I have a simple case here:\n\n```\nvar r = require('rethinkdb');\n\nr.connect({host:'localhost', port:28015, db:'cointhink', timeout: 1},\n  function(err, conn) {\n\n  var get_count = 0\n  var id = 'donpdonp/buynext'\n\n  for(var i=0; i < 1000; i++) { load_fast() }\n\n  function load_fast(){\n    get_count += 1\n    console.log((new Date().toISOString())+' rethink load '+id+' get_count '+get_count)\n    r.table('scripts').get(id).run(conn, function(err, doc){\n      get_count -= 1\n      console.log('rethink loaded '+id+'. get_count remaining '+get_count)\n    })\n  }\n})\n```\n\nInstead of seeing 1000 load messages followed by 1000 'loaded' messages, The output is 1000 load messages followed by one 'loaded' message, and the script never finishes.\n\nnode v0.10.10\nrethinkdb@1.7.0-1\nrethinkdb 1.7.1-0ubuntu1~raring (GCC 4.7.3)\n"
   , issueState = "closed"
   , issueId = Id 16608221
   , issueComments = 3
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

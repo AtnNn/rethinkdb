@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2014 (-06) (-11) 18 : 40 : 50 UTC
   , issueBody =
       Just
-        "It is common for tests to need to wait for a sharding process to compete (e.g. the test for #1774) before continuing. At present the solution for this is to loop trying to read from the table in question. This is sub-optimal, and in many cases overlaps the actual test.\r\n\r\nSo baring a real way of monitoring a shard process, we need a better way of checking when a table is ready. A quick talk with @neumino, and it looks like the current best way of doing this is through the ajax calls, specifically looking at the path:\r\n```\r\nhttp://localhost:8080/ajax/directory/<SERVER_UUID>/rdb_namespaces/reactor_bcards/<TABLE_UUID>/activity_map\r\n```\r\n\r\nIf all of the \"type\" attributes of the items there are \"primary\", then the table should be completely available (TODO: confirm this for replicated tables).\r\n\r\nThis should probably be implemented for the testing suite so we have a better tool to use in testing.\r\n"
+        "It is common for tests to need to wait for a sharding process to compete (e.g. the test for #1774) before continuing. At present the solution for this is to loop trying to read from the table in question. This is sub-optimal, and in many cases overlaps the actual test.\n\nSo baring a real way of monitoring a shard process, we need a better way of checking when a table is ready. A quick talk with @neumino, and it looks like the current best way of doing this is through the ajax calls, specifically looking at the path:\n\n```\nhttp://localhost:8080/ajax/directory/<SERVER_UUID>/rdb_namespaces/reactor_bcards/<TABLE_UUID>/activity_map\n```\n\nIf all of the \"type\" attributes of the items there are \"primary\", then the table should be completely available (TODO: confirm this for replicated tables).\n\nThis should probably be implemented for the testing suite so we have a better tool to use in testing.\n"
   , issueState = "closed"
   , issueId = Id 35513431
   , issueComments = 4
@@ -53,7 +53,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

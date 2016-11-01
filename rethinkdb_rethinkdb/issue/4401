@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2015 (-06) (-15) 22 : 06 : 28 UTC
   , issueBody =
       Just
-        "Running this on a 2-server cluster on `next`:\r\n```js\r\nr.range(0, 10).forEach(r.tableCreate(r.expr(\"t\").add(r.row.coerceTo(\"string\"))))\r\n```\r\nwill fail on the second table with\r\n```\r\nWe lost contact with the server(s) hosting table `test.t1`. The table may or may not have been created in:\r\nr.range(0, 10).forEach(r(\"t\").add(r.row.coerceTo(\"string\")).tableCreate())\r\n```\r\n\r\nFrom adding some debug statements it seems that the table creation times out while waiting in the call to `wait_until_change_visible` in `table_meta_client_t::create_or_emergency_repair()`.\r\n\r\nIt leaves table `t1` in a state where it shows up in `rethinkdb.table_config` and `rethinkdb.table_status` but not in `r.tableList()`."
+        "Running this on a 2-server cluster on `next`:\n\n``` js\nr.range(0, 10).forEach(r.tableCreate(r.expr(\"t\").add(r.row.coerceTo(\"string\"))))\n```\n\nwill fail on the second table with\n\n```\nWe lost contact with the server(s) hosting table `test.t1`. The table may or may not have been created in:\nr.range(0, 10).forEach(r(\"t\").add(r.row.coerceTo(\"string\")).tableCreate())\n```\n\nFrom adding some debug statements it seems that the table creation times out while waiting in the call to `wait_until_change_visible` in `table_meta_client_t::create_or_emergency_repair()`.\n\nIt leaves table `t1` in a state where it shows up in `rethinkdb.table_config` and `rethinkdb.table_status` but not in `r.tableList()`.\n"
   , issueState = "closed"
   , issueId = Id 88552790
   , issueComments = 0

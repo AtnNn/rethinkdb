@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2016 (-02) (-18) 10 : 44 : 12 UTC
   , issueBody =
       Just
-        "```js\r\nfunction idToOffset(query, pk) {\r\n  const offset = query.offsetsOf(row => row('id').eq(pk)).nth(0);\r\n  return offset;\r\n}\r\n\r\nconst query = table.query();  // orderBy is not applied\r\n\r\nconst resource = await query.nth(10).run(connection);\r\nconst offset = await pkToOffset(query, resource.id).run(connection);\r\n\r\nexpect(offset).to.equal(10);  // sometimes, offset is not 10. (12, 13, 11...)\r\n```\r\n\r\nLike this situation.\r\n\r\n```js\r\nconst query = table.query().orderBy('id'); \r\n```\r\n\r\nWhen `orderBy` applied, Problem is removed. \r\nIs this intended?"
+        "``` js\nfunction idToOffset(query, pk) {\n  const offset = query.offsetsOf(row => row('id').eq(pk)).nth(0);\n  return offset;\n}\n\nconst query = table.query();  // orderBy is not applied\n\nconst resource = await query.nth(10).run(connection);\nconst offset = await pkToOffset(query, resource.id).run(connection);\n\nexpect(offset).to.equal(10);  // sometimes, offset is not 10. (12, 13, 11...)\n```\n\nLike this situation.\n\n``` js\nconst query = table.query().orderBy('id'); \n```\n\nWhen `orderBy` applied, Problem is removed. \nIs this intended?\n"
   , issueState = "closed"
   , issueId = Id 134542542
   , issueComments = 2

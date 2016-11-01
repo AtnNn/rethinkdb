@@ -48,7 +48,7 @@ Issue
   , issueCreatedAt = 2013 (-08) (-15) 01 : 25 : 41 UTC
   , issueBody =
       Just
-        "While investigating issue #153, I came across the catch statement in `func_t::filter_call(...)` which does `default_filter_val->call()->as_bool()`, which may block if the default_filter_val is non-deterministic.  An example query below will cause the server to crash (as long as any row does not contain the `fake` field).\r\n\r\n```js\r\nr.table('data').filter(function(row) { return row('fake'); }, { default: r.js('return true') })\r\n```\r\n\r\nThe solution is to move the `call()` call out of the exception handler."
+        "While investigating issue #153, I came across the catch statement in `func_t::filter_call(...)` which does `default_filter_val->call()->as_bool()`, which may block if the default_filter_val is non-deterministic.  An example query below will cause the server to crash (as long as any row does not contain the `fake` field).\n\n``` js\nr.table('data').filter(function(row) { return row('fake'); }, { default: r.js('return true') })\n```\n\nThe solution is to move the `call()` call out of the exception handler.\n"
   , issueState = "closed"
   , issueId = Id 18086716
   , issueComments = 2

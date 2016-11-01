@@ -35,7 +35,7 @@ Issue
   , issueCreatedAt = 2015 (-01) (-13) 01 : 02 : 36 UTC
   , issueBody =
       Just
-        "For some reason `connections/cursor.rb` is occasionally failing with the message: \r\n\r\n```\r\n>>> Failed connections/cursor.rb1.9 with exit code 8 after 0.1 sec (T+ 0.6 sec)\r\n\r\n\r\n/home/ssd2/larkost/rethinkdb/test/rql_test/connections/cursor.rb:3\r\n# -- import the rethinkdb driver\r\n^\r\nSyntaxError: Unexpected token ILLEGAL\r\n    at Module._compile (module.js:439:25)\r\n    at Object.Module._extensions..js (module.js:474:10)\r\n    at Module.load (module.js:356:32)\r\n    at Function.Module._load (module.js:312:12)\r\n    at Function.Module.runMain (module.js:497:10)\r\n    at startup (node.js:119:16)\r\n    at node.js:901:3\r\n\r\n<<< end Failed: connections/cursor.rb1.9\r\n```\r\nThis shows that the `cursor.rb` is being called from `cursor.rb.test` file as if it were a JavaScript (node) program. This would indicate that the latter is being called with the wrong setting for `INTERPRETER_PATH` env variable.\r\n\r\nThus far I have been unable to get this to show up for any other test, or when I run just the one test. It only shows up when I run with about `-j 10`, and not always then. In those cases it is of the first round of tests, so there should not be leftover from another test."
+        "For some reason `connections/cursor.rb` is occasionally failing with the message: \n\n```\n>>> Failed connections/cursor.rb1.9 with exit code 8 after 0.1 sec (T+ 0.6 sec)\n\n\n/home/ssd2/larkost/rethinkdb/test/rql_test/connections/cursor.rb:3\n# -- import the rethinkdb driver\n^\nSyntaxError: Unexpected token ILLEGAL\n    at Module._compile (module.js:439:25)\n    at Object.Module._extensions..js (module.js:474:10)\n    at Module.load (module.js:356:32)\n    at Function.Module._load (module.js:312:12)\n    at Function.Module.runMain (module.js:497:10)\n    at startup (node.js:119:16)\n    at node.js:901:3\n\n<<< end Failed: connections/cursor.rb1.9\n```\n\nThis shows that the `cursor.rb` is being called from `cursor.rb.test` file as if it were a JavaScript (node) program. This would indicate that the latter is being called with the wrong setting for `INTERPRETER_PATH` env variable.\n\nThus far I have been unable to get this to show up for any other test, or when I run just the one test. It only shows up when I run with about `-j 10`, and not always then. In those cases it is of the first round of tests, so there should not be leftover from another test.\n"
   , issueState = "closed"
   , issueId = Id 54137452
   , issueComments = 1
@@ -54,7 +54,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

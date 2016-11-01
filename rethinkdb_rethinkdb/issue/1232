@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-08) (-02) 22 : 41 : 48 UTC
   , issueBody =
       Just
-        "There are about 90k records in the table `test`.\r\n\r\n\r\nThis script runs in about 4 seconds\r\n```py\r\nfor i in xrange(10):\r\n    r.db('test').table('test').grouped_map_reduce(\r\n        lambda doc: doc[\"field\"], # doc[\"field\"] exists and always maps to the same value\r\n        lambda doc: doc['rand'],\r\n        lambda left, right:\r\n            left + right\r\n    ).run()\r\nend = time.time()\r\n```\r\n\r\nWhile this one needs about 30 seconds\r\n\r\n```py\r\nfor i in xrange(10):\r\n    r.db('test').table('test').grouped_map_reduce(\r\n        lambda doc: doc[\"non_existing_field\"].default(None),\r\n        lambda doc: doc['rand'],\r\n        lambda left, right:\r\n            left + right\r\n    ).run()\r\nend = time.time()\r\n```"
+        "There are about 90k records in the table `test`.\n\nThis script runs in about 4 seconds\n\n``` py\nfor i in xrange(10):\n    r.db('test').table('test').grouped_map_reduce(\n        lambda doc: doc[\"field\"], # doc[\"field\"] exists and always maps to the same value\n        lambda doc: doc['rand'],\n        lambda left, right:\n            left + right\n    ).run()\nend = time.time()\n```\n\nWhile this one needs about 30 seconds\n\n``` py\nfor i in xrange(10):\n    r.db('test').table('test').grouped_map_reduce(\n        lambda doc: doc[\"non_existing_field\"].default(None),\n        lambda doc: doc['rand'],\n        lambda left, right:\n            left + right\n    ).run()\nend = time.time()\n```\n"
   , issueState = "open"
   , issueId = Id 17585805
   , issueComments = 3

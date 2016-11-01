@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2015 (-07) (-19) 15 : 35 : 11 UTC
   , issueBody =
       Just
-        "**OS**: Mac OSX 10.10.4\r\n**Node.js version**: Verified across Node.js 0.10.x, 0.12.x, and io.js 2.4: node 0.12.4, node 0.10.x, io.js v2.4.0\r\n**Issue**: The script hangs (never exists) when using the Node.js RethinkDB driver in a shell script\r\n**Workaround**: Current workaround is to call `process.exit()` at end of script.\r\n\r\nThe following script (taken from the docs) demonstrates the issue.\r\n\r\n```javascript\r\n#!/usr/bin/env node\r\n\r\nvar r = require('rethinkdb');\r\n\r\nvar connection = null;\r\nr.connect( {host: 'localhost', port: 28015}, function(err, conn) {\r\n    if (err) throw err;\r\n    connection = conn;\r\n\r\n    // Must force process exit or else script will exit\r\n    //process.exit()\r\n});\r\n```"
+        "**OS**: Mac OSX 10.10.4\n**Node.js version**: Verified across Node.js 0.10.x, 0.12.x, and io.js 2.4: node 0.12.4, node 0.10.x, io.js v2.4.0\n**Issue**: The script hangs (never exists) when using the Node.js RethinkDB driver in a shell script\n**Workaround**: Current workaround is to call `process.exit()` at end of script.\n\nThe following script (taken from the docs) demonstrates the issue.\n\n``` javascript\n#!/usr/bin/env node\n\nvar r = require('rethinkdb');\n\nvar connection = null;\nr.connect( {host: 'localhost', port: 28015}, function(err, conn) {\n    if (err) throw err;\n    connection = conn;\n\n    // Must force process exit or else script will exit\n    //process.exit()\n});\n```\n"
   , issueState = "open"
   , issueId = Id 95924771
   , issueComments = 8

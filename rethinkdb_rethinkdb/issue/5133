@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-11) (-23) 00 : 33 : 39 UTC
   , issueBody =
       Just
-        "I run 12 Rethink servers on Debian Wheezy using the apt package manager. I have one master no shards with 11 other replicating servers. I also have a script that apt auto updates packages every night. \r\n\r\nI had some small issues a few months back where 5 of the 11 replica servers did a minor version update from 2.1.2 to 2.1.5, but the rest of the servers didn't do the update at the same time, so all the upgraded servers failed to connect. \r\n\r\nThen last week we had an issue where only the primary/master server upgraded but the 11 replicas didn't upgrade at the same time, so not only couldn't the replicas connect but all writes to the master failed with this message `Cannot perform write: primary replica for shard [\"\", +inf) not available`. This seems strange that the single master would fail on writes just because no replicas are currently connected. \r\n\r\nMy suggestions are:\r\n* Allow servers with minor version changes to still connect\r\n* Allow writes to a single master server regardless if replicas are connected.\r\n\r\nOur solution was to keep back the RethinkDB package from upgrades and we will now have to manually upgrade some of the replicas first before doing the master.\r\n\r\nAs we do use this in a production environment, it's just for cacheing so it's not a critical part of the system. I would be worried to use this in a critical production environment though as it would be difficult to upgrade all the servers without interruption."
+        "I run 12 Rethink servers on Debian Wheezy using the apt package manager. I have one master no shards with 11 other replicating servers. I also have a script that apt auto updates packages every night. \n\nI had some small issues a few months back where 5 of the 11 replica servers did a minor version update from 2.1.2 to 2.1.5, but the rest of the servers didn't do the update at the same time, so all the upgraded servers failed to connect. \n\nThen last week we had an issue where only the primary/master server upgraded but the 11 replicas didn't upgrade at the same time, so not only couldn't the replicas connect but all writes to the master failed with this message `Cannot perform write: primary replica for shard [\"\", +inf) not available`. This seems strange that the single master would fail on writes just because no replicas are currently connected. \n\nMy suggestions are:\n- Allow servers with minor version changes to still connect\n- Allow writes to a single master server regardless if replicas are connected.\n\nOur solution was to keep back the RethinkDB package from upgrades and we will now have to manually upgrade some of the replicas first before doing the master.\n\nAs we do use this in a production environment, it's just for cacheing so it's not a critical part of the system. I would be worried to use this in a critical production environment though as it would be difficult to upgrade all the servers without interruption.\n"
   , issueState = "closed"
   , issueId = Id 118301406
   , issueComments = 3
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

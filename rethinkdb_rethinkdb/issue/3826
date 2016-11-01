@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-24) 14 : 11 : 00 UTC
   , issueBody =
       Just
-        "The following code throws a no-more-rows exception on an empty table with npmjs.org node driver version 1.16.1. \r\n\r\n    var r = require('rethinkdb')\r\n    r.connect({ host: 'localhost', db: 'test' }).then(function(conn) {\r\n        return r.table('testo').run(conn).then(function(cursor) {\r\n            return cursor.each(function(err, rec) {\r\n                console.log(err)\r\n                console.log(rec)\r\n            })\r\n        }).done()\r\n    })\r\n\r\nThis is counterintuitive to me; I would expect .each() to iterate zero times on an empty result.\r\n\r\nI don't have a system where I can easily downgrade right now, but I think this may be a regression as my test started failing after upgrade from 1.15 to 1.16?"
+        "The following code throws a no-more-rows exception on an empty table with npmjs.org node driver version 1.16.1. \n\n```\nvar r = require('rethinkdb')\nr.connect({ host: 'localhost', db: 'test' }).then(function(conn) {\n    return r.table('testo').run(conn).then(function(cursor) {\n        return cursor.each(function(err, rec) {\n            console.log(err)\n            console.log(rec)\n        })\n    }).done()\n})\n```\n\nThis is counterintuitive to me; I would expect .each() to iterate zero times on an empty result.\n\nI don't have a system where I can easily downgrade right now, but I think this may be a regression as my test started failing after upgrade from 1.15 to 1.16?\n"
   , issueState = "closed"
   , issueId = Id 58743046
   , issueComments = 7

@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-02) 01 : 21 : 34 UTC
   , issueBody =
       Just
-        "Situation:\r\n\r\n* The writer process encounters an error, and pushes it on the `error_queue`, then exits\r\n* The main process sees that there is an error, notifies all the processes to shut down using `exit_event`\r\n* The reader process doesn't notice the exit event, though, because its task queue to the writer process is full and it's blocking on appending to that\r\n\r\nThis can be fixed by having the writer process empty out its task queue until it receives the exit task.\r\n\r\nIt should also be investigated if a similar problem can happen in `rethinkdb import` if there is only one client process that encounters an error, will the reader processes be able to shut down properly if they are blocking on writing into the task queue?"
+        "Situation:\n- The writer process encounters an error, and pushes it on the `error_queue`, then exits\n- The main process sees that there is an error, notifies all the processes to shut down using `exit_event`\n- The reader process doesn't notice the exit event, though, because its task queue to the writer process is full and it's blocking on appending to that\n\nThis can be fixed by having the writer process empty out its task queue until it receives the exit task.\n\nIt should also be investigated if a similar problem can happen in `rethinkdb import` if there is only one client process that encounters an error, will the reader processes be able to shut down properly if they are blocking on writing into the task queue?\n"
   , issueState = "closed"
   , issueId = Id 65811113
   , issueComments = 2

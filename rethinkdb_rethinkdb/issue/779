@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2013 (-05) (-09) 16 : 02 : 05 UTC
   , issueBody =
       Just
-        "If I insert data that contains a null byte into a table, the data gets truncated behind the null (i.e. it seems to be interpreted as a null-terminated string, which is stupid).\r\n\r\nThe problem does not lie with the wire protocol or protocol parser. If I do something like\r\n```\r\nr.expr(stringWithNull).run()\r\n```\r\nthe result is fine.\r\n\r\nOnly if I insert the data into a table and retrieve it, it breaks. \r\n\r\nOne more thing I've observed, which might or might not be interesting:\r\nIf I store the data via update into an existing document and do this multiple times, RethinkDB replies with {replaced: 1} every time again. So update already seems to get wrong data from the table. Otherwise it should say {unchanged: 1}."
+        "If I insert data that contains a null byte into a table, the data gets truncated behind the null (i.e. it seems to be interpreted as a null-terminated string, which is stupid).\n\nThe problem does not lie with the wire protocol or protocol parser. If I do something like\n\n```\nr.expr(stringWithNull).run()\n```\n\nthe result is fine.\n\nOnly if I insert the data into a table and retrieve it, it breaks. \n\nOne more thing I've observed, which might or might not be interesting:\nIf I store the data via update into an existing document and do this multiple times, RethinkDB replies with {replaced: 1} every time again. So update already seems to get wrong data from the table. Otherwise it should say {unchanged: 1}.\n"
   , issueState = "closed"
   , issueId = Id 14152551
   , issueComments = 19

@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2016 (-08) (-16) 19 : 48 : 00 UTC
   , issueBody =
       Just
-        "In cases where you don't care about downtime or are provisioning a brand new cluster, it would be nice to have an option that follows best practices for getting the data restored as quickly as possible. From my experience, this means:\r\n\r\n1. create db and tables with appropriate shard/replica settings\r\n1. restore data with `--no-secondary-indices`\r\n1. restore secondary indices\r\n\r\nDepending on the size of the machine, restoring onto a single shard/replica first and then updating the table config and letting it backfill to other nodes as a second step can sometimes be even faster. Some testing probably needs to be done to verify which is actually faster in the general case or if a heuristic can be applied to determine which method we should use.\r\n\r\nIn the future, I would like to see better throughput overall when restoring, perhaps with a dedicated, lower-level protocol for streaming data in and/or serializing straight to disk. For now, having a flag that at least performs these tasks in the optimal order seems like a good start.\r\n\r\nRegardless, the current behavior of sharding + creating indices up front is definitely the slowest. It would be nice not having to remember all this and micromanage the restore process each time."
+        "In cases where you don't care about downtime or are provisioning a brand new cluster, it would be nice to have an option that follows best practices for getting the data restored as quickly as possible. From my experience, this means:\n1. create db and tables with appropriate shard/replica settings\n2. restore data with `--no-secondary-indices`\n3. restore secondary indices\n\nDepending on the size of the machine, restoring onto a single shard/replica first and then updating the table config and letting it backfill to other nodes as a second step can sometimes be even faster. Some testing probably needs to be done to verify which is actually faster in the general case or if a heuristic can be applied to determine which method we should use.\n\nIn the future, I would like to see better throughput overall when restoring, perhaps with a dedicated, lower-level protocol for streaming data in and/or serializing straight to disk. For now, having a flag that at least performs these tasks in the optimal order seems like a good start.\n\nRegardless, the current behavior of sharding + creating indices up front is definitely the slowest. It would be nice not having to remember all this and micromanage the restore process each time.\n"
   , issueState = "closed"
   , issueId = Id 171501399
   , issueComments = 4
@@ -51,7 +51,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

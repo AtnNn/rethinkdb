@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-21) 00 : 32 : 21 UTC
   , issueBody =
       Just
-        "I would expect it not to.\r\n\r\nReproducible with this script:\r\n\r\n```\r\nr = require 'rethinkdb'\r\n\r\nr.connect port:28019, (e, c) ->\r\n  console.log new Date(), \"WAITING\"\r\n  c.noreplyWait ->\r\n    console.log new Date(), \"DONE\"\r\n    r.range(100000000).sum().run c, (e, r) -> console.log new Date(), \"RESULT\", r\r\n    console.log new Date(), \"WAITING\"\r\n    c.noreplyWait -> console.log new Date(), \"DONE\"\r\n```\r\n\r\n```\r\n$ coffee test.coffee\r\n16:29:48 'WAITING'\r\n16:29:48 'DONE'\r\n16:29:48 'WAITING'\r\n16:30:01 'RESULT' 4999999950000000\r\n16:30:01 'DONE'\r\n```"
+        "I would expect it not to.\n\nReproducible with this script:\n\n```\nr = require 'rethinkdb'\n\nr.connect port:28019, (e, c) ->\n  console.log new Date(), \"WAITING\"\n  c.noreplyWait ->\n    console.log new Date(), \"DONE\"\n    r.range(100000000).sum().run c, (e, r) -> console.log new Date(), \"RESULT\", r\n    console.log new Date(), \"WAITING\"\n    c.noreplyWait -> console.log new Date(), \"DONE\"\n```\n\n```\n$ coffee test.coffee\n16:29:48 'WAITING'\n16:29:48 'DONE'\n16:29:48 'WAITING'\n16:30:01 'RESULT' 4999999950000000\n16:30:01 'DONE'\n```\n"
   , issueState = "closed"
   , issueId = Id 58429900
   , issueComments = 3

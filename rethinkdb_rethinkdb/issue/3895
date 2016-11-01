@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2015 (-03) (-04) 22 : 31 : 37 UTC
   , issueBody =
       Just
-        "`raft` currently guarantees that if a write is acked to the client, it will be preserved during auto-failover. Some writes will be lost in auto-failover, but those writes will not be acked to the client, so it's OK. But under the current implementation, reads will sometimes see those writes. We could offer a flag to make reads go to a majority of replicas before being acked to the client; reads run with this flag would never see lost writes.\r\n\r\nThe main thing this is useful for is passing the Jepsen tests (see #1493). As a workaround, it's possible to use a write instead of a read. Writes run in \"majority\" mode will never see lost writes. So we could send a write that makes a trivial change to the document, just for the purpose of fetching the current value of the document."
+        "`raft` currently guarantees that if a write is acked to the client, it will be preserved during auto-failover. Some writes will be lost in auto-failover, but those writes will not be acked to the client, so it's OK. But under the current implementation, reads will sometimes see those writes. We could offer a flag to make reads go to a majority of replicas before being acked to the client; reads run with this flag would never see lost writes.\n\nThe main thing this is useful for is passing the Jepsen tests (see #1493). As a workaround, it's possible to use a write instead of a read. Writes run in \"majority\" mode will never see lost writes. So we could send a write that makes a trivial change to the document, just for the purpose of fetching the current value of the document.\n"
   , issueState = "closed"
   , issueId = Id 59873382
   , issueComments = 10

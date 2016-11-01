@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2014 (-12) (-03) 19 : 16 : 24 UTC
   , issueBody =
       Just
-        "On the `reql_admin` branch (but not on `next`) `table_create` is hanging when there is a proxy server in the cluster (but not on clusters of multiple servers only). To reproduce this:\r\n\r\n1. Start up a server instance, and a proxy joined to the server\r\n2. Run the following commands in a Python interpreter:\r\n```python\r\nimport rethinkdb as r\r\nconn = r.connect()\r\nr.db(\"test\").table_create(\"bob\").run(conn) # this hangs\r\n```\r\n\r\nIn my example I am connecting to the server for commands, rather than the proxy, but this does not seem to make any difference. I get a hang either way. It appears that the table is created, but not ready (Master for shard (\"\", +inf) not available). If I stop the server and re-start it is not present and available."
+        "On the `reql_admin` branch (but not on `next`) `table_create` is hanging when there is a proxy server in the cluster (but not on clusters of multiple servers only). To reproduce this:\n1. Start up a server instance, and a proxy joined to the server\n2. Run the following commands in a Python interpreter:\n\n``` python\nimport rethinkdb as r\nconn = r.connect()\nr.db(\"test\").table_create(\"bob\").run(conn) # this hangs\n```\n\nIn my example I am connecting to the server for commands, rather than the proxy, but this does not seem to make any difference. I get a hang either way. It appears that the table is created, but not ready (Master for shard (\"\", +inf) not available). If I stop the server and re-start it is not present and available.\n"
   , issueState = "closed"
   , issueId = Id 50879526
   , issueComments = 4

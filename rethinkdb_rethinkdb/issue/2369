@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-07) 13 : 16 : 41 UTC
   , issueBody =
       Just
-        "Hello,\r\n\r\nI couldn't find any feasible solution to this, so I'm opening a feature request.\r\n\r\nMany ReQL functions operates on \"singleSelection\", and, as far as I know, only \"get\" returns this type of data. But what if one needs to lookup for a single document based on a predicate that include primary key among other values? So I suggest:\r\n\r\n```\r\ntable.filterOne(predicate) \8594 singleRowSelection\r\n```\r\n\r\nOf course, the filter could potentially return more then one document, in this case, the first one should be used. (An 'options' argument could define a sorting config)\r\n\r\nSo, one could do:\r\n```javascript\r\nr.filterOne({ id: 1, status: \"ACTIVE\" }).update({\r\n    list: r.row(\"list\").setInsert(\"value\")\r\n})\r\n```\r\n\r\nInstead of:\r\n```javascript\r\nr.get(1).update(function(x) {\r\n    return r.branch(\r\n        x(\"status\").eq(\"ACTIVE\"),\r\n        { list: x(\"list\").setInsert(\"value\") },\r\n        {});\r\n});\r\n```\r\n\r\nOr maybe, someone could enlight me with a better solution.\r\n\r\n\r\n"
+        "Hello,\n\nI couldn't find any feasible solution to this, so I'm opening a feature request.\n\nMany ReQL functions operates on \"singleSelection\", and, as far as I know, only \"get\" returns this type of data. But what if one needs to lookup for a single document based on a predicate that include primary key among other values? So I suggest:\n\n```\ntable.filterOne(predicate) \8594 singleRowSelection\n```\n\nOf course, the filter could potentially return more then one document, in this case, the first one should be used. (An 'options' argument could define a sorting config)\n\nSo, one could do:\n\n``` javascript\nr.filterOne({ id: 1, status: \"ACTIVE\" }).update({\n    list: r.row(\"list\").setInsert(\"value\")\n})\n```\n\nInstead of:\n\n``` javascript\nr.get(1).update(function(x) {\n    return r.branch(\n        x(\"status\").eq(\"ACTIVE\"),\n        { list: x(\"list\").setInsert(\"value\") },\n        {});\n});\n```\n\nOr maybe, someone could enlight me with a better solution.\n"
   , issueState = "closed"
   , issueId = Id 32983841
   , issueComments = 1
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

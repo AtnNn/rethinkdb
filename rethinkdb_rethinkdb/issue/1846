@@ -43,7 +43,7 @@ Issue
   , issueCreatedAt = 2014 (-01) (-11) 05 : 46 : 50 UTC
   , issueBody =
       Just
-        "This program:\r\n\r\n```ruby\r\nrequire 'rethinkdb'\r\nextend RethinkDB::Shortcuts\r\nr.connect.repl\r\n\r\nq = r.table(\"non_existent_table\").orderby({:index => r.asc(\"id\")}).limit(1)\r\nputs q.pp\r\nq.run rescue nil\r\nputs q.pp\r\n```\r\n\r\nOutputs:\r\n\r\n```\r\nr.table(\"non_existent_table\").limit(1)\r\nr.table(\"non_existent_table\").limit(1)\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nErroneous_Portion_Constructed:\r\n        from test.rb:5:in `<main>'\r\nCalled:\r\n```\r\n\r\nExpected output:\r\n\r\n```\r\nr.table(\"non_existent_table\").limit(1)\r\nr.table(\"non_existent_table\").limit(1)\r\n```\r\n\r\nIssue: the driver should not mutate queries."
+        "This program:\n\n``` ruby\nrequire 'rethinkdb'\nextend RethinkDB::Shortcuts\nr.connect.repl\n\nq = r.table(\"non_existent_table\").orderby({:index => r.asc(\"id\")}).limit(1)\nputs q.pp\nq.run rescue nil\nputs q.pp\n```\n\nOutputs:\n\n```\nr.table(\"non_existent_table\").limit(1)\nr.table(\"non_existent_table\").limit(1)\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nErroneous_Portion_Constructed:\n        from test.rb:5:in `<main>'\nCalled:\n```\n\nExpected output:\n\n```\nr.table(\"non_existent_table\").limit(1)\nr.table(\"non_existent_table\").limit(1)\n```\n\nIssue: the driver should not mutate queries.\n"
   , issueState = "closed"
   , issueId = Id 25438275
   , issueComments = 6

@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-07) (-23) 21 : 20 : 42 UTC
   , issueBody =
       Just
-        "Insert an array of documents when no pager is specified **works**.\r\n\r\n    r.table('fans').insert(r.http('https://api.github.com/repos/rethinkdb/rethinkdb/stargazers'))\r\n\r\nInsert a paged request when the response is an array **works**.\r\n\r\n    r.table('fans').insert(\r\n      r.http(\r\n        'https://api.github.com/repos/rethinkdb/rethinkdb/stargazers',\r\n        { page: 'link-next',  pageLimit: 3 }\r\n    ))\r\n\r\nInsert an array of docs when they are on a body prop (no pager). Notice use of `('items')`. This **works** as expected.\r\n\r\n    r.table('repos').insert(\r\n      r.http('https://api.github.com/search/code?q=addClass+user:mozilla')('items'))\r\n\r\nBased on these three examples the expectation is that it should be possible to do the same when paged. **It doesn't currently work but probably should.**\r\n\r\n    r.table('repos').insert(\r\n      r.http('https://api.github.com/search/code?q=addClass+user:mozilla',\r\n        { page: 'link-next', pageLimit: 3 }\r\n      )('items')\r\n    )\r\n\r\nThe response I get is:\r\n\r\n    {\r\n    \"deleted\": 0 ,\r\n    \"errors\": 3 ,\r\n    \"first_error\":  \"Expected type OBJECT but found ARRAY.\" ,\r\n    \"inserted\": 0 ,\r\n    \"replaced\": 0 ,\r\n    \"skipped\": 0 ,\r\n    \"unchanged\": 0\r\n    }\r\n\r\nCan you think of a way to get this working?\r\n\r\nThanks!"
+        "Insert an array of documents when no pager is specified **works**.\n\n```\nr.table('fans').insert(r.http('https://api.github.com/repos/rethinkdb/rethinkdb/stargazers'))\n```\n\nInsert a paged request when the response is an array **works**.\n\n```\nr.table('fans').insert(\n  r.http(\n    'https://api.github.com/repos/rethinkdb/rethinkdb/stargazers',\n    { page: 'link-next',  pageLimit: 3 }\n))\n```\n\nInsert an array of docs when they are on a body prop (no pager). Notice use of `('items')`. This **works** as expected.\n\n```\nr.table('repos').insert(\n  r.http('https://api.github.com/search/code?q=addClass+user:mozilla')('items'))\n```\n\nBased on these three examples the expectation is that it should be possible to do the same when paged. **It doesn't currently work but probably should.**\n\n```\nr.table('repos').insert(\n  r.http('https://api.github.com/search/code?q=addClass+user:mozilla',\n    { page: 'link-next', pageLimit: 3 }\n  )('items')\n)\n```\n\nThe response I get is:\n\n```\n{\n\"deleted\": 0 ,\n\"errors\": 3 ,\n\"first_error\":  \"Expected type OBJECT but found ARRAY.\" ,\n\"inserted\": 0 ,\n\"replaced\": 0 ,\n\"skipped\": 0 ,\n\"unchanged\": 0\n}\n```\n\nCan you think of a way to get this working?\n\nThanks!\n"
   , issueState = "closed"
   , issueId = Id 38573403
   , issueComments = 4
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

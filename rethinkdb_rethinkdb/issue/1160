@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-07) (-11) 00 : 41 : 45 UTC
   , issueBody =
       Just
-        "`stream.periodic(n)` returns a stream of every nth element of the original stream. I can't think of a way to do this with existing primitives. This could be useful in a number of contexts but I'm primarily thinking that it will be useful with triggers (#997).\r\n\r\nImagine you want to keep a log of the frequency of table inserts but don't need to log every insert. With triggers and periodic you can do this easily with the following script:\r\n\r\n```python\r\nimport rethinkdb as r\r\nfrom datetime import datetime\r\n\r\nlog = open('/tmp/insert_log.txt', 'w+')\r\n\r\nc = r.connect(host, port)\r\nfor event in r.table('foo').on_insert().periodic(100).run(c):\r\n   log.write(\"[%s] 100 inserts on 'foo'\\n\" % datetime.utcnow())\r\n```"
+        "`stream.periodic(n)` returns a stream of every nth element of the original stream. I can't think of a way to do this with existing primitives. This could be useful in a number of contexts but I'm primarily thinking that it will be useful with triggers (#997).\n\nImagine you want to keep a log of the frequency of table inserts but don't need to log every insert. With triggers and periodic you can do this easily with the following script:\n\n``` python\nimport rethinkdb as r\nfrom datetime import datetime\n\nlog = open('/tmp/insert_log.txt', 'w+')\n\nc = r.connect(host, port)\nfor event in r.table('foo').on_insert().periodic(100).run(c):\n   log.write(\"[%s] 100 inserts on 'foo'\\n\" % datetime.utcnow())\n```\n"
   , issueState = "open"
   , issueId = Id 16608802
   , issueComments = 12

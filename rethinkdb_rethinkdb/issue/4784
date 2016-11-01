@@ -50,7 +50,7 @@ Issue
   , issueCreatedAt = 2015 (-09) (-02) 03 : 49 : 30 UTC
   , issueBody =
       Just
-        "Fixes #4780. Unfortunately, there was no way to implement this as an overload to the existing `cursor.each()` since there's no way to disambiguate the argument style.\r\n\r\nHere's some example usage:\r\n\r\n```js\r\ncursor.eachAsync(function (row) {\r\n  if (/* some condition */) {\r\n    // if you return a promise, it will be awaited\r\n    // before the cursor continues iteration\r\n    return asyncRowHandler(row.id);\r\n  }\r\n  else {\r\n    // iteration can be stopped early by returning a\r\n    // promise that is later rejected or simply by throw'ing\r\n    return Promise.reject('Stop iteration early.')\r\n  }\r\n})\r\n.then(function () {\r\n  // `cursor.eachAsync()` returns a promise that is resolved\r\n  // once all rows have been read from the cursor\r\n});\r\n```"
+        "Fixes #4780. Unfortunately, there was no way to implement this as an overload to the existing `cursor.each()` since there's no way to disambiguate the argument style.\n\nHere's some example usage:\n\n``` js\ncursor.eachAsync(function (row) {\n  if (/* some condition */) {\n    // if you return a promise, it will be awaited\n    // before the cursor continues iteration\n    return asyncRowHandler(row.id);\n  }\n  else {\n    // iteration can be stopped early by returning a\n    // promise that is later rejected or simply by throw'ing\n    return Promise.reject('Stop iteration early.')\n  }\n})\n.then(function () {\n  // `cursor.eachAsync()` returns a promise that is resolved\n  // once all rows have been read from the cursor\n});\n```\n"
   , issueState = "closed"
   , issueId = Id 104397575
   , issueComments = 15

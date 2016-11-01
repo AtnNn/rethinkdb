@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-08) (-06) 00 : 31 : 46 UTC
   , issueBody =
       Just
-        "I'm trying to find the 10s place and above of a bunch of numbers (2013 -> 201, 38.2 -> 3, etc). In JavaScript, I'd use either `Math.floor(num / 10)` or `(num - (field.number % 10)) / type)`. However, when I try using the second technique in rethink:\r\n```javascript\r\nr.table('data').map(function(data) {\r\n  return {\r\n    a: r.div(r.sub(data('num'), r.mod(data('num'), 10)), 10)\r\n  };\r\n})\r\n```\r\nI get an error because some of my numbers aren't integers, and r.mod doesn't want to work with non-integers. Of course, this solution is inferior to the Math.floor solution because of floating-point errors, so from my not-very-experienced-with-rethink point-of-view, the two solutions would be\r\n- introduce functions like r.floor, r.ceil, and r.round\r\n- change r.mod to work with floating point numbers\r\nEither would work for me, though a better solution would probably be the second.\r\n\r\nNote:\r\nAs a temporary solution, I'm using:\r\n```javascript\r\nr.table('data').map(r.js(\"(function (row) { return { 'a': Math.floor(row.num / 10); } })\"))\r\n```\r\nbut obviously that solution is not so great.\r\n"
+        "I'm trying to find the 10s place and above of a bunch of numbers (2013 -> 201, 38.2 -> 3, etc). In JavaScript, I'd use either `Math.floor(num / 10)` or `(num - (field.number % 10)) / type)`. However, when I try using the second technique in rethink:\n\n``` javascript\nr.table('data').map(function(data) {\n  return {\n    a: r.div(r.sub(data('num'), r.mod(data('num'), 10)), 10)\n  };\n})\n```\n\nI get an error because some of my numbers aren't integers, and r.mod doesn't want to work with non-integers. Of course, this solution is inferior to the Math.floor solution because of floating-point errors, so from my not-very-experienced-with-rethink point-of-view, the two solutions would be\n- introduce functions like r.floor, r.ceil, and r.round\n- change r.mod to work with floating point numbers\n  Either would work for me, though a better solution would probably be the second.\n\nNote:\nAs a temporary solution, I'm using:\n\n``` javascript\nr.table('data').map(r.js(\"(function (row) { return { 'a': Math.floor(row.num / 10); } })\"))\n```\n\nbut obviously that solution is not so great.\n"
   , issueState = "closed"
   , issueId = Id 17667504
   , issueComments = 8
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

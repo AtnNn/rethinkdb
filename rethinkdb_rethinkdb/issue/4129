@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-27) 15 : 32 : 48 UTC
   , issueBody =
       Just
-        "I have a lock table and i want to update the lock to True and set the current time if the lock is False or lock time now() - 60s.\r\n\r\nIf i have multiple threads connecting to the db this works with concurrent threads trying to acquire a lock :\r\n\r\n    r.table('status').get('event_import_lock').update(\r\n            lambda lock: r.branch((lock[\"blocked\"] == False) | (lock['block_time'] < r.now()-60),\r\n            {'blocked': True, 'block_time': r.now()},\r\n            {}\r\n            ), return_changes=True).run(conn)\r\n\r\n\r\nbut with this query if 2 threads try to acquire a lock sometimes they both end up with the lock:\r\n\r\n    res = r.table(\"status\").filter(\r\n       (r.row[\"id\"] == 'event_import_lock') & (\r\n       (r.row[\"blocked\"] == False) | (r.row['block_time'] < r.now() - 60))).update(\r\n        {'blocked': True, 'block_time': r.now()}, return_changes=True).run(conn)\r\n\r\n\r\nDo i not understand something here? Is the filter and update not executed at the same time? Did i do something wrong?"
+        "I have a lock table and i want to update the lock to True and set the current time if the lock is False or lock time now() - 60s.\n\nIf i have multiple threads connecting to the db this works with concurrent threads trying to acquire a lock :\n\n```\nr.table('status').get('event_import_lock').update(\n        lambda lock: r.branch((lock[\"blocked\"] == False) | (lock['block_time'] < r.now()-60),\n        {'blocked': True, 'block_time': r.now()},\n        {}\n        ), return_changes=True).run(conn)\n```\n\nbut with this query if 2 threads try to acquire a lock sometimes they both end up with the lock:\n\n```\nres = r.table(\"status\").filter(\n   (r.row[\"id\"] == 'event_import_lock') & (\n   (r.row[\"blocked\"] == False) | (r.row['block_time'] < r.now() - 60))).update(\n    {'blocked': True, 'block_time': r.now()}, return_changes=True).run(conn)\n```\n\nDo i not understand something here? Is the filter and update not executed at the same time? Did i do something wrong?\n"
   , issueState = "closed"
   , issueId = Id 71321163
   , issueComments = 1
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

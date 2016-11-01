@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2013 (-10) (-29) 21 : 14 : 49 UTC
   , issueBody =
       Just
-        "```python\r\nfrom rethinkdb.ast import RqlTzinfo\r\nfrom copy import copy, deepcopy\r\ncopy(RqlTzinfo('00:00')) # Fails\r\ndeepcopy(RqlTzinfo('00:00')) # Fails\r\n```\r\nWould be useful if this worked since deepcopy of documents with native time fields fails. Temporarily solved by monkeypatching:\r\n```python\r\nfrom rethinkdb.ast import RqlTzinfo\r\nRqlTzinfo.__deepcopy__ = lambda self, memo: RqlTzinfo(self.offsetstr)\r\nRqlTzinfo.__copy__ = lambda self: RqlTzinfo(self.offsetstr)\r\n```"
+        "``` python\nfrom rethinkdb.ast import RqlTzinfo\nfrom copy import copy, deepcopy\ncopy(RqlTzinfo('00:00')) # Fails\ndeepcopy(RqlTzinfo('00:00')) # Fails\n```\n\nWould be useful if this worked since deepcopy of documents with native time fields fails. Temporarily solved by monkeypatching:\n\n``` python\nfrom rethinkdb.ast import RqlTzinfo\nRqlTzinfo.__deepcopy__ = lambda self, memo: RqlTzinfo(self.offsetstr)\nRqlTzinfo.__copy__ = lambda self: RqlTzinfo(self.offsetstr)\n```\n"
   , issueState = "closed"
   , issueId = Id 21788529
   , issueComments = 3

@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-26) 14 : 58 : 00 UTC
   , issueBody =
       Just
-        "\r\nsequence.stats([array], [field_or_function]) \8594 object\r\nsequence.stats([array]) \8594 object\r\n\r\nIf a command like 'stats' existed, the map-reduce query in the example below could be written more elegantly.\r\n\r\nExample:\r\n\r\nEXPECTED RESULT:\r\n```\r\n[\r\n{\r\n\"group\":  \"value-1\" ,\r\n\"reduction\": {\r\n\"count\": 2 ,\r\n\"sum\": 9 ,\r\n\"min\": 4 ,\r\n\"max\": 5\r\n}\r\n} , [...]\r\n```\r\n\r\nORIGINAL QUERY:\r\n```\r\nr.table('mytable').group('group-attr')\r\n.map(r.row('num-attr')).map(function(x){return{\r\n  'count': 1,\r\n  'sum': x,\r\n  'min': x,\r\n  'max': x\r\n  }})\r\n  .reduce(function(a, b){return{\r\n    'count': a('count').add(b('count')),\r\n    'sum': a('sum').add(b('sum')),\r\n    'min': r.branch(a('min').lt(b('min')), a('min'), b('min')),\r\n    'max': r.branch(a('max').gt(b('max')), a('max'), b('max'))\r\n    }})\r\n```\r\n\r\nstats query:\r\n```\r\nr.table('mytable').group('group-attr')\r\n.stats([r.count(), r.sum(), r.min(), r.max()], 'num-attr')\r\n\r\nor\r\n\r\nr.table('mytable').group('group-attr')\r\n.stats([r.count(), r.sum('num-attr'), r.min('num-attr'), r.max('num-attr')])\r\n\r\nor (not equivalent, but it shows other possibilities)\r\n\r\nr.table('mytable').group('group-attr')\r\n.stats([r.count(), r.sum('num-attr-1'), r.min('num-attr-2'), r.max('num-attr-3'), r.avg('num-attr-4')])\r\n```\r\n\r\n\r\n"
+        "sequence.stats([array], [field_or_function]) \8594 object\nsequence.stats([array]) \8594 object\n\nIf a command like 'stats' existed, the map-reduce query in the example below could be written more elegantly.\n\nExample:\n\nEXPECTED RESULT:\n\n```\n[\n{\n\"group\":  \"value-1\" ,\n\"reduction\": {\n\"count\": 2 ,\n\"sum\": 9 ,\n\"min\": 4 ,\n\"max\": 5\n}\n} , [...]\n```\n\nORIGINAL QUERY:\n\n```\nr.table('mytable').group('group-attr')\n.map(r.row('num-attr')).map(function(x){return{\n  'count': 1,\n  'sum': x,\n  'min': x,\n  'max': x\n  }})\n  .reduce(function(a, b){return{\n    'count': a('count').add(b('count')),\n    'sum': a('sum').add(b('sum')),\n    'min': r.branch(a('min').lt(b('min')), a('min'), b('min')),\n    'max': r.branch(a('max').gt(b('max')), a('max'), b('max'))\n    }})\n```\n\nstats query:\n\n```\nr.table('mytable').group('group-attr')\n.stats([r.count(), r.sum(), r.min(), r.max()], 'num-attr')\n\nor\n\nr.table('mytable').group('group-attr')\n.stats([r.count(), r.sum('num-attr'), r.min('num-attr'), r.max('num-attr')])\n\nor (not equivalent, but it shows other possibilities)\n\nr.table('mytable').group('group-attr')\n.stats([r.count(), r.sum('num-attr-1'), r.min('num-attr-2'), r.max('num-attr-3'), r.avg('num-attr-4')])\n```\n"
   , issueState = "closed"
   , issueId = Id 59084139
   , issueComments = 1
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

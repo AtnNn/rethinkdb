@@ -48,7 +48,7 @@ Issue
   , issueCreatedAt = 2014 (-11) (-08) 03 : 27 : 20 UTC
   , issueBody =
       Just
-        "In next:\r\n\r\n```rb\r\nirb(main):293:0> r.table('test').map{false}.run\r\nRethinkDB::RqlRuntimeError: The function passed to `map` expects 0 arguments, but 1 sequence was found.\r\n```\r\n\r\nThe old behavior (and the current behavior for `concat_map`) was that if `map` is passed a 0-argument function it just calls it with no arguments.  I think we should preserve that behavior, especially because passing 0 sequences makes no sense.\r\n\r\n```rb\r\nirb(main):295:0> r.table('test').concat_map{[false]}.run\r\n#<RethinkDB::Cursor:70153428501780 (enumerable): r.table(\"test\").concatmap { [false]}\r\n[false, false, false, false, false, false, false, false]>\r\n```"
+        "In next:\n\n``` rb\nirb(main):293:0> r.table('test').map{false}.run\nRethinkDB::RqlRuntimeError: The function passed to `map` expects 0 arguments, but 1 sequence was found.\n```\n\nThe old behavior (and the current behavior for `concat_map`) was that if `map` is passed a 0-argument function it just calls it with no arguments.  I think we should preserve that behavior, especially because passing 0 sequences makes no sense.\n\n``` rb\nirb(main):295:0> r.table('test').concat_map{[false]}.run\n#<RethinkDB::Cursor:70153428501780 (enumerable): r.table(\"test\").concatmap { [false]}\n[false, false, false, false, false, false, false, false]>\n```\n"
   , issueState = "closed"
   , issueId = Id 48153925
   , issueComments = 2

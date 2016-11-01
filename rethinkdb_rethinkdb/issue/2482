@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-30) 16 : 29 : 07 UTC
   , issueBody =
       Just
-        "Running `make test` on MacOS is not working on `next` for a good number of reasons. I am fixing them as I go, but fixing one keeps finding another one. So far the list:\r\n1. `bench/stress-client/python_interface.cc` does not provide a default for `take_this_sample` and clang is objecting to that.\r\n2. clang also does not like that some files that use `bench/stress-client/protocols/sqlite_protocol.hpp` do not use the private variable `_dbname`. Rather than turning warnings off for this, I just move this one from `private` to `protected`.\r\n3. The `friend` declaration for `sqlite_mirror_verify_op_t` is as `class` rather than `struct` in `bench/stress-client/opts/sqlite_mirror.hpp`\r\n4. `test/common/rdb_workload_common.py` imports `rethinkdb` which gets the generic installed version of the Python driver, rather than the one being built/tested.\r\n5. A number of regression tests, and `test/common/scenario_common.py` all use `common/driver.py`'s `find_rethinkdb_executable` which assumes that the build directories are called exactly `debug` or `release`. On MacOS they are more like `release_clang_notcmalloc`. The fix is to modify `utils.latest_build_dir` to handle all of the tricks that `find_rethinkdb_executable` does, and point the later at the former.\r\n6. The Python driver build process looks for the `protoc` executable be on the path, rather then using from `build/external/protobuf_2.5.0` (if you are not installed)"
+        "Running `make test` on MacOS is not working on `next` for a good number of reasons. I am fixing them as I go, but fixing one keeps finding another one. So far the list:\n1. `bench/stress-client/python_interface.cc` does not provide a default for `take_this_sample` and clang is objecting to that.\n2. clang also does not like that some files that use `bench/stress-client/protocols/sqlite_protocol.hpp` do not use the private variable `_dbname`. Rather than turning warnings off for this, I just move this one from `private` to `protected`.\n3. The `friend` declaration for `sqlite_mirror_verify_op_t` is as `class` rather than `struct` in `bench/stress-client/opts/sqlite_mirror.hpp`\n4. `test/common/rdb_workload_common.py` imports `rethinkdb` which gets the generic installed version of the Python driver, rather than the one being built/tested.\n5. A number of regression tests, and `test/common/scenario_common.py` all use `common/driver.py`'s `find_rethinkdb_executable` which assumes that the build directories are called exactly `debug` or `release`. On MacOS they are more like `release_clang_notcmalloc`. The fix is to modify `utils.latest_build_dir` to handle all of the tricks that `find_rethinkdb_executable` does, and point the later at the former.\n6. The Python driver build process looks for the `protoc` executable be on the path, rather then using from `build/external/protobuf_2.5.0` (if you are not installed)\n"
   , issueState = "closed"
   , issueId = Id 34660370
   , issueComments = 2
@@ -60,7 +60,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

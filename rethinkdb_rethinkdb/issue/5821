@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2016 (-06) (-02) 21 : 36 : 09 UTC
   , issueBody =
       Just
-        "I'm getting some inconsistencies when using `r.args()` with `r.and()`.  Here is some reproducible code:\r\n```javascript\r\nconst data = [\r\n  {\r\n    \"sub_doc\":[\r\n      {\r\n        \"sub_field_id\": 1\r\n      },\r\n      {\r\n        \"sub_field_id\":2,\r\n        \"text\":\"some text\"\r\n      }\r\n    ],\r\n  }\r\n];\r\n\r\nr.expr(data)\r\n  .filter(row =>\r\n    row('sub_doc').contains(doc => {\r\n      const firstCond = doc('sub_field_id').eq(2);\r\n      const secondCond = doc('text').match(`(?i)TEXT`);\r\n\r\n      return r.and(r.args([firstCond, secondCond]));\r\n      //return r.and(firstCond, secondCond)\r\n      // This does work, though.  Which I assumed was analogous to r.args()\r\n      //return r.and.apply(null, [firstCond, secondCond])\r\n    })\r\n  )\r\n```\r\n\r\nThis should return the supplied data, but does not.  If you uncomment the second return and comment out the first, it will work.\r\n\r\nIf you add something like `\"text\": \"whatever\"` as a sibling to `\"sub_field_id\": 1`, both statements will work.  Also, note that if you change both conditions to the constant `true`, it will work in either form of the data."
+        "I'm getting some inconsistencies when using `r.args()` with `r.and()`.  Here is some reproducible code:\n\n``` javascript\nconst data = [\n  {\n    \"sub_doc\":[\n      {\n        \"sub_field_id\": 1\n      },\n      {\n        \"sub_field_id\":2,\n        \"text\":\"some text\"\n      }\n    ],\n  }\n];\n\nr.expr(data)\n  .filter(row =>\n    row('sub_doc').contains(doc => {\n      const firstCond = doc('sub_field_id').eq(2);\n      const secondCond = doc('text').match(`(?i)TEXT`);\n\n      return r.and(r.args([firstCond, secondCond]));\n      //return r.and(firstCond, secondCond)\n      // This does work, though.  Which I assumed was analogous to r.args()\n      //return r.and.apply(null, [firstCond, secondCond])\n    })\n  )\n```\n\nThis should return the supplied data, but does not.  If you uncomment the second return and comment out the first, it will work.\n\nIf you add something like `\"text\": \"whatever\"` as a sibling to `\"sub_field_id\": 1`, both statements will work.  Also, note that if you change both conditions to the constant `true`, it will work in either form of the data.\n"
   , issueState = "closed"
   , issueId = Id 158245393
   , issueComments = 4
@@ -57,7 +57,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

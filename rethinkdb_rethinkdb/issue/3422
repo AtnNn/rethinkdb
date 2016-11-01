@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-12) (-07) 01 : 24 : 25 UTC
   , issueBody =
       Just
-        "Hi, not sure if this is worth worrying about but I think it's pretty bad. I left a script writing batches of 1k documents to rethinkdb all day (3 shards, every object is `{\"n\": <int>, \"rand\": <Math.random()>, \"now\": <Date.now()>}`, one secondary index on `rand`) and last time I checked it was at about 37M documents, writting at about 10k documents per second on average, now it's been about 10 hours and it's writing at about 1k documents per second. I just got a 10x speedup before (it went from ~1k/s to ~10k/s) when I switched the buffered io (`no-direct-io`).\r\n\r\nSo far it filled 57650708480 bytes in a table (54GB). Because it's so slow I'll leave it running for another day and see if the performance degrades even more. I cannot know how many documents it has now because a .count() yields a timeout that is reported like `RqlRuntimeError: Query interrupted.  Did you shut down the server?` (the administration page for that table says \"about 110 million documents\").\r\n\r\nHas someone performed any kind of a similar benchmark (leaving inserts happening for as long as possible) to see what happens ? Is there something I could optimize ? 54GB seems like a tiny dataset for this to be happening."
+        "Hi, not sure if this is worth worrying about but I think it's pretty bad. I left a script writing batches of 1k documents to rethinkdb all day (3 shards, every object is `{\"n\": <int>, \"rand\": <Math.random()>, \"now\": <Date.now()>}`, one secondary index on `rand`) and last time I checked it was at about 37M documents, writting at about 10k documents per second on average, now it's been about 10 hours and it's writing at about 1k documents per second. I just got a 10x speedup before (it went from ~1k/s to ~10k/s) when I switched the buffered io (`no-direct-io`).\n\nSo far it filled 57650708480 bytes in a table (54GB). Because it's so slow I'll leave it running for another day and see if the performance degrades even more. I cannot know how many documents it has now because a .count() yields a timeout that is reported like `RqlRuntimeError: Query interrupted.  Did you shut down the server?` (the administration page for that table says \"about 110 million documents\").\n\nHas someone performed any kind of a similar benchmark (leaving inserts happening for as long as possible) to see what happens ? Is there something I could optimize ? 54GB seems like a tiny dataset for this to be happening.\n"
   , issueState = "closed"
   , issueId = Id 51203429
   , issueComments = 6
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

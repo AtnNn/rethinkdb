@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-07) 10 : 57 : 08 UTC
   , issueBody =
       Just
-        "```js\r\nr.db(\"test\").table(\"test\").pluck(\"id\", \"slug\")\r\n  .map(function(row) {\r\n    var a = {};\r\n    a[row(\"slug\")] = row(\"id\");\r\n    return a;\r\n  })\r\n```\r\nin result returned:\r\n```\r\n[\r\n{\r\n\"var_43(\"slug\")\":  \"56d59a86-e505-4336-b115-3d8f88ea19bc\"\r\n} ,\r\n...\r\n```\r\nAnd this:\r\n```js\r\nr.db(\"test\").table(\"test\").pluck(\"id\", \"slug\")\r\n  .map(function(row) {\r\n    return r([row(\"slug\"), row(\"id\")]).coerceTo(\"object\")\r\n  });\r\n```\r\nreturns RqlRuntimeError: Expected type ARRAY but found STRING.\r\n\r\n**Is this ok? And if it is how to do stuff like this?**"
+        "``` js\nr.db(\"test\").table(\"test\").pluck(\"id\", \"slug\")\n  .map(function(row) {\n    var a = {};\n    a[row(\"slug\")] = row(\"id\");\n    return a;\n  })\n```\n\nin result returned:\n\n```\n[\n{\n\"var_43(\"slug\")\":  \"56d59a86-e505-4336-b115-3d8f88ea19bc\"\n} ,\n...\n```\n\nAnd this:\n\n``` js\nr.db(\"test\").table(\"test\").pluck(\"id\", \"slug\")\n  .map(function(row) {\n    return r([row(\"slug\"), row(\"id\")]).coerceTo(\"object\")\n  });\n```\n\nreturns RqlRuntimeError: Expected type ARRAY but found STRING.\n\n**Is this ok? And if it is how to do stuff like this?**\n"
   , issueState = "closed"
   , issueId = Id 32974722
   , issueComments = 4
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

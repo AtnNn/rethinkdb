@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2013 (-02) (-22) 00 : 53 : 00 UTC
   , issueBody =
       Just
-        "Reported by @christopherhesse, running the following python script results in the query running in the cluster even after the client connection has closed (when it should be interrupted).  This happens both with and without a call to `conn.close()`.  The query was designed to take a while to run so the behavior can be more easily observed, as long as you have a bit of data in the two tables.\r\n\r\n```python\r\n#!/usr/bin/python\r\nimport time\r\nimport sys\r\nimport rethinkdb as r\r\nimport thread\r\n\r\ndef run_query():\r\n    r.db(\"marvel\").table(\"heroes\").inner_join(r.db(\"marvel\").table(\"villains\"), lambda hero, villain: r.js(\"true\")).count().run()\r\n\r\nconn = r.connect()\r\nthread.start_new_thread(run_query, ())\r\ntime.sleep(0.1)\r\nsys.exit(1)\r\n```"
+        "Reported by @christopherhesse, running the following python script results in the query running in the cluster even after the client connection has closed (when it should be interrupted).  This happens both with and without a call to `conn.close()`.  The query was designed to take a while to run so the behavior can be more easily observed, as long as you have a bit of data in the two tables.\n\n``` python\n#!/usr/bin/python\nimport time\nimport sys\nimport rethinkdb as r\nimport thread\n\ndef run_query():\n    r.db(\"marvel\").table(\"heroes\").inner_join(r.db(\"marvel\").table(\"villains\"), lambda hero, villain: r.js(\"true\")).count().run()\n\nconn = r.connect()\nthread.start_new_thread(run_query, ())\ntime.sleep(0.1)\nsys.exit(1)\n```\n"
   , issueState = "closed"
   , issueId = Id 11269478
   , issueComments = 2

@@ -1,0 +1,34 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-31) 08 : 57 : 38 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6160/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6160"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6160
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 4065840
+        , simpleUserLogin = N "sseppola"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/4065840?v=3"
+        , simpleUserUrl = "https://api.github.com/users/sseppola"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "Cannot perform write: primary replica for shard [\"\", +inf) not available in:"
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6160"
+  , issueCreatedAt = 2016 (-10) (-27) 23 : 50 : 33 UTC
+  , issueBody =
+      Just
+        "I'm getting this issue irregularly on CircleCI while running some integration tests with RethinkDB running inside a Docker container (pulling latest):\n\n```\n{ [ReqlOpFailedError: Cannot perform write: primary replica for shard [\"\", +inf) not available in:\nr.table(\"groups\").insert({\n^^^^^^^^^^^^^^^^^^^^^^^^^^\n    members: [\"4d0390f7-425e-4221-ac6e-3e037d201a0b\", \"30bdb027-77d9-4df0-9ccb-e5772e425a46\"],\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    createdDate: r.now()\n    ^^^^^^^^^^^^^^^^^^^^\n}, {\n^^^^\n    returnChanges: true\n    ^^^^^^^^^^^^^^^^^^^\n})\n^^\n]\n  msg: 'Cannot perform write: primary replica for shard [\"\", +inf) not available',\n  message: 'Cannot perform write: primary replica for shard [\"\", +inf) not available in:\\nr.table(\"groups\").insert({\\n^^^^^^^^^^^^^^^^^^^^^^^^^^\\n    members: [\"4d0390f7-425e-4221-ac6e-3e037d201a0b\", \"30bdb027-77d9-4df0-9ccb-e5772e425a46\"],\\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n    createdDate: r.now()\\n    ^^^^^^^^^^^^^^^^^^^^\\n}, {\\n^^^^\\n    returnChanges: true\\n    ^^^^^^^^^^^^^^^^^^^\\n})\\n^^\\n',\n  frames: [],\n  name: 'ReqlOpFailedError' }\n```\n\nI've never seen this issue while running the test locally or elsewhere, nor can I reproduce it consistently. The most similar issue I found was this: https://github.com/rethinkdb/rethinkdb/issues/5154 which makes me think something was not initialized properly before the tests ran, but that's just a guess.\nI'm using rethinkdb-init for initialization, and looking into the code it does not seem to wait for the indexes to become available (https://github.com/thejsj/rethinkdb-init/blob/master/index.js#L53) before returning.\nSeeing as there's no tableWait function and the fix related to issue 5154 above my best guess would be the indexes. Does this make any sense?\n\nIt may be worth mentioning I'm running my test using ava.js which runs the tests asynchronously, so while RethinkDB is initializing quite a few test could start at the same time once the DB is ready. At worst this would be 63 tests right now.\n"
+  , issueState = "open"
+  , issueId = Id 185808137
+  , issueComments = 4
+  , issueMilestone = Nothing
+  }

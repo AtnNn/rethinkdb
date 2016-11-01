@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-06) (-04) 23 : 05 : 52 UTC
   , issueBody =
       Just
-        "One table \"posts\" in the database \"blog\" with a single document\r\n```json\r\n[\r\n    {\r\n        \"num_comments\":92,\r\n        \"id\":\"bb1b6983-0f40-451e-b0e7-7f52dc4d3aa1\",\r\n        \"category\":\"category3\"\r\n    }\r\n]\r\n```\r\n\r\nQuery that fails\r\n```javascript\r\nr.db(\"blog\").table(\"posts\").groupedMapReduce(\r\n  function(post) { return post(\"category\") },\r\n  function(post) { return post(\"num_comments\") },\r\n  function(left, right) { return left.add(right)},\r\n  {category:\"none\", num_comments:0}\r\n  )\r\n```\r\nWith the backtrace\r\n```\r\nRqlRuntimeError: Expected type NUMBER but found OBJECT. in:\r\nr.db(\"blog\").table(\"posts\").groupedMapReduce(function(var_112) { return var_112(\"category\"); }, function(var_113) { return var_113(\"num_comments\"); }, function(var_114) { return var_114.add(var_115); }, {base: {category: \"none\", num_comments: 2}})\r\n                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^    \r\n```\r\n\r\nRemoving the optional base works fine, replacing with 0 works fine too, replacing it with 1 provides a driver error\r\n\r\n```\r\nRqlDriverError: Expected 3 argument(s) but found 4.\r\n```\r\n\r\nNot sure how important it is since we are going to get rid of the base.\r\n@mlucy could you comment on this?\r\n"
+        "One table \"posts\" in the database \"blog\" with a single document\n\n``` json\n[\n    {\n        \"num_comments\":92,\n        \"id\":\"bb1b6983-0f40-451e-b0e7-7f52dc4d3aa1\",\n        \"category\":\"category3\"\n    }\n]\n```\n\nQuery that fails\n\n``` javascript\nr.db(\"blog\").table(\"posts\").groupedMapReduce(\n  function(post) { return post(\"category\") },\n  function(post) { return post(\"num_comments\") },\n  function(left, right) { return left.add(right)},\n  {category:\"none\", num_comments:0}\n  )\n```\n\nWith the backtrace\n\n```\nRqlRuntimeError: Expected type NUMBER but found OBJECT. in:\nr.db(\"blog\").table(\"posts\").groupedMapReduce(function(var_112) { return var_112(\"category\"); }, function(var_113) { return var_113(\"num_comments\"); }, function(var_114) { return var_114.add(var_115); }, {base: {category: \"none\", num_comments: 2}})\n                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^    \n```\n\nRemoving the optional base works fine, replacing with 0 works fine too, replacing it with 1 provides a driver error\n\n```\nRqlDriverError: Expected 3 argument(s) but found 4.\n```\n\nNot sure how important it is since we are going to get rid of the base.\n@mlucy could you comment on this?\n"
   , issueState = "closed"
   , issueId = Id 15146131
   , issueComments = 4
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

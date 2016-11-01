@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2016 (-02) (-27) 01 : 08 : 20 UTC
   , issueBody =
       Just
-        "The following code does not work as expected at the moment:\r\n```\r\ntry {\r\n    r.db('foo').table('bar').run()\r\n    .then(function(cur) { return cur.eachAsync(); })\r\n    .catch(function(err) { console.log('I should get here'); });\r\n} catch(err) {\r\n    console.log('Rather I get here');\r\n}\r\n```\r\nThis should go to the promise `.catch` block. But because the code in [`util.coffee`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/util.coffee#L19-L26) that does these checks is not aware of promises it throws an error rather than returning `Promise.reject(new err.ReqlDriverCompileError('blah'))`"
+        "The following code does not work as expected at the moment:\n\n```\ntry {\n    r.db('foo').table('bar').run()\n    .then(function(cur) { return cur.eachAsync(); })\n    .catch(function(err) { console.log('I should get here'); });\n} catch(err) {\n    console.log('Rather I get here');\n}\n```\n\nThis should go to the promise `.catch` block. But because the code in [`util.coffee`](https://github.com/rethinkdb/rethinkdb/blob/next/drivers/javascript/util.coffee#L19-L26) that does these checks is not aware of promises it throws an error rather than returning `Promise.reject(new err.ReqlDriverCompileError('blah'))`\n"
   , issueState = "closed"
   , issueId = Id 136858059
   , issueComments = 6

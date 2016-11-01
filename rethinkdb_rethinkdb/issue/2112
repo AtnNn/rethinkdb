@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2014 (-03) (-18) 17 : 26 : 30 UTC
   , issueBody =
       Just
-        "Instead of saving things in `this.__proto__` when we send back an array, I'm changing the internal prototype after the objects are created.\r\nThat way, we keep all the usual checks valid for Arrays.\r\n\r\nReview 1326 assigned to @atnnn \r\nBranch `michel_arrayresult`\r\n\r\n```js\r\nmichel@T520:~$ node\r\n> a = [1,2,3]\r\n[ 1, 2, 3 ]\r\n> a.__proto__ = {}\r\n{}\r\n> a.__proto__[\"toArray\"] = function() { return this.slice(0, this.length) }\r\n[Function]\r\n> a.__proto__.__proto__ = [].__proto__\r\n[]\r\n> a\r\n[ 1, 2, 3 ]\r\n> a.toArray()\r\n[ 1, 2, 3 ]\r\n> a instanceof Array\r\ntrue\r\n> Object.prototype.toString.call(a)\r\n'[object Array]'\r\n> a.constructor\r\n[Function: Array]\r\n```"
+        "Instead of saving things in `this.__proto__` when we send back an array, I'm changing the internal prototype after the objects are created.\nThat way, we keep all the usual checks valid for Arrays.\n\nReview 1326 assigned to @atnnn \nBranch `michel_arrayresult`\n\n``` js\nmichel@T520:~$ node\n> a = [1,2,3]\n[ 1, 2, 3 ]\n> a.__proto__ = {}\n{}\n> a.__proto__[\"toArray\"] = function() { return this.slice(0, this.length) }\n[Function]\n> a.__proto__.__proto__ = [].__proto__\n[]\n> a\n[ 1, 2, 3 ]\n> a.toArray()\n[ 1, 2, 3 ]\n> a instanceof Array\ntrue\n> Object.prototype.toString.call(a)\n'[object Array]'\n> a.constructor\n[Function: Array]\n```\n"
   , issueState = "closed"
   , issueId = Id 29665908
   , issueComments = 2

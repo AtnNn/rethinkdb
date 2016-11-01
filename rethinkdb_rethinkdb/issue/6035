@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2016 (-08) (-05) 19 : 16 : 29 UTC
   , issueBody =
       Just
-        "Our Ruby YAML test \"driver\" (grrr) tries to use a `binding` to help contain the testing and make debugging easier [1], however the `binding` in this case points to the main namespace making it a bit worthless [2].\r\n\r\nThe fix for this is to do the `binding` inside an instance of a class setup for this ([see the Ruby docs on this](http://ruby-doc.org/core-1.9.3/Binding.html)). However, that is going to require some playing around to get everything needed inside that space linked in properly.\r\n\r\n[1] The other \"driver\"s (grrr) do similar things to good effect.\r\n[2] See the following code:\r\n```ruby\r\nbob = 'alpha'\r\nsmith = binding()\r\neval(\"bob = 'umbra'\", smith)\r\nputs(eval(\"bob\", smith))\r\nputs(bob)\r\nbob = 'beta'\r\nputs(eval(\"bob\", smith))\r\nputs(bob)\r\n```"
+        "Our Ruby YAML test \"driver\" (grrr) tries to use a `binding` to help contain the testing and make debugging easier [1], however the `binding` in this case points to the main namespace making it a bit worthless [2].\n\nThe fix for this is to do the `binding` inside an instance of a class setup for this ([see the Ruby docs on this](http://ruby-doc.org/core-1.9.3/Binding.html)). However, that is going to require some playing around to get everything needed inside that space linked in properly.\n\n[1] The other \"driver\"s (grrr) do similar things to good effect.\n[2] See the following code:\n\n``` ruby\nbob = 'alpha'\nsmith = binding()\neval(\"bob = 'umbra'\", smith)\nputs(eval(\"bob\", smith))\nputs(bob)\nbob = 'beta'\nputs(eval(\"bob\", smith))\nputs(bob)\n```\n"
   , issueState = "open"
   , issueId = Id 169677237
   , issueComments = 0
@@ -58,7 +58,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

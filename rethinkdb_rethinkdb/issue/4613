@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-08) (-01) 22 : 53 : 52 UTC
   , issueBody =
       Just
-        "Hi,\r\n\r\nThis sample works :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n    return {\160foo : r.literal({}) };\r\n});\r\n```\r\n\r\nNot that one :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n  return r.branch(\r\n    true,\r\n    { foo: r.literal({}) },\r\n    { foo: r.literal({}) }\r\n});\r\n```\r\n\r\nError : `Stray literal keyword found: literal is only legal inside of the object passed to merge or update and cannot nest inside other literals.`\r\nI think as literal parent node is branch; the error is thrown.\r\nCan be done with nested branch too :\r\n```js\r\nr.db('db').table('test').get('id').update(function (item) {\r\n  return r.branch(\r\n    true,\r\n    r.branch(\r\n        true,\r\n        { foo: r.literal({}) },\r\n        { foo: r.literal({}) }\r\n    ),\r\n    { foo: r.literal({}) }\r\n});\r\n```\r\n\r\nWhich mean a recursive parent node check should be done to ensure the update function is called; before throwing because of a branch."
+        "Hi,\n\nThis sample works :\n\n``` js\nr.db('db').table('test').get('id').update(function (item) {\n    return {\160foo : r.literal({}) };\n});\n```\n\nNot that one :\n\n``` js\nr.db('db').table('test').get('id').update(function (item) {\n  return r.branch(\n    true,\n    { foo: r.literal({}) },\n    { foo: r.literal({}) }\n});\n```\n\nError : `Stray literal keyword found: literal is only legal inside of the object passed to merge or update and cannot nest inside other literals.`\nI think as literal parent node is branch; the error is thrown.\nCan be done with nested branch too :\n\n``` js\nr.db('db').table('test').get('id').update(function (item) {\n  return r.branch(\n    true,\n    r.branch(\n        true,\n        { foo: r.literal({}) },\n        { foo: r.literal({}) }\n    ),\n    { foo: r.literal({}) }\n});\n```\n\nWhich mean a recursive parent node check should be done to ensure the update function is called; before throwing because of a branch.\n"
   , issueState = "closed"
   , issueId = Id 98566485
   , issueComments = 2
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

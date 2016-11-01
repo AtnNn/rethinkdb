@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2013 (-03) (-12) 02 : 05 : 05 UTC
   , issueBody =
       Just
-        "In the last code block on: http://www.rethinkdb.com/docs/tutorials/elections/\r\n\r\n```javascript\r\nr.table('county_stats').eqJoin('Stname', r.table('polls'))\r\n    .zip() \r\n    .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\r\n    .filter(function(doc) { return doc('Dem').lt(doc('GOP')).and(doc('GOP').sub(doc('Dem')).lt(15)) })\r\n    .groupedMapReduce(\r\n        function(doc){ return doc('Stname') }, \r\n        function(doc){ return doc('POPESTIMATE2011').mul(doc(\"GOP\").sub(doc(\"DEM\")).div(100)) }, \r\n        0, \r\n        function(acc, val) {return acc.add(val)})\r\n    .orderby('reduction')\r\n    .run()\r\n```\r\n\r\nThe `orderby` function should be `orderBy`. Causes an error without."
+        "In the last code block on: http://www.rethinkdb.com/docs/tutorials/elections/\n\n``` javascript\nr.table('county_stats').eqJoin('Stname', r.table('polls'))\n    .zip() \n    .pluck('Stname', 'state', 'county', 'ctyname', 'CENSUS2010POP', 'POPESTIMATE2011', 'Dem', 'GOP')\n    .filter(function(doc) { return doc('Dem').lt(doc('GOP')).and(doc('GOP').sub(doc('Dem')).lt(15)) })\n    .groupedMapReduce(\n        function(doc){ return doc('Stname') }, \n        function(doc){ return doc('POPESTIMATE2011').mul(doc(\"GOP\").sub(doc(\"DEM\")).div(100)) }, \n        0, \n        function(acc, val) {return acc.add(val)})\n    .orderby('reduction')\n    .run()\n```\n\nThe `orderby` function should be `orderBy`. Causes an error without.\n"
   , issueState = "closed"
   , issueId = Id 11906880
   , issueComments = 2

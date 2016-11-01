@@ -1,6 +1,6 @@
 Issue
   { issueClosedAt = Nothing
-  , issueUpdatedAt = 2016 (-10) (-03) 17 : 28 : 50 UTC
+  , issueUpdatedAt = 2016 (-10) (-28) 16 : 04 : 28 UTC
   , issueEventsUrl =
       "https://api.github.com/repos/rethinkdb/rethinkdb/issues/4357/events"
   , issueHtmlUrl =
@@ -33,10 +33,10 @@ Issue
   , issueCreatedAt = 2015 (-06) (-09) 01 : 45 : 30 UTC
   , issueBody =
       Just
-        "RethinkDB 2.1 will occasionally fail to fail over if there is a non-transitive connectivity (i.e. server A can contact server B and server B can contact server C, but server A cannot contact server C).\r\n\r\nHere's an example scenario:\r\n* Consider a table with three shards (let's call them `A`, `B`, and `C`) of three replicas each (designated `P`, `R1`, `R2`), with no sharing, so nine machines total (`AP`, `AR1`, `AR2`, `BP`, etc.).\r\n* Suppose that `BP` is acting as Raft leader for the table as a whole.\r\n* `AP` fails, and the connection between `AR1` and `BP` is lost, but all other connections remain valid.\r\n* Because `BP` cannot contact a majority of the replicas for shard `A`, it does not attempt to elect a new primary for shard `A`.\r\n\r\nThis is not a very likely scenario; the conditions for it are convoluted, and non-transitive connectivity won't last very long under typical network topologies. Therefore, this is a low priority right now.\r\n\r\nThe long-term solution is to run a separate Raft instance for each shard in addition to the table-wide Raft instance. This way, `AR1` and `AR2` would be able to decide to fail over on their own without the help of `BP`."
+        "RethinkDB 2.1 will occasionally fail to fail over if there is a non-transitive connectivity (i.e. server A can contact server B and server B can contact server C, but server A cannot contact server C).\n\nHere's an example scenario:\n- Consider a table with three shards (let's call them `A`, `B`, and `C`) of three replicas each (designated `P`, `R1`, `R2`), with no sharing, so nine machines total (`AP`, `AR1`, `AR2`, `BP`, etc.).\n- Suppose that `BP` is acting as Raft leader for the table as a whole.\n- `AP` fails, and the connection between `AR1` and `BP` is lost, but all other connections remain valid.\n- Because `BP` cannot contact a majority of the replicas for shard `A`, it does not attempt to elect a new primary for shard `A`.\n\nThis is not a very likely scenario; the conditions for it are convoluted, and non-transitive connectivity won't last very long under typical network topologies. Therefore, this is a low priority right now.\n\nThe long-term solution is to run a separate Raft instance for each shard in addition to the table-wide Raft instance. This way, `AR1` and `AR2` would be able to decide to fail over on their own without the help of `BP`.\n"
   , issueState = "open"
   , issueId = Id 86403400
-  , issueComments = 2
+  , issueComments = 3
   , issueMilestone =
       Just
         Milestone

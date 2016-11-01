@@ -47,7 +47,7 @@ Issue
   , issueCreatedAt = 2016 (-07) (-08) 18 : 54 : 57 UTC
   , issueBody =
       Just
-        "On Slack @shiva proposed the following patch to fix a compilation issue.\r\n```\r\ndiff --git a/src/perfmon/perfmon.cc b/src/perfmon/perfmon.cc\r\nindex c426ad9..68d6666 100644\r\n--- a/src/perfmon/perfmon.cc\r\n+++ b/src/perfmon/perfmon.cc\r\n@@ -159,7 +159,7 @@ stddev_t::stddev_t()\r\nstddev_t::stddev_t(size_t n, double _mean, double variance)\r\n    : N(n), M(_mean), Q(variance * n) {\r\n    if (N == 0)\r\n-        rassert(isnan(M) && isnan(Q));\r\n+       rassert(std::isnan(M) && std::isnan(Q));\r\n}\r\n```\r\n\r\n```\r\ngcc --version \r\ngcc (Ubuntu 5.3.1-14ubuntu2.1) 5.3.1 20160413\r\n```\r\n\r\nIt looks fine at first glance, but I suspect `isnan` may be a macro on certain platforms requiring us to implement an `risnan` similar to `risfinite` in `utils.cc`."
+        "On Slack @shiva proposed the following patch to fix a compilation issue.\n\n```\ndiff --git a/src/perfmon/perfmon.cc b/src/perfmon/perfmon.cc\nindex c426ad9..68d6666 100644\n--- a/src/perfmon/perfmon.cc\n+++ b/src/perfmon/perfmon.cc\n@@ -159,7 +159,7 @@ stddev_t::stddev_t()\nstddev_t::stddev_t(size_t n, double _mean, double variance)\n    : N(n), M(_mean), Q(variance * n) {\n    if (N == 0)\n-        rassert(isnan(M) && isnan(Q));\n+       rassert(std::isnan(M) && std::isnan(Q));\n}\n```\n\n```\ngcc --version \ngcc (Ubuntu 5.3.1-14ubuntu2.1) 5.3.1 20160413\n```\n\nIt looks fine at first glance, but I suspect `isnan` may be a macro on certain platforms requiring us to implement an `risnan` similar to `risfinite` in `utils.cc`.\n"
   , issueState = "closed"
   , issueId = Id 164594250
   , issueComments = 6

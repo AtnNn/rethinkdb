@@ -1,0 +1,34 @@
+Issue
+  { issueClosedAt = Nothing
+  , issueUpdatedAt = 2016 (-10) (-27) 01 : 10 : 40 UTC
+  , issueEventsUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6158/events"
+  , issueHtmlUrl =
+      Just "https://github.com/rethinkdb/rethinkdb/issues/6158"
+  , issueClosedBy = Nothing
+  , issueLabels = []
+  , issueNumber = 6158
+  , issueAssignee = Nothing
+  , issueUser =
+      SimpleUser
+        { simpleUserId = Id 258437
+        , simpleUserLogin = N "srh"
+        , simpleUserAvatarUrl =
+            "https://avatars.githubusercontent.com/u/258437?v=3"
+        , simpleUserUrl = "https://api.github.com/users/srh"
+        , simpleUserType = OwnerUser
+        }
+  , issueTitle =
+      "rwlock_in_line_t and new_mutex_t move constructor is broken."
+  , issuePullRequest = Nothing
+  , issueUrl =
+      "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6158"
+  , issueCreatedAt = 2016 (-10) (-27) 01 : 10 : 40 UTC
+  , issueBody =
+      Just
+        "This bug doesn't manifest in the existing codebase because every place of use undergoes copy elision.\n\nThe bug is that `rwlock_in_line_t` was given a default move constructor, when its fields are\n\n```\n    rwlock_t *lock_;\n    access_t access_;\n    cond_t read_cond_;\n    cond_t write_cond_;\n```\n\nThis means that after moving from a src object to a dest object, the src object will still have a non-null `lock_` field.  As a result, its destructor will behave badly.\n\nThe fix would be to make a non-default move constructor that sets lock_ to null.\n\nThis bug was introduced in commit 8589d792223979fae7ec74aed2ce830e21a9b3de and then still broken after commit f1b9aed5fb312f1c0237bf2a3f9da7c8849c96b6.\n"
+  , issueState = "open"
+  , issueId = Id 185549736
+  , issueComments = 0
+  , issueMilestone = Nothing
+  }

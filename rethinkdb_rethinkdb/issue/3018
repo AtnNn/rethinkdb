@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2014 (-09) (-06) 08 : 23 : 01 UTC
   , issueBody =
       Just
-        "On commit 347e7c8368af8066893174f1ab4a41801d812c77, on a cluster with 3 machines, one table `foo` with 2 shards and 2 replicas (`reconfigure(2,2)`), this will almost fails everytime:\r\n\r\n```\r\nr.db('test').table('foo').indexList().forEach(function(index) {\r\n  return r.db('test').table('foo').indexDrop(index)\r\n});\r\nr.db('test').table('foo').indexCreate('1');\r\nr.db('test').table('foo').indexCreate('2');\r\nr.db('test').table('foo').indexCreate('3');\r\nr.db('test').table('foo').indexCreate('4');\r\nr.db('test').table('foo').indexCreate('5');\r\nr.db('test').table('foo').indexCreate('6');\r\nr.db('test').table('foo').indexCreate('7');\r\nr.db('test').table('foo').indexCreate('8');\r\nr.db('test').table('foo').indexCreate('9');\r\nr.db('test').table('foo').indexList().forEach(function(index) {\r\n  return r.db('test').table('foo').indexDrop(index)\r\n})\r\n```\r\n\r\nSometimes because `indexDrop` will not found the index, or sometimes because `indexCreate` will complain about an index that already exist.\r\nThe queries are synchronously executed in the data explorer.\r\n\r\nI don't have any problem with this in 1.14."
+        "On commit 347e7c8368af8066893174f1ab4a41801d812c77, on a cluster with 3 machines, one table `foo` with 2 shards and 2 replicas (`reconfigure(2,2)`), this will almost fails everytime:\n\n```\nr.db('test').table('foo').indexList().forEach(function(index) {\n  return r.db('test').table('foo').indexDrop(index)\n});\nr.db('test').table('foo').indexCreate('1');\nr.db('test').table('foo').indexCreate('2');\nr.db('test').table('foo').indexCreate('3');\nr.db('test').table('foo').indexCreate('4');\nr.db('test').table('foo').indexCreate('5');\nr.db('test').table('foo').indexCreate('6');\nr.db('test').table('foo').indexCreate('7');\nr.db('test').table('foo').indexCreate('8');\nr.db('test').table('foo').indexCreate('9');\nr.db('test').table('foo').indexList().forEach(function(index) {\n  return r.db('test').table('foo').indexDrop(index)\n})\n```\n\nSometimes because `indexDrop` will not found the index, or sometimes because `indexCreate` will complain about an index that already exist.\nThe queries are synchronously executed in the data explorer.\n\nI don't have any problem with this in 1.14.\n"
   , issueState = "closed"
   , issueId = Id 42111961
   , issueComments = 6
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

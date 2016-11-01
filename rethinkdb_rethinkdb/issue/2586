@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-06) (-23) 02 : 12 : 08 UTC
   , issueBody =
       Just
-        "Running this in the data explorer `r.table('comments').getAll()` yields `RqlCompileError: Expected 2 or more argument(s) but found 1 in: r.table(\"comments\").getAll()`\r\n\r\nNot sure that error message makes any sense (may just be a JS driver quirk), but ignoring that, is there a way to simply return an empty array if I don't pass any arguments to `getAll`?\r\n\r\nMy actual use case is: `r.table('comments').getAll(r.args([]))`, which returns the same error as above. The `[]` could contain any number of arguments, including zero.\r\n\r\nMy actual actual use case: `r.table('users').getAll(r.args(r.table('comments').filter({something: 'to filter by'})('user').distinct()))` -- which, again, returns the above error if there are no matches to the filter.\r\n\r\nOverall, I was hoping `r.args` would help prevent queries like this, where I have to do individual r.gets:\r\n\r\n```\r\nr.table('comments').filter({something: 'to filter by'})('user').distinct().map(function(userId) {\r\n  return r.table('users').get(userId);\r\n});\r\n```\r\n\r\nThanks y'all :star2: "
+        "Running this in the data explorer `r.table('comments').getAll()` yields `RqlCompileError: Expected 2 or more argument(s) but found 1 in: r.table(\"comments\").getAll()`\n\nNot sure that error message makes any sense (may just be a JS driver quirk), but ignoring that, is there a way to simply return an empty array if I don't pass any arguments to `getAll`?\n\nMy actual use case is: `r.table('comments').getAll(r.args([]))`, which returns the same error as above. The `[]` could contain any number of arguments, including zero.\n\nMy actual actual use case: `r.table('users').getAll(r.args(r.table('comments').filter({something: 'to filter by'})('user').distinct()))` -- which, again, returns the above error if there are no matches to the filter.\n\nOverall, I was hoping `r.args` would help prevent queries like this, where I have to do individual r.gets:\n\n```\nr.table('comments').filter({something: 'to filter by'})('user').distinct().map(function(userId) {\n  return r.table('users').get(userId);\n});\n```\n\nThanks y'all :star2: \n"
   , issueState = "closed"
   , issueId = Id 36258014
   , issueComments = 7
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

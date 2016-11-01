@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-07) (-02) 04 : 31 : 03 UTC
   , issueBody =
       Just
-        "Just played a bit with the auto failover, it's awesome :)\r\n\r\nI have a table with 3 replicas on a table with 3 servers. I'm just doing point reads.\r\n- If I kill the master, I may loose availability, and this seems reasonable. It's basically the time to find a new master.\r\n- If I restart the master I just killed, my point read may fail (not always) with\r\n```\r\n{ [ReqlRuntimeError: Cannot perform read: primary replica for shard [\"\", +inf) not available in:\r\nr.db(\"test\").table(\"test\").get(\"ping\")\r\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n]\r\n  message: 'Cannot perform read: primary replica for shard [\"\", +inf) not available in:\\nr.db(\"test\").table(\"test\").get(\"ping\")\\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n',\r\n  frames: [] }\r\n```\r\n\r\nI found that surprising that restarting the master create a loose of availability. What happens there?\r\nThe acting master get the read after it has delegates the master position to the available old master? If yes, could it forward the read there?"
+        "Just played a bit with the auto failover, it's awesome :)\n\nI have a table with 3 replicas on a table with 3 servers. I'm just doing point reads.\n- If I kill the master, I may loose availability, and this seems reasonable. It's basically the time to find a new master.\n- If I restart the master I just killed, my point read may fail (not always) with\n\n```\n{ [ReqlRuntimeError: Cannot perform read: primary replica for shard [\"\", +inf) not available in:\nr.db(\"test\").table(\"test\").get(\"ping\")\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n]\n  message: 'Cannot perform read: primary replica for shard [\"\", +inf) not available in:\\nr.db(\"test\").table(\"test\").get(\"ping\")\\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n',\n  frames: [] }\n```\n\nI found that surprising that restarting the master create a loose of availability. What happens there?\nThe acting master get the read after it has delegates the master position to the available old master? If yes, could it forward the read there?\n"
   , issueState = "closed"
   , issueId = Id 92545053
   , issueComments = 2
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

@@ -48,7 +48,7 @@ Issue
   , issueCreatedAt = 2016 (-01) (-08) 03 : 51 : 26 UTC
   , issueBody =
       Just
-        "With the `init_fuzz_various_queries.rb` test from branch `daniel_init_various_fuzz` and a binary from `v2.2.x` I'm intermittently seeing a failure that looks like this:\r\n\r\n```rb\r\nState did not match query result. (RuntimeError)\r\n Query: r.table(\"test\").between(0, 2, {\"index\" => :ts})\r\n State: [...]\r\n Actual: [..., {\"id\"=>16, \"ts\"=>0.5}, ...]\r\n\r\nFailed log:\r\n[\"initializing\",\r\n...,\r\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0}},\r\n...,\r\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}},\r\n {\"old_val\"=>{\"id\"=>16, \"ts\"=>0}},\r\n...,\r\n \"ready\",\r\n...]\r\n\r\nFailed write log:\r\n[...,\r\n [16,\r\n  {\"changes\"=>\r\n    [{\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}, \"old_val\"=>{\"id\"=>16, \"ts\"=>0}}],\r\n   \"deleted\"=>0,\r\n   \"errors\"=>0,\r\n   \"inserted\"=>0,\r\n   \"replaced\"=>1,\r\n   \"skipped\"=>0,\r\n   \"unchanged\"=>0}],\r\n...]\r\n```\r\n\r\nYou can see that we get an initial value for id 16 correctly. Then the document is updated and the `ts` value changed from `0` to `0.5`. On the changefeed, we then see first a new initial value with the new `ts`, followed by an uninitial value for the old `ts`.\r\n\r\nThe correct behavior would be to see the uninitial value before we see the new initial value."
+        "With the `init_fuzz_various_queries.rb` test from branch `daniel_init_various_fuzz` and a binary from `v2.2.x` I'm intermittently seeing a failure that looks like this:\n\n``` rb\nState did not match query result. (RuntimeError)\n Query: r.table(\"test\").between(0, 2, {\"index\" => :ts})\n State: [...]\n Actual: [..., {\"id\"=>16, \"ts\"=>0.5}, ...]\n\nFailed log:\n[\"initializing\",\n...,\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0}},\n...,\n {\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}},\n {\"old_val\"=>{\"id\"=>16, \"ts\"=>0}},\n...,\n \"ready\",\n...]\n\nFailed write log:\n[...,\n [16,\n  {\"changes\"=>\n    [{\"new_val\"=>{\"id\"=>16, \"ts\"=>0.5}, \"old_val\"=>{\"id\"=>16, \"ts\"=>0}}],\n   \"deleted\"=>0,\n   \"errors\"=>0,\n   \"inserted\"=>0,\n   \"replaced\"=>1,\n   \"skipped\"=>0,\n   \"unchanged\"=>0}],\n...]\n```\n\nYou can see that we get an initial value for id 16 correctly. Then the document is updated and the `ts` value changed from `0` to `0.5`. On the changefeed, we then see first a new initial value with the new `ts`, followed by an uninitial value for the old `ts`.\n\nThe correct behavior would be to see the uninitial value before we see the new initial value.\n"
   , issueState = "open"
   , issueId = Id 125537297
   , issueComments = 5
@@ -65,7 +65,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

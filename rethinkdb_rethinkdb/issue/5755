@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2016 (-05) (-09) 13 : 33 : 24 UTC
   , issueBody =
       Just
-        "It seems that things start breaking if you're handling dates before the year 1400.\r\n\r\nThe easiest way to provoke this error message is:\r\n\r\n```js\r\nr.ISO8601(\"0001-01-01T00:00:00Z\")\r\n```\r\n\r\nIt seems this limitation is [documented](https://www.rethinkdb.com/docs/dates-and-times/java/#technical-details), however the error message does not point to this and google isn't very helpful since the error message seems to be a generic error from a library.\r\n\r\nSince it is possible to insert data that contains pre-medieval dates like below, confusion ensues.\r\n\r\n```js\r\nr.db(\"test\").table(\"test\").insert({id: 1, date: r.epochTime(-63576576000)})\r\n```\r\n\r\nI stumbled upon this since the .NET RethinkDb.Driver seems to serialize dates differently in different situations. Thus when I insert a new row it uses epochTime, but when I compare the date in a row with a datetime it uses iso8601.\r\n\r\nI suggest the following improvements:\r\n\r\n1. The error message is adjusted to include the above link to technical details\r\n2. Log a warning or raise an error when creating dates outside the limits using epochTime.\r\n3. Fix the limitation."
+        "It seems that things start breaking if you're handling dates before the year 1400.\n\nThe easiest way to provoke this error message is:\n\n``` js\nr.ISO8601(\"0001-01-01T00:00:00Z\")\n```\n\nIt seems this limitation is [documented](https://www.rethinkdb.com/docs/dates-and-times/java/#technical-details), however the error message does not point to this and google isn't very helpful since the error message seems to be a generic error from a library.\n\nSince it is possible to insert data that contains pre-medieval dates like below, confusion ensues.\n\n``` js\nr.db(\"test\").table(\"test\").insert({id: 1, date: r.epochTime(-63576576000)})\n```\n\nI stumbled upon this since the .NET RethinkDb.Driver seems to serialize dates differently in different situations. Thus when I insert a new row it uses epochTime, but when I compare the date in a row with a datetime it uses iso8601.\n\nI suggest the following improvements:\n1. The error message is adjusted to include the above link to technical details\n2. Log a warning or raise an error when creating dates outside the limits using epochTime.\n3. Fix the limitation.\n"
   , issueState = "open"
   , issueId = Id 153777146
   , issueComments = 7
@@ -50,7 +50,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

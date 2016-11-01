@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2015 (-03) (-03) 23 : 41 : 19 UTC
   , issueBody =
       Just
-        "I am subclassing dict that contains a `__call__` function and then passing that as an object to insert. The insert fails due to it matching collections.Callable. In ast.py function expr() simply moving the collections.Callable check after the collections.Mapping check fixes the issue for me. I don't know how common this use case is but it's an issue none the less. Below is a test case.\r\n\r\n```python\r\n    class u(dict):\r\n      model = {\r\n        'id':'test'\r\n      }\r\n      def __init__(self,*args,**kwargs):\r\n        for k,v in self.model.iteritems():\r\n          self[k] = v\r\n\r\n      def __call__(self):\r\n        return self\r\n\r\n    user = u()\r\n    print 'Result: %s' % r.table(\"users\").insert(user).run(dbh)\r\n```"
+        "I am subclassing dict that contains a `__call__` function and then passing that as an object to insert. The insert fails due to it matching collections.Callable. In ast.py function expr() simply moving the collections.Callable check after the collections.Mapping check fixes the issue for me. I don't know how common this use case is but it's an issue none the less. Below is a test case.\n\n``` python\n    class u(dict):\n      model = {\n        'id':'test'\n      }\n      def __init__(self,*args,**kwargs):\n        for k,v in self.model.iteritems():\n          self[k] = v\n\n      def __call__(self):\n        return self\n\n    user = u()\n    print 'Result: %s' % r.table(\"users\").insert(user).run(dbh)\n```\n"
   , issueState = "closed"
   , issueId = Id 59726260
   , issueComments = 4
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

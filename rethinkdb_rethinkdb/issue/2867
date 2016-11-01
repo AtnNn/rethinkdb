@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2014 (-08) (-11) 22 : 01 : 51 UTC
   , issueBody =
       Just
-        "Hi\r\n\r\nI'm trying to dynamically name the key by the value of the object and I'm left with not-transformed names like ```var_16(\"project_id\")```.\r\nHere's an example query:\r\n```javascript\r\nr.table('objects').merge(function(obj){\r\n  var retVal = {};\r\n  var name = obj(\"project_id\");\r\n  retVal[name] = r.table('projects').get(obj(\"project_id\")).coerceTo('object')('name');\r\n  return retVal;\r\n});\r\n```\r\n\r\nWhat I get is:\r\n```json\r\n[\r\n{\r\n\"id\":  \"95d72952-920f-4a4b-9698-70981ee5d593\" ,\r\n\"name\":  \"contact\" ,\r\n\"project_id\":  \"b80587bd-fa43-4382-87cf-13200b1853c1\" ,\r\n\"var_16(\"project_id\")\":  \"test\"\r\n}\r\n]\r\n```\r\n\r\nWhat should be the output though is - that last key-value pair instead of being: \r\n```\"var_16(\"project_id\")\":  \"test\"``` should say ```\"b80587bd-fa43-4382-87cf-13200b1853c1\":  \"test\"```\r\n\r\nOf course what I'm doing here doesn't really make sense in reality, but I was trying to achieve something else, and I stumbled upon this as a byproduct.\r\n\r\nIf this is not a bug, please let me know.\r\nThanks! I'm really happy about what you're doing, RethinkDB is really a wonderful tool!\r\n\r\nTake care,\r\nNIXin"
+        "Hi\n\nI'm trying to dynamically name the key by the value of the object and I'm left with not-transformed names like `var_16(\"project_id\")`.\nHere's an example query:\n\n``` javascript\nr.table('objects').merge(function(obj){\n  var retVal = {};\n  var name = obj(\"project_id\");\n  retVal[name] = r.table('projects').get(obj(\"project_id\")).coerceTo('object')('name');\n  return retVal;\n});\n```\n\nWhat I get is:\n\n``` json\n[\n{\n\"id\":  \"95d72952-920f-4a4b-9698-70981ee5d593\" ,\n\"name\":  \"contact\" ,\n\"project_id\":  \"b80587bd-fa43-4382-87cf-13200b1853c1\" ,\n\"var_16(\"project_id\")\":  \"test\"\n}\n]\n```\n\nWhat should be the output though is - that last key-value pair instead of being: \n`\"var_16(\"project_id\")\":  \"test\"` should say `\"b80587bd-fa43-4382-87cf-13200b1853c1\":  \"test\"`\n\nOf course what I'm doing here doesn't really make sense in reality, but I was trying to achieve something else, and I stumbled upon this as a byproduct.\n\nIf this is not a bug, please let me know.\nThanks! I'm really happy about what you're doing, RethinkDB is really a wonderful tool!\n\nTake care,\nNIXin\n"
   , issueState = "closed"
   , issueId = Id 40005497
   , issueComments = 1
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2016 (-08) (-03) 21 : 43 : 53 UTC
   , issueBody =
       Just
-        "The `conflict` option to `insert` is being silently ignored on system tables (at least on `rethinkdb.table_config`). So this command run twice:\r\n\r\n`r.db('rethinkdb').table('table_config').insert({'db':'colors', 'name':'umber', 'primary_key':'id'}, {'conflict':'update'})`\r\n\r\nfails with this:\r\n```\r\n{\r\n  \"deleted\": 0 ,\r\n  \"errors\": 1 ,\r\n  \"first_error\":  \"Table `colors.umber` already exists.\" ,\r\n  \"generated_keys\": [\r\n    \"f6182ad6-6f9f-43cd-b501-3ea42b98fd9f\"\r\n  ] ,\r\n  \"inserted\": 0 ,\r\n  \"replaced\": 0 ,\r\n  \"skipped\": 0 ,\r\n  \"unchanged\": 0\r\n}\r\n```\r\n\r\nI think that this should either work, or more easily, throw an error about the `conflict` option not being supported on system tables."
+        "The `conflict` option to `insert` is being silently ignored on system tables (at least on `rethinkdb.table_config`). So this command run twice:\n\n`r.db('rethinkdb').table('table_config').insert({'db':'colors', 'name':'umber', 'primary_key':'id'}, {'conflict':'update'})`\n\nfails with this:\n\n```\n{\n  \"deleted\": 0 ,\n  \"errors\": 1 ,\n  \"first_error\":  \"Table `colors.umber` already exists.\" ,\n  \"generated_keys\": [\n    \"f6182ad6-6f9f-43cd-b501-3ea42b98fd9f\"\n  ] ,\n  \"inserted\": 0 ,\n  \"replaced\": 0 ,\n  \"skipped\": 0 ,\n  \"unchanged\": 0\n}\n```\n\nI think that this should either work, or more easily, throw an error about the `conflict` option not being supported on system tables.\n"
   , issueState = "open"
   , issueId = Id 169241648
   , issueComments = 0

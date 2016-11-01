@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2013 (-06) (-19) 20 : 00 : 38 UTC
   , issueBody =
       Just
-        "I was profiling a query that contained a (not overly specific) getAll(), followed by a filter.\r\n\r\nIt turned out that approximately 46% of the time were spent in datum_t::init_json().\r\n\r\nVirtually all of the calls to init_json() originated from the transform_visitor_t called directly from the btree traversal. In other words, reading the cJSON encoded documents from the btree is very expensive.\r\n\r\nA few more details:\r\nInside of init_json(), 58% of its time were spent on datum_t::add() for objects, with the remaining processing time spread out over a number of different steps. Inside of add(), actually inserting into the std::map makes up for 41% of the time spent in add().\r\n\r\nI'm not sure what's the best way to optimize it, and am hoping for suggestions.\r\n\r\nThe std::map insertion could probably be made a lot faster by just using an std::vector instead of a map. Usually, even for read operations, the tree used by std::map is only faster than a vector if there are a lot of entries, presumably due to its bad cache locality. Eliminating the std::map would however only solve part of the issue."
+        "I was profiling a query that contained a (not overly specific) getAll(), followed by a filter.\n\nIt turned out that approximately 46% of the time were spent in datum_t::init_json().\n\nVirtually all of the calls to init_json() originated from the transform_visitor_t called directly from the btree traversal. In other words, reading the cJSON encoded documents from the btree is very expensive.\n\nA few more details:\nInside of init_json(), 58% of its time were spent on datum_t::add() for objects, with the remaining processing time spread out over a number of different steps. Inside of add(), actually inserting into the std::map makes up for 41% of the time spent in add().\n\nI'm not sure what's the best way to optimize it, and am hoping for suggestions.\n\nThe std::map insertion could probably be made a lot faster by just using an std::vector instead of a map. Usually, even for read operations, the tree used by std::map is only faster than a vector if there are a lot of entries, presumably due to its bad cache locality. Eliminating the std::map would however only solve part of the issue.\n"
   , issueState = "closed"
   , issueId = Id 15765254
   , issueComments = 20
@@ -60,7 +60,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

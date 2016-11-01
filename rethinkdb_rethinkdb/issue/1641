@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-11) (-13) 18 : 46 : 33 UTC
   , issueBody =
       Just
-        "Right now every optarg is a way to crash the server. Consider the following query:\r\n\r\n```Python\r\nr.js(\"1\").run(timeout=r.js(\"1\"))\r\n```\r\n\r\nThe problem here is that when the query language tries to evaluate the term `r.js(\"1\")` it looks for an optarg called `timeout` in the global optargs and finds the term `r.js(\"1\")` it then tries to evaluate this term to get a value for the optarg. But of course before it can evaluate a `js` term it needs to have a look at the global optargs to see if there's a timeout. This eventually crashes the server with a stack overflow.\r\n\r\nI think we should just make optargs be statically evaluated (like `profile` and `noreply`) already are. I don't really think anyone has a need to pass complicated expressions as their optargs. And allowing them to do so would require something ugly like a flag to disable optargs during execution or something. It really doesn't seem worth it to have this ugliness."
+        "Right now every optarg is a way to crash the server. Consider the following query:\n\n``` Python\nr.js(\"1\").run(timeout=r.js(\"1\"))\n```\n\nThe problem here is that when the query language tries to evaluate the term `r.js(\"1\")` it looks for an optarg called `timeout` in the global optargs and finds the term `r.js(\"1\")` it then tries to evaluate this term to get a value for the optarg. But of course before it can evaluate a `js` term it needs to have a look at the global optargs to see if there's a timeout. This eventually crashes the server with a stack overflow.\n\nI think we should just make optargs be statically evaluated (like `profile` and `noreply`) already are. I don't really think anyone has a need to pass complicated expressions as their optargs. And allowing them to do so would require something ugly like a flag to disable optargs during execution or something. It really doesn't seem worth it to have this ugliness.\n"
   , issueState = "closed"
   , issueId = Id 22612577
   , issueComments = 3
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

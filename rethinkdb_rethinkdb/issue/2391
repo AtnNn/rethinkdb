@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-13) 22 : 24 : 03 UTC
   , issueBody =
       Just
-        "The current `extproc_pool_t` is created with a maximum number of workers based on the number of threads:\r\n\r\n`src/clustering/administration/main/serve.cc`:\r\n```c\r\nextproc_pool_t extproc_pool(get_num_threads());\r\n```\r\n\r\nSince we are adding `r.http`, which may involve long-running queries, we should:\r\n\r\n1. increase the limit of extprocs\r\n2. add extproc deallocation window for when many extprocs are unused\r\n\r\nThis will be especially useful for when we add more parallelization in the query layer, and a single query may be running multiple extproc terms at the same time."
+        "The current `extproc_pool_t` is created with a maximum number of workers based on the number of threads:\n\n`src/clustering/administration/main/serve.cc`:\n\n``` c\nextproc_pool_t extproc_pool(get_num_threads());\n```\n\nSince we are adding `r.http`, which may involve long-running queries, we should:\n1. increase the limit of extprocs\n2. add extproc deallocation window for when many extprocs are unused\n\nThis will be especially useful for when we add more parallelization in the query layer, and a single query may be running multiple extproc terms at the same time.\n"
   , issueState = "closed"
   , issueId = Id 33445011
   , issueComments = 12

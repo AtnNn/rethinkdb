@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2015 (-03) (-21) 00 : 12 : 17 UTC
   , issueBody =
       Just
-        "Hey, I found this behavior in ReQL and believe it is a bug. \r\nIn any dataexplorer: (tested on both 1.15 and 1.16.x)\r\n```\r\nr.expr([{\"a\":1}, {\"a\":3}, {\"a\":4}]).do(function(subdoc){\r\n    var c1;\r\n    subdoc.map(function(itm){\r\n      c1 = itm(\"a\");\r\n      return itm;\r\n    });\r\n    return c1;\r\n});\r\n```\r\nexpected output: `4`, or at least something that's not an error.\r\nreceived output:\r\n```\r\nRqlCompileError: Variable name not found in:\r\nr([{a: 1}, {a: 3}, {a: 4}]).do(function(var_25) { return var_26(\"a\"); })\r\n                                                         ^^^^^^         \r\n```\r\n\r\nI'm writing an Array-of-Object --> Object-of-Array conversion in ReQL and this is the core issue that I am hitting. [Here's the StackOverflow](http://stackoverflow.com/questions/29177094/rethinkdb-array-of-object-to-object-of-array) I posted if anyone is kind enough to help me out."
+        "Hey, I found this behavior in ReQL and believe it is a bug. \nIn any dataexplorer: (tested on both 1.15 and 1.16.x)\n\n```\nr.expr([{\"a\":1}, {\"a\":3}, {\"a\":4}]).do(function(subdoc){\n    var c1;\n    subdoc.map(function(itm){\n      c1 = itm(\"a\");\n      return itm;\n    });\n    return c1;\n});\n```\n\nexpected output: `4`, or at least something that's not an error.\nreceived output:\n\n```\nRqlCompileError: Variable name not found in:\nr([{a: 1}, {a: 3}, {a: 4}]).do(function(var_25) { return var_26(\"a\"); })\n                                                         ^^^^^^         \n```\n\nI'm writing an Array-of-Object --> Object-of-Array conversion in ReQL and this is the core issue that I am hitting. [Here's the StackOverflow](http://stackoverflow.com/questions/29177094/rethinkdb-array-of-object-to-object-of-array) I posted if anyone is kind enough to help me out.\n"
   , issueState = "closed"
   , issueId = Id 63335602
   , issueComments = 10
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

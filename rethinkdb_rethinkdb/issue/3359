@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-11) (-20) 19 : 44 : 01 UTC
   , issueBody =
       Just
-        "See the code:\r\n\r\n```\r\nvoid os_signal_cond_t::on_thread_switch() {\r\n    // KSI: There's probably an outside chance of a use-after-free bug here.\r\n    do_on_thread(home_thread(), std::bind(&os_signal_cond_t::pulse, this));\r\n}\r\n```\r\n\r\nThere's nothing that guarantees the os_signal_cond_t will continue to exist when it gets pulsed.\r\n\r\nThis could be triggered if the server is sent a SIGINT while it's shutting down (or if it's sent two SIGINTs almost at the same time?)."
+        "See the code:\n\n```\nvoid os_signal_cond_t::on_thread_switch() {\n    // KSI: There's probably an outside chance of a use-after-free bug here.\n    do_on_thread(home_thread(), std::bind(&os_signal_cond_t::pulse, this));\n}\n```\n\nThere's nothing that guarantees the os_signal_cond_t will continue to exist when it gets pulsed.\n\nThis could be triggered if the server is sent a SIGINT while it's shutting down (or if it's sent two SIGINTs almost at the same time?).\n"
   , issueState = "open"
   , issueId = Id 49609280
   , issueComments = 0

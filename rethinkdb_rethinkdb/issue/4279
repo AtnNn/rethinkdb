@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2015 (-05) (-25) 20 : 47 : 21 UTC
   , issueBody =
       Just
-        "The `metadata_file_t` often writes in the following pattern: Start a `txn_t` in hard durability mode and do some writes. Call `~txn_t`, but before it finishes, start another `txn_t` in hard durability mode and do some writes. Repeat.\r\n\r\nWhen this happens, the storage engine is apparently doing all of the writes serially; it waits for each write to completely commit before starting the next one. I've observed `~txn_t` taking more than five seconds to return on rotational drives.\r\n\r\n@danielmewes, I think you mentioned that this is a known flaw in the buffer cache. Is it practical to fix? If not, we could work around it by running the transactions themselves in soft durability mode and then using a `pump_coro_t` to flush them."
+        "The `metadata_file_t` often writes in the following pattern: Start a `txn_t` in hard durability mode and do some writes. Call `~txn_t`, but before it finishes, start another `txn_t` in hard durability mode and do some writes. Repeat.\n\nWhen this happens, the storage engine is apparently doing all of the writes serially; it waits for each write to completely commit before starting the next one. I've observed `~txn_t` taking more than five seconds to return on rotational drives.\n\n@danielmewes, I think you mentioned that this is a known flaw in the buffer cache. Is it practical to fix? If not, we could work around it by running the transactions themselves in soft durability mode and then using a `pump_coro_t` to flush them.\n"
   , issueState = "closed"
   , issueId = Id 80663089
   , issueComments = 9

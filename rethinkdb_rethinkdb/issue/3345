@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-11) (-17) 01 : 03 : 53 UTC
   , issueBody =
       Just
-        "Querying a multi index does not return distinct documents. Is this behavior expected or undefined?\r\nCan the documentation specify the behavior?\r\n\r\nHow to reproduce:\r\n```ruby\r\n#!/usr/bin/env ruby\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\r\nr.db_drop(:test).run rescue nil\r\nr.db_create(:test).run\r\nr.table_create(:table).run\r\n\r\nr.table(:table).index_create(:field1, :multi => true).run\r\nr.table(:table).insert(:field1 => [1,2,3]).run # insert 1 document\r\nr.table(:table).get_all(1,2,3, :index => :field1).run.to_a # retrieve 3 documents\r\n```"
+        "Querying a multi index does not return distinct documents. Is this behavior expected or undefined?\nCan the documentation specify the behavior?\n\nHow to reproduce:\n\n``` ruby\n#!/usr/bin/env ruby\nrequire 'rethinkdb'\ninclude RethinkDB::Shortcuts\n\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\nr.db_drop(:test).run rescue nil\nr.db_create(:test).run\nr.table_create(:table).run\n\nr.table(:table).index_create(:field1, :multi => true).run\nr.table(:table).insert(:field1 => [1,2,3]).run # insert 1 document\nr.table(:table).get_all(1,2,3, :index => :field1).run.to_a # retrieve 3 documents\n```\n"
   , issueState = "closed"
   , issueId = Id 49023029
   , issueComments = 3

@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2014 (-08) (-15) 03 : 58 : 05 UTC
   , issueBody =
       Just
-        "Running a query like this\r\n```\r\nr.table('t').get('1234').update( {arr: r.row('arr').setUnion(largeArray) } )\r\n```\r\nwhere `largeArray` is a relatively large array (say 10000 entries) of small documents consumes ridiculous amounts of memory on the server (run ~150 of them at a time and you get into the tenths of GB).\r\n\r\nProfiling shows that this memory is used in Google Protocol buffer objects. It seems that we create a lot of copies of the query Term (some for backtraces, some for rewriting the update, possibly some for other reasons), and that furthermore the protocol buffer representation of arrays is extremely wasteful (*Update*: This might not be true to that extent, see the next comment regarding backtraces).\r\n\r\nThe problem can be worked around by writing\r\n```\r\nr.table('t').get('1234').update( {arr: r.row('arr').setUnion(r.json(JSON.stringify(largeArray))) } )\r\n```\r\nMy guess is that having a single string Term is a lot more memory efficient than having an array of nested Terms.\r\n\r\nMy impression is that the copying is also very slow (I got web UI timeouts).\r\n\r\n\r\nI'm not sure what the best way of fixing this is. Maybe we could get rid of protocol buffers inside the server and pass Terms and functions around in a different format that we have more control over."
+        "Running a query like this\n\n```\nr.table('t').get('1234').update( {arr: r.row('arr').setUnion(largeArray) } )\n```\n\nwhere `largeArray` is a relatively large array (say 10000 entries) of small documents consumes ridiculous amounts of memory on the server (run ~150 of them at a time and you get into the tenths of GB).\n\nProfiling shows that this memory is used in Google Protocol buffer objects. It seems that we create a lot of copies of the query Term (some for backtraces, some for rewriting the update, possibly some for other reasons), and that furthermore the protocol buffer representation of arrays is extremely wasteful (_Update_: This might not be true to that extent, see the next comment regarding backtraces).\n\nThe problem can be worked around by writing\n\n```\nr.table('t').get('1234').update( {arr: r.row('arr').setUnion(r.json(JSON.stringify(largeArray))) } )\n```\n\nMy guess is that having a single string Term is a lot more memory efficient than having an array of nested Terms.\n\nMy impression is that the copying is also very slow (I got web UI timeouts).\n\nI'm not sure what the best way of fixing this is. Maybe we could get rid of protocol buffers inside the server and pass Terms and functions around in a different format that we have more control over.\n"
   , issueState = "closed"
   , issueId = Id 40321306
   , issueComments = 9
@@ -57,7 +57,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2016 (-01) (-19) 18 : 23 : 53 UTC
   , issueBody =
       Just
-        "Currently if you call `.get()` with a key that is too long, you can't catch it with a `.default()`. This can be annoying if you're filtering based on a join since, as far as I know, the only workaround is to check the key length yourself first. This isn't exactly straight forward to do, especially if you're using a compound primary key.\r\n\r\n```js\r\ntable.filter(\r\n  r.or(\r\n    r.add(r.row('lab_code'), r.row('test_code')).split('').count().ge(124),\r\n    other_table.get([ r.row('lab_code'), r.row('test_code') ]).eq(null)\r\n  )\r\n)\r\n\r\n// vs\r\n\r\ntable.filter(\r\n  other_table.get([ r.row('lab_code'), r.row('test_code') ]).eq(null).default(true)\r\n)\r\n```"
+        "Currently if you call `.get()` with a key that is too long, you can't catch it with a `.default()`. This can be annoying if you're filtering based on a join since, as far as I know, the only workaround is to check the key length yourself first. This isn't exactly straight forward to do, especially if you're using a compound primary key.\n\n``` js\ntable.filter(\n  r.or(\n    r.add(r.row('lab_code'), r.row('test_code')).split('').count().ge(124),\n    other_table.get([ r.row('lab_code'), r.row('test_code') ]).eq(null)\n  )\n)\n\n// vs\n\ntable.filter(\n  other_table.get([ r.row('lab_code'), r.row('test_code') ]).eq(null).default(true)\n)\n```\n"
   , issueState = "open"
   , issueId = Id 127507670
   , issueComments = 1

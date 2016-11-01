@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-02) (-21) 03 : 31 : 00 UTC
   , issueBody =
       Just
-        "`drivers/python/rethinkdb/_export.py` contains the following line:\r\n`table_size = r.db(db).table(table).count().run(conn)`\r\n\r\nApparently the result is used for computing the relative progress.\r\n\r\nThere are two problems with this:\r\n1. count() on a large out-of-memory table can be slow.\r\n2. In extreme cases it can become so slow that it times out, and users cannot backup their tables anymore.\r\n\r\n@wojons encountered this, but with an older version of RethinkDB that did the `count()` inefficiently. However in general it seems plausible that this could occur with a current version as well, if the table is just large enough.\r\n\r\nIdeally, we would expose the approximate table count through ReQL and use that to get an approximate progress bar. Probably it should become part of `r.table().info()`.\r\n\r\nAnother work-around could be to catch timeout errors during the count, print a message and ignore them, or add a command line option to disable count and progress bar, and on a timeout print a message mentioning that option."
+        "`drivers/python/rethinkdb/_export.py` contains the following line:\n`table_size = r.db(db).table(table).count().run(conn)`\n\nApparently the result is used for computing the relative progress.\n\nThere are two problems with this:\n1. count() on a large out-of-memory table can be slow.\n2. In extreme cases it can become so slow that it times out, and users cannot backup their tables anymore.\n\n@wojons encountered this, but with an older version of RethinkDB that did the `count()` inefficiently. However in general it seems plausible that this could occur with a current version as well, if the table is just large enough.\n\nIdeally, we would expose the approximate table count through ReQL and use that to get an approximate progress bar. Probably it should become part of `r.table().info()`.\n\nAnother work-around could be to catch timeout errors during the count, print a message and ignore them, or add a command line option to disable count and progress bar, and on a timeout print a message mentioning that option.\n"
   , issueState = "closed"
   , issueId = Id 28016672
   , issueComments = 18
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

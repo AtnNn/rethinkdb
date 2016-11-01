@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2016 (-09) (-07) 23 : 18 : 24 UTC
   , issueBody =
       Just
-        "Prior to some discussion with @danielmewes on Slack today, I had assumed all sorting operations in RethinkDB were stable. In particular, when comparing the field value of two documents, I assumed if the values were equal, we would fall back to comparing the documents in some deterministic fashion. Instead, it appears that document order is simply preserved from the input stream in this case.\r\n\r\nIt's worth noting that indexed `orderBy` is in fact stable since, internally, the secondary index is suffixed with the document's primary key. The discrepancy between an indexed and non-indexed sort is what caused confusion for me and it seems kinda bad as default behavior.\r\n\r\nI think we should consider making `orderBy` stable by default. In other words I think the following should produce the same (stable) result when multiple documents contain the same value for `foo`:\r\n\r\n- `.orderBy(index: 'foo')`\r\n- `.orderBy('foo')`\r\n- `.orderBy('foo', r.row)`\r\n\r\nDoesn't seem like there would be huge perf costs associated with this change, but even if there were I think I'd prefer a stable sort by default with an optarg to disable over the existing behavior."
+        "Prior to some discussion with @danielmewes on Slack today, I had assumed all sorting operations in RethinkDB were stable. In particular, when comparing the field value of two documents, I assumed if the values were equal, we would fall back to comparing the documents in some deterministic fashion. Instead, it appears that document order is simply preserved from the input stream in this case.\n\nIt's worth noting that indexed `orderBy` is in fact stable since, internally, the secondary index is suffixed with the document's primary key. The discrepancy between an indexed and non-indexed sort is what caused confusion for me and it seems kinda bad as default behavior.\n\nI think we should consider making `orderBy` stable by default. In other words I think the following should produce the same (stable) result when multiple documents contain the same value for `foo`:\n- `.orderBy(index: 'foo')`\n- `.orderBy('foo')`\n- `.orderBy('foo', r.row)`\n\nDoesn't seem like there would be huge perf costs associated with this change, but even if there were I think I'd prefer a stable sort by default with an optarg to disable over the existing behavior.\n"
   , issueState = "closed"
   , issueId = Id 175629216
   , issueComments = 3
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

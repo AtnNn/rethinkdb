@@ -1,6 +1,6 @@
 Issue
   { issueClosedAt = Nothing
-  , issueUpdatedAt = 2016 (-10) (-26) 12 : 26 : 13 UTC
+  , issueUpdatedAt = 2016 (-10) (-31) 09 : 04 : 52 UTC
   , issueEventsUrl =
       "https://api.github.com/repos/rethinkdb/rethinkdb/issues/6151/events"
   , issueHtmlUrl =
@@ -32,10 +32,10 @@ Issue
   , issueCreatedAt = 2016 (-10) (-21) 09 : 04 : 35 UTC
   , issueBody =
       Just
-        "I'm working on connecting RethinkDB to Drupal and I manage to make it [happen](http://github.com/roysegall/rethinkdb).\r\n\r\nThe next step I'm working on is to set up RethinDB as a cache layer. I started doing and I managed to achieve it but there some performance problem. Let's start from the good part: If we grab 1,000 records using `getAll`(when the cid property is a secondary index) the operation takes something like 0.045MS unlike MySQL with the use of the `in_array` operator that operation takes 0.065MS. Amazing indeed.\r\n\r\nThe problem is that Drupal don't grab all the cache IDs in advanced this make us to a single get query each time. That mean that every time Drupal want a case item through the page request there is a query for grabbing a single cache item. RethinkDB manages to do this in about 0.5MS and MySQL manage to do this in 0.3MS - the opposite!\r\n\r\nI tested it in [NodeJS](https://github.com/RoySegall/rethinkdb-vs-mysql):\r\n```bash\r\n node mysqlSingle.js \r\n21.694164007902145\r\n\r\n  node rethinkdbSingle.js \r\n124.16566601395607\r\n\r\n  node mysqlMultiple.js \r\n33.92554399371147\r\n\r\n  node rethinkdbMultiple.js \r\n26.24260601401329\r\n```\r\n\r\nSo, why the roundtrip for a Single item is worse in RethinkDB than MySQL but the other way around when the roundtrip is with 1,000 items or more?"
+        "I'm working on connecting RethinkDB to Drupal and I manage to make it [happen](http://github.com/roysegall/rethinkdb).\n\nThe next step I'm working on is to set up RethinDB as a cache layer. I started doing and I managed to achieve it but there some performance problem. Let's start from the good part: If we grab 1,000 records using `getAll`(when the cid property is a secondary index) the operation takes something like 0.045MS unlike MySQL with the use of the `in_array` operator that operation takes 0.065MS. Amazing indeed.\n\nThe problem is that Drupal don't grab all the cache IDs in advanced this make us to a single get query each time. That mean that every time Drupal want a case item through the page request there is a query for grabbing a single cache item. RethinkDB manages to do this in about 0.5MS and MySQL manage to do this in 0.3MS - the opposite!\n\nI tested it in [NodeJS](https://github.com/RoySegall/rethinkdb-vs-mysql):\n\n``` bash\n node mysqlSingle.js \n21.694164007902145\n\n  node rethinkdbSingle.js \n124.16566601395607\n\n  node mysqlMultiple.js \n33.92554399371147\n\n  node rethinkdbMultiple.js \n26.24260601401329\n```\n\nSo, why the roundtrip for a Single item is worse in RethinkDB than MySQL but the other way around when the roundtrip is with 1,000 items or more?\n"
   , issueState = "open"
   , issueId = Id 184434949
-  , issueComments = 5
+  , issueComments = 8
   , issueMilestone =
       Just
         Milestone

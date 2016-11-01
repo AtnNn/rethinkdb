@@ -50,7 +50,7 @@ Issue
   , issueCreatedAt = 2016 (-05) (-18) 11 : 43 : 12 UTC
   , issueBody =
       Just
-        "- [X] I have read and agreed to the RethinkDB Contributor License Agreement http://rethinkdb.com/community/cla/\r\n\r\n### Description\r\nRuby seems to add some garbage beyond the provided epoch_time resolution, which makes the read times be slightly after the originally saved times. This is specially evident when running tests.\r\n\r\n```\r\n2.2.4 :006 > Time.at(1463567776.592).iso8601(30)\r\n => \"2016-05-18T12:36:16.592000007629394531250000000000+02:00\"\r\n2.2.4 :007 > Time.at(1463567776.592).round(3).iso8601(30)\r\n => \"2016-05-18T12:36:16.592000000000000000000000000000+02:00\"\r\n```\r\n\r\nThis PR just rounds the times as shown in the code example above after reading them, removing the bogus microseconds.\r\n\r\nPS: I'd love to write some tests, but to run the test suite I need to build the server, which is failing for me with an `npm` error \128546 (Currently it is breaking on `admin-deps_2.0.3` because `npm ERR! registry URL is required`) . Help would be appreciated."
+        "- [X] I have read and agreed to the RethinkDB Contributor License Agreement http://rethinkdb.com/community/cla/\n### Description\n\nRuby seems to add some garbage beyond the provided epoch_time resolution, which makes the read times be slightly after the originally saved times. This is specially evident when running tests.\n\n```\n2.2.4 :006 > Time.at(1463567776.592).iso8601(30)\n => \"2016-05-18T12:36:16.592000007629394531250000000000+02:00\"\n2.2.4 :007 > Time.at(1463567776.592).round(3).iso8601(30)\n => \"2016-05-18T12:36:16.592000000000000000000000000000+02:00\"\n```\n\nThis PR just rounds the times as shown in the code example above after reading them, removing the bogus microseconds.\n\nPS: I'd love to write some tests, but to run the test suite I need to build the server, which is failing for me with an `npm` error \128546 (Currently it is breaking on `admin-deps_2.0.3` because `npm ERR! registry URL is required`) . Help would be appreciated.\n"
   , issueState = "closed"
   , issueId = Id 155480731
   , issueComments = 3
@@ -67,7 +67,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

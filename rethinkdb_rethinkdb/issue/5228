@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2015 (-12) (-20) 13 : 50 : 00 UTC
   , issueBody =
       Just
-        "If you insert an object including a LocalDateTime, you get the exception:\r\n`java.time.temporal.UnsupportedTemporalTypeException: Unsupported field: OffsetSeconds`\r\n\r\nThis is because the method `ast.Util.toReqlAst()` uses the formatting pattern `\"yyyy-MM-dd'T'HH:mm:ss.SSSX\"` at line 90. The `LocatDateTime` does not support timezone at all (it is not a local timezone !).  The format should not include a timezone at all (maybe a fixed text) or the `LocalDateTime` should be converted to an `OffsetDateTime` before formatting.  \r\n\r\nCurrently the method attempts (and fails) try to insert an arbitrary timezone (the one where the program happens to execute).  This is likely confusing, as specifying a local time zone is not the same as the 'timezone is not relevant' which is the semantic of the (not very well named) LocalDateTime. But I do not known enough of the DB internals to know what is the best representation in this case. "
+        "If you insert an object including a LocalDateTime, you get the exception:\n`java.time.temporal.UnsupportedTemporalTypeException: Unsupported field: OffsetSeconds`\n\nThis is because the method `ast.Util.toReqlAst()` uses the formatting pattern `\"yyyy-MM-dd'T'HH:mm:ss.SSSX\"` at line 90. The `LocatDateTime` does not support timezone at all (it is not a local timezone !).  The format should not include a timezone at all (maybe a fixed text) or the `LocalDateTime` should be converted to an `OffsetDateTime` before formatting.  \n\nCurrently the method attempts (and fails) try to insert an arbitrary timezone (the one where the program happens to execute).  This is likely confusing, as specifying a local time zone is not the same as the 'timezone is not relevant' which is the semantic of the (not very well named) LocalDateTime. But I do not known enough of the DB internals to know what is the best representation in this case. \n"
   , issueState = "open"
   , issueId = Id 123160749
   , issueComments = 1
@@ -49,7 +49,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

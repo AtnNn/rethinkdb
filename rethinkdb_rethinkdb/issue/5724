@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2016 (-04) (-26) 23 : 41 : 37 UTC
   , issueBody =
       Just
-        "Hi,\r\n\r\nIt'd be great if we were able to return a paginated set of posts that were created within a 100 mile radius, ordered by their creation time. At the moment, this isn't achievable and given the number of location based apps, it feels like it would be a great use case for rethinkdb to cater for.\r\n\r\n```\r\nr.table('post')\r\n.between( r.minval, 1461538858043, { rightBound: 'open', index: 'creationTimestamp' })\r\n.orderBy({ index: r.desc('creationTimestamp') })\r\n.getIntersecting(r.circle(r.point(-122.3899066 , 37.7835826), 100, { unit: 'mi' }), { index: 'coordinates' })\r\n.limit(50)\r\n```\r\n\r\nThis query would specifically be used to show paginated content to a user posted by other users within a radius set by the user consuming the content."
+        "Hi,\n\nIt'd be great if we were able to return a paginated set of posts that were created within a 100 mile radius, ordered by their creation time. At the moment, this isn't achievable and given the number of location based apps, it feels like it would be a great use case for rethinkdb to cater for.\n\n```\nr.table('post')\n.between( r.minval, 1461538858043, { rightBound: 'open', index: 'creationTimestamp' })\n.orderBy({ index: r.desc('creationTimestamp') })\n.getIntersecting(r.circle(r.point(-122.3899066 , 37.7835826), 100, { unit: 'mi' }), { index: 'coordinates' })\n.limit(50)\n```\n\nThis query would specifically be used to show paginated content to a user posted by other users within a radius set by the user consuming the content.\n"
   , issueState = "open"
   , issueId = Id 151265026
   , issueComments = 1

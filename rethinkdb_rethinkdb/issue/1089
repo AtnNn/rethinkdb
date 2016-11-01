@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2013 (-06) (-27) 21 : 06 : 32 UTC
   , issueBody =
       Just
-        "```\r\nr.expr([1,2,3,4]).changeAt(2, function(doc) { return doc+1})\r\n```\r\n\r\nI would expect to get back `[1,2, 4, 4]`, but now we get\r\n```\r\nRqlRuntimeError: Expected type DATUM but found FUNCTION:\r\nOPAQUE VALUE FUNCTION in:\r\nr([1, 2, 3, 4]).changeAt(2, function(var_0) { return \"var_01\"; })\r\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ \r\n```\r\n\r\nWe have a work around now with \r\n```\r\nr.expr([1,2,3,4]).do(function(ar) {\r\n  return ar.changeAt(2, ar.nth(2).add(1))\r\n})\r\n```\r\n\r\nBut it's not as good as with a lambda function."
+        "```\nr.expr([1,2,3,4]).changeAt(2, function(doc) { return doc+1})\n```\n\nI would expect to get back `[1,2, 4, 4]`, but now we get\n\n```\nRqlRuntimeError: Expected type DATUM but found FUNCTION:\nOPAQUE VALUE FUNCTION in:\nr([1, 2, 3, 4]).changeAt(2, function(var_0) { return \"var_01\"; })\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ \n```\n\nWe have a work around now with \n\n```\nr.expr([1,2,3,4]).do(function(ar) {\n  return ar.changeAt(2, ar.nth(2).add(1))\n})\n```\n\nBut it's not as good as with a lambda function.\n"
   , issueState = "open"
   , issueId = Id 16114290
   , issueComments = 12

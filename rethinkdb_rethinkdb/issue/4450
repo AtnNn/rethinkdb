@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2015 (-06) (-25) 03 : 12 : 28 UTC
   , issueBody =
       Just
-        "I'm using rethinkdbdash to run a query like so:\r\n\r\n```javascript\r\nr.table(tables[index])\r\n\t.between(r.minval, r.now().sub(oldestDocAge), { index: 'time' })\r\n\t.orderBy({ index: r.asc('time') })\r\n\t.limit(deleteCount)\r\n\t.delete()\r\n\t.run()\r\n\t.then(doNext)\r\n```\r\n\r\nFull source: https://github.com/cyounkins/purge-db/blob/master/src/index.ts\r\n\r\nAs you can see, the limit() uses a constant. Why then does the result sometimes come back:\r\n\r\n```\r\n{ deleted: 96,\r\n  errors: 0,\r\n  inserted: 0,\r\n  replaced: 0,\r\n  skipped: 4,\r\n  unchanged: 0 }\r\n```\r\n\r\nThere are inserts going on (about 50 per second), but there are no other delete operations running.\r\n\r\nThe table in question has 2 shards, 2 replicas per shard, and two indices."
+        "I'm using rethinkdbdash to run a query like so:\n\n``` javascript\nr.table(tables[index])\n    .between(r.minval, r.now().sub(oldestDocAge), { index: 'time' })\n    .orderBy({ index: r.asc('time') })\n    .limit(deleteCount)\n    .delete()\n    .run()\n    .then(doNext)\n```\n\nFull source: https://github.com/cyounkins/purge-db/blob/master/src/index.ts\n\nAs you can see, the limit() uses a constant. Why then does the result sometimes come back:\n\n```\n{ deleted: 96,\n  errors: 0,\n  inserted: 0,\n  replaced: 0,\n  skipped: 4,\n  unchanged: 0 }\n```\n\nThere are inserts going on (about 50 per second), but there are no other delete operations running.\n\nThe table in question has 2 shards, 2 replicas per shard, and two indices.\n"
   , issueState = "closed"
   , issueId = Id 90838280
   , issueComments = 17

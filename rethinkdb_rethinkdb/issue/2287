@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-04) (-21) 13 : 53 : 40 UTC
   , issueBody =
       Just
-        "Using this for setup:\r\nr.dbCreate('test')\r\nr.db('test').tableCreate('reduce_stuff')\r\nr.db('test').table('reduce_stuff').insert([{id: 'item1', 'a': 1, 'b': 2}, {id: 'item2', 'c': 3, 'd': 4}])\r\nr.db('test').table('reduce_stuff')\r\n  .map(function(r) {return r.coerceTo('array')})\r\n  .reduce(function(acc, s) {return acc.add(s)}, [])\r\n  .reduce(function(acc2, t) {return acc2.add([t.nth(1)])}, [])\r\n\r\nIn version 1.11.3, this returns:\r\n[\r\n3 ,\r\n4 ,\r\n\"item2\" ,\r\n1 ,\r\n2 ,\r\n\"item1\"\r\n]\r\n\r\nIn version 1.12.3, the same query returns:\r\n[\r\n\"a\" ,\r\n1 ,\r\n2 ,\r\n\"item1\" ,\r\n3 ,\r\n4 ,\r\n\"item2\"\r\n]\r\n(The \"a\" seems to be erroneously included)\r\nNow, the same thing can (and maybe really should) be done with a map() in place of the last reduce(), which works fine, but it might be worth checking out any changes made to reduce()."
+        "Using this for setup:\nr.dbCreate('test')\nr.db('test').tableCreate('reduce_stuff')\nr.db('test').table('reduce_stuff').insert([{id: 'item1', 'a': 1, 'b': 2}, {id: 'item2', 'c': 3, 'd': 4}])\nr.db('test').table('reduce_stuff')\n  .map(function(r) {return r.coerceTo('array')})\n  .reduce(function(acc, s) {return acc.add(s)}, [])\n  .reduce(function(acc2, t) {return acc2.add([t.nth(1)])}, [])\n\nIn version 1.11.3, this returns:\n[\n3 ,\n4 ,\n\"item2\" ,\n1 ,\n2 ,\n\"item1\"\n]\n\nIn version 1.12.3, the same query returns:\n[\n\"a\" ,\n1 ,\n2 ,\n\"item1\" ,\n3 ,\n4 ,\n\"item2\"\n](The \"a\" seems to be erroneously included)\nNow, the same thing can (and maybe really should) be done with a map() in place of the last reduce(), which works fine, but it might be worth checking out any changes made to reduce().\n"
   , issueState = "closed"
   , issueId = Id 31896781
   , issueComments = 8
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

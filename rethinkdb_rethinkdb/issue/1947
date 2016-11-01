@@ -48,7 +48,7 @@ Issue
   , issueCreatedAt = 2014 (-02) (-13) 23 : 14 : 28 UTC
   , issueBody =
       Just
-        "For example in file `src/rdb_protocol/btree.cc`, definition for `rdb_modification_report_cb_t::on_mod_report()`:\r\n```cpp\r\n...\r\nwrite_message_t wm;\r\nwm << rdb_sindex_change_t(mod_report);\r\nstore_->sindex_queue_push(wm, &acq);\r\n...\r\n```\r\n(there are two or three more places that do basically the same thing)\r\n\r\n`sindex_queue_push()` has a loop that iterates over the current sindex queues and pushes the serialized mod_report onto those. Unless an sindex is in construction stage, there are no sindex queues as far as I know. The mod_report is serialized after each write without ever being used.\r\n\r\nI have not yet empirically measured the impact of it, but it's easy to change."
+        "For example in file `src/rdb_protocol/btree.cc`, definition for `rdb_modification_report_cb_t::on_mod_report()`:\n\n``` cpp\n...\nwrite_message_t wm;\nwm << rdb_sindex_change_t(mod_report);\nstore_->sindex_queue_push(wm, &acq);\n...\n```\n\n(there are two or three more places that do basically the same thing)\n\n`sindex_queue_push()` has a loop that iterates over the current sindex queues and pushes the serialized mod_report onto those. Unless an sindex is in construction stage, there are no sindex queues as far as I know. The mod_report is serialized after each write without ever being used.\n\nI have not yet empirically measured the impact of it, but it's easy to change.\n"
   , issueState = "closed"
   , issueId = Id 27561029
   , issueComments = 2

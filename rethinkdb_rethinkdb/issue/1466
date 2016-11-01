@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2013 (-09) (-20) 15 : 09 : 09 UTC
   , issueBody =
       Just
-        "Right now multiple joins (>2) not very intuitive and results are not very usable.\r\n\r\n```ruby\r\nr.table(\"links\").eq_join(\"comment_id\", r.table(\"comments\"))\r\n  .eq_join(lambda {|d| d['right'][:post_id]}, r.table('posts')).run\r\n\r\n# =>\r\n\r\n[{\"right\"=>\r\n   {\"title\"=>\"Test title\",\r\n    \"id\"=>\"523b2a9b27dbe50d10000001\",\r\n    \"content\"=>\"Text Text Text Text Text Text \",\r\n    \"author\"=>\"Alex\"},\r\n  \"left\"=>\r\n   {\"right\"=>\r\n     {\"post_id\"=>\"523b2a9b27dbe50d10000001\",\r\n      \"id\"=>\"523b2a9b27dbe50d10000002\",\r\n      \"body\"=>\"Text Text Text Text Text \"},\r\n    \"left\"=>\r\n     {\"url\"=>\"http://google.com\",\r\n      \"id\"=>\"523b4cc127dbe52b4f000003\",\r\n      \"comment_id\"=>\"523b2a9b27dbe50d10000002\"}}}]\r\n```\r\n\r\nI propose to change it to something like this:\r\n\r\n```ruby\r\nr.table(\"links\").eq_join(:comment_id, r.table(\"comments\"))\r\n  .eq_join(:post_id, r.table('posts')).run\r\n\r\n# =>\r\n\r\n[{\"post\"=>\r\n   {\"title\"=>\"Test title\",\r\n    \"id\"=>\"523b2a9b27dbe50d10000001\",\r\n    \"content\"=>\"Text Text Text Text Text Text \",\r\n    \"author\"=>\"Alex\"},\r\n  \"comment\"=>\r\n    {\"post_id\"=>\"523b2a9b27dbe50d10000001\",\r\n    \"id\"=>\"523b2a9b27dbe50d10000002\",\r\n    \"body\"=>\"Text Text Text Text Text \"},\r\n  \"link\"=>\r\n    {\"url\"=>\"http://google.com\",\r\n    \"id\"=>\"523b4cc127dbe52b4f000003\",\r\n    \"comment_id\"=>\"523b2a9b27dbe50d10000002\"}\r\n}]\r\n```"
+        "Right now multiple joins (>2) not very intuitive and results are not very usable.\n\n``` ruby\nr.table(\"links\").eq_join(\"comment_id\", r.table(\"comments\"))\n  .eq_join(lambda {|d| d['right'][:post_id]}, r.table('posts')).run\n\n# =>\n\n[{\"right\"=>\n   {\"title\"=>\"Test title\",\n    \"id\"=>\"523b2a9b27dbe50d10000001\",\n    \"content\"=>\"Text Text Text Text Text Text \",\n    \"author\"=>\"Alex\"},\n  \"left\"=>\n   {\"right\"=>\n     {\"post_id\"=>\"523b2a9b27dbe50d10000001\",\n      \"id\"=>\"523b2a9b27dbe50d10000002\",\n      \"body\"=>\"Text Text Text Text Text \"},\n    \"left\"=>\n     {\"url\"=>\"http://google.com\",\n      \"id\"=>\"523b4cc127dbe52b4f000003\",\n      \"comment_id\"=>\"523b2a9b27dbe50d10000002\"}}}]\n```\n\nI propose to change it to something like this:\n\n``` ruby\nr.table(\"links\").eq_join(:comment_id, r.table(\"comments\"))\n  .eq_join(:post_id, r.table('posts')).run\n\n# =>\n\n[{\"post\"=>\n   {\"title\"=>\"Test title\",\n    \"id\"=>\"523b2a9b27dbe50d10000001\",\n    \"content\"=>\"Text Text Text Text Text Text \",\n    \"author\"=>\"Alex\"},\n  \"comment\"=>\n    {\"post_id\"=>\"523b2a9b27dbe50d10000001\",\n    \"id\"=>\"523b2a9b27dbe50d10000002\",\n    \"body\"=>\"Text Text Text Text Text \"},\n  \"link\"=>\n    {\"url\"=>\"http://google.com\",\n    \"id\"=>\"523b4cc127dbe52b4f000003\",\n    \"comment_id\"=>\"523b2a9b27dbe50d10000002\"}\n}]\n```\n"
   , issueState = "closed"
   , issueId = Id 19822749
   , issueComments = 6
@@ -57,7 +57,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

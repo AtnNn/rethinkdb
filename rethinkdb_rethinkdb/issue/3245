@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2014 (-10) (-24) 19 : 22 : 10 UTC
   , issueBody =
       Just
-        "Today I test RethinkDB vs MySQL, and what I see?\r\n\r\nRethinkDB is very slow when I using Limit or Group with Sum, Insert and Read.\r\nThis is a results for 2 million records on last MB Pro:\r\n\r\n    SELECT SQL_NO_CACHE * FROM table limit 1000000, 10; -- MySQL==5.6.21, InnoDB\r\n    319ms\r\n\r\n    r.table(\"table\").skip(1000000).limit(10) // RethinkDB==1.15.1\r\n    7.84s\r\n\r\nSimple select:\r\n\r\n    SELECT * FROM table WHERE slug = 'd4436de862fbc706d76608a8818a1158';\r\n    2,5ms\r\n\r\n    table(\"table\").filter(r.row('slug').eq('d4436de862fbc706d76608a8818a1158'))\r\n    5.28s.\r\n\r\nInsert 2 million records:\r\n\r\n    MySQL: 25 sec. all in one + Index for 2 fields, . CPU < 84%\r\n    RethinkDB: 17m by 50k rows + Indexing 2 fields. If > 50k, I get socket error. . CPU > 400%, Mem: 1k+\r\n\r\nFor read & aggregate I get equal results above.\r\nI think, it's a very-very bad results.\r\n\r\nI can say, MongoDB showed worse results.\r\nYou can test all by your self. All my interest for RethinkDB this is a GUI and sharding. Results is sad but true ...\r\nYou can close or remove this issue, but I believe you can do it better!\r\n"
+        "Today I test RethinkDB vs MySQL, and what I see?\n\nRethinkDB is very slow when I using Limit or Group with Sum, Insert and Read.\nThis is a results for 2 million records on last MB Pro:\n\n```\nSELECT SQL_NO_CACHE * FROM table limit 1000000, 10; -- MySQL==5.6.21, InnoDB\n319ms\n\nr.table(\"table\").skip(1000000).limit(10) // RethinkDB==1.15.1\n7.84s\n```\n\nSimple select:\n\n```\nSELECT * FROM table WHERE slug = 'd4436de862fbc706d76608a8818a1158';\n2,5ms\n\ntable(\"table\").filter(r.row('slug').eq('d4436de862fbc706d76608a8818a1158'))\n5.28s.\n```\n\nInsert 2 million records:\n\n```\nMySQL: 25 sec. all in one + Index for 2 fields, . CPU < 84%\nRethinkDB: 17m by 50k rows + Indexing 2 fields. If > 50k, I get socket error. . CPU > 400%, Mem: 1k+\n```\n\nFor read & aggregate I get equal results above.\nI think, it's a very-very bad results.\n\nI can say, MongoDB showed worse results.\nYou can test all by your self. All my interest for RethinkDB this is a GUI and sharding. Results is sad but true ...\nYou can close or remove this issue, but I believe you can do it better!\n"
   , issueState = "closed"
   , issueId = Id 46774218
   , issueComments = 52
@@ -51,7 +51,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

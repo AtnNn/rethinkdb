@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2014 (-11) (-01) 02 : 53 : 10 UTC
   , issueBody =
       Just
-        "In some of my integration tests, I have code like this:\r\n```python\r\nr.table(\"foo\").reconfigure(...).run(conn)\r\nr.table_wait(\"foo\").run(conn)\r\nr.table(\"foo\").blah_blah_blah().run(conn)\r\n```\r\nThe third query often fails with a message about the table not being ready yet. I've written a stronger version of the `integration.table_wait` test (https://github.com/rethinkdb/rethinkdb/blob/tim/table-wait/test/interface/table_wait.py) which reproduces this bug about half of the time.\r\n\r\nI speculate that this is a race condition involving metadata propagation. If I add a `time.sleep(1)` after the call to `r.table_wait()`, then it consistently works."
+        "In some of my integration tests, I have code like this:\n\n``` python\nr.table(\"foo\").reconfigure(...).run(conn)\nr.table_wait(\"foo\").run(conn)\nr.table(\"foo\").blah_blah_blah().run(conn)\n```\n\nThe third query often fails with a message about the table not being ready yet. I've written a stronger version of the `integration.table_wait` test (https://github.com/rethinkdb/rethinkdb/blob/tim/table-wait/test/interface/table_wait.py) which reproduces this bug about half of the time.\n\nI speculate that this is a race condition involving metadata propagation. If I add a `time.sleep(1)` after the call to `r.table_wait()`, then it consistently works.\n"
   , issueState = "closed"
   , issueId = Id 47479055
   , issueComments = 11

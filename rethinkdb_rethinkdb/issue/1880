@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-01) (-20) 05 : 24 : 05 UTC
   , issueBody =
       Just
-        "While I am trying insert data to a database I am getting the the following error:\r\n\r\n```\r\n{:error :runtime-error, :token 110, \r\n:response (\"Expected type DATUM but found DATABASE:\\ndb(\\\"metrics\\\")\"), :backtrace \r\n{:frames [{:type :pos, :pos 0} {:type :pos, :pos 0}]}}\r\n```\r\n\r\nI use the Clojure library for the insert.\r\n\r\n```\r\n; [db table data timeout]\r\n(insert-table \"metrics\" \"90abdcf519745e69053939a0a86bf087\" {:id 1390161960, :host \"ec2-50-2-3-1.compute-1.amazonaws.com\", :proc.stat.cpu.user 34, :proc.stat.cpu.idle 37} 15000)\r\n```\r\n\r\nI am just wondering that these sort of issues happen because there is a mismatch between the protobuf version between the client and the server?\r\n\r\nHere is the pro to file for the client.\r\n\r\nhttps://github.com/bitemyapp/revise/blob/master/resources/proto/rethinkdb.proto\r\n\r\nVersions:\r\n\r\nrethinkdb 1.11.3 (CLANG 5.0 (clang-500.2.79))\r\nrevise 0.0.5\r\n\r\nI can insert data through the web UI fine.\r\n\r\n```\r\nr.db(\"metrics\")\r\n.table(\"90abdcf519745e69053939a0a86bf087\")\r\n.insert({\"host\":\"host\",\"proc.stat.cpu.user\":10,\"proc.stat.cpu.idle\":90,\"id\":1})\r\n```\r\n\r\nThank you in advance.\r\n"
+        "While I am trying insert data to a database I am getting the the following error:\n\n```\n{:error :runtime-error, :token 110, \n:response (\"Expected type DATUM but found DATABASE:\\ndb(\\\"metrics\\\")\"), :backtrace \n{:frames [{:type :pos, :pos 0} {:type :pos, :pos 0}]}}\n```\n\nI use the Clojure library for the insert.\n\n```\n; [db table data timeout]\n(insert-table \"metrics\" \"90abdcf519745e69053939a0a86bf087\" {:id 1390161960, :host \"ec2-50-2-3-1.compute-1.amazonaws.com\", :proc.stat.cpu.user 34, :proc.stat.cpu.idle 37} 15000)\n```\n\nI am just wondering that these sort of issues happen because there is a mismatch between the protobuf version between the client and the server?\n\nHere is the pro to file for the client.\n\nhttps://github.com/bitemyapp/revise/blob/master/resources/proto/rethinkdb.proto\n\nVersions:\n\nrethinkdb 1.11.3 (CLANG 5.0 (clang-500.2.79))\nrevise 0.0.5\n\nI can insert data through the web UI fine.\n\n```\nr.db(\"metrics\")\n.table(\"90abdcf519745e69053939a0a86bf087\")\n.insert({\"host\":\"host\",\"proc.stat.cpu.user\":10,\"proc.stat.cpu.idle\":90,\"id\":1})\n```\n\nThank you in advance.\n"
   , issueState = "closed"
   , issueId = Id 25898673
   , issueComments = 6
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-05) (-04) 21 : 52 : 18 UTC
   , issueBody =
       Just
-        "For a conditional update query:\r\n```js\r\nr.table(table).get(id).update(function(doc) {\r\n  return r.branch(\r\n    some_predicate_on_doc,\r\n    some_expression_of_doc,\r\n    null\r\n  )\r\n}, {returnChanges: true})\r\n```\r\nthe goal is to atomically apply an update only if the predicate is satisfied. The result of the operation is used to update the local model of the data with new values without doing another read. \r\n\r\nAs of 2.0, the query no longer returns changes if nothing has changed (perhaps #3697), however it is still useful to update the local model with the most up-to-date state of the document. With concurrent writes, the client does not know what the state of the document is at the time of executing the query, so it is left to perform another read after receiving an {unchanged: ...} result. That seems wasteful, considering we just paid for reading the document.\r\n\r\nThe behaviour is also inconsistent with errors, leading to the following workaround, which does return the state of the document at the time of the query:\r\n```js\r\nr.table(table).get(id).update(function(doc) {\r\n  return r.branch(\r\n    some_predicate_on_doc,\r\n    some_expression_of_doc,\r\n    r.error('unchanged')\r\n  )\r\n}, {returnChanges: true})\r\n```"
+        "For a conditional update query:\n\n``` js\nr.table(table).get(id).update(function(doc) {\n  return r.branch(\n    some_predicate_on_doc,\n    some_expression_of_doc,\n    null\n  )\n}, {returnChanges: true})\n```\n\nthe goal is to atomically apply an update only if the predicate is satisfied. The result of the operation is used to update the local model of the data with new values without doing another read. \n\nAs of 2.0, the query no longer returns changes if nothing has changed (perhaps #3697), however it is still useful to update the local model with the most up-to-date state of the document. With concurrent writes, the client does not know what the state of the document is at the time of executing the query, so it is left to perform another read after receiving an {unchanged: ...} result. That seems wasteful, considering we just paid for reading the document.\n\nThe behaviour is also inconsistent with errors, leading to the following workaround, which does return the state of the document at the time of the query:\n\n``` js\nr.table(table).get(id).update(function(doc) {\n  return r.branch(\n    some_predicate_on_doc,\n    some_expression_of_doc,\n    r.error('unchanged')\n  )\n}, {returnChanges: true})\n```\n"
   , issueState = "closed"
   , issueId = Id 73137333
   , issueComments = 1
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 1
           , milestoneNumber = 17
-          , milestoneClosedIssues = 593
+          , milestoneClosedIssues = 595
           , milestoneDescription =
               Just
                 "The scope of this issue is covered by another issue. The closing comment should link to the other issue."

@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2013 (-09) (-30) 20 : 47 : 40 UTC
   , issueBody =
       Just
-        "Specifically, its children access it after destruction.\r\n\r\nThis can be seen clearly in commit 48ed6fd7d9b085309df66dfe21134d8c81a985f4 (running the polyglot tests, for example), which adds a field to perfmon_collection_t to help exhibit the bug.\r\n\r\nThis was uncovered after noticing the intrusive_list_t destructor implementation, with its commented out assertion, which make this kind of bug seem very likely.  A perfmon_collection_t is accessed after destruction by its constituents trying to remove themselves.\r\n\r\n```\r\n    ~intrusive_list_t() {\r\n        //rassert(empty());\r\n    }\r\n```"
+        "Specifically, its children access it after destruction.\n\nThis can be seen clearly in commit 48ed6fd7d9b085309df66dfe21134d8c81a985f4 (running the polyglot tests, for example), which adds a field to perfmon_collection_t to help exhibit the bug.\n\nThis was uncovered after noticing the intrusive_list_t destructor implementation, with its commented out assertion, which make this kind of bug seem very likely.  A perfmon_collection_t is accessed after destruction by its constituents trying to remove themselves.\n\n```\n    ~intrusive_list_t() {\n        //rassert(empty());\n    }\n```\n"
   , issueState = "closed"
   , issueId = Id 20291640
   , issueComments = 5

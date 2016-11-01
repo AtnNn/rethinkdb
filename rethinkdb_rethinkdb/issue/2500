@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2014 (-06) (-03) 23 : 37 : 55 UTC
   , issueBody =
       Just
-        "This intermittently crashes without a back trace on next:\r\n```\r\ndaniel@newton:~/rethinkdb/build/debug_clang$ ./rethinkdb-unittest --gtest_filter=RDBProtocolBackfill.Backfill\r\nNote: Google Test filter = RDBProtocolBackfill.Backfill\r\n[==========] Running 1 test from 1 test case.\r\n[----------] Global test environment set-up.\r\n[----------] 1 test from RDBProtocolBackfill\r\n[ RUN      ] RDBProtocolBackfill.Backfill\r\nSegmentation fault (core dumped)\r\n```\r\n\r\nI have this more often in my branch daniel_concurrent_gc, but could also observe it twice on next.\r\n\r\nGDB say it crashes when it's trying to call `request->run()` in `blocker_pool_t::event_loop()`. \r\nThe `request` object looks fine in GDB, though the vtable pointer could be off (does anyone know how I could check that?)."
+        "This intermittently crashes without a back trace on next:\n\n```\ndaniel@newton:~/rethinkdb/build/debug_clang$ ./rethinkdb-unittest --gtest_filter=RDBProtocolBackfill.Backfill\nNote: Google Test filter = RDBProtocolBackfill.Backfill\n[==========] Running 1 test from 1 test case.\n[----------] Global test environment set-up.\n[----------] 1 test from RDBProtocolBackfill\n[ RUN      ] RDBProtocolBackfill.Backfill\nSegmentation fault (core dumped)\n```\n\nI have this more often in my branch daniel_concurrent_gc, but could also observe it twice on next.\n\nGDB say it crashes when it's trying to call `request->run()` in `blocker_pool_t::event_loop()`. \nThe `request` object looks fine in GDB, though the vtable pointer could be off (does anyone know how I could check that?).\n"
   , issueState = "closed"
   , issueId = Id 34916262
   , issueComments = 4

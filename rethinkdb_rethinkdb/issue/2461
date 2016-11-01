@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-24) 01 : 07 : 07 UTC
   , issueBody =
       Just
-        "When args was passed as String, driver deletes digits.\r\n\r\nast.coffee:457\r\n\r\n```coffee\r\nclass Var extends RDBOp\r\n    tt: protoTermType.VAR\r\n    compose: (args) -> ['var_'+args[0]]\r\n```\r\n\r\nshould be\r\n\r\n```coffee\r\nclass Var extends RDBOp\r\n    tt: protoTermType.VAR\r\n    compose: (args) -> ['var_'+args]\r\n```\r\nOr it will cause like this\r\n```js\r\nr.table(\"Test\")\r\n.outerJoin(r.table(\"Sample\"), function(var_1, var_1) {\r\nreturn var_10(\"id\").eq(var_11(\"sample_id\"));\r\n})\r\n```\r\nIt is safe because single Array will be automatically unfold as String.\r\nargs is passed in forms of single Array or String."
+        "When args was passed as String, driver deletes digits.\n\nast.coffee:457\n\n``` coffee\nclass Var extends RDBOp\n    tt: protoTermType.VAR\n    compose: (args) -> ['var_'+args[0]]\n```\n\nshould be\n\n``` coffee\nclass Var extends RDBOp\n    tt: protoTermType.VAR\n    compose: (args) -> ['var_'+args]\n```\n\nOr it will cause like this\n\n``` js\nr.table(\"Test\")\n.outerJoin(r.table(\"Sample\"), function(var_1, var_1) {\nreturn var_10(\"id\").eq(var_11(\"sample_id\"));\n})\n```\n\nIt is safe because single Array will be automatically unfold as String.\nargs is passed in forms of single Array or String.\n"
   , issueState = "closed"
   , issueId = Id 34221178
   , issueComments = 3

@@ -26,7 +26,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-18) 08 : 02 : 57 UTC
   , issueBody =
       Just
-        "I'm on RethinkDB 2.0.0.\r\n\r\nI tried to run the following in DataExplorer\r\n```javascript\r\nr.table('users').filter(r.row('name').count().lt(3))\r\n```\r\nbut I got the following error:\r\n```\r\nRqlRuntimeError: Cannot convert STRING to SEQUENCE in:\r\nr.table(\"users\").filter(r.row(\"name\").count().lt(3))\r\n                        ^^^^^^^^^^^^^^^^^^^^^\r\n```\r\n\r\nIt's the same when I use \"id\" instead of \"name\".\r\n\r\nIf I change 'name' to any other value, it seems to work. An example of a working query, though identical in structure to the one above, would be:\r\n```javascript\r\nr.table('users').filter(r.row('posts').count().lt(3))\r\n```\r\n\r\nIt seems as if somehow \"id\" and \"name\" are reserved in the driver when using `r.row()`, and not blocked from the server, as I have no problems inserting arrays into the `id` and `name` fields:\r\n```javascript\r\nr.table('users').insert([{id: [1,2,3]}, {name: [1,2,3]}])\r\n```"
+        "I'm on RethinkDB 2.0.0.\n\nI tried to run the following in DataExplorer\n\n``` javascript\nr.table('users').filter(r.row('name').count().lt(3))\n```\n\nbut I got the following error:\n\n```\nRqlRuntimeError: Cannot convert STRING to SEQUENCE in:\nr.table(\"users\").filter(r.row(\"name\").count().lt(3))\n                        ^^^^^^^^^^^^^^^^^^^^^\n```\n\nIt's the same when I use \"id\" instead of \"name\".\n\nIf I change 'name' to any other value, it seems to work. An example of a working query, though identical in structure to the one above, would be:\n\n``` javascript\nr.table('users').filter(r.row('posts').count().lt(3))\n```\n\nIt seems as if somehow \"id\" and \"name\" are reserved in the driver when using `r.row()`, and not blocked from the server, as I have no problems inserting arrays into the `id` and `name` fields:\n\n``` javascript\nr.table('users').insert([{id: [1,2,3]}, {name: [1,2,3]}])\n```\n"
   , issueState = "closed"
   , issueId = Id 69283763
   , issueComments = 1
@@ -45,7 +45,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

@@ -42,7 +42,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-06) 03 : 14 : 41 UTC
   , issueBody =
       Just
-        "From `json_protocol_t::send_response()`:\r\n```\r\nconn->write(&token, sizeof(token), interruptor);\r\nconn->write(&size, sizeof(size), interruptor);\r\nconn->write(str.data(), size, interruptor);\r\n```\r\n\r\nAs far as I can see each call to `conn->write()` waits until that piece of data has actually been transmitted over the network. So this is pretty horrible in terms of latency and overhead.\r\n\r\nWe should try to merge all three writes together."
+        "From `json_protocol_t::send_response()`:\n\n```\nconn->write(&token, sizeof(token), interruptor);\nconn->write(&size, sizeof(size), interruptor);\nconn->write(str.data(), size, interruptor);\n```\n\nAs far as I can see each call to `conn->write()` waits until that piece of data has actually been transmitted over the network. So this is pretty horrible in terms of latency and overhead.\n\nWe should try to merge all three writes together.\n"
   , issueState = "closed"
   , issueId = Id 56764764
   , issueComments = 5

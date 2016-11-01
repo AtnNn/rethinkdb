@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2016 (-07) (-12) 07 : 57 : 19 UTC
   , issueBody =
       Just
-        "Hi, this is a small Python syntax issue in https://rethinkdb.com/blog/async-drivers/\r\n\r\nIn the example\r\n\r\n```python\r\nimport rethinkdb as r\r\nfrom tornado import ioloop, gen\r\n\r\nr.set_loop_type(\"tornado\")\r\n\r\n@gen.coroutine\r\ndef print_changes():\r\n    conn = yield r.connect(host=\"localhost\", port=28015)\r\n    feed = yield r.table(\"table\").changes().run(conn)\r\n    while (yield feed.fetch_next())\r\n        change = yield feed.next()\r\n        print(change)\r\n\r\nioloop.IOLoop.current().add_callback(print_changes)\r\n```\r\n\r\nI would have expected line 10 (`while (yield feed.fetch_next())`) to end with a colon (`:`)."
+        "Hi, this is a small Python syntax issue in https://rethinkdb.com/blog/async-drivers/\n\nIn the example\n\n``` python\nimport rethinkdb as r\nfrom tornado import ioloop, gen\n\nr.set_loop_type(\"tornado\")\n\n@gen.coroutine\ndef print_changes():\n    conn = yield r.connect(host=\"localhost\", port=28015)\n    feed = yield r.table(\"table\").changes().run(conn)\n    while (yield feed.fetch_next())\n        change = yield feed.next()\n        print(change)\n\nioloop.IOLoop.current().add_callback(print_changes)\n```\n\nI would have expected line 10 (`while (yield feed.fetch_next())`) to end with a colon (`:`).\n"
   , issueState = "closed"
   , issueId = Id 165016305
   , issueComments = 1

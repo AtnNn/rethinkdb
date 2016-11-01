@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2016 (-08) (-12) 17 : 25 : 28 UTC
   , issueBody =
       Just
-        "This query:\r\n\r\n```javascript\r\nr.table(\"session_goals\").between([34, \"cadastro\", r.ISO8601(\"2016-08-12T03:00:00+00:00\")], [34, \"cadastro\", r.ISO8601(\"2016-08-13T02:59:59+00:00\")], {index: \"client_id_title_created_at\"}).pluck({\r\n    created_at: true,\r\n    status: true\r\n}).group(row => {\r\n    return row(\"created_at\").sub(row(\"created_at\").minutes().mul(60)).sub(row(\"created_at\").seconds()).toISO8601()\r\n}).map(row => row(\"status\")).fold({}, function(acc, i) {\r\n    return acc.merge(r.object(i.coerceTo(\"string\"), acc(i.coerceTo(\"string\")).add(1).default(1)))\r\n})\r\n```\r\n\r\nGives the error ```Cannot treat the output of `group` as a stream (did you mean to `ungroup`?)```"
+        "This query:\n\n``` javascript\nr.table(\"session_goals\").between([34, \"cadastro\", r.ISO8601(\"2016-08-12T03:00:00+00:00\")], [34, \"cadastro\", r.ISO8601(\"2016-08-13T02:59:59+00:00\")], {index: \"client_id_title_created_at\"}).pluck({\n    created_at: true,\n    status: true\n}).group(row => {\n    return row(\"created_at\").sub(row(\"created_at\").minutes().mul(60)).sub(row(\"created_at\").seconds()).toISO8601()\n}).map(row => row(\"status\")).fold({}, function(acc, i) {\n    return acc.merge(r.object(i.coerceTo(\"string\"), acc(i.coerceTo(\"string\")).add(1).default(1)))\n})\n```\n\nGives the error `Cannot treat the output of `group` as a stream (did you mean to `ungroup`?)`\n"
   , issueState = "open"
   , issueId = Id 170919408
   , issueComments = 4
@@ -49,7 +49,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

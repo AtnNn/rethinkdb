@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2013 (-04) (-04) 17 : 39 : 35 UTC
   , issueBody =
       Just
-        "When a table is oversharded. That is a single physical machine is used to host more than one logical shard of a table. Then all the sindex entries it stores will be returned twice. This is an unfortunate side effect of the fact that we optimize this case by storing both shards in the same BTree. Other operations don't hit this problem because when you use the main BTree you can easily limit yourself to the shard you care about.\r\n\r\nI think the simplest fix for this is just to record the region (in primary key space) that a sindex read is going to, which I'm pretty sure we already do. And then cull out the results that fall outside of it.\r\n\r\nThis isn't ideal and we should see if it's a performance bottle neck."
+        "When a table is oversharded. That is a single physical machine is used to host more than one logical shard of a table. Then all the sindex entries it stores will be returned twice. This is an unfortunate side effect of the fact that we optimize this case by storing both shards in the same BTree. Other operations don't hit this problem because when you use the main BTree you can easily limit yourself to the shard you care about.\n\nI think the simplest fix for this is just to record the region (in primary key space) that a sindex read is going to, which I'm pretty sure we already do. And then cull out the results that fall outside of it.\n\nThis isn't ideal and we should see if it's a performance bottle neck.\n"
   , issueState = "closed"
   , issueId = Id 12811291
   , issueComments = 2

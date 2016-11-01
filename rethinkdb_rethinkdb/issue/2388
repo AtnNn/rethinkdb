@@ -47,7 +47,7 @@ Issue
   , issueCreatedAt = 2014 (-05) (-13) 18 : 49 : 08 UTC
   , issueBody =
       Just
-        "I get this when compiling with clang:\r\n\r\n```\r\nsrc/extproc/http_job.cc:458:16: error: variable 'response_code' may be uninitialized when used here [-Werror,-Wconditional-uninitialized]\r\n    } else if (response_code < 200 || response_code >= 300) {\r\n               ^~~~~~~~~~~~~\r\n```\r\n\r\nAs far as I can tell, it is provable that response_code will be initialized (assuming that the curl_easy_getinfo call actually sets it if it returns CURLE_OK, and assuming that opts->attempts is greater than zero).\r\n\r\n*However*, it is possible for opts->attempts to be zero, as far as I can tell.  The comment for http_term_t::get_attempts says the number must be specified as an INTEGER >= 0.  And the code accepts zero."
+        "I get this when compiling with clang:\n\n```\nsrc/extproc/http_job.cc:458:16: error: variable 'response_code' may be uninitialized when used here [-Werror,-Wconditional-uninitialized]\n    } else if (response_code < 200 || response_code >= 300) {\n               ^~~~~~~~~~~~~\n```\n\nAs far as I can tell, it is provable that response_code will be initialized (assuming that the curl_easy_getinfo call actually sets it if it returns CURLE_OK, and assuming that opts->attempts is greater than zero).\n\n_However_, it is possible for opts->attempts to be zero, as far as I can tell.  The comment for http_term_t::get_attempts says the number must be specified as an INTEGER >= 0.  And the code accepts zero.\n"
   , issueState = "closed"
   , issueId = Id 33427342
   , issueComments = 6

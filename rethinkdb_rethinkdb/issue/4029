@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2015 (-04) (-08) 15 : 53 : 57 UTC
   , issueBody =
       Just
-        "The following self contained test:\r\n\r\n```ruby\r\n#!/usr/bin/env ruby\r\nrequire 'rethinkdb'\r\ninclude RethinkDB::Shortcuts\r\n\r\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\r\nr.db_drop(:test).run rescue nil\r\nr.db_create(:test).run\r\nr.table_create(:table).run\r\n\r\nSignal.trap(:USR2) { }\r\nThread.new { sleep 0.2; Process.kill(:USR2, 0) }\r\n\r\nr.db(:test).table(:table).changes().run().each { }\r\n```\r\n\r\nResults in the following error:\r\n\r\n    ..../rethinkdb-1.16.0.1/lib/net.rb:248:in `wait': Internal driver error, no response found. (RethinkDB::RqlDriverError)\r\n\r\nThe expect behavior is that the test program should just hang waiting for changes."
+        "The following self contained test:\n\n``` ruby\n#!/usr/bin/env ruby\nrequire 'rethinkdb'\ninclude RethinkDB::Shortcuts\n\nr.connect(:host => 'localhost', :port => 28015, :db => :test).repl\nr.db_drop(:test).run rescue nil\nr.db_create(:test).run\nr.table_create(:table).run\n\nSignal.trap(:USR2) { }\nThread.new { sleep 0.2; Process.kill(:USR2, 0) }\n\nr.db(:test).table(:table).changes().run().each { }\n```\n\nResults in the following error:\n\n```\n..../rethinkdb-1.16.0.1/lib/net.rb:248:in `wait': Internal driver error, no response found. (RethinkDB::RqlDriverError)\n```\n\nThe expect behavior is that the test program should just hang waiting for changes.\n"
   , issueState = "closed"
   , issueId = Id 67161199
   , issueComments = 17

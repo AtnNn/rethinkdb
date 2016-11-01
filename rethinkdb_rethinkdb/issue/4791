@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2015 (-09) (-03) 20 : 23 : 06 UTC
   , issueBody =
       Just
-        "We often use `0` rather than `null` in numeric fields to denote a lack of value, which can make using aggregation functions like `r.avg` cumbersome. My proposal is two-fold:\r\n\r\n1. All aggregators should consistently ignore `null` and non-existence errors. Currently `r.sum` and `r.avg` do this, but `r.min` and `r.max` do not.\r\n1. A new optarg to all aggregators for ignoring `0` (or possibly all \"falsey\" values?) in addition to `null` and non-existence.\r\n\r\n```js\r\ntable.avg('cost') // desired\r\ntable('cost').filter(r.row.ne(0)).avg() // workaround\r\ntable.avg('cost', { ignore_zero: true }) // proposal\r\n```"
+        "We often use `0` rather than `null` in numeric fields to denote a lack of value, which can make using aggregation functions like `r.avg` cumbersome. My proposal is two-fold:\n1. All aggregators should consistently ignore `null` and non-existence errors. Currently `r.sum` and `r.avg` do this, but `r.min` and `r.max` do not.\n2. A new optarg to all aggregators for ignoring `0` (or possibly all \"falsey\" values?) in addition to `null` and non-existence.\n\n``` js\ntable.avg('cost') // desired\ntable('cost').filter(r.row.ne(0)).avg() // workaround\ntable.avg('cost', { ignore_zero: true }) // proposal\n```\n"
   , issueState = "open"
   , issueId = Id 104773958
   , issueComments = 3

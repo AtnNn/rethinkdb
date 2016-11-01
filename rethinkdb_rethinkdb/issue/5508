@@ -41,7 +41,7 @@ Issue
   , issueCreatedAt = 2016 (-03) (-11) 21 : 49 : 19 UTC
   , issueBody =
       Just
-        "I ran into this when trying out my example from https://github.com/rethinkdb/rethinkdb/issues/5507#issuecomment-195566372 .\r\n\r\nIt looks like the result of the `final_emit` function of `fold` is inserted into the output stream as a single element, rather than being split into multiple elements if it's an array. That is it doesn't appear to have the `concatMap` semantics.\r\nHowever this only seems to be the case if there's also an `emit` function.\r\n\r\nExample:\r\n```js\r\nr.expr([\"a\"]).fold(null, function() {return null;}, {emit: function() {return [0]}, finalEmit: function() {return [1, 2, 3]} })\r\n\r\n// Results in:\r\n[0, [1, 2, 3]]\r\n\r\n// Expected:\r\n[0, 1, 2, 3]\r\n```"
+        "I ran into this when trying out my example from https://github.com/rethinkdb/rethinkdb/issues/5507#issuecomment-195566372 .\n\nIt looks like the result of the `final_emit` function of `fold` is inserted into the output stream as a single element, rather than being split into multiple elements if it's an array. That is it doesn't appear to have the `concatMap` semantics.\nHowever this only seems to be the case if there's also an `emit` function.\n\nExample:\n\n``` js\nr.expr([\"a\"]).fold(null, function() {return null;}, {emit: function() {return [0]}, finalEmit: function() {return [1, 2, 3]} })\n\n// Results in:\n[0, [1, 2, 3]]\n\n// Expected:\n[0, 1, 2, 3]\n```\n"
   , issueState = "closed"
   , issueId = Id 140300407
   , issueComments = 1

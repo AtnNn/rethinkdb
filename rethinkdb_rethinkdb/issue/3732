@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-05) 01 : 18 : 57 UTC
   , issueBody =
       Just
-        "When a record is deleted, and then another record created with the same id any point changefeeds created immediacy after will give a bad answer for the initial record in that changefeed. This is related to issue #3723, and might well be another result of the same cause.\r\n\r\n```python\r\nr.table('bob').insert({'id':1, 'version':1}).run(conn)\r\nr.table('bob').get(1).delete().run(conn)\r\n\r\nr.table.insert({'id':1, 'version':2}).run(conn)\r\nfeed = self.table.get(1).changes().run(conn2)\r\n\r\nfeed.next() # gets {'new_val': None} rather than  {'new_val': {'version': 2, 'id': 1}}\r\n```"
+        "When a record is deleted, and then another record created with the same id any point changefeeds created immediacy after will give a bad answer for the initial record in that changefeed. This is related to issue #3723, and might well be another result of the same cause.\n\n``` python\nr.table('bob').insert({'id':1, 'version':1}).run(conn)\nr.table('bob').get(1).delete().run(conn)\n\nr.table.insert({'id':1, 'version':2}).run(conn)\nfeed = self.table.get(1).changes().run(conn2)\n\nfeed.next() # gets {'new_val': None} rather than  {'new_val': {'version': 2, 'id': 1}}\n```\n"
   , issueState = "closed"
   , issueId = Id 56613748
   , issueComments = 6

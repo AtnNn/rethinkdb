@@ -38,7 +38,7 @@ Issue
   , issueCreatedAt = 2015 (-08) (-05) 05 : 02 : 30 UTC
   , issueBody =
       Just
-        "Hi :)\r\n\r\nI was trying to abort a ongoing query from an em_run() call, but the only way I found was to save the `caller` variable (which is a `QueryHandle`) from any of these callbacks: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L63-L92 and then call `close()` on the `query_handle`.\r\n\r\nThis might not be ideal, because these callbacks might not have had the time to be called, but `EM.next_tick()` did. Maybe an EM callback would want to close the query_handle already.\r\n\r\nHere's what I suggest we do:\r\n1) Remove all the `caller` arguments from the `Handler` callbacks.\r\n2) Add a new callback `on_dispatch(query_handle)` that would be called right around here: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L530\r\n\r\nThis way we don't need a response from the server to terminate an ongoing query.\r\n\r\n---\r\n\r\nI've made NoBrainer compatible with EventMachine through the use of Fibers (so the code is still written in an asynchronous manner). If you are curious about how I use the `Handler` callbacks, check it out here: https://github.com/nviennot/nobrainer/blob/master/lib/no_brainer/query_runner/em_driver.rb\r\n\r\nFurther, I've written a self-contained Goliath server to demonstrate the usefulness of the Fiber abstraction: https://gist.github.com/nviennot/67a0795db7ccad973885\r\nMaybe we could add this as a real-time tutorial to complement http://www.rethinkdb.com/docs/rails/"
+        "Hi :)\n\nI was trying to abort a ongoing query from an em_run() call, but the only way I found was to save the `caller` variable (which is a `QueryHandle`) from any of these callbacks: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L63-L92 and then call `close()` on the `query_handle`.\n\nThis might not be ideal, because these callbacks might not have had the time to be called, but `EM.next_tick()` did. Maybe an EM callback would want to close the query_handle already.\n\nHere's what I suggest we do:\n1) Remove all the `caller` arguments from the `Handler` callbacks.\n2) Add a new callback `on_dispatch(query_handle)` that would be called right around here: https://github.com/rethinkdb/rethinkdb/blob/f1f60df493f1c8ba1c510ad6ba72370282a6a010/drivers/ruby/lib/net.rb#L530\n\nThis way we don't need a response from the server to terminate an ongoing query.\n---\n\nI've made NoBrainer compatible with EventMachine through the use of Fibers (so the code is still written in an asynchronous manner). If you are curious about how I use the `Handler` callbacks, check it out here: https://github.com/nviennot/nobrainer/blob/master/lib/no_brainer/query_runner/em_driver.rb\n\nFurther, I've written a self-contained Goliath server to demonstrate the usefulness of the Fiber abstraction: https://gist.github.com/nviennot/67a0795db7ccad973885\nMaybe we could add this as a real-time tutorial to complement http://www.rethinkdb.com/docs/rails/\n"
   , issueState = "open"
   , issueId = Id 99119813
   , issueComments = 16
@@ -55,7 +55,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

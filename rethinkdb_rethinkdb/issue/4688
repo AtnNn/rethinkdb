@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2015 (-08) (-14) 17 : 53 : 01 UTC
   , issueBody =
       Just
-        "I came across a curious case in which limiting the dataset (albeit limited to an amount larger than the dataset) actually increased my query time. Is this expected behaviour?\r\n```javascript\r\nr.table('events')\r\n  .orderBy({index: 'timestamp'})\r\n  .limit(100000)\r\n  .group('residentId')\r\n  .limit(100)\r\n  .ungroup()\r\n  .filter(function(group) {\r\n    return r.table('residents').get(group('group'))('active')\r\n  })\r\n  .map(function(group) {\r\n    return [group('group'), group('reduction')]\r\n  })\r\n  .coerceTo('OBJECT')\r\n```\r\nRemoving the first limit call reduces my time( 300ms vs 5.75s ). Am I going about this the wrong way? "
+        "I came across a curious case in which limiting the dataset (albeit limited to an amount larger than the dataset) actually increased my query time. Is this expected behaviour?\n\n``` javascript\nr.table('events')\n  .orderBy({index: 'timestamp'})\n  .limit(100000)\n  .group('residentId')\n  .limit(100)\n  .ungroup()\n  .filter(function(group) {\n    return r.table('residents').get(group('group'))('active')\n  })\n  .map(function(group) {\n    return [group('group'), group('reduction')]\n  })\n  .coerceTo('OBJECT')\n```\n\nRemoving the first limit call reduces my time( 300ms vs 5.75s ). Am I going about this the wrong way? \n"
   , issueState = "open"
   , issueId = Id 101065532
   , issueComments = 7

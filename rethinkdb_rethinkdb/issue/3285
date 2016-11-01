@@ -34,7 +34,7 @@ Issue
   , issueCreatedAt = 2014 (-11) (-04) 22 : 00 : 04 UTC
   , issueBody =
       Just
-        "This error happens on occasion during a `table_create`:\r\n\r\n```\r\nVersion: rethinkdb 1.15.1-381-g0b5f21-dirty (GCC 4.8.3)\r\nerror: Error in src/arch/types.cc at line 34:\r\nerror: I/O operation failed. (File exists) (offset = 9220096, count = 319488)\r\nerror: Backtrace:\r\nerror: Tue Nov  4 16:55:21 2014\r\n\r\n       1: backtrace_t::backtrace_t() at backtrace.cc:214 (discriminator 1)\r\n       2: format_backtrace(bool) at backtrace.cc:282\r\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\r\n       4: linux_iocallback_t::on_io_failure(int, long, long) at basic_string.h:539\r\n       5: linux_disk_manager_t::done(stats_diskmgr_t::action_t*) at functional:601\r\n       6: conflict_resolving_diskmgr_t::done(accounting_diskmgr_action_t*) at conflict_resolving.cc:243\r\n       7: blocker_pool_t::on_event(int) at blocker_pool.cc:156\r\n       8: epoll_event_queue_t::run() at epoll.cc:115\r\n       9: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:160\r\n       10: /lib64/libpthread.so.0(+0x8073) [0x7f71ce7f8073] at 0x7f71ce7f8073 (/lib64/libpthread.so.0)\r\n       11: clone+0x6d at 0x7f71ce5354ad (/lib64/libc.so.6)\r\nerror: Exiting.\r\n```\r\n\r\nCore dump available: http://viennot.nyc/rethink-eexist-core.bz2\r\n\r\nI can reproduce this bug easily on both next:HEAD and v15.1."
+        "This error happens on occasion during a `table_create`:\n\n```\nVersion: rethinkdb 1.15.1-381-g0b5f21-dirty (GCC 4.8.3)\nerror: Error in src/arch/types.cc at line 34:\nerror: I/O operation failed. (File exists) (offset = 9220096, count = 319488)\nerror: Backtrace:\nerror: Tue Nov  4 16:55:21 2014\n\n       1: backtrace_t::backtrace_t() at backtrace.cc:214 (discriminator 1)\n       2: format_backtrace(bool) at backtrace.cc:282\n       3: report_fatal_error(char const*, int, char const*, ...) at errors.cc:83\n       4: linux_iocallback_t::on_io_failure(int, long, long) at basic_string.h:539\n       5: linux_disk_manager_t::done(stats_diskmgr_t::action_t*) at functional:601\n       6: conflict_resolving_diskmgr_t::done(accounting_diskmgr_action_t*) at conflict_resolving.cc:243\n       7: blocker_pool_t::on_event(int) at blocker_pool.cc:156\n       8: epoll_event_queue_t::run() at epoll.cc:115\n       9: linux_thread_pool_t::start_thread(void*) at thread_pool.cc:160\n       10: /lib64/libpthread.so.0(+0x8073) [0x7f71ce7f8073] at 0x7f71ce7f8073 (/lib64/libpthread.so.0)\n       11: clone+0x6d at 0x7f71ce5354ad (/lib64/libc.so.6)\nerror: Exiting.\n```\n\nCore dump available: http://viennot.nyc/rethink-eexist-core.bz2\n\nI can reproduce this bug easily on both next:HEAD and v15.1.\n"
   , issueState = "closed"
   , issueId = Id 47771760
   , issueComments = 14
@@ -53,7 +53,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

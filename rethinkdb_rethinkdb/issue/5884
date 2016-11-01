@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2016 (-06) (-24) 15 : 19 : 24 UTC
   , issueBody =
       Just
-        "I'm trying to create multiple tables in a database called `test` at once in one query, and I tried to construct a query using `forEach` on the web interface as follows:\r\n```js\r\nr.expr([\r\n  {name:'test1', opt:{}},\r\n  {name: 'test2', opt:{}}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), r.row('opt'))\r\n)\r\n```\r\nWhere `opt` would later contain my options such as custom primary keys. This query however throws:\r\n```\r\ne: Expected 1 argument (not including options) but found 2.\r\n```\r\n\r\nThe variant without opt keys does work:\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', opt:{}},\r\n  {name: 'test2', opt:{}}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'))\r\n)\r\n```\r\nso does\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', primarykey: 'id'},\r\n  {name: 'test2', primarykey: 'id'}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})\r\n)\r\n```\r\n\r\nSo I figured it may be cause by packing the objects to rethink objects, i.e. `{}` -> `r.expr({})`. But I run into the same issue as my first example query:\r\n```js\r\n\r\nr.expr([\r\n  {name:'test1', opt:r.expr({})},\r\n  {name: 'test2', opt:r.expr({})}\r\n]).forEach(r.db('test')\r\n  .tableCreate(r.row('name'), r.row('opt'))\r\n)\r\n```\r\n\r\nThus it seems rethink somehow wrongly parses optional arguments if they are not explicit in the query (i.e. `tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})`).\r\nWhat could be the issue here?"
+        "I'm trying to create multiple tables in a database called `test` at once in one query, and I tried to construct a query using `forEach` on the web interface as follows:\n\n``` js\nr.expr([\n  {name:'test1', opt:{}},\n  {name: 'test2', opt:{}}\n]).forEach(r.db('test')\n  .tableCreate(r.row('name'), r.row('opt'))\n)\n```\n\nWhere `opt` would later contain my options such as custom primary keys. This query however throws:\n\n```\ne: Expected 1 argument (not including options) but found 2.\n```\n\nThe variant without opt keys does work:\n\n``` js\n\nr.expr([\n  {name:'test1', opt:{}},\n  {name: 'test2', opt:{}}\n]).forEach(r.db('test')\n  .tableCreate(r.row('name'))\n)\n```\n\nso does\n\n``` js\n\nr.expr([\n  {name:'test1', primarykey: 'id'},\n  {name: 'test2', primarykey: 'id'}\n]).forEach(r.db('test')\n  .tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})\n)\n```\n\nSo I figured it may be cause by packing the objects to rethink objects, i.e. `{}` -> `r.expr({})`. But I run into the same issue as my first example query:\n\n``` js\n\nr.expr([\n  {name:'test1', opt:r.expr({})},\n  {name: 'test2', opt:r.expr({})}\n]).forEach(r.db('test')\n  .tableCreate(r.row('name'), r.row('opt'))\n)\n```\n\nThus it seems rethink somehow wrongly parses optional arguments if they are not explicit in the query (i.e. `tableCreate(r.row('name'), {primaryKey: r.row('primarykey')})`).\nWhat could be the issue here?\n"
   , issueState = "closed"
   , issueId = Id 162169907
   , issueComments = 5
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

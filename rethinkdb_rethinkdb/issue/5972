@@ -33,7 +33,7 @@ Issue
   , issueCreatedAt = 2016 (-07) (-19) 07 : 55 : 29 UTC
   , issueBody =
       Just
-        "We are facing performance issue with rethinkdb cluster of 3 instances:\r\n\r\n- OS version: CoreOS 899.15.0\r\n- Docker version: 1.9.1\r\n- Rethinkdb version: 2.2.5\r\n- `cache-size` for each instance: 9.5GB\r\n- db disk size in each instance: 23GB (shards 3, replicas 3 on every tables)\r\n- Number of tables in cluster: 268\r\n- Queries on system tables (`table_status`, `stats`, `current_issues`...) got timeout every time. On `stats` table return a lot of records like below:\r\n\r\n```\r\n...\r\n{\r\n\"db\":  \"db1\" ,\r\n\"error\":  \"Timed out. Unable to retrieve stats.\" ,\r\n\"id\": [\r\n  \"table_server\" ,\r\n  \"02d1f18a-54ab-43ed-abb2-2b55964680d5\" ,\r\n  \"1d71702d-a662-4248-ba14-555c449c16af\"\r\n] ,\r\n\"server\":  \"aa5ab8d37f5f_d5p\" ,\r\n\"table\":  \"table1\"\r\n}\r\n...\r\n```\r\n- `docker stats` on each instance container is like below:\r\n```\r\nCONTAINER           CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O\r\n9fe3c084920f        135.15%             16.22 GB / 20.97 GB   77.35%              141.4 GB / 367 GB   6.541 GB / 25.68 GB\r\n```\r\n==> no sign of lacking memory, but CPU is always >100%, even while cluster is free.\r\n- Creating or deleting a table takes 1 - 2 minutes.\r\n\r\nI have no idea how to investigate it, what rethinkdb was doing internally, but I guess it may be related to the high number of tables.\r\n"
+        "We are facing performance issue with rethinkdb cluster of 3 instances:\n- OS version: CoreOS 899.15.0\n- Docker version: 1.9.1\n- Rethinkdb version: 2.2.5\n- `cache-size` for each instance: 9.5GB\n- db disk size in each instance: 23GB (shards 3, replicas 3 on every tables)\n- Number of tables in cluster: 268\n- Queries on system tables (`table_status`, `stats`, `current_issues`...) got timeout every time. On `stats` table return a lot of records like below:\n\n```\n...\n{\n\"db\":  \"db1\" ,\n\"error\":  \"Timed out. Unable to retrieve stats.\" ,\n\"id\": [\n  \"table_server\" ,\n  \"02d1f18a-54ab-43ed-abb2-2b55964680d5\" ,\n  \"1d71702d-a662-4248-ba14-555c449c16af\"\n] ,\n\"server\":  \"aa5ab8d37f5f_d5p\" ,\n\"table\":  \"table1\"\n}\n...\n```\n- `docker stats` on each instance container is like below:\n\n```\nCONTAINER           CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O\n9fe3c084920f        135.15%             16.22 GB / 20.97 GB   77.35%              141.4 GB / 367 GB   6.541 GB / 25.68 GB\n```\n\n==> no sign of lacking memory, but CPU is always >100%, even while cluster is free.\n- Creating or deleting a table takes 1 - 2 minutes.\n\nI have no idea how to investigate it, what rethinkdb was doing internally, but I guess it may be related to the high number of tables.\n"
   , issueState = "open"
   , issueId = Id 166269489
   , issueComments = 4
@@ -50,7 +50,7 @@ Issue
                 , simpleUserType = OwnerUser
                 }
           , milestoneDueOn = Nothing
-          , milestoneOpenIssues = 86
+          , milestoneOpenIssues = 87
           , milestoneNumber = 123
           , milestoneClosedIssues = 22
           , milestoneDescription = Just ""

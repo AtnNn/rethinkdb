@@ -25,7 +25,7 @@ Issue
   , issueCreatedAt = 2015 (-10) (-22) 14 : 40 : 21 UTC
   , issueBody =
       Just
-        "When I try something like this:\r\n\r\n```js\r\nrql\r\n.table('foo')\r\n.getAll('bar')\r\n.merge({\r\n  qux: r.table('oop').getAll('bar', { index: 'lop' })\r\n})\r\n.delete()\r\n```\r\n\r\nI get an error like:\r\n\r\n```\r\nReqlLogicError: Expected type DATUM but found SELECTION:\r\nSELECTION ON table(oop) in: \r\n```\r\n\r\nI believe another way to phrase this question/feature request is: Can deletes be used on joins?\r\n\r\nMy current solution looks like:\r\n\r\n```js\r\n  Promise.all([\r\n    r.table('devices').get(id),\r\n    r.table('relations').getAll(id, { index: 'subject' }),\r\n    r.table('relations').getAll(id, { index: 'observer' }),\r\n  ].map((selection) => (\r\n      selection.delete({ returnChanges: true }).run()\r\n    ))\r\n  )\r\n  .then(...)\r\n\r\n```\r\n\r\n"
+        "When I try something like this:\n\n``` js\nrql\n.table('foo')\n.getAll('bar')\n.merge({\n  qux: r.table('oop').getAll('bar', { index: 'lop' })\n})\n.delete()\n```\n\nI get an error like:\n\n```\nReqlLogicError: Expected type DATUM but found SELECTION:\nSELECTION ON table(oop) in: \n```\n\nI believe another way to phrase this question/feature request is: Can deletes be used on joins?\n\nMy current solution looks like:\n\n``` js\n  Promise.all([\n    r.table('devices').get(id),\n    r.table('relations').getAll(id, { index: 'subject' }),\n    r.table('relations').getAll(id, { index: 'observer' }),\n  ].map((selection) => (\n      selection.delete({ returnChanges: true }).run()\n    ))\n  )\n  .then(...)\n\n```\n"
   , issueState = "closed"
   , issueId = Id 112817529
   , issueComments = 8
@@ -44,7 +44,7 @@ Issue
           , milestoneDueOn = Nothing
           , milestoneOpenIssues = 0
           , milestoneNumber = 19
-          , milestoneClosedIssues = 174
+          , milestoneClosedIssues = 175
           , milestoneDescription =
               Just
                 "It's a feature. The issue describes a RethinkDB feature or design choice as if it was a bug."

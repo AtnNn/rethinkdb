@@ -35,7 +35,7 @@ Issue
   , issueCreatedAt = 2013 (-08) (-02) 03 : 59 : 51 UTC
   , issueBody =
       Just
-        "A large number of file descriptors are being created, and this is exposed when running under valgrind.\r\n\r\nThe error happens in next, when an eventfd creation fails.\r\n\r\nFor some reason, in valgrind, running on Wheezy, the `file_limit.rlim_max` value in `run_generic_global_startup_behavior()` (defined in utils.cc), which is returned by `getrlimit(RLIMIT_NOFILE, ...)`, is 1024, but running outside of valgrind, it's 4096.  I don't know the reason for this -- is it that valgrind simulates the function's behavior?  But this does mean that we're using too many file descriptors.\r\n\r\nWe also need running under valgrind to just work (and I was running this for another issue I was working on) so I'm going to investigate this and fix it."
+        "A large number of file descriptors are being created, and this is exposed when running under valgrind.\n\nThe error happens in next, when an eventfd creation fails.\n\nFor some reason, in valgrind, running on Wheezy, the `file_limit.rlim_max` value in `run_generic_global_startup_behavior()` (defined in utils.cc), which is returned by `getrlimit(RLIMIT_NOFILE, ...)`, is 1024, but running outside of valgrind, it's 4096.  I don't know the reason for this -- is it that valgrind simulates the function's behavior?  But this does mean that we're using too many file descriptors.\n\nWe also need running under valgrind to just work (and I was running this for another issue I was working on) so I'm going to investigate this and fix it.\n"
   , issueState = "closed"
   , issueId = Id 17543629
   , issueComments = 4

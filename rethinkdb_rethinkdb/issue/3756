@@ -32,7 +32,7 @@ Issue
   , issueCreatedAt = 2015 (-02) (-11) 05 : 30 : 35 UTC
   , issueBody =
       Just
-        "Noticed while testing https://github.com/rethinkdb/rethinkdb/issues/3703:\r\n\r\n```\r\nr.table('en2').limit(5000).merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ).coerceTo('ARRAY').count()\r\n```\r\ntakes 3.78 seconds.\r\n\r\n\r\n```\r\nr.table('en2').merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ).coerceTo('ARRAY').count()\r\n```\r\ntakes 0.95 seconds.\r\n\r\nThe only difference is the missing `limit(5000)` in the second query. The table `en2` has 3,203 documents, so the `limit(5000)` shouldn't have any effect.\r\n\r\n@mlucy any ideas why this might happen? Does `limit` change anything else apart from the batch spec?"
+        "Noticed while testing https://github.com/rethinkdb/rethinkdb/issues/3703:\n\n```\nr.table('en2').limit(5000).merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ).coerceTo('ARRAY').count()\n```\n\ntakes 3.78 seconds.\n\n```\nr.table('en2').merge( r.js(\"(function(row) {return {mime2: row.mime}; })\") ).coerceTo('ARRAY').count()\n```\n\ntakes 0.95 seconds.\n\nThe only difference is the missing `limit(5000)` in the second query. The table `en2` has 3,203 documents, so the `limit(5000)` shouldn't have any effect.\n\n@mlucy any ideas why this might happen? Does `limit` change anything else apart from the batch spec?\n"
   , issueState = "closed"
   , issueId = Id 57278317
   , issueComments = 3

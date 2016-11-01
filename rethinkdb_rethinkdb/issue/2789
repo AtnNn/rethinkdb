@@ -48,7 +48,7 @@ Issue
   , issueCreatedAt = 2014 (-07) (-31) 22 : 11 : 21 UTC
   , issueBody =
       Just
-        "It appears that string keys (and probably array keys) should have a NULL byte appended to them for proper sorting, but they do not.  This is reproducible with the following test:\r\n\r\n```py\r\nr.table_create('test').run(c)\r\nr.table('test').insert([{'id':1,'idx':''}, {'id':2,'idx':' '}]).run(c)\r\nr.table('test').index_create('idx').run(c)\r\nr.table('test').index_wait('idx').run(c)\r\nr.table('test').order_by(index='idx').map(r.row['id']).coerce_to('array').run(c)\r\n\r\n[2,1]\r\n```\r\n\r\nThis should return `[1,2]` since `''` should sort before `' '`, but it does not.  Verified to be fixed by appending a NULL byte to the string key."
+        "It appears that string keys (and probably array keys) should have a NULL byte appended to them for proper sorting, but they do not.  This is reproducible with the following test:\n\n``` py\nr.table_create('test').run(c)\nr.table('test').insert([{'id':1,'idx':''}, {'id':2,'idx':' '}]).run(c)\nr.table('test').index_create('idx').run(c)\nr.table('test').index_wait('idx').run(c)\nr.table('test').order_by(index='idx').map(r.row['id']).coerce_to('array').run(c)\n\n[2,1]\n```\n\nThis should return `[1,2]` since `''` should sort before `' '`, but it does not.  Verified to be fixed by appending a NULL byte to the string key.\n"
   , issueState = "closed"
   , issueId = Id 39243351
   , issueComments = 40
