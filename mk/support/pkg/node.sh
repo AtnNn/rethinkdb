@@ -8,9 +8,9 @@ pkg_install () {
     pkg_configure
     pkg_make install
 
-    mv "$install_dir"/bin/npm "$install_dir"/bin/npm.orig
+    mv "$install_dir"/bin/npm "$install_dir"/bin/npm.sucks
     { echo "#!/bin/sh"
-      echo "exec $install_dir/bin/node $install_dir/bin/npm.orig "'"$@"'
+      echo "exec $install_dir/bin/node $install_dir/bin/npm.sucks "'"$@"'
     } > "$install_dir"/bin/npm
     chmod +x "$install_dir"/bin/npm
 }
